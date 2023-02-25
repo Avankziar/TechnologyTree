@@ -1,0 +1,10 @@
+name: TechnologyTree
+main: main.java.me.avankziar.tt.spigot.TT
+version: 1
+author: Avankziar
+api-version: 1.17
+description: TBA
+depend: [InterfaceHub]
+softdepend: [Vault,RootAdministrationPlaceholderAPI]
+website: TBA
+prefix: TT

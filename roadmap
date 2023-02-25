@@ -1,0 +1,255 @@
+Aufbau von Techkategorien(Gelten als Haupkategorie, wenn sie im Ordner Hauptcategory, im Ordner Subkategorien):
+categoryinternname == file name
+PlayerAssociatedType: '' #SOLO (für den einzelen Spieler), GLOBAL (Für alle Spieler), GROUP (für Gruppen per Permission Definiert)
+GroupAssociatedPermission: '' #PlayerType GROUP only
+GuiSlot: '' #int
+UseFixGuiSlots: '' #true/false, wenn false, dann sind die GuiSlots eher eine Priorität;
+IfSubCategory:
+  OverlyingCategory: '' #Kategorie, die über ihr liegt.
+RequirementToSee:
+  ConditionQuery:
+  -
+  -
+  ShowDifferentItemIfYouNormallyDontSeeIt: true
+  ItemIfYouCanSee:
+    Displayname: ''
+    Material: ''
+    Amount: ''
+    HeadTexture: '' #Material: 'PLAYER_HEAD'
+    CustomModelData: '' #int
+    ItemFlag:
+    -
+    -
+    Enchantment:
+    -
+    -
+    Lore:
+    -
+    -
+    AxolotlBucket: '' #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/inventory/meta/AxolotlBucketMeta.html
+    Banner:
+      - #DyeColor,PatternType https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/block/banner/Pattern.html
+    Book: #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/inventory/meta/BookMeta.html
+      Author: ''
+      Generation: ''
+      Title: ''
+    Durability: '' #int
+    LeatherArmor:
+      Color:
+        Red: ''   #int #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Color.html
+        Green: '' #int
+        Blue: ''  #int
+    Potion:
+      PotionEffectType: '' #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffect.html
+      Duration: ''  #int
+      Amplifier: '' #int
+      Color:
+        Red: ''   #int #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Color.html
+        Green: '' #int
+        Blue: ''  #int
+    Repairable '' #int
+    TropicalFishBucket: #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/inventory/meta/TropicalFishBucketMeta.html
+      BodyColor: ''
+      Pattern: ''
+      PatternColor: ''
+  ItemIfYouCannotSee:
+    Displayname: ''
+    Material: ''
+    Amount: ''
+    HeadTexture: '' #Material: 'PLAYER_HEAD'
+    CustomModelData: '' #int
+    ItemFlag:
+    -
+    -
+    Enchantment:
+    -
+    -
+    Lore:
+    -
+    -
+    AxolotlBucket: '' #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/inventory/meta/AxolotlBucketMeta.html
+    Banner:
+      - #DyeColor,PatternType https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/block/banner/Pattern.html
+    Book: #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/inventory/meta/BookMeta.html
+      Author: ''
+      Generation: ''
+      Title: ''
+    Durability: '' #int
+    LeatherArmor:
+      Color:
+        Red: ''   #int #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Color.html
+        Green: '' #int
+        Blue: ''  #int
+    Potion:
+      PotionEffectType: '' #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffect.html
+      Duration: ''  #int
+      Amplifier: '' #int
+      Color:
+        Red: ''   #int #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Color.html
+        Green: '' #int
+        Blue: ''  #int
+    Repairable '' #int
+    TropicalFishBucket: #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/inventory/meta/TropicalFishBucketMeta.html
+      BodyColor: ''
+      Pattern: ''
+      PatternColor: ''
+
+Aufbau von Technologie:
+
+technologieinternname == filename
+Displayname: ''
+TechnologyType: '' #SINGLE, MULTIPLE
+MaximalTechnologyLevelToResearch: '' #int
+PlayerAssociatedType: '' #SOLO (für den einzelen Spieler), GLOBAL (Für alle Spieler), GROUP (für Gruppen per Permission Definiert)
+OverlyingSubCategory: '' #internname der Kategory, kann eine
+RequirementToSee:
+  ConditionQuery:
+  -
+  -
+  ShowDifferentItemIfYouNormallyDontSeeIt: true
+  ItemIfYouCanSee:
+    Displayname: ''
+    Material: ''
+    Amount: ''
+    HeadTexture: '' #Material: 'PLAYER_HEAD'
+    CustomModelData: '' #int
+    ItemFlag:
+    -
+    -
+    Enchantment:
+    -
+    -
+    Lore:
+    -
+    -
+    AxolotlBucket: '' #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/inventory/meta/AxolotlBucketMeta.html
+    Banner:
+      - #DyeColor,PatternType https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/block/banner/Pattern.html
+    Book: #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/inventory/meta/BookMeta.html
+      Author: ''
+      Generation: ''
+      Title: ''
+    Durability: '' #int
+    LeatherArmor:
+      Color:
+        Red: ''   #int #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Color.html
+        Green: '' #int
+        Blue: ''  #int
+    Potion:
+      PotionEffectType: '' #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffect.html
+      Duration: ''  #int
+      Amplifier: '' #int
+      Color:
+        Red: ''   #int #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Color.html
+        Green: '' #int
+        Blue: ''  #int
+    Repairable '' #int
+    TropicalFishBucket: #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/inventory/meta/TropicalFishBucketMeta.html
+      BodyColor: ''
+      Pattern: ''
+      PatternColor: ''
+  ItemIfYouCannotSee:
+    Displayname: ''
+    Material: ''
+    Amount: ''
+    HeadTexture: '' #Material: 'PLAYER_HEAD'
+    CustomModelData: '' #int
+    ItemFlag:
+    -
+    -
+    Enchantment:
+    -
+    -
+    Lore:
+    -
+    -
+    AxolotlBucket: '' #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/inventory/meta/AxolotlBucketMeta.html
+    Banner:
+      - #DyeColor,PatternType https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/block/banner/Pattern.html
+    Book: #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/inventory/meta/BookMeta.html
+      Author: ''
+      Generation: ''
+      Title: ''
+    Durability: '' #int
+    LeatherArmor:
+      Color:
+        Red: ''   #int #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Color.html
+        Green: '' #int
+        Blue: ''  #int
+    Potion:
+      PotionEffectType: '' #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffect.html
+      Duration: ''  #int
+      Amplifier: '' #int
+      Color:
+        Red: ''   #int #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Color.html
+        Green: '' #int
+        Blue: ''  #int
+    Repairable '' #int
+    TropicalFishBucket: #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/inventory/meta/TropicalFishBucketMeta.html
+      BodyColor: ''
+      Pattern: ''
+      PatternColor: ''
+RequirementToResearch:
+  ConditionQuery:
+  -
+  -
+  ItemIfYouHaveResearchedIt:
+    Displayname: ''
+    Material: ''
+    Amount: ''
+    HeadTexture: '' #Material: 'PLAYER_HEAD' URL
+    CustomModelData: '' #int
+    ItemFlag:
+    -
+    -
+    Enchantment:
+    - <enchantment>;<level>
+    -
+    Lore:
+    -
+    -
+    AxolotlBucket: '' #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/inventory/meta/AxolotlBucketMeta.html
+    Banner:
+      - #DyeColor;PatternType https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/block/banner/Pattern.html
+    Book: #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/inventory/meta/BookMeta.html
+      Author: ''
+      Generation: ''
+      Title: ''
+    Durability: '' #int
+    LeatherArmor:
+      Color:
+        Red: ''   #int #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Color.html
+        Green: '' #int
+        Blue: ''  #int
+    Potion:
+      PotionEffectType: '' #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffect.html
+      Duration: ''  #int
+      Amplifier: '' #int
+      Color:
+        Red: ''   #int #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Color.html
+        Green: '' #int
+        Blue: ''  #int
+    Repairable '' #int
+    TropicalFishBucket: #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/inventory/meta/TropicalFishBucketMeta.html
+      BodyColor: ''
+      Pattern: ''
+      PatternColor: ''
+Rewards:
+  UnlockableInteractions:
+  - block_place:DIRT:null:CanAccess:TTExp:Money:VanillaExp:CustomCommand #Für jeden Wert, Kann interagieren, TTExp, Money & VanillaExp wird mit dem Event und dem Material dann ein BonusMalus erzeugt.
+  - block_break:DIRT:null:canAccess=true:ttexp=0.5:vault=1.0:vaexp=20:cmd=<cmd>=1.0 #TTExp = 0.5, Money Vault = 1.0, VanillaExp = 20, customcmd = 1.0 (Mit %value% und %player% replacer als consolecommand
+  DropChance: #Für jede DropAnzahl wird mit Event und Material
+  - block_break:DIRT:null:mat=DIRT:1:1.0 #Gibt 100% Chance, dass beim BlockAbbau von Dirt, 1 DirtItem droppt. Mehrfache DropChange des gleichen Blocks & Event addieren sich.
+  - block_break:DIRT:null:mat=DIRT:2:0.10 #DropSystem umschreiben dahingegend, dass Verz. Glück & Loot miteinberechnet werden.
+  - block_break:DIRT:null:item=Sword:1:10.0
+  Command:
+  - spigot:player:/warp %player% #Mit Replacer für Spielernamen
+  - bungee:console:/do do #Für Console oder als Spieler
+  Item:
+  - sword_y:64 #Item y wird aus dem ItemOrdner geholt und hier eingesetzt.
+  BonusMalus:
+  - bonusmalusname:ADDITION:5 #Verteilt BonusMalus
+  - bonusmalusname:MULTIPLICATION:1.1
+  ConditionEntry:
+  - conditionname:Wert # Wert kann boolean, int/double oder text sein.
+  
