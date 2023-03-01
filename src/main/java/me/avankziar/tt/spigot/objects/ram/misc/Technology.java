@@ -1,12 +1,14 @@
 package main.java.me.avankziar.tt.spigot.objects.ram.misc;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
+import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
 import main.java.me.avankziar.tt.spigot.ifh.ItemGenerator;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
 import main.java.me.avankziar.tt.spigot.objects.TechnologyType;
@@ -30,7 +32,9 @@ public class Technology
 	private List<String> researchRequirementConditionQuery;
 	
 	private ArrayList<UnlockableInteraction> rewardUnlockableInteractions;
+	private LinkedHashMap<RecipeType, ArrayList<String>> rewardRecipes; 
 	private ArrayList<DropChance> rewardDropChances;
+	private ArrayList<DropChance> rewardSilkTouchDropChances;
 	private ArrayList<String> rewardCommandList; //Angelegt wie spigot:player:/warp %player% oder bungee:console:/do do
 	private ArrayList<String> rewardItemList; //Angelegt wie sword_y:64, sword_y ist der Dateiname in dem ItemOrdner
 	private ArrayList<String> rewardBonusMalusList; //Angelegt wie bonusmalusname:ADDITION:5
@@ -43,7 +47,9 @@ public class Technology
 			List<String> seeRequirementConditionQuery, boolean seeRequirementShowDifferentItemIfYouNormallyDontSeeIt,
 			List<String> researchRequirementConditionQuery,
 			ArrayList<UnlockableInteraction> rewardUnlockableInteractions,
+			LinkedHashMap<RecipeType, ArrayList<String>> rewardRecipes,
 			ArrayList<DropChance> rewardDropChances,
+			ArrayList<DropChance> rewardSilkTouchDropChances,
 			ArrayList<String> rewardCommandList,
 			ArrayList<String> rewardItemList,
 			ArrayList<String> rewardBonusMalusList,
@@ -66,7 +72,9 @@ public class Technology
 		setResearchRequirementConditionQuery(researchRequirementConditionQuery);
 		
 		setRewardUnlockableInteractions(rewardUnlockableInteractions);
+		setRewardRecipes(rewardRecipes);
 		setRewardDropChances(rewardDropChances);
+		setRewardSilkTouchDropChances(rewardSilkTouchDropChances);
 		setRewardCommandList(rewardCommandList);
 		setRewardItemList(rewardItemList);
 		setRewardBonusMalusList(rewardBonusMalusList);
@@ -212,6 +220,16 @@ public class Technology
 		this.rewardUnlockableInteractions = rewardUnlockableInteractions;
 	}
 
+	public LinkedHashMap<RecipeType, ArrayList<String>> getRewardRecipes()
+	{
+		return rewardRecipes;
+	}
+
+	public void setRewardRecipes(LinkedHashMap<RecipeType, ArrayList<String>> rewardRecipes)
+	{
+		this.rewardRecipes = rewardRecipes;
+	}
+
 	public ArrayList<DropChance> getRewardDropChances()
 	{
 		return rewardDropChances;
@@ -220,6 +238,16 @@ public class Technology
 	public void setRewardDropChances(ArrayList<DropChance> rewardDropChances)
 	{
 		this.rewardDropChances = rewardDropChances;
+	}
+
+	public ArrayList<DropChance> getRewardSilkTouchDropChances()
+	{
+		return rewardSilkTouchDropChances;
+	}
+
+	public void setRewardSilkTouchDropChances(ArrayList<DropChance> rewardSilkTouchDropChances)
+	{
+		this.rewardSilkTouchDropChances = rewardSilkTouchDropChances;
 	}
 
 	public ArrayList<String> getRewardCommandList()

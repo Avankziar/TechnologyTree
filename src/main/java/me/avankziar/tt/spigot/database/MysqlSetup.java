@@ -123,6 +123,10 @@ public class MysqlSetup
 		{
 			return false;
 		}
+		if(!setupDatabaseIII())
+		{
+			return false;
+		}
 		return true;
 	}
 	
@@ -145,6 +149,21 @@ public class MysqlSetup
 		+ " player_uuid char(36) NOT NULL,"
 		+ " entry_query_type text NOT NULL,"
 		+ " status_type text NOT NULL);";
+		baseSetup(data);
+		return true;
+	}
+	
+	private boolean setupDatabaseIII() 
+	{
+		String data = "CREATE TABLE IF NOT EXISTS `" + MysqlHandler.Type.REGISTEREDBLOCK.getValue()
+		+ "` (id int AUTO_INCREMENT PRIMARY KEY,"
+		+ " player_uuid char(36) NOT NULL,"
+		+ " block_type text,"
+		+ " server text NOT NULL,"
+		+ " world text NOT NULL,"
+		+ " block_x int,"
+		+ " block_y int,"
+		+ " block_z int);";
 		baseSetup(data);
 		return true;
 	}

@@ -28,6 +28,11 @@ public class ConfigHandler
 		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("EnableMechanic.BonusMalus", false);
 	}
 	
+	public boolean isMechanicCommandToBungeeEnabled()
+	{
+		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("EnableMechanic.CommandToBungee", false);
+	}
+	
 	public boolean isMechanicConditionEnabled()
 	{
 		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("EnableMechanic.Condition", false);

@@ -1,6 +1,7 @@
 package main.java.me.avankziar.tt.spigot.handler;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -9,10 +10,13 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 
+import main.java.me.avankziar.ifh.general.bonusmalus.BonusMalusType;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
+import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
+import main.java.me.avankziar.tt.spigot.objects.RewardType;
 import main.java.me.avankziar.tt.spigot.objects.TechnologyType;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.DropChance;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.MainCategory;
@@ -134,7 +138,7 @@ public class CatTechHandler
 								} else if(split[i].startsWith("ttexp") && sp.length == 2)
 								{
 									ui.setTechnologyExperience(Double.parseDouble(sp[1]));
-								} else if(split[i].startsWith("vexp") && sp.length == 2)
+								} else if(split[i].startsWith("vaexp") && sp.length == 2)
 								{
 									ui.setVanillaExperience(i);
 								} else if(split[i].startsWith("cmd") && sp.length == 3)
@@ -151,7 +155,42 @@ public class CatTechHandler
 							continue;
 						}
 					}
-				}				
+				}
+				LinkedHashMap<RecipeType, ArrayList<String>> rewardRecipes = new LinkedHashMap<>();
+				if(y.get("Rewards.UnlockableRecipe") != null)
+				{
+					for(String s : y.getStringList("Rewards.UnlockableRecipe"))
+					{
+						String[] split  = s.split(":");
+						if(split.length != 2)
+						{
+							continue;
+						}
+						try
+						{
+							RecipeType rt = RecipeType.valueOf(split[0]);
+							String key = split[1];
+							if(!RecipeHandler.recipeMap.containsKey(rt)
+									|| !RecipeHandler.recipeMap.get(rt).contains(key))
+							{
+								continue;
+							}
+							ArrayList<String> list = new ArrayList<>();
+							if(rewardRecipes.containsKey(rt))
+							{
+								list = rewardRecipes.get(rt);
+							}
+							if(!list.contains(key))
+							{
+								list.add(key);
+							}
+							rewardRecipes.put(rt, list);
+						} catch(Exception e)
+						{
+							continue;
+						}
+					}
+				}
 				ArrayList<DropChance> rewardDropChances = new ArrayList<>();
 				if(y.get("Rewards.DropChance") != null)
 				{
@@ -185,6 +224,39 @@ public class CatTechHandler
 						}
 					}
 				}
+				ArrayList<DropChance> rewardSilkTouchDropChances = new ArrayList<>();
+				if(y.get("Rewards.SilkTouchDropChance") != null)
+				{
+					for(String s : y.getStringList("Rewards.SilkTouchDropChance"))
+					{
+						String[] split  = s.split(":");
+						if(split.length != 6)
+						{
+							continue;
+						}
+						try
+						{
+							EventType eventType = EventType.valueOf(split[0]);
+							Material material = null;
+							EntityType entityType = null;
+							if(!split[1].equalsIgnoreCase("null"))
+							{
+								material = Material.valueOf(split[1]);
+							}
+							if(!split[2].equalsIgnoreCase("null"))
+							{
+								entityType = EntityType.valueOf(split[2]);
+							}
+							String item = split[3];
+							int amount = Integer.parseInt(split[4]);
+							DropChance dc = new DropChance(eventType, material, entityType, item, amount, Double.parseDouble(split[5]));
+							rewardSilkTouchDropChances.add(dc);
+						} catch(Exception e)
+						{
+							continue;
+						}
+					}
+				}
 				ArrayList<String> rewardCommandList = new ArrayList<>();
 				if(y.get("Rewards.Command") != null)
 				{
@@ -196,20 +268,20 @@ public class CatTechHandler
 					rewardItemList = (ArrayList<String>) y.getStringList("Rewards.Item");
 				}
 				ArrayList<String> rewardBonusMalusList = new ArrayList<>();
-				if(y.get("Rewards.BonusMalus") != null)
+				if(y.get("Rewards.BonusMalus") != null && plugin.getBonusMalus() != null)
 				{
 					rewardBonusMalusList = (ArrayList<String>) y.getStringList("Rewards.BonusMalus");
 				}
 				ArrayList<String> rewardConditionEntryList = new ArrayList<>();
-				if(y.get("Rewards.ConditionEntry") != null)
+				if(y.get("Rewards.ConditionEntry") != null && plugin.getCondition() != null)
 				{
 					rewardConditionEntryList = (ArrayList<String>) y.getStringList("Rewards.ConditionEntry");
 				}
 				Technology t = new Technology(internName, displayName, technologyType, maximalTechnologyLevelToResearch,
 						playerAssociatedType, overlyingSubCategory, guiSlot,
 						seeRequirementConditionQuery, seeRequirementShowDifferentItemIfYouNormallyDontSeeIt, researchRequirementConditionQuery, 
-						rewardUnlockableInteractions, rewardDropChances, rewardCommandList,
-						rewardItemList, rewardBonusMalusList, rewardConditionEntryList);
+						rewardUnlockableInteractions, rewardRecipes, rewardDropChances, rewardSilkTouchDropChances,
+						rewardCommandList, rewardItemList, rewardBonusMalusList, rewardConditionEntryList);
 				if(playerAssociatedType == PlayerAssociatedType.SOLO)
 				{
 					technologyMapSolo.put(internName, t);
@@ -259,7 +331,7 @@ public class CatTechHandler
 				String displayName = y.getString("Displayname");
 				
 				PlayerAssociatedType playerAssociatedType = PlayerAssociatedType.valueOf(y.getString("PlayerAssociatedType"));
-				String groupAssociatedPermission = y.getString("GroupAssociatedPermission");
+				String groupAssociatedPermission = y.getString("GroupAssociatedPermission", null);
 				int guiSlot = y.getInt("GuiSlot");
 				boolean useFixGuiSlot = y.getBoolean("UseFixGuiSlots");
 				List<String> seeRequirementConditionQuery = y.getStringList("RequirementToSee.ConditionQuery");
@@ -319,7 +391,7 @@ public class CatTechHandler
 				String displayName = y.getString("Displayname");
 				
 				PlayerAssociatedType playerAssociatedType = PlayerAssociatedType.valueOf(y.getString("PlayerAssociatedType"));
-				String groupAssociatedPermission = y.getString("GroupAssociatedPermission");
+				String groupAssociatedPermission = y.getString("GroupAssociatedPermission", null);
 				int guiSlot = y.getInt("GuiSlot");
 				boolean useFixGuiSlot = y.getBoolean("UseFixGuiSlots");
 				List<String> seeRequirementConditionQuery = y.getStringList("RequirementToSee.ConditionQuery");
@@ -350,6 +422,174 @@ public class CatTechHandler
 				continue;
 			}
 		}
+		registerBonusMalus();
+		registerCondition();
 		return true;
+	}
+	
+	private static void registerBonusMalus()
+	{
+		if(plugin.getBonusMalus() == null)
+		{
+			return;
+		}
+		List<RewardType> rewardTypeList = new ArrayList<RewardType>(EnumSet.allOf(RewardType.class));
+		List<EventType> eventTypeList = new ArrayList<EventType>(EnumSet.allOf(EventType.class));
+		List<Material> materialList = new ArrayList<Material>(EnumSet.allOf(Material.class));
+		List<EntityType> entityTypeList = new ArrayList<EntityType>(EnumSet.allOf(EntityType.class));
+		BonusMalusType bmt = BonusMalusType.UP;
+		for(Material ma : materialList)
+		{
+			for(EventType e : eventTypeList)
+			{
+				for(RewardType r : rewardTypeList)
+				{
+					if(r == RewardType.ACCESS)
+					{
+						continue;
+					}
+					String bm = getBonusMalus(r, e, ma, null);
+					if(bm == null)
+					{
+						continue;
+					}
+					if(plugin.getBonusMalus().isRegistered(bm))
+					{
+						continue;
+					}
+					List<String> lar = plugin.getYamlHandler().getCBMLang().getStringList(
+							ma.toString()+"."+e.toString()+"."+r.toString()+".Explanation");
+					plugin.getBonusMalus().register(
+							bm,
+							plugin.getYamlHandler().getCBMLang().getString(
+									ma.toString()+"."+e.toString()+"."+r.toString()+".Displayname", ma.toString()+"_"+e.toString()+"_"+r.toString()),
+							bmt,
+							lar.toArray(new String[lar.size()]));
+				}
+			}
+		}
+		for(EntityType et : entityTypeList)
+		{
+			for(EventType e : eventTypeList)
+			{
+				for(RewardType r : rewardTypeList)
+				{
+					if(r == RewardType.ACCESS)
+					{
+						continue;
+					}
+					String bm = getBonusMalus(r, e, null, et);
+					if(bm == null)
+					{
+						continue;
+					}
+					if(plugin.getBonusMalus().isRegistered(bm))
+					{
+						continue;
+					}
+					List<String> lar = plugin.getYamlHandler().getCBMLang().getStringList(
+							et.toString()+"."+e.toString()+"."+r.toString()+".Explanation");
+					plugin.getBonusMalus().register(
+							bm,
+							plugin.getYamlHandler().getCBMLang().getString(
+									et.toString()+"."+e.toString()+"."+r.toString()+".Displayname", et.toString()+"_"+e.toString()+"_"+r.toString()),
+							bmt,
+							lar.toArray(new String[lar.size()]));
+				}
+			}
+		}
+	}
+	
+	private static void registerCondition()
+	{
+		if(plugin.getCondition() == null)
+		{
+			return;
+		}
+		List<RewardType> rewardTypeList = new ArrayList<RewardType>(EnumSet.allOf(RewardType.class));
+		List<EventType> eventTypeList = new ArrayList<EventType>(EnumSet.allOf(EventType.class));
+		List<Material> materialList = new ArrayList<Material>(EnumSet.allOf(Material.class));
+		List<EntityType> entityTypeList = new ArrayList<EntityType>(EnumSet.allOf(EntityType.class));
+		for(Material ma : materialList)
+		{
+			for(EventType e : eventTypeList)
+			{
+				for(RewardType r : rewardTypeList)
+				{
+					if(r != RewardType.ACCESS)
+					{
+						continue;
+					}
+					String bm = getCondition(r, e, ma, null);
+					if(bm == null)
+					{
+						continue;
+					}
+					if(plugin.getCondition().isRegistered(bm))
+					{
+						continue;
+					}
+					List<String> lar = plugin.getYamlHandler().getCBMLang().getStringList(
+							ma.toString()+"."+e.toString()+"."+r.toString()+".Explanation");
+					plugin.getCondition().register(
+							bm,
+							plugin.getYamlHandler().getCBMLang().getString(
+									ma.toString()+"."+e.toString()+"."+r.toString()+".Displayname", ma.toString()+"_"+e.toString()+"_"+r.toString()),
+							lar.toArray(new String[lar.size()]));
+				}
+			}
+		}
+		for(EntityType et : entityTypeList)
+		{
+			for(EventType e : eventTypeList)
+			{
+				for(RewardType r : rewardTypeList)
+				{
+					if(r == RewardType.ACCESS)
+					{
+						continue;
+					}
+					String c = getCondition(r, e, null, et);
+					if(c == null)
+					{
+						continue;
+					}
+					if(plugin.getCondition().isRegistered(c))
+					{
+						continue;
+					}
+					List<String> lar = plugin.getYamlHandler().getCBMLang().getStringList(
+							et.toString()+"."+e.toString()+"."+r.toString()+".Explanation");
+					plugin.getCondition().register(
+							c,
+							plugin.getYamlHandler().getCBMLang().getString(
+									et.toString()+"."+e.toString()+"."+r.toString()+".Displayname", et.toString()+"_"+e.toString()+"_"+r.toString()),
+							lar.toArray(new String[lar.size()]));
+				}
+			}
+		}
+	}
+	
+	public static String getBonusMalus(RewardType rewardType, EventType eventType, Material material, EntityType entityType)
+	{
+		if(material != null)
+		{
+			return BaseConstructor.getPlugin().pluginName.toLowerCase()
+					+"-"+material.toString().toLowerCase()
+					+"-"+eventType.toString().toLowerCase()
+					+"-"+rewardType.toString().toLowerCase();
+		} else if(eventType != null)
+		{
+			return BaseConstructor.getPlugin().pluginName.toLowerCase()
+					+"-"+entityType.toString().toLowerCase()
+					+"-"+eventType.toString().toLowerCase()
+					+"-"+rewardType.toString().toLowerCase();
+		}
+		return null;
+	}
+	
+	public static String getCondition(RewardType rewardType, EventType eventType, Material material, EntityType entityType)
+	{
+		return getBonusMalus(rewardType, eventType, material, entityType);
 	}
 }

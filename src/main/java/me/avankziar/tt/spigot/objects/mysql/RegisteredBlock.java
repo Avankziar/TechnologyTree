@@ -10,26 +10,40 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+
+import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandable;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
+import main.java.me.avankziar.tt.spigot.handler.BlockHandler.BlockType;
 
-public class PlayerData implements MysqlHandable
+public class RegisteredBlock implements MysqlHandable
 {
 	private int id;
-	private UUID uuid;
-	private String name;
-	private boolean showSyncMessage; //Nachricht, welche beim Login angezeigt wird, wenn die Tech etc. synchronisiert werden.
+	private UUID playerUUID;
+	private BlockType blockType;
+	private String server;
+	private String world;
+	private int blockX;
+	private int blockY;
+	private int blockZ;
 	
-	public PlayerData(){}
+	public RegisteredBlock(){}
 	
-	public PlayerData(int id, UUID uuid, String name, boolean showSyncMessage)
-			
+	public RegisteredBlock(int id, UUID playerUUID, BlockType blockType, String server, String world, int blockX, int blockY, int blockZ)
 	{
 		setId(id);
-		setUUID(uuid);
-		setName(name);
+		setPlayerUUID(playerUUID);
+		setBlockType(blockType);
+		setServer(server);
+		setWorld(world);
+		setBlockX(blockX);
+		setBlockY(blockY);
+		setBlockZ(blockZ);
 	}
-
+	
 	public int getId()
 	{
 		return id;
@@ -39,35 +53,89 @@ public class PlayerData implements MysqlHandable
 	{
 		this.id = id;
 	}
+
+	public UUID getPlayerUUID()
+	{
+		return playerUUID;
+	}
+
+	public void setPlayerUUID(UUID playerUUID)
+	{
+		this.playerUUID = playerUUID;
+	}
+
+	public BlockType getBlockType()
+	{
+		return blockType;
+	}
+
+	public void setBlockType(BlockType blockType)
+	{
+		this.blockType = blockType;
+	}
+
+	public String getServer()
+	{
+		return server;
+	}
+
+	public void setServer(String server)
+	{
+		this.server = server;
+	}
+
+	public String getWorld()
+	{
+		return world;
+	}
+
+	public void setWorld(String world)
+	{
+		this.world = world;
+	}
+
+	public int getBlockX()
+	{
+		return blockX;
+	}
+
+	public void setBlockX(int blockX)
+	{
+		this.blockX = blockX;
+	}
+
+	public int getBlockY()
+	{
+		return blockY;
+	}
+
+	public void setBlockY(int blockY)
+	{
+		this.blockY = blockY;
+	}
+
+	public int getBlockZ()
+	{
+		return blockZ;
+	}
+
+	public void setBlockZ(int blockZ)
+	{
+		this.blockZ = blockZ;
+	}
 	
-	public UUID getUUID()
+	public Location getLocation()
 	{
-		return uuid;
-	}
-
-	public void setUUID(UUID uuid)
-	{
-		this.uuid = uuid;
-	}
-
-	public String getName()
-	{
-		return name;
-	}
-
-	public void setName(String name)
-	{
-		this.name = name;
-	}
-
-	public boolean isShowSyncMessage()
-	{
-		return showSyncMessage;
-	}
-
-	public void setShowSyncMessage(boolean showSyncMessage)
-	{
-		this.showSyncMessage = showSyncMessage;
+		if(!BaseConstructor.getPlugin().getServername().equals(server))
+		{
+			return null;
+		}
+		World world = Bukkit.getWorld(this.world);
+		if(world == null)
+		{
+			return null;
+		}
+		return new Location(world, blockX, blockY, blockZ);
 	}
 
 	@Override //FIXME
@@ -180,14 +248,14 @@ public class PlayerData implements MysqlHandable
 		return new ArrayList<>();
 	}
 	
-	public static ArrayList<PlayerData> convert(ArrayList<Object> arrayList)
+	public static ArrayList<RegisteredBlock> convert(ArrayList<Object> arrayList)
 	{
-		ArrayList<PlayerData> l = new ArrayList<>();
+		ArrayList<RegisteredBlock> l = new ArrayList<>();
 		for(Object o : arrayList)
 		{
-			if(o instanceof PlayerData)
+			if(o instanceof RegisteredBlock)
 			{
-				l.add((PlayerData) o);
+				l.add((RegisteredBlock) o);
 			}
 		}
 		return l;

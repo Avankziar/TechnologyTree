@@ -36,6 +36,15 @@ public class YamlHandler
 	private LinkedHashMap<String, YamlConfiguration> mainCategories = new LinkedHashMap<>();
 	private LinkedHashMap<String, YamlConfiguration> subCategories = new LinkedHashMap<>();
 	private LinkedHashMap<String, YamlConfiguration> technologies = new LinkedHashMap<>();
+	
+	private LinkedHashMap<String, YamlConfiguration> blastingRecipe = new LinkedHashMap<>();
+	private LinkedHashMap<String, YamlConfiguration> campfireRecipe = new LinkedHashMap<>();
+	private LinkedHashMap<String, YamlConfiguration> furnaceRecipe = new LinkedHashMap<>();
+	private LinkedHashMap<String, YamlConfiguration> shapedRecipe = new LinkedHashMap<>();
+	private LinkedHashMap<String, YamlConfiguration> shapelessRecipe = new LinkedHashMap<>();
+	private LinkedHashMap<String, YamlConfiguration> smithingRecipe = new LinkedHashMap<>();
+	private LinkedHashMap<String, YamlConfiguration> smokingRecipe = new LinkedHashMap<>();
+	private LinkedHashMap<String, YamlConfiguration> stonecuttingRecipe = new LinkedHashMap<>();
 
 	public YamlHandler(TT plugin)
 	{
@@ -81,6 +90,46 @@ public class YamlHandler
 	public LinkedHashMap<String, YamlConfiguration> getTechnologies()
 	{
 		return technologies;
+	}
+	
+	public LinkedHashMap<String, YamlConfiguration> getBlastingRecipe()
+	{
+		return blastingRecipe;
+	}
+	
+	public LinkedHashMap<String, YamlConfiguration> getCampfireRecipe()
+	{
+		return campfireRecipe;
+	}
+	
+	public LinkedHashMap<String, YamlConfiguration> getFurnaceRecipe()
+	{
+		return furnaceRecipe;
+	}
+	
+	public LinkedHashMap<String, YamlConfiguration> getShapedRecipe()
+	{
+		return shapedRecipe;
+	}
+	
+	public LinkedHashMap<String, YamlConfiguration> getShapelessRecipe()
+	{
+		return shapelessRecipe;
+	}
+	
+	public LinkedHashMap<String, YamlConfiguration> getSmithingRecipe()
+	{
+		return smithingRecipe;
+	}
+	
+	public LinkedHashMap<String, YamlConfiguration> getSmokingRecipe()
+	{
+		return smokingRecipe;
+	}
+	
+	public LinkedHashMap<String, YamlConfiguration> getStonecuttingRecipe()
+	{
+		return stonecuttingRecipe;
 	}
 	
 	private YamlConfiguration loadYamlTask(File file, YamlConfiguration yaml)
@@ -221,6 +270,10 @@ public class YamlHandler
 		{
 			return false;
 		}
+		if(!mkdirRecipe())
+		{
+			return false;
+		}
 		return true;
 	}
 	
@@ -277,42 +330,14 @@ public class YamlHandler
 		if(!directory.exists())
 		{
 			directory.mkdir();
-			for(Entry<String, LinkedHashMap<String, Language>> e : plugin.getYamlManager().getItemGeneratorKey().entrySet())
+			if(!createAndLoadMap(directory,
+					plugin.getYamlManager().getItemGeneratorKey(), getItemGenerators()))
 			{
-				File f = new File(directory.getPath(), e.getKey()+".yml");
-				if(!f.exists()) 
-				{
-					TT.log.info("Create %f%.yml...".replace("%f%", e.getKey()));
-					try(InputStream in = plugin.getResource("default.yml"))
-					{
-						Files.copy(in, f.toPath());
-					} catch (IOException ex)
-					{
-						ex.printStackTrace();
-					}
-				}
-				YamlConfiguration y = loadYamlTask(f, new YamlConfiguration());
-				if(y == null)
-				{
-					return false;
-				}
-				writeFile(f, y, e.getValue());
-				String name = f.getName().split(".")[0];
-				getItemGenerators().put(name, y);
+				return false;
 			}
-			return true;
-		}
-		File[] listOfFiles = directory.listFiles();
-		for (int i = 0; i < listOfFiles.length; i++) 
+		} else
 		{
-			if(!listOfFiles[i].isFile()) 
-			{
-				continue;
-			}
-			YamlConfiguration y = new YamlConfiguration();
-			y = loadYamlTask(listOfFiles[i], y);
-			String name = listOfFiles[i].getName().split(".")[0];
-			getItemGenerators().put(name, y);
+			onlyLoadMap(directory, getItemGenerators());
 		}
 		return true;
 	}
@@ -322,40 +347,42 @@ public class YamlHandler
 		File solo = new File(plugin.getDataFolder()+"/Solo/MainCategory/");
 		File group = new File(plugin.getDataFolder()+"/Group/MainCategory/");
 		File global = new File(plugin.getDataFolder()+"/Global/MainCategory/");
-		if(!solo.exists() || !group.exists() || !global.exists())
+		if(!solo.exists())
 		{
-			if(!solo.exists())
+			solo.mkdir();
+			if(!createAndLoadMap(solo,
+					plugin.getYamlManager().getMainCategoryKey(), getMainCategories()))
 			{
-				solo.mkdir();
-				if(!createAndLoadMap(solo, "solo",
-						plugin.getYamlManager().getMainCategoryKey(), getMainCategories()))
-				{
-					return false;
-				}
+				return false;
 			}
-			if(!group.exists())
-			{
-				group.mkdir();
-				if(!createAndLoadMap(group, "group",
-						plugin.getYamlManager().getMainCategoryKey(), getMainCategories()))
-				{
-					return false;
-				}
-			}
-			if(!global.exists())
-			{
-				global.mkdir();
-				if(!createAndLoadMap(global, "global",
-						plugin.getYamlManager().getMainCategoryKey(), getMainCategories()))
-				{
-					return false;
-				}
-			}
-			return true;
+		} else
+		{
+			onlyLoadMap(solo, getMainCategories());
 		}
-		onlyLoadMap(solo, getMainCategories());
-		onlyLoadMap(group, getMainCategories());
-		onlyLoadMap(global, getMainCategories());
+		if(!group.exists())
+		{
+			group.mkdir();
+			if(!createAndLoadMap(group,
+					plugin.getYamlManager().getMainCategoryKey(), getMainCategories()))
+			{
+				return false;
+			}
+		} else
+		{
+			onlyLoadMap(group, getMainCategories());
+		}
+		if(!global.exists())
+		{
+			global.mkdir();
+			if(!createAndLoadMap(global,
+					plugin.getYamlManager().getMainCategoryKey(), getMainCategories()))
+			{
+				return false;
+			}
+		} else
+		{
+			onlyLoadMap(global, getMainCategories());
+		}
 		return true;
 	}
 	
@@ -364,40 +391,42 @@ public class YamlHandler
 		File solo = new File(plugin.getDataFolder()+"/Solo/SubCategory/");
 		File group = new File(plugin.getDataFolder()+"/Group/SubCategory/");
 		File global = new File(plugin.getDataFolder()+"/Global/SubCategory/");
-		if(!solo.exists() || !group.exists() || !global.exists())
+		if(!solo.exists())
 		{
-			if(!solo.exists())
+			solo.mkdir();
+			if(!createAndLoadMap(solo,
+					plugin.getYamlManager().getSubCategoryKey(), getSubCategories()))
 			{
-				solo.mkdir();
-				if(!createAndLoadMap(solo, "solo",
-						plugin.getYamlManager().getSubCategoryKey(), getSubCategories()))
-				{
-					return false;
-				}
+				return false;
 			}
-			if(!group.exists())
-			{
-				group.mkdir();
-				if(!createAndLoadMap(group, "group",
-						plugin.getYamlManager().getSubCategoryKey(), getSubCategories()))
-				{
-					return false;
-				}
-			}
-			if(!global.exists())
-			{
-				global.mkdir();
-				if(!createAndLoadMap(global, "global",
-						plugin.getYamlManager().getSubCategoryKey(), getSubCategories()))
-				{
-					return false;
-				}
-			}
-			return true;
+		} else
+		{
+			onlyLoadMap(solo, getSubCategories());
 		}
-		onlyLoadMap(solo, getSubCategories());
-		onlyLoadMap(group, getSubCategories());
-		onlyLoadMap(global, getSubCategories());
+		if(!group.exists())
+		{
+			group.mkdir();
+			if(!createAndLoadMap(group,
+					plugin.getYamlManager().getSubCategoryKey(), getSubCategories()))
+			{
+				return false;
+			}
+		} else
+		{
+			onlyLoadMap(group, getSubCategories());
+		}
+		if(!global.exists())
+		{
+			global.mkdir();
+			if(!createAndLoadMap(global,
+					plugin.getYamlManager().getSubCategoryKey(), getSubCategories()))
+			{
+				return false;
+			}
+		} else
+		{
+			onlyLoadMap(global, getSubCategories());
+		}
 		return true;
 	}
 	
@@ -406,44 +435,155 @@ public class YamlHandler
 		File solo = new File(plugin.getDataFolder()+"/Solo/Technology/");
 		File group = new File(plugin.getDataFolder()+"/Group/Technology/");
 		File global = new File(plugin.getDataFolder()+"/Global/Technology/");
-		if(!solo.exists() || !group.exists() || !global.exists())
+		if(!solo.exists())
 		{
-			if(!solo.exists())
+			solo.mkdir();
+			if(!createAndLoadMap(solo,
+					plugin.getYamlManager().getTechnologyKey(), getTechnologies()))
 			{
-				solo.mkdir();
-				if(!createAndLoadMap(solo, "solo",
-						plugin.getYamlManager().getTechnologyKey(), getTechnologies()))
-				{
-					return false;
-				}
+				return false;
 			}
-			if(!group.exists())
-			{
-				group.mkdir();
-				if(!createAndLoadMap(group, "group",
-						plugin.getYamlManager().getTechnologyKey(), getTechnologies()))
-				{
-					return false;
-				}
-			}
-			if(!global.exists())
-			{
-				global.mkdir();
-				if(!createAndLoadMap(global, "global",
-						plugin.getYamlManager().getTechnologyKey(), getTechnologies()))
-				{
-					return false;
-				}
-			}
-			return true;
+		} else
+		{
+			onlyLoadMap(solo, getTechnologies());
 		}
-		onlyLoadMap(solo, getTechnologies());
-		onlyLoadMap(group, getTechnologies());
-		onlyLoadMap(global, getTechnologies());
+		if(!group.exists())
+		{
+			group.mkdir();
+			if(!createAndLoadMap(group,
+					plugin.getYamlManager().getTechnologyKey(), getTechnologies()))
+			{
+				return false;
+			}
+		} else
+		{
+			onlyLoadMap(group, getTechnologies());
+		}
+		if(!global.exists())
+		{
+			global.mkdir();
+			if(!createAndLoadMap(global,
+					plugin.getYamlManager().getTechnologyKey(), getTechnologies()))
+			{
+				return false;
+			}
+		} else
+		{
+			onlyLoadMap(global, getTechnologies());
+		}
 		return true;
 	}
 	
-	private boolean createAndLoadMap(File dir, String value,
+	private boolean mkdirRecipe()
+	{
+		File blasting = new File(plugin.getDataFolder()+"/Recipe/Blasting/");
+		File campfire = new File(plugin.getDataFolder()+"/Recipe/Campfire/");
+		File furnace = new File(plugin.getDataFolder()+"/Recipe/Furnace/");
+		File shaped = new File(plugin.getDataFolder()+"/Recipe/Shaped/");
+		File shapeless = new File(plugin.getDataFolder()+"/Recipe/Shapeless/");
+		File smithing = new File(plugin.getDataFolder()+"/Recipe/Smithing/");
+		File smoking = new File(plugin.getDataFolder()+"/Recipe/Smoking/");
+		File stonecutting = new File(plugin.getDataFolder()+"/Recipe/Stonecutting/");
+		if(!blasting.exists())
+		{
+			blasting.mkdir();
+			if(!createAndLoadMap(blasting,
+					plugin.getYamlManager().getBlastingRecipeKey(), getBlastingRecipe()))
+			{
+				return false;
+			}
+		} else
+		{
+			onlyLoadMap(blasting, getBlastingRecipe());
+		}
+		if(!campfire.exists())
+		{
+			campfire.mkdir();
+			if(!createAndLoadMap(campfire,
+					plugin.getYamlManager().getCampfireRecipeKey(), getCampfireRecipe()))
+			{
+				return false;
+			}
+		} else
+		{
+			onlyLoadMap(campfire, getCampfireRecipe());
+		}	
+		if(!furnace.exists())
+		{
+			furnace.mkdir();
+			if(!createAndLoadMap(furnace,
+					plugin.getYamlManager().getFurnaceRecipeKey(), getFurnaceRecipe()))
+			{
+				return false;
+			}
+		} else
+		{
+			onlyLoadMap(furnace, getFurnaceRecipe());
+		}
+		if(!shaped.exists())
+		{
+			shaped.mkdir();
+			if(!createAndLoadMap(shaped,
+					plugin.getYamlManager().getShapedRecipeKey(), getShapedRecipe()))
+			{
+				return false;
+			}
+		} else
+		{
+			onlyLoadMap(shaped, getShapedRecipe());
+		}
+		if(!shapeless.exists())
+		{
+			shapeless.mkdir();
+			if(!createAndLoadMap(shapeless,
+					plugin.getYamlManager().getShapelessRecipeKey(), getShapelessRecipe()))
+			{
+				return false;
+			}
+		} else
+		{
+			onlyLoadMap(shapeless, getShapelessRecipe());
+		}
+		if(!smithing.exists())
+		{
+			smithing.mkdir();
+			if(!createAndLoadMap(smithing,
+					plugin.getYamlManager().getSmithingRecipeKey(), getSmithingRecipe()))
+			{
+				return false;
+			}
+		} else
+		{
+			onlyLoadMap(smithing, getSmithingRecipe());
+		}
+		if(!smoking.exists())
+		{
+			smoking.mkdir();
+			if(!createAndLoadMap(smoking,
+					plugin.getYamlManager().getSmokingRecipeKey(), getSmokingRecipe()))
+			{
+				return false;
+			}
+		} else
+		{
+			onlyLoadMap(smoking, getSmokingRecipe());
+		}
+		if(!stonecutting.exists())
+		{
+			stonecutting.mkdir();
+			if(!createAndLoadMap(stonecutting,
+					plugin.getYamlManager().getStonecuttingRecipeKey(), getStonecuttingRecipe()))
+			{
+				return false;
+			}
+		} else
+		{
+			onlyLoadMap(stonecutting, getStonecuttingRecipe());
+		}
+		return true;
+	}
+	
+	private boolean createAndLoadMap(File dir,
 			LinkedHashMap<String, LinkedHashMap<String, Language>> mapI, LinkedHashMap<String, YamlConfiguration> mapII)
 	{
 		for(Entry<String, LinkedHashMap<String, Language>> e : mapI.entrySet())

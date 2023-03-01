@@ -1,6 +1,5 @@
 package main.java.me.avankziar.tt.spigot;
 
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -27,6 +26,7 @@ import main.java.me.avankziar.ifh.general.bonusmalus.BonusMalusType;
 import main.java.me.avankziar.ifh.general.condition.Condition;
 import main.java.me.avankziar.ifh.general.condition.ConditionQueryParser;
 import main.java.me.avankziar.ifh.spigot.administration.Administration;
+import main.java.me.avankziar.ifh.spigot.tobungee.commands.CommandToBungee;
 import main.java.me.avankziar.tt.spigot.assistance.BackgroundTask;
 import main.java.me.avankziar.tt.spigot.assistance.Utility;
 import main.java.me.avankziar.tt.spigot.cmd.BaseCommandExecutor;
@@ -42,6 +42,7 @@ import main.java.me.avankziar.tt.spigot.database.YamlHandler;
 import main.java.me.avankziar.tt.spigot.database.YamlManager;
 import main.java.me.avankziar.tt.spigot.handler.CatTechHandler;
 import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
+import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
 
 public class TT extends JavaPlugin
 {
@@ -67,6 +68,8 @@ public class TT extends JavaPlugin
 	private Condition conditionConsumer;
 	private ConditionQueryParser conditionQueryParserConsumer;
 	private BonusMalus bonusMalusConsumer;
+	
+	private CommandToBungee commandToBungeeConsumer;
 	
 	public void onEnable()
 	{
@@ -106,9 +109,9 @@ public class TT extends JavaPlugin
 		setupBypassPerm();
 		setupCommandTree();
 		setupListeners();
+		RecipeHandler.init();
 		CatTechHandler.reload();
 		setupIFHConsumer();
-		
 	}
 	
 	public void onDisable()
@@ -332,22 +335,26 @@ public class TT extends JavaPlugin
 		//pm.registerEvents(new BackListener(plugin), plugin);
 	}
 	
-	public boolean reload() throws IOException
+	public boolean reload()
 	{
-		if(!yamlHandler.loadYamlHandler())
+		yamlHandler = new YamlHandler(this);
+		
+		String path = plugin.getYamlHandler().getConfig().getString("IFHAdministrationPath");
+		boolean adm = plugin.getAdministration() != null 
+				&& plugin.getYamlHandler().getConfig().getBoolean("useIFHAdministration")
+				&& plugin.getAdministration().isMysqlPathActive(path);
+		if(adm || yamlHandler.getConfig().getBoolean("Mysql.Status", false) == true)
 		{
-			return false;
-		}
-		if(yamlHandler.getConfig().getBoolean("Mysql.Status", false))
-		{
-			if(!mysqlSetup.loadMysqlSetup())
-			{
-				return false;
-			}
+			mysqlHandler = new MysqlHandler(plugin);
+			mysqlSetup = new MysqlSetup(plugin, adm, path);
 		} else
 		{
+			log.severe("MySQL is not set in the Plugin " + pluginName + "!");
+			Bukkit.getPluginManager().getPlugin(pluginName).getPluginLoader().disablePlugin(this);
 			return false;
 		}
+		CatTechHandler.reload();
+		RecipeHandler.init();
 		return true;
 	}
 	
@@ -384,9 +391,130 @@ public class TT extends JavaPlugin
 	
 	public void setupIFHConsumer()
 	{
+		setupIFHBonusMalus();
+		setupIFHCommandToBungee();
 		setupIFHCondition();
 		setupIFHConditionQueryParser();
-		setupIFHBonusMalus();
+	}
+	
+	private void setupIFHBonusMalus() 
+	{
+		if(!new ConfigHandler().isMechanicBonusMalusEnabled())
+		{
+			return;
+		}
+        if(Bukkit.getPluginManager().getPlugin("InterfaceHub") == null) 
+        {
+            return;
+        }
+        new BukkitRunnable()
+        {
+        	int i = 0;
+			@Override
+			public void run()
+			{
+				try
+				{
+					if(i == 20)
+				    {
+						cancel();
+						return;
+				    }
+				    RegisteredServiceProvider<main.java.me.avankziar.ifh.general.bonusmalus.BonusMalus> rsp = 
+		                             getServer().getServicesManager().getRegistration(
+		                            		 main.java.me.avankziar.ifh.general.bonusmalus.BonusMalus.class);
+				    if(rsp == null) 
+				    {
+				    	//Check up to 20 seconds after the start, to connect with the provider
+				    	i++;
+				        return;
+				    }
+				    bonusMalusConsumer = rsp.getProvider();
+				    log.info(pluginName + " detected InterfaceHub >>> BonusMalus.class is consumed!");
+				    cancel();
+				} catch(NoClassDefFoundError e)
+				{
+					cancel();
+				}
+				if(getBonusMalus() != null)
+				{
+					//Bypass CountPerm init
+					List<Bypass.Counter> list = new ArrayList<Bypass.Counter>(EnumSet.allOf(Bypass.Counter.class));
+					for(Bypass.Counter ept : list)
+					{
+						if(getBonusMalus().isRegistered(ept.getBonusMalus()))
+						{
+							continue;
+						}
+						BonusMalusType bmt = null;
+						switch(ept)
+						{
+						case BASE:
+							bmt = BonusMalusType.UP;
+							break;
+						}
+						List<String> lar = plugin.getYamlHandler().getCBMLang().getStringList(ept.toString()+".Explanation");
+						getBonusMalus().register(
+								ept.getBonusMalus(),
+								plugin.getYamlHandler().getCBMLang().getString(ept.toString()+".Displayname", ept.toString()),
+								bmt,
+								lar.toArray(new String[lar.size()]));
+					}
+				}
+			}
+        }.runTaskTimer(plugin, 20L, 20*2);
+	}
+	
+	public BonusMalus getBonusMalus()
+	{
+		return bonusMalusConsumer;
+	}
+	
+	public void setupIFHCommandToBungee()
+	{
+		if(!new ConfigHandler().isMechanicCommandToBungeeEnabled())
+		{
+			return;
+		}
+		if(!plugin.getServer().getPluginManager().isPluginEnabled("InterfaceHub")) 
+	    {
+	    	return;
+	    }
+        new BukkitRunnable()
+        {
+        	int i = 0;
+			@Override
+			public void run()
+			{
+				try
+				{
+					if(i == 20)
+				    {
+						cancel();
+				    	return;
+				    }
+				    RegisteredServiceProvider<main.java.me.avankziar.ifh.spigot.tobungee.commands.CommandToBungee> rsp = 
+		                             getServer().getServicesManager().getRegistration(
+		                            		 main.java.me.avankziar.ifh.spigot.tobungee.commands.CommandToBungee.class);
+				    if(rsp == null) 
+				    {
+				    	i++;
+				        return;
+				    }
+				    commandToBungeeConsumer = rsp.getProvider();
+				    log.info(pluginName + " detected InterfaceHub >>> CommandToBungee.class is consumed!");
+				    cancel();
+				} catch(NoClassDefFoundError e)
+				{
+					cancel();
+				}
+			}
+        }.runTaskTimer(plugin, 0L, 20*2);
+	}
+	
+	public CommandToBungee getCommandToBungee()
+	{
+		return commandToBungeeConsumer;
 	}
 	
 	public void setupIFHCondition()
@@ -515,78 +643,5 @@ public class TT extends JavaPlugin
 	public ConditionQueryParser getConditionQueryParser()
 	{
 		return conditionQueryParserConsumer;
-	}
-	
-	private void setupIFHBonusMalus() 
-	{
-		if(!new ConfigHandler().isMechanicBonusMalusEnabled())
-		{
-			return;
-		}
-        if(Bukkit.getPluginManager().getPlugin("InterfaceHub") == null) 
-        {
-            return;
-        }
-        new BukkitRunnable()
-        {
-        	int i = 0;
-			@Override
-			public void run()
-			{
-				try
-				{
-					if(i == 20)
-				    {
-						cancel();
-						return;
-				    }
-				    RegisteredServiceProvider<main.java.me.avankziar.ifh.general.bonusmalus.BonusMalus> rsp = 
-		                             getServer().getServicesManager().getRegistration(
-		                            		 main.java.me.avankziar.ifh.general.bonusmalus.BonusMalus.class);
-				    if(rsp == null) 
-				    {
-				    	//Check up to 20 seconds after the start, to connect with the provider
-				    	i++;
-				        return;
-				    }
-				    bonusMalusConsumer = rsp.getProvider();
-				    log.info(pluginName + " detected InterfaceHub >>> BonusMalus.class is consumed!");
-				    cancel();
-				} catch(NoClassDefFoundError e)
-				{
-					cancel();
-				}
-				if(getBonusMalus() != null)
-				{
-					//Bypass CountPerm init
-					List<Bypass.Counter> list = new ArrayList<Bypass.Counter>(EnumSet.allOf(Bypass.Counter.class));
-					for(Bypass.Counter ept : list)
-					{
-						if(getBonusMalus().isRegistered(ept.getBonusMalus()))
-						{
-							continue;
-						}
-						BonusMalusType bmt = null;
-						switch(ept)
-						{
-						case BASE:
-							bmt = BonusMalusType.UP;
-							break;
-						}
-						List<String> lar = plugin.getYamlHandler().getCBMLang().getStringList(ept.toString()+".Explanation");
-						getBonusMalus().register(
-								ept.getBonusMalus(),
-								plugin.getYamlHandler().getCBMLang().getString(ept.toString()+".Displayname", ept.toString()),
-								bmt,
-								lar.toArray(new String[lar.size()]));
-					}
-				}
-			}
-        }.runTaskTimer(plugin, 20L, 20*2);
-	}
-	
-	public BonusMalus getBonusMalus()
-	{
-		return bonusMalusConsumer;
 	}
 }

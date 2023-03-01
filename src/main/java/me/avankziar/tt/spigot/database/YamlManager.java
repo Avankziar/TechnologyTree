@@ -3,13 +3,37 @@ package main.java.me.avankziar.tt.spigot.database;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.BlastingRecipe;
+import org.bukkit.inventory.CampfireRecipe;
+import org.bukkit.inventory.FurnaceRecipe;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.MerchantRecipe;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.RecipeChoice.ExactChoice;
+import org.bukkit.inventory.RecipeChoice.MaterialChoice;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.inventory.SmithingRecipe;
+import org.bukkit.inventory.SmokingRecipe;
+import org.bukkit.inventory.StonecuttingRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import main.java.me.avankziar.tt.spigot.conditionbonusmalus.Bypass;
 import main.java.me.avankziar.tt.spigot.database.Language.ISO639_2B;
+import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
+import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.RewardType;
 
 public class YamlManager
 {
@@ -22,10 +46,21 @@ public class YamlManager
 	private static LinkedHashMap<String, Language> commandsKeys = new LinkedHashMap<>();
 	private static LinkedHashMap<String, Language> languageKeys = new LinkedHashMap<>();
 	private static LinkedHashMap<String, Language> cbmlanguageKeys = new LinkedHashMap<>();
+	
 	private static LinkedHashMap<String, LinkedHashMap<String, Language>> itemGeneratorKeys = new LinkedHashMap<>();
 	private static LinkedHashMap<String, LinkedHashMap<String, Language>> mainCategoryKeys = new LinkedHashMap<>();
 	private static LinkedHashMap<String, LinkedHashMap<String, Language>> subCategoryKeys = new LinkedHashMap<>();
 	private static LinkedHashMap<String, LinkedHashMap<String, Language>> technologyKeys = new LinkedHashMap<>();
+	
+	private static LinkedHashMap<String, LinkedHashMap<String, Language>> blastingRecipeKeys = new LinkedHashMap<>();
+	private static LinkedHashMap<String, LinkedHashMap<String, Language>> campfireRecipeKeys = new LinkedHashMap<>();
+	private static LinkedHashMap<String, LinkedHashMap<String, Language>> furnaceRecipeKeys = new LinkedHashMap<>();
+	//private static LinkedHashMap<String, LinkedHashMap<String, Language>> merchantRecipeKeys = new LinkedHashMap<>();
+	private static LinkedHashMap<String, LinkedHashMap<String, Language>> shapedRecipeKeys = new LinkedHashMap<>();
+	private static LinkedHashMap<String, LinkedHashMap<String, Language>> shapelessRecipeKeys = new LinkedHashMap<>();
+	private static LinkedHashMap<String, LinkedHashMap<String, Language>> smithingRecipeKeys = new LinkedHashMap<>();
+	private static LinkedHashMap<String, LinkedHashMap<String, Language>> smokingRecipeKeys = new LinkedHashMap<>();
+	private static LinkedHashMap<String, LinkedHashMap<String, Language>> stonecuttingRecipeKeys = new LinkedHashMap<>();
 	
 	public YamlManager()
 	{
@@ -92,6 +127,46 @@ public class YamlManager
 	public LinkedHashMap<String, LinkedHashMap<String, Language>> getTechnologyKey()
 	{
 		return technologyKeys;
+	}
+	
+	public LinkedHashMap<String, LinkedHashMap<String, Language>> getBlastingRecipeKey()
+	{
+		return blastingRecipeKeys;
+	}
+	
+	public LinkedHashMap<String, LinkedHashMap<String, Language>> getCampfireRecipeKey()
+	{
+		return campfireRecipeKeys;
+	}
+	
+	public LinkedHashMap<String, LinkedHashMap<String, Language>> getFurnaceRecipeKey()
+	{
+		return furnaceRecipeKeys;
+	}
+	
+	public LinkedHashMap<String, LinkedHashMap<String, Language>> getShapedRecipeKey()
+	{
+		return shapedRecipeKeys;
+	}
+	
+	public LinkedHashMap<String, LinkedHashMap<String, Language>> getShapelessRecipeKey()
+	{
+		return shapelessRecipeKeys;
+	}
+	
+	public LinkedHashMap<String, LinkedHashMap<String, Language>> getSmithingRecipeKey()
+	{
+		return smithingRecipeKeys;
+	}
+	
+	public LinkedHashMap<String, LinkedHashMap<String, Language>> getSmokingRecipeKey()
+	{
+		return smokingRecipeKeys;
+	}
+	
+	public LinkedHashMap<String, LinkedHashMap<String, Language>> getStonecuttingRecipeKey()
+	{
+		return stonecuttingRecipeKeys;
 	}
 	
 	/*
@@ -184,6 +259,9 @@ public class YamlManager
 		configSpigotKeys.put("EnableMechanic.BonusMalus"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				true}));
+		configSpigotKeys.put("EnableMechanic.CommandToBungee"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				true}));
 		configSpigotKeys.put("EnableMechanic.Condition"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				true}));
@@ -212,6 +290,15 @@ public class YamlManager
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				"hub",
 				"spawncity"}));
+		configSpigotKeys.put("Do.Drops.BreakingThroughVanillaDropBarrier"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				true}));
+		configSpigotKeys.put("Do.Recipe.LoadThePluginRecipe"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				true}));
+		configSpigotKeys.put("Do.Recipe.HaveAllRecipeUnlocked"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				false}));
 	}
 	
 	@SuppressWarnings("unused") //INFO:Commands
@@ -437,6 +524,104 @@ public class YamlManager
 						"&edas Plugin BaseTemplate",
 						"&eCountpermission for",
 						"&ethe plugin BaseTemplate"}));
+		List<RewardType> rewardTypeList = new ArrayList<RewardType>(EnumSet.allOf(RewardType.class));
+		List<EventType> eventTypeList = new ArrayList<EventType>(EnumSet.allOf(EventType.class));
+		List<Material> materialList = new ArrayList<Material>(EnumSet.allOf(Material.class));
+		List<EntityType> entityTypeList = new ArrayList<EntityType>(EnumSet.allOf(EntityType.class));
+		HashMap<EventType, String> eventTypeMap = new HashMap<>();
+		HashMap<RewardType, String> rewardTypeMap = new HashMap<>();
+		for(EventType e : eventTypeList)
+		{
+			String s = EnumHandler.getName(e);
+			eventTypeMap.put(e, s);
+		}
+		for(RewardType r : rewardTypeList)
+		{
+			String s = EnumHandler.getName(r);
+			rewardTypeMap.put(r, s);
+		}
+		for(Material ma : materialList)
+		{
+			String mat = EnumHandler.getName(ma);
+			for(EventType e : eventTypeList)
+			{
+				String ev = eventTypeMap.get(e);
+				for(RewardType r : rewardTypeList)
+				{
+					String rt = rewardTypeMap.get(r);
+					if(r == RewardType.ACCESS)
+					{
+						cbmlanguageKeys.put(ma.toString()+"."+e.toString()+"."+r.toString()+".Displayname",
+								new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+										"&eConditionEntry für das Material %ma%, des Events %e% des Belohnungstyp %r%."
+										.replace("%m%", mat).replace("%e%", ev).replace("%r%", rt),
+										"&eConditionEntry for the material %ma%, of the event %e% of the reward type %r%."
+										.replace("%m%", mat).replace("%e%", ev).replace("%r%", rt)}));
+						cbmlanguageKeys.put(ma.toString()+"."+e.toString()+"."+r.toString()+".Explanation",
+								new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+										"&eConditionEntry für",
+										"&edas Plugin TechnologyTree.",
+										"&eConditionEntry for",
+										"&ethe plugin TechnologyTree."}));
+					} else
+					{
+						cbmlanguageKeys.put(ma.toString()+"."+e.toString()+"."+r.toString()+".Displayname",
+								new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+										"&eBonusMalus für das Material %ma%, des Events %e% des Belohnungstyp %r%."
+										.replace("%m%", mat).replace("%e%", ev).replace("%r%", rt),
+										"&eBonusMalus for the material %ma%, of the event %e% of the reward type %r%."
+										.replace("%m%", mat).replace("%e%", ev).replace("%r%", rt)}));
+						cbmlanguageKeys.put(ma.toString()+"."+e.toString()+"."+r.toString()+".Explanation",
+								new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+										"&eBonusMalus für",
+										"&edas Plugin TechnologyTree.",
+										"&eBonusMalus for",
+										"&ethe plugin TechnologyTree."}));
+					}
+				}
+			}
+		}
+		for(EntityType et : entityTypeList)
+		{
+			String ent = EnumHandler.getName(et);
+			for(EventType e : eventTypeList)
+			{
+				String ev = eventTypeMap.get(e);
+				for(RewardType r : rewardTypeList)
+				{
+					String rt = rewardTypeMap.get(r);
+					if(r == RewardType.ACCESS)
+					{
+						cbmlanguageKeys.put(et.toString()+"."+e.toString()+"."+r.toString()+".Displayname",
+								new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+										"&eConditionEntry für das Entity %ma%, des Events %e% des Belohnungstyp %r%."
+										.replace("%m%", ent).replace("%e%", ev).replace("%r%", rt),
+										"&eConditionEntry for the entity %ma%, of the event %e% of the reward type %r%."
+										.replace("%m%", ent).replace("%e%", ev).replace("%r%", rt)}));
+						cbmlanguageKeys.put(et.toString()+"."+e.toString()+"."+r.toString()+".Explanation",
+								new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+										"&eConditionEntry für",
+										"&edas Plugin TechnologyTree.",
+										"&eConditionEntry for",
+										"&ethe plugin TechnologyTree."}));
+					} else
+					{
+						cbmlanguageKeys.put(et.toString()+"."+e.toString()+"."+r.toString()+".Displayname",
+								new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+										"&eBonusMalus für das Entity %ma%, des Events %e% des Belohnungstyp %r%."
+										.replace("%m%", ent).replace("%e%", ev).replace("%r%", rt),
+										"&eBonusMalus for the entity %ma%, of the event %e% of the reward type %r%."
+										.replace("%m%", ent).replace("%e%", ev).replace("%r%", rt)}));
+						cbmlanguageKeys.put(et.toString()+"."+e.toString()+"."+r.toString()+".Explanation",
+								new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+										"&eBonusMalus für",
+										"&edas Plugin TechnologyTree.",
+										"&eBonusMalus for",
+										"&ethe plugin TechnologyTree."}));
+					}
+				}
+			}
+		}
 	}
 	
 	public void initItemGenerator() //INFO:ItemGenerator
@@ -477,5 +662,534 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 						""}));
 		technologyKeys.put(onekey, one);
+	}
+	
+	public void initRecipe()
+	{
+		//int m = 0;
+		for(Iterator<Recipe> iterator = Bukkit.recipeIterator(); iterator.hasNext();) 
+		{
+		    Recipe r = iterator.next();
+		    if(r instanceof BlastingRecipe)
+		    {
+		    	BlastingRecipe a = (BlastingRecipe) r;
+		    	String onekey = a.getKey().getKey();
+		    	LinkedHashMap<String, Language> one = new LinkedHashMap<>();
+		    	one.put("Category",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getCategory().toString()}));
+		    	one.put("CookingTime",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getCookingTime()}));
+		    	one.put("Experience",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getExperience()}));
+		    	one.put("Group",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getGroup()}));
+		    	one.put("Input.Material",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getInput().getType().toString()}));
+		    	String path = "Result.";
+		    	one.put(path+"Material",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getResult().getType().toString()}));
+		    	one.put(path+"Amount",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getResult().getAmount()}));
+		    	if(a.getResult().hasItemMeta())
+		    	{
+		    		ItemMeta im = a.getResult().getItemMeta();
+		    		if(im.hasCustomModelData())
+		    		{
+		    			one.put(path+"CustomModelData",
+								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+										im.getCustomModelData()}));
+		    		}
+			    	if(im.hasDisplayName())
+			    	{
+			    		one.put(path+"Displayname",
+								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+										im.getDisplayName()}));
+			    	}
+		    	}
+				blastingRecipeKeys.put(onekey, one);
+		    } else if(r instanceof CampfireRecipe)
+		    {
+		    	CampfireRecipe a = (CampfireRecipe) r;
+		    	String onekey = a.getKey().getKey();
+		    	LinkedHashMap<String, Language> one = new LinkedHashMap<>();
+		    	one.put("Category",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getCategory().toString()}));
+		    	one.put("CookingTime",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getCookingTime()}));
+		    	one.put("Experience",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getExperience()}));
+		    	one.put("Group",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getGroup()}));
+		    	one.put("Input.Material",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getInput().getType().toString()}));
+		    	String path = "Result.";
+		    	one.put(path+"Material",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getResult().getType().toString()}));
+		    	one.put(path+"Amount",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getResult().getAmount()}));
+		    	if(a.getResult().hasItemMeta())
+		    	{
+		    		ItemMeta im = a.getResult().getItemMeta();
+		    		if(im.hasCustomModelData())
+		    		{
+		    			one.put(path+"CustomModelData",
+								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+										im.getCustomModelData()}));
+		    		}
+			    	if(im.hasDisplayName())
+			    	{
+			    		one.put(path+"Displayname",
+								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+										im.getDisplayName()}));
+			    	}
+		    	}
+				campfireRecipeKeys.put(onekey, one);
+		    } else if(r instanceof FurnaceRecipe)
+		    {
+		    	FurnaceRecipe a = (FurnaceRecipe) r;
+		    	String onekey = a.getKey().getKey();
+		    	LinkedHashMap<String, Language> one = new LinkedHashMap<>();
+		    	one.put("Category",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getCategory().toString()}));
+		    	one.put("CookingTime",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getCookingTime()}));
+		    	one.put("Experience",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getExperience()}));
+		    	one.put("Group",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getGroup()}));
+		    	one.put("Input.Material",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getInput().getType().toString()}));
+		    	String path = "Result.";
+		    	one.put(path+"Material",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getResult().getType().toString()}));
+		    	one.put(path+"Amount",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getResult().getAmount()}));
+		    	if(a.getResult().hasItemMeta())
+		    	{
+		    		ItemMeta im = a.getResult().getItemMeta();
+		    		if(im.hasCustomModelData())
+		    		{
+		    			one.put(path+"CustomModelData",
+								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+										im.getCustomModelData()}));
+		    		}
+			    	if(im.hasDisplayName())
+			    	{
+			    		one.put(path+"Displayname",
+								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+										im.getDisplayName()}));
+			    	}
+		    	}
+				furnaceRecipeKeys.put(onekey, one);
+		    } else if(r instanceof MerchantRecipe) //https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/inventory/MerchantRecipe.html
+		    {
+		    	/*MerchantRecipe a = (MerchantRecipe) r;
+		    	String onekey = "m"+m;
+		    	LinkedHashMap<String, Language> one = new LinkedHashMap<>();
+		    	one.put("MaxUses",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getMaxUses()}));
+		    	one.put("ExperienceReward",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.hasExperienceReward()}));
+		    	one.put("VillagerExperience",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getVillagerExperience()}));
+		    	one.put("PriceMultiplier",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getPriceMultiplier()}));
+		    	one.put("Demand",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getDemand()}));
+		    	one.put("SpecialPrice",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getSpecialPrice()}));
+		    	String path = "Ingredient.";
+		    	int i = 1;
+		    	for(ItemStack ing : a.getIngredients())
+		    	{
+		    		one.put(path+i+".Material",
+							new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+									ing.getType().toString()}));
+			    	one.put(path+i+".Amount",
+							new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+									ing.getAmount()}));
+			    	if(ing.hasItemMeta())
+			    	{
+			    		ItemMeta im = ing.getItemMeta();
+			    		if(im.hasCustomModelData())
+			    		{
+			    			one.put(path+i+".CustomModelData",
+									new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+											im.getCustomModelData()}));
+			    		}
+				    	if(im.hasDisplayName())
+				    	{
+				    		one.put(path+i+".Displayname",
+									new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+											im.getDisplayName()}));
+				    	}
+			    	}
+			    	i++;
+		    	}
+		    	path = "Result.";
+		    	one.put(path+"Material",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getResult().getType().toString()}));
+		    	one.put(path+"Amount",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getResult().getAmount()}));
+		    	if(a.getResult().hasItemMeta())
+		    	{
+		    		ItemMeta im = a.getResult().getItemMeta();
+		    		if(im.hasCustomModelData())
+		    		{
+		    			one.put(path+"CustomModelData",
+								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+										im.getCustomModelData()}));
+		    		}
+			    	if(im.hasDisplayName())
+			    	{
+			    		one.put(path+"Displayname",
+								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+										im.getDisplayName()}));
+			    	}
+		    	}
+		    	merchantRecipeKeys.put(onekey, one);
+		    	m++;*/
+		    } else if(r instanceof ShapedRecipe)
+		    {
+		    	ShapedRecipe a = (ShapedRecipe) r;
+		    	String onekey = a.getKey().getKey();
+		    	LinkedHashMap<String, Language> one = new LinkedHashMap<>();
+		    	one.put("Category",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getCategory().toString()}));
+		    	one.put("Group",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getGroup()}));
+		    	one.put("Shape.Line1",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getShape()[0]}));
+		    	one.put("Shape.Line2",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getShape()[1]}));
+		    	one.put("Shape.Line3",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getShape()[2]}));
+		    	StringBuilder sb = new StringBuilder();
+		    	for(Entry<Character, RecipeChoice> entry : a.getChoiceMap().entrySet())
+		    	{
+		    		sb.append(String.valueOf(entry.getKey()));
+		    		String c = String.valueOf(entry.getKey());
+		    		String path = "Ingredient."+c+".";
+		    		ItemStack is = null;
+		    		if(entry.getValue() instanceof RecipeChoice.ExactChoice)
+		    		{
+		    			RecipeChoice.ExactChoice rcec = (ExactChoice) entry.getValue();
+		    			is = rcec.getItemStack();
+		    		} else
+		    		{
+		    			RecipeChoice.MaterialChoice rcec = (MaterialChoice) entry.getValue();
+		    			is = rcec.getItemStack();
+		    		}
+			    	one.put(path+"Material",
+							new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+									is.getType().toString()}));
+			    	one.put(path+"Amount",
+							new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+									is.getAmount()}));
+			    	if(a.getResult().hasItemMeta())
+			    	{
+			    		ItemMeta im = is.getItemMeta();
+			    		if(im.hasCustomModelData())
+			    		{
+			    			one.put(path+"CustomModelData",
+									new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+											im.getCustomModelData()}));
+			    		}
+				    	if(im.hasDisplayName())
+				    	{
+				    		one.put(path+"Displayname",
+									new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+											im.getDisplayName()}));
+				    	}
+			    	}
+		    	}
+		    	one.put("Ingredient.CharacterList",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								sb.toString()}));
+		    	String path = "Result.";
+	    		ItemStack is = a.getResult();
+		    	one.put(path+"Material",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								is.getType().toString()}));
+		    	one.put(path+"Amount",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								is.getAmount()}));
+		    	if(a.getResult().hasItemMeta())
+		    	{
+		    		ItemMeta im = is.getItemMeta();
+		    		if(im.hasCustomModelData())
+		    		{
+		    			one.put(path+"CustomModelData",
+								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+										im.getCustomModelData()}));
+		    		}
+			    	if(im.hasDisplayName())
+			    	{
+			    		one.put(path+"Displayname",
+								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+										im.getDisplayName()}));
+			    	}
+		    	}
+		    	shapedRecipeKeys.put(onekey, one);
+		    } else if(r instanceof ShapelessRecipe)
+		    {
+		    	ShapelessRecipe a = (ShapelessRecipe) r;
+		    	String onekey = a.getKey().getKey();
+		    	LinkedHashMap<String, Language> one = new LinkedHashMap<>();
+		    	one.put("Category",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getCategory().toString()}));
+		    	one.put("Group",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getGroup()}));
+		    	one.put("Ingredient.ListSize",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getIngredientList().size()}));
+		    	for(int i = 0; i < a.getIngredientList().size(); i++)
+		    	{
+		    		
+		    		String c = String.valueOf(i);
+		    		String path = "Ingredient."+c+".";
+		    		ItemStack is = a.getIngredientList().get(i);
+			    	one.put(path+"Material",
+							new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+									is.getType().toString()}));
+			    	one.put(path+"Amount",
+							new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+									is.getAmount()}));
+			    	if(a.getResult().hasItemMeta())
+			    	{
+			    		ItemMeta im = is.getItemMeta();
+			    		if(im.hasCustomModelData())
+			    		{
+			    			one.put(path+"CustomModelData",
+									new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+											im.getCustomModelData()}));
+			    		}
+				    	if(im.hasDisplayName())
+				    	{
+				    		one.put(path+"Displayname",
+									new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+											im.getDisplayName()}));
+				    	}
+			    	}
+		    	}
+		    	String path = "Result.";
+	    		ItemStack is = a.getResult();
+		    	one.put(path+"Material",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								is.getType().toString()}));
+		    	one.put(path+"Amount",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								is.getAmount()}));
+		    	if(a.getResult().hasItemMeta())
+		    	{
+		    		ItemMeta im = is.getItemMeta();
+		    		if(im.hasCustomModelData())
+		    		{
+		    			one.put(path+"CustomModelData",
+								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+										im.getCustomModelData()}));
+		    		}
+			    	if(im.hasDisplayName())
+			    	{
+			    		one.put(path+"Displayname",
+								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+										im.getDisplayName()}));
+			    	}
+		    	}
+		    	shapelessRecipeKeys.put(onekey, one);
+		    } else if(r instanceof SmithingRecipe)
+		    {
+		    	SmithingRecipe a = (SmithingRecipe) r;
+		    	String onekey = a.getKey().getKey();
+		    	LinkedHashMap<String, Language> one = new LinkedHashMap<>();
+		    	String path = "Base.";
+		    	RecipeChoice.MaterialChoice rcecb = (MaterialChoice) a.getBase(); //TODO Checken ob das Fehler verursacht
+		    	one.put(path+"Material",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								rcecb.getItemStack().getType().toString()}));
+		    	one.put(path+"Amount",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								rcecb.getItemStack().getAmount()}));
+		    	if(rcecb.getItemStack().hasItemMeta())
+		    	{
+		    		ItemMeta im = rcecb.getItemStack().getItemMeta();
+		    		if(im.hasCustomModelData())
+		    		{
+		    			one.put(path+"CustomModelData",
+								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+										im.getCustomModelData()}));
+		    		}
+			    	if(im.hasDisplayName())
+			    	{
+			    		one.put(path+"Displayname",
+								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+										im.getDisplayName()}));
+			    	}
+		    	}
+		    	path = "Addition.";
+		    	RecipeChoice.MaterialChoice rceca = (MaterialChoice) a.getAddition();
+		    	one.put(path+"Material",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								rceca.getItemStack().getType().toString()}));
+		    	one.put(path+"Amount",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								rceca.getItemStack().getAmount()}));
+		    	if(rceca.getItemStack().hasItemMeta())
+		    	{
+		    		ItemMeta im = rceca.getItemStack().getItemMeta();
+		    		if(im.hasCustomModelData())
+		    		{
+		    			one.put(path+"CustomModelData",
+								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+										im.getCustomModelData()}));
+		    		}
+			    	if(im.hasDisplayName())
+			    	{
+			    		one.put(path+"Displayname",
+								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+										im.getDisplayName()}));
+			    	}
+		    	}
+		    	path = "Result.";
+		    	one.put(path+"Material",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getResult().getType().toString()}));
+		    	one.put(path+"Amount",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getResult().getAmount()}));
+		    	if(a.getResult().hasItemMeta())
+		    	{
+		    		ItemMeta im = a.getResult().getItemMeta();
+		    		if(im.hasCustomModelData())
+		    		{
+		    			one.put(path+"CustomModelData",
+								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+										im.getCustomModelData()}));
+		    		}
+			    	if(im.hasDisplayName())
+			    	{
+			    		one.put(path+"Displayname",
+								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+										im.getDisplayName()}));
+			    	}
+		    	}
+				smithingRecipeKeys.put(onekey, one);
+		    } else if(r instanceof SmokingRecipe)
+		    {
+		    	SmokingRecipe a = (SmokingRecipe) r;
+		    	String onekey = a.getKey().getKey();
+		    	LinkedHashMap<String, Language> one = new LinkedHashMap<>();
+		    	one.put("Category",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getCategory().toString()}));
+		    	one.put("CookingTime",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getCookingTime()}));
+		    	one.put("Experience",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getExperience()}));
+		    	one.put("Group",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getGroup()}));
+		    	one.put("Input.Material",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getInput().getType().toString()}));
+		    	String path = "Result.";
+		    	one.put(path+"Material",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getResult().getType().toString()}));
+		    	one.put(path+"Amount",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getResult().getAmount()}));
+		    	if(a.getResult().hasItemMeta())
+		    	{
+		    		ItemMeta im = a.getResult().getItemMeta();
+		    		if(im.hasCustomModelData())
+		    		{
+		    			one.put(path+"CustomModelData",
+								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+										im.getCustomModelData()}));
+		    		}
+			    	if(im.hasDisplayName())
+			    	{
+			    		one.put(path+"Displayname",
+								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+										im.getDisplayName()}));
+			    	}
+		    	}
+				smokingRecipeKeys.put(onekey, one);
+		    } else if(r instanceof StonecuttingRecipe)
+		    {
+		    	StonecuttingRecipe a = (StonecuttingRecipe) r;
+		    	String onekey = a.getKey().getKey();
+		    	LinkedHashMap<String, Language> one = new LinkedHashMap<>();
+		    	one.put("Group",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getGroup()}));
+		    	one.put("Input.Material",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getInput().getType().toString()}));
+		    	String path = "Result.";
+		    	one.put(path+"Material",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getResult().getType().toString()}));
+		    	one.put(path+"Amount",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getResult().getAmount()}));
+		    	if(a.getResult().hasItemMeta())
+		    	{
+		    		ItemMeta im = a.getResult().getItemMeta();
+		    		if(im.hasCustomModelData())
+		    		{
+		    			one.put(path+"CustomModelData",
+								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+										im.getCustomModelData()}));
+		    		}
+			    	if(im.hasDisplayName())
+			    	{
+			    		one.put(path+"Displayname",
+								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+										im.getDisplayName()}));
+			    	}
+		    	}
+				stonecuttingRecipeKeys.put(onekey, one);
+		    }
+		}
 	}
 }

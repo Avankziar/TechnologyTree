@@ -10,13 +10,15 @@ import java.util.logging.Level;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.objects.mysql.EntryQueryStatus;
 import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
+import main.java.me.avankziar.tt.spigot.objects.mysql.RegisteredBlock;
 
 public class MysqlHandler
 {
 	public enum Type
 	{
-		PLAYERDATA("basePlayerData", new PlayerData()),
-		ENTRYQUERYSTATUS("ttEntryQueryStatus", new EntryQueryStatus());
+		PLAYERDATA("ttPlayerData", new PlayerData()),
+		ENTRYQUERYSTATUS("ttEntryQueryStatus", new EntryQueryStatus()),
+		REGISTEREDBLOCK("ttRegisteredBlock", new RegisteredBlock());
 		
 		private Type(String value, Object object)
 		{
