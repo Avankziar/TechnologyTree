@@ -43,6 +43,8 @@ import main.java.me.avankziar.tt.spigot.database.YamlManager;
 import main.java.me.avankziar.tt.spigot.handler.CatTechHandler;
 import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
+import main.java.me.avankziar.tt.spigot.listener.recipe.PrepareItemListener;
+import main.java.me.avankziar.tt.spigot.listener.recipe.RegisterBlockListener;
 
 public class TT extends JavaPlugin
 {
@@ -332,7 +334,15 @@ public class TT extends JavaPlugin
 	public void setupListeners()
 	{
 		PluginManager pm = getServer().getPluginManager();
-		//pm.registerEvents(new BackListener(plugin), plugin);
+		
+		//Registering Blocks, f.e. furnace etc.
+		pm.registerEvents(new RegisterBlockListener(), plugin);
+		
+		//Recipe, to cancel if the recipe isnt unlocked
+		pm.registerEvents(new PrepareItemListener(), plugin);
+		
+		//Reward and so
+		pm.registerEvents(new PrepareItemListener(), plugin);
 	}
 	
 	public boolean reload()
@@ -449,7 +459,7 @@ public class TT extends JavaPlugin
 						BonusMalusType bmt = null;
 						switch(ept)
 						{
-						case BASE:
+						case REGISTER_BLOCK:
 							bmt = BonusMalusType.UP;
 							break;
 						}

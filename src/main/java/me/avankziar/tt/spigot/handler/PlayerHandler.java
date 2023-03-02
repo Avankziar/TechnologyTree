@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
@@ -24,6 +25,9 @@ import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.assistance.MatchApi;
 import main.java.me.avankziar.tt.spigot.assistance.TimeHandler;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
+import main.java.me.avankziar.tt.spigot.conditionbonusmalus.Bypass;
+import main.java.me.avankziar.tt.spigot.conditionbonusmalus.ConditionBonusMalus;
+import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler.BlockType;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
@@ -75,17 +79,14 @@ public class PlayerHandler
 		if(!hasAccount(player))
 		{
 			createAccount(player);
-			if(plugin.getYamlHandler().getConfig().get("Do.NewPlayer.AutoResearchTechnology") != null)
+			for(String s : new ConfigHandler().getAutoResearchedTechnologies())
 			{
-				for(String s : plugin.getYamlHandler().getConfig().getStringList("Do.NewPlayer.AutoResearchTechnology"))
+				Technology t = CatTechHandler.technologyMapSolo.get(s);
+				if(t == null)
 				{
-					Technology t = CatTechHandler.technologyMapSolo.get(s);
-					if(t == null)
-					{
-						continue;
-					}
-					researchTechnology(player, t, false);
+					continue;
 				}
+				researchTechnology(player, t, false);
 			}
 		}
 		PlayerData pd = getPlayer(player);
@@ -130,24 +131,9 @@ public class PlayerHandler
 		}		
 		registeredBlocks.remove(uuid);
 		for(RegisteredBlock rg : RegisteredBlock.convert(plugin.getMysqlHandler().getFullList(Type.REGISTEREDBLOCK, "`id` ASC",
-				"`player_uuid` = ?", uuid.toString())))
+				"`player_uuid` = ? AND `server` = ?", uuid.toString(), plugin.getServername())))
 		{
-			LinkedHashMap<BlockType, ArrayList<String>> mapI = new LinkedHashMap<>();
-			if(registeredBlocks.containsKey(uuid))
-			{
-				mapI = registeredBlocks.get(uuid);
-			}
-			ArrayList<String> list = new ArrayList<>();
-			if(mapI.containsKey(rg.getBlockType()))
-			{
-				list = mapI.get(rg.getBlockType());
-			}
-			if(!list.contains(BlockHandler.getLocationText(rg.getLocation())))
-			{
-				list.add(BlockHandler.getLocationText(rg.getLocation()));
-			}
-			mapI.put(rg.getBlockType(), list);
-			registeredBlocks.put(uuid, mapI);
+			BlockHandler.registerBlock(player, rg.getBlockType(), rg.getLocation(), false);
 		}
 		if(pd.isShowSyncMessage())
 		{

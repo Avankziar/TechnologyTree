@@ -10,7 +10,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.BlastingRecipe;
 import org.bukkit.inventory.CampfireRecipe;
 import org.bukkit.inventory.FurnaceRecipe;
@@ -28,6 +27,7 @@ import org.bukkit.inventory.recipe.CraftingBookCategory;
 
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
+import main.java.me.avankziar.tt.spigot.handler.BlockHandler.BlockType;
 import main.java.me.avankziar.tt.spigot.ifh.ItemGenerator;
 
 public class RecipeHandler
@@ -335,13 +335,12 @@ public class RecipeHandler
 		}
 	}
 	
-	public static boolean hasAccessToRecipe(Player player, Recipe r)
+	public static boolean hasAccessToRecipe(UUID uuid, Recipe r)
 	{
 		if(haveAllRecipeUnlocked)
 		{
 			return true;
 		}
-		UUID uuid = player.getUniqueId();
 		if(r instanceof BlastingRecipe)
 	    {
 	    	BlastingRecipe a = (BlastingRecipe) r;
@@ -391,5 +390,24 @@ public class RecipeHandler
 			return true;
 		}
 		return false;
+	}
+	
+	public static boolean hasAccessToRecipe(UUID uuid, BlockType bt, String key)
+	{
+		RecipeType rt = null;
+		switch(bt)
+		{
+		case BLASTFURNACE:
+			rt = RecipeType.BLASTING; break;
+		case CAMPFIRE:
+			rt = RecipeType.CAMPFIRE; break;
+		case FURNACE:
+			rt = RecipeType.FURNACE; break;
+		case SMOKER:
+			rt = RecipeType.SMOKING; break;
+		case UNKNOW:
+			return false;
+		}
+		return hasAccessToRecipe(uuid, rt, key);
 	}
 }

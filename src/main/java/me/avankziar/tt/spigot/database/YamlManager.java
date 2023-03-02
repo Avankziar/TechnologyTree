@@ -283,6 +283,9 @@ public class YamlManager
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				"dummyOne",
 				"dummytwo"}));
+		configSpigotKeys.put("Do.Block.OverrideAlreadyRegisteredBlocks"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				false}));
 		configSpigotKeys.put("Do.Drops.UsePluginDropsCalculation"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				true}));
@@ -297,6 +300,12 @@ public class YamlManager
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				true}));
 		configSpigotKeys.put("Do.Recipe.HaveAllRecipeUnlocked"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				false}));
+		configSpigotKeys.put("Do.Reward.Smelting.StartSmeltIfPlayerIsNotOnline"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				true}));
+		configSpigotKeys.put("Do.Reward.Smelting.FinishSmeltIfPlayerHasNotTheRecipeUnlocked"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				false}));
 	}
@@ -469,6 +478,7 @@ public class YamlManager
 						"&c✖",
 						"&c✖"}));
 		initPlayerHandlerLang();
+		initBlockHandlerLang();
 	}
 	
 	public void initPlayerHandlerLang() //INFO:PlayerHandlerLang
@@ -482,6 +492,27 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&7[&eTT&7] &bSync ist komplett!",
 						"&7[&eTT&7] &bSync is complete!"}));
+	}
+	
+	public void initBlockHandlerLang() //INFO:BlockHandlerLang
+	{
+		String path = "BlockHandler.";
+		languageKeys.put(path+"Event.ThirdPartyRegistered", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDieser Block ist schon registeriert!",
+						"&cThis block is already registered!"}));
+		languageKeys.put(path+"Event.OverrideRegisterBlock", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDieser Block wurde auf dich überschrieben!",
+						"&eThis block has been overwritten to you!"}));
+		languageKeys.put(path+"Event.NewRegisterBlock", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDieser Block wurde nun auf dich registriert!",
+						"&eThis block has now been registered to you!"}));
+		languageKeys.put(path+"Event.DeregisterBlock", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDer abgebaute Block war auf einem Spieler registriert! Die Registrierung wurde nun entfernt.",
+						"&cThe removed block was registered to a player! The registration has now been removed."}));
 	}
 	
 	public void initConditionBonusMalusLanguage() //INFO:BonusMalusLanguages
@@ -514,16 +545,22 @@ public class YamlManager
 						"&ethe plugin TechnologyTree.",
 						"&eAllows you to see all",
 						"&ethe sub categories."}));
-		cbmlanguageKeys.put(Bypass.Counter.BASE.toString()+".Displayname",
+		cbmlanguageKeys.put(Bypass.Counter.REGISTER_BLOCK.toString()+".Displayname",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eZählpermission für die Registrierung von Blöcken.",
+						"&eCounting mission for the registration of blocks."}));
+		cbmlanguageKeys.put(Bypass.Counter.REGISTER_BLOCK.toString()+".Explanation",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&eZählpermission für",
-						"&eCountpermission for"}));
-		cbmlanguageKeys.put(Bypass.Counter.BASE.toString()+".Explanation",
-				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&eZählpermission für",
-						"&edas Plugin BaseTemplate",
+						"&edas Plugin TechnologyTree.",
+						"&eHandhabt die Anzahl an Blöcken",
+						"&ewelche der Spieler registeriern darf.",
+						"&e(Für Furnace/Blastfurnace/Smoker/Campfire)",
 						"&eCountpermission for",
-						"&ethe plugin BaseTemplate"}));
+						"&ethe plugin TechnologyTree.",
+						"&eHandles the number of blocks",
+						"&ethe player may register.",
+						"&e(For Furnace/Blastfurnace/Smoker/Campfire)"}));
 		List<RewardType> rewardTypeList = new ArrayList<RewardType>(EnumSet.allOf(RewardType.class));
 		List<EventType> eventTypeList = new ArrayList<EventType>(EnumSet.allOf(EventType.class));
 		List<Material> materialList = new ArrayList<Material>(EnumSet.allOf(Material.class));
