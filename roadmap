@@ -244,7 +244,7 @@ RequirementToResearch:
 Rewards:
   UnlockableInteractions:
   - block_place:DIRT:null:CanAccess:TTExp:Money:VanillaExp:CustomCommand #Für jeden Wert, Kann interagieren, TTExp, Money & VanillaExp wird mit dem Event und dem Material dann ein BonusMalus erzeugt.
-  - block_break:DIRT:null:canAccess=true:ttexp=0.5:vault=1.0:vaexp=20:cmd=<cmd>=1.0 #TTExp = 0.5, Money Vault = 1.0, VanillaExp = 20, customcmd = 1.0 (Mit %value% und %player% replacer als consolecommand
+  - block_break:DIRT:null:canAccess=true:ttexp=0.5:vault=1.0:vaexp=20:cmd=spigot:give %value %DIAMOND %player%=1.0 #TTExp = 0.5, Money Vault = 1.0, VanillaExp = 20, customcmd = 1.0 (Mit %value% und %player% replacer als consolecommand
   UnlockableRecipe:
   - BLASTING:<Filename> //RecipeType, und der Filename des Rezeptes
   DropChance: #Für jede DropAnzahl wird mit Event und Material

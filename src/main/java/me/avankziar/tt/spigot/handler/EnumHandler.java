@@ -1,5 +1,7 @@
 package main.java.me.avankziar.tt.spigot.handler;
 
+import java.util.ArrayList;
+
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 
@@ -8,6 +10,14 @@ import main.java.me.avankziar.tt.spigot.objects.RewardType;
 
 public class EnumHandler
 {
+	public static ArrayList<String> activeEvents = new ArrayList<>();
+	
+	public static void init()
+	{
+		activeEvents.clear();
+		activeEvents = (ArrayList<String>) new ConfigHandler().activeEvents();
+	}
+	
 	public static String getName(String e)
 	{
 		String[] s = e.split("_");
@@ -42,5 +52,10 @@ public class EnumHandler
 	public static String getName(RewardType e)
 	{
 		return getName(e.toString());
+	}
+	
+	public static boolean isEventActive(EventType eventType)
+	{
+		return activeEvents.contains(eventType.toString());
 	}
 }

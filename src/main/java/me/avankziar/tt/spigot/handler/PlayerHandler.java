@@ -3,37 +3,25 @@ package main.java.me.avankziar.tt.spigot.handler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffectType;
 
 import main.java.me.avankziar.ifh.general.assistance.ChatApi;
 import main.java.me.avankziar.ifh.general.bonusmalus.BonusMalusValueType;
 import main.java.me.avankziar.tt.spigot.TT;
-import main.java.me.avankziar.tt.spigot.assistance.MatchApi;
 import main.java.me.avankziar.tt.spigot.assistance.TimeHandler;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
-import main.java.me.avankziar.tt.spigot.conditionbonusmalus.Bypass;
-import main.java.me.avankziar.tt.spigot.conditionbonusmalus.ConditionBonusMalus;
-import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler.BlockType;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
 import main.java.me.avankziar.tt.spigot.ifh.ItemGenerator;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
-import main.java.me.avankziar.tt.spigot.objects.RewardType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.EntryQueryStatus;
 import main.java.me.avankziar.tt.spigot.objects.mysql.EntryQueryStatus.EntryQueryType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.EntryQueryStatus.StatusType;
@@ -89,7 +77,7 @@ public class PlayerHandler
 				researchTechnology(player, t, false);
 			}
 		}
-		PlayerData pd = getPlayer(player);
+		PlayerData pd = getPlayer(player.getUniqueId());
 		
 		for(EntryQueryStatus eqs : EntryQueryStatus.convert(plugin.getMysqlHandler().getFullList(Type.ENTRYQUERYSTATUS,
 				"`id` ASC", "`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
@@ -135,6 +123,7 @@ public class PlayerHandler
 		{
 			BlockHandler.registerBlock(player, rg.getBlockType(), rg.getLocation(), false);
 		}
+		RewardHandler.doRewardJoinTask(player, new ConfigHandler().rewardPayoutRepetitionRateForOnlinePlayer());
 		if(pd.isShowSyncMessage())
 		{
 			player.spigot().sendMessage(ChatApi.tctl("PlayerHandler.SyncEnd"));
@@ -153,13 +142,19 @@ public class PlayerHandler
 	public static void createAccount(Player player)
 	{
 		PlayerData pd = new PlayerData(0, player.getUniqueId(), player.getName(), 
-				plugin.getYamlHandler().getConfig().getBoolean("Do.NewPlayer.ShowSyncMessage", true));
+				plugin.getYamlHandler().getConfig().getBoolean("Do.NewPlayer.ShowSyncMessage", true),
+				0, 0, 0);
 		plugin.getMysqlHandler().create(Type.PLAYERDATA, pd);
 	}
 	
-	public static PlayerData getPlayer(Player player)
+	public static PlayerData getPlayer(UUID uuid)
 	{
-		return (PlayerData) plugin.getMysqlHandler().getData(Type.PLAYERDATA, "`player_uuid` = ?", player.getUniqueId().toString());
+		return (PlayerData) plugin.getMysqlHandler().getData(Type.PLAYERDATA, "`player_uuid` = ?", uuid.toString());
+	}
+	
+	public static void updatePlayer(PlayerData pd)
+	{
+		plugin.getMysqlHandler().updateData(Type.PLAYERDATA, pd, "`player_uuid` = ?", pd.getUUID().toString());
 	}
 	
 	public static void researchTechnology(Player player, Technology t, boolean doUpdate)
@@ -508,272 +503,6 @@ public class PlayerHandler
 			mapII.put(dc.getEventType(), mapIII);
 			mapI.put(dc.getEventEntity(), mapII);
 			entityTypeSilkTouchDropMap.put(uuid, mapI);
-		}
-	}
-	
-	public static boolean canAccessInteraction(Player player, EventType eventType, Material material, EntityType entityType) //Return true, if player cannot maniplulate a Block/Material
-	{
-		if(player == null || eventType == null)
-		{
-			return false;
-		}
-		UUID uuid = player.getUniqueId();
-		if(material != null)
-		{
-			if(materialInteractionMap.containsKey(uuid)
-					&& materialInteractionMap.get(uuid).containsKey(material)
-					&& materialInteractionMap.get(uuid).get(material).containsKey(eventType))
-			{
-				boolean b = materialInteractionMap.get(uuid).get(material).get(eventType).isCanAccess();
-				return b ? b : conditionResult(plugin.getCondition().getConditionEntry(uuid, 
-							CatTechHandler.getCondition(RewardType.ACCESS, eventType, material, entityType),
-							plugin.getServername(), player.getWorld().getName()));
-			}
-		} else if(entityType != null)
-		{
-			if(entityTypeInteractionMap.containsKey(uuid)
-					&& entityTypeInteractionMap.get(uuid).containsKey(entityType)
-					&& entityTypeInteractionMap.get(uuid).get(entityType).containsKey(eventType))
-			{
-				boolean b = entityTypeInteractionMap.get(uuid).get(entityType).get(eventType).isCanAccess();
-				return b ? b : conditionResult(plugin.getCondition().getConditionEntry(uuid, 
-						CatTechHandler.getCondition(RewardType.ACCESS, eventType, material, entityType),
-						plugin.getServername(), player.getWorld().getName()));
-			}
-		}
-		return false;
-	}
-	
-	private static boolean conditionResult(String[] condition)
-	{
-		int t = 0;
-		int f = 0;
-		for(String c : condition)
-		{
-			if(MatchApi.isBoolean(c))
-			{
-				if(MatchApi.getBoolean(c))
-				{
-					t++;
-				} else
-				{
-					f++;
-				}
-			}
-		}
-		return t > 0 && t > f;
-	}
-	
-	public static boolean canAccessRecipe(UUID uuid, RecipeType rt, String key)
-	{
-		if(recipeMap.containsKey(uuid)
-				&& recipeMap.get(uuid).containsKey(rt)
-				&& recipeMap.get(uuid).get(rt).contains(key))
-		{
-			return true;
-		}
-		return false;
-	}
-	
-	public static boolean UseTTDropMechanicCalculation(Player player)
-	{
-		if(player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR)
-		{
-			return false;
-		}
-		if(!plugin.getYamlHandler().getConfig().getBoolean("Do.Drops.UsePluginDropsCalculation", false))
-		{
-			return false;
-		}
-		if(plugin.getYamlHandler().getConfig().getStringList("Do.Drops.DoNotUsePluginDropsCalculationWorlds").contains(player.getWorld().getName()))
-		{
-			return false;
-		}
-		//TODO Do Config.WorldList And Worldguard
-		return true;
-	}
-	
-	public static ArrayList<ItemStack> getDrops(Player player, EventType eventType, Material material, EntityType entityType)
-	{
-		//https://minecraft.fandom.com/wiki/Fortune
-		boolean breakingThroughVanillaDropBarrier = plugin.getYamlHandler().getConfig().getBoolean("Do.Drops.BreakingThroughVanillaDropBarrier", true);
-		boolean silkTouch = (player.getInventory().getItemInMainHand() != null &&
-				player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.SILK_TOUCH) > 0);
-		//https://minecraft.fandom.com/wiki/Luck
-		int lucklevel = (player.getPotionEffect(PotionEffectType.LUCK) == null 
-						? -1 
-						: player.getPotionEffect(PotionEffectType.LUCK).getAmplifier()) + 1;
-		UUID uuid = player.getUniqueId();
-		ArrayList<ItemStack> list = new ArrayList<>();
-		if(material != null)
-		{
-			//https://minecraft.fandom.com/wiki/Fortune
-			int fortunelevel = 0;
-			if(player.getInventory().getItemInMainHand() != null &&
-					player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) > 0)
-			{
-				fortunelevel = player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
-			}
-			if(silkTouch)
-			{
-				if(materialSilkTouchDropMap.containsKey(uuid)
-						&& materialSilkTouchDropMap.get(uuid).containsKey(material)
-						&& materialSilkTouchDropMap.get(uuid).get(material).containsKey(eventType))
-				{
-					for(SimpleDropChance sdc : materialSilkTouchDropMap.get(uuid).get(material).get(eventType).values())
-					{
-						ItemStack is = getSingleDrops(player, sdc, fortunelevel, lucklevel, 
-								breakingThroughVanillaDropBarrier, eventType, material, entityType);
-						list.add(is);
-					}
-				}
-			} else
-			{
-				if(materialDropMap.containsKey(uuid)
-						&& materialDropMap.get(uuid).containsKey(material)
-						&& materialDropMap.get(uuid).get(material).containsKey(eventType))
-				{
-					for(SimpleDropChance sdc : materialDropMap.get(uuid).get(material).get(eventType).values())
-					{
-						ItemStack is = getSingleDrops(player, sdc, fortunelevel, lucklevel,
-								breakingThroughVanillaDropBarrier, eventType, material, entityType);
-						list.add(is);
-					}
-				}
-			}
-		} else if(entityType != null)
-		{
-			int lootlevel = 0;
-			if(eventType != EventType.PLAYER_FISH)
-			{
-				if(player.getInventory().getItemInMainHand() != null &&
-						player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS) > 0)
-				{
-					lootlevel = player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS);
-				}
-			} else
-			{
-				if(player.getInventory().getItemInMainHand() != null &&
-						player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LUCK) > 0)
-				{
-					lootlevel = player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LUCK);
-				}
-			}
-			if(silkTouch)
-			{
-				if(entityTypeSilkTouchDropMap.containsKey(uuid)
-						&& entityTypeSilkTouchDropMap.get(uuid).containsKey(entityType)
-						&& entityTypeSilkTouchDropMap.get(uuid).get(entityType).containsKey(eventType))
-				{
-					for(SimpleDropChance sdc : entityTypeSilkTouchDropMap.get(uuid).get(entityType).get(eventType).values())
-					{
-						ItemStack is = getSingleDrops(player, sdc, lootlevel, lucklevel,
-								breakingThroughVanillaDropBarrier, eventType, material, entityType);
-						list.add(is);
-					}
-				}
-			} else
-			{
-				if(entityTypeDropMap.containsKey(uuid)
-						&& entityTypeDropMap.get(uuid).containsKey(entityType)
-						&& entityTypeDropMap.get(uuid).get(entityType).containsKey(eventType))
-				{
-					for(SimpleDropChance sdc : entityTypeDropMap.get(uuid).get(entityType).get(eventType).values())
-					{
-						ItemStack is = getSingleDrops(player, sdc, lootlevel, lucklevel,
-								breakingThroughVanillaDropBarrier, eventType, material, entityType);
-						list.add(is);
-					}
-				}
-			}
-		}
-		return list;
-	}
-	
-	private static ItemStack getSingleDrops(Player player, SimpleDropChance sdc,
-			int fortunelootlevel, int potionlucklevel,
-			boolean breakingThroughVanillaDropBarrier,
-			EventType eventType, Material material, EntityType entityType)
-	{
-		int i = 0;
-		Map<Integer, Double> sortedMap = 
-	    	     sdc.getAmountToDropChance().entrySet().stream()
-	    	    .sorted(Entry.comparingByKey())
-	    	    .collect(Collectors.toMap(Entry::getKey, Entry::getValue,
-	    	                              (e1, e2) -> e1, LinkedHashMap::new));
-		
-		for(Entry<Integer, Double> e : sortedMap.entrySet())
-		{
-			double chance = e.getValue();
-			if(fortunelootlevel > 0 && potionlucklevel > 0)
-			{
-				chance = chance 
-						* (1.0/((double)fortunelootlevel+2.0)+((double)fortunelootlevel+1.0)/2.0)
-						* (1.0/((double)potionlucklevel+2.0) +((double)potionlucklevel*2)/2.0);
-			} else if(fortunelootlevel > 0)
-			{
-				chance = chance * (1.0/((double)fortunelootlevel+2.0)+((double)fortunelootlevel+1.0)/2.0);
-			} else if(potionlucklevel > 0)
-			{
-				chance = chance * (1.0/((double)potionlucklevel+2.0)+((double)potionlucklevel*2)/2.0);
-			}
-			if(chance >= 1.0)
-			{
-				i = e.getKey();
-			} else if(new Random().nextDouble() < chance)
-			{
-				i = e.getKey();
-			}
-		}
-		if(plugin.getBonusMalus() != null)
-		{
-			i = (int) plugin.getBonusMalus().getResult(player.getUniqueId(), (double) i,
-					CatTechHandler.getBonusMalus(RewardType.DROPS, eventType, material, entityType),
-					plugin.getServername(), player.getWorld().getName());
-		}
-		ItemStack is = sdc.getItem(player, i);
-		if(!breakingThroughVanillaDropBarrier)
-		{
-			is.setAmount(getVanillaDropBarrier(is.getType(), i));
-		}
-		return is;
-	}
-	
-	private static int getVanillaDropBarrier(Material material, int i)
-	{
-		switch(material)
-		{
-		default:
-			return i;
-		case PRISMARINE_CRYSTALS:
-			return 3;
-		case PRISMARINE_SHARD:
-		case GLOWSTONE_DUST:
-		case COAL:
-		case DIAMOND:
-		case EMERALD:
-		case RAW_IRON:
-		case RAW_GOLD:
-		case QUARTZ:
-			return 4;
-		case SWEET_BERRIES:
-		case BEETROOT_SEEDS:
-			return 6;
-		case NETHER_WART:
-		case WHEAT_SEEDS:
-			return 7;
-		case REDSTONE:
-			return 8;
-		case MELON_SLICE:
-			return 9;
-		case AMETHYST_SHARD:
-			return 16;
-		case RAW_COPPER:
-			return 20;
-		case GOLD_NUGGET:
-			return 24;
-		case LAPIS_LAZULI:
-			return 36;
 		}
 	}
 }

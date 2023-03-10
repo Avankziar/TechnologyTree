@@ -2,13 +2,18 @@ package main.java.me.avankziar.tt.spigot.conditionbonusmalus;
 
 import java.util.UUID;
 
+import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import main.java.me.avankziar.tt.spigot.assistance.MatchApi;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
+import main.java.me.avankziar.tt.spigot.handler.CatTechHandler;
 import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.ConfigHandler.CountType;
+import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.RewardType;
 
 public class ConditionBonusMalus
 {
@@ -173,6 +178,21 @@ public class ConditionBonusMalus
 					uuid,
 					possibleAmount,
 					countPermission.getBonusMalus());
+		}
+		return possibleAmount;
+	}
+	
+	public static double getResult(UUID uuid, double value, RewardType rt, EventType et, Material mat, EntityType ent,
+			String server, String world)
+	{
+		double possibleAmount = value;
+		if(BaseConstructor.getPlugin().getBonusMalus() != null)
+		{
+			return BaseConstructor.getPlugin().getBonusMalus().getResult(
+					uuid,
+					possibleAmount,
+					CatTechHandler.getBonusMalus(rt, et, mat, ent),
+					server, world);
 		}
 		return possibleAmount;
 	}

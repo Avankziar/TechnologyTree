@@ -26,6 +26,7 @@ import main.java.me.avankziar.ifh.general.bonusmalus.BonusMalusType;
 import main.java.me.avankziar.ifh.general.condition.Condition;
 import main.java.me.avankziar.ifh.general.condition.ConditionQueryParser;
 import main.java.me.avankziar.ifh.spigot.administration.Administration;
+import main.java.me.avankziar.ifh.spigot.economy.Economy;
 import main.java.me.avankziar.ifh.spigot.tobungee.commands.CommandToBungee;
 import main.java.me.avankziar.tt.spigot.assistance.BackgroundTask;
 import main.java.me.avankziar.tt.spigot.assistance.Utility;
@@ -43,8 +44,24 @@ import main.java.me.avankziar.tt.spigot.database.YamlManager;
 import main.java.me.avankziar.tt.spigot.handler.CatTechHandler;
 import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
-import main.java.me.avankziar.tt.spigot.listener.recipe.PrepareItemListener;
+import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
+import main.java.me.avankziar.tt.spigot.listener.recipe.PrepareAnvilListener;
+import main.java.me.avankziar.tt.spigot.listener.recipe.PrepareGrindstoneListener;
+import main.java.me.avankziar.tt.spigot.listener.recipe.PrepareItemCraftListener;
+import main.java.me.avankziar.tt.spigot.listener.recipe.PrepareSmithingListener;
 import main.java.me.avankziar.tt.spigot.listener.recipe.RegisterBlockListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.AnvilListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.BreakPlaceListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.BrewListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.EnchantListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.EntityBreedListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.EntityKillDeathListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.EntityTameListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.FertilizeListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.GrindstoneListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.SheepDyeWoolListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.SmeltListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.TNTListener;
 
 public class TT extends JavaPlugin
 {
@@ -72,6 +89,9 @@ public class TT extends JavaPlugin
 	private BonusMalus bonusMalusConsumer;
 	
 	private CommandToBungee commandToBungeeConsumer;
+	private Economy ecoConsumer;
+	
+	private net.milkbowl.vault.economy.Economy vEco;
 	
 	public void onEnable()
 	{
@@ -114,6 +134,7 @@ public class TT extends JavaPlugin
 		RecipeHandler.init();
 		CatTechHandler.reload();
 		setupIFHConsumer();
+		RewardHandler.doRewardOfflinePlayerTask();
 	}
 	
 	public void onDisable()
@@ -337,12 +358,26 @@ public class TT extends JavaPlugin
 		
 		//Registering Blocks, f.e. furnace etc.
 		pm.registerEvents(new RegisterBlockListener(), plugin);
-		
 		//Recipe, to cancel if the recipe isnt unlocked
-		pm.registerEvents(new PrepareItemListener(), plugin);
+		pm.registerEvents(new PrepareAnvilListener(), plugin);
+		pm.registerEvents(new PrepareGrindstoneListener(), plugin);
+		pm.registerEvents(new PrepareItemCraftListener(), plugin);
+		pm.registerEvents(new PrepareSmithingListener(), plugin);
+		
 		
 		//Reward and so
-		pm.registerEvents(new PrepareItemListener(), plugin);
+		pm.registerEvents(new AnvilListener(), plugin);
+		pm.registerEvents(new BreakPlaceListener(), plugin);
+		pm.registerEvents(new BrewListener(), plugin);
+		pm.registerEvents(new EnchantListener(), plugin);
+		pm.registerEvents(new EntityBreedListener(), plugin);
+		pm.registerEvents(new EntityKillDeathListener(), plugin);
+		pm.registerEvents(new EntityTameListener(), plugin);
+		pm.registerEvents(new FertilizeListener(), plugin);
+		pm.registerEvents(new GrindstoneListener(), plugin);
+		pm.registerEvents(new SheepDyeWoolListener(), plugin);
+		pm.registerEvents(new SmeltListener(), plugin);
+		pm.registerEvents(new TNTListener(), plugin);
 	}
 	
 	public boolean reload()
@@ -405,6 +440,7 @@ public class TT extends JavaPlugin
 		setupIFHCommandToBungee();
 		setupIFHCondition();
 		setupIFHConditionQueryParser();
+		setupIFHEconomy();
 	}
 	
 	private void setupIFHBonusMalus() 
@@ -653,5 +689,65 @@ public class TT extends JavaPlugin
 	public ConditionQueryParser getConditionQueryParser()
 	{
 		return conditionQueryParserConsumer;
+	}
+	
+	private void setupIFHEconomy()
+    {
+		if(!plugin.getServer().getPluginManager().isPluginEnabled("InterfaceHub")
+				&& !plugin.getServer().getPluginManager().isPluginEnabled("Vault")) 
+	    {
+			log.severe("Plugin InterfaceHub or Vault are missing!");
+			log.severe("Disable "+pluginName+"!");
+			Bukkit.getPluginManager().getPlugin(pluginName).getPluginLoader().disablePlugin(plugin);
+	    	return;
+	    }
+		if(plugin.getServer().getPluginManager().isPluginEnabled("InterfaceHub"))
+		{
+			RegisteredServiceProvider<main.java.me.avankziar.ifh.spigot.economy.Economy> rsp = 
+	                getServer().getServicesManager().getRegistration(Economy.class);
+			if (rsp == null) 
+			{
+				RegisteredServiceProvider<net.milkbowl.vault.economy.Economy> rsp2 = getServer()
+		        		.getServicesManager()
+		        		.getRegistration(net.milkbowl.vault.economy.Economy.class);
+		        if (rsp2 == null) 
+		        {
+		        	log.severe("A economy plugin which supported InterfaceHub or Vault is missing!");
+					log.severe("Disable "+pluginName+"!");
+					Bukkit.getPluginManager().getPlugin(pluginName).getPluginLoader().disablePlugin(plugin);
+		            return;
+		        }
+		        vEco = rsp2.getProvider();
+		        log.info(pluginName + " detected Vault >>> Economy.class is consumed!");
+				return;
+			}
+			ecoConsumer = rsp.getProvider();
+			log.info(pluginName + " detected InterfaceHub >>> Economy.class is consumed!");
+		} else
+		{
+			RegisteredServiceProvider<net.milkbowl.vault.economy.Economy> rsp = getServer()
+	        		.getServicesManager()
+	        		.getRegistration(net.milkbowl.vault.economy.Economy.class);
+	        if (rsp == null) 
+	        {
+	        	log.severe("A economy plugin which supported Vault is missing!");
+				log.severe("Disable "+pluginName+"!");
+				Bukkit.getPluginManager().getPlugin(pluginName).getPluginLoader().disablePlugin(plugin);
+	            return;
+	        }
+	        vEco = rsp.getProvider();
+	        log.info(pluginName + " detected Vault >>> Economy.class is consumed!");
+		}
+        return;
+    }
+	
+	public Economy getIFHEco()
+	{
+		return this.ecoConsumer;
+	}
+	
+	public net.milkbowl.vault.economy.Economy getVaultEco()
+	{
+		return this.vEco;
 	}
 }

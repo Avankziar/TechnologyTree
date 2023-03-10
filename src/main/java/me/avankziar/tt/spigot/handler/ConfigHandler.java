@@ -60,6 +60,35 @@ public class ConfigHandler
 		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("Do.Block.OverrideAlreadyRegisteredBlocks", false);
 	}
 	
+	public long loseDropItemOwnershipAfterTime()
+	{
+		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getLong("Do.Item.LoseDropItemOwnershipAfterTimeInSeconds", 300);
+	}
+	
+	public List<String> activeEvents()
+	{
+		if(BaseConstructor.getPlugin().getYamlHandler().getConfig().get("Do.Reward.ActiveEvents") != null)
+		{
+			return BaseConstructor.getPlugin().getYamlHandler().getConfig().getStringList("Do.Reward.ActiveEvents");
+		}
+		return new ArrayList<>();
+	}
+	
+	public boolean ifBlockIsManuallyPlacedBefore_RewardItByBreaking()
+	{
+		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("Do.Reward.Placing.IfBlockIsManuallyPlacedBefore_RewardItByBreaking", false);
+	}
+	
+	public boolean finishBrewIfPlayerHasNotTheRecipeUnlocked()
+	{
+		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("Do.Reward.Brewing.FinishBrewIfPlayerHasNotTheRecipeUnlocked", false);
+	}
+	
+	public boolean useMetaDataToTrackPlayerPlacedBlocks()
+	{
+		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("Do.Reward.Placing.UseMetaDataToTrackPlayerPlacedBlocks", true);
+	}
+	
 	public boolean startSmeltIfPlayerIsNotOnline()
 	{
 		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("Do.Reward.Smelting.StartSmeltIfPlayerIsNotOnline", true);
@@ -68,5 +97,25 @@ public class ConfigHandler
 	public boolean finishSmeltIfPlayerHasNotTheRecipeUnlocked()
 	{
 		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("Do.Reward.Smelting.FinishSmeltIfPlayerHasNotTheRecipeUnlocked", false);
+	}
+	
+	public long rewardPayoutRepetitionRateForOnlinePlayer()
+	{
+		return 20L*BaseConstructor.getPlugin().getYamlHandler().getConfig().getLong("Do.Reward.Payout.RepetitionRateForOnlinePlayersInSeconds", 30);
+	}
+	
+	public boolean rewardPayoutForOfflinePlayerActive()
+	{
+		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("Do.Reward.Payout.ForOfflinePlayerActive", false);
+	}
+	
+	public long rewardPayoutRepetitionRateForOfflinePlayer()
+	{
+		return 20L*BaseConstructor.getPlugin().getYamlHandler().getConfig().getLong("Do.Reward.Payout.RepetitionRateForOfflinePlayersInSeconds", 60*30);
+	}
+	
+	public double rewardPayoutTaxInPercent()
+	{
+		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getLong("Do.Reward.Payout.TaxInPercent", 0);
 	}
 }

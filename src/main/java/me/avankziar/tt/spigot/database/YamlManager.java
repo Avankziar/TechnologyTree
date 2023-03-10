@@ -293,6 +293,9 @@ public class YamlManager
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				"hub",
 				"spawncity"}));
+		configSpigotKeys.put("Do.Item.LoseDropItemOwnershipAfterTimeInSeconds"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				300}));
 		configSpigotKeys.put("Do.Drops.BreakingThroughVanillaDropBarrier"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				true}));
@@ -302,6 +305,33 @@ public class YamlManager
 		configSpigotKeys.put("Do.Recipe.HaveAllRecipeUnlocked"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				false}));
+		List<EventType> eventTypeList = new ArrayList<EventType>(EnumSet.allOf(EventType.class));
+		ArrayList<String> eventTypeListII = new ArrayList<>();
+		for(EventType e : eventTypeList) {eventTypeListII.add(e.toString());}
+		configSpigotKeys.put("Do.Reward.ActiveEvents"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				eventTypeListII.toArray(new String[eventTypeListII.size()])}));
+		configSpigotKeys.put("Do.Reward.Payout.RepetitionRateForOnlinePlayersInSeconds"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				60}));
+		configSpigotKeys.put("Do.Reward.Payout.ForOfflinePlayerActive"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				true}));
+		configSpigotKeys.put("Do.Reward.Payout.RepetitionRateForOfflinePlayersInSeconds"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				60}));
+		configSpigotKeys.put("Do.Reward.Payout.TaxInPercent"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				1.0}));
+		configSpigotKeys.put("Do.Reward.Placing.IfBlockIsManuallyPlacedBefore_RewardItByBreaking"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				true}));
+		configSpigotKeys.put("Do.Reward.Brewing.FinishBrewIfPlayerHasNotTheRecipeUnlocked"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				false}));
+		configSpigotKeys.put("Do.Reward.Placing.UseMetaDataToTrackPlayerPlacedBlocks"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				true}));
 		configSpigotKeys.put("Do.Reward.Smelting.StartSmeltIfPlayerIsNotOnline"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				true}));
@@ -477,8 +507,14 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&c✖",
 						"&c✖"}));
+		initEnumHandlerLang();
 		initPlayerHandlerLang();
 		initBlockHandlerLang();
+	}
+	
+	public void initEnumHandlerLang() //INFO:EnumHandlerLang
+	{
+		String path = "EnumHandler.";
 	}
 	
 	public void initPlayerHandlerLang() //INFO:PlayerHandlerLang

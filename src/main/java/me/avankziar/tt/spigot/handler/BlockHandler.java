@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -21,7 +22,7 @@ public class BlockHandler
 {
 	public enum BlockType
 	{
-		UNKNOW, BLASTFURNACE, CAMPFIRE, FURNACE, SMOKER;
+		UNKNOW, BLASTFURNACE, CAMPFIRE, ENCHANTING_TABLE, FURNACE, SMOKER, BREWING_STAND;
 	}
 	
 	private static TT plugin = BaseConstructor.getPlugin();
@@ -29,6 +30,7 @@ public class BlockHandler
 	public static LinkedHashMap<UUID, String> atTheMomentAccessBlockMap = new LinkedHashMap<>(); //Blöcke die man gerade angeklickt hat., BlockType, Loc als String
 	
 	public static LinkedHashMap<String, String> recipeSmeltAtFurnace = new LinkedHashMap<>(); //Location als string und dann das Key des Recipe
+	public static LinkedHashMap<String, String> recipeBrewAtBrewingStand = new LinkedHashMap<>(); //Location als string und dann das Key des Recipe
 	
 	public static BlockType getBlockType(Material mat)
 	{
@@ -37,6 +39,13 @@ public class BlockHandler
 		{
 		default:
 			bt = BlockType.UNKNOW;
+			break;
+		case BREWING_STAND:
+			bt = BlockType.BREWING_STAND;
+			break;
+		case ENCHANTING_TABLE:
+			bt = BlockType.ENCHANTING_TABLE;
+			break;
 		case FURNACE:
 		case FURNACE_MINECART:
 			bt = BlockType.FURNACE;
@@ -61,6 +70,12 @@ public class BlockHandler
 				+":"+l.getBlockX()
 				+":"+l.getBlockY()
 				+":"+l.getBlockZ();
+	}
+	
+	public static Location getLocation(String l)
+	{
+		String[] s = l.split(":");
+		return new Location(Bukkit.getWorld(s[0]), Integer.parseInt(s[1]), Integer.parseInt(s[2]), Integer.parseInt(s[3]));
 	}
 	
 	public static boolean isAlreadyRegisteredBlock(BlockType bt, Location l)
@@ -207,5 +222,18 @@ public class BlockHandler
 		String loc = getLocationText(l);
 		String r = recipeSmeltAtFurnace.get(loc);
 		return r != null ? r.split(":") : null;
+	}
+	
+	public static void startBrew(Location l, Material ingredient)
+	{
+		String loc = getLocationText(l);
+		recipeBrewAtBrewingStand.put(loc, ingredient.toString());
+	}
+	
+	public static String getBrewRecipe(Location l)
+	{
+		String loc = getLocationText(l);
+		String r = recipeBrewAtBrewingStand.get(loc);
+		return r != null ? r : null;
 	}
 }

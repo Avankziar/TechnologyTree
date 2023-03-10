@@ -19,15 +19,24 @@ public class PlayerData implements MysqlHandable
 	private UUID uuid;
 	private String name;
 	private boolean showSyncMessage; //Nachricht, welche beim Login angezeigt wird, wenn die Tech etc. synchronisiert werden.
+	private double actualTTExp; //TTExp die man gerade hat.
+	private double totalReceivedTTExp; //TTExp die man insgesamt gehabt hat.
+	private int vanillaExpStillToBeObtained; //Wenn man nicht online ist und doch Vanilla Exp bekommt.
 	
 	public PlayerData(){}
 	
-	public PlayerData(int id, UUID uuid, String name, boolean showSyncMessage)
+	public PlayerData(int id, UUID uuid, String name, boolean showSyncMessage,
+			double actualTTExp, double totalReceivedTTExp,
+			int vanillaExpStillToBeObtained)
 			
 	{
 		setId(id);
 		setUUID(uuid);
 		setName(name);
+		setShowSyncMessage(showSyncMessage);
+		setActualTTExp(actualTTExp);
+		setTotalReceivedTTExp(totalReceivedTTExp);
+		setVanillaExpStillToBeObtained(vanillaExpStillToBeObtained);
 	}
 
 	public int getId()
@@ -68,6 +77,36 @@ public class PlayerData implements MysqlHandable
 	public void setShowSyncMessage(boolean showSyncMessage)
 	{
 		this.showSyncMessage = showSyncMessage;
+	}
+
+	public double getActualTTExp()
+	{
+		return actualTTExp;
+	}
+
+	public void setActualTTExp(double actualTTExp)
+	{
+		this.actualTTExp = actualTTExp;
+	}
+
+	public double getTotalReceivedTTExp()
+	{
+		return totalReceivedTTExp;
+	}
+
+	public void setTotalReceivedTTExp(double totalReceivedTTExp)
+	{
+		this.totalReceivedTTExp = totalReceivedTTExp;
+	}
+
+	public int getVanillaExpStillToBeObtained()
+	{
+		return vanillaExpStillToBeObtained;
+	}
+
+	public void setVanillaExpStillToBeObtained(int vanillaExpStillToBeObtained)
+	{
+		this.vanillaExpStillToBeObtained = vanillaExpStillToBeObtained;
 	}
 
 	@Override //FIXME

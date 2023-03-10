@@ -15,28 +15,25 @@ import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler.BlockType;
+import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
+import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 
 public class RegisterBlockListener implements Listener
 {
 	private TT plugin = BaseConstructor.getPlugin();
 	
+	//Here no active Event check. It muss be active always!
 	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onInteractBlockToCheckRegister(PlayerInteractEvent event)
 	{
-		if(event.getPlayer().getGameMode() == GameMode.CREATIVE
-				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR)
-		{
-			return;
-		}
 		if(event.useInteractedBlock() == Result.DENY
 				|| event.useItemInHand() == Result.DENY
-				|| event.isCancelled())
-		{
-			return;
-		}
-		if(event.getClickedBlock() == null)
+				|| event.isCancelled()
+				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
+				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
+				|| event.getClickedBlock() == null)
 		{
 			return;
 		}
@@ -44,6 +41,11 @@ public class RegisterBlockListener implements Listener
 		BlockType bt = BlockHandler.getBlockType(event.getClickedBlock().getType());
 		if(bt == BlockType.UNKNOW)
 		{
+			return;
+		}
+		if(!RewardHandler.canAccessInteraction(event.getPlayer(), EventType.ENCHANTING, event.getClickedBlock().getType(), null))
+		{
+			event.setCancelled(true);
 			return;
 		}
 		if(BlockHandler.isAlreadyRegisteredBlock(event.getPlayer().getUniqueId(), bt, loc))

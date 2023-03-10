@@ -1,6 +1,7 @@
 package main.java.me.avankziar.tt.spigot.handler;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
@@ -34,7 +35,8 @@ public class RecipeHandler
 {
 	public enum RecipeType
 	{
-		BLASTING, CAMPFIRE, FURNACE, SHAPED, SHAPELESS, SMITHING, SMOKING, STONECUTTING;
+		BLASTING, CAMPFIRE, FURNACE, SHAPED, SHAPELESS, SMITHING, SMOKING, STONECUTTING, //Real Recipe
+		ANVIL, BREWING, ENCHANTING, GRINDING; //Added Recipes
 	}
 	
 	private static TT plugin = BaseConstructor.getPlugin();
@@ -45,6 +47,155 @@ public class RecipeHandler
 	public static void init()
 	{
 		haveAllRecipeUnlocked = plugin.getYamlHandler().getConfig().getBoolean("Do.Recipe.HaveAllRecipeUnlocked");
+		for(Material m : new ArrayList<Material>(EnumSet.allOf(Material.class)))
+		{
+			switch(m)
+			{
+			default:
+				break;
+			case REDSTONE:
+			case GLOWSTONE_DUST:
+			case FERMENTED_SPIDER_EYE:
+			case MAGMA_CREAM:
+			case SUGAR:
+			case GLISTERING_MELON_SLICE:
+			case SPIDER_EYE:
+			case NETHER_WART:
+			case GHAST_TEAR:
+			case BLAZE_POWDER:
+			case RABBIT_FOOT:
+			case PUFFERFISH:
+			case GUNPOWDER:
+			case DRAGON_BREATH:
+			case GOLDEN_CARROT:
+			case PHANTOM_MEMBRANE:
+				ArrayList<String> listI = new ArrayList<>();
+				if(recipeMap.containsKey(RecipeType.BREWING))
+				{
+					listI = recipeMap.get(RecipeType.BREWING);
+				}
+				listI.add(m.toString());
+				recipeMap.put(RecipeType.BREWING, listI);
+				break;
+			case TURTLE_HELMET:
+				ArrayList<String> listII = new ArrayList<>();
+				if(recipeMap.containsKey(RecipeType.BREWING))
+				{
+					listII = recipeMap.get(RecipeType.BREWING);
+				}
+				listII.add(m.toString());
+				recipeMap.put(RecipeType.BREWING, listII);
+				ArrayList<String> listIII = new ArrayList<>();
+				if(recipeMap.containsKey(RecipeType.ENCHANTING))
+				{
+					listIII = recipeMap.get(RecipeType.ENCHANTING);
+				}
+				listIII.add(m.toString());
+				recipeMap.put(RecipeType.ENCHANTING, listIII);
+				ArrayList<String> listIV = new ArrayList<>();
+				if(recipeMap.containsKey(RecipeType.GRINDING))
+				{
+					listIV = recipeMap.get(RecipeType.GRINDING);
+				}
+				listIV.add(m.toString());
+				recipeMap.put(RecipeType.GRINDING, listIV);
+				break;
+			case BOOK:
+			case COMPASS:
+				ArrayList<String> listV = new ArrayList<>();
+				if(recipeMap.containsKey(RecipeType.ENCHANTING))
+				{
+					listV = recipeMap.get(RecipeType.ENCHANTING);
+				}
+				listV.add(m.toString());
+				recipeMap.put(RecipeType.ENCHANTING, listV);
+				ArrayList<String> listVI = new ArrayList<>();
+				if(recipeMap.containsKey(RecipeType.GRINDING))
+				{
+					listVI = recipeMap.get(RecipeType.GRINDING);
+				}
+				listVI.add(m.toString());
+				recipeMap.put(RecipeType.GRINDING, listVI);
+				break;
+			case WOODEN_AXE:
+			case WOODEN_HOE:
+			case WOODEN_PICKAXE:
+			case WOODEN_SHOVEL:
+			case WOODEN_SWORD:
+			case LEATHER_BOOTS:
+			case LEATHER_CHESTPLATE:
+			case LEATHER_HELMET:
+			case LEATHER_LEGGINGS:
+			case IRON_AXE:
+			case IRON_HOE:
+			case IRON_PICKAXE:
+			case IRON_SHOVEL:
+			case IRON_SWORD:
+			case IRON_BOOTS:
+			case IRON_CHESTPLATE:
+			case IRON_HELMET:
+			case IRON_LEGGINGS:
+			case GOLDEN_AXE:
+			case GOLDEN_HOE:
+			case GOLDEN_PICKAXE:
+			case GOLDEN_SHOVEL:
+			case GOLDEN_SWORD:
+			case GOLDEN_BOOTS:
+			case GOLDEN_CHESTPLATE:
+			case GOLDEN_HELMET:
+			case GOLDEN_LEGGINGS:
+			case DIAMOND_AXE:
+			case DIAMOND_HOE:
+			case DIAMOND_PICKAXE:
+			case DIAMOND_SHOVEL:
+			case DIAMOND_SWORD:
+			case DIAMOND_BOOTS:
+			case DIAMOND_CHESTPLATE:
+			case DIAMOND_HELMET:
+			case DIAMOND_LEGGINGS:
+			case NETHERITE_AXE:
+			case NETHERITE_HOE:
+			case NETHERITE_PICKAXE:
+			case NETHERITE_SHOVEL:
+			case NETHERITE_SWORD:
+			case NETHERITE_BOOTS:
+			case NETHERITE_CHESTPLATE:
+			case NETHERITE_HELMET:
+			case NETHERITE_LEGGINGS:
+			case BOW:
+			case FISHING_ROD:
+			case TRIDENT:
+			case CROSSBOW:
+			case SHEARS:
+			case SHIELD:
+			case ELYTRA:
+			case FLINT_AND_STEEL:
+			case CARROT_ON_A_STICK:
+			case WARPED_FUNGUS_ON_A_STICK:
+				ArrayList<String> listVII = new ArrayList<>();
+				if(recipeMap.containsKey(RecipeType.ENCHANTING))
+				{
+					listVII = recipeMap.get(RecipeType.ENCHANTING);
+				}
+				listVII.add(m.toString());
+				recipeMap.put(RecipeType.ENCHANTING, listVII);
+				ArrayList<String> listVIII = new ArrayList<>();
+				if(recipeMap.containsKey(RecipeType.ANVIL))
+				{
+					listVIII = recipeMap.get(RecipeType.ANVIL);
+				}
+				listVIII.add(m.toString());
+				recipeMap.put(RecipeType.ANVIL, listVIII);
+				ArrayList<String> listIX = new ArrayList<>();
+				if(recipeMap.containsKey(RecipeType.GRINDING))
+				{
+					listIX = recipeMap.get(RecipeType.GRINDING);
+				}
+				listIX.add(m.toString());
+				recipeMap.put(RecipeType.GRINDING, listIX);
+				break;
+			}
+		}
 		if(plugin.getYamlHandler().getConfig().getBoolean("Do.Recipe.LoadThePluginRecipe"))
 		{
 			Bukkit.clearRecipes();
@@ -405,6 +556,7 @@ public class RecipeHandler
 			rt = RecipeType.FURNACE; break;
 		case SMOKER:
 			rt = RecipeType.SMOKING; break;
+		default:
 		case UNKNOW:
 			return false;
 		}
