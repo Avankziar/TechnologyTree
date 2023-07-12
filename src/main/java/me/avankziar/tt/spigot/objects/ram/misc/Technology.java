@@ -37,8 +37,8 @@ public class Technology
 	private ArrayList<DropChance> rewardSilkTouchDropChances;
 	private ArrayList<String> rewardCommandList; //Angelegt wie spigot:player:/warp %player% oder bungee:console:/do do
 	private ArrayList<String> rewardItemList; //Angelegt wie sword_y:64, sword_y ist der Dateiname in dem ItemOrdner
-	private ArrayList<String> rewardBonusMalusList; //Angelegt wie bonusmalusname:ADDITION:5
-	private ArrayList<String> rewardConditionEntryList; //Angelegt wie conditionname:Wert
+	private ArrayList<String> rewardModifierList; //Angelegt wie bonusmalusname:ADDITION:5
+	private ArrayList<String> rewardValueEntryList; //Angelegt wie conditionname:Wert
 	
 	public Technology(String internName, String displayName,
 			TechnologyType technologyType, int maximalTechnologyLevelToResearch,
@@ -52,8 +52,8 @@ public class Technology
 			ArrayList<DropChance> rewardSilkTouchDropChances,
 			ArrayList<String> rewardCommandList,
 			ArrayList<String> rewardItemList,
-			ArrayList<String> rewardBonusMalusList,
-			ArrayList<String> rewardConditionEntryList)
+			ArrayList<String> rewardModifierList,
+			ArrayList<String> rewardValueEntryList)
 	{
 		setInternName(internName);
 		setDisplayName(displayName);
@@ -77,8 +77,8 @@ public class Technology
 		setRewardSilkTouchDropChances(rewardSilkTouchDropChances);
 		setRewardCommandList(rewardCommandList);
 		setRewardItemList(rewardItemList);
-		setRewardBonusMalusList(rewardBonusMalusList);
-		setRewardConditionEntryList(rewardConditionEntryList);
+		setRewardModifierList(rewardModifierList);
+		setRewardValueEntryList(rewardValueEntryList);
 	}
 
 	public String getInternName()
@@ -270,24 +270,23 @@ public class Technology
 		this.rewardItemList = rewardItemList;
 	}
 
-	public ArrayList<String> getRewardBonusMalusList()
+	public ArrayList<String> getRewardModifierList()
 	{
-		return rewardBonusMalusList;
+		return rewardModifierList;
 	}
 
-	public void setRewardBonusMalusList(ArrayList<String> rewardBonusMalusList)
+	public void setRewardModifierList(ArrayList<String> rewardModifierList)
 	{
-		this.rewardBonusMalusList = rewardBonusMalusList;
+		this.rewardModifierList = rewardModifierList;
 	}
 
-	public ArrayList<String> getRewardConditionEntryList()
+	public ArrayList<String> getRewardValueEntryList()
 	{
-		return rewardConditionEntryList;
+		return rewardValueEntryList;
 	}
 
-	public void setRewardConditionEntryList(ArrayList<String> rewardConditionEntryList)
+	public void setRewardValueEntryList(ArrayList<String> rewardValueEntryList)
 	{
-		this.rewardConditionEntryList = rewardConditionEntryList;
+		this.rewardValueEntryList = rewardValueEntryList;
 	}
-
 }

@@ -12,10 +12,11 @@ import org.bukkit.entity.Player;
 
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
-import main.java.me.avankziar.tt.spigot.conditionbonusmalus.Bypass;
-import main.java.me.avankziar.tt.spigot.conditionbonusmalus.ConditionBonusMalus;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
+import main.java.me.avankziar.tt.spigot.modifiervalueentry.Bypass;
+import main.java.me.avankziar.tt.spigot.modifiervalueentry.ModifierValueEntry;
+import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.RegisteredBlock;
 
 public class BlockHandler
@@ -59,6 +60,37 @@ public class BlockHandler
 		case CAMPFIRE:
 		case SOUL_CAMPFIRE:
 			bt = BlockType.CAMPFIRE;
+			break;
+		}
+		return bt;
+	}
+	
+	public static EventType getEventType(Material mat)
+	{
+		EventType bt = null;
+		switch(mat)
+		{
+		default:
+			break;
+		case BREWING_STAND:
+			bt = EventType.BREWING;
+			break;
+		case ENCHANTING_TABLE:
+			bt = EventType.ENCHANTING;
+			break;
+		case FURNACE:
+		case FURNACE_MINECART:
+			bt = EventType.MELTING;
+			break;
+		case BLAST_FURNACE:
+			bt = EventType.SMELTING;
+			break;
+		case SMOKER:
+			bt = EventType.SMOKING;
+			break;
+		case CAMPFIRE:
+		case SOUL_CAMPFIRE:
+			bt = EventType.COOKING;
 			break;
 		}
 		return bt;
@@ -114,7 +146,7 @@ public class BlockHandler
 	{
 		int already = plugin.getMysqlHandler().getCount(Type.REGISTEREDBLOCK,
 				"`player_uuid` = ? AND `block_type` = ?", player.getUniqueId().toString(), bt.toString());
-		int canPossible = ConditionBonusMalus.getResult(player, Bypass.Counter.REGISTER_BLOCK);
+		int canPossible = ModifierValueEntry.getResult(player, Bypass.Counter.REGISTER_BLOCK);
 		if(already >= canPossible)
 		{
 			return false;

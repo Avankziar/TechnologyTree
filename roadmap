@@ -261,9 +261,9 @@ Rewards:
   - bungee:console:/do do #Für Console oder als Spieler
   Item:
   - sword_y:64 #Item y wird aus dem ItemOrdner geholt und hier eingesetzt.
-  BonusMalus:
-  - bonusmalusname:ADDITION:5:<internreason>:<displayreason>:<dd-HH-mm> #Verteilt BonusMalus
-  - bonusmalusname:MULTIPLICATION:1.1
-  ConditionEntry:
-  - conditionname:<Wert>:<internreason>:<displayreason>:<dd-HH-mm> # Wert kann boolean, int/double oder text sein.
+  Modifier:
+  - modifiername:ADDITION:5:<internreason>:<displayreason>:<dd-HH-mm> #Verteilt Modifier
+  - modifiername:MULTIPLICATION:1.1
+  ValueEntry:
+  - valuename:<Wert>:<internreason>:<displayreason>:<dd-HH-mm> # Wert kann boolean, int/double oder text sein.
   

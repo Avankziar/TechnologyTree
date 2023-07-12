@@ -7,6 +7,8 @@ import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 
 public class ConfigHandler
 {	
+	public ConfigHandler(){}
+	
 	public enum CountType
 	{
 		HIGHEST, ADDUP;
@@ -26,19 +28,19 @@ public class ConfigHandler
 		return ct;
 	}
 	
-	public boolean isMechanicBonusMalusEnabled()
+	public boolean isMechanicModifierEnabled()
 	{
-		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("EnableMechanic.BonusMalus", false);
+		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("EnableMechanic.Modifier", false);
+	}
+	
+	public boolean isMechanicValueEntryEnabled()
+	{
+		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("EnableMechanic.ValueEntry", false);
 	}
 	
 	public boolean isMechanicCommandToBungeeEnabled()
 	{
 		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("EnableMechanic.CommandToBungee", false);
-	}
-	
-	public boolean isMechanicConditionEnabled()
-	{
-		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("EnableMechanic.Condition", false);
 	}
 	
 	public boolean isMechanicConditionQueryParserEnabled()

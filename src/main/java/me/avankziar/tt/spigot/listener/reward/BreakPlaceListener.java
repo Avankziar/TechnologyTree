@@ -21,6 +21,8 @@ public class BreakPlaceListener implements Listener
 	private static boolean USE_METADATA = new ConfigHandler().useMetaDataToTrackPlayerPlacedBlocks();
 	private static boolean REWARD_IF_MANUALLY_PLACED_BEFORE = new ConfigHandler().ifBlockIsManuallyPlacedBefore_RewardItByBreaking();
 	private static String IS_PLACED_MANUALLY = BaseConstructor.getPlugin().pluginName+":"+"IsPlacedManually";
+	final private static EventType BR = EventType.BREAKING;
+	final private static EventType PL = EventType.PLACING;
 	
 	@EventHandler
 	public void onBreak(BlockBreakEvent event)
@@ -28,16 +30,12 @@ public class BreakPlaceListener implements Listener
 		if(event.isCancelled()
 				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
 				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
-				|| !EnumHandler.isEventActive(EventType.BREAKING))
+				|| !EnumHandler.isEventActive(BR))
 		{
 			return;
 		}
 		event.setExpToDrop(0);
 		event.setDropItems(false);
-		if(!RewardHandler.canAccessInteraction(event.getPlayer(), EventType.BREAKING, event.getBlock().getType(), null))
-		{
-			return;
-		}
 		if(USE_METADATA && event.getBlock().hasMetadata(IS_PLACED_MANUALLY))
 		{
 			if(!REWARD_IF_MANUALLY_PLACED_BEFORE)
@@ -45,12 +43,12 @@ public class BreakPlaceListener implements Listener
 				return;
 			}
 		}
-		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), EventType.BREAKING, event.getBlock().getType(), null, true))
+		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), BR, event.getBlock().getType(), null, true))
 		{
 			Item it = event.getPlayer().getWorld().dropItem(event.getBlock().getLocation(), is);
 			ItemHandler.addItemToTask(it, event.getPlayer().getUniqueId());
 		}
-		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), EventType.BREAKING, event.getBlock().getType(), null, 1);
+		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), BR, event.getBlock().getType(), null, 1);
 	}
 	
 	@EventHandler
@@ -59,7 +57,7 @@ public class BreakPlaceListener implements Listener
 		if(event.isCancelled()
 				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
 				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
-				|| !EnumHandler.isEventActive(EventType.PLACING))
+				|| !EnumHandler.isEventActive(PL))
 		{
 			return;
 		}
@@ -67,12 +65,12 @@ public class BreakPlaceListener implements Listener
 		{
 			event.getBlock().setMetadata(IS_PLACED_MANUALLY, new FixedMetadataValue(BaseConstructor.getPlugin(), true));
 		}
-		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), EventType.PLACING, event.getBlock().getType(), null, false))
+		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), PL, event.getBlockPlaced().getType(), null, false))
 		{
 			Item it = event.getPlayer().getWorld().dropItem(event.getBlock().getLocation(), is);
 			ItemHandler.addItemToTask(it, event.getPlayer().getUniqueId());
 		}
-		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), EventType.PLACING, event.getBlock().getType(), null, 1);
+		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), PL, event.getBlockPlaced().getType(), null, 1);
 	}
 	
 	/*Do not needed. Do it in BlockBreakEvent

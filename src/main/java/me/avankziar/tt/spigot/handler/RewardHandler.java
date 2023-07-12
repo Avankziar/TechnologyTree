@@ -22,7 +22,6 @@ import main.java.me.avankziar.ifh.general.economy.account.AccountCategory;
 import main.java.me.avankziar.ifh.spigot.economy.account.Account;
 import main.java.me.avankziar.ifh.spigot.economy.currency.EconomyCurrency;
 import main.java.me.avankziar.tt.spigot.TT;
-import main.java.me.avankziar.tt.spigot.assistance.MatchApi;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
@@ -301,9 +300,9 @@ public class RewardHandler
 					&& PlayerHandler.materialInteractionMap.get(uuid).get(material).containsKey(eventType))
 			{
 				boolean b = PlayerHandler.materialInteractionMap.get(uuid).get(material).get(eventType).isCanAccess();
-				return b ? b : conditionResult(plugin.getCondition().getConditionEntry(uuid, 
-							CatTechHandler.getCondition(RewardType.ACCESS, eventType, material, entityType),
-							plugin.getServername(), player.getWorld().getName()));
+				return b ? b : plugin.getValueEntry().getBooleanValueEntry(uuid, 
+							CatTechHandler.getValueEntry(RewardType.ACCESS, eventType, material, entityType),
+							plugin.getServername(), player.getWorld().getName());
 			}
 		} else if(entityType != null)
 		{
@@ -312,32 +311,12 @@ public class RewardHandler
 					&& PlayerHandler.entityTypeInteractionMap.get(uuid).get(entityType).containsKey(eventType))
 			{
 				boolean b = PlayerHandler.entityTypeInteractionMap.get(uuid).get(entityType).get(eventType).isCanAccess();
-				return b ? b : conditionResult(plugin.getCondition().getConditionEntry(uuid, 
-						CatTechHandler.getCondition(RewardType.ACCESS, eventType, material, entityType),
-						plugin.getServername(), player.getWorld().getName()));
+				return b ? b : plugin.getValueEntry().getBooleanValueEntry(uuid, 
+						CatTechHandler.getValueEntry(RewardType.ACCESS, eventType, material, entityType),
+						plugin.getServername(), player.getWorld().getName());
 			}
 		}
 		return false;
-	}
-	
-	private static boolean conditionResult(String[] condition)
-	{
-		int t = 0;
-		int f = 0;
-		for(String c : condition)
-		{
-			if(MatchApi.isBoolean(c))
-			{
-				if(MatchApi.getBoolean(c))
-				{
-					t++;
-				} else
-				{
-					f++;
-				}
-			}
-		}
-		return t > 0 && t > f;
 	}
 	
 	public static boolean canAccessRecipe(UUID uuid, RecipeType rt, String key)
@@ -507,10 +486,10 @@ public class RewardHandler
 				i = e.getKey();
 			}
 		}
-		if(plugin.getBonusMalus() != null)
+		if(plugin.getModifier() != null)
 		{
-			i = (int) plugin.getBonusMalus().getResult(player.getUniqueId(), (double) i,
-					CatTechHandler.getBonusMalus(RewardType.DROPS, eventType, material, entityType),
+			i = (int) plugin.getModifier().getResult(player.getUniqueId(), (double) i,
+					CatTechHandler.getModifier(RewardType.DROPS, eventType, material, entityType),
 					plugin.getServername(), player.getWorld().getName());
 		}
 		ItemStack is = sdc.getItem(player, i);

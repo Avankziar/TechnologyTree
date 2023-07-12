@@ -3,7 +3,6 @@ package main.java.me.avankziar.tt.spigot.database;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -29,10 +28,11 @@ import org.bukkit.inventory.SmokingRecipe;
 import org.bukkit.inventory.StonecuttingRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import main.java.me.avankziar.tt.spigot.conditionbonusmalus.Bypass;
 import main.java.me.avankziar.tt.spigot.database.Language.ISO639_2B;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
+import main.java.me.avankziar.tt.spigot.modifiervalueentry.Bypass;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
 import main.java.me.avankziar.tt.spigot.objects.RewardType;
 
 public class YamlManager
@@ -45,7 +45,7 @@ public class YamlManager
 	private static LinkedHashMap<String, Language> configSpigotKeys = new LinkedHashMap<>();
 	private static LinkedHashMap<String, Language> commandsKeys = new LinkedHashMap<>();
 	private static LinkedHashMap<String, Language> languageKeys = new LinkedHashMap<>();
-	private static LinkedHashMap<String, Language> cbmlanguageKeys = new LinkedHashMap<>();
+	private static LinkedHashMap<String, Language> mvelanguageKeys = new LinkedHashMap<>();
 	
 	private static LinkedHashMap<String, LinkedHashMap<String, Language>> itemGeneratorKeys = new LinkedHashMap<>();
 	private static LinkedHashMap<String, LinkedHashMap<String, Language>> mainCategoryKeys = new LinkedHashMap<>();
@@ -67,7 +67,7 @@ public class YamlManager
 		initConfig();
 		initCommands();
 		initLanguage();
-		initConditionBonusMalusLanguage();
+		initModifierValueEntryLanguage();
 		initItemGenerator();
 		initMainCategory();
 		initSubCategory();
@@ -104,9 +104,9 @@ public class YamlManager
 		return languageKeys;
 	}
 	
-	public LinkedHashMap<String, Language> getConditionBonusMalusLanguageKey()
+	public LinkedHashMap<String, Language> getModifierValueEntryLanguageKey()
 	{
-		return cbmlanguageKeys;
+		return mvelanguageKeys;
 	}
 	
 	public LinkedHashMap<String, LinkedHashMap<String, Language>> getItemGeneratorKey()
@@ -256,13 +256,13 @@ public class YamlManager
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				"not_0123456789"}));
 		
-		configSpigotKeys.put("EnableMechanic.BonusMalus"
+		configSpigotKeys.put("EnableMechanic.Modifier"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				true}));
+		configSpigotKeys.put("EnableMechanic.ValueEntry"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				true}));
 		configSpigotKeys.put("EnableMechanic.CommandToBungee"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
-		configSpigotKeys.put("EnableMechanic.Condition"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				true}));
 		configSpigotKeys.put("EnableMechanic.ConditionQueryParser"
@@ -273,7 +273,7 @@ public class YamlManager
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				true}));
 		
-		configSpigotKeys.put("Condition.ConditionOverrulePermission"
+		configSpigotKeys.put("ValueEntry.OverrulePermission"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				false}));
 		configSpigotKeys.put("Do.NewPlayer.ShowSyncMessage"
@@ -388,7 +388,7 @@ public class YamlManager
 	}
 	
 	private void commandsInput(String path, String name, String basePermission, 
-			String suggestion, String commandString, boolean putUpCmdPermToBonusMalusSystem,
+			String suggestion, String commandString, boolean putUpCmdPermToValueEntrySystem,
 			String helpInfoGerman, String helpInfoEnglish,
 			String dnGerman, String dnEnglish,
 			String exGerman, String exEnglish)
@@ -402,9 +402,6 @@ public class YamlManager
 		commandsKeys.put(path+".Suggestion"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				suggestion}));
-		commandsKeys.put(path+".PutUpCommandPermToBonusMalusSystem"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				putUpCmdPermToBonusMalusSystem}));
 		commandsKeys.put(path+".CommandString"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				commandString}));
@@ -412,18 +409,21 @@ public class YamlManager
 				, new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 				helpInfoGerman,
 				helpInfoEnglish}));
-		commandsKeys.put(path+".Displayname"
+		commandsKeys.put(path+".ValueEntry.PutUpCommandPerm"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				putUpCmdPermToValueEntrySystem}));
+		commandsKeys.put(path+".ValueEntry.Displayname"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 				dnGerman,
 				dnEnglish}));
-		commandsKeys.put(path+".Explanation"
+		commandsKeys.put(path+".ValueEntry.Explanation"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 				exGerman,
 				exEnglish}));
 	}
 	
 	private void argumentInput(String path, String argument, String basePermission, 
-			String suggestion, String commandString, boolean putUpCmdPermToBonusMalusSystem,
+			String suggestion, String commandString, boolean putUpCmdPermToValueEntrySystem,
 			String helpInfoGerman, String helpInfoEnglish,
 			String dnGerman, String dnEnglish,
 			String exGerman, String exEnglish)
@@ -437,9 +437,6 @@ public class YamlManager
 		commandsKeys.put(path+".Suggestion"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				suggestion}));
-		commandsKeys.put(path+".PutUpCommandPermToBonusMalusSystem"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				putUpCmdPermToBonusMalusSystem}));
 		commandsKeys.put(path+".CommandString"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				commandString}));
@@ -447,11 +444,14 @@ public class YamlManager
 				, new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 				helpInfoGerman,
 				helpInfoEnglish}));
-		commandsKeys.put(path+".Displayname"
+		commandsKeys.put(path+".ValueEntry.PutUpCommandPerm"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				putUpCmdPermToValueEntrySystem}));
+		commandsKeys.put(path+".ValueEntry.Displayname"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 				dnGerman,
 				dnEnglish}));
-		commandsKeys.put(path+".Explanation"
+		commandsKeys.put(path+".ValueEntry.Explanation"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 				exGerman,
 				exEnglish}));
@@ -510,6 +510,7 @@ public class YamlManager
 		initEnumHandlerLang();
 		initPlayerHandlerLang();
 		initBlockHandlerLang();
+		initGuiHandlerLang();
 	}
 	
 	public void initEnumHandlerLang() //INFO:EnumHandlerLang
@@ -551,13 +552,22 @@ public class YamlManager
 						"&cThe removed block was registered to a player! The registration has now been removed."}));
 	}
 	
-	public void initConditionBonusMalusLanguage() //INFO:BonusMalusLanguages
+	public void initGuiHandlerLang() //INFO:GuiHandlerLang
 	{
-		cbmlanguageKeys.put(Bypass.Permission.SEE_MAIN_CATEGORYS.toString()+".Displayname",
+		String path = "GuiHandler.";
+		languageKeys.put(path+"Main.Title", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&bTT Hauptmenu",
+						"&bTT Main menu"}));
+	}
+	
+	public void initModifierValueEntryLanguage() //INFO:ModifierValueEntryLanguages
+	{
+		mvelanguageKeys.put(Bypass.Permission.SEE_MAIN_CATEGORYS.toString()+".Displayname",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&eByasspermission um alle Hauptkategorien zu sehen.",
 						"&eBypasspermission to see all maincategories."}));
-		cbmlanguageKeys.put(Bypass.Permission.SEE_MAIN_CATEGORYS.toString()+".Explanation",
+		mvelanguageKeys.put(Bypass.Permission.SEE_MAIN_CATEGORYS.toString()+".Explanation",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&eByasspermission für",
 						"&edas Plugin TechnologyTree.",
@@ -567,11 +577,11 @@ public class YamlManager
 						"&ethe plugin TechnologyTree.",
 						"&eAllows you to see all",
 						"&ethe main categories."}));
-		cbmlanguageKeys.put(Bypass.Permission.SEE_SUB_CATEGORYS.toString()+".Displayname",
+		mvelanguageKeys.put(Bypass.Permission.SEE_SUB_CATEGORYS.toString()+".Displayname",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&eByasspermission um alle Unterkategorien zu sehen.",
 						"&eBypasspermission to see all subcategories."}));
-		cbmlanguageKeys.put(Bypass.Permission.SEE_SUB_CATEGORYS.toString()+".Explanation",
+		mvelanguageKeys.put(Bypass.Permission.SEE_SUB_CATEGORYS.toString()+".Explanation",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&eByasspermission für",
 						"&edas Plugin TechnologyTree.",
@@ -581,11 +591,11 @@ public class YamlManager
 						"&ethe plugin TechnologyTree.",
 						"&eAllows you to see all",
 						"&ethe sub categories."}));
-		cbmlanguageKeys.put(Bypass.Counter.REGISTER_BLOCK.toString()+".Displayname",
+		mvelanguageKeys.put(Bypass.Counter.REGISTER_BLOCK.toString()+".Displayname",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&eZählpermission für die Registrierung von Blöcken.",
 						"&eCounting mission for the registration of blocks."}));
-		cbmlanguageKeys.put(Bypass.Counter.REGISTER_BLOCK.toString()+".Explanation",
+		mvelanguageKeys.put(Bypass.Counter.REGISTER_BLOCK.toString()+".Explanation",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&eZählpermission für",
 						"&edas Plugin TechnologyTree.",
@@ -601,8 +611,8 @@ public class YamlManager
 		List<EventType> eventTypeList = new ArrayList<EventType>(EnumSet.allOf(EventType.class));
 		List<Material> materialList = new ArrayList<Material>(EnumSet.allOf(Material.class));
 		List<EntityType> entityTypeList = new ArrayList<EntityType>(EnumSet.allOf(EntityType.class));
-		HashMap<EventType, String> eventTypeMap = new HashMap<>();
-		HashMap<RewardType, String> rewardTypeMap = new HashMap<>();
+		LinkedHashMap<EventType, String> eventTypeMap = new LinkedHashMap<>();
+		LinkedHashMap<RewardType, String> rewardTypeMap = new LinkedHashMap<>();
 		for(EventType e : eventTypeList)
 		{
 			String s = EnumHandler.getName(e);
@@ -624,31 +634,31 @@ public class YamlManager
 					String rt = rewardTypeMap.get(r);
 					if(r == RewardType.ACCESS)
 					{
-						cbmlanguageKeys.put(ma.toString()+"."+e.toString()+"."+r.toString()+".Displayname",
+						mvelanguageKeys.put(ma.toString()+"."+e.toString()+"."+r.toString()+".Displayname",
 								new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-										"&eConditionEntry für das Material %ma%, des Events %e% des Belohnungstyp %r%."
+										"&eValueEntry für das Material %ma%, des Events %e% des Belohnungstyp %r%."
 										.replace("%m%", mat).replace("%e%", ev).replace("%r%", rt),
-										"&eConditionEntry for the material %ma%, of the event %e% of the reward type %r%."
+										"&eValueEntry for the material %ma%, of the event %e% of the reward type %r%."
 										.replace("%m%", mat).replace("%e%", ev).replace("%r%", rt)}));
-						cbmlanguageKeys.put(ma.toString()+"."+e.toString()+"."+r.toString()+".Explanation",
+						mvelanguageKeys.put(ma.toString()+"."+e.toString()+"."+r.toString()+".Explanation",
 								new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-										"&eConditionEntry für",
+										"&eValueEntry für",
 										"&edas Plugin TechnologyTree.",
-										"&eConditionEntry for",
+										"&eValueEntry for",
 										"&ethe plugin TechnologyTree."}));
 					} else
 					{
-						cbmlanguageKeys.put(ma.toString()+"."+e.toString()+"."+r.toString()+".Displayname",
+						mvelanguageKeys.put(ma.toString()+"."+e.toString()+"."+r.toString()+".Displayname",
 								new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-										"&eBonusMalus für das Material %ma%, des Events %e% des Belohnungstyp %r%."
+										"&eModifier für das Material %ma%, des Events %e% des Belohnungstyp %r%."
 										.replace("%m%", mat).replace("%e%", ev).replace("%r%", rt),
-										"&eBonusMalus for the material %ma%, of the event %e% of the reward type %r%."
+										"&eModifier for the material %ma%, of the event %e% of the reward type %r%."
 										.replace("%m%", mat).replace("%e%", ev).replace("%r%", rt)}));
-						cbmlanguageKeys.put(ma.toString()+"."+e.toString()+"."+r.toString()+".Explanation",
+						mvelanguageKeys.put(ma.toString()+"."+e.toString()+"."+r.toString()+".Explanation",
 								new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-										"&eBonusMalus für",
+										"&eModifier für",
 										"&edas Plugin TechnologyTree.",
-										"&eBonusMalus for",
+										"&eModifier for",
 										"&ethe plugin TechnologyTree."}));
 					}
 				}
@@ -665,31 +675,31 @@ public class YamlManager
 					String rt = rewardTypeMap.get(r);
 					if(r == RewardType.ACCESS)
 					{
-						cbmlanguageKeys.put(et.toString()+"."+e.toString()+"."+r.toString()+".Displayname",
+						mvelanguageKeys.put(et.toString()+"."+e.toString()+"."+r.toString()+".Displayname",
 								new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-										"&eConditionEntry für das Entity %ma%, des Events %e% des Belohnungstyp %r%."
+										"&eValueEntry für das Entity %ma%, des Events %e% des Belohnungstyp %r%."
 										.replace("%m%", ent).replace("%e%", ev).replace("%r%", rt),
-										"&eConditionEntry for the entity %ma%, of the event %e% of the reward type %r%."
+										"&eValueEntry for the entity %ma%, of the event %e% of the reward type %r%."
 										.replace("%m%", ent).replace("%e%", ev).replace("%r%", rt)}));
-						cbmlanguageKeys.put(et.toString()+"."+e.toString()+"."+r.toString()+".Explanation",
+						mvelanguageKeys.put(et.toString()+"."+e.toString()+"."+r.toString()+".Explanation",
 								new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-										"&eConditionEntry für",
+										"&eValueEntry für",
 										"&edas Plugin TechnologyTree.",
-										"&eConditionEntry for",
+										"&eValueEntry for",
 										"&ethe plugin TechnologyTree."}));
 					} else
 					{
-						cbmlanguageKeys.put(et.toString()+"."+e.toString()+"."+r.toString()+".Displayname",
+						mvelanguageKeys.put(et.toString()+"."+e.toString()+"."+r.toString()+".Displayname",
 								new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-										"&eBonusMalus für das Entity %ma%, des Events %e% des Belohnungstyp %r%."
+										"&eModifier für das Entity %ma%, des Events %e% des Belohnungstyp %r%."
 										.replace("%m%", ent).replace("%e%", ev).replace("%r%", rt),
-										"&eBonusMalus for the entity %ma%, of the event %e% of the reward type %r%."
+										"&eModifier for the entity %ma%, of the event %e% of the reward type %r%."
 										.replace("%m%", ent).replace("%e%", ev).replace("%r%", rt)}));
-						cbmlanguageKeys.put(et.toString()+"."+e.toString()+"."+r.toString()+".Explanation",
+						mvelanguageKeys.put(et.toString()+"."+e.toString()+"."+r.toString()+".Explanation",
 								new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-										"&eBonusMalus für",
+										"&eModifier für",
 										"&edas Plugin TechnologyTree.",
-										"&eBonusMalus for",
+										"&eModifier for",
 										"&ethe plugin TechnologyTree."}));
 					}
 				}
@@ -709,12 +719,67 @@ public class YamlManager
 	
 	public void initMainCategory() //INFO:MainCategory
 	{
-		String onekey = "";
+		String keyI = "mining";
 		LinkedHashMap<String, Language> one = new LinkedHashMap<>();
-		one.put("",
+		one.put("PlayerAssociatedType", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						PlayerAssociatedType.SOLO.toString()}));
+		one.put("GuiSlot", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						"0"}));
+		one.put("UseFixGuiSlots", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						true}));
+		one.put("RequirementToSee.ConditionQuery", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						"",
+						""}));
+		one.put("RequirementToSee.ShowDifferentItemIfYouNormallyDontSeeIt", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						true}));
+		one.put("RequirementToSee.ItemIfYouCannotSee.Displayname", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 						""}));
-		mainCategoryKeys.put(onekey, one);
+		one.put("RequirementToSee.ItemIfYouCannotSee.Material", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						""}));
+		one.put("RequirementToSee.ItemIfYouCannotSee.Amount", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						""}));
+		one.put("RequirementToSee.ItemIfYouCannotSee.ItemFlag", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						"",
+						""}));
+		one.put("RequirementToSee.ItemIfYouCannotSee.Enchantment", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						"",
+						""}));
+		one.put("RequirementToSee.ItemIfYouCannotSee.Lore", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						"",
+						""}));
+		one.put("RequirementToSee.ItemIfYouCanSee.Displayname", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						""}));
+		one.put("RequirementToSee.ItemIfYouCanSee.Material", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						""}));
+		one.put("RequirementToSee.ItemIfYouCanSee.Amount", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						""}));
+		one.put("RequirementToSee.ItemIfYouCanSee.ItemFlag", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						"",
+						""}));
+		one.put("RequirementToSee.ItemIfYouCanSee.Enchantment", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						"",
+						""}));
+		one.put("RequirementToSee.ItemIfYouCanSee.Lore", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						"",
+						""}));
+		mainCategoryKeys.put(keyI, one);
 	}
 	
 	public void initSubCategory() //INFO:SubCategory

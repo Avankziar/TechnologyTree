@@ -16,7 +16,7 @@ import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.CommandConstructor;
-import main.java.me.avankziar.tt.spigot.conditionbonusmalus.ConditionBonusMalus;
+import main.java.me.avankziar.tt.spigot.modifiervalueentry.ModifierValueEntry;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -50,7 +50,7 @@ public class BaseCommandExecutor implements CommandExecutor
 			Player player = (Player) sender;
 			if(MatchApi.isInteger(args[0]))
 			{
-				if(!ConditionBonusMalus.hasPermission(player, cc))
+				if(!ModifierValueEntry.hasPermission(player, cc))
 				{
 					///Du hast dafür keine Rechte!
 					player.spigot().sendMessage(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("NoPermission")));
@@ -67,7 +67,7 @@ public class BaseCommandExecutor implements CommandExecutor
 				return false;
 			}
 			Player player = (Player) sender;
-			if(!ConditionBonusMalus.hasPermission(player, cc))
+			if(!ModifierValueEntry.hasPermission(player, cc))
 			{
 				///Du hast dafür keine Rechte!
 				player.spigot().sendMessage(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("NoPermission")));
@@ -89,7 +89,7 @@ public class BaseCommandExecutor implements CommandExecutor
 						if (sender instanceof Player)
 						{
 							Player player = (Player) sender;
-							if(ConditionBonusMalus.hasPermission(player, ac))
+							if(ModifierValueEntry.hasPermission(player, ac))
 							{
 								ArgumentModule am = plugin.getArgumentMap().get(ac.getPath());
 								if(am != null)
@@ -163,7 +163,7 @@ public class BaseCommandExecutor implements CommandExecutor
 		{
 			if(count >= start && count <= end)
 			{
-				if(ConditionBonusMalus.hasPermission(player, bc))
+				if(ModifierValueEntry.hasPermission(player, bc))
 				{
 					sendInfo(player, bc);
 				}

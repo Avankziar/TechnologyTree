@@ -42,10 +42,11 @@ public class RecipeHandler
 	private static TT plugin = BaseConstructor.getPlugin();
 	private static boolean haveAllRecipeUnlocked = true;
 	
-	public static LinkedHashMap<RecipeType, ArrayList<String>> recipeMap = new LinkedHashMap<>(); //Alle registrierte Recipe
+	public static LinkedHashMap<RecipeType, ArrayList<String>> recipeMap; //Alle registrierte Recipe
 	
 	public static void init()
 	{
+		recipeMap = new LinkedHashMap<>();
 		haveAllRecipeUnlocked = plugin.getYamlHandler().getConfig().getBoolean("Do.Recipe.HaveAllRecipeUnlocked");
 		for(Material m : new ArrayList<Material>(EnumSet.allOf(Material.class)))
 		{

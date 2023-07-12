@@ -10,7 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 
-import main.java.me.avankziar.ifh.general.bonusmalus.BonusMalusType;
+import main.java.me.avankziar.ifh.general.modifier.ModificationType;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
@@ -81,7 +81,7 @@ public class CatTechHandler
 		for(Entry<String, YamlConfiguration> entry : plugin.getYamlHandler().getTechnologies().entrySet())
 		{
 			YamlConfiguration y = entry.getValue();
-			if(y.get("") == null)
+			if(y.get("PlayerAssociatedType") == null)
 			{
 				continue;
 			}
@@ -267,21 +267,21 @@ public class CatTechHandler
 				{
 					rewardItemList = (ArrayList<String>) y.getStringList("Rewards.Item");
 				}
-				ArrayList<String> rewardBonusMalusList = new ArrayList<>();
-				if(y.get("Rewards.BonusMalus") != null && plugin.getBonusMalus() != null)
+				ArrayList<String> rewardModifierList = new ArrayList<>();
+				if(y.get("Rewards.Modifier") != null && plugin.getModifier() != null)
 				{
-					rewardBonusMalusList = (ArrayList<String>) y.getStringList("Rewards.BonusMalus");
+					rewardModifierList = (ArrayList<String>) y.getStringList("Rewards.Modifier");
 				}
-				ArrayList<String> rewardConditionEntryList = new ArrayList<>();
-				if(y.get("Rewards.ConditionEntry") != null && plugin.getCondition() != null)
+				ArrayList<String> rewardValueEntryList = new ArrayList<>();
+				if(y.get("Rewards.ValueEntry") != null && plugin.getValueEntry() != null)
 				{
-					rewardConditionEntryList = (ArrayList<String>) y.getStringList("Rewards.ConditionEntry");
+					rewardValueEntryList = (ArrayList<String>) y.getStringList("Rewards.ValueEntry");
 				}
 				Technology t = new Technology(internName, displayName, technologyType, maximalTechnologyLevelToResearch,
 						playerAssociatedType, overlyingSubCategory, guiSlot,
 						seeRequirementConditionQuery, seeRequirementShowDifferentItemIfYouNormallyDontSeeIt, researchRequirementConditionQuery, 
 						rewardUnlockableInteractions, rewardRecipes, rewardDropChances, rewardSilkTouchDropChances,
-						rewardCommandList, rewardItemList, rewardBonusMalusList, rewardConditionEntryList);
+						rewardCommandList, rewardItemList, rewardModifierList, rewardValueEntryList);
 				if(playerAssociatedType == PlayerAssociatedType.SOLO)
 				{
 					technologyMapSolo.put(internName, t);
@@ -321,7 +321,7 @@ public class CatTechHandler
 		for(Entry<String, YamlConfiguration> entry : plugin.getYamlHandler().getSubCategories().entrySet())
 		{
 			YamlConfiguration y = entry.getValue();
-			if(y.get("") == null)
+			if(y.get("PlayerAssociatedType") == null)
 			{
 				continue;
 			}
@@ -381,7 +381,7 @@ public class CatTechHandler
 		for(Entry<String, YamlConfiguration> entry : plugin.getYamlHandler().getMainCategories().entrySet())
 		{
 			YamlConfiguration y = entry.getValue();
-			if(y.get("") == null)
+			if(y.get("PlayerAssociatedType") == null)
 			{
 				continue;
 			}
@@ -429,7 +429,7 @@ public class CatTechHandler
 	
 	private static void registerBonusMalus()
 	{
-		if(plugin.getBonusMalus() == null)
+		if(plugin.getModifier() == null)
 		{
 			return;
 		}
@@ -437,7 +437,7 @@ public class CatTechHandler
 		List<EventType> eventTypeList = new ArrayList<EventType>(EnumSet.allOf(EventType.class));
 		List<Material> materialList = new ArrayList<Material>(EnumSet.allOf(Material.class));
 		List<EntityType> entityTypeList = new ArrayList<EntityType>(EnumSet.allOf(EntityType.class));
-		BonusMalusType bmt = BonusMalusType.UP;
+		ModificationType bmt = ModificationType.UP;
 		for(Material ma : materialList)
 		{
 			for(EventType e : eventTypeList)
@@ -448,20 +448,20 @@ public class CatTechHandler
 					{
 						continue;
 					}
-					String bm = getBonusMalus(r, e, ma, null);
+					String bm = getModifier(r, e, ma, null);
 					if(bm == null)
 					{
 						continue;
 					}
-					if(plugin.getBonusMalus().isRegistered(bm))
+					if(plugin.getModifier().isRegistered(bm))
 					{
 						continue;
 					}
-					List<String> lar = plugin.getYamlHandler().getCBMLang().getStringList(
+					List<String> lar = plugin.getYamlHandler().getMVELang().getStringList(
 							ma.toString()+"."+e.toString()+"."+r.toString()+".Explanation");
-					plugin.getBonusMalus().register(
+					plugin.getModifier().register(
 							bm,
-							plugin.getYamlHandler().getCBMLang().getString(
+							plugin.getYamlHandler().getMVELang().getString(
 									ma.toString()+"."+e.toString()+"."+r.toString()+".Displayname", ma.toString()+"_"+e.toString()+"_"+r.toString()),
 							bmt,
 							lar.toArray(new String[lar.size()]));
@@ -478,20 +478,20 @@ public class CatTechHandler
 					{
 						continue;
 					}
-					String bm = getBonusMalus(r, e, null, et);
+					String bm = getModifier(r, e, null, et);
 					if(bm == null)
 					{
 						continue;
 					}
-					if(plugin.getBonusMalus().isRegistered(bm))
+					if(plugin.getModifier().isRegistered(bm))
 					{
 						continue;
 					}
-					List<String> lar = plugin.getYamlHandler().getCBMLang().getStringList(
+					List<String> lar = plugin.getYamlHandler().getMVELang().getStringList(
 							et.toString()+"."+e.toString()+"."+r.toString()+".Explanation");
-					plugin.getBonusMalus().register(
+					plugin.getModifier().register(
 							bm,
-							plugin.getYamlHandler().getCBMLang().getString(
+							plugin.getYamlHandler().getMVELang().getString(
 									et.toString()+"."+e.toString()+"."+r.toString()+".Displayname", et.toString()+"_"+e.toString()+"_"+r.toString()),
 							bmt,
 							lar.toArray(new String[lar.size()]));
@@ -502,7 +502,7 @@ public class CatTechHandler
 	
 	private static void registerCondition()
 	{
-		if(plugin.getCondition() == null)
+		if(plugin.getValueEntry() == null)
 		{
 			return;
 		}
@@ -520,20 +520,20 @@ public class CatTechHandler
 					{
 						continue;
 					}
-					String bm = getCondition(r, e, ma, null);
+					String bm = getValueEntry(r, e, ma, null);
 					if(bm == null)
 					{
 						continue;
 					}
-					if(plugin.getCondition().isRegistered(bm))
+					if(plugin.getValueEntry().isRegistered(bm))
 					{
 						continue;
 					}
-					List<String> lar = plugin.getYamlHandler().getCBMLang().getStringList(
+					List<String> lar = plugin.getYamlHandler().getMVELang().getStringList(
 							ma.toString()+"."+e.toString()+"."+r.toString()+".Explanation");
-					plugin.getCondition().register(
+					plugin.getValueEntry().register(
 							bm,
-							plugin.getYamlHandler().getCBMLang().getString(
+							plugin.getYamlHandler().getMVELang().getString(
 									ma.toString()+"."+e.toString()+"."+r.toString()+".Displayname", ma.toString()+"_"+e.toString()+"_"+r.toString()),
 							lar.toArray(new String[lar.size()]));
 				}
@@ -549,20 +549,20 @@ public class CatTechHandler
 					{
 						continue;
 					}
-					String c = getCondition(r, e, null, et);
+					String c = getValueEntry(r, e, null, et);
 					if(c == null)
 					{
 						continue;
 					}
-					if(plugin.getCondition().isRegistered(c))
+					if(plugin.getValueEntry().isRegistered(c))
 					{
 						continue;
 					}
-					List<String> lar = plugin.getYamlHandler().getCBMLang().getStringList(
+					List<String> lar = plugin.getYamlHandler().getMVELang().getStringList(
 							et.toString()+"."+e.toString()+"."+r.toString()+".Explanation");
-					plugin.getCondition().register(
+					plugin.getValueEntry().register(
 							c,
-							plugin.getYamlHandler().getCBMLang().getString(
+							plugin.getYamlHandler().getMVELang().getString(
 									et.toString()+"."+e.toString()+"."+r.toString()+".Displayname", et.toString()+"_"+e.toString()+"_"+r.toString()),
 							lar.toArray(new String[lar.size()]));
 				}
@@ -570,7 +570,7 @@ public class CatTechHandler
 		}
 	}
 	
-	public static String getBonusMalus(RewardType rewardType, EventType eventType, Material material, EntityType entityType)
+	public static String getModifier(RewardType rewardType, EventType eventType, Material material, EntityType entityType)
 	{
 		if(material != null)
 		{
@@ -588,8 +588,8 @@ public class CatTechHandler
 		return null;
 	}
 	
-	public static String getCondition(RewardType rewardType, EventType eventType, Material material, EntityType entityType)
+	public static String getValueEntry(RewardType rewardType, EventType eventType, Material material, EntityType entityType)
 	{
-		return getBonusMalus(rewardType, eventType, material, entityType);
+		return getModifier(rewardType, eventType, material, entityType);
 	}
 }

@@ -1,4 +1,4 @@
-package main.java.me.avankziar.tt.spigot.conditionbonusmalus;
+package main.java.me.avankziar.tt.spigot.modifiervalueentry;
 
 import java.util.LinkedHashMap;
 
@@ -12,7 +12,7 @@ public class Bypass
 		SEE_MAIN_CATEGORYS,
 		SEE_SUB_CATEGORYS;
 		
-		public String getCondition()
+		public String getValueLable()
 		{
 			return BaseConstructor.getPlugin().pluginName.toLowerCase()+"-"+this.toString().toLowerCase();
 		}
@@ -52,7 +52,7 @@ public class Bypass
 			return this.forPermission;
 		}
 		
-		public String getBonusMalus()
+		public String getModification()
 		{
 			return BaseConstructor.getPlugin().pluginName.toLowerCase()+"-"+this.toString().toLowerCase();
 		}

@@ -16,8 +16,10 @@ import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 
-public class AnvilListener implements Listener
-{	
+public class Cold_ForgingRenameListener implements Listener
+{
+	final private static EventType RN = EventType.RENAMING;
+	final private static EventType CF = EventType.COLD_FORGING;
 	@EventHandler
 	public void onAnvil(InventoryClickEvent event)
 	{
@@ -45,28 +47,28 @@ public class AnvilListener implements Listener
 						|| !base.getItemMeta().hasDisplayName())
 				)
 		{
-			if(!EnumHandler.isEventActive(EventType.RENAMING))
+			if(!EnumHandler.isEventActive(RN))
 			{
 				return;
 			}
-			for(ItemStack is : RewardHandler.getDrops(player, EventType.RENAMING, result.getType(), null, false))
+			for(ItemStack is : RewardHandler.getDrops(player, RN, result.getType(), null, false))
 			{
 				Item it = player.getWorld().dropItem(player.getLocation(), is);
 				ItemHandler.addItemToTask(it, player.getUniqueId());
 			}
-			RewardHandler.rewardPlayer(player.getUniqueId(), EventType.RENAMING, result.getType(), null, 1);
+			RewardHandler.rewardPlayer(player.getUniqueId(), RN, result.getType(), null, 1);
 		} else
 		{
-			if(!EnumHandler.isEventActive(EventType.COLD_FORGING))
+			if(!EnumHandler.isEventActive(CF))
 			{
 				return;
 			}
-			for(ItemStack is : RewardHandler.getDrops(player, EventType.COLD_FORGING, result.getType(), null, false))
+			for(ItemStack is : RewardHandler.getDrops(player, CF, result.getType(), null, false))
 			{
 				Item it = player.getWorld().dropItem(player.getLocation(), is);
 				ItemHandler.addItemToTask(it, player.getUniqueId());
 			}
-			RewardHandler.rewardPlayer(player.getUniqueId(), EventType.COLD_FORGING, result.getType(), null, 1);
+			RewardHandler.rewardPlayer(player.getUniqueId(), CF, result.getType(), null, 1);
 		}
 	}
 }

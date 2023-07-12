@@ -17,6 +17,7 @@ import main.java.me.avankziar.tt.spigot.objects.EventType;
 
 public class EnchantListener implements Listener
 {
+	final private static EventType EN = EventType.ENCHANTING;
 	@EventHandler
 	public void onPrepareEnchant(PrepareItemEnchantEvent event)
 	{
@@ -24,7 +25,7 @@ public class EnchantListener implements Listener
 				|| event.getEnchanter().getGameMode() == GameMode.CREATIVE
 				|| event.getEnchanter().getGameMode() == GameMode.SPECTATOR
 				|| event.getItem() == null
-				|| !EnumHandler.isEventActive(EventType.ENCHANTING))
+				|| !EnumHandler.isEventActive(EN))
 		{
 			return;
 		}
@@ -43,15 +44,15 @@ public class EnchantListener implements Listener
 				|| event.getEnchanter().getGameMode() == GameMode.CREATIVE
 				|| event.getEnchanter().getGameMode() == GameMode.SPECTATOR
 				|| event.getItem() == null
-				|| !EnumHandler.isEventActive(EventType.ENCHANTING))
+				|| !EnumHandler.isEventActive(EN))
 		{
 			return;
 		}
-		for(ItemStack is : RewardHandler.getDrops(event.getEnchanter(), EventType.ENCHANTING, event.getItem().getType(), null, true))
+		for(ItemStack is : RewardHandler.getDrops(event.getEnchanter(), EN, event.getItem().getType(), null, true))
 		{
 			Item it = event.getEnchantBlock().getWorld().dropItem(event.getEnchantBlock().getLocation(), is);
 			ItemHandler.addItemToTask(it, event.getEnchanter().getUniqueId());
 		}
-		RewardHandler.rewardPlayer(event.getEnchanter().getUniqueId(), EventType.ENCHANTING, event.getItem().getType(), null, 1);
+		RewardHandler.rewardPlayer(event.getEnchanter().getUniqueId(), EN, event.getItem().getType(), null, 1);
 	}
 }

@@ -14,8 +14,9 @@ import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 
-public class EntityBreedListener implements Listener
+public class BreedListener implements Listener
 {
+	final private static EventType BR = EventType.BREEDING;
 	@EventHandler
 	public void onBreed(EntityBreedEvent event)
 	{
@@ -23,18 +24,18 @@ public class EntityBreedListener implements Listener
 				|| !(event.getBreeder() instanceof Player)
 				|| ((HumanEntity) event.getBreeder()).getGameMode() == GameMode.CREATIVE
 				|| ((HumanEntity) event.getBreeder()).getGameMode() == GameMode.SPECTATOR
-				|| !EnumHandler.isEventActive(EventType.BREEDING)
-				|| !RewardHandler.canAccessInteraction((Player) event.getBreeder(), EventType.BREEDING, null, event.getEntityType()))
+				|| !EnumHandler.isEventActive(BR)
+				|| !RewardHandler.canAccessInteraction((Player) event.getBreeder(), BR, null, event.getEntityType()))
 		{
 			return;
 		}
 		Player player = (Player) event.getBreeder();
 		event.setExperience(0);
-		for(ItemStack is : RewardHandler.getDrops(player, EventType.BREEDING, null, event.getEntityType(), false))
+		for(ItemStack is : RewardHandler.getDrops(player, BR, null, event.getEntityType(), false))
 		{
 			Item it = player.getWorld().dropItem(event.getEntity().getLocation(), is);
 			ItemHandler.addItemToTask(it, player.getUniqueId());
 		}
-		RewardHandler.rewardPlayer(player.getUniqueId(), EventType.BREEDING, null, event.getEntityType(), 1);
+		RewardHandler.rewardPlayer(player.getUniqueId(), BR, null, event.getEntityType(), 1);
 	}
 }

@@ -24,11 +24,12 @@ import main.java.me.avankziar.tt.spigot.objects.EventType;
 
 public class BrewListener implements Listener
 {
+	final private static EventType BR = EventType.BREWING;
 	@EventHandler
 	public void onBrewingStart(BrewingStartEvent event)
 	{
 		if(event.getBlock() == null
-				|| !EnumHandler.isEventActive(EventType.BREWING))
+				|| !EnumHandler.isEventActive(BR))
 		{
 			return;
 		}
@@ -40,7 +41,7 @@ public class BrewListener implements Listener
 	public void onBrewingFinish(BrewEvent event)
 	{
 		if(event.isCancelled()
-				|| !EnumHandler.isEventActive(EventType.BREWING))
+				|| !EnumHandler.isEventActive(BR))
 		{
 			return;
 		}
@@ -74,7 +75,7 @@ public class BrewListener implements Listener
 				i++;
 				if(player != null)
 				{
-					for(ItemStack iss : RewardHandler.getDrops(player, EventType.BREWING, is.getType(), null, true))
+					for(ItemStack iss : RewardHandler.getDrops(player, BR, is.getType(), null, true))
 					{
 						Item it = event.getBlock().getWorld().dropItem(event.getBlock().getLocation(), iss);
 						ItemHandler.addItemToTask(it, uuid);
@@ -82,6 +83,6 @@ public class BrewListener implements Listener
 				}
 			}
 		}
-		RewardHandler.rewardPlayer(uuid, EventType.BREWING, Material.valueOf(recipeKey), null, i);
+		RewardHandler.rewardPlayer(uuid, BR, Material.valueOf(recipeKey), null, i);
 	}
 }

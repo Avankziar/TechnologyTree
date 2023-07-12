@@ -13,24 +13,25 @@ import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 
-public class EntityTameListener implements Listener
+public class TameListener implements Listener
 {
+	final private static EventType TA = EventType.TAMING;
 	@EventHandler
 	public void onEntityTame(EntityTameEvent event)
 	{
 		if(!(event.getOwner() instanceof Player)
 				|| ((Player) event.getOwner()).getGameMode() == GameMode.CREATIVE
 				|| ((Player) event.getOwner()).getGameMode() == GameMode.SPECTATOR
-				|| !EnumHandler.isEventActive(EventType.TAMING))
+				|| !EnumHandler.isEventActive(TA))
 		{
 			return;
 		}
 		Player player = (Player) event.getOwner();
-		for(ItemStack is : RewardHandler.getDrops(player, EventType.TAMING, null, event.getEntityType(), true))
+		for(ItemStack is : RewardHandler.getDrops(player, TA, null, event.getEntityType(), true))
 		{
 			Item it = event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), is);
 			ItemHandler.addItemToTask(it, player.getUniqueId());
 		}
-		RewardHandler.rewardPlayer(player.getUniqueId(), EventType.TAMING, null, event.getEntityType(), 1);
+		RewardHandler.rewardPlayer(player.getUniqueId(), TA, null, event.getEntityType(), 1);
 	}
 }

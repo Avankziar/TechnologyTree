@@ -13,8 +13,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import main.java.me.avankziar.ifh.general.assistance.ChatApi;
-import main.java.me.avankziar.ifh.general.bonusmalus.BonusMalusValueType;
+import main.java.me.avankziar.ifh.general.modifier.ModifierType;
+import main.java.me.avankziar.ifh.general.valueentry.ValueType;
 import main.java.me.avankziar.tt.spigot.TT;
+import main.java.me.avankziar.tt.spigot.assistance.MatchApi;
 import main.java.me.avankziar.tt.spigot.assistance.TimeHandler;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
@@ -78,7 +80,10 @@ public class PlayerHandler
 			}
 		}
 		PlayerData pd = getPlayer(player.getUniqueId());
-		
+		if(pd.isShowSyncMessage())
+		{
+			player.spigot().sendMessage(ChatApi.tctl("PlayerHandler.SyncStart"));
+		}
 		for(EntryQueryStatus eqs : EntryQueryStatus.convert(plugin.getMysqlHandler().getFullList(Type.ENTRYQUERYSTATUS,
 				"`id` ASC", "`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
 				player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), StatusType.HAVE_RESEARCHED_IT.toString())))
@@ -128,6 +133,21 @@ public class PlayerHandler
 		{
 			player.spigot().sendMessage(ChatApi.tctl("PlayerHandler.SyncEnd"));
 		}
+	}
+	
+	public static void quitPlayer(final UUID uuid)
+	{
+		materialInteractionMap.remove(uuid);
+		entityTypeInteractionMap.remove(uuid);
+		
+		materialDropMap.remove(uuid);
+		entityTypeDropMap.remove(uuid);
+		
+		materialSilkTouchDropMap.remove(uuid);
+		entityTypeSilkTouchDropMap.remove(uuid);
+		
+		recipeMap.remove(uuid);
+		registeredBlocks.remove(uuid);
 	}
 	
 	public static boolean hasAccount(Player player)
@@ -186,7 +206,7 @@ public class PlayerHandler
 			{
 				addSilkTouchDropChances(player.getUniqueId(), dc);
 			}
-			for(String s : t.getRewardBonusMalusList())
+			for(String s : t.getRewardModifierList())
 			{
 				String[] split = s.split(":");
 				if(split.length != 8)
@@ -194,7 +214,7 @@ public class PlayerHandler
 					continue;
 				}
 				String bm = split[0];
-				BonusMalusValueType bmvt = null;
+				ModifierType mt = null;
 				double v = 0.0;
 				String ir = split[3].replace(" ", "");
 				String dr = split[4];
@@ -203,24 +223,18 @@ public class PlayerHandler
 				long duration = -1;
 				try
 				{
-					bmvt = BonusMalusValueType.valueOf(split[1]);
+					mt = ModifierType.valueOf(split[1]);
 					v = Double.parseDouble(split[2]);
 					duration = TimeHandler.getRepeatingTimeShortV2(split[7]);
 				} catch(Exception e)
 				{
 					continue;
 				}
-				if(!plugin.getBonusMalus().isRegistered(bm))
+				if(!plugin.getModifier().isRegistered(bm))
 				{
 					continue;
 				}
-				if(bmvt == BonusMalusValueType.ADDITION)
-				{
-					plugin.getBonusMalus().addAdditionFactor(player.getUniqueId(), bm, v, ir, dr, server, world, duration);
-				} else 
-				{
-					plugin.getBonusMalus().addMultiplicationFactor(player.getUniqueId(), bm, v, ir, dr, server, world, duration);
-				}
+				plugin.getModifier().addFactor(player.getUniqueId(), bm, v, mt, ir, dr, server, world, duration);
 			}
 			for(String s : t.getRewardCommandList())
 			{
@@ -249,7 +263,7 @@ public class PlayerHandler
 					}
 				}
 			}
-			for(String s : t.getRewardConditionEntryList())
+			for(String s : t.getRewardValueEntryList())
 			{
 				String[] split = s.split(":");
 				if(split.length != 7)
@@ -258,16 +272,27 @@ public class PlayerHandler
 				}
 				String c = split[0];
 				String value = split[1];
+				ValueType vt = null;
+				if(MatchApi.isBoolean(value))
+				{
+					vt = ValueType.BOOLEAN;
+				} else if(MatchApi.isDouble(value))
+				{
+					vt = ValueType.NUMBER;
+				} else
+				{
+					vt = ValueType.TEXT;
+				}
 				String ir = split[2].replace(" ", "");
 				String dr = split[3];
 				String server = split[4].equalsIgnoreCase("null") ? null : split[4];
 				String world = split[5].equalsIgnoreCase("null") ? null : split[5];
 				long duration = TimeHandler.getRepeatingTimeShortV2(split[6]);
-				if(!plugin.getCondition().isRegistered(c))
+				if(!plugin.getValueEntry().isRegistered(c))
 				{
 					continue;
 				}
-				plugin.getCondition().addConditionEntry(player.getUniqueId(), c, value, ir, dr, server, world, duration);
+				plugin.getValueEntry().addValueEntry(player.getUniqueId(), c, value, vt, ir, dr, server, world, duration);
 			}
 			for(String s : t.getRewardItemList())
 			{

@@ -22,13 +22,13 @@ import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 
-public class SmeltListener implements Listener
+public class CookMeltSmeltSmokeListener implements Listener
 {
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onFurnaceStartSmelt(FurnaceStartSmeltEvent event)
 	{
 		if(event.getBlock() == null
-				|| !EnumHandler.isEventActive(EventType.SMELTING))
+				|| !EnumHandler.isEventActive(BlockHandler.getEventType(event.getBlock().getType())))
 		{
 			return;
 		}
@@ -40,7 +40,7 @@ public class SmeltListener implements Listener
 	public void onCampfireStartSmelt(CampfireStartEvent event)
 	{
 		if(event.getBlock() == null
-				|| !EnumHandler.isEventActive(EventType.SMELTING))
+				|| !EnumHandler.isEventActive(EventType.COOKING))
 		{
 			return;
 		}
@@ -48,23 +48,37 @@ public class SmeltListener implements Listener
 		BlockHandler.startSmelt(event.getBlock().getLocation(), bt, event.getRecipe().getKey().getKey());
 	}
 	
+	/* Do not needed
+	@EventHandler
+	public void onFurnaceExtract(FurnaceExtractEvent event)
+	{
+		event.setExpToDrop(0);
+	}*/
+	
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onFurnaceSmelt(BlockCookEvent event)
 	{
-		if(event.isCancelled() || event.getResult() == null
-				|| !EnumHandler.isEventActive(EventType.SMELTING))
+		EventType et = BlockHandler.getEventType(event.getBlock().getType());
+		if(event.isCancelled() || event.getBlock() == null || event.getResult() == null
+				|| !EnumHandler.isEventActive(et))
 		{
 			return;
 		}
 		String[] key = BlockHandler.getSmeltRecipe(event.getBlock().getLocation());
 		if(key == null)
 		{
+			event.setCancelled(true);
 			return;
 		}
 		BlockType bt = BlockType.valueOf(key[0]);
 		UUID uuid = BlockHandler.getRegisterBlockOwner(bt, event.getBlock().getLocation());
 		if(uuid == null)
 		{
+			if(!new ConfigHandler().finishSmeltIfPlayerHasNotTheRecipeUnlocked())
+			{
+				return;
+			}
+			event.setCancelled(true);
 			return;
 		}
 		String recipeKey = key[1];
@@ -77,15 +91,16 @@ public class SmeltListener implements Listener
 			event.setCancelled(true);
 			return;
 		}
+		//Items can drops additionally, if it is so configurated
 		Player player = Bukkit.getPlayer(uuid);
 		if(player != null)
 		{
-			for(ItemStack is : RewardHandler.getDrops(player, EventType.SMELTING, event.getBlock().getType(), null, true))
+			for(ItemStack is : RewardHandler.getDrops(player, et, event.getBlock().getType(), null, true))
 			{
 				Item it = event.getBlock().getWorld().dropItem(event.getBlock().getLocation(), is);
 				ItemHandler.addItemToTask(it, uuid);
 			}
 		}
-		RewardHandler.rewardPlayer(uuid, EventType.SMELTING, event.getResult().getType(), null, event.getResult().getAmount());
+		RewardHandler.rewardPlayer(uuid, et, event.getResult().getType(), null, event.getResult().getAmount());
 	}
 }

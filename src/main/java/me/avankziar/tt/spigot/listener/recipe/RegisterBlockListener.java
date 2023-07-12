@@ -15,7 +15,6 @@ import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler.BlockType;
-import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 
@@ -43,7 +42,8 @@ public class RegisterBlockListener implements Listener
 		{
 			return;
 		}
-		if(!RewardHandler.canAccessInteraction(event.getPlayer(), EventType.ENCHANTING, event.getClickedBlock().getType(), null))
+		if(!RewardHandler.canAccessInteraction(event.getPlayer(), BlockHandler.getEventType(event.getClickedBlock().getType()),
+				event.getClickedBlock().getType(), null))
 		{
 			event.setCancelled(true);
 			return;

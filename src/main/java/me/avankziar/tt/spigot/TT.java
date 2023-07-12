@@ -21,10 +21,10 @@ import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import main.java.me.avankziar.ifh.general.bonusmalus.BonusMalus;
-import main.java.me.avankziar.ifh.general.bonusmalus.BonusMalusType;
-import main.java.me.avankziar.ifh.general.condition.Condition;
-import main.java.me.avankziar.ifh.general.condition.ConditionQueryParser;
+import main.java.me.avankziar.ifh.general.conditionqueryparser.ConditionQueryParser;
+import main.java.me.avankziar.ifh.general.modifier.ModificationType;
+import main.java.me.avankziar.ifh.general.modifier.Modifier;
+import main.java.me.avankziar.ifh.general.valueentry.ValueEntry;
 import main.java.me.avankziar.ifh.spigot.administration.Administration;
 import main.java.me.avankziar.ifh.spigot.economy.Economy;
 import main.java.me.avankziar.ifh.spigot.tobungee.commands.CommandToBungee;
@@ -36,7 +36,6 @@ import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.CommandConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.CommandExecuteType;
-import main.java.me.avankziar.tt.spigot.conditionbonusmalus.Bypass;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
 import main.java.me.avankziar.tt.spigot.database.MysqlSetup;
 import main.java.me.avankziar.tt.spigot.database.YamlHandler;
@@ -45,23 +44,33 @@ import main.java.me.avankziar.tt.spigot.handler.CatTechHandler;
 import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
+import main.java.me.avankziar.tt.spigot.listener.JoinQuitListener;
 import main.java.me.avankziar.tt.spigot.listener.recipe.PrepareAnvilListener;
 import main.java.me.avankziar.tt.spigot.listener.recipe.PrepareGrindstoneListener;
 import main.java.me.avankziar.tt.spigot.listener.recipe.PrepareItemCraftListener;
 import main.java.me.avankziar.tt.spigot.listener.recipe.PrepareSmithingListener;
 import main.java.me.avankziar.tt.spigot.listener.recipe.RegisterBlockListener;
-import main.java.me.avankziar.tt.spigot.listener.reward.AnvilListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.BreakPlaceListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.BreedListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.BrewListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.BucketEmptyFillListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.Cold_ForgingRenameListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.CookMeltSmeltSmokeListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.DeathHarmKillListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.DryingListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.EnchantListener;
-import main.java.me.avankziar.tt.spigot.listener.reward.EntityBreedListener;
-import main.java.me.avankziar.tt.spigot.listener.reward.EntityKillDeathListener;
-import main.java.me.avankziar.tt.spigot.listener.reward.EntityTameListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.ExplodeListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.FertilizeListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.FishingListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.GrindstoneListener;
-import main.java.me.avankziar.tt.spigot.listener.reward.SheepDyeWoolListener;
-import main.java.me.avankziar.tt.spigot.listener.reward.SmeltListener;
-import main.java.me.avankziar.tt.spigot.listener.reward.TNTListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.HarvestListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.ItemBreakListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.ItemConsumeListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.ShearListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.SheepDyeListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.SmithRenameListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.TameListener;
+import main.java.me.avankziar.tt.spigot.modifiervalueentry.Bypass;
 
 public class TT extends JavaPlugin
 {
@@ -84,9 +93,9 @@ public class TT extends JavaPlugin
 	public static String infoCommand = "/";
 	
 	private Administration administrationConsumer;
-	private Condition conditionConsumer;
+	private ValueEntry valueEntryConsumer;
+	private Modifier modifierConsumer;
 	private ConditionQueryParser conditionQueryParserConsumer;
-	private BonusMalus bonusMalusConsumer;
 	
 	private CommandToBungee commandToBungeeConsumer;
 	private Economy ecoConsumer;
@@ -356,6 +365,7 @@ public class TT extends JavaPlugin
 	{
 		PluginManager pm = getServer().getPluginManager();
 		
+		pm.registerEvents(new JoinQuitListener(), plugin);
 		//Registering Blocks, f.e. furnace etc.
 		pm.registerEvents(new RegisterBlockListener(), plugin);
 		//Recipe, to cancel if the recipe isnt unlocked
@@ -364,20 +374,27 @@ public class TT extends JavaPlugin
 		pm.registerEvents(new PrepareItemCraftListener(), plugin);
 		pm.registerEvents(new PrepareSmithingListener(), plugin);
 		
-		
 		//Reward and so
-		pm.registerEvents(new AnvilListener(), plugin);
 		pm.registerEvents(new BreakPlaceListener(), plugin);
+		pm.registerEvents(new BreedListener(), plugin);
 		pm.registerEvents(new BrewListener(), plugin);
+		pm.registerEvents(new BucketEmptyFillListener(), plugin);
+		pm.registerEvents(new Cold_ForgingRenameListener(), plugin);
+		pm.registerEvents(new CookMeltSmeltSmokeListener(), plugin);
+		pm.registerEvents(new DeathHarmKillListener(), plugin);
+		pm.registerEvents(new DryingListener(), plugin);
 		pm.registerEvents(new EnchantListener(), plugin);
-		pm.registerEvents(new EntityBreedListener(), plugin);
-		pm.registerEvents(new EntityKillDeathListener(), plugin);
-		pm.registerEvents(new EntityTameListener(), plugin);
+		pm.registerEvents(new ExplodeListener(), plugin);
 		pm.registerEvents(new FertilizeListener(), plugin);
+		pm.registerEvents(new FishingListener(), plugin);
 		pm.registerEvents(new GrindstoneListener(), plugin);
-		pm.registerEvents(new SheepDyeWoolListener(), plugin);
-		pm.registerEvents(new SmeltListener(), plugin);
-		pm.registerEvents(new TNTListener(), plugin);
+		pm.registerEvents(new HarvestListener(), plugin);
+		pm.registerEvents(new ItemBreakListener(), plugin);
+		pm.registerEvents(new ItemConsumeListener(), plugin);
+		pm.registerEvents(new ShearListener(), plugin);
+		pm.registerEvents(new SheepDyeListener(), plugin);
+		pm.registerEvents(new SmithRenameListener(), plugin);
+		pm.registerEvents(new TameListener(), plugin);		
 	}
 	
 	public boolean reload()
@@ -436,16 +453,81 @@ public class TT extends JavaPlugin
 	
 	public void setupIFHConsumer()
 	{
-		setupIFHBonusMalus();
+		setupIFHValueEntry();
+		setupIFHModifier();
 		setupIFHCommandToBungee();
-		setupIFHCondition();
 		setupIFHConditionQueryParser();
 		setupIFHEconomy();
 	}
 	
-	private void setupIFHBonusMalus() 
+	public void setupIFHValueEntry()
 	{
-		if(!new ConfigHandler().isMechanicBonusMalusEnabled())
+		if(!new ConfigHandler().isMechanicValueEntryEnabled())
+		{
+			return;
+		}
+		if(!plugin.getServer().getPluginManager().isPluginEnabled("InterfaceHub")) 
+	    {
+	    	return;
+	    }
+        new BukkitRunnable()
+        {
+        	int i = 0;
+			@Override
+			public void run()
+			{
+				try
+				{
+					if(i == 20)
+				    {
+						cancel();
+				    	return;
+				    }
+				    RegisteredServiceProvider<main.java.me.avankziar.ifh.general.valueentry.ValueEntry> rsp = 
+		                             getServer().getServicesManager().getRegistration(
+		                            		 main.java.me.avankziar.ifh.general.valueentry.ValueEntry.class);
+				    if(rsp == null) 
+				    {
+				    	i++;
+				        return;
+				    }
+				    valueEntryConsumer = rsp.getProvider();
+				    log.info(pluginName + " detected InterfaceHub >>> ValueEntry.class is consumed!");
+				    cancel();
+				} catch(NoClassDefFoundError e)
+				{
+					cancel();
+				}
+				if(getValueEntry() != null)
+				{
+					for(BaseConstructor bc : getCommandHelpList())
+					{
+						if(!bc.isPutUpCmdPermToValueEntrySystem())
+						{
+							continue;
+						}
+						if(getValueEntry().isRegistered(bc.getValueEntryPath()))
+						{
+							continue;
+						}
+						getValueEntry().register(
+								bc.getValueEntryPath(),
+								bc.getValueEntryDisplayName(),
+								bc.getValueEntryExplanation());
+					}
+				}
+			}
+        }.runTaskTimer(plugin, 0L, 20*2);
+	}
+	
+	public ValueEntry getValueEntry()
+	{
+		return valueEntryConsumer;
+	}
+	
+	private void setupIFHModifier() 
+	{
+		if(!new ConfigHandler().isMechanicModifierEnabled())
 		{
 			return;
 		}
@@ -466,54 +548,52 @@ public class TT extends JavaPlugin
 						cancel();
 						return;
 				    }
-				    RegisteredServiceProvider<main.java.me.avankziar.ifh.general.bonusmalus.BonusMalus> rsp = 
+				    RegisteredServiceProvider<main.java.me.avankziar.ifh.general.modifier.Modifier> rsp = 
 		                             getServer().getServicesManager().getRegistration(
-		                            		 main.java.me.avankziar.ifh.general.bonusmalus.BonusMalus.class);
+		                            		 main.java.me.avankziar.ifh.general.modifier.Modifier.class);
 				    if(rsp == null) 
 				    {
 				    	//Check up to 20 seconds after the start, to connect with the provider
 				    	i++;
 				        return;
 				    }
-				    bonusMalusConsumer = rsp.getProvider();
-				    log.info(pluginName + " detected InterfaceHub >>> BonusMalus.class is consumed!");
+				    modifierConsumer = rsp.getProvider();
+				    log.info(pluginName + " detected InterfaceHub >>> Modifier.class is consumed!");
 				    cancel();
 				} catch(NoClassDefFoundError e)
 				{
 					cancel();
 				}
-				if(getBonusMalus() != null)
-				{
-					//Bypass CountPerm init
+				if(getModifier() != null)
+				{				
 					List<Bypass.Counter> list = new ArrayList<Bypass.Counter>(EnumSet.allOf(Bypass.Counter.class));
 					for(Bypass.Counter ept : list)
 					{
-						if(getBonusMalus().isRegistered(ept.getBonusMalus()))
+						if(!getModifier().isRegistered(ept.getModification()))
 						{
-							continue;
+							ModificationType modt = null;
+							switch(ept)
+							{
+							case REGISTER_BLOCK:
+								modt = ModificationType.UP;
+								break;
+							}
+							List<String> lar = plugin.getYamlHandler().getMVELang().getStringList(ept.toString()+".Explanation");
+							getModifier().register(
+									ept.getModification(),
+									plugin.getYamlHandler().getMVELang().getString(ept.toString()+".Displayname", ept.toString()),
+									modt,
+									lar.toArray(new String[lar.size()]));
 						}
-						BonusMalusType bmt = null;
-						switch(ept)
-						{
-						case REGISTER_BLOCK:
-							bmt = BonusMalusType.UP;
-							break;
-						}
-						List<String> lar = plugin.getYamlHandler().getCBMLang().getStringList(ept.toString()+".Explanation");
-						getBonusMalus().register(
-								ept.getBonusMalus(),
-								plugin.getYamlHandler().getCBMLang().getString(ept.toString()+".Displayname", ept.toString()),
-								bmt,
-								lar.toArray(new String[lar.size()]));
 					}
 				}
 			}
         }.runTaskTimer(plugin, 20L, 20*2);
 	}
 	
-	public BonusMalus getBonusMalus()
+	public Modifier getModifier()
 	{
-		return bonusMalusConsumer;
+		return modifierConsumer;
 	}
 	
 	public void setupIFHCommandToBungee()
@@ -563,87 +643,6 @@ public class TT extends JavaPlugin
 		return commandToBungeeConsumer;
 	}
 	
-	public void setupIFHCondition()
-	{
-		if(!new ConfigHandler().isMechanicConditionEnabled())
-		{
-			return;
-		}
-		if(!plugin.getServer().getPluginManager().isPluginEnabled("InterfaceHub")) 
-	    {
-	    	return;
-	    }
-        new BukkitRunnable()
-        {
-        	int i = 0;
-			@Override
-			public void run()
-			{
-				try
-				{
-					if(i == 20)
-				    {
-						cancel();
-				    	return;
-				    }
-				    RegisteredServiceProvider<main.java.me.avankziar.ifh.general.condition.Condition> rsp = 
-		                             getServer().getServicesManager().getRegistration(
-		                            		 main.java.me.avankziar.ifh.general.condition.Condition.class);
-				    if(rsp == null) 
-				    {
-				    	i++;
-				        return;
-				    }
-				    conditionConsumer = rsp.getProvider();
-				    log.info(pluginName + " detected InterfaceHub >>> Condition.class is consumed!");
-				    cancel();
-				} catch(NoClassDefFoundError e)
-				{
-					cancel();
-				}
-				if(getCondition() != null)
-				{
-					//Command Bonus/Malus init
-					for(BaseConstructor bc : getCommandHelpList())
-					{
-						if(!bc.isPutUpCmdPermToConditionSystem())
-						{
-							continue;
-						}
-						if(getCondition().isRegistered(bc.getConditionPath()))
-						{
-							continue;
-						}
-						String[] ex = {plugin.getYamlHandler().getCommands().getString(bc.getPath()+".Explanation")};
-						getCondition().register(
-								bc.getConditionPath(),
-								plugin.getYamlHandler().getCommands().getString(bc.getPath()+".Displayname", "Command "+bc.getName()),
-								ex);
-					}
-					//Bypass Perm Bonus/Malus init
-					List<Bypass.Permission> list = new ArrayList<Bypass.Permission>(EnumSet.allOf(Bypass.Permission.class));
-					for(Bypass.Permission ept : list)
-					{
-						if(getCondition().isRegistered(ept.getCondition()))
-						{
-							continue;
-						}
-						List<String> lar = plugin.getYamlHandler().getCBMLang().getStringList(ept.toString()+".Explanation");
-						getCondition().register(
-								ept.getCondition(),
-								plugin.getYamlHandler().getCBMLang().getString(ept.toString()+".Displayname", ept.toString()),
-								lar.toArray(new String[lar.size()]));
-					}
-				}
-			}
-        }.runTaskTimer(plugin, 0L, 20*2);
-	}
-	
-	public Condition getCondition()
-	{
-		return conditionConsumer;
-	}
-	
 	public void setupIFHConditionQueryParser()
 	{
 		if(!new ConfigHandler().isMechanicConditionQueryParserEnabled())
@@ -667,9 +666,9 @@ public class TT extends JavaPlugin
 						cancel();
 				    	return;
 				    }
-				    RegisteredServiceProvider<main.java.me.avankziar.ifh.general.condition.ConditionQueryParser> rsp = 
+				    RegisteredServiceProvider<main.java.me.avankziar.ifh.general.conditionqueryparser.ConditionQueryParser> rsp = 
 		                             getServer().getServicesManager().getRegistration(
-		                            		 main.java.me.avankziar.ifh.general.condition.ConditionQueryParser.class);
+		                            		 main.java.me.avankziar.ifh.general.conditionqueryparser.ConditionQueryParser.class);
 				    if(rsp == null) 
 				    {
 				    	i++;

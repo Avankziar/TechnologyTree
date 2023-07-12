@@ -1,22 +1,28 @@
 package main.java.me.avankziar.tt.spigot.handler;
 
+import org.bukkit.entity.Player;
+
+import main.java.me.avankziar.ifh.spigot.shop.SignShop;
 import main.java.me.avankziar.tt.spigot.TT;
+import main.java.me.avankziar.tt.spigot.gui.GUIApi;
+import main.java.me.avankziar.tt.spigot.gui.events.SettingsLevel;
+import main.java.me.avankziar.tt.spigot.gui.objects.GuiType;
 
 public class GuiHandler
 {
 	private static TT plugin = TT.getPlugin();
 	public static String PLAYER_UUID = "player_uuid";
 	
-	/*public static void openAdministration(SignShop ssh, Player player, SettingsLevel settingsLevel, boolean closeInv)
+	public static void openMain(SignShop ssh, Player player, SettingsLevel settingsLevel, boolean closeInv)
 	{
-		GuiType gt = GuiType.ADMINISTRATION;
-		GUIApi gui = new GUIApi(plugin.pluginName, gt.toString(), null, 6, "Shop: "+ssh.getSignShopName(), 
+		GuiType gt = GuiType.MAIN;
+		GUIApi gui = new GUIApi(plugin.pluginName, gt.toString(), null, 6, plugin.getYamlHandler().getLang().getString("GuiHandler.Main.Title"), 
 				settingsLevel == null ? SettingsLevel.BASE : settingsLevel);
-		SignShop ssh2 = (SignShop) plugin.getMysqlHandler().getData(MysqlHandler.Type.SIGNSHOP, "`id` = ?", ssh.getId());
+		
 		openGui(ssh2, player, gt, gui, settingsLevel, closeInv);
 	}
 	
-	public static void openAdministration(SignShop ssh, Player player, SettingsLevel settingsLevel, Inventory inv, boolean closeInv)
+	/*public static void openAdministration(SignShop ssh, Player player, SettingsLevel settingsLevel, Inventory inv, boolean closeInv)
 	{
 		GuiType gt = GuiType.ADMINISTRATION;
 		GUIApi gui = new GUIApi(plugin.pluginName, inv, gt.toString(), 

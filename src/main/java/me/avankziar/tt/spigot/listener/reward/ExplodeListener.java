@@ -24,51 +24,38 @@ import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 
-public class TNTListener implements Listener
+public class ExplodeListener implements Listener
 {
 	private static LinkedHashMap<UUID, String> ignitingMap = new LinkedHashMap<>();
+	final private static EventType IG = EventType.IGNITING;
+	final private static EventType EX = EventType.EXPLODING;
 	
 	@EventHandler
 	public void onBlockIgnite(BlockIgniteEvent event)
 	{
-		if(event.isCancelled())
-		{
-			return;
-		}
-		if(event.getPlayer().getGameMode() == GameMode.CREATIVE
-				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR)
-		{
-			return;
-		}
-		if(!EnumHandler.isEventActive(EventType.IGNITING))
-		{
-			return;
-		}
-		if(!RewardHandler.canAccessInteraction(event.getPlayer(), EventType.IGNITING, event.getBlock().getType(), null))
+		if(event.isCancelled()
+				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
+				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
+				|| !EnumHandler.isEventActive(IG)
+				|| !RewardHandler.canAccessInteraction(event.getPlayer(), IG, event.getBlock().getType(), null))
 		{
 			return;
 		}
 		ignitingMap.put(event.getPlayer().getUniqueId(), BlockHandler.getLocationText(event.getBlock().getLocation()));
-		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), EventType.EXPLODING, event.getBlock().getType(), null, false))
+		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), IG, event.getBlock().getType(), null, false))
 		{
 			Item it = event.getBlock().getLocation().getWorld().dropItem(event.getBlock().getLocation(), is);
 			ItemHandler.addItemToTask(it, event.getPlayer().getUniqueId());
 		}
-		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), EventType.EXPLODING, event.getBlock().getType(), null, 1);
+		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), IG, event.getBlock().getType(), null, 1);
 	}
 	
 	@EventHandler
 	public void onBlockExplode(BlockExplodeEvent event)
 	{
-		if(event.isCancelled())
-		{
-			return;
-		}
-		if(!EnumHandler.isEventActive(EventType.EXPLODING))
-		{
-			return;
-		}
-		if(!ignitingMap.containsValue(BlockHandler.getLocationText(event.getBlock().getLocation())))
+		if(event.isCancelled()
+				|| !EnumHandler.isEventActive(EX)
+				|| !ignitingMap.containsValue(BlockHandler.getLocationText(event.getBlock().getLocation())))
 		{
 			return;
 		}
@@ -90,28 +77,22 @@ public class TNTListener implements Listener
 		Player player = Bukkit.getPlayer(uuid);
 		if(player != null)
 		{
-			for(ItemStack is : RewardHandler.getDrops(player, EventType.EXPLODING, event.getBlock().getType(), null, false))
+			for(ItemStack is : RewardHandler.getDrops(player, EX, event.getBlock().getType(), null, false))
 			{
 				Item it = player.getWorld().dropItem(event.getBlock().getLocation(), is);
 				ItemHandler.addItemToTask(it, player.getUniqueId());
 			}
 		}
-		RewardHandler.rewardPlayer(uuid, EventType.EXPLODING, event.getBlock().getType(), null, 1);
+		RewardHandler.rewardPlayer(uuid, EX, event.getBlock().getType(), null, 1);
 	}
 		
 	
 	@EventHandler
-	public void onBlockExplode(EntityExplodeEvent event)
+	public void onEntityExplode(EntityExplodeEvent event)
 	{
-		if(event.isCancelled())
-		{
-			return;
-		}
-		if(!EnumHandler.isEventActive(EventType.EXPLODING))
-		{
-			return;
-		}
-		if(event.getEntityType() != EntityType.PRIMED_TNT)
+		if(event.isCancelled()
+				|| !EnumHandler.isEventActive(EX)
+				|| event.getEntityType() != EntityType.PRIMED_TNT)
 		{
 			return;
 		}
@@ -143,13 +124,13 @@ public class TNTListener implements Listener
 		{
 			if(player != null)
 			{
-				for(ItemStack is : RewardHandler.getDrops(player, EventType.EXPLODING, b.getType(), null, false))
+				for(ItemStack is : RewardHandler.getDrops(player, EX, b.getType(), null, false))
 				{
 					Item it = player.getWorld().dropItem(b.getLocation(), is);
 					ItemHandler.addItemToTask(it, player.getUniqueId());
 				}
 			}			
-			RewardHandler.rewardPlayer(uuid, EventType.EXPLODING, b.getType(), null, 1);
+			RewardHandler.rewardPlayer(uuid, EX, b.getType(), null, 1);
 		}
 	}
 }
