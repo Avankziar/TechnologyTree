@@ -17,10 +17,10 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import main.java.me.avankziar.tt.spigot.TT;
-import main.java.me.avankziar.tt.spigot.gui.events.SettingsLevel;
-import main.java.me.avankziar.tt.spigot.gui.objects.ClickFunction;
+import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
+import main.java.me.avankziar.tt.spigot.gui.events.ClickFunction;
 import main.java.me.avankziar.tt.spigot.gui.objects.GuiType;
+import main.java.me.avankziar.tt.spigot.gui.objects.SettingsLevel;
 
 public class GUIApi
 {
@@ -39,7 +39,6 @@ public class GUIApi
 	public static final String SHIFT_RIGHT_FUNCTION = "shift_right_function";
 	public static final String SHIFT_LEFT_FUNCTION = "shift_left_function";
 	public static final String SHIFT_DROP_FUNCTION = "shift_drop_function";
-	public static final String SWAP_FUNCTION = "swap_function";
 	public static final String NUMPAD_1_FUNCTION = "numpad_1_function";
 	public static final String NUMPAD_2_FUNCTION = "numpad_2_function";
 	public static final String NUMPAD_3_FUNCTION = "numpad_3_function";
@@ -55,7 +54,7 @@ public class GUIApi
 	private Inventory inventory;
 	private String pluginName;
 	private String inventoryIdentifier;
-	private static JavaPlugin plugin = TT.getPlugin();
+	private static JavaPlugin plugin = SaLE.getPlugin();
 	private SettingsLevel settingsLevel;
 	
 	public GUIApi(String pluginName, String inventoryIdentifier, InventoryHolder owner, int row, String title, SettingsLevel settingsLevel)
@@ -102,13 +101,9 @@ public class GUIApi
 		pdc.set(new NamespacedKey(plugin, INVENTORYIDENTIFIER), PersistentDataType.STRING, inventoryIdentifier);
 		pdc.set(new NamespacedKey(plugin, CLICKEVENTCANCEL), PersistentDataType.STRING, String.valueOf(clickEventCancel));
 		pdc.set(new NamespacedKey(plugin, SETTINGLEVEL), PersistentDataType.STRING, settingsLevel.getName());
-		if(clickFunction == null || clickFunction.length <= 0)
-		{
-			return null;
-		}
 		for(ClickFunction cf : clickFunction)
 		{
-			switch(cf.getClickFunctionType())
+			switch(cf.getClickType())
 			{
 			case DROP:
 				pdc.set(new NamespacedKey(plugin, DROP_FUNCTION), PersistentDataType.STRING, cf.getFunction()); break;
@@ -134,14 +129,12 @@ public class GUIApi
 				pdc.set(new NamespacedKey(plugin, NUMPAD_8_FUNCTION), PersistentDataType.STRING, cf.getFunction()); break;
 			case NUMPAD_9:
 				pdc.set(new NamespacedKey(plugin, NUMPAD_9_FUNCTION), PersistentDataType.STRING, cf.getFunction()); break;
-			case SHIFT_DROP:
+			case CTRL_DROP:
 				pdc.set(new NamespacedKey(plugin, SHIFT_DROP_FUNCTION), PersistentDataType.STRING, cf.getFunction()); break;
 			case SHIFT_LEFT:
 				pdc.set(new NamespacedKey(plugin, SHIFT_LEFT_FUNCTION), PersistentDataType.STRING, cf.getFunction()); break;
 			case SHIFT_RIGHT:
 				pdc.set(new NamespacedKey(plugin, SHIFT_RIGHT_FUNCTION), PersistentDataType.STRING, cf.getFunction()); break;
-			case SWAP:
-				pdc.set(new NamespacedKey(plugin, SWAP_FUNCTION), PersistentDataType.STRING, cf.getFunction()); break;
 			}
 		}
 		if(values != null)
@@ -149,13 +142,13 @@ public class GUIApi
 			for(String key : values.keySet())
 			{
 				Entry<Type, Object> value = values.get(key);
-				String fullkey = key+":::"+value.getKey();
+				String fullkey = key+"---"+value.getKey().toString();
 				switch(value.getKey())
 				{
 				case BYTE:
 					if(value.getValue() instanceof Byte)
 					{
-						pdc.set(new NamespacedKey(plugin, fullkey), PersistentDataType.BYTE, (Byte) value.getValue());
+						pdc.set(new NamespacedKey(plugin, fullkey), PersistentDataType.BYTE, (byte) value.getValue());
 					}
 					break;
 				case BYTE_ARRAY:
@@ -167,19 +160,19 @@ public class GUIApi
 				case DOUBLE:
 					if(value.getValue() instanceof Double)
 					{
-						pdc.set(new NamespacedKey(plugin, fullkey), PersistentDataType.DOUBLE, (Double) value.getValue());
+						pdc.set(new NamespacedKey(plugin, fullkey), PersistentDataType.DOUBLE, (double) value.getValue());
 					}
 					break;
 				case FLOAT:
 					if(value.getValue() instanceof Float)
 					{
-						pdc.set(new NamespacedKey(plugin, fullkey), PersistentDataType.FLOAT, (Float) value.getValue());
+						pdc.set(new NamespacedKey(plugin, fullkey), PersistentDataType.FLOAT, (float) value.getValue());
 					}
 					break;
 				case INTEGER:
 					if(value.getValue() instanceof Integer)
 					{
-						pdc.set(new NamespacedKey(plugin, fullkey), PersistentDataType.INTEGER, (Integer) value.getValue());
+						pdc.set(new NamespacedKey(plugin, fullkey), PersistentDataType.INTEGER, (int) value.getValue());
 					}
 					break;
 				case INTEGER_ARRAY: 
@@ -191,7 +184,7 @@ public class GUIApi
 				case LONG:
 					if(value.getValue() instanceof Long)
 					{
-						pdc.set(new NamespacedKey(plugin, fullkey), PersistentDataType.LONG, (Long) value.getValue());
+						pdc.set(new NamespacedKey(plugin, fullkey), PersistentDataType.LONG, (long) value.getValue());
 					}
 					break;
 				case LONG_ARRAY:
@@ -203,7 +196,7 @@ public class GUIApi
 				case SHORT:
 					if(value.getValue() instanceof Short)
 					{
-						pdc.set(new NamespacedKey(plugin, fullkey), PersistentDataType.SHORT, (Short) value.getValue());
+						pdc.set(new NamespacedKey(plugin, fullkey), PersistentDataType.SHORT, (short) value.getValue());
 					}
 					break;
 				case STRING:
@@ -224,6 +217,10 @@ public class GUIApi
 			@Nullable LinkedHashMap<String, Entry<Type, Object>> values,
 			ClickFunction...clickFunction)
 	{
+		if(itemstack == null)
+		{
+			return;
+		}
 		ItemStack i = itemstack.clone();
 		ItemMeta im = i.getItemMeta();
 		PersistentDataContainer pdc = im.getPersistentDataContainer();
@@ -231,13 +228,9 @@ public class GUIApi
 		pdc.set(new NamespacedKey(plugin, INVENTORYIDENTIFIER), PersistentDataType.STRING, this.inventoryIdentifier);
 		pdc.set(new NamespacedKey(plugin, CLICKEVENTCANCEL), PersistentDataType.STRING, String.valueOf(clickEventCancel));
 		pdc.set(new NamespacedKey(plugin, SETTINGLEVEL), PersistentDataType.STRING, settingsLevel.getName());
-		if(clickFunction == null || clickFunction.length <= 0)
-		{
-			return;
-		}
 		for(ClickFunction cf : clickFunction)
 		{
-			switch(cf.getClickFunctionType())
+			switch(cf.getClickType())
 			{
 			case DROP:
 				pdc.set(new NamespacedKey(plugin, DROP_FUNCTION), PersistentDataType.STRING, cf.getFunction()); break;
@@ -263,14 +256,12 @@ public class GUIApi
 				pdc.set(new NamespacedKey(plugin, NUMPAD_8_FUNCTION), PersistentDataType.STRING, cf.getFunction()); break;
 			case NUMPAD_9:
 				pdc.set(new NamespacedKey(plugin, NUMPAD_9_FUNCTION), PersistentDataType.STRING, cf.getFunction()); break;
-			case SHIFT_DROP:
+			case CTRL_DROP:
 				pdc.set(new NamespacedKey(plugin, SHIFT_DROP_FUNCTION), PersistentDataType.STRING, cf.getFunction()); break;
 			case SHIFT_LEFT:
 				pdc.set(new NamespacedKey(plugin, SHIFT_LEFT_FUNCTION), PersistentDataType.STRING, cf.getFunction()); break;
 			case SHIFT_RIGHT:
 				pdc.set(new NamespacedKey(plugin, SHIFT_RIGHT_FUNCTION), PersistentDataType.STRING, cf.getFunction()); break;
-			case SWAP:
-				pdc.set(new NamespacedKey(plugin, SWAP_FUNCTION), PersistentDataType.STRING, cf.getFunction()); break;
 			}
 		}
 		if(values != null)
@@ -278,13 +269,13 @@ public class GUIApi
 			for(String key : values.keySet())
 			{
 				Entry<Type, Object> value = values.get(key);
-				String fullkey = key+":::"+value.getKey();
+				String fullkey = key+"---"+value.getKey().toString();
 				switch(value.getKey())
 				{
 				case BYTE:
 					if(value.getValue() instanceof Byte)
 					{
-						pdc.set(new NamespacedKey(plugin, fullkey), PersistentDataType.BYTE, (Byte) value.getValue());
+						pdc.set(new NamespacedKey(plugin, fullkey), PersistentDataType.BYTE, (byte) value.getValue());
 					}
 					break;
 				case BYTE_ARRAY:
@@ -296,19 +287,19 @@ public class GUIApi
 				case DOUBLE:
 					if(value.getValue() instanceof Double)
 					{
-						pdc.set(new NamespacedKey(plugin, fullkey), PersistentDataType.DOUBLE, (Double) value.getValue());
+						pdc.set(new NamespacedKey(plugin, fullkey), PersistentDataType.DOUBLE, (double) value.getValue());
 					}
 					break;
 				case FLOAT:
 					if(value.getValue() instanceof Float)
 					{
-						pdc.set(new NamespacedKey(plugin, fullkey), PersistentDataType.FLOAT, (Float) value.getValue());
+						pdc.set(new NamespacedKey(plugin, fullkey), PersistentDataType.FLOAT, (float) value.getValue());
 					}
 					break;
 				case INTEGER:
 					if(value.getValue() instanceof Integer)
 					{
-						pdc.set(new NamespacedKey(plugin, fullkey), PersistentDataType.INTEGER, (Integer) value.getValue());
+						pdc.set(new NamespacedKey(plugin, fullkey), PersistentDataType.INTEGER, (int) value.getValue());
 					}
 					break;
 				case INTEGER_ARRAY: 
@@ -320,7 +311,7 @@ public class GUIApi
 				case LONG:
 					if(value.getValue() instanceof Long)
 					{
-						pdc.set(new NamespacedKey(plugin, fullkey), PersistentDataType.LONG, (Long) value.getValue());
+						pdc.set(new NamespacedKey(plugin, fullkey), PersistentDataType.LONG, (long) value.getValue());
 					}
 					break;
 				case LONG_ARRAY:
@@ -332,7 +323,7 @@ public class GUIApi
 				case SHORT:
 					if(value.getValue() instanceof Short)
 					{
-						pdc.set(new NamespacedKey(plugin, fullkey), PersistentDataType.SHORT, (Short) value.getValue());
+						pdc.set(new NamespacedKey(plugin, fullkey), PersistentDataType.SHORT, (short) value.getValue());
 					}
 					break;
 				case STRING:
@@ -351,15 +342,17 @@ public class GUIApi
 		}
 	}
 
-	public void open(Player player) 
+	public void open(Player player, GuiType gt, int sshid) 
 	{
 		if(this.inventory != null) player.openInventory(this.inventory);
+		addInGui(player.getUniqueId(), inventoryIdentifier, gt, settingsLevel, sshid);
 	}
 	
 	//Key == playeruuid
 	//Value == InventoryIdentifier
 	private static LinkedHashMap<UUID, String> playerInGui = new LinkedHashMap<>();
 	private static LinkedHashMap<UUID, GuiType> playerInGuiType = new LinkedHashMap<>();
+	private static LinkedHashMap<UUID, Integer> playerInGuiSSHID = new LinkedHashMap<>();
 	//Key == playeruuid
 	//Value == Player actual SettingsLevel
 	private static LinkedHashMap<UUID, SettingsLevel> playerGuiSettingsLevel = new LinkedHashMap<>();
@@ -379,15 +372,22 @@ public class GUIApi
 		return playerInGuiType.get(uuid);
 	}
 	
+	public static SignShop getGuiSSH(UUID uuid)
+	{
+		int sshID = playerInGuiSSHID.get(uuid);
+		return (SignShop) SaLE.getPlugin().getMysqlHandler().getData(MysqlHandler.Type.SIGNSHOP, "`id` = ?", sshID);
+	}
+	
 	public static SettingsLevel getSettingsLevel(UUID uuid)
 	{
 		return playerGuiSettingsLevel.get(uuid);
 	}
     
-	public static void addInGui(UUID uuid, String inventoryIdentifier, GuiType gt, SettingsLevel settingsLevel)
+	public static void addInGui(UUID uuid, String inventoryIdentifier, GuiType gt, SettingsLevel settingsLevel, int sshid)
     {
 		playerInGui.put(uuid, inventoryIdentifier);
 		playerInGuiType.put(uuid, gt);
+		playerInGuiSSHID.put(uuid, sshid);
 		playerGuiSettingsLevel.put(uuid, settingsLevel);
     }
     
@@ -395,6 +395,7 @@ public class GUIApi
     {
 		playerInGui.remove(uuid);
 		playerInGuiType.remove(uuid);
+		playerInGuiSSHID.remove(uuid);
 		playerGuiSettingsLevel.remove(uuid);
     }
 }

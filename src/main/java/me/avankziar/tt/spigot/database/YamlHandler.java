@@ -13,8 +13,10 @@ import java.util.Map.Entry;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import main.java.me.avankziar.sale.spigot.SaLE;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.database.Language.ISO639_2B;
+import main.java.me.avankziar.tt.spigot.gui.objects.GuiType;
 
 public class YamlHandler
 {
@@ -30,6 +32,8 @@ public class YamlHandler
 	private YamlConfiguration lang = new YamlConfiguration();
 	private File mvelanguage = null;
 	private YamlConfiguration mvelang = new YamlConfiguration();
+	
+	private LinkedHashMap<GuiType, YamlConfiguration> gui = new LinkedHashMap<>();
 	
 	private LinkedHashMap<String, YamlConfiguration> itemGenerator = new LinkedHashMap<>();
 	
@@ -70,6 +74,11 @@ public class YamlHandler
 	public YamlConfiguration getMVELang()
 	{
 		return mvelang;
+	}
+	
+	public YamlConfiguration getGui(GuiType guiType)
+	{
+		return gui.get(guiType);
 	}
 	
 	public LinkedHashMap<String, YamlConfiguration> getItemGenerators()
@@ -254,6 +263,10 @@ public class YamlHandler
 		{
 			return false;
 		}
+		if(!mkdirGUIs())
+		{
+			return false;
+		}
 		if(!mkdirItems())
 		{
 			return false;
@@ -321,6 +334,55 @@ public class YamlHandler
 			return false;
 		}
 		writeFile(mvelanguage, mvelang, plugin.getYamlManager().getModifierValueEntryLanguageKey());
+		return true;
+	}
+	
+	private boolean mkdirGUIs()
+	{
+		String languageString = plugin.getYamlManager().getLanguageType().toString().toLowerCase();
+		File directory = new File(plugin.getDataFolder()+"/Gui/");
+		if(!directory.exists())
+		{
+			directory.mkdir();
+		}
+		List<GuiType> list = new ArrayList<GuiType>(EnumSet.allOf(GuiType.class));
+		for(GuiType g : list)
+		{
+			File gf = new File(directory.getPath(), languageString+"_"+g.toString()+".yml");
+			if(gf.exists())
+			{
+				YamlConfiguration gui = loadYamlTask(gf, new YamlConfiguration());
+				if (gui == null)
+				{
+					return false;
+				}
+				if(plugin.getYamlManager().getGuiKey(g) == null)
+				{
+					return false;
+				}
+				this.gui.put(g, gui);
+				continue;
+			}
+			SaLE.log.info("Create %lang%.yml...".replace("%lang%", languageString+"_"+g.toString()));
+			try(InputStream in = plugin.getResource("default.yml"))
+			{
+				Files.copy(in, gf.toPath());
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			YamlConfiguration gui = loadYamlTask(gf, new YamlConfiguration());
+			if (gui == null)
+			{
+				return false;
+			}
+			if(plugin.getYamlManager().getGuiKey(g) == null)
+			{
+				return false;
+			}
+			writeFile(gf, gui, plugin.getYamlManager().getGuiKey(g));
+			this.gui.put(g, gui);
+		}
 		return true;
 	}
 	

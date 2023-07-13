@@ -1,19 +1,42 @@
 package main.java.me.avankziar.tt.spigot.handler;
 
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.UUID;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import main.java.me.avankziar.ifh.spigot.shop.SignShop;
+import main.java.me.avankziar.tt.general.ChatApi;
 import main.java.me.avankziar.tt.spigot.TT;
+import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
 import main.java.me.avankziar.tt.spigot.gui.GUIApi;
-import main.java.me.avankziar.tt.spigot.gui.events.SettingsLevel;
+import main.java.me.avankziar.tt.spigot.gui.events.ClickFunction;
+import main.java.me.avankziar.tt.spigot.gui.objects.ClickFunctionType;
+import main.java.me.avankziar.tt.spigot.gui.objects.ClickType;
 import main.java.me.avankziar.tt.spigot.gui.objects.GuiType;
+import main.java.me.avankziar.tt.spigot.gui.objects.SettingsLevel;
+import main.java.me.avankziar.tt.spigot.modifiervalueentry.Bypass;
+import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
+import main.java.me.avankziar.tt.spigot.objects.ram.misc.TechCategory;
 
 public class GuiHandler
 {
 	private static TT plugin = TT.getPlugin();
 	public static String PLAYER_UUID = "player_uuid";
+	public static String TECH_CATEGORY = "technology_category";
 	
-	public static void openMain(SignShop ssh, Player player, SettingsLevel settingsLevel, boolean closeInv)
+	public static void openMain(Player player, SettingsLevel settingsLevel, boolean closeInv)
 	{
 		GuiType gt = GuiType.MAIN;
 		GUIApi gui = new GUIApi(plugin.pluginName, gt.toString(), null, 6, plugin.getYamlHandler().getLang().getString("GuiHandler.Main.Title"), 
@@ -60,9 +83,9 @@ public class GuiHandler
 		GUIApi gui = new GUIApi(plugin.pluginName, gt.toString(), null, 6, ssh.getSignShopName()+keyboardOrNumpad, settingsLevel);
 		SignShop ssh2 = (SignShop) plugin.getMysqlHandler().getData(MysqlHandler.Type.SIGNSHOP, "`id` = ?", ssh.getId());
 		openGui(ssh2, player, gt, gui, settingsLevel, closeInv);
-	}
+	}*/
 	
-	private static void openGui(SignShop ssh, Player player, GuiType gt, GUIApi gui, SettingsLevel settingsLevel, boolean closeInv)
+	private static void openGui(TechCategory tcat, Player player, GuiType gt, GUIApi gui, SettingsLevel settingsLevel, boolean closeInv)
 	{
 		YamlConfiguration y = plugin.getYamlHandler().getGui(gt);
 		for(int i = 0; i < 54; i++)
@@ -279,7 +302,7 @@ public class GuiHandler
 		gui.open(player, gt, ssh.getId());
 	}
 	
-	@SuppressWarnings("deprecation")
+	/*@SuppressWarnings("deprecation")
 	public static ItemStack getSkull(String url) 
 	{
         ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1, (short) 3);
@@ -1954,7 +1977,7 @@ public class GuiHandler
 				String.valueOf(ssh.getDiscountSellAmount()*2304)+" "+ plugin.getVaultEco().currencyNamePlural());
 		}
 		return ChatApi.tl(s);
-	}
+	}*/
 	
 	private static String getBoolean(boolean boo)
 	{
@@ -1984,7 +2007,7 @@ public class GuiHandler
 		return ctar.toArray(new ClickFunction[ctar.size()]);
 	}
 	
-	public static String getSpawnEggType(Material mat)
+	/*public static String getSpawnEggType(Material mat)
 	{
 		String s = "";
 		switch(mat)

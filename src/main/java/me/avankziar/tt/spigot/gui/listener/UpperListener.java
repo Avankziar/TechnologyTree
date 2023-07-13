@@ -1,16 +1,22 @@
 package main.java.me.avankziar.tt.spigot.gui.listener;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import main.java.me.avankziar.ifh.spigot.shop.SignShop;
+import main.java.me.avankziar.sale.spigot.handler.gui.AdminstrationFunctionHandler;
+import main.java.me.avankziar.sale.spigot.handler.gui.ShopFunctionHandler;
 import main.java.me.avankziar.tt.spigot.TT;
+import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
 import main.java.me.avankziar.tt.spigot.gui.events.UpperGuiClickEvent;
 import main.java.me.avankziar.tt.spigot.gui.objects.ClickFunctionType;
 import main.java.me.avankziar.tt.spigot.gui.objects.ClickType;
 import main.java.me.avankziar.tt.spigot.gui.objects.GuiType;
+import main.java.me.avankziar.tt.spigot.handler.GuiHandler;
 
 public class UpperListener implements Listener
 {
@@ -41,7 +47,7 @@ public class UpperListener implements Listener
 		{
 			return;
 		}
-		/*if(!event.getValuesInteger().containsKey(GuiHandler.SIGNSHOP_ID))
+		if(!event.getValuesInteger().containsKey(GuiHandler.SIGNSHOP_ID))
 		{
 			return;
 		}
@@ -55,7 +61,7 @@ public class UpperListener implements Listener
 		if(event.getValuesString().containsKey(GuiHandler.PLAYER_UUID))
 		{
 			otheruuid = UUID.fromString(event.getValuesString().get(GuiHandler.PLAYER_UUID));
-		}*/
+		}
 		ClickType ct = getClickFunctionType(event.getEvent().getClick(), event.getEvent().getHotbarButton());
 		if(ct == null)
 		{
@@ -75,6 +81,31 @@ public class UpperListener implements Listener
 		}
 		switch(gt)
 		{
+		case ITEM_INPUT:
+			break;
+		case ADMINISTRATION:
+		case NUMPAD_ACCOUNT:
+		case NUMPAD_BUY:
+		case NUMPAD_DISCOUNT_BUY:
+		case NUMPAD_DISCOUNT_END:
+		case NUMPAD_DISCOUNT_POSSIBLE_BUY:
+		case NUMPAD_DISCOUNT_POSSIBLE_SELL:
+		case NUMPAD_DISCOUNT_HOUR:
+		case NUMPAD_DISCOUNT_SELL:
+		case NUMPAD_DISCOUNT_START:
+		case NUMPAD_POSSIBLE_BUY:
+		case NUMPAD_POSSIBLE_SELL:
+		case NUMPAD_SELL:
+		case KEYBOARD_BLACKLIST:
+		case KEYBOARD_CUSTOM:
+		case KEYBOARD_MEMBER:
+		case KEYBOARD_SIGNSHOPNAME:
+		case KEYBOARD_WHITELIST:
+			AdminstrationFunctionHandler
+				.doClickFunktion(gt, cft, player, ssh, event.getEvent().getClickedInventory(), event.getSettingsLevel(), otheruuid);
+			break;
+		case SHOP:
+			ShopFunctionHandler.doClickFunktion(gt, cft, player, ssh, event.getEvent().getClickedInventory(), event.getSettingsLevel()); break;
 		}
 	}
 	

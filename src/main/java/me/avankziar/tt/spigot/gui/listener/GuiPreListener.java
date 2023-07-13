@@ -16,12 +16,12 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
+import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.gui.GUIApi;
 import main.java.me.avankziar.tt.spigot.gui.events.BottomGuiClickEvent;
-import main.java.me.avankziar.tt.spigot.gui.events.SettingsLevel;
 import main.java.me.avankziar.tt.spigot.gui.events.UpperGuiClickEvent;
 import main.java.me.avankziar.tt.spigot.gui.objects.ClickType;
+import main.java.me.avankziar.tt.spigot.gui.objects.SettingsLevel;
 
 public class GuiPreListener implements Listener
 {
@@ -78,7 +78,7 @@ public class GuiPreListener implements Listener
 		event.setResult(Result.DENY);
 		BottomGuiClickEvent gce = new BottomGuiClickEvent(
 				event, 
-				BaseConstructor.getPlugin().pluginName,
+				TT.getPlugin().pluginName,
 				GUIApi.getGui(uuid));
 		Bukkit.getPluginManager().callEvent(gce);
 	}
@@ -90,6 +90,10 @@ public class GuiPreListener implements Listener
 			return;
 		}
 		ItemStack i = event.getCurrentItem().clone();
+		if(!i.hasItemMeta())
+		{
+			return;
+		}
 		NamespacedKey npluginName = new NamespacedKey(plugin, GUIApi.PLUGINNAME);
 		NamespacedKey ninventoryIdentifier = new NamespacedKey(plugin, GUIApi.INVENTORYIDENTIFIER);
 		NamespacedKey nclickEventCancel = new NamespacedKey(plugin, GUIApi.CLICKEVENTCANCEL);
@@ -102,8 +106,13 @@ public class GuiPreListener implements Listener
 		{
 			return;
 		}
+		if(event.getClick() == org.bukkit.event.inventory.ClickType.SWAP_OFFHAND)
+		{
+			event.setCancelled(true);
+			event.setResult(Result.DENY);
+		}
 		boolean clickEventCancel = Boolean.parseBoolean(pdc.get(nclickEventCancel, PersistentDataType.STRING));
-		if(!clickEventCancel)
+		if(clickEventCancel)
 		{
 			event.setCancelled(true);
 			event.setResult(Result.DENY);
@@ -117,13 +126,13 @@ public class GuiPreListener implements Listener
 				functionMap);
 		for(NamespacedKey key : pdc.getKeys())
 		{
-			if(!key.getKey().contains(":::"))
+			if(!key.getKey().contains("---"))
 			{
 				continue;
 			}
-			String[] split = key.getKey().split(":::");
+			String[] split = key.getKey().split("---");
 			String purekey = split[0];
-			GUIApi.Type type = GUIApi.Type.valueOf(split[1]);
+			GUIApi.Type type = GUIApi.Type.valueOf(split[1].toUpperCase());
 			switch(type)
 			{
 			case BYTE:

@@ -9,6 +9,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import main.java.me.avankziar.tt.spigot.gui.GUIApi;
 import main.java.me.avankziar.tt.spigot.gui.objects.ClickType;
+import main.java.me.avankziar.tt.spigot.gui.objects.SettingsLevel;
 
 public class UpperGuiClickEvent extends Event
 {	
