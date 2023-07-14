@@ -13,7 +13,6 @@ import java.util.Map.Entry;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import main.java.me.avankziar.sale.spigot.SaLE;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.database.Language.ISO639_2B;
 import main.java.me.avankziar.tt.spigot.gui.objects.GuiType;
@@ -363,7 +362,7 @@ public class YamlHandler
 				this.gui.put(g, gui);
 				continue;
 			}
-			SaLE.log.info("Create %lang%.yml...".replace("%lang%", languageString+"_"+g.toString()));
+			TT.log.info("Create %lang%.yml...".replace("%lang%", languageString+"_"+g.toString()));
 			try(InputStream in = plugin.getResource("default.yml"))
 			{
 				Files.copy(in, gf.toPath());

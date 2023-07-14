@@ -1,3 +1,13 @@
+Cmd SettingsLevel wechseln.
+Cmd für den SynMsg des Plugins
+Cmd zum erreichen der MainCats
+Cmd für Infos, wieviele Techs man im gesamten hat und wieviele man sehen kann.
+Cmd für Infos, wieviele Techs man in der Gruppe SOLO hat von wieviel die man Sehen kann, sowie dadrunter wieviele man nichts sieht.
+Cmd für Infos, wieviele techs man in der Gruppe GROUP hat, ...
+Cmd für Infos, wieviele Techs man in der Gruppe GLOBAL hat, ...
+Cmd zum sehen, wieviele Regestierte Blöcke von welchem Typ habt.
+Cmd zum sehen, zu welchen Blöcken zugang hat.
+
 Wiki Themen
 - Dropmechanik mit Verzauberungen, Glücktrankeffekt und BonusMalus. Sowie der VanillaGrenzen, Silktouch etc.
 -

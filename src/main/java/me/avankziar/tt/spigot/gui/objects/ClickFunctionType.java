@@ -2,6 +2,16 @@ package main.java.me.avankziar.tt.spigot.gui.objects;
 
 public enum ClickFunctionType
 {
+	START_SYNCMESSAGE,
+	START_MAINCATEGORYS_SOLO,
+	START_MAINCATEGORYS_GROUP,
+	START_MAINCATEGORYS_GLOBAL,
+	
+	RETURN_TOSTART,
+	RETURN_TOMAINCATEGORY,
+	RETURN_TOSUBCATEGORY,
+	
+	//OLD OLD OLD
 	//Admin Button anzahl: 21
 	//InfoItem
 	//ADMINISTRATION_INFOITEM,

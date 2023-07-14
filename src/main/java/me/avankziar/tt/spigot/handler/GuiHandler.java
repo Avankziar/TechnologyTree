@@ -1,5 +1,6 @@
 package main.java.me.avankziar.tt.spigot.handler;
 
+import java.lang.reflect.Field;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -8,7 +9,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -16,18 +16,18 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import main.java.me.avankziar.ifh.spigot.shop.SignShop;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
+
 import main.java.me.avankziar.tt.general.ChatApi;
 import main.java.me.avankziar.tt.spigot.TT;
-import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
 import main.java.me.avankziar.tt.spigot.gui.GUIApi;
 import main.java.me.avankziar.tt.spigot.gui.events.ClickFunction;
 import main.java.me.avankziar.tt.spigot.gui.objects.ClickFunctionType;
 import main.java.me.avankziar.tt.spigot.gui.objects.ClickType;
 import main.java.me.avankziar.tt.spigot.gui.objects.GuiType;
 import main.java.me.avankziar.tt.spigot.gui.objects.SettingsLevel;
-import main.java.me.avankziar.tt.spigot.modifiervalueentry.Bypass;
-import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
+import main.java.me.avankziar.tt.spigot.modifiervalueentry.ModifierValueEntry;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.TechCategory;
 
 public class GuiHandler
@@ -36,13 +36,25 @@ public class GuiHandler
 	public static String PLAYER_UUID = "player_uuid";
 	public static String TECH_CATEGORY = "technology_category";
 	
-	public static void openMain(Player player, SettingsLevel settingsLevel, boolean closeInv)
+	public static void openCatOrTech(Player player, GuiType gt, TechCategory tc, SettingsLevel st, boolean closeInv)
 	{
-		GuiType gt = GuiType.MAIN;
-		GUIApi gui = new GUIApi(plugin.pluginName, gt.toString(), null, 6, plugin.getYamlHandler().getLang().getString("GuiHandler.Main.Title"), 
-				settingsLevel == null ? SettingsLevel.BASE : settingsLevel);
+		String title = "";
+		switch(gt)
+		{
+		case MAIN:
+			title = plugin.getYamlHandler().getLang().getString("GuiHandler.Main.Title"); break;
+		case MAIN_CATEGORY:
+			title = plugin.getYamlHandler().getLang().getString("GuiHandler.MainCategorys.Title"); break;
+		case SUB_CATEGORY:
+			title = plugin.getYamlHandler().getLang().getString("GuiHandler.MainCategorysSubCategorys.Title")
+					.replace("%maincat%", tc.getDisplayName()); break;
+		case TECHNOLOGY:
+			title = plugin.getYamlHandler().getLang().getString("GuiHandler.SubCategorysTechnologys.Title")
+			.replace("%subcat%", tc.getDisplayName()); break;
+		}
+		GUIApi gui = new GUIApi(plugin.pluginName, gt.toString(), null, 6, title, st);
 		
-		openGui(ssh2, player, gt, gui, settingsLevel, closeInv);
+		openGui(tc, player, gt, gui, st, closeInv);
 	}
 	
 	/*public static void openAdministration(SignShop ssh, Player player, SettingsLevel settingsLevel, Inventory inv, boolean closeInv)
@@ -87,17 +99,16 @@ public class GuiHandler
 	
 	private static void openGui(TechCategory tcat, Player player, GuiType gt, GUIApi gui, SettingsLevel settingsLevel, boolean closeInv)
 	{
+		switch(gt)
+		{
+		case MAIN:
+		case MAIN_CATEGORY:
+		case SUB_CATEGORY:
+		case TECHNOLOGY:
+		}
 		YamlConfiguration y = plugin.getYamlHandler().getGui(gt);
 		for(int i = 0; i < 54; i++)
 		{
-			if(y.get(i+".IsInfoItem") != null && y.getBoolean(i+".IsInfoItem"))
-			{
-				ItemStack is = ssh.getItemStack();
-				LinkedHashMap<String, Entry<GUIApi.Type, Object>> map = new LinkedHashMap<>();
-				map.put(SIGNSHOP_ID, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.INTEGER, ssh.getId()));
-				gui.add(i, is, settingsLevel, true, map, getClickFunction(y, String.valueOf(i)));
-				continue;
-			}
 			if(y.get(i+".Material") == null && y.get(i+".Material."+settingsLevel.toString()) == null)
 			{
 				continue;
@@ -113,7 +124,7 @@ public class GuiHandler
 			}
 			if(y.get(i+".Permission") != null)
 			{
-				if(!ConditionBonusMalus.hasPermission(player, Bypass.Permission.SHOP_GUI_BYPASS, y.getString(i+".Permission")))
+				if(!ModifierValueEntry.hasPermission(player, y.getString(i+".Permission")))
 				{
 					continue;
 				}
@@ -125,60 +136,6 @@ public class GuiHandler
 					if(plugin.getIFHEco() == null)
 					{
 						continue;
-					}
-				}
-			}
-			if(y.get(i+".CanBuy") != null)
-			{
-				if(y.getBoolean(i+".CanBuy"))
-				{
-					if(!ssh.canBuy())
-					{
-						continue;
-					}
-					if(gt == GuiType.SHOP)
-					{
-						if(SignHandler.isDiscount(ssh, System.currentTimeMillis()))
-						{
-							if((ssh.getBuyAmount() == null || ssh.getBuyAmount() < 0.0)
-									&& (ssh.getDiscountBuyAmount() == null || ssh.getDiscountBuyAmount() < 0.0))
-							{
-								continue;
-							}
-						} else
-						{
-							if(ssh.getBuyAmount() == null || ssh.getBuyAmount() < 0.0)
-							{
-								continue;
-							}
-						}
-					}
-				}
-			}
-			if(y.get(i+".CanSell") != null)
-			{
-				if(y.getBoolean(i+".CanSell"))
-				{
-					if(!ssh.canSell())
-					{
-						continue;
-					}
-					if(gt == GuiType.SHOP)
-					{
-						if(SignHandler.isDiscount(ssh, System.currentTimeMillis()))
-						{
-							if((ssh.getSellAmount() == null || ssh.getSellAmount() < 0.0)
-									&& (ssh.getDiscountSellAmount() == null || ssh.getDiscountSellAmount() < 0.0))
-							{
-								continue;
-							}
-						} else
-						{
-							if(ssh.getSellAmount() == null || ssh.getSellAmount() < 0.0)
-							{
-								continue;
-							}
-						}
 					}
 				}
 			}
@@ -207,32 +164,6 @@ public class GuiHandler
 			}
 			String playername = null;
 			UUID otheruuid = null;
-			if(y.get(i+".PlayerSearchNum") != null)
-			{
-				if(ssh.getNumText().isBlank() || ssh.getNumText().isEmpty())
-				{
-					continue;
-				}
-				int num = y.getInt(i+".PlayerSearchNum");
-				ArrayList<Object> l = plugin.getMysqlHandler().getList(
-						MysqlHandler.Type.PLAYERDATA, "`player_name` ASC", num, 1, "`player_name` like ?", "%"+ssh.getNumText()+"%");
-				if(l == null || l.isEmpty())
-				{
-					continue;
-				}
-				PlayerData pd = PlayerData.convert(l).get(0);
-				playername = pd.getName();
-				otheruuid = pd.getUUID();
-				is = new ItemStack(Material.PLAYER_HEAD);
-				ItemMeta im = is.getItemMeta();
-				if(!(im instanceof SkullMeta))
-				{
-					continue;
-				}
-				SkullMeta sm = (SkullMeta) im;
-				sm.setOwningPlayer(Bukkit.getOfflinePlayer(pd.getUUID()));
-				is.setItemMeta(sm);
-			}
 			int amount = 1;
 			if(y.get(i+".Amount") != null)
 			{
@@ -302,7 +233,7 @@ public class GuiHandler
 		gui.open(player, gt, ssh.getId());
 	}
 	
-	/*@SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public static ItemStack getSkull(String url) 
 	{
         ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1, (short) 3);
@@ -328,7 +259,7 @@ public class GuiHandler
         return skull;
     }
 	
-	private static List<String> getLorePlaceHolder(SignShop ssh, Player player, List<String> lore, String playername)
+	/*private static List<String> getLorePlaceHolder(SignShop ssh, Player player, List<String> lore, String playername)
 	{
 		List<String> list = new ArrayList<>();
 		for(String s : lore)

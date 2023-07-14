@@ -84,6 +84,40 @@ public class ModifierValueEntry
 		return player.hasPermission(Bypass.get(bypassPermission));
 	}
 	
+	public static boolean hasPermission(Player player, String bypassPermission)
+	{
+		if(BaseConstructor.getPlugin().getValueEntry() != null)
+		{
+			Boolean ss = BaseConstructor.getPlugin().getValueEntry().getBooleanValueEntry(
+					player.getUniqueId(),
+					bypassPermission,
+					BaseConstructor.getPlugin().getServername(),
+					player.getWorld().getName());
+			if(ss == null)
+			{
+				if(BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("ValueEntry.OverrulePermission", false))
+				{
+					return false;
+				} else
+				{
+					return player.hasPermission(bypassPermission);
+				}
+			}
+			if(BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("ValueEntry.OverrulePermission", false))
+			{
+				return ss;
+			} else
+			{
+				if(ss || player.hasPermission(bypassPermission))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		return player.hasPermission(bypassPermission);
+	}
+	
 	public static int getResult(@NonNull Player player, Bypass.Counter countPermission)
 	{
 		return getResult(player, 0.0, countPermission);
