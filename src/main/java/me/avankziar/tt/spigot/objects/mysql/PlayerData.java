@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 
@@ -109,25 +107,22 @@ public class PlayerData implements MysqlHandable
 		this.vanillaExpStillToBeObtained = vanillaExpStillToBeObtained;
 	}
 
-	@Override //FIXME
+	@Override
 	public boolean create(Connection conn, String tablename)
 	{
 		try
 		{
 			String sql = "INSERT INTO `" + tablename
-					+ "`(`player_uuid`, `player_name`, `balance`, `bankaccountlist`,"
-					+ " `moneyplayerflow`, `moneybankflow`, `generalmessage`, `pendinginvite`, `frozen`) " 
-					+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					+ "`(`player_uuid`, `player_name`, `show_sync_msg`,"
+					+ " `ttexp_actual`, `ttexp_total_received`, `vanilla_exp_still_to_be_obtained`) " 
+					+ "VALUES(?, ?, ?, ?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 	        ps.setString(1, getUUID().toString());
 	        ps.setString(2, getName());
-	        ps.setDouble(3, getBalance());
-	        ps.setString(4, String.join(";", getBankAccountNumber()));
-	        ps.setBoolean(5, isMoneyBankFlow());
-	        ps.setBoolean(6, isMoneyPlayerFlow());
-	        ps.setBoolean(7, isGeneralMessage());
-	        ps.setString(8, getPendingInvite());
-	        ps.setBoolean(9, isFrozen());
+	        ps.setBoolean(3, isShowSyncMessage());
+	        ps.setDouble(4, getActualTTExp());
+	        ps.setDouble(5, getTotalReceivedTTExp());
+	        ps.setInt(6, getVanillaExpStillToBeObtained());
 	        int i = ps.executeUpdate();
 	        MysqlHandler.addRows(MysqlHandler.QueryType.INSERT, i);
 	        return true;
@@ -150,15 +145,12 @@ public class PlayerData implements MysqlHandable
 				+ " WHERE "+whereColumn;
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, getUUID().toString());
-			ps.setString(2, getName());
-			ps.setDouble(3, getBalance());
-			ps.setString(4, String.join(";", getBankAccountNumber()));
-			ps.setBoolean(5, isMoneyPlayerFlow());
-			ps.setBoolean(6, isMoneyBankFlow());
-			ps.setBoolean(7, isGeneralMessage());
-			ps.setString(8, getPendingInvite());
-			ps.setBoolean(9, isFrozen());
-			int i = 10;
+	        ps.setString(2, getName());
+	        ps.setBoolean(3, isShowSyncMessage());
+	        ps.setDouble(4, getActualTTExp());
+	        ps.setDouble(5, getTotalReceivedTTExp());
+	        ps.setInt(6, getVanillaExpStillToBeObtained());
+			int i = 6;
 			for(Object o : whereObject)
 			{
 				ps.setObject(i, o);
@@ -194,22 +186,13 @@ public class PlayerData implements MysqlHandable
 			ArrayList<Object> al = new ArrayList<>();
 			while (rs.next()) 
 			{
-				String bankacc = rs.getString("bankaccountlist");
-				List<String> lists = new ArrayList<>();
-				if(bankacc != null)
-				{
-					lists = Arrays.asList(rs.getString("bankaccountlist").split(";"));
-				}
 				al.add(new PlayerData(rs.getInt("id"),
 						UUID.fromString(rs.getString("player_uuid")),
 						rs.getString("player_name"),
-						rs.getDouble("balance"),
-						lists,
-						rs.getBoolean("moneyplayerflow"),
-						rs.getBoolean("moneybankflow"),
-						rs.getBoolean("generalmessage"),
-						rs.getString("pendinginvite"),
-						rs.getBoolean("frozen")));
+						rs.getBoolean("show_sync_msg"),
+						rs.getDouble("ttexp_actual"),
+						rs.getDouble("ttexp_total_received"),
+						rs.getInt("vanilla_exp_still_to_be_obtained")));
 			}
 			return al;
 		} catch (SQLException e)

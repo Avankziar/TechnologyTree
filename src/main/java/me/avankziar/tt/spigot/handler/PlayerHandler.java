@@ -24,14 +24,17 @@ import main.java.me.avankziar.tt.spigot.handler.BlockHandler.BlockType;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
 import main.java.me.avankziar.tt.spigot.ifh.ItemGenerator;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.TechnologyType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.EntryQueryStatus;
 import main.java.me.avankziar.tt.spigot.objects.mysql.EntryQueryStatus.EntryQueryType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.EntryQueryStatus.StatusType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
 import main.java.me.avankziar.tt.spigot.objects.mysql.RegisteredBlock;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.DropChance;
+import main.java.me.avankziar.tt.spigot.objects.ram.misc.MainCategory;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.SimpleDropChance;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.SimpleUnlockedInteraction;
+import main.java.me.avankziar.tt.spigot.objects.ram.misc.SubCategory;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.Technology;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.UnlockableInteraction;
 
@@ -177,17 +180,49 @@ public class PlayerHandler
 		plugin.getMysqlHandler().updateData(Type.PLAYERDATA, pd, "`player_uuid` = ?", pd.getUUID().toString());
 	}
 	
+	public static ItemStack canSeeOrResearch(UUID uuid, MainCategory mcat, SubCategory scat, Technology tech)
+	{
+		if(mcat != null)
+		{
+			EntryQueryStatus eqs = (EntryQueryStatus) plugin.getMysqlHandler().getData(Type.ENTRYQUERYSTATUS,
+					"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+					uuid.toString(), mcat.getInternName(), EntryQueryType.MAIN_CATEGORY.toString());
+			if(eqs == null)
+			{
+				
+			}
+		} else if(scat != null)
+		{
+			
+		} else if(tech != null)
+		{
+			
+		}
+		return null;
+	}
+	
 	public static void researchTechnology(Player player, Technology t, boolean doUpdate)
 	{
-		if(plugin.getMysqlHandler().exist(Type.ENTRYQUERYSTATUS,
-				"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
-				player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), StatusType.HAVE_RESEARCHED_IT.toString()))
+		EntryQueryStatus eeqs = (EntryQueryStatus) plugin.getMysqlHandler().getData(Type.ENTRYQUERYSTATUS,
+				"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ? AND `status_type` = ?",
+				player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString(), StatusType.HAVE_RESEARCHED_IT.toString());
+		if(t.getTechnologyType() == TechnologyType.SIMPLE && eeqs != null)
 		{
 			return;
+		} else if(t.getTechnologyType() == TechnologyType.MULTIPLE 
+				&& eeqs != null 
+				&& eeqs.getResearchLevel() < t.getMaximalTechnologyLevelToResearch())
+		{
+			eeqs.setResearchLevel(eeqs.getResearchLevel()+1);
+			plugin.getMysqlHandler().updateData(Type.ENTRYQUERYSTATUS, eeqs,
+					"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
+					player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), StatusType.HAVE_RESEARCHED_IT.toString());
+		} else
+		{
+			EntryQueryStatus eqs = new EntryQueryStatus(0, t.getInternName(), player.getUniqueId(),
+					EntryQueryType.TECHNOLOGY, StatusType.HAVE_RESEARCHED_IT, 1);
+			plugin.getMysqlHandler().create(Type.ENTRYQUERYSTATUS, eqs);
 		}
-		EntryQueryStatus eqs = new EntryQueryStatus(0, t.getInternName(), player.getUniqueId(),
-				EntryQueryType.TECHNOLOGY, StatusType.HAVE_RESEARCHED_IT);
-		plugin.getMysqlHandler().create(Type.ENTRYQUERYSTATUS, eqs);
 		if(doUpdate)
 		{
 			for(UnlockableInteraction ui : t.getRewardUnlockableInteractions())

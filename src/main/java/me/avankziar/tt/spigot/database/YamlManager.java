@@ -75,6 +75,8 @@ public class YamlManager
 		initModifierValueEntryLanguage();
 		initGuiStart();
 		initGuiMainCat();
+		initGuiSubCat();
+		initGuiTechnology();
 		initItemGenerator();
 		initMainCategory();
 		initSubCategory();
@@ -1053,25 +1055,84 @@ public class YamlManager
 						Material.ARROW.toString()}));
 		maincat.put(path+".Displayname",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&dSwitcht die Gui-Level-Ansicht",
-						"&dSwitch the Gui level view"}));
+						"&c<<< Zurück",
+						"&c<<< Back"}));
 		maincat.put(path+".Lore",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&cLinksklick &bfür das Basis Level.",
-						"&cRechtsklick &bfür das Fortgeschrittene Level.",
-						"&cShift Linksklick &bfür das Experten Level.",
-						"&cShift Rechtsklick &bfür das Meister Level.",
-						"&cLeftclick &bfor the basic level.",
-						"&cRightclick &bfor the advanced level.",
-						"&cShift-Leftclick  &bfor the expert level.",
-						"&cShift-Rightclick &bfor the master level."}));
+						"&eKehre zurück zum Start Menu.",
+						"",
+						"&eReturn to the Start Menu.",
+						""
+						}));
 		maincat.put(path+".ClickFunction."+ClickType.LEFT.toString(),
 				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-						ClickFunctionType.ADMINISTRATION_SETTINGSLEVEL_SETTO_BASE.toString()}));
+						ClickFunctionType.RETURN_TOSTART.toString()}));
 		maincat.put(path+".ClickFunction."+ClickType.RIGHT.toString(),
 				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-						ClickFunctionType.ADMINISTRATION_SETTINGSLEVEL_SETTO_ADVANCED.toString()}));
-		guiKeys.put(GuiType.START, maincat);
+						ClickFunctionType.RETURN_TOSTART.toString()}));
+		guiKeys.put(GuiType.MAIN_CATEGORY, maincat);
+	}
+	
+	public void initGuiSubCat() //INFO:GuiSubCat
+	{
+		LinkedHashMap<String, Language> subcat = new LinkedHashMap<>();
+		String path = "";
+		path = "53"; //Back
+		subcat.put(path+".SettingLevel",
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						SettingsLevel.NOLEVEL.toString()}));
+		subcat.put(path+".Material."+SettingsLevel.NOLEVEL.toString(),
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						Material.ARROW.toString()}));
+		subcat.put(path+".Displayname",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&c<<< Zurück",
+						"&c<<< Back"}));
+		subcat.put(path+".Lore",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eKehre zurück den Hauptkategorien.",
+						"",
+						"&eReturn to the main categories.",
+						""
+						}));
+		subcat.put(path+".ClickFunction."+ClickType.LEFT.toString(),
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						ClickFunctionType.RETURN_TOMAINCATEGORY.toString()}));
+		subcat.put(path+".ClickFunction."+ClickType.RIGHT.toString(),
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						ClickFunctionType.RETURN_TOMAINCATEGORY.toString()}));
+		guiKeys.put(GuiType.SUB_CATEGORY, subcat);
+	}
+	
+	public void initGuiTechnology() //INFO:GuiTechnology
+	{
+		LinkedHashMap<String, Language> tech = new LinkedHashMap<>();
+		String path = "";
+		path = "53"; //Back
+		tech.put(path+".SettingLevel",
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						SettingsLevel.NOLEVEL.toString()}));
+		tech.put(path+".Material."+SettingsLevel.NOLEVEL.toString(),
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						Material.ARROW.toString()}));
+		tech.put(path+".Displayname",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&c<<< Zurück",
+						"&c<<< Back"}));
+		tech.put(path+".Lore",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eKehre zurück zu den Subkategorien.",
+						"",
+						"&eReturn to the sub categories.",
+						""
+						}));
+		tech.put(path+".ClickFunction."+ClickType.LEFT.toString(),
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						ClickFunctionType.RETURN_TOSUBCATEGORY.toString()}));
+		tech.put(path+".ClickFunction."+ClickType.RIGHT.toString(),
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						ClickFunctionType.RETURN_TOSUBCATEGORY.toString()}));
+		guiKeys.put(GuiType.TECHNOLOGY, tech);
 	}
 	
 	public void initItemGenerator() //INFO:ItemGenerator

@@ -130,13 +130,16 @@ public class MysqlSetup
 		return true;
 	}
 	
-	private boolean setupDatabaseI() //TODO noch machen
+	private boolean setupDatabaseI()
 	{
 		String data = "CREATE TABLE IF NOT EXISTS `" + MysqlHandler.Type.PLAYERDATA.getValue()
 		+ "` (id int AUTO_INCREMENT PRIMARY KEY,"
 		+ " player_uuid char(36) NOT NULL UNIQUE,"
 		+ " player_name varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,"
-		+ " searchtype text);";
+		+ " show_sync_msg boolean,"
+		+ " ttexp_actual double,"
+		+ " ttexp_total_received double,"
+		+ " vanilla_exp_still_to_be_obtained int);";
 		baseSetup(data);
 		return true;
 	}
@@ -148,7 +151,8 @@ public class MysqlSetup
 		+ " intern_name text NOT NULL,"
 		+ " player_uuid char(36) NOT NULL,"
 		+ " entry_query_type text NOT NULL,"
-		+ " status_type text NOT NULL);";
+		+ " status_type text NOT NULL,"
+		+ " research_level int);";
 		baseSetup(data);
 		return true;
 	}

@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 
@@ -35,17 +33,19 @@ public class EntryQueryStatus implements MysqlHandable
 	private UUID playerUUID;
 	private EntryQueryType entryQueryType;
 	private StatusType statusType;
+	private int researchLevel;
 	
 	
 	public EntryQueryStatus(){}
 	
-	public EntryQueryStatus(int id, String internName, UUID playerUUID, EntryQueryType entryQueryType, StatusType statusType)
+	public EntryQueryStatus(int id, String internName, UUID playerUUID, EntryQueryType entryQueryType, StatusType statusType, int researchLevel)
 	{
 		setId(id);
 		setInternName(internName);
 		setPlayerUUID(playerUUID);
 		setEntryQueryType(entryQueryType);
 		setStatusType(statusType);
+		setResearchLevel(researchLevel);
 	}
 
 	public int getId()
@@ -98,25 +98,30 @@ public class EntryQueryStatus implements MysqlHandable
 		this.statusType = statusType;
 	}
 	
-	@Override //FIXME
+	public int getResearchLevel()
+	{
+		return researchLevel;
+	}
+
+	public void setResearchLevel(int researchLevel)
+	{
+		this.researchLevel = researchLevel;
+	}
+
+	@Override
 	public boolean create(Connection conn, String tablename)
 	{
 		try
 		{
 			String sql = "INSERT INTO `" + tablename
-					+ "`(`player_uuid`, `player_name`, `balance`, `bankaccountlist`,"
-					+ " `moneyplayerflow`, `moneybankflow`, `generalmessage`, `pendinginvite`, `frozen`) " 
-					+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					+ "`(`intern_name`, `player_uuid`, `entry_query_type`, `status_type`, `research_level`) " 
+					+ "VALUES(?, ?, ?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
-	        ps.setString(1, getUUID().toString());
-	        ps.setString(2, getName());
-	        ps.setDouble(3, getBalance());
-	        ps.setString(4, String.join(";", getBankAccountNumber()));
-	        ps.setBoolean(5, isMoneyBankFlow());
-	        ps.setBoolean(6, isMoneyPlayerFlow());
-	        ps.setBoolean(7, isGeneralMessage());
-	        ps.setString(8, getPendingInvite());
-	        ps.setBoolean(9, isFrozen());
+	        ps.setString(1, getInternName());
+	        ps.setString(2, getPlayerUUID().toString());
+	        ps.setString(3, getEntryQueryType().toString());
+	        ps.setString(4, getStatusType().toString());
+	        ps.setInt(5, getResearchLevel());
 	        int i = ps.executeUpdate();
 	        MysqlHandler.addRows(MysqlHandler.QueryType.INSERT, i);
 	        return true;
@@ -133,21 +138,15 @@ public class EntryQueryStatus implements MysqlHandable
 		try
 		{
 			String sql = "UPDATE `" + tablename
-				+ "` SET `player_uuid` = ?, `player_name` = ?, `balance` = ?,"
-				+ " `bankaccountlist` = ?, `moneyplayerflow` = ?, `moneybankflow` = ?, `generalmessage` = ?,"
-				+ " `pendinginvite` = ?, `frozen` = ?" 
+				+ "` SET `intern_name` = ?, `player_uuid` = ?, `entry_query_type` = ?, `status_type` = ?, `research_level` = ?" 
 				+ " WHERE "+whereColumn;
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, getUUID().toString());
-			ps.setString(2, getName());
-			ps.setDouble(3, getBalance());
-			ps.setString(4, String.join(";", getBankAccountNumber()));
-			ps.setBoolean(5, isMoneyPlayerFlow());
-			ps.setBoolean(6, isMoneyBankFlow());
-			ps.setBoolean(7, isGeneralMessage());
-			ps.setString(8, getPendingInvite());
-			ps.setBoolean(9, isFrozen());
-			int i = 10;
+			ps.setString(1, getInternName());
+	        ps.setString(2, getPlayerUUID().toString());
+	        ps.setString(3, getEntryQueryType().toString());
+	        ps.setString(4, getStatusType().toString());
+	        ps.setInt(5, getResearchLevel());
+			int i = 6;
 			for(Object o : whereObject)
 			{
 				ps.setObject(i, o);
@@ -183,22 +182,12 @@ public class EntryQueryStatus implements MysqlHandable
 			ArrayList<Object> al = new ArrayList<>();
 			while (rs.next()) 
 			{
-				String bankacc = rs.getString("bankaccountlist");
-				List<String> lists = new ArrayList<>();
-				if(bankacc != null)
-				{
-					lists = Arrays.asList(rs.getString("bankaccountlist").split(";"));
-				}
-				al.add(new PlayerData(rs.getInt("id"),
+				al.add(new EntryQueryStatus(rs.getInt("id"),
+						rs.getString("intern_name"),
 						UUID.fromString(rs.getString("player_uuid")),
-						rs.getString("player_name"),
-						rs.getDouble("balance"),
-						lists,
-						rs.getBoolean("moneyplayerflow"),
-						rs.getBoolean("moneybankflow"),
-						rs.getBoolean("generalmessage"),
-						rs.getString("pendinginvite"),
-						rs.getBoolean("frozen")));
+						EntryQueryType.valueOf(rs.getString("entry_query_type")),
+						StatusType.valueOf(rs.getString("status_type")),
+						rs.getInt("research_level")));
 			}
 			return al;
 		} catch (SQLException e)

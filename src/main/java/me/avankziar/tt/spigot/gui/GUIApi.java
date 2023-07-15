@@ -342,17 +342,16 @@ public class GUIApi
 		}
 	}
 
-	public void open(Player player, GuiType gt, int sshid) 
+	public void open(Player player, GuiType gt) 
 	{
 		if(this.inventory != null) player.openInventory(this.inventory);
-		addInGui(player.getUniqueId(), inventoryIdentifier, gt, settingsLevel, sshid);
+		addInGui(player.getUniqueId(), inventoryIdentifier, gt, settingsLevel);
 	}
 	
 	//Key == playeruuid
 	//Value == InventoryIdentifier
 	private static LinkedHashMap<UUID, String> playerInGui = new LinkedHashMap<>();
 	private static LinkedHashMap<UUID, GuiType> playerInGuiType = new LinkedHashMap<>();
-	private static LinkedHashMap<UUID, Integer> playerInGuiSSHID = new LinkedHashMap<>();
 	//Key == playeruuid
 	//Value == Player actual SettingsLevel
 	private static LinkedHashMap<UUID, SettingsLevel> playerGuiSettingsLevel = new LinkedHashMap<>();
@@ -377,11 +376,10 @@ public class GUIApi
 		return playerGuiSettingsLevel.get(uuid);
 	}
     
-	public static void addInGui(UUID uuid, String inventoryIdentifier, GuiType gt, SettingsLevel settingsLevel, int sshid)
+	public static void addInGui(UUID uuid, String inventoryIdentifier, GuiType gt, SettingsLevel settingsLevel)
     {
 		playerInGui.put(uuid, inventoryIdentifier);
 		playerInGuiType.put(uuid, gt);
-		playerInGuiSSHID.put(uuid, sshid);
 		playerGuiSettingsLevel.put(uuid, settingsLevel);
     }
     
@@ -389,7 +387,6 @@ public class GUIApi
     {
 		playerInGui.remove(uuid);
 		playerInGuiType.remove(uuid);
-		playerInGuiSSHID.remove(uuid);
 		playerGuiSettingsLevel.remove(uuid);
     }
 }
