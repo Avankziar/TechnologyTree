@@ -113,6 +113,31 @@ public class CatTechHandler
 				
 				List<String> researchRequirementConditionQuery = y.getStringList("RequirementToResearch.ConditionQuery");
 				
+				String costTTExp = y.getString("RequirementToResearch.Costs.TTExp");
+				String costVanillaExp = y.getString("RequirementToResearch.Costs.VanillaExp");
+				String costMoney = y.getString("RequirementToResearch.Costs.Money");
+				LinkedHashMap<Material, String> costMaterial = new LinkedHashMap<>();
+				if(y.get("RequirementToResearch.Costs.Material") != null)
+				{
+					for(String s : y.getStringList("RequirementToResearch.Costs.Material"))
+					{
+						String[] split = s.split(";");
+						if(split.length != 2)
+						{
+							continue;
+						}
+						try
+						{
+							Material mat = Material.valueOf(split[0]);
+							String amount = split[1];
+							costMaterial.put(mat, amount);
+						} catch(Exception e)
+						{
+							continue;
+						}
+					}
+				}
+				
 				ArrayList<UnlockableInteraction> rewardUnlockableInteractions = new ArrayList<>();
 				if(y.get("Rewards.UnlockableInteractions") != null)
 				{
@@ -280,6 +305,7 @@ public class CatTechHandler
 				Technology t = new Technology(internName, displayName, technologyType, maximalTechnologyLevelToResearch,
 						playerAssociatedType, overlyingSubCategory, guiSlot,
 						seeRequirementConditionQuery, seeRequirementShowDifferentItemIfYouNormallyDontSeeIt, researchRequirementConditionQuery, 
+						costTTExp, costVanillaExp, costMoney, costMaterial,
 						rewardUnlockableInteractions, rewardRecipes, rewardDropChances, rewardSilkTouchDropChances,
 						rewardCommandList, rewardItemList, rewardModifierList, rewardValueEntryList);
 				if(playerAssociatedType == PlayerAssociatedType.SOLO)

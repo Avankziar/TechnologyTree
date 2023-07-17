@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -31,6 +32,11 @@ public class Technology
 	
 	private List<String> researchRequirementConditionQuery;
 	
+	private String costTTExp;
+	private String costVanillaExp;
+	private String costMoney;
+	private LinkedHashMap<Material, String> costMaterial;
+	
 	private ArrayList<UnlockableInteraction> rewardUnlockableInteractions;
 	private LinkedHashMap<RecipeType, ArrayList<String>> rewardRecipes; 
 	private ArrayList<DropChance> rewardDropChances;
@@ -46,6 +52,7 @@ public class Technology
 			int guiSlot,
 			List<String> seeRequirementConditionQuery, boolean seeRequirementShowDifferentItemIfYouNormallyDontSeeIt,
 			List<String> researchRequirementConditionQuery,
+			String costTTExp, String costVanillaExp, String costMoney, LinkedHashMap<Material, String> costMaterial,
 			ArrayList<UnlockableInteraction> rewardUnlockableInteractions,
 			LinkedHashMap<RecipeType, ArrayList<String>> rewardRecipes,
 			ArrayList<DropChance> rewardDropChances,
@@ -70,6 +77,11 @@ public class Technology
 		setSeeRequirementShowDifferentItemIfYouNormallyDontSeeIt(seeRequirementShowDifferentItemIfYouNormallyDontSeeIt);
 		
 		setResearchRequirementConditionQuery(researchRequirementConditionQuery);
+		
+		setCostTTExp(costTTExp);
+		setCostVanillaExp(costVanillaExp);
+		setCostMoney(costMoney);
+		setCostMaterial(costMaterial);
 		
 		setRewardUnlockableInteractions(rewardUnlockableInteractions);
 		setRewardRecipes(rewardRecipes);
@@ -179,7 +191,7 @@ public class Technology
 				"RequirementToSee.ItemIfYouCanSee", 0);
 	}
 
-	public ItemStack getSeeRequirementItemifYouCannotSeeIt(Player player)
+	public ItemStack getSeeRequirementItemIfYouCannotSeeIt(Player player)
 	{
 		return new ItemGenerator().generateItem(player,
 				BaseConstructor.getPlugin().getYamlHandler().getTechnologies().get(this.getInternName()),
@@ -203,13 +215,53 @@ public class Technology
 				"RequirementToResearch.IfYouCanResearchIt", 0);
 	}
 
-	public ItemStack getResearchRequirementItemifYouHaveResearchedIt(Player player)
+	public ItemStack getResearchRequirementItemIfYouHaveResearchedIt(Player player)
 	{
 		return new ItemGenerator().generateItem(player,
 				BaseConstructor.getPlugin().getYamlHandler().getTechnologies().get(this.getInternName()),
 				"RequirementToResearch.ItemIfYouHaveResearchedIt", 0);
 	}
 	
+	public String getCostTTExp()
+	{
+		return costTTExp;
+	}
+
+	public void setCostTTExp(String costTTExp)
+	{
+		this.costTTExp = costTTExp;
+	}
+
+	public String getCostVanillaExp()
+	{
+		return costVanillaExp;
+	}
+
+	public void setCostVanillaExp(String costVanillaExp)
+	{
+		this.costVanillaExp = costVanillaExp;
+	}
+
+	public String getCostMoney()
+	{
+		return costMoney;
+	}
+
+	public void setCostMoney(String costMoney)
+	{
+		this.costMoney = costMoney;
+	}
+
+	public LinkedHashMap<Material, String> getCostMaterial()
+	{
+		return costMaterial;
+	}
+
+	public void setCostMaterial(LinkedHashMap<Material, String> costMaterial)
+	{
+		this.costMaterial = costMaterial;
+	}
+
 	public ArrayList<UnlockableInteraction> getRewardUnlockableInteractions()
 	{
 		return rewardUnlockableInteractions;

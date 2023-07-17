@@ -210,6 +210,13 @@ RequirementToResearch:
   ConditionQuery:
   -
   -
+  Costs:
+    TTExp: '' #double
+    VanillaExp: '' #int
+    Money: '' # double
+    Material:
+    - DIRT;128
+    - DIAMOND;5
   ItemIfYouHaveResearchedIt:
     Displayname: ''
     Material: ''
