@@ -127,6 +127,14 @@ public class MysqlSetup
 		{
 			return false;
 		}
+		if(!setupDatabaseIV())
+		{
+			return false;
+		}
+		if(!setupDatabaseV())
+		{
+			return false;
+		}
 		return true;
 	}
 	
@@ -146,13 +154,14 @@ public class MysqlSetup
 	
 	private boolean setupDatabaseII() 
 	{
-		String data = "CREATE TABLE IF NOT EXISTS `" + MysqlHandler.Type.ENTRYQUERYSTATUS.getValue()
+		String data = "CREATE TABLE IF NOT EXISTS `" + MysqlHandler.Type.SOLOENTRYQUERYSTATUS.getValue()
 		+ "` (id int AUTO_INCREMENT PRIMARY KEY,"
 		+ " intern_name text NOT NULL,"
 		+ " player_uuid char(36) NOT NULL,"
 		+ " entry_query_type text NOT NULL,"
 		+ " status_type text NOT NULL,"
-		+ " research_level int);";
+		+ " research_level int,"
+		+ " if_booster_duration_until_expiration BIGINT);";
 		baseSetup(data);
 		return true;
 	}
@@ -168,6 +177,31 @@ public class MysqlSetup
 		+ " block_x int,"
 		+ " block_y int,"
 		+ " block_z int);";
+		baseSetup(data);
+		return true;
+	}
+	
+	private boolean setupDatabaseIV() 
+	{
+		String data = "CREATE TABLE IF NOT EXISTS `" + MysqlHandler.Type.TECHNOLOGYPOLL.getValue()
+		+ "` (id int AUTO_INCREMENT PRIMARY KEY,"
+		+ " player_uuid char(36) NOT NULL,"
+		+ " choosen_technology text not NULL,"
+		+ " processed_in_repayment boolean,"
+		+ " global_choosen_technology text);";
+		baseSetup(data);
+		return true;
+	}
+	
+	private boolean setupDatabaseV() 
+	{
+		String data = "CREATE TABLE IF NOT EXISTS `" + MysqlHandler.Type.GLOBALENTRYQUERYSTATUS.getValue()
+		+ "` (id int AUTO_INCREMENT PRIMARY KEY,"
+		+ " intern_name text NOT NULL,"
+		+ " entry_query_type text NOT NULL,"
+		+ " status_type text NOT NULL,"
+		+ " research_level int,"
+		+ " if_booster_duration_until_expiration BIGINT);";
 		baseSetup(data);
 		return true;
 	}

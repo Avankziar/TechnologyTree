@@ -28,10 +28,13 @@ public class BlockHandler
 	
 	private static TT plugin = BaseConstructor.getPlugin();
 	
-	public static LinkedHashMap<UUID, String> atTheMomentAccessBlockMap = new LinkedHashMap<>(); //Blöcke die man gerade angeklickt hat., BlockType, Loc als String
+	//Blöcke die man gerade angeklickt hat., BlockType, Loc als String
+	public static LinkedHashMap<UUID, String> atTheMomentAccessBlockMap = new LinkedHashMap<>();
 	
-	public static LinkedHashMap<String, String> recipeSmeltAtFurnace = new LinkedHashMap<>(); //Location als string und dann das Key des Recipe
-	public static LinkedHashMap<String, String> recipeBrewAtBrewingStand = new LinkedHashMap<>(); //Location als string und dann das Key des Recipe
+	//Location als string und dann das Key des Recipe
+	public static LinkedHashMap<String, String> recipeSmeltAtFurnace = new LinkedHashMap<>();
+	//Location als string und dann das Key des Recipe
+	public static LinkedHashMap<String, String> recipeBrewAtBrewingStand = new LinkedHashMap<>();
 	
 	public static BlockType getBlockType(Material mat)
 	{

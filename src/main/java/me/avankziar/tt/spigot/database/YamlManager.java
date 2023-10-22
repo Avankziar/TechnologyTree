@@ -330,7 +330,7 @@ public class YamlManager
 				60}));
 		configSpigotKeys.put("Do.Reward.Payout.ForOfflinePlayerActive"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
+				false}));
 		configSpigotKeys.put("Do.Reward.Payout.RepetitionRateForOfflinePlayersInSeconds"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				60}));
@@ -352,6 +352,16 @@ public class YamlManager
 		configSpigotKeys.put("Do.Reward.Smelting.FinishSmeltIfPlayerHasNotTheRecipeUnlocked"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				false}));
+		configSpigotKeys.put("Do.TechnologyPoll.ProcessPollOnMainServer"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				false}));
+		configSpigotKeys.put("Do.TechnologyPoll.DaysOfTheMonth_ToProcessThePoll"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				"GROUP:18-00:WEDNESDAY:FIRST",
+				"GROUP:18-00:14",
+				"GROUP:18-00:WEDNESDAY:THIRD",
+				"GLOBAL:20-00:SUNDAY:SECOND",
+				"GLOBAL:20-00:SUNDAY:FOURTH"}));
 	}
 	
 	@SuppressWarnings("unused") //INFO:Commands
@@ -532,7 +542,7 @@ public class YamlManager
 		String path = "EnumHandler.";
 	}
 	
-	public void initPlayerHandlerLang() //INFO:PlayerHandlerLang
+	private void initPlayerHandlerLang() //INFO:PlayerHandlerLang
 	{
 		String path = "PlayerHandler.";
 		languageKeys.put(path+"SyncStart", 
@@ -543,6 +553,30 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&7[&eTT&7] &bSync ist komplett!",
 						"&7[&eTT&7] &bSync is complete!"}));
+		languageKeys.put(path+"PayTechnology.Category", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&6Technologiekauf",
+						"&6Technologypurchase"}));
+		languageKeys.put(path+"PayTechnology.Comment", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&bKauf von &e%technology% &bin &7%subcategory%&f/&7%maincategory%",
+						"&bPurchase of &e%technology% &bin &7%subcategory%&f/&7%maincategory%"}));
+		languageKeys.put(path+"PollTechnology.Category", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&6Technologiewahl",
+						"&6TechnologyVote"}));
+		languageKeys.put(path+"PollTechnology.Comment", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&bWahlkosten von &e%technology% &bin &7%subcategory%&f/&7%maincategory%",
+						"&bVotecosts of &e%technology% &bin &7%subcategory%&f/&7%maincategory%"}));
+		languageKeys.put(path+"PollReTechnology.Category", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&6Technologiewahlwiedererstattung",
+						"&6TechnologyVoteRefund"}));
+		languageKeys.put(path+"PollReTechnology.Comment", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&bWahlkostenerstattung von &e%technology% &bin &7%subcategory%&f/&7%maincategory%",
+						"&bTechnology choice refund of &e%technology% &bin &7%subcategory%&f/&7%maincategory%"}));
 	}
 	
 	public void initBlockHandlerLang() //INFO:BlockHandlerLang

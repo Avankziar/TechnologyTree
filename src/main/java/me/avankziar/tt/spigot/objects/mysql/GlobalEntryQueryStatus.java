@@ -5,49 +5,40 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.UUID;
 import java.util.logging.Level;
 
 import main.java.me.avankziar.tt.spigot.database.MysqlHandable;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
+import main.java.me.avankziar.tt.spigot.objects.EntryQueryType;
+import main.java.me.avankziar.tt.spigot.objects.EntryStatusType;
 
-public class EntryQueryStatus implements MysqlHandable
+public class GlobalEntryQueryStatus implements MysqlHandable
 {
-	public enum EntryQueryType
-	{
-		MAIN_CATEGORY,
-		SUB_CATEGORY,
-		TECHNOLOGY;
-	}
-	
-	public enum StatusType
-	{
-		CANNOT_SEE_IT,
-		CAN_SEE_IT,
-		CAN_RESEARCH_IT,
-		HAVE_RESEARCHED_IT;
-	}
-	
 	private int id;
 	private String internName;
-	private UUID playerUUID;
+	
 	private EntryQueryType entryQueryType;
-	private StatusType statusType;
+	private EntryStatusType statusType;
 	private int researchLevel;
+	private long ifBoosterDurationUntilExpiration;
 	
+	public GlobalEntryQueryStatus()
+	{
+		
+	}
 	
-	public EntryQueryStatus(){}
-	
-	public EntryQueryStatus(int id, String internName, UUID playerUUID, EntryQueryType entryQueryType, StatusType statusType, int researchLevel)
+	public GlobalEntryQueryStatus(int id, String internName,
+			EntryQueryType entryQueryType, EntryStatusType statusType, int researchLevel,
+			long ifBoosterDurationUntilExpiration)
 	{
 		setId(id);
 		setInternName(internName);
-		setPlayerUUID(playerUUID);
 		setEntryQueryType(entryQueryType);
 		setStatusType(statusType);
 		setResearchLevel(researchLevel);
+		setIfBoosterDurationUntilExpiration(ifBoosterDurationUntilExpiration);
 	}
-
+	
 	public int getId()
 	{
 		return id;
@@ -67,16 +58,6 @@ public class EntryQueryStatus implements MysqlHandable
 	{
 		this.internName = internName;
 	}
-	
-	public UUID getPlayerUUID()
-	{
-		return playerUUID;
-	}
-
-	public void setPlayerUUID(UUID playerUUID)
-	{
-		this.playerUUID = playerUUID;
-	}
 
 	public EntryQueryType getEntryQueryType()
 	{
@@ -88,12 +69,12 @@ public class EntryQueryStatus implements MysqlHandable
 		this.entryQueryType = entryQueryType;
 	}
 
-	public StatusType getStatusType()
+	public EntryStatusType getStatusType()
 	{
 		return statusType;
 	}
 
-	public void setStatusType(StatusType statusType)
+	public void setStatusType(EntryStatusType statusType)
 	{
 		this.statusType = statusType;
 	}
@@ -108,20 +89,30 @@ public class EntryQueryStatus implements MysqlHandable
 		this.researchLevel = researchLevel;
 	}
 
+	public long getIfBoosterDurationUntilExpiration()
+	{
+		return ifBoosterDurationUntilExpiration;
+	}
+
+	public void setIfBoosterDurationUntilExpiration(long ifBoosterDurationUntilExpiration)
+	{
+		this.ifBoosterDurationUntilExpiration = ifBoosterDurationUntilExpiration;
+	}
+
 	@Override
 	public boolean create(Connection conn, String tablename)
 	{
 		try
 		{
 			String sql = "INSERT INTO `" + tablename
-					+ "`(`intern_name`, `player_uuid`, `entry_query_type`, `status_type`, `research_level`) " 
+					+ "`(`intern_name`, `entry_query_type`, `status_type`, `research_level`, `if_booster_duration_until_expiration`) " 
 					+ "VALUES(?, ?, ?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 	        ps.setString(1, getInternName());
-	        ps.setString(2, getPlayerUUID().toString());
-	        ps.setString(3, getEntryQueryType().toString());
-	        ps.setString(4, getStatusType().toString());
-	        ps.setInt(5, getResearchLevel());
+	        ps.setString(2, getEntryQueryType().toString());
+	        ps.setString(3, getStatusType().toString());
+	        ps.setInt(4, getResearchLevel());
+	        ps.setLong(5, getIfBoosterDurationUntilExpiration());
 	        int i = ps.executeUpdate();
 	        MysqlHandler.addRows(MysqlHandler.QueryType.INSERT, i);
 	        return true;
@@ -138,14 +129,15 @@ public class EntryQueryStatus implements MysqlHandable
 		try
 		{
 			String sql = "UPDATE `" + tablename
-				+ "` SET `intern_name` = ?, `player_uuid` = ?, `entry_query_type` = ?, `status_type` = ?, `research_level` = ?" 
+				+ "` SET `intern_name` = ?, `entry_query_type` = ?, `status_type` = ?, `research_level` = ?,"
+				+ " `if_booster_duration_until_expiration` = ?" 
 				+ " WHERE "+whereColumn;
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, getInternName());
-	        ps.setString(2, getPlayerUUID().toString());
-	        ps.setString(3, getEntryQueryType().toString());
-	        ps.setString(4, getStatusType().toString());
-	        ps.setInt(5, getResearchLevel());
+	        ps.setString(2, getEntryQueryType().toString());
+	        ps.setString(3, getStatusType().toString());
+	        ps.setInt(4, getResearchLevel());
+	        ps.setLong(5, getIfBoosterDurationUntilExpiration());
 			int i = 6;
 			for(Object o : whereObject)
 			{
@@ -182,12 +174,12 @@ public class EntryQueryStatus implements MysqlHandable
 			ArrayList<Object> al = new ArrayList<>();
 			while (rs.next()) 
 			{
-				al.add(new EntryQueryStatus(rs.getInt("id"),
+				al.add(new GlobalEntryQueryStatus(rs.getInt("id"),
 						rs.getString("intern_name"),
-						UUID.fromString(rs.getString("player_uuid")),
 						EntryQueryType.valueOf(rs.getString("entry_query_type")),
-						StatusType.valueOf(rs.getString("status_type")),
-						rs.getInt("research_level")));
+						EntryStatusType.valueOf(rs.getString("status_type")),
+						rs.getInt("research_level"),
+						rs.getLong("if_booster_duration_until_expiration")));
 			}
 			return al;
 		} catch (SQLException e)
@@ -197,14 +189,14 @@ public class EntryQueryStatus implements MysqlHandable
 		return new ArrayList<>();
 	}
 	
-	public static ArrayList<EntryQueryStatus> convert(ArrayList<Object> arrayList)
+	public static ArrayList<GlobalEntryQueryStatus> convert(ArrayList<Object> arrayList)
 	{
-		ArrayList<EntryQueryStatus> l = new ArrayList<>();
+		ArrayList<GlobalEntryQueryStatus> l = new ArrayList<>();
 		for(Object o : arrayList)
 		{
-			if(o instanceof EntryQueryStatus)
+			if(o instanceof GlobalEntryQueryStatus)
 			{
-				l.add((EntryQueryStatus) o);
+				l.add((GlobalEntryQueryStatus) o);
 			}
 		}
 		return l;

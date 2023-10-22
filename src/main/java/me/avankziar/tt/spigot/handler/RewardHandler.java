@@ -23,10 +23,12 @@ import main.java.me.avankziar.ifh.spigot.economy.account.Account;
 import main.java.me.avankziar.ifh.spigot.economy.currency.EconomyCurrency;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
+import main.java.me.avankziar.tt.spigot.event.PostRewardEvent;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.objects.RewardType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
+import main.java.me.avankziar.tt.spigot.objects.ram.misc.RewardSummary;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.SimpleDropChance;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.SimpleUnlockedInteraction;
 
@@ -103,6 +105,7 @@ public class RewardHandler
 		rewardMaterialMap.remove(uuid);
 		final LinkedHashMap<UUID, LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>>> entityMap = rewardEntityTypeMap;
 		rewardEntityTypeMap.remove(uuid);
+		ArrayList<RewardSummary> rewardSummaryList = new ArrayList<>();
 		if(matMap.containsKey(uuid))
 		{
 			for(Entry<Material, LinkedHashMap<EventType, Double>> entry : matMap.get(uuid).entrySet())
@@ -144,6 +147,8 @@ public class RewardHandler
 							cmdAmount = cmdAmount + s.getValue() * amount;
 							toGiveCommandMap.put(s.getKey(), cmdAmount);
 						}
+						RewardSummary rs = new RewardSummary(et, mat, null, amount, toGiveVanillaExp, toGiveTTExp, toGiveMoneyMap, toGiveCommandMap);
+						rewardSummaryList.add(rs);
 					}
 				}
 			}
@@ -189,6 +194,8 @@ public class RewardHandler
 							cmdAmount = cmdAmount + s.getValue() * amount;
 							toGiveCommandMap.put(s.getKey(), cmdAmount);
 						}
+						RewardSummary rs = new RewardSummary(et, null, ent, amount, toGiveVanillaExp, toGiveTTExp, toGiveMoneyMap, toGiveCommandMap);
+						rewardSummaryList.add(rs);
 					}
 				}
 			}					
@@ -229,16 +236,18 @@ public class RewardHandler
 			}
 			if("spigot".equalsIgnoreCase(split[0]))
 			{
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), split[2]
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), split[1]
 								.replace("%player%", playername)
 								.replace("%value%", String.valueOf(e.getValue())));
 			} else if("bungee".equalsIgnoreCase(split[0]) && plugin.getCommandToBungee() != null)
 			{
-				plugin.getCommandToBungee().executeAsConsole(split[2]
+				plugin.getCommandToBungee().executeAsConsole(split[1]
 						.replace("%player%", playername)
 						.replace("%value%", String.valueOf(e.getValue())));
 			}
 		}
+		PostRewardEvent postRewardEvent = new PostRewardEvent(uuid, playername, rewardSummaryList);
+		Bukkit.getPluginManager().callEvent(postRewardEvent);
 	}
 	
 	public static void rewardPlayer(UUID uuid, EventType eventType, Material material, EntityType entityType, double amount)

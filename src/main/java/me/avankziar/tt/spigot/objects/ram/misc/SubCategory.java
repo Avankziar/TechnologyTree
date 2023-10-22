@@ -13,7 +13,7 @@ public class SubCategory extends TechCategory
 			List<String> seeRequirementConditionQuery, boolean seeRequirementShowDifferentItemIfYouNormallyDontSeeIt,
 			String overlyingCategory)
 	{
-		super(internName, displayName, playerAssociatedType, groupAssociatedPermission, guiSlot, useFixGuiSlot,
+		super(internName, displayName, playerAssociatedType, guiSlot, useFixGuiSlot,
 				seeRequirementConditionQuery, seeRequirementShowDifferentItemIfYouNormallyDontSeeIt);
 		setOverlyingCategory(overlyingCategory);
 	}

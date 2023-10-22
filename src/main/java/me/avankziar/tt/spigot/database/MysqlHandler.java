@@ -8,17 +8,21 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 
 import main.java.me.avankziar.tt.spigot.TT;
-import main.java.me.avankziar.tt.spigot.objects.mysql.EntryQueryStatus;
+import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalEntryQueryStatus;
 import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
 import main.java.me.avankziar.tt.spigot.objects.mysql.RegisteredBlock;
+import main.java.me.avankziar.tt.spigot.objects.mysql.SoloEntryQueryStatus;
+import main.java.me.avankziar.tt.spigot.objects.mysql.TechnologyPoll;
 
 public class MysqlHandler
 {
 	public enum Type
 	{
 		PLAYERDATA("ttPlayerData", new PlayerData()),
-		ENTRYQUERYSTATUS("ttEntryQueryStatus", new EntryQueryStatus()),
-		REGISTEREDBLOCK("ttRegisteredBlock", new RegisteredBlock());
+		SOLOENTRYQUERYSTATUS("ttSoloEntryQueryStatus", new SoloEntryQueryStatus()),
+		REGISTEREDBLOCK("ttRegisteredBlock", new RegisteredBlock()),
+		TECHNOLOGYPOLL("ttTechnologyPoll", new TechnologyPoll()),
+		GLOBALENTRYQUERYSTATUS("ttGlobalEntryQueryStatus", new GlobalEntryQueryStatus());
 		
 		private Type(String value, Object object)
 		{
@@ -194,6 +198,26 @@ public class MysqlHandler
 			MysqlHandler.addRows(QueryType.DELETE, d);
 			return d;
 	    } catch (SQLException e) 
+		{
+	    	if(type.getObject() instanceof MysqlHandable)
+			  {
+				  MysqlHandable mh = (MysqlHandable) type.getObject();
+				  mh.log(Level.WARNING, "Could not delete "+type.getObject().getClass().getName()+" Object!", e);
+			  }
+		}
+		return 0;
+	}
+	
+	public int truncate(Type type)
+	{
+		try (Connection conn = plugin.getMysqlSetup().getConnection();)
+		{
+			PreparedStatement ps = getPreparedStatement(conn,
+					"TRUNCATE TABLE `" + type.getValue() + "`", 0, new Object[]{});
+	        int d = ps.executeUpdate();
+			MysqlHandler.addRows(QueryType.DELETE, d);
+			return d;
+	    } catch (SQLException e)
 		{
 	    	if(type.getObject() instanceof MysqlHandable)
 			  {

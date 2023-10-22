@@ -10,7 +10,7 @@ public class MainCategory extends TechCategory
 			int guiSlot, boolean useFixGuiSlot,
 			List<String> seeRequirementConditionQuery, boolean seeRequirementShowDifferentItemIfYouNormallyDontSeeIt)
 	{
-		super(internName, displayName, playerAssociatedType, groupAssociatedPermission ,guiSlot, useFixGuiSlot,
+		super(internName, displayName, playerAssociatedType ,guiSlot, useFixGuiSlot,
 				seeRequirementConditionQuery, seeRequirementShowDifferentItemIfYouNormallyDontSeeIt);
 	}
 }

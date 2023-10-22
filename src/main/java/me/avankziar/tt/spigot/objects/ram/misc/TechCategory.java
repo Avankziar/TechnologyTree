@@ -15,7 +15,6 @@ public class TechCategory
 	private String displayName;
 	
 	private PlayerAssociatedType playerAssociatedType;
-	private String groupAssociatedPermission;
 	
 	private int guiSlot;
 	private boolean useFixGuiSlot;
@@ -24,14 +23,13 @@ public class TechCategory
 	private boolean seeRequirementShowDifferentItemIfYouNormallyDontSeeIt;
 	
 	public TechCategory(String internName, String displayName, 
-			PlayerAssociatedType playerAssociatedType, String groupAssociatedPermission,
+			PlayerAssociatedType playerAssociatedType,
 			int guiSlot, boolean useFixGuiSlot,
 			List<String> seeRequirementConditionQuery, boolean seeRequirementShowDifferentItemIfYouNormallyDontSeeIt)
 	{
 		setInternName(internName);
 		setDisplayName(displayName);
 		setPlayerAssociatedType(playerAssociatedType);
-		setGroupAssociatedPermission(groupAssociatedPermission);
 		setGuiSlot(guiSlot);
 		setUseFixGuiSlot(useFixGuiSlot);
 		setSeeRequirementConditionQuery(seeRequirementConditionQuery);
@@ -66,16 +64,6 @@ public class TechCategory
 	public void setPlayerAssociatedType(PlayerAssociatedType playerAssociatedType)
 	{
 		this.playerAssociatedType = playerAssociatedType;
-	}
-
-	public String getGroupAssociatedPermission()
-	{
-		return groupAssociatedPermission;
-	}
-
-	public void setGroupAssociatedPermission(String groupAssociatedPermission)
-	{
-		this.groupAssociatedPermission = groupAssociatedPermission;
 	}
 
 	public int getGuiSlot()

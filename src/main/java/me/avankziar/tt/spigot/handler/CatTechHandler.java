@@ -101,8 +101,51 @@ public class CatTechHandler
 						y.get("MaximalTechnologyLevelToResearch") != null 
 						? (y.getInt("MaximalTechnologyLevelToResearch") <= 0 ? 1 : y.getInt("MaximalTechnologyLevelToResearch")) 
 						: 1;
+				long ifBoosterDurationUntilExpiration = -1;
+				if(technologyType == TechnologyType.BOOSTER)
+				{
+					String parse = y.getString("IfBoosterDurationUntilExpiration");
+					String[] split = parse.split("-");
+					if(split.length == 4)
+					{
+						if(split[0].endsWith("d"))
+						{
+							ifBoosterDurationUntilExpiration += Long.valueOf(split[0].substring(0, split[0].length()-1)) * 24 * 60 * 60 * 1000;
+						}
+						if(split[1].endsWith("H"))
+						{
+							ifBoosterDurationUntilExpiration += Long.valueOf(split[1].substring(0, split[1].length()-1)) * 60 * 60 * 1000;
+						}
+						if(split[2].endsWith("m"))
+						{
+							ifBoosterDurationUntilExpiration += Long.valueOf(split[2].substring(0, split[2].length()-1)) * 60 * 1000;
+						}
+						if(split[3].endsWith("s"))
+						{
+							ifBoosterDurationUntilExpiration += Long.valueOf(split[3].substring(0, split[3].length()-1)) * 1000;
+						}
+					}
+				}
 				PlayerAssociatedType playerAssociatedType = PlayerAssociatedType.valueOf(y.getString("PlayerAssociatedType"));
 				String overlyingSubCategory = y.getString("OverlyingSubCategory");
+				
+				boolean ifResearchedApplyForNewPlayer = y.getBoolean("OnlyForGlobal.IfResearchedApplyForNewPlayer", false);
+				double forUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent
+				= y.getDouble("OnlyForGlobal.ForUninvolvedPollParticipants.RewardUnlockableInteractionsInPercent", 100);
+				double forUninvolvedPollParticipants_RewardRecipesInPercent
+				= y.getDouble("OnlyForGlobal.ForUninvolvedPollParticipants.RewardRecipesInPercent", 100);
+				double forUninvolvedPollParticipants_RewardDropChancesInPercent
+				= y.getDouble("OnlyForGlobal.ForUninvolvedPollParticipants.RewardDropChancesInPercent", 100);
+				double forUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent
+				= y.getDouble("OnlyForGlobal.ForUninvolvedPollParticipants.RewardSilkTouchDropChancesInPercent", 100);
+				double forUninvolvedPollParticipants_RewardCommandsInPercent
+				= y.getDouble("OnlyForGlobal.ForUninvolvedPollParticipants.RewardCommandsInPercent", 100);
+				double forUninvolvedPollParticipants_RewardItemsInPercent
+				= y.getDouble("OnlyForGlobal.ForUninvolvedPollParticipants.forUninvolvedPollParticipants_RewardCommandsInPercent", 100);
+				double forUninvolvedPollParticipants_RewardModifiersInPercent
+				= y.getDouble("OnlyForGlobal.ForUninvolvedPollParticipants.RewardModifiersInPercent", 100);
+				double forUninvolvedPollParticipants_RewardValueEntryInPercent
+				= y.getDouble("OnlyForGlobal.ForUninvolvedPollParticipants.RewardValueEntryInPercent", 100);
 				
 				int guiSlot = y.getInt("MaximalTechnologyLevelToResearch");
 				guiSlot = guiSlot < 0 ? 0 : guiSlot;
@@ -303,7 +346,17 @@ public class CatTechHandler
 					rewardValueEntryList = (ArrayList<String>) y.getStringList("Rewards.ValueEntry");
 				}
 				Technology t = new Technology(internName, displayName, technologyType, maximalTechnologyLevelToResearch,
-						playerAssociatedType, overlyingSubCategory, guiSlot,
+						ifBoosterDurationUntilExpiration,
+						playerAssociatedType, overlyingSubCategory, ifResearchedApplyForNewPlayer,
+						forUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent,
+						forUninvolvedPollParticipants_RewardRecipesInPercent,
+						forUninvolvedPollParticipants_RewardDropChancesInPercent,
+						forUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent,
+						forUninvolvedPollParticipants_RewardCommandsInPercent,
+						forUninvolvedPollParticipants_RewardItemsInPercent,
+						forUninvolvedPollParticipants_RewardModifiersInPercent,
+						forUninvolvedPollParticipants_RewardValueEntryInPercent,
+						guiSlot,
 						seeRequirementConditionQuery, seeRequirementShowDifferentItemIfYouNormallyDontSeeIt, researchRequirementConditionQuery, 
 						costTTExp, costVanillaExp, costMoney, costMaterial,
 						rewardUnlockableInteractions, rewardRecipes, rewardDropChances, rewardSilkTouchDropChances,
@@ -318,7 +371,7 @@ public class CatTechHandler
 					}
 					map.put(guiSlot, t);
 					subCategoryTechnologyMapSolo.put(overlyingSubCategory, map);
-				} else if(playerAssociatedType == PlayerAssociatedType.GROUP)
+				}/* else if(playerAssociatedType == PlayerAssociatedType.GROUP)
 				{
 					technologyMapGroup.put(internName, t);
 					LinkedHashMap<Integer, Technology> map = new LinkedHashMap<>();
@@ -328,7 +381,7 @@ public class CatTechHandler
 					}
 					map.put(guiSlot, t);
 					subCategoryTechnologyMapGroup.put(overlyingSubCategory, map);
-				} else if(playerAssociatedType == PlayerAssociatedType.GLOBAL)
+				}*/ else if(playerAssociatedType == PlayerAssociatedType.GLOBAL)
 				{
 					technologyMapGlobal.put(internName, t);
 					LinkedHashMap<Integer, Technology> map = new LinkedHashMap<>();
@@ -378,7 +431,7 @@ public class CatTechHandler
 					}
 					map.put(guiSlot, sc);
 					mainCategorySubCategoryMapSolo.put(overlyingCategory, map);
-				} else if(playerAssociatedType == PlayerAssociatedType.GROUP)
+				}/* else if(playerAssociatedType == PlayerAssociatedType.GROUP)
 				{
 					subCategoryMapGroup.put(internName, sc);
 					LinkedHashMap<Integer, SubCategory> map = new LinkedHashMap<>();
@@ -388,7 +441,7 @@ public class CatTechHandler
 					}
 					map.put(guiSlot, sc);
 					mainCategorySubCategoryMapGroup.put(overlyingCategory, map);
-				} else if(playerAssociatedType == PlayerAssociatedType.GLOBAL)
+				}*/ else if(playerAssociatedType == PlayerAssociatedType.GLOBAL)
 				{
 					subCategoryMapGlobal.put(internName, sc);
 					LinkedHashMap<Integer, SubCategory> map = new LinkedHashMap<>();
@@ -429,10 +482,10 @@ public class CatTechHandler
 				if(playerAssociatedType == PlayerAssociatedType.SOLO)
 				{
 					mainCategoryMapSolo.put(internName, mc);
-				} else if(playerAssociatedType == PlayerAssociatedType.GROUP)
+				}/* else if(playerAssociatedType == PlayerAssociatedType.GROUP)
 				{
 					mainCategoryMapGroup.put(internName, mc);
-				} else if(playerAssociatedType == PlayerAssociatedType.GLOBAL)
+				}*/ else if(playerAssociatedType == PlayerAssociatedType.GLOBAL)
 				{
 					mainCategoryMapGlobal.put(internName, mc);
 				}
@@ -524,6 +577,46 @@ public class CatTechHandler
 				}
 			}
 		}
+	}
+	
+	public static Technology getTechnology(String uniqueIdentifier, PlayerAssociatedType pat)
+	{
+		switch(pat)
+		{
+		case GLOBAL:
+			return technologyMapGlobal.get(uniqueIdentifier);
+		case SOLO:
+			return technologyMapSolo.get(uniqueIdentifier);
+		}
+		return null;
+	}
+	
+	public static SubCategory getSubCategory(Technology t, PlayerAssociatedType pat)
+	{
+		switch(pat)
+		{
+		case GLOBAL:
+			return subCategoryMapGlobal.get(t.getOverlyingSubCategory());
+		/*case GROUP:
+			return subCategoryMapGroup.get(t.getOverlyingSubCategory());*/
+		case SOLO:
+			return subCategoryMapSolo.get(t.getOverlyingSubCategory());
+		}
+		return null;
+	}
+	
+	public static MainCategory getMainCategory(SubCategory sc, PlayerAssociatedType pat)
+	{
+		switch(pat)
+		{
+		case GLOBAL:
+			return mainCategoryMapGlobal.get(sc.getOverlyingCategory());
+		/*case GROUP:
+			return mainCategoryMapGroup.get(sc.getOverlyingCategory());*/
+		case SOLO:
+			return mainCategoryMapSolo.get(sc.getOverlyingCategory());
+		}
+		return null;
 	}
 	
 	private static void registerCondition()

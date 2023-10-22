@@ -8,40 +8,32 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.logging.Level;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
-
-import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandable;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
-import main.java.me.avankziar.tt.spigot.handler.BlockHandler.BlockType;
 
-public class RegisteredBlock implements MysqlHandable
+public class TechnologyPoll implements MysqlHandable
 {
 	private int id;
 	private UUID playerUUID;
-	private BlockType blockType;
-	private String server;
-	private String world;
-	private int blockX;
-	private int blockY;
-	private int blockZ;
+	private String choosen_Technology;
+	private boolean processedInRepayment;
+	private String global_Choosen_Technology;
 	
-	public RegisteredBlock(){}
+	public TechnologyPoll()
+	{
+		
+	}
 	
-	public RegisteredBlock(int id, UUID playerUUID, BlockType blockType, String server, String world, int blockX, int blockY, int blockZ)
+	public TechnologyPoll(int id, UUID playerUUID, String choosen_Technology, boolean processedInRepayment,
+			String global_Choosen_Technology)
 	{
 		setId(id);
 		setPlayerUUID(playerUUID);
-		setBlockType(blockType);
-		setServer(server);
-		setWorld(world);
-		setBlockX(blockX);
-		setBlockY(blockY);
-		setBlockZ(blockZ);
+		setChoosen_Technology(choosen_Technology);
+		setProcessedInRepayment(processedInRepayment);
+		setGlobal_Choosen_Technology(global_Choosen_Technology);
 	}
-	
+
 	public int getId()
 	{
 		return id;
@@ -62,78 +54,34 @@ public class RegisteredBlock implements MysqlHandable
 		this.playerUUID = playerUUID;
 	}
 
-	public BlockType getBlockType()
+	public String getChoosen_Technology()
 	{
-		return blockType;
+		return choosen_Technology;
 	}
 
-	public void setBlockType(BlockType blockType)
+	public void setChoosen_Technology(String choosen_Technology)
 	{
-		this.blockType = blockType;
-	}
-
-	public String getServer()
-	{
-		return server;
-	}
-
-	public void setServer(String server)
-	{
-		this.server = server;
-	}
-
-	public String getWorld()
-	{
-		return world;
-	}
-
-	public void setWorld(String world)
-	{
-		this.world = world;
-	}
-
-	public int getBlockX()
-	{
-		return blockX;
-	}
-
-	public void setBlockX(int blockX)
-	{
-		this.blockX = blockX;
-	}
-
-	public int getBlockY()
-	{
-		return blockY;
-	}
-
-	public void setBlockY(int blockY)
-	{
-		this.blockY = blockY;
-	}
-
-	public int getBlockZ()
-	{
-		return blockZ;
-	}
-
-	public void setBlockZ(int blockZ)
-	{
-		this.blockZ = blockZ;
+		this.choosen_Technology = choosen_Technology;
 	}
 	
-	public Location getLocation()
+	public boolean isProcessedInRepayment()
 	{
-		if(!BaseConstructor.getPlugin().getServername().equals(server))
-		{
-			return null;
-		}
-		World world = Bukkit.getWorld(this.world);
-		if(world == null)
-		{
-			return null;
-		}
-		return new Location(world, blockX, blockY, blockZ);
+		return processedInRepayment;
+	}
+
+	public void setProcessedInRepayment(boolean processedInRepayment)
+	{
+		this.processedInRepayment = processedInRepayment;
+	}
+
+	public String getGlobal_Choosen_Technology()
+	{
+		return global_Choosen_Technology;
+	}
+
+	public void setGlobal_Choosen_Technology(String global_Choosen_Technology)
+	{
+		this.global_Choosen_Technology = global_Choosen_Technology;
 	}
 
 	@Override
@@ -142,18 +90,15 @@ public class RegisteredBlock implements MysqlHandable
 		try
 		{
 			String sql = "INSERT INTO `" + tablename
-					+ "`(`player_uuid`, `block_type`, `server`, `world`,"
-					+ " `block_x`, `block_y`, `block_z`) " 
-					+ "VALUES(?, ?, ?, ?,"
-					+ " ?, ?, ?)";
+					+ "`(`player_uuid`, `choosen_technology`, "
+					+ "`processed_in_repayment`, `global_choosen_technology`) " 
+					+ "VALUES(?, ?, "
+					+ "?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 	        ps.setString(1, getPlayerUUID().toString());
-	        ps.setString(2, getBlockType().toString());
-	        ps.setString(3, getServer());
-	        ps.setString(4, getWorld());
-	        ps.setInt(5, getBlockX());
-	        ps.setInt(6, getBlockY());
-	        ps.setInt(7, getBlockZ());
+	        ps.setString(2, getChoosen_Technology());
+	        ps.setBoolean(3, isProcessedInRepayment());
+	        ps.setString(4, getGlobal_Choosen_Technology());
 	        int i = ps.executeUpdate();
 	        MysqlHandler.addRows(MysqlHandler.QueryType.INSERT, i);
 	        return true;
@@ -170,18 +115,14 @@ public class RegisteredBlock implements MysqlHandable
 		try
 		{
 			String sql = "UPDATE `" + tablename
-				+ "` SET `player_uuid` = ?, `block_type` = ?, `server` = ?,"
-				+ " `world` = ?, `block_x` = ?, `block_y` = ?, `block_z` = ?"
+				+ "` SET `player_uuid` = ?, `choosen_technology` = ?, `processed_in_repayment` = ?"
 				+ " WHERE "+whereColumn;
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, getPlayerUUID().toString());
-	        ps.setString(2, getBlockType().toString());
-	        ps.setString(3, getServer());
-	        ps.setString(4, getWorld());
-	        ps.setInt(5, getBlockX());
-	        ps.setInt(6, getBlockY());
-	        ps.setInt(7, getBlockZ());
-			int i = 8;
+	        ps.setString(2, getChoosen_Technology());
+	        ps.setBoolean(3, isProcessedInRepayment());
+	        ps.setString(4, getGlobal_Choosen_Technology());
+			int i = 5;
 			for(Object o : whereObject)
 			{
 				ps.setObject(i, o);
@@ -217,14 +158,11 @@ public class RegisteredBlock implements MysqlHandable
 			ArrayList<Object> al = new ArrayList<>();
 			while (rs.next()) 
 			{
-				al.add(new RegisteredBlock(rs.getInt("id"),
+				al.add(new TechnologyPoll(rs.getInt("id"),
 						UUID.fromString(rs.getString("player_uuid")),
-						BlockType.valueOf(rs.getString("block_type")),
-						rs.getString("server"),
-						rs.getString("world"),
-						rs.getInt("block_x"),
-						rs.getInt("block_y"),
-						rs.getInt("block_z")));
+						rs.getString("choosen_technology"),
+						rs.getBoolean("processed_in_repayment"),
+						rs.getString("global_choosen_technology")));
 			}
 			return al;
 		} catch (SQLException e)
@@ -234,14 +172,14 @@ public class RegisteredBlock implements MysqlHandable
 		return new ArrayList<>();
 	}
 	
-	public static ArrayList<RegisteredBlock> convert(ArrayList<Object> arrayList)
+	public static ArrayList<TechnologyPoll> convert(ArrayList<Object> arrayList)
 	{
-		ArrayList<RegisteredBlock> l = new ArrayList<>();
+		ArrayList<TechnologyPoll> l = new ArrayList<>();
 		for(Object o : arrayList)
 		{
-			if(o instanceof RegisteredBlock)
+			if(o instanceof TechnologyPoll)
 			{
-				l.add((RegisteredBlock) o);
+				l.add((TechnologyPoll) o);
 			}
 		}
 		return l;

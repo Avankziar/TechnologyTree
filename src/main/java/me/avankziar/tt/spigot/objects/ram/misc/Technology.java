@@ -21,9 +21,20 @@ public class Technology
 	
 	private TechnologyType technologyType;
 	private int maximalTechnologyLevelToResearch;
+	private long ifBoosterDurationUntilExpiration;
 	
 	private PlayerAssociatedType playerAssociatedType;
 	private String overlyingSubCategory;
+	
+	private boolean ifResearchedApplyForNewPlayer;
+	private double forUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent;
+	private double forUninvolvedPollParticipants_RewardRecipesInPercent;
+	private double forUninvolvedPollParticipants_RewardDropChancesInPercent;
+	private double forUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent;
+	private double forUninvolvedPollParticipants_RewardCommandsInPercent;
+	private double forUninvolvedPollParticipants_RewardItemsInPercent;
+	private double forUninvolvedPollParticipants_RewardModifiersInPercent;
+	private double forUninvolvedPollParticipants_RewardValueEntryInPercent;
 	
 	private int guiSlot;
 	
@@ -47,8 +58,17 @@ public class Technology
 	private ArrayList<String> rewardValueEntryList; //Angelegt wie conditionname:Wert
 	
 	public Technology(String internName, String displayName,
-			TechnologyType technologyType, int maximalTechnologyLevelToResearch,
+			TechnologyType technologyType, int maximalTechnologyLevelToResearch, long ifBoosterDurationUntilExpiration,
 			PlayerAssociatedType playerAssociatedType, String overlyingSubCategory,
+			boolean ifResearchedApplyForNewPlayer,
+			double forUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent,
+			double forUninvolvedPollParticipants_RewardRecipesInPercent,
+			double forUninvolvedPollParticipants_RewardDropChancesInPercent,
+			double forUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent,
+			double forUninvolvedPollParticipants_RewardCommandsInPercent,
+			double forUninvolvedPollParticipants_RewardItemsInPercent,
+			double forUninvolvedPollParticipants_RewardModifiersInPercent,
+			double forUninvolvedPollParticipants_RewardValueEntryInPercent,
 			int guiSlot,
 			List<String> seeRequirementConditionQuery, boolean seeRequirementShowDifferentItemIfYouNormallyDontSeeIt,
 			List<String> researchRequirementConditionQuery,
@@ -67,9 +87,20 @@ public class Technology
 		
 		setTechnologyType(technologyType);
 		setMaximalTechnologyLevelToResearch(maximalTechnologyLevelToResearch);
+		setIfBoosterDurationUntilExpiration(ifBoosterDurationUntilExpiration);
 		
 		setPlayerAssociatedType(playerAssociatedType);
 		setOverlyingSubCategory(overlyingSubCategory);
+		
+		setIfResearchedApplyForNewPlayer(ifResearchedApplyForNewPlayer);
+		setForUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent(forUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent);
+		setForUninvolvedPollParticipants_RewardRecipesInPercent(forUninvolvedPollParticipants_RewardRecipesInPercent);
+		setForUninvolvedPollParticipants_RewardDropChancesInPercent(forUninvolvedPollParticipants_RewardDropChancesInPercent);
+		setForUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent(forUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent);
+		setForUninvolvedPollParticipants_RewardCommandsInPercent(forUninvolvedPollParticipants_RewardCommandsInPercent);
+		setForUninvolvedPollParticipants_RewardItemsInPercent(forUninvolvedPollParticipants_RewardItemsInPercent);
+		setForUninvolvedPollParticipants_RewardModifiersInPercent(forUninvolvedPollParticipants_RewardModifiersInPercent);
+		setForUninvolvedPollParticipants_RewardValueEntryInPercent(forUninvolvedPollParticipants_RewardValueEntryInPercent);
 		
 		setGuiSlot(guiSlot);
 		
@@ -133,6 +164,16 @@ public class Technology
 		this.maximalTechnologyLevelToResearch = maximalTechnologyLevelToResearch;
 	}
 
+	public long getIfBoosterDurationUntilExpiration()
+	{
+		return ifBoosterDurationUntilExpiration;
+	}
+
+	public void setIfBoosterDurationUntilExpiration(long ifBoosterDurationUntilExpiration)
+	{
+		this.ifBoosterDurationUntilExpiration = ifBoosterDurationUntilExpiration;
+	}
+
 	public PlayerAssociatedType getPlayerAssociatedType()
 	{
 		return playerAssociatedType;
@@ -151,6 +192,104 @@ public class Technology
 	public void setOverlyingSubCategory(String overlyingSubCategory)
 	{
 		this.overlyingSubCategory = overlyingSubCategory;
+	}
+
+	public boolean isIfResearchedApplyForNewPlayer()
+	{
+		return ifResearchedApplyForNewPlayer;
+	}
+
+	public double getForUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent()
+	{
+		return forUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent;
+	}
+
+	public void setForUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent(
+			double forUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent)
+	{
+		this.forUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent = forUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent;
+	}
+
+	public double getForUninvolvedPollParticipants_RewardRecipesInPercent()
+	{
+		return forUninvolvedPollParticipants_RewardRecipesInPercent;
+	}
+
+	public void setForUninvolvedPollParticipants_RewardRecipesInPercent(
+			double forUninvolvedPollParticipants_RewardRecipesInPercent)
+	{
+		this.forUninvolvedPollParticipants_RewardRecipesInPercent = forUninvolvedPollParticipants_RewardRecipesInPercent;
+	}
+
+	public double getForUninvolvedPollParticipants_RewardDropChancesInPercent()
+	{
+		return forUninvolvedPollParticipants_RewardDropChancesInPercent;
+	}
+
+	public void setForUninvolvedPollParticipants_RewardDropChancesInPercent(
+			double forUninvolvedPollParticipants_RewardDropChancesInPercent)
+	{
+		this.forUninvolvedPollParticipants_RewardDropChancesInPercent = forUninvolvedPollParticipants_RewardDropChancesInPercent;
+	}
+
+	public double getForUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent()
+	{
+		return forUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent;
+	}
+
+	public void setForUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent(
+			double forUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent)
+	{
+		this.forUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent = forUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent;
+	}
+
+	public double getForUninvolvedPollParticipants_RewardCommandsInPercent()
+	{
+		return forUninvolvedPollParticipants_RewardCommandsInPercent;
+	}
+
+	public void setForUninvolvedPollParticipants_RewardCommandsInPercent(
+			double forUninvolvedPollParticipants_RewardCommandsInPercent)
+	{
+		this.forUninvolvedPollParticipants_RewardCommandsInPercent = forUninvolvedPollParticipants_RewardCommandsInPercent;
+	}
+
+	public double getForUninvolvedPollParticipants_RewardItemsInPercent()
+	{
+		return forUninvolvedPollParticipants_RewardItemsInPercent;
+	}
+
+	public void setForUninvolvedPollParticipants_RewardItemsInPercent(
+			double forUninvolvedPollParticipants_RewardItemsInPercent)
+	{
+		this.forUninvolvedPollParticipants_RewardItemsInPercent = forUninvolvedPollParticipants_RewardItemsInPercent;
+	}
+
+	public double getForUninvolvedPollParticipants_RewardModifiersInPercent()
+	{
+		return forUninvolvedPollParticipants_RewardModifiersInPercent;
+	}
+
+	public void setForUninvolvedPollParticipants_RewardModifiersInPercent(
+			double forUninvolvedPollParticipants_RewardModifiersInPercent)
+	{
+		this.forUninvolvedPollParticipants_RewardModifiersInPercent = forUninvolvedPollParticipants_RewardModifiersInPercent;
+	}
+
+	public double getForUninvolvedPollParticipants_RewardValueEntryInPercent()
+	{
+		return forUninvolvedPollParticipants_RewardValueEntryInPercent;
+	}
+
+	public void setForUninvolvedPollParticipants_RewardValueEntryInPercent(
+			double forUninvolvedPollParticipants_RewardValueEntryInPercent)
+	{
+		this.forUninvolvedPollParticipants_RewardValueEntryInPercent = forUninvolvedPollParticipants_RewardValueEntryInPercent;
+	}
+
+	public void setIfResearchedApplyForNewPlayer(boolean ifResearchedApplyForNewPlayer)
+	{
+		this.ifResearchedApplyForNewPlayer = ifResearchedApplyForNewPlayer;
 	}
 
 	public int getGuiSlot()

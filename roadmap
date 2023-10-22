@@ -17,8 +17,7 @@ Wiki Themen
 
 Aufbau von Techkategorien(Gelten als Haupkategorie, wenn sie im Ordner Hauptcategory, im Ordner Subkategorien):
 categoryinternname == file name
-PlayerAssociatedType: '' #SOLO (für den einzelen Spieler), GLOBAL (Für alle Spieler), GROUP (für Gruppen per Permission Definiert)
-GroupAssociatedPermission: '' #PlayerType GROUP only
+PlayerAssociatedType: '' #SOLO (für den einzelen Spieler), GLOBAL (Für alle Spieler)
 GuiSlot: '' #int
 UseFixGuiSlots: '' #true/false, wenn false, dann sind die GuiSlots eher eine Priorität;
 IfSubCategory:
@@ -115,10 +114,22 @@ Aufbau von Technologie:
 
 technologieinternname == filename
 Displayname: ''
-TechnologyType: '' #SINGLE, MULTIPLE
+TechnologyType: '' #SINGLE, MULTIPLE, BOOSTER
 MaximalTechnologyLevelToResearch: '' #int
-PlayerAssociatedType: '' #SOLO (für den einzelen Spieler), GLOBAL (Für alle Spieler), GROUP (für Gruppen per Permission Definiert)
+IfBoosterDurationUntilExpiration: 0d-0H-0m-0s #Gilt nur für Booster
+PlayerAssociatedType: '' #SOLO (für den einzelen Spieler), GLOBAL (Für alle Spieler)
 OverlyingSubCategory: '' #internname der Kategory, kann eine
+OnlyForGlobal
+  IfResearchedApplyForNewPlayer: true
+  ForUninvolvedPollParticipants:
+    RewardUnlockableInteractionsInPercent: 100
+    RewardRecipesInPercent: 0
+    RewardDropChancesInPercent: 10
+    RewardSilkTouchDropChancesInPercent: 10
+    RewardCommandsInPercent: 0
+    RewardItemsInPercent: 0
+    RewardModifiersInPercent: 10
+    RewardValueEntryInPercent: 10
 RequirementToSee:
   ConditionQuery:
   -
@@ -260,8 +271,10 @@ RequirementToResearch:
       PatternColor: ''
 Rewards:
   UnlockableInteractions:
-  - block_place:DIRT:null:CanAccess:TTExp:Money:VanillaExp:CustomCommand #Für jeden Wert, Kann interagieren, TTExp, Money & VanillaExp wird mit dem Event und dem Material dann ein BonusMalus erzeugt.
-  - block_break:DIRT:null:canAccess=true:ttexp=0.5:vault=1.0:vaexp=20:cmd=spigot:give %value %DIAMOND %player%=1.0 #TTExp = 0.5, Money Vault = 1.0, VanillaExp = 20, customcmd = 1.0 (Mit %value% und %player% replacer als consolecommand
+  #Für jeden Wert, Kann interagieren, TTExp, Money & VanillaExp wird mit dem Event und dem Material dann ein BonusMalus erzeugt.
+  - block_place:DIRT:null:CanAccess:TTExp:Money:VanillaExp:CustomCommand
+  #TTExp = 0.5, Money Vault = 1.0, VanillaExp = 20, customcmd = 1.0 (Mit %value% und %player% replacer als consolecommand
+  - block_break:DIRT:null:canAccess=true:ttexp=0.5:vault=1.0:vaexp=20:cmd=spigot:give %value %DIAMOND %player%=1.0 
   UnlockableRecipe:
   - BLASTING:<Filename> //RecipeType, und der Filename des Rezeptes
   DropChance: #Für jede DropAnzahl wird mit Event und Material
@@ -274,8 +287,8 @@ Rewards:
   - block_break:DIRT:null:item=Sword:1:10.0
   
   Command:
-  - spigot:player:/warp %player% #Mit Replacer für Spielernamen
-  - bungee:console:/do do #Für Console oder als Spieler
+  - spigot:/warp %player% %value% #Mit Replacer für Spielernamen und den Anzahlswert
+  - bungee:/do do #Für Console
   Item:
   - sword_y:64 #Item y wird aus dem ItemOrdner geholt und hier eingesetzt.
   Modifier:

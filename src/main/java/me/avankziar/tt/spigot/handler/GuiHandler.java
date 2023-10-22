@@ -4,33 +4,18 @@ import java.lang.reflect.Field;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.bukkit.Material;
-import org.bukkit.block.ShulkerBox;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.TropicalFish.Pattern;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.AxolotlBucketMeta;
-import org.bukkit.inventory.meta.BannerMeta;
-import org.bukkit.inventory.meta.BlockStateMeta;
-import org.bukkit.inventory.meta.BookMeta;
-import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
-import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.inventory.meta.Repairable;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.inventory.meta.SpawnEggMeta;
-import org.bukkit.inventory.meta.SuspiciousStewMeta;
-import org.bukkit.inventory.meta.TropicalFishBucketMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -39,13 +24,14 @@ import org.bukkit.potion.PotionType;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
+import main.java.me.avankziar.ifh.general.economy.account.AccountCategory;
+import main.java.me.avankziar.ifh.general.economy.currency.CurrencyType;
+import main.java.me.avankziar.ifh.general.math.MathFormulaParser;
 import main.java.me.avankziar.ifh.spigot.economy.account.Account;
-import main.java.me.avankziar.ifh.spigot.shop.SignShop;
 import main.java.me.avankziar.tt.general.ChatApi;
 import main.java.me.avankziar.tt.spigot.TT;
-import main.java.me.avankziar.tt.spigot.assistance.TimeHandler;
 import main.java.me.avankziar.tt.spigot.assistance.Utility;
-import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
+import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
 import main.java.me.avankziar.tt.spigot.gui.GUIApi;
 import main.java.me.avankziar.tt.spigot.gui.events.ClickFunction;
 import main.java.me.avankziar.tt.spigot.gui.objects.ClickFunctionType;
@@ -53,20 +39,27 @@ import main.java.me.avankziar.tt.spigot.gui.objects.ClickType;
 import main.java.me.avankziar.tt.spigot.gui.objects.GuiType;
 import main.java.me.avankziar.tt.spigot.gui.objects.SettingsLevel;
 import main.java.me.avankziar.tt.spigot.modifiervalueentry.ModifierValueEntry;
+import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
+import main.java.me.avankziar.tt.spigot.objects.mysql.SoloEntryQueryStatus;
+import main.java.me.avankziar.tt.spigot.objects.mysql.SoloEntryQueryStatus.EntryQueryType;
+import main.java.me.avankziar.tt.spigot.objects.mysql.SoloEntryQueryStatus.StatusType;
+import main.java.me.avankziar.tt.spigot.objects.ram.misc.MainCategory;
+import main.java.me.avankziar.tt.spigot.objects.ram.misc.SubCategory;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.TechCategory;
+import main.java.me.avankziar.tt.spigot.objects.ram.misc.Technology;
 
 public class GuiHandler
 {
 	private static TT plugin = TT.getPlugin();
-	public static String PLAYER_UUID = "player_uuid";
-	public static String TECH_CATEGORY = "technology_category";
+	public static String CATEGORY = "category";
+	public static String TECHNOLOGY = "technology";
 	
-	public static void openCatOrTech(Player player, GuiType gt, TechCategory tc, SettingsLevel st, boolean closeInv)
+	public static void openCatOrTech(Player player, GuiType gt, TechCategory tc, PlayerAssociatedType pat, SettingsLevel st, boolean closeInv)
 	{
 		String title = "";
 		switch(gt)
 		{
-		case MAIN:
+		case START:
 			title = plugin.getYamlHandler().getLang().getString("GuiHandler.Main.Title"); break;
 		case MAIN_CATEGORY:
 			title = plugin.getYamlHandler().getLang().getString("GuiHandler.MainCategorys.Title"); break;
@@ -78,8 +71,7 @@ public class GuiHandler
 			.replace("%subcat%", tc.getDisplayName()); break;
 		}
 		GUIApi gui = new GUIApi(plugin.pluginName, gt.toString(), null, 6, title, st);
-		
-		openGui(tc, player, gt, gui, st, closeInv);
+		openGui(tc, pat, player, gt, gui, st, closeInv);
 	}
 	
 	/*public static void openAdministration(SignShop ssh, Player player, SettingsLevel settingsLevel, Inventory inv, boolean closeInv)
@@ -122,7 +114,7 @@ public class GuiHandler
 		openGui(ssh2, player, gt, gui, settingsLevel, closeInv);
 	}*/
 	
-	private static void openGui(TechCategory tcat, Player player, GuiType gt, GUIApi gui, SettingsLevel settingsLevel, boolean closeInv)
+	private static void openGui(TechCategory tcat, PlayerAssociatedType pat, Player player, GuiType gt, GUIApi gui, SettingsLevel settingsLevel, boolean closeInv)
 	{
 		YamlConfiguration y = plugin.getYamlHandler().getGui(gt);
 		for(int i = 0; i < 54; i++)
@@ -181,7 +173,6 @@ public class GuiHandler
 				}
 			}
 			String playername = null;
-			UUID otheruuid = null;
 			int amount = 1;
 			if(y.get(i+".Amount") != null)
 			{
@@ -200,24 +191,11 @@ public class GuiHandler
 			}
 			if(lore != null)
 			{
-				lore = (ArrayList<String>) getLorePlaceHolder(ssh, player, lore, playername);
-			}
-			
-			if(y.get(i+".InfoLore") != null && y.getBoolean(i+".InfoLore"))
-			{
-				if(lore == null)
-				{
-					lore = new ArrayList<>();
-				}
-				ArrayList<String> infoLore = getStringPlaceHolder(ssh.getItemStack(), ssh.getOwner());
-				for(String s : infoLore)
-				{
-					lore.add(ChatApi.tl(s));
-				}
+				lore = (ArrayList<String>) getLorePlaceHolder(player, tcat, null, lore, playername);
 			}
 			String displayname = y.get(i+".Displayname") != null 
 					? y.getString(i+".Displayname") : is.getType().toString();
-			displayname = getStringPlaceHolder(ssh, player, displayname, playername);
+			displayname = getStringPlaceHolder(player, tcat, null, displayname, playername);
 			if(is == null)
 			{
 				is = new ItemStack(mat, amount);
@@ -233,12 +211,8 @@ public class GuiHandler
 			}
 			is.setItemMeta(im);
 			LinkedHashMap<String, Entry<GUIApi.Type, Object>> map = new LinkedHashMap<>();
-			map.put(TECH_CATEGORY, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
+			map.put(CATEGORY, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
 					tcat != null ? tcat.getInternName() : ""));
-			if(otheruuid != null)
-			{
-				map.put(PLAYER_UUID, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING, otheruuid.toString()));
-			}
 			gui.add(i, is, settingsLevel, true, map, getClickFunction(y, String.valueOf(i)));
 		}
 		switch(gt)
@@ -246,8 +220,89 @@ public class GuiHandler
 		case START:
 			break;
 		case MAIN_CATEGORY:
+			for(Entry<Integer, MainCategory> e : CatTechHandler.playerAssocMainCategoryMap.get(pat).entrySet())
+			{
+				int i = e.getKey();
+				LinkedHashMap<ItemStack, Boolean> isb = PlayerHandler.canSeeOrResearch_ForGUI(player, player.getUniqueId(), e.getValue(), null, null);
+				for(Entry<ItemStack, Boolean> ee : isb.entrySet())
+				{
+					if(ee.getValue() != null && ee.getValue() == false)
+					{
+						continue;
+					}
+					ItemStack is = ee.getKey();
+					LinkedHashMap<String, Entry<GUIApi.Type, Object>> map = new LinkedHashMap<>();
+					ArrayList<ClickFunction> ctar = new ArrayList<>();
+					ClickFunctionType cft = ClickFunctionType.MAINCATEGORYS_SUBCATEGORYS_SOLO;
+					ctar.add(new ClickFunction(ClickType.LEFT, cft));
+					ctar.add(new ClickFunction(ClickType.RIGHT, cft));
+					gui.add(i, is, settingsLevel, true, map, ctar.toArray(new ClickFunction[ctar.size()]));
+				}
+			}
+			break;
 		case SUB_CATEGORY:
+			LinkedHashMap<Integer, SubCategory> subcmap = null;
+			switch(tcat.getPlayerAssociatedType())
+			{
+			case GLOBAL:
+				subcmap = CatTechHandler.mainCategorySubCategoryMapGlobal.get(tcat.getInternName()); break;
+			/*case GROUP:
+				subcmap = CatTechHandler.mainCategorySubCategoryMapGroup.get(tcat.getInternName()); break;*/
+			case SOLO:
+				subcmap = CatTechHandler.mainCategorySubCategoryMapSolo.get(tcat.getInternName()); break;
+			}
+			for(Entry<Integer, SubCategory> e : subcmap.entrySet())
+			{
+				int i = e.getKey();
+				LinkedHashMap<ItemStack, Boolean> isb = PlayerHandler.canSeeOrResearch_ForGUI(player, player.getUniqueId(), null, e.getValue(), null);
+				for(Entry<ItemStack, Boolean> ee : isb.entrySet())
+				{
+					if(ee.getValue() != null && ee.getValue() == false)
+					{
+						continue;
+					}
+					ItemStack is = ee.getKey();
+					LinkedHashMap<String, Entry<GUIApi.Type, Object>> map = new LinkedHashMap<>();
+					ArrayList<ClickFunction> ctar = new ArrayList<>();
+					ClickFunctionType cft = ClickFunctionType.SUBCATEGORYS_TECHNOLOGYS_SOLO;
+					ctar.add(new ClickFunction(ClickType.LEFT, cft));
+					ctar.add(new ClickFunction(ClickType.RIGHT, cft));
+					gui.add(i, is, settingsLevel, true, map, ctar.toArray(new ClickFunction[ctar.size()]));
+				}
+			}
+			break;
 		case TECHNOLOGY:
+			LinkedHashMap<Integer, Technology> techmap = null;
+			switch(tcat.getPlayerAssociatedType())
+			{
+			case GLOBAL:
+				techmap = CatTechHandler.subCategoryTechnologyMapGlobal.get(tcat.getInternName()); break;
+			/*case GROUP:
+				techmap = CatTechHandler.subCategoryTechnologyMapGroup.get(tcat.getInternName()); break;*/
+			case SOLO:
+				techmap = CatTechHandler.subCategoryTechnologyMapSolo.get(tcat.getInternName()); break;
+			}
+			for(Entry<Integer, Technology> e : techmap.entrySet())
+			{
+				int i = e.getKey();
+				LinkedHashMap<ItemStack, Boolean> isb = PlayerHandler.canSeeOrResearch_ForGUI(player, player.getUniqueId(), null, null, e.getValue());
+				for(Entry<ItemStack, Boolean> ee : isb.entrySet())
+				{
+					ItemStack is = ee.getKey();
+					LinkedHashMap<String, Entry<GUIApi.Type, Object>> map = new LinkedHashMap<>();
+					map.put(TECHNOLOGY, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
+							e.getValue().getInternName()));
+					ArrayList<ClickFunction> ctar = new ArrayList<>();
+					if(ee.getValue() != null && ee.getValue() == true)
+					{
+						ClickFunctionType cft = ClickFunctionType.RESEARCH_TECHNOLOGY;
+						ctar.add(new ClickFunction(ClickType.LEFT, cft));
+						ctar.add(new ClickFunction(ClickType.RIGHT, cft));
+					}
+					gui.add(i, is, settingsLevel, true, map, ctar.toArray(new ClickFunction[ctar.size()]));
+				}
+			}
+			break;
 		}
 		if(closeInv)
 		{
@@ -282,24 +337,25 @@ public class GuiHandler
         return skull;
     }
 	
-	private static List<String> getLorePlaceHolder(SignShop ssh, Player player, List<String> lore, String playername)
+	private static List<String> getLorePlaceHolder(Player player, TechCategory tcat, Technology t, List<String> lore, String playername)
 	{
 		List<String> list = new ArrayList<>();
 		for(String s : lore)
 		{
-			String a = getStringPlaceHolder(ssh, player, s, playername);
+			String a = getStringPlaceHolder(player, tcat, t, s, playername);
 			if(plugin.getIFHEco() != null)
 			{
-				Account ac = plugin.getIFHEco().getAccount(ssh.getAccountId());
+				Account ac = plugin.getIFHEco().getDefaultAccount(player.getUniqueId(), AccountCategory.MAIN,
+						plugin.getIFHEco().getDefaultCurrency(CurrencyType.DIGITAL));
 				int dg = ac == null ? 0 : plugin.getIFHEco().getDefaultGradationQuantity(ac.getCurrency());
 				boolean useSI = ac == null ? false : plugin.getIFHEco().getDefaultUseSIPrefix(ac.getCurrency());
 				boolean useSy = ac == null ? false : plugin.getIFHEco().getDefaultUseSymbol(ac.getCurrency());
 				String ts = ac == null ? "." : plugin.getIFHEco().getDefaultThousandSeperator(ac.getCurrency());
 				String ds = ac == null ? "," : plugin.getIFHEco().getDefaultDecimalSeperator(ac.getCurrency());
-				a = getStringPlaceHolderIFH(ssh, player, a, ac, dg, useSI, useSy, ts, ds, playername);
+				a = getStringPlaceHolderIFH(player, t, a, ac, dg, useSI, useSy, ts, ds, playername);
 			} else
 			{
-				a = getStringPlaceHolderVault(ssh, player, a, playername);
+				a = getStringPlaceHolderVault(player, t, a, playername);
 			}
 			list.add(a);
 		}
@@ -715,201 +771,71 @@ public class GuiHandler
 	    return s;
 	}
 	
-	private static String getStringPlaceHolder(SignShop ssh, Player player, String text, String playername)
+	private static String getStringPlaceHolder(Player player, TechCategory tcat, Technology t, String text, String playername)
 	{
 		String s = text;
-		if(text.contains("%owner%"))
-		{
-			if(ssh.getOwner() == null)
-			{
-				s = s.replace("%owner%", "/");
-			} else
-			{
-				s = s.replace("%owner%", Utility.convertUUIDToName(ssh.getOwner().toString()) == null 
-						? "/" : Utility.convertUUIDToName(ssh.getOwner().toString()));
-			}
-		}
-		if(text.contains("%isonblacklist%"))
-		{
-			if(playername != null)
-			{
-				UUID uuid = Utility.convertNameToUUID(playername);
-				s = s.replace("%isonblacklist%", 
-						uuid == null ? "/" :
-							getBoolean(plugin.getMysqlHandler().exist(MysqlHandler.Type.SHOPACCESSTYPE,
-								"`player_uuid` = ? AND `sign_shop_id` = ? AND `listed_type` = ?",
-								uuid.toString(), ssh.getId(), ListedType.BLACKLIST.toString()))
-						);
-			} else
-			{
-				s = s.replace("%isonblacklist%", "/");
-			}
-		}
-		if(text.contains("%isonwhitelist%"))
-		{
-			if(playername != null)
-			{
-				UUID uuid = Utility.convertNameToUUID(playername);
-				s = s.replace("%isonwhitelist%", 
-						uuid == null ? "/" :
-							getBoolean(plugin.getMysqlHandler().exist(MysqlHandler.Type.SHOPACCESSTYPE,
-								"`player_uuid` = ? AND `sign_shop_id` = ? AND `listed_type` = ?",
-								uuid.toString(), ssh.getId(), ListedType.WHITELIST.toString()))
-						);
-			} else
-			{
-				s = s.replace("%isonwhitelist%", "/");
-			}
-		}
-		if(text.contains("%ismember%"))
-		{
-			if(playername != null)
-			{
-				UUID uuid = Utility.convertNameToUUID(playername);
-				s = s.replace("%ismember%", 
-						uuid == null ? "/" :
-							getBoolean(plugin.getMysqlHandler().exist(MysqlHandler.Type.SHOPACCESSTYPE,
-								"`player_uuid` = ? AND `sign_shop_id` = ? AND `listed_type` = ?",
-								uuid.toString(), ssh.getId(), ListedType.MEMBER.toString()))
-						);
-			} else
-			{
-				s = s.replace("%ismember%", "/");
-			}
-		}
-		if(text.contains("%isoncustom%"))
-		{
-			if(playername != null)
-			{
-				UUID uuid = Utility.convertNameToUUID(playername);
-				s = s.replace("%isoncustom%", 
-						uuid == null ? "/" :
-							getBoolean(plugin.getMysqlHandler().exist(MysqlHandler.Type.SHOPACCESSTYPE,
-								"`player_uuid` = ? AND `sign_shop_id` = ? AND `listed_type` = ?",
-								uuid.toString(), ssh.getId(), ListedType.CUSTOM.toString()))
-						);
-			} else
-			{
-				s = s.replace("%isoncustom%", "/");
-			}
-		}
-		if(text.contains("%id%"))
-		{
-			s = s.replace("%id%", String.valueOf(ssh.getId()));
-		}
-		if(text.contains("%subscribe%"))
-		{
-			s = s.replace("%subscribe%", getBoolean(plugin.getMysqlHandler().exist(MysqlHandler.Type.SUBSCRIBEDSHOP,
-					"`player_uuid` = ? AND `sign_shop_id` = ?", player.getUniqueId().toString(), ssh.getId())));
-		}
-		if(text.contains("%numtext%"))
-		{
-			s = s.replace("%numtext%", "'"+ssh.getNumText()+"'");
-		}
 		if(text.contains("%player%"))
 		{
 			s = s.replace("%player%", player.getName());
 		}
-		if(text.contains("%displayname%"))
+		return ChatApi.tl(s);
+	}
+	
+	private static String getStringPlaceHolderIFH(Player player, Technology t, String text,
+			Account ac, int dg, boolean useSI, boolean useSy, String ts, String ds, String playername)
+	{
+		String s = text;
+		/*if(text.contains("%accountname%"))
 		{
-			s = s.replace("%displayname%", ssh.getDisplayName() == null ? "/" : ssh.getDisplayName());
+			s = s.replace("%accountname%", (ac == null || ac.getID() == 0) ? "/" : ac.getAccountName());
+		}*/
+		SoloEntryQueryStatus eqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLOENTRYQUERYSTATUS,
+				"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+				player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString());
+		int techLevel = eqs == null ? 1 : eqs.getResearchLevel();
+		int acquiredTech = plugin.getMysqlHandler().getCount(Type.SOLOENTRYQUERYSTATUS,
+				"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
+				player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), StatusType.HAVE_RESEARCHED_IT);
+		HashMap<String, Double> map = new HashMap<>();
+		map.put("techlv", Double.valueOf(techLevel));
+		map.put("techaq", Double.valueOf(acquiredTech));
+		if(text.contains("%techcostmoney%"))
+		{
+			int moneyFrac = 0;
+			double money = 0.0;
+			if(t != null)
+			{
+				money = new MathFormulaParser().parse(t.getCostMoney(), map);
+				moneyFrac = String.valueOf(money).split("\\.")[1].length();
+			}
+			s = s.replace("%techcostmoney%", t == null ? "/" : 
+				plugin.getIFHEco().format(money, ac.getCurrency(), dg, moneyFrac, useSI, useSy, ts, ds));
 		}
-		if(text.contains("%signshopname%"))
+		return ChatApi.tl(s);
+	}
+	
+	private static String getStringPlaceHolderVault(Player player, Technology t, String text, String playername)
+	{
+		String s = text;
+		SoloEntryQueryStatus eqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLOENTRYQUERYSTATUS,
+				"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+				player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString());
+		int techLevel = eqs == null ? 1 : eqs.getResearchLevel();
+		int acquiredTech = plugin.getMysqlHandler().getCount(Type.SOLOENTRYQUERYSTATUS,
+				"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
+				player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), StatusType.HAVE_RESEARCHED_IT);
+		HashMap<String, Double> map = new HashMap<>();
+		map.put("techlv", Double.valueOf(techLevel));
+		map.put("techaq", Double.valueOf(acquiredTech));
+		if(text.contains("%techcostmoney%"))
 		{
-			s = s.replace("%signshopname%", ssh.getSignShopName());
-		}
-		if(text.contains("%server%"))
-		{
-			s = s.replace("%server%", ssh.getServer());
-		}
-		if(text.contains("%world%"))
-		{
-			s = s.replace("%world%", ssh.getWorld());
-		}
-		if(text.contains("%x%"))
-		{
-			s = s.replace("%x%", String.valueOf(ssh.getX()));
-		}
-		if(text.contains("%y%"))
-		{
-			s = s.replace("%y%", String.valueOf(ssh.getY()));
-		}
-		if(text.contains("%z%"))
-		{
-			s = s.replace("%z%", String.valueOf(ssh.getZ()));
-		}
-		if(text.contains("%accountid%"))
-		{
-			s = s.replace("%accountid%", String.valueOf(ssh.getAccountId()));
-		}
-		if(text.contains("%storageid%"))
-		{
-			s = s.replace("%storageid%", ssh.getStorageID() == 0 ? "/" : String.valueOf(ssh.getStorageID()));
-		}
-		if(text.contains("%creationdate%"))
-		{
-			s = s.replace("%creationdate%", TimeHandler.getDateTime(ssh.getCreationDateTime()));
-		}
-		if(text.contains("%discountstart%"))
-		{
-			s = s.replace("%discountstart%", ssh.getDiscountStart() == 0 ? "/" : TimeHandler.getDateTime(ssh.getDiscountStart()));
-		}
-		if(text.contains("%discountend%"))
-		{
-			s = s.replace("%discountend%", ssh.getDiscountEnd() == 0 ? "/" :TimeHandler.getDateTime(ssh.getDiscountEnd()));
-		}
-		if(text.contains("%possiblebuy%"))
-		{
-			s = s.replace("%possiblebuy%", ssh.getPossibleBuy() < 0 ? "/" : String.valueOf(ssh.getPossibleBuy()));
-		}
-		if(text.contains("%possiblesell%"))
-		{
-			s = s.replace("%possiblesell%", ssh.getPossibleSell() < 0 ? "/" : String.valueOf(ssh.getPossibleSell()));
-		}
-		if(text.contains("%discountpossiblebuy%"))
-		{
-			s = s.replace("%discountpossiblebuy%", ssh.getDiscountPossibleBuy() < 0 ? "/" : String.valueOf(ssh.getDiscountPossibleBuy()));
-		}
-		if(text.contains("%discountpossiblesell%"))
-		{
-			s = s.replace("%discountpossiblesell%", ssh.getDiscountPossibleSell() < 0 ? "/" : String.valueOf(ssh.getDiscountPossibleSell()));
-		}
-		if(text.contains("%itemstoragecurrent%"))
-		{
-			s = s.replace("%itemstoragecurrent%", String.valueOf(ssh.getItemStorageCurrent()));
-		}
-		if(text.contains("%itemstoragetotal%"))
-		{
-			s = s.replace("%itemstoragetotal%", String.valueOf(ssh.getItemStorageTotal()));
-		}
-		if(text.contains("%buytoggle%"))
-		{
-			s = s.replace("%buytoggle%", getBoolean(ssh.canBuy()));
-		}
-		if(text.contains("%selltoggle%"))
-		{
-			s = s.replace("%selltoggle%", getBoolean(ssh.canSell()));
-		}
-		if(text.contains("%unlimitedbuy%"))
-		{
-			s = s.replace("%unlimitedbuy%", getBoolean(ssh.isUnlimitedBuy()));
-		}
-		if(text.contains("%unlimitedsell%"))
-		{
-			s = s.replace("%unlimitedsell%", getBoolean(ssh.isUnlimitedSell()));
-		}
-		if(text.contains("%glow%"))
-		{
-			s = s.replace("%glow%", getBoolean(ssh.isSignGlowing()));
-		}
-		if(text.contains("%listtype%"))
-		{
-			s = s.replace("%listtype%", 
-					plugin.getYamlHandler().getLang().getString("AdminstrationFunctionHandler.ListedType."+ssh.getListedType().toString()));
-		}
-		if(text.contains("%hologram%"))
-		{
-			s = s.replace("%hologram%", getBoolean(ssh.isItemHologram()));
+			double money = 0.0;
+			if(t != null)
+			{
+				money = new MathFormulaParser().parse(t.getCostMoney(), map);
+			}
+			s = s.replace("%techcostmoney%%", t == null ? "/" : 
+				String.valueOf(money)+" "+ plugin.getVaultEco().currencyNamePlural());
 		}
 		return ChatApi.tl(s);
 	}
