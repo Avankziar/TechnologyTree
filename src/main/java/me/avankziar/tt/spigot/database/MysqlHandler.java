@@ -12,7 +12,7 @@ import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalEntryQueryStatus;
 import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
 import main.java.me.avankziar.tt.spigot.objects.mysql.RegisteredBlock;
 import main.java.me.avankziar.tt.spigot.objects.mysql.SoloEntryQueryStatus;
-import main.java.me.avankziar.tt.spigot.objects.mysql.TechnologyPoll;
+import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalTechnologyPoll;
 
 public class MysqlHandler
 {
@@ -21,7 +21,7 @@ public class MysqlHandler
 		PLAYERDATA("ttPlayerData", new PlayerData()),
 		SOLOENTRYQUERYSTATUS("ttSoloEntryQueryStatus", new SoloEntryQueryStatus()),
 		REGISTEREDBLOCK("ttRegisteredBlock", new RegisteredBlock()),
-		TECHNOLOGYPOLL("ttTechnologyPoll", new TechnologyPoll()),
+		GLOBALTECHNOLOGYPOLL("ttGlobalTechnologyPoll", new GlobalTechnologyPoll()),
 		GLOBALENTRYQUERYSTATUS("ttGlobalEntryQueryStatus", new GlobalEntryQueryStatus());
 		
 		private Type(String value, Object object)

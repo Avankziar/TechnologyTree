@@ -20,7 +20,8 @@ import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
 import main.java.me.avankziar.tt.spigot.handler.CatTechHandler;
 import main.java.me.avankziar.tt.spigot.handler.PlayerHandler;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
-import main.java.me.avankziar.tt.spigot.objects.mysql.TechnologyPoll;
+import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalEntryQueryStatus;
+import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalTechnologyPoll;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.Technology;
 
 public class BackgroundTask
@@ -42,7 +43,31 @@ public class BackgroundTask
 	
 	private void doDeleteExpiringTechnologies()
 	{
-		//TODO
+		new BukkitRunnable()
+		{
+			
+			@Override
+			public void run()
+			{
+				long now = System.currentTimeMillis();
+				
+				plugin.getMysqlHandler().deleteData(Type.SOLOENTRYQUERYSTATUS,
+						"`duration_until_expiration` < ?",
+						now);
+				
+				ArrayList<GlobalEntryQueryStatus> geqsa = GlobalEntryQueryStatus.convert(
+						plugin.getMysqlHandler().getFullList(Type.GLOBALENTRYQUERYSTATUS,
+								"`id` ASC",
+								"`duration_until_expiration` < ?",
+								now));
+				for(GlobalEntryQueryStatus geqs : geqsa)
+				{
+					plugin.getMysqlHandler().deleteData(Type.GLOBALTECHNOLOGYPOLL, "`global_choosen_technology_id` = ?", geqs.getId());
+					plugin.getMysqlHandler().deleteData(Type.GLOBALENTRYQUERYSTATUS, "`id` = ?", geqs.getId());
+				}
+			}
+		}.runTaskTimerAsynchronously(plugin, 60*20L,
+				plugin.getYamlHandler().getConfig().getLong("Do.DeleteExpireTechnologies.TaskRunInMinutes", 5)*60*20L);
 	}
 	
 	private void doTechnologyPoll()
@@ -116,11 +141,11 @@ public class BackgroundTask
 	
 	private static void processPoll(PlayerAssociatedType pat)
 	{
-		ArrayList<TechnologyPoll> tpar = TechnologyPoll.convert(plugin.getMysqlHandler().getFullList(MysqlHandler.Type.TECHNOLOGYPOLL,
+		ArrayList<GlobalTechnologyPoll> tpar = GlobalTechnologyPoll.convert(plugin.getMysqlHandler().getFullList(MysqlHandler.Type.GLOBALTECHNOLOGYPOLL,
 				"`id`", "`processed_in_repayment = ?`", false));
 		LinkedHashMap<String, Integer> countMap = new LinkedHashMap<>();
 		int participants = tpar.size();
-		for(TechnologyPoll tp : tpar)
+		for(GlobalTechnologyPoll tp : tpar)
 		{
 			int c = 0;
 			if(countMap.containsKey(tp.getChoosen_Technology()))
@@ -131,7 +156,7 @@ public class BackgroundTask
 		}
 		if(countMap.isEmpty())
 		{
-			plugin.getMysqlHandler().truncate(Type.TECHNOLOGYPOLL);
+			plugin.getMysqlHandler().truncate(Type.GLOBALTECHNOLOGYPOLL);
 			return;
 		}
 		int max = 0;
@@ -146,24 +171,30 @@ public class BackgroundTask
 		}
 		Technology globalChoosen = CatTechHandler.getTechnology(choosenTech, PlayerAssociatedType.GLOBAL);
 		int researchlevel = PlayerHandler.researchGlobalTechnology(globalChoosen, true);
+		ArrayList<GlobalEntryQueryStatus> geqsa = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBALENTRYQUERYSTATUS,
+				"`id` DESC", 0, 1, "`intern_name` = ?", globalChoosen.getInternName()));
+		GlobalEntryQueryStatus geqs = geqsa.get(0);
 		int share = 1/participants;
-		for(TechnologyPoll tp : tpar)
+		for(GlobalTechnologyPoll tp : tpar)
 		{
 			Player pcp = Bukkit.getPlayer(tp.getPlayerUUID());
+			tp.setGlobal_Choosen_Technology(choosenTech);
+			tp.setGlobal_Choosen_Technology_ID(geqs.getId());
 			if(pcp == null)
 			{
 				tp.setProcessedInRepayment(true);
-				tp.setGlobal_Choosen_Technology(choosenTech);
-				plugin.getMysqlHandler().updateData(Type.TECHNOLOGYPOLL, tp,
-						"`player_uuid` = ? AND `choosen_technology` = ? AND `global_choosen_technology` = ?",
-						tp.getPlayerUUID().toString(), tp.getChoosen_Technology(), "/");
+				plugin.getMysqlHandler().updateData(Type.GLOBALTECHNOLOGYPOLL, tp, "`id` = ?", tp.getId());
 				continue;
 			}
+			plugin.getMysqlHandler().updateData(Type.GLOBALTECHNOLOGYPOLL, tp, "`id` = ?", tp.getId());
 			Technology playerChoosen = CatTechHandler.getTechnology(choosenTech, PlayerAssociatedType.GLOBAL);
 			PlayerHandler.repaymentGlobalTechnology(pcp, playerChoosen, researchlevel);
 			PlayerHandler.payTechnology(pcp, globalChoosen, share);
 		}
-		//For Schleife für jeden Spieler, welcher online ist, repayment der techkosten anteilig für alle Wähler
+		for(Player player : Bukkit.getOnlinePlayers())
+		{
+			PlayerHandler.doUpdate(player, globalChoosen, geqs.getId());
+		}
 	}
 	
 	private static int getDayOfWeekAndMonth(String text)

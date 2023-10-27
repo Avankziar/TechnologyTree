@@ -20,7 +20,7 @@ public class GlobalEntryQueryStatus implements MysqlHandable
 	private EntryQueryType entryQueryType;
 	private EntryStatusType statusType;
 	private int researchLevel;
-	private long ifBoosterDurationUntilExpiration;
+	private long durationUntilExpiration;
 	
 	public GlobalEntryQueryStatus()
 	{
@@ -29,14 +29,14 @@ public class GlobalEntryQueryStatus implements MysqlHandable
 	
 	public GlobalEntryQueryStatus(int id, String internName,
 			EntryQueryType entryQueryType, EntryStatusType statusType, int researchLevel,
-			long ifBoosterDurationUntilExpiration)
+			long durationUntilExpiration)
 	{
 		setId(id);
 		setInternName(internName);
 		setEntryQueryType(entryQueryType);
 		setStatusType(statusType);
 		setResearchLevel(researchLevel);
-		setIfBoosterDurationUntilExpiration(ifBoosterDurationUntilExpiration);
+		setDurationUntilExpiration(durationUntilExpiration);
 	}
 	
 	public int getId()
@@ -89,14 +89,14 @@ public class GlobalEntryQueryStatus implements MysqlHandable
 		this.researchLevel = researchLevel;
 	}
 
-	public long getIfBoosterDurationUntilExpiration()
+	public long getDurationUntilExpiration()
 	{
-		return ifBoosterDurationUntilExpiration;
+		return durationUntilExpiration;
 	}
 
-	public void setIfBoosterDurationUntilExpiration(long ifBoosterDurationUntilExpiration)
+	public void setDurationUntilExpiration(long durationUntilExpiration)
 	{
-		this.ifBoosterDurationUntilExpiration = ifBoosterDurationUntilExpiration;
+		this.durationUntilExpiration = durationUntilExpiration;
 	}
 
 	@Override
@@ -105,14 +105,14 @@ public class GlobalEntryQueryStatus implements MysqlHandable
 		try
 		{
 			String sql = "INSERT INTO `" + tablename
-					+ "`(`intern_name`, `entry_query_type`, `status_type`, `research_level`, `if_booster_duration_until_expiration`) " 
+					+ "`(`intern_name`, `entry_query_type`, `status_type`, `research_level`, `duration_until_expiration`) " 
 					+ "VALUES(?, ?, ?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 	        ps.setString(1, getInternName());
 	        ps.setString(2, getEntryQueryType().toString());
 	        ps.setString(3, getStatusType().toString());
 	        ps.setInt(4, getResearchLevel());
-	        ps.setLong(5, getIfBoosterDurationUntilExpiration());
+	        ps.setLong(5, getDurationUntilExpiration());
 	        int i = ps.executeUpdate();
 	        MysqlHandler.addRows(MysqlHandler.QueryType.INSERT, i);
 	        return true;
@@ -130,14 +130,14 @@ public class GlobalEntryQueryStatus implements MysqlHandable
 		{
 			String sql = "UPDATE `" + tablename
 				+ "` SET `intern_name` = ?, `entry_query_type` = ?, `status_type` = ?, `research_level` = ?,"
-				+ " `if_booster_duration_until_expiration` = ?" 
+				+ " `duration_until_expiration` = ?" 
 				+ " WHERE "+whereColumn;
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, getInternName());
 	        ps.setString(2, getEntryQueryType().toString());
 	        ps.setString(3, getStatusType().toString());
 	        ps.setInt(4, getResearchLevel());
-	        ps.setLong(5, getIfBoosterDurationUntilExpiration());
+	        ps.setLong(5, getDurationUntilExpiration());
 			int i = 6;
 			for(Object o : whereObject)
 			{
@@ -179,7 +179,7 @@ public class GlobalEntryQueryStatus implements MysqlHandable
 						EntryQueryType.valueOf(rs.getString("entry_query_type")),
 						EntryStatusType.valueOf(rs.getString("status_type")),
 						rs.getInt("research_level"),
-						rs.getLong("if_booster_duration_until_expiration")));
+						rs.getLong("duration_until_expiration")));
 			}
 			return al;
 		} catch (SQLException e)

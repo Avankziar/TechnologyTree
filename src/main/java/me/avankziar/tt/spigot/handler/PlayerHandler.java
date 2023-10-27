@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -64,6 +65,8 @@ public class PlayerHandler
 	
 	public static LinkedHashMap<UUID, LinkedHashMap<BlockType, ArrayList<String>>> registeredBlocks = new LinkedHashMap<>();//UUID, BlockType, Location as Text
 	
+	
+	//DO ASYNC!
 	public static void joinPlayer(Player player)
 	{
 		UUID uuid = player.getUniqueId();
@@ -119,19 +122,19 @@ public class PlayerHandler
 			}
 			for(UnlockableInteraction ui : t.getRewardUnlockableInteractions())
 			{
-				addInteraction(uuid, ui);
+				addInteraction(uuid, ui, 100.0);
 			}
 			for(Entry<RecipeType, ArrayList<String>> rtl : t.getRewardRecipes().entrySet())
 			{
-				addRecipe(uuid, rtl.getKey(), rtl.getValue().toArray(new String[rtl.getValue().size()]));
+				addRecipe(uuid, rtl.getKey(), 100.0, rtl.getValue().toArray(new String[rtl.getValue().size()]));
 			}
 			for(DropChance dc : t.getRewardDropChances())
 			{
-				addDropChances(uuid, dc);
+				addDropChances(uuid, dc, 100.0);
 			}
 			for(DropChance dc : t.getRewardSilkTouchDropChances())
 			{
-				addSilkTouchDropChances(uuid, dc);
+				addSilkTouchDropChances(uuid, dc, 100.0);
 			}
 		}
 		for(GlobalEntryQueryStatus eqs : GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getFullList(Type.GLOBALENTRYQUERYSTATUS,
@@ -147,21 +150,29 @@ public class PlayerHandler
 			{
 				continue;
 			}
+			boolean ifGlobal_HasParticipated = plugin.getMysqlHandler().exist(Type.GLOBALTECHNOLOGYPOLL,
+					"`player_uuid` = ? AND `global_choosen_technology_id` = ?",
+					player.getUniqueId().toString(), eqs.getId());
 			for(UnlockableInteraction ui : t.getRewardUnlockableInteractions())
 			{
-				addInteraction(uuid, ui);
+				addInteraction(uuid, ui,
+						ifGlobal_HasParticipated ? t.getForUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent() : 100.0);
 			}
 			for(Entry<RecipeType, ArrayList<String>> rtl : t.getRewardRecipes().entrySet())
 			{
-				addRecipe(uuid, rtl.getKey(), rtl.getValue().toArray(new String[rtl.getValue().size()]));
+				addRecipe(uuid, rtl.getKey(),
+						ifGlobal_HasParticipated ? t.getForUninvolvedPollParticipants_RewardRecipesInPercent() : 100.0,
+						rtl.getValue().toArray(new String[rtl.getValue().size()]));
 			}
 			for(DropChance dc : t.getRewardDropChances())
 			{
-				addDropChances(uuid, dc);
+				addDropChances(uuid, dc,
+						ifGlobal_HasParticipated ? t.getForUninvolvedPollParticipants_RewardDropChancesInPercent() : 100.0);
 			}
 			for(DropChance dc : t.getRewardSilkTouchDropChances())
 			{
-				addSilkTouchDropChances(uuid, dc);
+				addSilkTouchDropChances(uuid, dc,
+						ifGlobal_HasParticipated ? t.getForUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent() : 100.0);
 			}
 		}		
 		registeredBlocks.remove(uuid);
@@ -219,7 +230,8 @@ public class PlayerHandler
 		plugin.getMysqlHandler().updateData(Type.PLAYERDATA, pd, "`player_uuid` = ?", pd.getUUID().toString());
 	}
 	
-	public static LinkedHashMap<ItemStack, Boolean> canSeeOrResearch_ForGUI(Player player, UUID uuid, MainCategory mcat, SubCategory scat, Technology tech)
+	public static LinkedHashMap<ItemStack, Boolean> canSeeOrResearch_ForGUI(Player player, UUID uuid,
+			PlayerAssociatedType pat, MainCategory mcat, SubCategory scat, Technology tech)
 	/* HashMap with only 1 Entry.
 	 * If Boolean is true, item can be research. Only works for techs
 	 */
@@ -227,214 +239,435 @@ public class PlayerHandler
 		LinkedHashMap<ItemStack, Boolean> map = new LinkedHashMap<>();
 		if(mcat != null)
 		{
-			SoloEntryQueryStatus eqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLOENTRYQUERYSTATUS,
-					"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-					player.getUniqueId().toString(), mcat.getInternName(), EntryQueryType.MAIN_CATEGORY.toString());
-			if(eqs != null && eqs.getStatusType() == EntryStatusType.CAN_SEE_IT)
+			switch(pat)
 			{
-				map.put(mcat.getSeeRequirementItemIfYouCanSeeIt(player), null);
-				return map;
-			}
-			ArrayList<String> ls = new ArrayList<>();
-			for(String s : mcat.getSeeRequirementConditionQuery())
-			{
-				if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
-				{
-					ls.add(s);
-					continue;
-				}
-				ls.add(getTTReplacerValues(uuid, s));
-			}
-			ArrayList<String> al = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, ls);
-			if(al != null && al.get(0).equalsIgnoreCase("true"))
-			{
-				map.put(mcat.getSeeRequirementItemIfYouCanSeeIt(player), null);
-				eqs.setStatusType(EntryStatusType.CAN_SEE_IT);
-				plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, eqs,
+			case SOLO:
+				SoloEntryQueryStatus mseqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLOENTRYQUERYSTATUS,
 						"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 						player.getUniqueId().toString(), mcat.getInternName(), EntryQueryType.MAIN_CATEGORY.toString());
-				return map;
-			} else
-			{
-				map.put(mcat.getSeeRequirementItemIfYouCannotSeeIt(player), null);
-				return map;
-			}
-		} else if(scat != null)
-		{
-			SoloEntryQueryStatus eqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLOENTRYQUERYSTATUS,
-					"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-					player.getUniqueId().toString(), scat.getInternName(), EntryQueryType.SUB_CATEGORY.toString());
-			if(eqs != null && eqs.getStatusType() == EntryStatusType.CAN_SEE_IT)
-			{
-				map.put(scat.getSeeRequirementItemIfYouCanSeeIt(player), null);
-				return map;
-			}
-			ArrayList<String> ls = new ArrayList<>();
-			for(String s : scat.getSeeRequirementConditionQuery())
-			{
-				if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
+				if(mseqs != null && mseqs.getStatusType() == EntryStatusType.CAN_SEE_IT)
 				{
-					ls.add(s);
-					continue;
-				}
-				ls.add(getTTReplacerValues(uuid, s));
-			}
-			ArrayList<String> al = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, ls);
-			if(al != null && al.get(0).equalsIgnoreCase("true"))
-			{
-				map.put(scat.getSeeRequirementItemIfYouCanSeeIt(player), null);
-				eqs.setStatusType(EntryStatusType.CAN_SEE_IT);
-				plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, eqs,
-						"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-						player.getUniqueId().toString(), scat.getInternName(), EntryQueryType.SUB_CATEGORY.toString());
-				return map;
-			} else
-			{
-				map.put(scat.getSeeRequirementItemIfYouCannotSeeIt(player), null);
-				return map;
-			}
-		} else if(tech != null)
-		{
-			SoloEntryQueryStatus eqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLOENTRYQUERYSTATUS,
-					"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-					player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
-			if(eqs != null)
-			{
-				if(eqs.getStatusType() == EntryStatusType.CANNOT_SEE_IT)
-				{
-					ArrayList<String> ls = new ArrayList<>();
-					for(String s : tech.getSeeRequirementConditionQuery())
-					{
-						if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
-						{
-							ls.add(s);
-							continue;
-						}
-						ls.add(getTTReplacerValues(uuid, s));
-					}
-					ArrayList<String> seeOrNot = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, ls);
-					if(seeOrNot != null && seeOrNot.get(0).equalsIgnoreCase("false"))
-					{
-						map.put(tech.getSeeRequirementItemIfYouCannotSeeIt(player), false);
-						return map;
-					} else if(seeOrNot == null)
-					{
-						return null;
-					}
-					ls.clear();
-					for(String s : tech.getResearchRequirementConditionQuery())
-					{
-						if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
-						{
-							ls.add(s);
-							continue;
-						}
-						ls.add(getTTReplacerValues(uuid, s));
-					}
-					ArrayList<String> researchOrNot = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, ls);
-					if(researchOrNot != null &&  researchOrNot.get(0).equalsIgnoreCase("true"))
-					{
-						eqs.setStatusType(EntryStatusType.CAN_RESEARCH_IT);
-						plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, eqs,
-								"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-								player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
-						map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), false);
-						return map;
-					} else
-					{
-						eqs.setStatusType(EntryStatusType.CAN_SEE_IT);
-						plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, eqs,
-								"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-								player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
-						map.put(tech.getSeeRequirementItemIfYouCanSeeIt(player), false);
-						return map;
-					}
-				} else if(eqs.getStatusType() == EntryStatusType.CAN_SEE_IT)
-				{
-					ArrayList<String> ls = new ArrayList<>();
-					for(String s : tech.getResearchRequirementConditionQuery())
-					{
-						if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
-						{
-							ls.add(s);
-							continue;
-						}
-						ls.add(getTTReplacerValues(uuid, s));
-					}
-					ArrayList<String> researchOrNot = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, ls);
-					if(researchOrNot != null &&  researchOrNot.get(0).equalsIgnoreCase("true"))
-					{
-						eqs.setStatusType(EntryStatusType.CAN_RESEARCH_IT);
-						plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, eqs,
-								"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-								player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
-						map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), false);
-						return map;
-					} else
-					{
-						map.put(tech.getSeeRequirementItemIfYouCanSeeIt(player), false);
-						return map;
-					}
-				} else if(eqs.getStatusType() == EntryStatusType.CAN_RESEARCH_IT)
-				{
-					map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), false);
-					return map;
-				} else if(eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT)
-				{
-					map.put(tech.getResearchRequirementItemIfYouHaveResearchedIt(player), false);
+					map.put(mcat.getSeeRequirementItemIfYouCanSeeIt(player), null);
 					return map;
 				}
-			}
-			ArrayList<String> ls = new ArrayList<>();
-			for(String s : tech.getSeeRequirementConditionQuery())
-			{
-				if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
-				{
-					ls.add(s);
-					continue;
-				}
-				ls.add(getTTReplacerValues(uuid, s));
-			}
-			ArrayList<String> seeOrRes = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, ls);
-			if(seeOrRes != null && seeOrRes.get(0).equalsIgnoreCase("true"))
-			{
-				ls.clear();
-				for(String s : tech.getResearchRequirementConditionQuery())
+				ArrayList<String> msls = new ArrayList<>();
+				for(String s : mcat.getSeeRequirementConditionQuery())
 				{
 					if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
 					{
-						ls.add(s);
+						msls.add(s);
 						continue;
 					}
-					ls.add(getTTReplacerValues(uuid, s));
+					msls.add(getTTReplacerValues(uuid, s));
 				}
-				ArrayList<String> resOrNot = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, ls);
-				if(resOrNot != null && resOrNot.get(0).equalsIgnoreCase("true"))
+				ArrayList<String> msal = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, msls);
+				if(msal != null && msal.get(0).equalsIgnoreCase("true"))
 				{
-					eqs.setStatusType(EntryStatusType.CAN_RESEARCH_IT);
-					plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, eqs,
+					map.put(mcat.getSeeRequirementItemIfYouCanSeeIt(player), null);
+					mseqs.setStatusType(EntryStatusType.CAN_SEE_IT);
+					plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, mseqs,
 							"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-							player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
-					map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), true);
+							player.getUniqueId().toString(), mcat.getInternName(), EntryQueryType.MAIN_CATEGORY.toString());
 					return map;
 				} else
 				{
-					eqs.setStatusType(EntryStatusType.CAN_SEE_IT);
-					plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, eqs,
-							"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-							player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
-					map.put(tech.getSeeRequirementItemIfYouCanSeeIt(player), false);
+					map.put(mcat.getSeeRequirementItemIfYouCannotSeeIt(player), null);
 					return map;
 				}
-			} else
+			case GLOBAL:
+				GlobalEntryQueryStatus mgeqs = (GlobalEntryQueryStatus) plugin.getMysqlHandler().getData(Type.GLOBALENTRYQUERYSTATUS,
+						"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+						player.getUniqueId().toString(), mcat.getInternName(), EntryQueryType.MAIN_CATEGORY.toString());
+				if(mgeqs != null && mgeqs.getStatusType() == EntryStatusType.CAN_SEE_IT)
+				{
+					map.put(mcat.getSeeRequirementItemIfYouCanSeeIt(player), null);
+					return map;
+				}
+				ArrayList<String> mgls = new ArrayList<>();
+				for(String s : mcat.getSeeRequirementConditionQuery())
+				{
+					if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
+					{
+						mgls.add(s);
+						continue;
+					}
+					mgls.add(getTTReplacerValues(uuid, s));
+				}
+				ArrayList<String> al = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, mgls);
+				if(al != null && al.get(0).equalsIgnoreCase("true"))
+				{
+					map.put(mcat.getSeeRequirementItemIfYouCanSeeIt(player), null);
+					mgeqs.setStatusType(EntryStatusType.CAN_SEE_IT);
+					plugin.getMysqlHandler().updateData(Type.GLOBALENTRYQUERYSTATUS, mgeqs,
+							"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+							player.getUniqueId().toString(), mcat.getInternName(), EntryQueryType.MAIN_CATEGORY.toString());
+					return map;
+				} else
+				{
+					map.put(mcat.getSeeRequirementItemIfYouCannotSeeIt(player), null);
+					return map;
+				}
+			}
+			
+		} else if(scat != null)
+		{
+			switch(pat)
 			{
-				eqs.setStatusType(EntryStatusType.CANNOT_SEE_IT);
-				plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, eqs,
+			case SOLO:
+				SoloEntryQueryStatus sseqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLOENTRYQUERYSTATUS,
+						"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+						player.getUniqueId().toString(), scat.getInternName(), EntryQueryType.SUB_CATEGORY.toString());
+				if(sseqs != null && sseqs.getStatusType() == EntryStatusType.CAN_SEE_IT)
+				{
+					map.put(scat.getSeeRequirementItemIfYouCanSeeIt(player), null);
+					return map;
+				}
+				ArrayList<String> ssls = new ArrayList<>();
+				for(String s : scat.getSeeRequirementConditionQuery())
+				{
+					if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
+					{
+						ssls.add(s);
+						continue;
+					}
+					ssls.add(getTTReplacerValues(uuid, s));
+				}
+				ArrayList<String> ssal = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, ssls);
+				if(ssal != null && ssal.get(0).equalsIgnoreCase("true"))
+				{
+					map.put(scat.getSeeRequirementItemIfYouCanSeeIt(player), null);
+					sseqs.setStatusType(EntryStatusType.CAN_SEE_IT);
+					plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, sseqs,
+							"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+							player.getUniqueId().toString(), scat.getInternName(), EntryQueryType.SUB_CATEGORY.toString());
+					return map;
+				} else
+				{
+					map.put(scat.getSeeRequirementItemIfYouCannotSeeIt(player), null);
+					return map;
+				}
+			case GLOBAL:
+				GlobalEntryQueryStatus sgeqs = (GlobalEntryQueryStatus) plugin.getMysqlHandler().getData(Type.GLOBALENTRYQUERYSTATUS,
+						"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+						player.getUniqueId().toString(), scat.getInternName(), EntryQueryType.SUB_CATEGORY.toString());
+				if(sgeqs != null && sgeqs.getStatusType() == EntryStatusType.CAN_SEE_IT)
+				{
+					map.put(scat.getSeeRequirementItemIfYouCanSeeIt(player), null);
+					return map;
+				}
+				ArrayList<String> sgls = new ArrayList<>();
+				for(String s : scat.getSeeRequirementConditionQuery())
+				{
+					if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
+					{
+						sgls.add(s);
+						continue;
+					}
+					sgls.add(getTTReplacerValues(uuid, s));
+				}
+				ArrayList<String> sgal = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, sgls);
+				if(sgal != null && sgal.get(0).equalsIgnoreCase("true"))
+				{
+					map.put(scat.getSeeRequirementItemIfYouCanSeeIt(player), null);
+					sgeqs.setStatusType(EntryStatusType.CAN_SEE_IT);
+					plugin.getMysqlHandler().updateData(Type.GLOBALENTRYQUERYSTATUS, sgeqs,
+							"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+							player.getUniqueId().toString(), scat.getInternName(), EntryQueryType.SUB_CATEGORY.toString());
+					return map;
+				} else
+				{
+					map.put(scat.getSeeRequirementItemIfYouCannotSeeIt(player), null);
+					return map;
+				}
+			}
+		} else if(tech != null)
+		{
+			switch(pat)
+			{
+			case SOLO:
+				SoloEntryQueryStatus tseqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLOENTRYQUERYSTATUS,
 						"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 						player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
-				map.put(tech.getSeeRequirementItemIfYouCannotSeeIt(player), false);
-				return map;
+				if(tseqs != null)
+				{
+					if(tseqs.getStatusType() == EntryStatusType.CANNOT_SEE_IT)
+					{
+						ArrayList<String> tsls = new ArrayList<>();
+						for(String s : tech.getSeeRequirementConditionQuery())
+						{
+							if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
+							{
+								tsls.add(s);
+								continue;
+							}
+							tsls.add(getTTReplacerValues(uuid, s));
+						}
+						ArrayList<String> seeOrNot = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, tsls);
+						if(seeOrNot != null && seeOrNot.get(0).equalsIgnoreCase("false"))
+						{
+							map.put(tech.getSeeRequirementItemIfYouCannotSeeIt(player), false);
+							return map;
+						} else if(seeOrNot == null)
+						{
+							return null;
+						}
+						tsls.clear();
+						for(String s : tech.getResearchRequirementConditionQuery())
+						{
+							if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
+							{
+								tsls.add(s);
+								continue;
+							}
+							tsls.add(getTTReplacerValues(uuid, s));
+						}
+						ArrayList<String> researchOrNot = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, tsls);
+						if(researchOrNot != null &&  researchOrNot.get(0).equalsIgnoreCase("true"))
+						{
+							tseqs.setStatusType(EntryStatusType.CAN_RESEARCH_IT);
+							plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, tseqs,
+									"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+									player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
+							map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), false);
+							return map;
+						} else
+						{
+							tseqs.setStatusType(EntryStatusType.CAN_SEE_IT);
+							plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, tseqs,
+									"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+									player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
+							map.put(tech.getSeeRequirementItemIfYouCanSeeIt(player), false);
+							return map;
+						}
+					} else if(tseqs.getStatusType() == EntryStatusType.CAN_SEE_IT)
+					{
+						ArrayList<String> tsls = new ArrayList<>();
+						for(String s : tech.getResearchRequirementConditionQuery())
+						{
+							if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
+							{
+								tsls.add(s);
+								continue;
+							}
+							tsls.add(getTTReplacerValues(uuid, s));
+						}
+						ArrayList<String> researchOrNot = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, tsls);
+						if(researchOrNot != null &&  researchOrNot.get(0).equalsIgnoreCase("true"))
+						{
+							tseqs.setStatusType(EntryStatusType.CAN_RESEARCH_IT);
+							plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, tseqs,
+									"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+									player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
+							map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), false);
+							return map;
+						} else
+						{
+							map.put(tech.getSeeRequirementItemIfYouCanSeeIt(player), false);
+							return map;
+						}
+					} else if(tseqs.getStatusType() == EntryStatusType.CAN_RESEARCH_IT)
+					{
+						map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), false);
+						return map;
+					} else if(tseqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT)
+					{
+						map.put(tech.getResearchRequirementItemIfYouHaveResearchedIt(player), false);
+						return map;
+					}
+				}
+				ArrayList<String> tsls = new ArrayList<>();
+				for(String s : tech.getSeeRequirementConditionQuery())
+				{
+					if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
+					{
+						tsls.add(s);
+						continue;
+					}
+					tsls.add(getTTReplacerValues(uuid, s));
+				}
+				ArrayList<String> seeOrRes = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, tsls);
+				if(seeOrRes != null && seeOrRes.get(0).equalsIgnoreCase("true"))
+				{
+					tsls.clear();
+					for(String s : tech.getResearchRequirementConditionQuery())
+					{
+						if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
+						{
+							tsls.add(s);
+							continue;
+						}
+						tsls.add(getTTReplacerValues(uuid, s));
+					}
+					ArrayList<String> resOrNot = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, tsls);
+					if(resOrNot != null && resOrNot.get(0).equalsIgnoreCase("true"))
+					{
+						tseqs.setStatusType(EntryStatusType.CAN_RESEARCH_IT);
+						plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, tseqs,
+								"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+								player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
+						map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), true);
+						return map;
+					} else
+					{
+						tseqs.setStatusType(EntryStatusType.CAN_SEE_IT);
+						plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, tseqs,
+								"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+								player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
+						map.put(tech.getSeeRequirementItemIfYouCanSeeIt(player), false);
+						return map;
+					}
+				} else
+				{
+					tseqs.setStatusType(EntryStatusType.CANNOT_SEE_IT);
+					plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, tseqs,
+							"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+							player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
+					map.put(tech.getSeeRequirementItemIfYouCannotSeeIt(player), false);
+					return map;
+				}
+			case GLOBAL:
+				GlobalEntryQueryStatus tgeqs = (GlobalEntryQueryStatus) plugin.getMysqlHandler().getData(Type.GLOBALENTRYQUERYSTATUS,
+						"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+						player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
+				if(tgeqs != null)
+				{
+					if(tgeqs.getStatusType() == EntryStatusType.CANNOT_SEE_IT)
+					{
+						ArrayList<String> tgls = new ArrayList<>();
+						for(String s : tech.getSeeRequirementConditionQuery())
+						{
+							if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
+							{
+								tgls.add(s);
+								continue;
+							}
+							tgls.add(getTTReplacerValues(uuid, s));
+						}
+						ArrayList<String> seeOrNot = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, tgls);
+						if(seeOrNot != null && seeOrNot.get(0).equalsIgnoreCase("false"))
+						{
+							map.put(tech.getSeeRequirementItemIfYouCannotSeeIt(player), false);
+							return map;
+						} else if(seeOrNot == null)
+						{
+							return null;
+						}
+						tgls.clear();
+						for(String s : tech.getResearchRequirementConditionQuery())
+						{
+							if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
+							{
+								tgls.add(s);
+								continue;
+							}
+							tgls.add(getTTReplacerValues(uuid, s));
+						}
+						ArrayList<String> researchOrNot = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, tgls);
+						if(researchOrNot != null &&  researchOrNot.get(0).equalsIgnoreCase("true"))
+						{
+							tgeqs.setStatusType(EntryStatusType.CAN_RESEARCH_IT);
+							plugin.getMysqlHandler().updateData(Type.GLOBALENTRYQUERYSTATUS, tgeqs,
+									"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+									player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
+							map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), false);
+							return map;
+						} else
+						{
+							tgeqs.setStatusType(EntryStatusType.CAN_SEE_IT);
+							plugin.getMysqlHandler().updateData(Type.GLOBALENTRYQUERYSTATUS, tgeqs,
+									"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+									player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
+							map.put(tech.getSeeRequirementItemIfYouCanSeeIt(player), false);
+							return map;
+						}
+					} else if(tgeqs.getStatusType() == EntryStatusType.CAN_SEE_IT)
+					{
+						ArrayList<String> tgls = new ArrayList<>();
+						for(String s : tech.getResearchRequirementConditionQuery())
+						{
+							if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
+							{
+								tgls.add(s);
+								continue;
+							}
+							tgls.add(getTTReplacerValues(uuid, s));
+						}
+						ArrayList<String> researchOrNot = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, tgls);
+						if(researchOrNot != null &&  researchOrNot.get(0).equalsIgnoreCase("true"))
+						{
+							tgeqs.setStatusType(EntryStatusType.CAN_RESEARCH_IT);
+							plugin.getMysqlHandler().updateData(Type.GLOBALENTRYQUERYSTATUS, tgeqs,
+									"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+									player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
+							map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), false);
+							return map;
+						} else
+						{
+							map.put(tech.getSeeRequirementItemIfYouCanSeeIt(player), false);
+							return map;
+						}
+					} else if(tgeqs.getStatusType() == EntryStatusType.CAN_RESEARCH_IT)
+					{
+						map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), false);
+						return map;
+					} else if(tgeqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT)
+					{
+						map.put(tech.getResearchRequirementItemIfYouHaveResearchedIt(player), false);
+						return map;
+					}
+				}
+				ArrayList<String> tgls = new ArrayList<>();
+				for(String s : tech.getSeeRequirementConditionQuery())
+				{
+					if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
+					{
+						tgls.add(s);
+						continue;
+					}
+					tgls.add(getTTReplacerValues(uuid, s));
+				}
+				ArrayList<String> seeOrRese = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, tgls);
+				if(seeOrRese != null && seeOrRese.get(0).equalsIgnoreCase("true"))
+				{
+					tgls.clear();
+					for(String s : tech.getResearchRequirementConditionQuery())
+					{
+						if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
+						{
+							tgls.add(s);
+							continue;
+						}
+						tgls.add(getTTReplacerValues(uuid, s));
+					}
+					ArrayList<String> resOrNot = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, tgls);
+					if(resOrNot != null && resOrNot.get(0).equalsIgnoreCase("true"))
+					{
+						tgeqs.setStatusType(EntryStatusType.CAN_RESEARCH_IT);
+						plugin.getMysqlHandler().updateData(Type.GLOBALENTRYQUERYSTATUS, tgeqs,
+								"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+								player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
+						map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), true);
+						return map;
+					} else
+					{
+						tgeqs.setStatusType(EntryStatusType.CAN_SEE_IT);
+						plugin.getMysqlHandler().updateData(Type.GLOBALENTRYQUERYSTATUS, tgeqs,
+								"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+								player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
+						map.put(tech.getSeeRequirementItemIfYouCanSeeIt(player), false);
+						return map;
+					}
+				} else
+				{
+					tgeqs.setStatusType(EntryStatusType.CANNOT_SEE_IT);
+					plugin.getMysqlHandler().updateData(Type.GLOBALENTRYQUERYSTATUS, tgeqs,
+							"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+							player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
+					map.put(tech.getSeeRequirementItemIfYouCannotSeeIt(player), false);
+					return map;
+				}
 			}
+			
 		}
 		return null;
 	}
@@ -741,7 +974,7 @@ public class PlayerHandler
 		}
 		if(doUpdate)
 		{
-			doUpdate(player, t);
+			doUpdate(player, t, 0);
 		}		
 	}
 	
@@ -781,24 +1014,37 @@ public class PlayerHandler
 		return 0;
 	}
 	
-	public static void doUpdate(Player player, Technology t)
+	public static void doUpdate(Player player, Technology t, int globalTechnologyPollID)
 	{
+		boolean ifGlobal_HasParticipated = true;
+		if(t.getPlayerAssociatedType() == PlayerAssociatedType.GLOBAL || globalTechnologyPollID > 0)
+		{
+			ifGlobal_HasParticipated = plugin.getMysqlHandler().exist(Type.GLOBALTECHNOLOGYPOLL,
+					"`player_uuid` = ? AND `global_choosen_technology_id` = ?",
+					player.getUniqueId().toString(), globalTechnologyPollID);
+		}
 		for(UnlockableInteraction ui : t.getRewardUnlockableInteractions())
 		{
-			addInteraction(player.getUniqueId(), ui);
+			addInteraction(player.getUniqueId(), ui,
+					ifGlobal_HasParticipated ? t.getForUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent() : 100.0);
 		}
 		for(Entry<RecipeType, ArrayList<String>> rtl : t.getRewardRecipes().entrySet())
 		{
-			addRecipe(player.getUniqueId(), rtl.getKey(), rtl.getValue().toArray(new String[rtl.getValue().size()]));
+			addRecipe(player.getUniqueId(), rtl.getKey(),
+					ifGlobal_HasParticipated ? t.getForUninvolvedPollParticipants_RewardRecipesInPercent() : 100.0,
+					rtl.getValue().toArray(new String[rtl.getValue().size()]));
 		}
 		for(DropChance dc : t.getRewardDropChances())
 		{
-			addDropChances(player.getUniqueId(), dc);
+			addDropChances(player.getUniqueId(), dc,
+					ifGlobal_HasParticipated ? t.getForUninvolvedPollParticipants_RewardDropChancesInPercent() : 100.0);
 		}
 		for(DropChance dc : t.getRewardSilkTouchDropChances())
 		{
-			addSilkTouchDropChances(player.getUniqueId(), dc);
+			addSilkTouchDropChances(player.getUniqueId(), dc,
+					ifGlobal_HasParticipated ? t.getForUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent() : 100.0);
 		}
+		double rripM = (ifGlobal_HasParticipated ? t.getForUninvolvedPollParticipants_RewardModifiersInPercent() : 100.0)/100;
 		for(String s : t.getRewardModifierList())
 		{
 			String[] split = s.split(":");
@@ -817,7 +1063,7 @@ public class PlayerHandler
 			try
 			{
 				mt = ModifierType.valueOf(split[1]);
-				v = Double.parseDouble(split[2]);
+				v = Double.parseDouble(split[2]) * rripM;
 				duration = TimeHandler.getRepeatingTimeShortV2(split[7]);
 			} catch(Exception e)
 			{
@@ -829,6 +1075,7 @@ public class PlayerHandler
 			}
 			plugin.getModifier().addFactor(player.getUniqueId(), bm, v, mt, ir, dr, server, world, duration);
 		}
+		double rripC = (ifGlobal_HasParticipated ? t.getForUninvolvedPollParticipants_RewardCommandsInPercent() : 100.0)/100;
 		for(String s : t.getRewardCommandList())
 		{
 			String[] split = s.split(":");
@@ -838,24 +1085,17 @@ public class PlayerHandler
 			}
 			if("spigot".equalsIgnoreCase(split[0]))
 			{
-				if("player".equalsIgnoreCase(split[1]))
-				{
-					Bukkit.dispatchCommand(player, split[2].replace("%player%", player.getName()));
-				} else if("console".equalsIgnoreCase(split[1]))
-				{
-					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), split[2].replace("%player%", player.getName()));
-				}
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+						split[2].replace("%value%", String.valueOf(Double.parseDouble(split[1]) * rripC))
+								.replace("%player%", player.getName()));
 			} else if("bungee".equalsIgnoreCase(split[0]) && plugin.getCommandToBungee() != null)
 			{
-				if("player".equalsIgnoreCase(split[1]))
-				{
-					plugin.getCommandToBungee().executeAsPlayer(split[2].replace("%player%", player.getName()), player.getUniqueId());
-				} else if("console".equalsIgnoreCase(split[1]))
-				{
-					plugin.getCommandToBungee().executeAsConsole(split[2].replace("%player%", player.getName()));
-				}
+				plugin.getCommandToBungee().executeAsConsole(
+						split[2].replace("%value%", String.valueOf(Double.parseDouble(split[1]) * rripC))
+								.replace("%player%", player.getName()));
 			}
 		}
+		double rripV = (ifGlobal_HasParticipated ? t.getForUninvolvedPollParticipants_RewardValueEntryInPercent() : 100.0)/100;
 		for(String s : t.getRewardValueEntryList())
 		{
 			String[] split = s.split(":");
@@ -869,9 +1109,11 @@ public class PlayerHandler
 			if(MatchApi.isBoolean(value))
 			{
 				vt = ValueType.BOOLEAN;
+				value = String.valueOf(rripV == 100 ? Boolean.valueOf(value) : !Boolean.valueOf(value));
 			} else if(MatchApi.isDouble(value))
 			{
 				vt = ValueType.NUMBER;
+				value = String.valueOf(Double.valueOf(value) * rripV);
 			} else
 			{
 				vt = ValueType.TEXT;
@@ -911,7 +1153,7 @@ public class PlayerHandler
 		}
 	}
 	
-	//TODO rewrite to deposit the return, because other member of the community have paid it.
+	//deposit the return, because other member of the community have paid it.
 	public static boolean repaymentGlobalTechnology(Player player, Technology t, int researchlevel)
 	{
 		int techLevel = researchlevel;
@@ -936,9 +1178,9 @@ public class PlayerHandler
 			money = new MathFormulaParser().parse(t.getCostMoney(), map);
 		}
 		LinkedHashMap<Material, String> matmap = t.getCostMaterial();
-		pd.setActualTTExp(pd.getActualTTExp()-ttexp);
+		pd.setActualTTExp(pd.getActualTTExp()+ttexp);
 		updatePlayer(pd);
-		Experience.changeExp(player, -vexp, true);
+		Experience.changeExp(player, +vexp, true);
 		if(money > 0)
 		{
 			if(plugin.getIFHEco() != null)
@@ -970,44 +1212,25 @@ public class PlayerHandler
 				plugin.getVaultEco().withdrawPlayer(player, money);
 			}
 		}
-		//TODO
 		for(Entry<Material, String> e : matmap.entrySet())
 		{
-			int toremove = Integer.valueOf(e.getValue());
-			for(ItemStack is : player.getInventory().getContents())
+			int toAdd = Integer.valueOf(e.getValue());
+			HashMap<Integer, ItemStack> addMap = player.getInventory().addItem(new ItemStack(e.getKey(), toAdd));
+			if(!addMap.isEmpty())
 			{
-				if(toremove == 0)
+				for(ItemStack is : addMap.values())
 				{
-					break;
-				}
-				if(is == null || is.getType() == Material.AIR || is.getType() != e.getKey())
-				{
-					continue;
-				}
-				if(is.hasItemMeta())
-				{
-					ItemMeta im = (ItemMeta) is.getItemMeta();
-					if(im.hasDisplayName() || im.hasEnchants() || im.hasLore())
-					{
-						continue;
-					}
-				}
-				if(toremove < is.getAmount())
-				{
-					is.setAmount(is.getAmount()-toremove);
-					toremove = 0;
-				} else if(toremove == is.getAmount() || toremove > is.getAmount())
-				{
-					toremove -= is.getAmount();
-					is.setAmount(0);
+					Item it = player.getLocation().getWorld().dropItem(player.getLocation(), is);
+					ItemHandler.addItemToTask(it, player.getUniqueId());
 				}
 			}
 		}
 		return true;
 	}
 	
-	public static void addInteraction(UUID uuid, UnlockableInteraction ui)
+	public static void addInteraction(UUID uuid, UnlockableInteraction ui, double rewardReceivedInPercent)
 	{
+		double rrip = rewardReceivedInPercent/100; //value for calculation
 		if(ui.getEventMaterial() != null)
 		{
 			LinkedHashMap<Material, LinkedHashMap<EventType, SimpleUnlockedInteraction>> mapI = new LinkedHashMap<>();
@@ -1021,16 +1244,33 @@ public class PlayerHandler
 				mapII = mapI.get(ui.getEventMaterial());
 			}
 			SimpleUnlockedInteraction sui = null;
+			HashMap<String, Double> calMoneyMap = new HashMap<>();
+			for(Entry<String, Double> e : ui.getMoneyMap().entrySet())
+			{
+				calMoneyMap.put(e.getKey(), e.getValue() * rrip);
+			}
+			HashMap<String, Double> calCmdMap = new HashMap<>();
+			for(Entry<String, Double> e : ui.getCommandMap().entrySet())
+			{
+				calCmdMap.put(e.getKey(), e.getValue() * rrip);
+			}
 			if(mapII.containsKey(ui.getEventType()))
 			{
 				sui = mapII.get(ui.getEventType());
-				sui.add(ui.isCanAccess(), ui.getTechnologyExperience(), ui.getMoneyMap(), ui.getVanillaExperience(), ui.getCommandMap());
+				sui.add(
+						rrip == 100 ? ui.isCanAccess() : !ui.isCanAccess(),
+						ui.getTechnologyExperience() * rrip,
+						calMoneyMap,
+						ui.getVanillaExperience() * rrip,
+						calCmdMap);
 			} else
 			{
-				sui = new SimpleUnlockedInteraction(ui.isCanAccess(),
-						ui.getTechnologyExperience(),
-						ui.getMoneyMap(),
-						ui.getVanillaExperience(), ui.getCommandMap());
+				sui = new SimpleUnlockedInteraction(
+						rrip == 100 ? ui.isCanAccess() : !ui.isCanAccess(),
+						ui.getTechnologyExperience() * rrip,
+						calMoneyMap,
+						ui.getVanillaExperience() * rrip,
+						calCmdMap);
 			}
 			mapII.put(ui.getEventType(), sui);
 			mapI.put(ui.getEventMaterial(), mapII);
@@ -1048,16 +1288,33 @@ public class PlayerHandler
 				mapII = mapI.get(ui.getEventEntityType());
 			}
 			SimpleUnlockedInteraction sui = null;
+			HashMap<String, Double> calMoneyMap = new HashMap<>();
+			for(Entry<String, Double> e : ui.getMoneyMap().entrySet())
+			{
+				calMoneyMap.put(e.getKey(), e.getValue() * rrip);
+			}
+			HashMap<String, Double> calCmdMap = new HashMap<>();
+			for(Entry<String, Double> e : ui.getCommandMap().entrySet())
+			{
+				calCmdMap.put(e.getKey(), e.getValue() * rrip);
+			}
 			if(mapII.containsKey(ui.getEventType()))
 			{
 				sui = mapII.get(ui.getEventType());
-				sui.add(ui.isCanAccess(), ui.getTechnologyExperience(), ui.getMoneyMap(), ui.getVanillaExperience(), ui.getCommandMap());
+				sui.add(
+						rrip == 100 ? ui.isCanAccess() : !ui.isCanAccess(),
+						ui.getTechnologyExperience() * rrip,
+						calMoneyMap,
+						ui.getVanillaExperience() * rrip,
+						calCmdMap);
 			} else
 			{
-				sui = new SimpleUnlockedInteraction(ui.isCanAccess(),
-						ui.getTechnologyExperience(),
-						ui.getMoneyMap(),
-						ui.getVanillaExperience(), ui.getCommandMap());
+				sui = new SimpleUnlockedInteraction(
+						rrip == 100 ? ui.isCanAccess() : !ui.isCanAccess(),
+						ui.getTechnologyExperience() * rrip,
+						calMoneyMap,
+						ui.getVanillaExperience() * rrip,
+						calCmdMap);
 			}
 			mapII.put(ui.getEventType(), sui);
 			mapI.put(ui.getEventEntityType(), mapII);
@@ -1065,8 +1322,9 @@ public class PlayerHandler
 		}
 	}
 	
-	public static void addRecipe(UUID uuid, RecipeType rt, String... key)
+	public static void addRecipe(UUID uuid, RecipeType rt, double rewardReceivedInPercent, String... key)
 	{
+		double rrip = rewardReceivedInPercent/100; //value for calculation
 		LinkedHashMap<RecipeType, ArrayList<String>> mapI = new LinkedHashMap<>();
 		if(recipeMap.containsKey(uuid))
 		{
@@ -1079,6 +1337,10 @@ public class PlayerHandler
 		}
 		for(String k : key)
 		{
+			if(rrip <= 0)
+			{
+				break;
+			}
 			if(!listI.contains(k))
 			{
 				listI.add(k);
@@ -1088,8 +1350,9 @@ public class PlayerHandler
 		recipeMap.put(uuid, mapI);
 	}
 	
-	public static void addDropChances(UUID uuid, DropChance dc)
+	public static void addDropChances(UUID uuid, DropChance dc, double rewardReceivedInPercent)
 	{
+		double rrip = rewardReceivedInPercent/100; //value for calculation
 		if(dc.getEventMaterial() != null)
 		{
 			LinkedHashMap<Material, LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>>> mapI = new LinkedHashMap<>();
@@ -1111,10 +1374,15 @@ public class PlayerHandler
 			if(mapIII.containsKey(dc.getToDropItem()))
 			{
 				sdc = mapIII.get(dc.getToDropItem());
-				sdc.add(dc.getToDropItemAmount(), dc.getDropChance());
+				sdc.add(
+						((int) (dc.getToDropItemAmount() * rrip)), 
+						dc.getDropChance() * rrip);
 			} else
 			{
-				sdc = new SimpleDropChance(dc.getToDropItem(), dc.getToDropItemAmount(), dc.getDropChance());
+				sdc = new SimpleDropChance(
+						dc.getToDropItem(),
+						((int) (dc.getToDropItemAmount() * rrip)), 
+						dc.getDropChance() * rrip);
 			}
 			mapIII.put(sdc.getToDropItem(), sdc);
 			mapII.put(dc.getEventType(), mapIII);
@@ -1141,10 +1409,15 @@ public class PlayerHandler
 			if(mapIII.containsKey(dc.getToDropItem()))
 			{
 				sdc = mapIII.get(dc.getToDropItem());
-				sdc.add(dc.getToDropItemAmount(), dc.getDropChance());
+				sdc.add(
+						((int) (dc.getToDropItemAmount() * rrip)), 
+						dc.getDropChance() * rrip);
 			} else
 			{
-				sdc = new SimpleDropChance(dc.getToDropItem(), dc.getToDropItemAmount(), dc.getDropChance());
+				sdc = new SimpleDropChance(
+						dc.getToDropItem(),
+						((int) (dc.getToDropItemAmount() * rrip)), 
+						dc.getDropChance() * rrip);
 			}
 			mapIII.put(sdc.getToDropItem(), sdc);
 			mapII.put(dc.getEventType(), mapIII);
@@ -1153,8 +1426,9 @@ public class PlayerHandler
 		}
 	}
 	
-	public static void addSilkTouchDropChances(UUID uuid, DropChance dc)
+	public static void addSilkTouchDropChances(UUID uuid, DropChance dc, double rewardReceivedInPercent)
 	{
+		double rrip = rewardReceivedInPercent/100; //value for calculation
 		if(dc.getEventMaterial() != null)
 		{
 			LinkedHashMap<Material, LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>>> mapI = new LinkedHashMap<>();
@@ -1176,10 +1450,15 @@ public class PlayerHandler
 			if(mapIII.containsKey(dc.getToDropItem()))
 			{
 				sdc = mapIII.get(dc.getToDropItem());
-				sdc.add(dc.getToDropItemAmount(), dc.getDropChance());
+				sdc.add(
+						((int) (dc.getToDropItemAmount() * rrip)), 
+						dc.getDropChance() * rrip);
 			} else
 			{
-				sdc = new SimpleDropChance(dc.getToDropItem(), dc.getToDropItemAmount(), dc.getDropChance());
+				sdc = new SimpleDropChance(
+						dc.getToDropItem(),
+						((int) (dc.getToDropItemAmount() * rrip)), 
+						dc.getDropChance() * rrip);
 			}
 			mapIII.put(sdc.getToDropItem(), sdc);
 			mapII.put(dc.getEventType(), mapIII);
@@ -1206,10 +1485,15 @@ public class PlayerHandler
 			if(mapIII.containsKey(dc.getToDropItem()))
 			{
 				sdc = mapIII.get(dc.getToDropItem());
-				sdc.add(dc.getToDropItemAmount(), dc.getDropChance());
+				sdc.add(
+						((int) (dc.getToDropItemAmount() * rrip)), 
+						dc.getDropChance() * rrip);
 			} else
 			{
-				sdc = new SimpleDropChance(dc.getToDropItem(), dc.getToDropItemAmount(), dc.getDropChance());
+				sdc = new SimpleDropChance(
+						dc.getToDropItem(),
+						((int) (dc.getToDropItemAmount() * rrip)), 
+						dc.getDropChance() * rrip);
 			}
 			mapIII.put(sdc.getToDropItem(), sdc);
 			mapII.put(dc.getEventType(), mapIII);

@@ -11,27 +11,29 @@ import java.util.logging.Level;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandable;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
 
-public class TechnologyPoll implements MysqlHandable
+public class GlobalTechnologyPoll implements MysqlHandable
 {
 	private int id;
 	private UUID playerUUID;
 	private String choosen_Technology;
 	private boolean processedInRepayment;
 	private String global_Choosen_Technology;
+	private int global_Choosen_Technology_ID;
 	
-	public TechnologyPoll()
+	public GlobalTechnologyPoll()
 	{
 		
 	}
 	
-	public TechnologyPoll(int id, UUID playerUUID, String choosen_Technology, boolean processedInRepayment,
-			String global_Choosen_Technology)
+	public GlobalTechnologyPoll(int id, UUID playerUUID, String choosen_Technology, boolean processedInRepayment,
+			String global_Choosen_Technology, int global_Choosen_Technology_ID)
 	{
 		setId(id);
 		setPlayerUUID(playerUUID);
 		setChoosen_Technology(choosen_Technology);
 		setProcessedInRepayment(processedInRepayment);
 		setGlobal_Choosen_Technology(global_Choosen_Technology);
+		setGlobal_Choosen_Technology_ID(global_Choosen_Technology_ID);
 	}
 
 	public int getId()
@@ -84,6 +86,16 @@ public class TechnologyPoll implements MysqlHandable
 		this.global_Choosen_Technology = global_Choosen_Technology;
 	}
 
+	public int getGlobal_Choosen_Technology_ID()
+	{
+		return global_Choosen_Technology_ID;
+	}
+
+	public void setGlobal_Choosen_Technology_ID(int global_Choosen_Technology_ID)
+	{
+		this.global_Choosen_Technology_ID = global_Choosen_Technology_ID;
+	}
+
 	@Override
 	public boolean create(Connection conn, String tablename)
 	{
@@ -91,7 +103,7 @@ public class TechnologyPoll implements MysqlHandable
 		{
 			String sql = "INSERT INTO `" + tablename
 					+ "`(`player_uuid`, `choosen_technology`, "
-					+ "`processed_in_repayment`, `global_choosen_technology`) " 
+					+ "`processed_in_repayment`, `global_choosen_technology`, `global_choosen_technology_id`) " 
 					+ "VALUES(?, ?, "
 					+ "?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -99,6 +111,7 @@ public class TechnologyPoll implements MysqlHandable
 	        ps.setString(2, getChoosen_Technology());
 	        ps.setBoolean(3, isProcessedInRepayment());
 	        ps.setString(4, getGlobal_Choosen_Technology());
+	        ps.setInt(5, getGlobal_Choosen_Technology_ID());
 	        int i = ps.executeUpdate();
 	        MysqlHandler.addRows(MysqlHandler.QueryType.INSERT, i);
 	        return true;
@@ -116,13 +129,15 @@ public class TechnologyPoll implements MysqlHandable
 		{
 			String sql = "UPDATE `" + tablename
 				+ "` SET `player_uuid` = ?, `choosen_technology` = ?, `processed_in_repayment` = ?"
+				+ " `global_choosen_technology` = ?, `global_choosen_technology_id` = ?"
 				+ " WHERE "+whereColumn;
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, getPlayerUUID().toString());
 	        ps.setString(2, getChoosen_Technology());
 	        ps.setBoolean(3, isProcessedInRepayment());
-	        ps.setString(4, getGlobal_Choosen_Technology());
-			int i = 5;
+	        ps.setString(4, getGlobal_Choosen_Technology()); 
+	        ps.setInt(5, getGlobal_Choosen_Technology_ID());
+			int i = 6;
 			for(Object o : whereObject)
 			{
 				ps.setObject(i, o);
@@ -158,11 +173,12 @@ public class TechnologyPoll implements MysqlHandable
 			ArrayList<Object> al = new ArrayList<>();
 			while (rs.next()) 
 			{
-				al.add(new TechnologyPoll(rs.getInt("id"),
+				al.add(new GlobalTechnologyPoll(rs.getInt("id"),
 						UUID.fromString(rs.getString("player_uuid")),
 						rs.getString("choosen_technology"),
 						rs.getBoolean("processed_in_repayment"),
-						rs.getString("global_choosen_technology")));
+						rs.getString("global_choosen_technology"),
+						rs.getInt("global_choosen_technology_id")));
 			}
 			return al;
 		} catch (SQLException e)
@@ -172,14 +188,14 @@ public class TechnologyPoll implements MysqlHandable
 		return new ArrayList<>();
 	}
 	
-	public static ArrayList<TechnologyPoll> convert(ArrayList<Object> arrayList)
+	public static ArrayList<GlobalTechnologyPoll> convert(ArrayList<Object> arrayList)
 	{
-		ArrayList<TechnologyPoll> l = new ArrayList<>();
+		ArrayList<GlobalTechnologyPoll> l = new ArrayList<>();
 		for(Object o : arrayList)
 		{
-			if(o instanceof TechnologyPoll)
+			if(o instanceof GlobalTechnologyPoll)
 			{
-				l.add((TechnologyPoll) o);
+				l.add((GlobalTechnologyPoll) o);
 			}
 		}
 		return l;

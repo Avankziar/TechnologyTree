@@ -290,6 +290,9 @@ public class YamlManager
 		configSpigotKeys.put("ValueEntry.OverrulePermission"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				false}));
+		configSpigotKeys.put("Do.DeleteExpireTechnologies.TaskRunInMinutes"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				10}));
 		configSpigotKeys.put("Do.NewPlayer.ShowSyncMessage"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				true}));
@@ -1093,7 +1096,9 @@ public class YamlManager
 						"&c<<< Back"}));
 		maincat.put(path+".Lore",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"",
 						"&eKehre zurück zum Start Menu.",
+						"",
 						"",
 						"&eReturn to the Start Menu.",
 						""
@@ -1124,7 +1129,9 @@ public class YamlManager
 						"&c<<< Back"}));
 		subcat.put(path+".Lore",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"",
 						"&eKehre zurück den Hauptkategorien.",
+						"",
 						"",
 						"&eReturn to the main categories.",
 						""
@@ -1155,7 +1162,9 @@ public class YamlManager
 						"&c<<< Back"}));
 		tech.put(path+".Lore",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"",
 						"&eKehre zurück zu den Subkategorien.",
+						"",
 						"",
 						"&eReturn to the sub categories.",
 						""
@@ -1181,77 +1190,156 @@ public class YamlManager
 	
 	public void initMainCategory() //INFO:MainCategory
 	{
-		String keyI = "mining";
+		addMainCategory("mining", PlayerAssociatedType.SOLO, 0, true, 
+				new String[] {
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"}, true,
+				new String[] {"&7Bergbau","&7Mining"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Haupkategorie Bergbau",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Maincategory Mining",
+						"&aThis category is always on display!"},
+				new String[] {"&bBergbau","&bMining"}, Material.IRON_ORE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Haupkategorie Bergbau",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Maincategory Mining",
+						"&aThis category is always on display!"});
+		addMainCategory("forestry", PlayerAssociatedType.SOLO, 0, true, 
+				new String[] {
+						"if:(a):o_1",
+						"elseif:(b):o_2",
+						"output:o_1:true",
+						"output:o_2:true",
+						"a:perm=here.your.first.permission",
+						"b:perm=here.your.other.permission"}, true,
+				new String[] {"&7Försterei","&7Forestry"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Hauptkategory Försterei",
+						"&cAnforderungen zum einsehen:",
+						"&cPermission >here.your.first.permission< / >here.your.other.permission<",
+						"&7Maincategory Forestry",
+						"&cRequirements to view:",
+						"&c>here.your.first.permission< / >here.your.other.permission<"},
+				new String[] {"",""}, Material.OAK_SAPLING, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&bHauptkategory Försterei",
+						"&fGibt Einsicht auf verschiedenste Bereiche der",
+						"&fFörsterrei wie Setzlinge pflanzen und Bäume schlagen.",
+						"&bMaincategory Forestry",
+						"&fGives insight into various areas of the forestry",
+						"&fwork such as planting seedlings and felling trees."});
+	}
+	
+	public void addMainCategory(
+			String key, PlayerAssociatedType pat, int guiSlot, boolean useFixGuiSlots, 
+			String[] conditionQuery, boolean showDifferentItemIfYouNormallyDontSeeIt,
+			String[] notSeeDisplayname, Material notSeeMat, int notSeeAmount, String[] notSeeItemFlag, String[] notSeeEnchantments, String[] notSeeLore,
+			String[] canSeeDisplayname, Material canSeeMat, int canSeeAmount, String[] canSeeItemFlag, String[] canSeeEnchantments, String[] canSeeLore)
+	{
 		LinkedHashMap<String, Language> one = new LinkedHashMap<>();
-		one.put("PlayerAssociatedType", 
-				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-						PlayerAssociatedType.SOLO.toString()}));
-		one.put("GuiSlot", 
-				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-						"0"}));
-		one.put("UseFixGuiSlots", 
-				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-						true}));
-		one.put("RequirementToSee.ConditionQuery", 
-				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-						"",
-						""}));
-		one.put("RequirementToSee.ShowDifferentItemIfYouNormallyDontSeeIt", 
-				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-						true}));
-		one.put("RequirementToSee.ItemIfYouCannotSee.Displayname", 
-				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-						""}));
-		one.put("RequirementToSee.ItemIfYouCannotSee.Material", 
-				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-						""}));
-		one.put("RequirementToSee.ItemIfYouCannotSee.Amount", 
-				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-						""}));
-		one.put("RequirementToSee.ItemIfYouCannotSee.ItemFlag", 
-				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-						"",
-						""}));
-		one.put("RequirementToSee.ItemIfYouCannotSee.Enchantment", 
-				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-						"",
-						""}));
-		one.put("RequirementToSee.ItemIfYouCannotSee.Lore", 
-				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-						"",
-						""}));
-		one.put("RequirementToSee.ItemIfYouCanSee.Displayname", 
-				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-						""}));
-		one.put("RequirementToSee.ItemIfYouCanSee.Material", 
-				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-						""}));
-		one.put("RequirementToSee.ItemIfYouCanSee.Amount", 
-				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-						""}));
-		one.put("RequirementToSee.ItemIfYouCanSee.ItemFlag", 
-				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-						"",
-						""}));
-		one.put("RequirementToSee.ItemIfYouCanSee.Enchantment", 
-				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-						"",
-						""}));
-		one.put("RequirementToSee.ItemIfYouCanSee.Lore", 
-				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-						"",
-						""}));
-		mainCategoryKeys.put(keyI, one);
+		one.put("PlayerAssociatedType", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						pat.toString()}));
+		one.put("GuiSlot", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						guiSlot}));
+		one.put("UseFixGuiSlots", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						useFixGuiSlots}));
+		one.put("RequirementToSee.ConditionQuery", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						conditionQuery}));
+		one.put("RequirementToSee.ShowDifferentItemIfYouNormallyDontSeeIt", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						showDifferentItemIfYouNormallyDontSeeIt}));
+		//--- ItemIfYouCannotSee ---
+		one.put("RequirementToSee.ItemIfYouCannotSee.Displayname", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						notSeeDisplayname}));
+		one.put("RequirementToSee.ItemIfYouCannotSee.Material", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						notSeeMat}));
+		one.put("RequirementToSee.ItemIfYouCannotSee.Amount", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						notSeeAmount}));
+		one.put("RequirementToSee.ItemIfYouCannotSee.ItemFlag", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						notSeeItemFlag}));
+		one.put("RequirementToSee.ItemIfYouCannotSee.Enchantment", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						notSeeEnchantments}));
+		one.put("RequirementToSee.ItemIfYouCannotSee.Lore", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						notSeeLore}));
+		//--- ItemIfYouCanSee ---
+		one.put("RequirementToSee.ItemIfYouCanSee.Displayname", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						canSeeDisplayname}));
+		one.put("RequirementToSee.ItemIfYouCanSee.Material", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						canSeeMat}));
+		one.put("RequirementToSee.ItemIfYouCanSee.Amount", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						canSeeAmount}));
+		one.put("RequirementToSee.ItemIfYouCanSee.ItemFlag", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						canSeeItemFlag}));
+		one.put("RequirementToSee.ItemIfYouCanSee.Enchantment", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						canSeeEnchantments}));
+		one.put("RequirementToSee.ItemIfYouCanSee.Lore", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						canSeeLore}));
+		mainCategoryKeys.put(key, one);
 	}
 	
 	public void initSubCategory() //INFO:SubCategory
 	{
-		String onekey = "";
+		addSubCategory("ore", PlayerAssociatedType.SOLO, 0, true, 
+				new String[] {
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"}, true, "mining",
+				new String[] {"&7Erze","&7Ores"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Subkategorie Erze",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Subcategory Ores",
+						"&aThis category is always on display!"},
+				new String[] {"&bErze","&bOres"}, Material.IRON_ORE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Haupkategorie Bergbau",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Maincategory Mining",
+						"&aThis category is always on display!"});
+	}
+	
+	public void addSubCategory(
+			String key, PlayerAssociatedType pat, int guiSlot, boolean useFixGuiSlots, 
+			String[] conditionQuery, boolean showDifferentItemIfYouNormallyDontSeeIt, String overlyingMainCategory,
+			String[] notSeeDisplayname, Material notSeeMat, int notSeeAmount, String[] notSeeItemFlag, String[] notSeeEnchantments, String[] notSeeLore,
+			String[] canSeeDisplayname, Material canSeeMat, int canSeeAmount, String[] canSeeItemFlag, String[] canSeeEnchantments, String[] canSeeLore)
+	{
 		LinkedHashMap<String, Language> one = new LinkedHashMap<>();
-		one.put("",
-				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-						""}));
-		subCategoryKeys.put(onekey, one);
+		one.put("PlayerAssociatedType", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						pat.toString()}));
+		one.put("GuiSlot", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						guiSlot}));
+		one.put("UseFixGuiSlots", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						useFixGuiSlots}));
+		one.put("RequirementToSee.ConditionQuery", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						conditionQuery}));
+		one.put("RequirementToSee.ShowDifferentItemIfYouNormallyDontSeeIt", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						showDifferentItemIfYouNormallyDontSeeIt}));
+		one.put("IfSubCategory.OverlyingMainCategory", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				overlyingMainCategory}));
+		//--- ItemIfYouCannotSee ---
+		one.put("RequirementToSee.ItemIfYouCannotSee.Displayname", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						notSeeDisplayname}));
+		one.put("RequirementToSee.ItemIfYouCannotSee.Material", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						notSeeMat}));
+		one.put("RequirementToSee.ItemIfYouCannotSee.Amount", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						notSeeAmount}));
+		one.put("RequirementToSee.ItemIfYouCannotSee.ItemFlag", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						notSeeItemFlag}));
+		one.put("RequirementToSee.ItemIfYouCannotSee.Enchantment", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						notSeeEnchantments}));
+		one.put("RequirementToSee.ItemIfYouCannotSee.Lore", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						notSeeLore}));
+		//--- ItemIfYouCanSee ---
+		one.put("RequirementToSee.ItemIfYouCanSee.Displayname", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						canSeeDisplayname}));
+		one.put("RequirementToSee.ItemIfYouCanSee.Material", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						canSeeMat}));
+		one.put("RequirementToSee.ItemIfYouCanSee.Amount", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						canSeeAmount}));
+		one.put("RequirementToSee.ItemIfYouCanSee.ItemFlag", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						canSeeItemFlag}));
+		one.put("RequirementToSee.ItemIfYouCanSee.Enchantment", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						canSeeEnchantments}));
+		one.put("RequirementToSee.ItemIfYouCanSee.Lore", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						canSeeLore}));
+		subCategoryKeys.put(key, one);
 	}
 	
 	public void initTechnology() //INFO:Technology

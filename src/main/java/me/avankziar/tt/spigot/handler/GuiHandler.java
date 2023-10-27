@@ -10,16 +10,33 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.block.banner.Pattern;
+import org.bukkit.block.banner.PatternType;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Axolotl;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TropicalFish;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.AxolotlBucketMeta;
+import org.bukkit.inventory.meta.BannerMeta;
+import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.inventory.meta.BookMeta.Generation;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.inventory.meta.Repairable;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.potion.PotionData;
+import org.bukkit.inventory.meta.TropicalFishBucketMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.potion.PotionType;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
@@ -30,7 +47,6 @@ import main.java.me.avankziar.ifh.general.math.MathFormulaParser;
 import main.java.me.avankziar.ifh.spigot.economy.account.Account;
 import main.java.me.avankziar.tt.general.ChatApi;
 import main.java.me.avankziar.tt.spigot.TT;
-import main.java.me.avankziar.tt.spigot.assistance.Utility;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
 import main.java.me.avankziar.tt.spigot.gui.GUIApi;
 import main.java.me.avankziar.tt.spigot.gui.events.ClickFunction;
@@ -39,22 +55,23 @@ import main.java.me.avankziar.tt.spigot.gui.objects.ClickType;
 import main.java.me.avankziar.tt.spigot.gui.objects.GuiType;
 import main.java.me.avankziar.tt.spigot.gui.objects.SettingsLevel;
 import main.java.me.avankziar.tt.spigot.modifiervalueentry.ModifierValueEntry;
+import main.java.me.avankziar.tt.spigot.objects.EntryQueryType;
+import main.java.me.avankziar.tt.spigot.objects.EntryStatusType;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.SoloEntryQueryStatus;
-import main.java.me.avankziar.tt.spigot.objects.mysql.SoloEntryQueryStatus.EntryQueryType;
-import main.java.me.avankziar.tt.spigot.objects.mysql.SoloEntryQueryStatus.StatusType;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.MainCategory;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.SubCategory;
-import main.java.me.avankziar.tt.spigot.objects.ram.misc.TechCategory;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.Technology;
 
 public class GuiHandler
 {
 	private static TT plugin = TT.getPlugin();
-	public static String CATEGORY = "category";
+	public static String MAINCATEGORY = "maincategory";
+	public static String SUBCATEGORY = "subcategory";
 	public static String TECHNOLOGY = "technology";
 	
-	public static void openCatOrTech(Player player, GuiType gt, TechCategory tc, PlayerAssociatedType pat, SettingsLevel st, boolean closeInv)
+	public static void openCatOrTech(Player player, GuiType gt, MainCategory mcat, SubCategory scat,
+			PlayerAssociatedType pat, SettingsLevel st, boolean closeInv)
 	{
 		String title = "";
 		switch(gt)
@@ -65,13 +82,13 @@ public class GuiHandler
 			title = plugin.getYamlHandler().getLang().getString("GuiHandler.MainCategorys.Title"); break;
 		case SUB_CATEGORY:
 			title = plugin.getYamlHandler().getLang().getString("GuiHandler.MainCategorysSubCategorys.Title")
-					.replace("%maincat%", tc.getDisplayName()); break;
+					.replace("%maincat%", mcat != null ? mcat.getDisplayName() : "/"); break;
 		case TECHNOLOGY:
 			title = plugin.getYamlHandler().getLang().getString("GuiHandler.SubCategorysTechnologys.Title")
-			.replace("%subcat%", tc.getDisplayName()); break;
+			.replace("%subcat%", scat != null ? scat.getDisplayName() : "/"); break;
 		}
 		GUIApi gui = new GUIApi(plugin.pluginName, gt.toString(), null, 6, title, st);
-		openGui(tc, pat, player, gt, gui, st, closeInv);
+		openGui(mcat, scat, pat, player, gt, gui, st, closeInv);
 	}
 	
 	/*public static void openAdministration(SignShop ssh, Player player, SettingsLevel settingsLevel, Inventory inv, boolean closeInv)
@@ -114,7 +131,265 @@ public class GuiHandler
 		openGui(ssh2, player, gt, gui, settingsLevel, closeInv);
 	}*/
 	
-	private static void openGui(TechCategory tcat, PlayerAssociatedType pat, Player player, GuiType gt, GUIApi gui, SettingsLevel settingsLevel, boolean closeInv)
+	@SuppressWarnings("deprecation")
+	public static ItemStack generateItem(YamlConfiguration y, String parentPath, int overrideAmount,
+			MainCategory mcat, SubCategory scat, Technology t, PlayerAssociatedType pat, Player player)
+	{
+		if(y.get(parentPath+".Material") == null)
+		{
+			return null;
+		}
+		int amount = 1;
+		if(y.get(parentPath+".Amount") != null)
+		{
+			amount = y.getInt(parentPath+".Amount");
+		}
+		if(overrideAmount > 0)
+		{
+			amount = overrideAmount;
+		}
+		Material mat = Material.valueOf(y.getString(parentPath+".Material"));
+		ItemStack is = null;
+		if(mat == Material.PLAYER_HEAD && y.get(parentPath+".HeadTexture") != null)
+		{
+			is = getSkull(y.getString(parentPath+".HeadTexture"), amount);
+		} else
+		{
+			is = new ItemStack(mat, amount);
+		}
+		boolean papi = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null 
+				&& Bukkit.getPluginManager().getPlugin("PlaceholderAPI").isEnabled();
+		ItemMeta im = is.getItemMeta();
+		if(y.get(parentPath+".Displayname") != null)
+		{
+			if(papi && player != null)
+			{
+				im.setDisplayName(ChatApi.tl(me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(player, y.getString(parentPath+".Displayname"))));
+			} else
+			{
+				im.setDisplayName(ChatApi.tl(y.getString(parentPath+".Displayname")));
+			}
+		}
+		if(y.get(parentPath+".CustomModelData") != null)
+		{
+			im.setCustomModelData(y.getInt(parentPath+".CustomModelData"));
+		}
+		if(y.get(parentPath+".ItemFlag") != null)
+		{
+			for(String s : y.getStringList(parentPath+".ItemFlag"))
+			{
+				try
+				{
+					im.addItemFlags(ItemFlag.valueOf(s));
+				} catch(Exception e)
+				{
+					continue;
+				}
+			}
+		}
+		if(mat == Material.ENCHANTED_BOOK)
+		{
+			if(im instanceof EnchantmentStorageMeta)
+			{
+				EnchantmentStorageMeta esm = (EnchantmentStorageMeta) im;
+				for(String s : y.getStringList(parentPath+".Enchantment"))
+				{
+					String[] split = s.split(";");
+					if(split.length != 2)
+					{
+						continue;
+					}					
+					try
+					{
+						esm.addStoredEnchant(Enchantment.getByName(split[0]), Integer.parseInt(split[1]), true);
+					} catch(Exception e)
+					{
+						continue;
+					}
+				}
+				is.setItemMeta(esm);
+				im = is.getItemMeta();
+			}
+		} else
+		{
+			if(y.get(parentPath+".Enchantment") != null)
+			{
+				for(String s : y.getStringList(parentPath+".Enchantment"))
+				{
+					String[] split = s.split(";");
+					if(split.length != 2)
+					{
+						continue;
+					}					
+					try
+					{
+						im.addEnchant(Enchantment.getByName(split[0]), Integer.parseInt(split[1]), true);
+					} catch(Exception e)
+					{
+						continue;
+					}
+				}
+			}
+		}
+		if(y.get(parentPath+".Lore") != null)
+		{
+			ArrayList<String> lore = new ArrayList<>();
+			for(String s : y.getStringList(parentPath+".Lore"))
+			{
+				String st = "";
+				if(papi && player != null)
+				{
+					st = ChatApi.tl(me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(player, s));
+				} else
+				{
+					st = ChatApi.tl(s);
+				}
+				lore.add(st);
+			}
+			lore = (ArrayList<String>) getLorePlaceHolder(player, mcat, scat, t, lore, player.getName());
+			im.setLore(lore);
+		}
+		if(y.get(parentPath+".AxolotlBucket") != null && im instanceof AxolotlBucketMeta)
+		{
+			AxolotlBucketMeta imm = (AxolotlBucketMeta) im;
+			try
+			{
+				imm.setVariant(Axolotl.Variant.valueOf(y.getString(parentPath+".AxolotlBucket")));
+			} catch(Exception e)
+			{
+				imm.setVariant(Axolotl.Variant.BLUE);
+			}
+			is.setItemMeta(imm);
+			im = is.getItemMeta();
+		}
+		if(y.get(parentPath+".Banner") != null && im instanceof BannerMeta)
+		{
+			BannerMeta imm = (BannerMeta) im;
+			for(String s : y.getStringList(parentPath+".Banner"))
+			{
+				String[] split = s.split(";");
+				if(split.length != 2)
+				{
+					continue;
+				}
+				try
+				{
+					imm.addPattern(new Pattern(DyeColor.valueOf(split[0]), PatternType.valueOf(split[1])));
+				} catch(Exception e)
+				{
+					continue;
+				}
+			}
+			is.setItemMeta(imm);
+			im = is.getItemMeta();
+		}
+		if(im instanceof BookMeta)
+		{
+			BookMeta imm = (BookMeta) im;
+			try
+			{
+				if(y.get(parentPath+".Book.Author") != null)
+				{
+					imm.setAuthor(y.getString(parentPath+".Book.Author"));
+				}
+				if(y.get(parentPath+".Book.Generation") != null)
+				{
+					imm.setGeneration(Generation.valueOf(y.getString(parentPath+".Book.Generation")));
+				}
+				if(y.get(parentPath+".Book.Title") != null)
+				{
+					imm.setTitle(ChatApi.tl(y.getString(parentPath+".Book.Title")));
+				}
+				is.setItemMeta(imm);
+				im = is.getItemMeta();
+			} catch(Exception e){}
+		}
+		if(y.get(parentPath+".Durability") != null && im instanceof Damageable)
+		{
+			Damageable imm = (Damageable) im;
+			try
+			{
+				imm.setDamage(getMaxDamage(mat)-y.getInt(parentPath+".Durability"));
+			} catch(Exception e)
+			{
+				imm.setDamage(0);
+			}
+			is.setItemMeta(imm);
+			im = is.getItemMeta();
+		}
+		if(y.get(parentPath+".LeatherArmor.Color.Red") != null 
+				&& y.get(parentPath+".LeatherArmor.Color.Green") != null 
+				&& y.get(parentPath+".LeatherArmor.Color.Blue") != null 
+				&& im instanceof LeatherArmorMeta)
+		{
+			LeatherArmorMeta imm = (LeatherArmorMeta) im;
+			try
+			{
+				imm.setColor(Color.fromRGB(
+						y.getInt(parentPath+".LeatherArmor.Color.Red"),
+						y.getInt(parentPath+".LeatherArmor.Color.Green"),
+						y.getInt(parentPath+".LeatherArmor.Color.Blue")));
+				is.setItemMeta(imm);
+				im = is.getItemMeta();
+			} catch(Exception e){}
+		}
+		if(im instanceof PotionMeta)
+		{
+			PotionMeta imm = (PotionMeta) im;
+			try
+			{
+				if(y.get(parentPath+".Potion.PotionEffectType") != null 
+						&& y.get(parentPath+".Potion.Duration") != null 
+						&& y.get(parentPath+".Potion.Amplifier") != null)
+				{
+					imm.addCustomEffect(new PotionEffect(
+							PotionEffectType.getByName(y.getString(parentPath+".Potion.PotionEffectType")),
+							y.getInt(parentPath+".Potion.Duration"),
+							y.getInt(parentPath+".Potion.Amplifier")), true);
+				}
+				if(y.get(parentPath+".Potion.Color.Red") != null 
+						&& y.get(parentPath+".Potion.Color.Green") != null 
+						&& y.get(parentPath+".Potion.Color.Blue") != null)
+				{
+					imm.setColor(Color.fromRGB(
+						y.getInt(parentPath+".Potion.Color.Red"),
+						y.getInt(parentPath+".Potion.Color.Green"),
+						y.getInt(parentPath+".Potion.Color.Blue")));
+				}
+				is.setItemMeta(imm);
+				im = is.getItemMeta();
+			} catch(Exception e){}
+		}
+		if(y.get(parentPath+".Repairable") != null && im instanceof Repairable)
+		{
+			Repairable imm = (Repairable) im;
+			try
+			{
+				imm.setRepairCost(y.getInt(parentPath+".Repairable"));
+				is.setItemMeta(imm);
+				im = is.getItemMeta();
+			} catch(Exception e){}
+		}
+		if(y.get(parentPath+".TropicalFishBucket.BodyColor") != null 
+				&& y.get(parentPath+".TropicalFishBucket.Pattern") != null 
+				&& y.get(parentPath+".TropicalFishBucket.PatternColor") != null 
+				&& im instanceof TropicalFishBucketMeta)
+		{
+			TropicalFishBucketMeta imm = (TropicalFishBucketMeta) im;
+			try
+			{
+				imm.setBodyColor(DyeColor.valueOf(y.getString(parentPath+".TropicalFishBucket.BodyColor")));
+				imm.setPattern(TropicalFish.Pattern.valueOf(y.getString(parentPath+".TropicalFishBucket.Pattern")));
+				imm.setPatternColor(DyeColor.valueOf(y.getString(parentPath+".TropicalFishBucket.PatternColor")));
+				is.setItemMeta(imm);
+				im = is.getItemMeta();
+			} catch(Exception e){}
+		}
+		return is;
+	}
+	
+	private static void openGui(MainCategory mcat, SubCategory scat, PlayerAssociatedType pat, Player player, GuiType gt, GUIApi gui,
+			SettingsLevel settingsLevel, boolean closeInv)
 	{
 		YamlConfiguration y = plugin.getYamlHandler().getGui(gt);
 		for(int i = 0; i < 54; i++)
@@ -156,7 +431,7 @@ public class GuiHandler
 				mat = Material.valueOf(y.getString(i+".Material."+settingsLevel.toString()));
 				if(mat == Material.PLAYER_HEAD && y.getString(i+"."+settingsLevel.toString()+".PlayerHeadTexture") != null)
 				{
-					is = getSkull(y.getString(i+"."+settingsLevel.getName()+".PlayerHeadTexture"));
+					is = getSkull(y.getString(i+"."+settingsLevel.getName()+".PlayerHeadTexture"), 1);
 				}
 			} else
 			{
@@ -165,7 +440,7 @@ public class GuiHandler
 					mat = Material.valueOf(y.getString(i+".Material"));
 					if(mat == Material.PLAYER_HEAD && y.getString(i+".HeadTexture") != null)
 					{
-						is = getSkull(y.getString(i+".HeadTexture"));
+						is = getSkull(y.getString(i+".HeadTexture"), 1);
 					}
 				} catch(Exception e)
 				{
@@ -191,11 +466,15 @@ public class GuiHandler
 			}
 			if(lore != null)
 			{
-				lore = (ArrayList<String>) getLorePlaceHolder(player, tcat, null, lore, playername);
+				lore = (ArrayList<String>) getLorePlaceHolder(player, mcat, scat, null, lore, playername);
 			}
 			String displayname = y.get(i+".Displayname") != null 
-					? y.getString(i+".Displayname") : is.getType().toString();
-			displayname = getStringPlaceHolder(player, tcat, null, displayname, playername);
+					? y.getString(i+".Displayname") 
+					: (playername != null ? playername 
+					: (TT.getPlugin().getEnumTl() != null
+							  ? TT.getPlugin().getEnumTl().getLocalization(mat)
+							  : is.getType().toString()));
+			displayname = getStringPlaceHolder(player, mcat, scat, null, displayname, playername);
 			if(is == null)
 			{
 				is = new ItemStack(mat, amount);
@@ -209,98 +488,154 @@ public class GuiHandler
 			{
 				im.setLore(lore);
 			}
-			is.setItemMeta(im);
-			LinkedHashMap<String, Entry<GUIApi.Type, Object>> map = new LinkedHashMap<>();
-			map.put(CATEGORY, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
-					tcat != null ? tcat.getInternName() : ""));
-			gui.add(i, is, settingsLevel, true, map, getClickFunction(y, String.valueOf(i)));
+			is.setItemMeta(im);			
+			switch(gt)
+			{
+			case START:
+				LinkedHashMap<String, Entry<GUIApi.Type, Object>> stmap = new LinkedHashMap<>();
+				gui.add(i, is, settingsLevel, true, stmap, getClickFunction(y, String.valueOf(i)));
+				break;
+			case MAIN_CATEGORY:
+				break;
+			case SUB_CATEGORY:
+				LinkedHashMap<String, Entry<GUIApi.Type, Object>> smap = new LinkedHashMap<>();
+				smap.put(MAINCATEGORY, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
+						mcat != null ? mcat.getInternName() : ""));
+				gui.add(i, is, settingsLevel, true, smap, getClickFunction(y, String.valueOf(i)));
+				break;
+			case TECHNOLOGY:
+				LinkedHashMap<String, Entry<GUIApi.Type, Object>> tmap = new LinkedHashMap<>();
+				tmap.put(SUBCATEGORY, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
+						scat != null ? scat.getInternName() : ""));
+				gui.add(i, is, settingsLevel, true, tmap, getClickFunction(y, String.valueOf(i)));
+				break;
+			}
 		}
 		switch(gt)
 		{
 		case START:
 			break;
 		case MAIN_CATEGORY:
-			for(Entry<Integer, MainCategory> e : CatTechHandler.playerAssocMainCategoryMap.get(pat).entrySet())
+			int mj = 0;
+			for(Entry<Integer, MainCategory> ee : CatTechHandler.playerAssocMainCategoryMap.get(pat).entrySet())
 			{
-				int i = e.getKey();
-				LinkedHashMap<ItemStack, Boolean> isb = PlayerHandler.canSeeOrResearch_ForGUI(player, player.getUniqueId(), e.getValue(), null, null);
-				for(Entry<ItemStack, Boolean> ee : isb.entrySet())
+				if(mj >= 53)
 				{
-					if(ee.getValue() != null && ee.getValue() == false)
+					break;
+				}
+				int ii = ee.getKey();
+				LinkedHashMap<ItemStack, Boolean> isb = PlayerHandler.canSeeOrResearch_ForGUI(
+														player, player.getUniqueId(), pat, ee.getValue(), null, null);
+				if(isb == null)
+				{
+					mj++;
+					continue;
+				}
+				for(Entry<ItemStack, Boolean> eee : isb.entrySet())
+				{
+					if(isb == null || (eee.getValue() != null && eee.getValue() == false))
 					{
 						continue;
 					}
-					ItemStack is = ee.getKey();
+					ItemStack iss = eee.getKey();
 					LinkedHashMap<String, Entry<GUIApi.Type, Object>> map = new LinkedHashMap<>();
+					map.put(MAINCATEGORY, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
+							ee.getValue() != null ? ee.getValue().getInternName() : ""));
 					ArrayList<ClickFunction> ctar = new ArrayList<>();
 					ClickFunctionType cft = ClickFunctionType.MAINCATEGORYS_SUBCATEGORYS_SOLO;
 					ctar.add(new ClickFunction(ClickType.LEFT, cft));
 					ctar.add(new ClickFunction(ClickType.RIGHT, cft));
-					gui.add(i, is, settingsLevel, true, map, ctar.toArray(new ClickFunction[ctar.size()]));
+					gui.add(ii, iss, settingsLevel, true, map, ctar.toArray(new ClickFunction[ctar.size()]));
 				}
+				mj++;
 			}
 			break;
 		case SUB_CATEGORY:
 			LinkedHashMap<Integer, SubCategory> subcmap = null;
-			switch(tcat.getPlayerAssociatedType())
+			switch(mcat.getPlayerAssociatedType())
 			{
 			case GLOBAL:
-				subcmap = CatTechHandler.mainCategorySubCategoryMapGlobal.get(tcat.getInternName()); break;
+				subcmap = CatTechHandler.mainCategorySubCategoryMapGlobal.get(mcat.getInternName()); break;
 			/*case GROUP:
 				subcmap = CatTechHandler.mainCategorySubCategoryMapGroup.get(tcat.getInternName()); break;*/
 			case SOLO:
-				subcmap = CatTechHandler.mainCategorySubCategoryMapSolo.get(tcat.getInternName()); break;
+				subcmap = CatTechHandler.mainCategorySubCategoryMapSolo.get(mcat.getInternName()); break;
 			}
-			for(Entry<Integer, SubCategory> e : subcmap.entrySet())
+			int sj = 0;
+			for(Entry<Integer, SubCategory> ee : subcmap.entrySet())
 			{
-				int i = e.getKey();
-				LinkedHashMap<ItemStack, Boolean> isb = PlayerHandler.canSeeOrResearch_ForGUI(player, player.getUniqueId(), null, e.getValue(), null);
-				for(Entry<ItemStack, Boolean> ee : isb.entrySet())
+				if(sj >= 53)
 				{
-					if(ee.getValue() != null && ee.getValue() == false)
+					break;
+				}
+				int ii = ee.getKey();
+				LinkedHashMap<ItemStack, Boolean> isb = PlayerHandler.canSeeOrResearch_ForGUI(
+						player, player.getUniqueId(), pat, null, ee.getValue(), null);
+				if(isb == null)
+				{
+					sj++;
+				}
+				for(Entry<ItemStack, Boolean> eee : isb.entrySet())
+				{
+					if(eee.getValue() != null && eee.getValue() == false)
 					{
 						continue;
 					}
-					ItemStack is = ee.getKey();
+					ItemStack iss = eee.getKey();
 					LinkedHashMap<String, Entry<GUIApi.Type, Object>> map = new LinkedHashMap<>();
+					map.put(SUBCATEGORY, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
+							ee.getValue() != null ? ee.getValue().getInternName() : ""));
 					ArrayList<ClickFunction> ctar = new ArrayList<>();
 					ClickFunctionType cft = ClickFunctionType.SUBCATEGORYS_TECHNOLOGYS_SOLO;
 					ctar.add(new ClickFunction(ClickType.LEFT, cft));
 					ctar.add(new ClickFunction(ClickType.RIGHT, cft));
-					gui.add(i, is, settingsLevel, true, map, ctar.toArray(new ClickFunction[ctar.size()]));
+					gui.add(ii, iss, settingsLevel, true, map, ctar.toArray(new ClickFunction[ctar.size()]));
 				}
+				sj++;
 			}
 			break;
 		case TECHNOLOGY:
 			LinkedHashMap<Integer, Technology> techmap = null;
-			switch(tcat.getPlayerAssociatedType())
+			switch(scat.getPlayerAssociatedType())
 			{
 			case GLOBAL:
-				techmap = CatTechHandler.subCategoryTechnologyMapGlobal.get(tcat.getInternName()); break;
+				techmap = CatTechHandler.subCategoryTechnologyMapGlobal.get(scat.getInternName()); break;
 			/*case GROUP:
 				techmap = CatTechHandler.subCategoryTechnologyMapGroup.get(tcat.getInternName()); break;*/
 			case SOLO:
-				techmap = CatTechHandler.subCategoryTechnologyMapSolo.get(tcat.getInternName()); break;
+				techmap = CatTechHandler.subCategoryTechnologyMapSolo.get(scat.getInternName()); break;
 			}
-			for(Entry<Integer, Technology> e : techmap.entrySet())
+			int tj = 0;
+			for(Entry<Integer, Technology> ee : techmap.entrySet())
 			{
-				int i = e.getKey();
-				LinkedHashMap<ItemStack, Boolean> isb = PlayerHandler.canSeeOrResearch_ForGUI(player, player.getUniqueId(), null, null, e.getValue());
-				for(Entry<ItemStack, Boolean> ee : isb.entrySet())
+				if(tj >= 53)
 				{
-					ItemStack is = ee.getKey();
+					break;
+				}
+				int ii = ee.getKey();
+				LinkedHashMap<ItemStack, Boolean> isb = PlayerHandler.canSeeOrResearch_ForGUI(
+						player, player.getUniqueId(), pat, null, null, ee.getValue());
+				if(isb == null)
+				{
+					tj++;
+					continue;
+				}
+				for(Entry<ItemStack, Boolean> eee : isb.entrySet())
+				{
+					ItemStack iss = eee.getKey();
 					LinkedHashMap<String, Entry<GUIApi.Type, Object>> map = new LinkedHashMap<>();
 					map.put(TECHNOLOGY, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
-							e.getValue().getInternName()));
+							ee.getValue().getInternName()));
 					ArrayList<ClickFunction> ctar = new ArrayList<>();
-					if(ee.getValue() != null && ee.getValue() == true)
+					if(eee.getValue() != null && eee.getValue() == true)
 					{
 						ClickFunctionType cft = ClickFunctionType.RESEARCH_TECHNOLOGY;
 						ctar.add(new ClickFunction(ClickType.LEFT, cft));
 						ctar.add(new ClickFunction(ClickType.RIGHT, cft));
 					}
-					gui.add(i, is, settingsLevel, true, map, ctar.toArray(new ClickFunction[ctar.size()]));
+					gui.add(ii, iss, settingsLevel, true, map, ctar.toArray(new ClickFunction[ctar.size()]));
 				}
+				tj++;
 			}
 			break;
 		}
@@ -312,9 +647,9 @@ public class GuiHandler
 	}
 	
 	@SuppressWarnings("deprecation")
-	public static ItemStack getSkull(String url) 
+	public static ItemStack getSkull(String url, int amount) 
 	{
-        ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1, (short) 3);
+        ItemStack skull = new ItemStack(Material.PLAYER_HEAD, amount, (short) 3);
         if (url == null || url.isEmpty())
             return skull;
         SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
@@ -337,12 +672,12 @@ public class GuiHandler
         return skull;
     }
 	
-	private static List<String> getLorePlaceHolder(Player player, TechCategory tcat, Technology t, List<String> lore, String playername)
+	public static List<String> getLorePlaceHolder(Player player, MainCategory mcat, SubCategory scat, Technology t, List<String> lore, String playername)
 	{
 		List<String> list = new ArrayList<>();
 		for(String s : lore)
 		{
-			String a = getStringPlaceHolder(player, tcat, t, s, playername);
+			String a = getStringPlaceHolder(player, mcat, scat, t, s, playername);
 			if(plugin.getIFHEco() != null)
 			{
 				Account ac = plugin.getIFHEco().getDefaultAccount(player.getUniqueId(), AccountCategory.MAIN,
@@ -357,199 +692,101 @@ public class GuiHandler
 			{
 				a = getStringPlaceHolderVault(player, t, a, playername);
 			}
-			list.add(a);
+			list.add(ChatApi.tl(a));
 		}
 		return list;
 	}
 	
-	private static List<PotionEffect> getBasePotion(PotionData pd, int pv) //pv PotionVariation, 1 Normal, 2 Splash, 3 Linger
+	private static String getStringPlaceHolder(Player player, MainCategory mcat, SubCategory scat, Technology t, String text, String playername)
 	{
-		PotionType pt = pd.getType();
-		boolean ex = pd.isExtended();
-		List<PotionEffect> list = new ArrayList<>();
-		int amp = pd.isUpgraded() ? 1 : 0;
-		int dur = 0;
-		switch(pt)
+		String s = text;
+		if(text.contains("%player%"))
 		{
-		case AWKWARD:
-		case MUNDANE:
-		case UNCRAFTABLE:
-		case WATER:
-		case THICK:
-			break;
-		case INVISIBILITY:
-		case NIGHT_VISION:
-		case FIRE_RESISTANCE:
-		case WATER_BREATHING:
-			if(amp == 0 && !ex && pv == 1) {dur = 3*60*20;}
-			else if(amp == 0 && ex && pv == 1) {dur = 8*60*20;}
-			
-			else if(amp == 0 && !ex && pv == 2) {dur = 3*60*20;}
-			else if(amp == 0 && ex && pv == 2) {dur = 8*60*20;}
-			
-			else if(amp == 0 && !ex && pv == 3) {dur = 45*20;}
-			else if(amp == 0 && ex && pv == 3) {dur = 2*60*20;}
-			
-			else if(amp == 0 && !ex && pv == 4) {dur = 22*20;}
-			else if(amp == 0 && ex && pv == 4) {dur = 60*20;}
-			list.add(pt.getEffectType().createEffect(dur, amp));
-			break;
-		case INSTANT_DAMAGE:
-		case INSTANT_HEAL:
-			list.add(pt.getEffectType().createEffect(10, amp));
-			break;
-		case JUMP:
-		case SPEED:
-		case STRENGTH:
-			if(amp == 0 && !ex && pv == 1) {dur = 3*60*20;}
-			else if(amp == 0 && ex && pv == 1) {dur = 8*60*20;}
-			else if(amp == 1 && !ex && pv == 1) {dur = 90*20;}
-			
-			else if(amp == 0 && !ex && pv == 2) {dur = 3*60*20;}
-			else if(amp == 0 && ex && pv == 2) {dur = 8*60*20;}
-			else if(amp == 1 && !ex && pv == 2) {dur = 90*20;}
-			
-			else if(amp == 0 && !ex && pv == 3) {dur = 45*20;}
-			else if(amp == 0 && ex && pv == 3) {dur = 2*60*20;}
-			else if(amp == 1 && !ex && pv == 3) {dur = 22*20;}
-			
-			else if(amp == 0 && !ex && pv == 4) {dur = 22*20;}
-			else if(amp == 0 && ex && pv == 4) {dur = 60*20;}
-			else if(amp == 1 && !ex && pv == 4) {dur = 11*20;}
-			list.add(pt.getEffectType().createEffect(dur, amp));
-			break;
-		case POISON:
-		case REGEN:
-			if(amp == 0 && !ex && pv == 1) {dur = 90*20;}
-			else if(amp == 0 && ex && pv == 1) {dur = 4*60*20;}
-			else if(amp == 1 && !ex && pv == 1) {dur = 22*20;}
-			
-			else if(amp == 0 && !ex && pv == 2) {dur = 90*20;}
-			else if(amp == 0 && ex && pv == 2) {dur = 4*60*20;}
-			else if(amp == 1 && !ex && pv == 2) {dur = 22*20;}
-			
-			else if(amp == 0 && !ex && pv == 3) {dur = 45*20;}
-			else if(amp == 0 && ex && pv == 3) {dur = 2*60*20;}
-			else if(amp == 1 && !ex && pv == 3) {dur = 22*20;}
-			
-			else if(amp == 0 && !ex && pv == 3) {dur = 5*20;}
-			else if(amp == 0 && ex && pv == 3) {dur = 11*20;}
-			else if(amp == 1 && !ex && pv == 3) {dur = 2*20;}
-			list.add(pt.getEffectType().createEffect(dur, amp));
-			break;
-		case SLOW_FALLING:
-		case WEAKNESS:
-			if(amp == 0 && !ex && pv == 1) {dur = 90*20;}
-			else if(amp == 0 && ex && pv == 1) {dur = 4*60*20;}
-			
-			else if(amp == 0 && !ex && pv == 2) {dur = 90*20;}
-			else if(amp == 0 && ex && pv == 2) {dur = 4*60*20;}
-			
-			else if(amp == 0 && !ex && pv == 3) {dur = 22*20;}
-			else if(amp == 0 && ex && pv == 3) {dur = 60*20;}
-			
-			else if(amp == 0 && !ex && pv == 3) {dur = 11*20;}
-			else if(amp == 0 && ex && pv == 3) {dur = 30*20;}
-			list.add(pt.getEffectType().createEffect(dur, amp));
-			break;
-		case SLOWNESS:
-			amp = pd.isUpgraded() ? 3 : 0;
-			if(amp == 0 && !ex && pv == 1) {dur = 90*20;}
-			else if(amp == 0 && ex && pv == 1) {dur = 4*60*20;}
-			else if(amp == 3 && !ex && pv == 1) {dur = 20*20;}
-			
-			else if(amp == 0 && !ex && pv == 2) {dur = 90*20;}
-			else if(amp == 0 && ex && pv == 2) {dur = 4*60*20;}
-			else if(amp == 3 && !ex && pv == 2) {dur = 20*20;}
-			
-			else if(amp == 0 && !ex && pv == 3) {dur = 22*20;}
-			else if(amp == 0 && ex && pv == 3) {dur = 60*20;}
-			else if(amp == 3 && !ex && pv == 3) {dur = 5*20;}
-			
-			else if(amp == 0 && !ex && pv == 3) {dur = 11*20;}
-			else if(amp == 0 && ex && pv == 3) {dur = 30*20;}
-			else if(amp == 3 && !ex && pv == 3) {dur = 2*20;}
-			list.add(pt.getEffectType().createEffect(dur, amp));
-			break;
-		case TURTLE_MASTER:
-			amp = pd.isUpgraded() ? 5 : 3;
-			if(amp == 3 && !ex && pv == 1) {dur = 20*20;}
-			else if(amp == 3 && ex && pv == 1) {dur = 40*20;}
-			else if(amp == 5 && !ex && pv == 1) {dur = 20*20;}
-			
-			else if(amp == 3 && !ex && pv == 2) {dur = 20*20;}
-			else if(amp == 3 && ex && pv == 2) {dur = 40*20;}
-			else if(amp == 5 && !ex && pv == 2) {dur = 20*20;}
-			
-			else if(amp == 3 && !ex && pv == 3) {dur = 5*20;}
-			else if(amp == 3 && ex && pv == 3) {dur = 10*20;}
-			else if(amp == 5 && !ex && pv == 3) {dur = 5*20;}
-			
-			else if(amp == 3 && !ex && pv == 4) {dur = 2*20;}
-			else if(amp == 3 && ex && pv == 4) {dur = 5*20;}
-			else if(amp == 5 && !ex && pv == 4) {dur = 2*20;}
-			list.add(new PotionEffect(PotionEffectType.SLOW, dur, amp));
-			amp = pd.isUpgraded() ? 3 : 2;
-			if(amp == 2 && !ex && pv == 1) {dur = 20*20;}
-			else if(amp == 2 && ex && pv == 1) {dur = 40*20;}
-			else if(amp == 3 && !ex && pv == 1) {dur = 20*20;}
-			
-			else if(amp == 2 && !ex && pv == 2) {dur = 20*20;}
-			else if(amp == 2 && ex && pv == 2) {dur = 40*20;}
-			else if(amp == 3 && !ex && pv == 2) {dur = 20*20;}
-			
-			else if(amp == 2 && !ex && pv == 3) {dur = 5*20;}
-			else if(amp == 2 && ex && pv == 3) {dur = 10*20;}
-			else if(amp == 3 && !ex && pv == 3) {dur = 5*20;}
-			
-			else if(amp == 2 && !ex && pv == 4) {dur = 2*20;}
-			else if(amp == 2 && ex && pv == 4) {dur = 5*20;}
-			else if(amp == 3 && !ex && pv == 4) {dur = 2*20;}
-			list.add(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, dur, amp));
-			break;
-		case LUCK:
-			if(amp == 0 && !ex && pv == 1) {dur = 5*60*20;}
-			
-			else if(amp == 0 && !ex && pv == 2) {dur = 5*60*20;}
-			
-			else if(amp == 0 && !ex && pv == 3) {dur = 75*20;}
-			
-			else if(amp == 0 && !ex && pv == 4) {dur = 37*20;}
-			list.add(pt.getEffectType().createEffect(dur, amp));
-			break;
+			s = s.replace("%player%", player.getName());
 		}
-		return list;
+		if(mcat != null)
+		{
+			//TODO
+			/*
+			 * 
+			 */
+		}
+		if(scat != null)
+		{
+			//TODO
+			/*
+			 * 
+			 */
+		}
+		if(t != null)
+		{
+			//TODO
+		}
+		return s;
 	}
 	
-	private static String getPotionColor(PotionEffect pe)
+	private static String getStringPlaceHolderIFH(Player player, Technology t, String text,
+			Account ac, int dg, boolean useSI, boolean useSy, String ts, String ds, String playername)
 	{
-		String color = "";
-		if(pe.getType() == PotionEffectType.ABSORPTION || pe.getType() == PotionEffectType.CONDUIT_POWER
-				|| pe.getType() == PotionEffectType.DAMAGE_RESISTANCE || pe.getType() == PotionEffectType.DOLPHINS_GRACE
-				|| pe.getType() == PotionEffectType.FAST_DIGGING || pe.getType() == PotionEffectType.FIRE_RESISTANCE
-				|| pe.getType() == PotionEffectType.HEAL || pe.getType() == PotionEffectType.HEALTH_BOOST
-				|| pe.getType() == PotionEffectType.HERO_OF_THE_VILLAGE || pe.getType() == PotionEffectType.INCREASE_DAMAGE
-				|| pe.getType() == PotionEffectType.INVISIBILITY || pe.getType() == PotionEffectType.JUMP
-				|| pe.getType() == PotionEffectType.LUCK || pe.getType() == PotionEffectType.NIGHT_VISION
-				|| pe.getType() == PotionEffectType.REGENERATION || pe.getType() == PotionEffectType.SATURATION
-				|| pe.getType() == PotionEffectType.SLOW_FALLING || pe.getType() == PotionEffectType.SPEED
-				|| pe.getType() == PotionEffectType.WATER_BREATHING)
+		String s = text;
+		/*if(text.contains("%accountname%"))
 		{
-			color = "&9";
-		} else if(pe.getType() == PotionEffectType.BAD_OMEN || pe.getType() == PotionEffectType.BLINDNESS
-				|| pe.getType() == PotionEffectType.CONFUSION || pe.getType() == PotionEffectType.DARKNESS
-				|| pe.getType() == PotionEffectType.HARM || pe.getType() == PotionEffectType.HUNGER
-				|| pe.getType() == PotionEffectType.LEVITATION || pe.getType() == PotionEffectType.POISON
-				|| pe.getType() == PotionEffectType.SLOW || pe.getType() == PotionEffectType.SLOW_DIGGING
-				|| pe.getType() == PotionEffectType.SLOW_FALLING || pe.getType() == PotionEffectType.UNLUCK
-				|| pe.getType() == PotionEffectType.WEAKNESS || pe.getType() == PotionEffectType.WITHER)
+			s = s.replace("%accountname%", (ac == null || ac.getID() == 0) ? "/" : ac.getAccountName());
+		}*/
+		switch(t.getPlayerAssociatedType())
 		{
-			color = "&c";
-		} else if(pe.getType() == PotionEffectType.GLOWING)
-		{
-			color = "&7";
+		case SOLO:
+			SoloEntryQueryStatus seqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLOENTRYQUERYSTATUS,
+					"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+					player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString());
+			int techLevel = seqs == null ? 1 : seqs.getResearchLevel() + 1; //Tech which may to acquire
+			int acquiredTech = seqs == null ? 0 : techLevel; //Tech which was already acquire
+			HashMap<String, Double> map = new HashMap<>();
+			map.put("techlv", Double.valueOf(techLevel));
+			map.put("techaq", Double.valueOf(acquiredTech));
+			if(text.contains("%techcostmoney%"))
+			{
+				int moneyFrac = 0;
+				double money = 0.0;
+				if(t != null)
+				{
+					money = new MathFormulaParser().parse(t.getCostMoney(), map);
+					moneyFrac = String.valueOf(money).split("\\.")[1].length();
+				}
+				s = s.replace("%techcostmoney%", t == null ? "/" : 
+					plugin.getIFHEco().format(money, ac.getCurrency(), dg, moneyFrac, useSI, useSy, ts, ds));
+			}
+			break;
+		case GLOBAL:
 		}
-		return color;
+		
+		return s;
+	}
+	
+	private static String getStringPlaceHolderVault(Player player, Technology t, String text, String playername)
+	{
+		String s = text;
+		SoloEntryQueryStatus eqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLOENTRYQUERYSTATUS,
+				"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+				player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString());
+		int techLevel = eqs == null ? 1 : eqs.getResearchLevel();
+		int acquiredTech = plugin.getMysqlHandler().getCount(Type.SOLOENTRYQUERYSTATUS,
+				"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
+				player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT);
+		HashMap<String, Double> map = new HashMap<>();
+		map.put("techlv", Double.valueOf(techLevel));
+		map.put("techaq", Double.valueOf(acquiredTech));
+		if(text.contains("%techcostmoney%"))
+		{
+			double money = 0.0;
+			if(t != null)
+			{
+				money = new MathFormulaParser().parse(t.getCostMoney(), map);
+			}
+			s = s.replace("%techcostmoney%%", t == null ? "/" : 
+				String.valueOf(money)+" "+ plugin.getVaultEco().currencyNamePlural());
+		}
+		return s;
 	}
 	
 	private static int getMaxDamage(Material material)
@@ -711,7 +948,7 @@ public class GuiHandler
 		return damage;
 	}
 	
-	//thanks https://stackoverflow.com/questions/12967896/converting-integers-to-roman-numerals-java
+	/*thanks https://stackoverflow.com/questions/12967896/converting-integers-to-roman-numerals-java
 	private static String IntegerToRomanNumeral(int input) 
 	{
 	    if (input < 1 || input > 3999)
@@ -769,81 +1006,12 @@ public class GuiHandler
 	        input -= 1;
 	    }    
 	    return s;
-	}
+	}*/
 	
-	private static String getStringPlaceHolder(Player player, TechCategory tcat, Technology t, String text, String playername)
-	{
-		String s = text;
-		if(text.contains("%player%"))
-		{
-			s = s.replace("%player%", player.getName());
-		}
-		return ChatApi.tl(s);
-	}
-	
-	private static String getStringPlaceHolderIFH(Player player, Technology t, String text,
-			Account ac, int dg, boolean useSI, boolean useSy, String ts, String ds, String playername)
-	{
-		String s = text;
-		/*if(text.contains("%accountname%"))
-		{
-			s = s.replace("%accountname%", (ac == null || ac.getID() == 0) ? "/" : ac.getAccountName());
-		}*/
-		SoloEntryQueryStatus eqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLOENTRYQUERYSTATUS,
-				"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-				player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString());
-		int techLevel = eqs == null ? 1 : eqs.getResearchLevel();
-		int acquiredTech = plugin.getMysqlHandler().getCount(Type.SOLOENTRYQUERYSTATUS,
-				"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
-				player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), StatusType.HAVE_RESEARCHED_IT);
-		HashMap<String, Double> map = new HashMap<>();
-		map.put("techlv", Double.valueOf(techLevel));
-		map.put("techaq", Double.valueOf(acquiredTech));
-		if(text.contains("%techcostmoney%"))
-		{
-			int moneyFrac = 0;
-			double money = 0.0;
-			if(t != null)
-			{
-				money = new MathFormulaParser().parse(t.getCostMoney(), map);
-				moneyFrac = String.valueOf(money).split("\\.")[1].length();
-			}
-			s = s.replace("%techcostmoney%", t == null ? "/" : 
-				plugin.getIFHEco().format(money, ac.getCurrency(), dg, moneyFrac, useSI, useSy, ts, ds));
-		}
-		return ChatApi.tl(s);
-	}
-	
-	private static String getStringPlaceHolderVault(Player player, Technology t, String text, String playername)
-	{
-		String s = text;
-		SoloEntryQueryStatus eqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLOENTRYQUERYSTATUS,
-				"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-				player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString());
-		int techLevel = eqs == null ? 1 : eqs.getResearchLevel();
-		int acquiredTech = plugin.getMysqlHandler().getCount(Type.SOLOENTRYQUERYSTATUS,
-				"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
-				player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), StatusType.HAVE_RESEARCHED_IT);
-		HashMap<String, Double> map = new HashMap<>();
-		map.put("techlv", Double.valueOf(techLevel));
-		map.put("techaq", Double.valueOf(acquiredTech));
-		if(text.contains("%techcostmoney%"))
-		{
-			double money = 0.0;
-			if(t != null)
-			{
-				money = new MathFormulaParser().parse(t.getCostMoney(), map);
-			}
-			s = s.replace("%techcostmoney%%", t == null ? "/" : 
-				String.valueOf(money)+" "+ plugin.getVaultEco().currencyNamePlural());
-		}
-		return ChatApi.tl(s);
-	}
-	
-	private static String getBoolean(boolean boo)
+	/*private static String getBoolean(boolean boo)
 	{
 		return boo ? plugin.getYamlHandler().getLang().getString("IsTrue") : plugin.getYamlHandler().getLang().getString("IsFalse");
-	}
+	}*/
 	
 	private static ClickFunction[] getClickFunction(YamlConfiguration y, String pathBase)
 	{
@@ -867,89 +1035,4 @@ public class GuiHandler
 		}
 		return ctar.toArray(new ClickFunction[ctar.size()]);
 	}
-	
-	/*public static String getSpawnEggType(Material mat)
-	{
-		String s = "";
-		switch(mat)
-		{
-		default: break;
-		case ALLAY_SPAWN_EGG:
-		case AXOLOTL_SPAWN_EGG:
-		case BAT_SPAWN_EGG:
-		case BEE_SPAWN_EGG:
-		case BLAZE_SPAWN_EGG:
-		case CAT_SPAWN_EGG:
-		case CAVE_SPIDER_SPAWN_EGG:
-		case CHICKEN_SPAWN_EGG:
-		case COD_SPAWN_EGG:
-		case COW_SPAWN_EGG:
-		case CREEPER_SPAWN_EGG:
-		case DOLPHIN_SPAWN_EGG:
-		case DONKEY_SPAWN_EGG:
-		case DROWNED_SPAWN_EGG:
-		case ELDER_GUARDIAN_SPAWN_EGG:
-		case ENDERMAN_SPAWN_EGG:
-		case ENDERMITE_SPAWN_EGG:
-		case EVOKER_SPAWN_EGG:
-		case FOX_SPAWN_EGG:
-		case FROG_SPAWN_EGG:
-		case FROGSPAWN:
-		case GHAST_SPAWN_EGG:
-		case GLOW_SQUID_SPAWN_EGG:
-		case GOAT_SPAWN_EGG:
-		case GUARDIAN_SPAWN_EGG:
-		case HOGLIN_SPAWN_EGG:
-		case HORSE_SPAWN_EGG:
-		case HUSK_SPAWN_EGG:
-		case LLAMA_SPAWN_EGG:
-		case MAGMA_CUBE_SPAWN_EGG:
-		case MOOSHROOM_SPAWN_EGG:
-		case MULE_SPAWN_EGG:
-		case OCELOT_SPAWN_EGG:
-		case PANDA_SPAWN_EGG:
-		case PARROT_SPAWN_EGG:
-		case PHANTOM_SPAWN_EGG:
-		case PIG_SPAWN_EGG:
-		case PIGLIN_BRUTE_SPAWN_EGG:
-		case PIGLIN_SPAWN_EGG:
-		case PILLAGER_SPAWN_EGG:
-		case POLAR_BEAR_SPAWN_EGG:
-		case PUFFERFISH_SPAWN_EGG:
-		case RABBIT_SPAWN_EGG:
-		case RAVAGER_SPAWN_EGG:
-		case SALMON_SPAWN_EGG:
-		case SHEEP_SPAWN_EGG:
-		case SHULKER_SPAWN_EGG:
-		case SILVERFISH_SPAWN_EGG:
-		case SKELETON_HORSE_SPAWN_EGG:
-		case SKELETON_SPAWN_EGG:
-		case SLIME_SPAWN_EGG:
-		case SPIDER_SPAWN_EGG:
-		case SQUID_SPAWN_EGG:
-		case STRAY_SPAWN_EGG:
-		case STRIDER_SPAWN_EGG:
-		case TADPOLE_SPAWN_EGG:
-		case TRADER_LLAMA_SPAWN_EGG:
-		case TROPICAL_FISH_SPAWN_EGG:
-		case TURTLE_SPAWN_EGG:
-		case VEX_SPAWN_EGG:
-		case VILLAGER_SPAWN_EGG:
-		case VINDICATOR_SPAWN_EGG:
-		case WANDERING_TRADER_SPAWN_EGG:
-		case WARDEN_SPAWN_EGG:
-		case WITCH_SPAWN_EGG:
-		case WITHER_SKELETON_SPAWN_EGG:
-		case WOLF_SPAWN_EGG:
-		case ZOGLIN_SPAWN_EGG:
-		case ZOMBIE_HORSE_SPAWN_EGG:
-		case ZOMBIE_SPAWN_EGG:
-		case ZOMBIE_VILLAGER_SPAWN_EGG:
-		case ZOMBIFIED_PIGLIN_SPAWN_EGG:
-			s = (plugin.getEnumTl() != null 
-				? SaLE.getPlugin().getEnumTl().getLocalization(mat)
-				: mat.toString()); break;
-		}
-		return s;
-	}*/
 }

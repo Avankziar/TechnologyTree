@@ -161,7 +161,7 @@ public class MysqlSetup
 		+ " entry_query_type text NOT NULL,"
 		+ " status_type text NOT NULL,"
 		+ " research_level int,"
-		+ " if_booster_duration_until_expiration BIGINT);";
+		+ " duration_until_expiration BIGINT);";
 		baseSetup(data);
 		return true;
 	}
@@ -183,12 +183,13 @@ public class MysqlSetup
 	
 	private boolean setupDatabaseIV() 
 	{
-		String data = "CREATE TABLE IF NOT EXISTS `" + MysqlHandler.Type.TECHNOLOGYPOLL.getValue()
+		String data = "CREATE TABLE IF NOT EXISTS `" + MysqlHandler.Type.GLOBALTECHNOLOGYPOLL.getValue()
 		+ "` (id int AUTO_INCREMENT PRIMARY KEY,"
 		+ " player_uuid char(36) NOT NULL,"
 		+ " choosen_technology text not NULL,"
 		+ " processed_in_repayment boolean,"
-		+ " global_choosen_technology text);";
+		+ " global_choosen_technology text,"
+		+ " global_choosen_technology_id int);"; //global_choosen_technology_id = GlobalEntryQueryStatus.id
 		baseSetup(data);
 		return true;
 	}
@@ -201,7 +202,7 @@ public class MysqlSetup
 		+ " entry_query_type text NOT NULL,"
 		+ " status_type text NOT NULL,"
 		+ " research_level int,"
-		+ " if_booster_duration_until_expiration BIGINT);";
+		+ " duration_until_expiration BIGINT);";
 		baseSetup(data);
 		return true;
 	}

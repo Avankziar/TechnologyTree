@@ -9,8 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
+import main.java.me.avankziar.tt.spigot.handler.GuiHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
-import main.java.me.avankziar.tt.spigot.ifh.ItemGenerator;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
 import main.java.me.avankziar.tt.spigot.objects.TechnologyType;
 
@@ -325,16 +325,14 @@ public class Technology
 
 	public ItemStack getSeeRequirementItemIfYouCanSeeIt(Player player)
 	{
-		return new ItemGenerator().generateItem(player,
-				BaseConstructor.getPlugin().getYamlHandler().getTechnologies().get(this.getInternName()),
-				"RequirementToSee.ItemIfYouCanSee", 0);
+		return GuiHandler.generateItem(BaseConstructor.getPlugin().getYamlHandler().getTechnologies().get(this.getInternName()),
+				"RequirementToSee.ItemIfYouCanSee", 0, null, null, this, getPlayerAssociatedType(), player);
 	}
 
 	public ItemStack getSeeRequirementItemIfYouCannotSeeIt(Player player)
 	{
-		return new ItemGenerator().generateItem(player,
-				BaseConstructor.getPlugin().getYamlHandler().getTechnologies().get(this.getInternName()),
-				"RequirementToSee.ItemIfYouCannotSee", 0);
+		return GuiHandler.generateItem(BaseConstructor.getPlugin().getYamlHandler().getTechnologies().get(this.getInternName()),
+				"RequirementToSee.ItemIfYouCannotSee", 0, null, null, this, getPlayerAssociatedType(), player);
 	}
 
 	public List<String> getResearchRequirementConditionQuery()
@@ -349,16 +347,14 @@ public class Technology
 
 	public ItemStack getResearchRequirementItemIfYouCanResearchIt(Player player)
 	{
-		return new ItemGenerator().generateItem(player,
-				BaseConstructor.getPlugin().getYamlHandler().getTechnologies().get(this.getInternName()),
-				"RequirementToResearch.IfYouCanResearchIt", 0);
+		return GuiHandler.generateItem(BaseConstructor.getPlugin().getYamlHandler().getTechnologies().get(this.getInternName()),
+				"RequirementToResearch.IfYouCanResearchIt", 0, null, null, this, getPlayerAssociatedType(), player);
 	}
 
 	public ItemStack getResearchRequirementItemIfYouHaveResearchedIt(Player player)
 	{
-		return new ItemGenerator().generateItem(player,
-				BaseConstructor.getPlugin().getYamlHandler().getTechnologies().get(this.getInternName()),
-				"RequirementToResearch.ItemIfYouHaveResearchedIt", 0);
+		return GuiHandler.generateItem(BaseConstructor.getPlugin().getYamlHandler().getTechnologies().get(this.getInternName()),
+				"RequirementToResearch.ItemIfYouHaveResearchedIt", 0, null, null, this, getPlayerAssociatedType(), player);
 	}
 	
 	public String getCostTTExp()

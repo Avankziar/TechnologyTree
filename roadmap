@@ -10,7 +10,7 @@ Cmd zum sehen, zu welchen Blöcken zugang hat.
 
 Wiki Themen
 - Dropmechanik mit Verzauberungen, Glücktrankeffekt und BonusMalus. Sowie der VanillaGrenzen, Silktouch etc.
--
+- Ein BeispielsYAML wie man Main/SubCategorgien und Technologien ausfüllen kann.
 
 
 
@@ -222,12 +222,12 @@ RequirementToResearch:
   -
   -
   Costs:
-    TTExp: '' #double
-    VanillaExp: '' #int
-    Money: '' # double
+    TTExp: '' #Formula as double
+    VanillaExp: '' #Formula as int
+    Money: '' #Formula as double
     Material:
-    - DIRT;128
-    - DIAMOND;5
+    - DIRT;XXX #XXX stands for a formula as int
+    - DIAMOND;XXX
   ItemIfYouHaveResearchedIt:
     Displayname: ''
     Material: ''
@@ -287,8 +287,8 @@ Rewards:
   - block_break:DIRT:null:item=Sword:1:10.0
   
   Command:
-  - spigot:/warp %player% %value% #Mit Replacer für Spielernamen und den Anzahlswert
-  - bungee:/do do #Für Console
+  - spigot:value:/warp %player% %value% #Mit Replacer für Spielernamen und den Anzahlswert
+  - bungee:value:/do do #Für Console
   Item:
   - sword_y:64 #Item y wird aus dem ItemOrdner geholt und hier eingesetzt.
   Modifier:

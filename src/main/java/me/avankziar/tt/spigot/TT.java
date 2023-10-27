@@ -27,6 +27,7 @@ import main.java.me.avankziar.ifh.general.modifier.Modifier;
 import main.java.me.avankziar.ifh.general.valueentry.ValueEntry;
 import main.java.me.avankziar.ifh.spigot.administration.Administration;
 import main.java.me.avankziar.ifh.spigot.economy.Economy;
+import main.java.me.avankziar.ifh.spigot.interfaces.EnumTranslation;
 import main.java.me.avankziar.ifh.spigot.tobungee.commands.CommandToBungee;
 import main.java.me.avankziar.tt.spigot.assistance.BackgroundTask;
 import main.java.me.avankziar.tt.spigot.assistance.Utility;
@@ -93,6 +94,7 @@ public class TT extends JavaPlugin
 	public static String infoCommand = "/";
 	
 	private Administration administrationConsumer;
+	private EnumTranslation enumTranslationConsumer;
 	private ValueEntry valueEntryConsumer;
 	private Modifier modifierConsumer;
 	private ConditionQueryParser conditionQueryParserConsumer;
@@ -455,6 +457,7 @@ public class TT extends JavaPlugin
 	{
 		setupIFHValueEntry();
 		setupIFHModifier();
+		setupIFHEnumTranslation();
 		setupIFHCommandToBungee();
 		setupIFHConditionQueryParser();
 		setupIFHEconomy();
@@ -594,6 +597,49 @@ public class TT extends JavaPlugin
 	public Modifier getModifier()
 	{
 		return modifierConsumer;
+	}
+	
+	private void setupIFHEnumTranslation() 
+	{
+		if(!plugin.getServer().getPluginManager().isPluginEnabled("InterfaceHub")) 
+	    {
+	    	return;
+	    }
+        new BukkitRunnable()
+        {
+        	int i = 0;
+			@Override
+			public void run()
+			{
+				try
+				{
+					if(i == 20)
+				    {
+						cancel();
+				    	return;
+				    }
+				    RegisteredServiceProvider<main.java.me.avankziar.ifh.spigot.interfaces.EnumTranslation> rsp = 
+		                             getServer().getServicesManager().getRegistration(
+		                            		 main.java.me.avankziar.ifh.spigot.interfaces.EnumTranslation.class);
+				    if(rsp == null) 
+				    {
+				    	i++;
+				        return;
+				    }
+				    enumTranslationConsumer = rsp.getProvider();
+				    log.info(pluginName + " detected InterfaceHub >>> EnumTranslation.class is consumed!");
+				    cancel();
+				} catch(NoClassDefFoundError e)
+				{
+					cancel();
+				}			    
+			}
+        }.runTaskTimer(plugin, 0L, 20*2);
+	}
+	
+	public EnumTranslation getEnumTl()
+	{
+		return enumTranslationConsumer;
 	}
 	
 	public void setupIFHCommandToBungee()

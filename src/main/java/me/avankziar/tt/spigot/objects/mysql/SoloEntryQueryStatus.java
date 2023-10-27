@@ -22,7 +22,7 @@ public class SoloEntryQueryStatus implements MysqlHandable
 	private EntryQueryType entryQueryType;
 	private EntryStatusType statusType;
 	private int researchLevel;
-	private long ifBoosterDurationUntilExpiration;
+	private long durationUntilExpiration;
 	
 	public SoloEntryQueryStatus()
 	{
@@ -31,7 +31,7 @@ public class SoloEntryQueryStatus implements MysqlHandable
 	
 	public SoloEntryQueryStatus(int id, String internName, UUID playerUUID,
 			EntryQueryType entryQueryType, EntryStatusType statusType, int researchLevel,
-			long ifBoosterDurationUntilExpiration)
+			long durationUntilExpiration)
 	{
 		setId(id);
 		setInternName(internName);
@@ -39,7 +39,7 @@ public class SoloEntryQueryStatus implements MysqlHandable
 		setEntryQueryType(entryQueryType);
 		setStatusType(statusType);
 		setResearchLevel(researchLevel);
-		setIfBoosterDurationUntilExpiration(ifBoosterDurationUntilExpiration);
+		setDurationUntilExpiration(durationUntilExpiration);
 	}
 	
 	public int getId()
@@ -102,14 +102,14 @@ public class SoloEntryQueryStatus implements MysqlHandable
 		this.researchLevel = researchLevel;
 	}
 
-	public long getIfBoosterDurationUntilExpiration()
+	public long getDurationUntilExpiration()
 	{
-		return ifBoosterDurationUntilExpiration;
+		return durationUntilExpiration;
 	}
 
-	public void setIfBoosterDurationUntilExpiration(long ifBoosterDurationUntilExpiration)
+	public void setDurationUntilExpiration(long durationUntilExpiration)
 	{
-		this.ifBoosterDurationUntilExpiration = ifBoosterDurationUntilExpiration;
+		this.durationUntilExpiration = durationUntilExpiration;
 	}
 
 	@Override
@@ -118,7 +118,7 @@ public class SoloEntryQueryStatus implements MysqlHandable
 		try
 		{
 			String sql = "INSERT INTO `" + tablename
-					+ "`(`intern_name`, `player_uuid`, `entry_query_type`, `status_type`, `research_level`, `if_booster_duration_until_expiration`) " 
+					+ "`(`intern_name`, `player_uuid`, `entry_query_type`, `status_type`, `research_level`, `duration_until_expiration`) " 
 					+ "VALUES(?, ?, ?, ?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 	        ps.setString(1, getInternName());
@@ -126,7 +126,7 @@ public class SoloEntryQueryStatus implements MysqlHandable
 	        ps.setString(3, getEntryQueryType().toString());
 	        ps.setString(4, getStatusType().toString());
 	        ps.setInt(5, getResearchLevel());
-	        ps.setLong(6, getIfBoosterDurationUntilExpiration());
+	        ps.setLong(6, getDurationUntilExpiration());
 	        int i = ps.executeUpdate();
 	        MysqlHandler.addRows(MysqlHandler.QueryType.INSERT, i);
 	        return true;
@@ -144,7 +144,7 @@ public class SoloEntryQueryStatus implements MysqlHandable
 		{
 			String sql = "UPDATE `" + tablename
 				+ "` SET `intern_name` = ?, `player_uuid` = ?, `entry_query_type` = ?, `status_type` = ?, `research_level` = ?,"
-				+ " `if_booster_duration_until_expiration` = ?" 
+				+ " `duration_until_expiration` = ?" 
 				+ " WHERE "+whereColumn;
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, getInternName());
@@ -152,7 +152,7 @@ public class SoloEntryQueryStatus implements MysqlHandable
 	        ps.setString(3, getEntryQueryType().toString());
 	        ps.setString(4, getStatusType().toString());
 	        ps.setInt(5, getResearchLevel());
-	        ps.setLong(6, getIfBoosterDurationUntilExpiration());
+	        ps.setLong(6, getDurationUntilExpiration());
 			int i = 7;
 			for(Object o : whereObject)
 			{
@@ -195,7 +195,7 @@ public class SoloEntryQueryStatus implements MysqlHandable
 						EntryQueryType.valueOf(rs.getString("entry_query_type")),
 						EntryStatusType.valueOf(rs.getString("status_type")),
 						rs.getInt("research_level"),
-						rs.getLong("if_booster_duration_until_expiration")));
+						rs.getLong("duration_until_expiration")));
 			}
 			return al;
 		} catch (SQLException e)

@@ -2,11 +2,6 @@ package main.java.me.avankziar.tt.spigot.objects.ram.misc;
 
 import java.util.List;
 
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
-import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
-import main.java.me.avankziar.tt.spigot.ifh.ItemGenerator;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
 
 public class TechCategory
@@ -105,19 +100,5 @@ public class TechCategory
 			boolean seeRequirementShowDifferentItemIfYouNormallyDontSeeIt)
 	{
 		this.seeRequirementShowDifferentItemIfYouNormallyDontSeeIt = seeRequirementShowDifferentItemIfYouNormallyDontSeeIt;
-	}
-
-	public ItemStack getSeeRequirementItemIfYouCanSeeIt(Player player)
-	{
-		return new ItemGenerator().generateItem(player,
-				BaseConstructor.getPlugin().getYamlHandler().getTechnologies().get(this.getInternName()),
-				"RequirementToSee.ItemIfYouCanSee", 0);
-	}
-
-	public ItemStack getSeeRequirementItemIfYouCannotSeeIt(Player player)
-	{
-		return new ItemGenerator().generateItem(player,
-				BaseConstructor.getPlugin().getYamlHandler().getTechnologies().get(this.getInternName()),
-				"RequirementToSee.ItemIfYouCannotSee", 0);
 	}
 }

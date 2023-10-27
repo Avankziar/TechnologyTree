@@ -415,7 +415,7 @@ public class CatTechHandler
 				boolean useFixGuiSlot = y.getBoolean("UseFixGuiSlots");
 				List<String> seeRequirementConditionQuery = y.getStringList("RequirementToSee.ConditionQuery");
 				boolean seeRequirementShowDifferentItemIfYouNormallyDontSeeIt = y.getBoolean("RequirementToSee.ShowDifferentItemIfYouNormallyDontSeeIt");
-				String overlyingCategory = y.getString("IfSubCategory.OverlyingCategory");
+				String overlyingCategory = y.getString("IfSubCategory.OverlyingMainCategory");
 				SubCategory sc = new SubCategory(internName, displayName,
 						playerAssociatedType, groupAssociatedPermission,
 						guiSlot, useFixGuiSlot, 

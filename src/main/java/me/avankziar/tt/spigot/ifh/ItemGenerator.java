@@ -64,7 +64,8 @@ public class ItemGenerator
 		{
 			is = new ItemStack(mat, amount);
 		}
-		boolean papi = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null && Bukkit.getPluginManager().getPlugin("PlaceholderAPI").isEnabled();
+		boolean papi = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null 
+				&& Bukkit.getPluginManager().getPlugin("PlaceholderAPI").isEnabled();
 		ItemMeta im = is.getItemMeta();
 		if(y.get(parentPath+".Displayname") != null)
 		{
