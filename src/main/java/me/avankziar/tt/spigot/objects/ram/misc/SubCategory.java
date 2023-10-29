@@ -14,11 +14,11 @@ public class SubCategory extends TechCategory
 	private String overlyingCategory;
 	
 	public SubCategory(String internName, String displayName, PlayerAssociatedType playerAssociatedType, String groupAssociatedPermission,
-			int guiSlot, boolean useFixGuiSlot, 
+			int guiSlot,
 			List<String> seeRequirementConditionQuery, boolean seeRequirementShowDifferentItemIfYouNormallyDontSeeIt,
 			String overlyingCategory)
 	{
-		super(internName, displayName, playerAssociatedType, guiSlot, useFixGuiSlot,
+		super(internName, displayName, playerAssociatedType, guiSlot,
 				seeRequirementConditionQuery, seeRequirementShowDifferentItemIfYouNormallyDontSeeIt);
 		setOverlyingCategory(overlyingCategory);
 	}

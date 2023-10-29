@@ -17,6 +17,7 @@ Wiki Themen
 
 Aufbau von Techkategorien(Gelten als Haupkategorie, wenn sie im Ordner Hauptcategory, im Ordner Subkategorien):
 categoryinternname == file name
+Displayname: ''
 PlayerAssociatedType: '' #SOLO (für den einzelen Spieler), GLOBAL (Für alle Spieler)
 GuiSlot: '' #int
 UseFixGuiSlots: '' #true/false, wenn false, dann sind die GuiSlots eher eine Priorität;
@@ -119,6 +120,7 @@ MaximalTechnologyLevelToResearch: '' #int
 IfBoosterDurationUntilExpiration: 0d-0H-0m-0s #Gilt nur für Booster
 PlayerAssociatedType: '' #SOLO (für den einzelen Spieler), GLOBAL (Für alle Spieler)
 OverlyingSubCategory: '' #internname der Kategory, kann eine
+GuiSlot: '' #int
 OnlyForGlobal
   IfResearchedApplyForNewPlayer: true
   ForUninvolvedPollParticipants:

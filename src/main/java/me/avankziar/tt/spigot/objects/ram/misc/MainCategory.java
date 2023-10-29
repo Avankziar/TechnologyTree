@@ -12,10 +12,10 @@ import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
 public class MainCategory extends TechCategory
 {	
 	public MainCategory(String internName, String displayName, PlayerAssociatedType playerAssociatedType, String groupAssociatedPermission,
-			int guiSlot, boolean useFixGuiSlot,
+			int guiSlot,
 			List<String> seeRequirementConditionQuery, boolean seeRequirementShowDifferentItemIfYouNormallyDontSeeIt)
 	{
-		super(internName, displayName, playerAssociatedType ,guiSlot, useFixGuiSlot,
+		super(internName, displayName, playerAssociatedType ,guiSlot,
 				seeRequirementConditionQuery, seeRequirementShowDifferentItemIfYouNormallyDontSeeIt);
 	}
 	

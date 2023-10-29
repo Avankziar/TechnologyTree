@@ -38,6 +38,7 @@ import main.java.me.avankziar.tt.spigot.modifiervalueentry.Bypass;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
 import main.java.me.avankziar.tt.spigot.objects.RewardType;
+import main.java.me.avankziar.tt.spigot.objects.TechnologyType;
 
 public class YamlManager
 {
@@ -1190,7 +1191,9 @@ public class YamlManager
 	
 	public void initMainCategory() //INFO:MainCategory
 	{
-		addMainCategory("mining", PlayerAssociatedType.SOLO, 0, true, 
+		addMainCategory("mining",
+				new String[] {"Bergbau", "Mining"},
+				PlayerAssociatedType.SOLO, 0, 
 				new String[] {
 						"if:(a):o_1",
 						"output:o_1:true",
@@ -1205,14 +1208,16 @@ public class YamlManager
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Maincategory Mining",
 						"&aThis category is always on display!"});
-		addMainCategory("forestry", PlayerAssociatedType.SOLO, 0, true, 
+		addMainCategory("forestry",
+				new String[] {"Försterei", "Forestry"},
+				PlayerAssociatedType.SOLO, 1, 
 				new String[] {
 						"if:(a):o_1",
 						"elseif:(b):o_2",
 						"output:o_1:true",
 						"output:o_2:true",
-						"a:perm=here.your.first.permission",
-						"b:perm=here.your.other.permission"}, true,
+						"a:var1:perm=here.your.first.permission",
+						"b:var1:perm=here.your.other.permission"}, true,
 				new String[] {"&7Försterei","&7Forestry"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
 						"&7Hauptkategory Försterei",
 						"&cAnforderungen zum einsehen:",
@@ -1220,28 +1225,67 @@ public class YamlManager
 						"&7Maincategory Forestry",
 						"&cRequirements to view:",
 						"&c>here.your.first.permission< / >here.your.other.permission<"},
-				new String[] {"",""}, Material.OAK_SAPLING, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&bFörsterei","&bForestry"}, Material.OAK_SAPLING, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
 						"&bHauptkategory Försterei",
 						"&fGibt Einsicht auf verschiedenste Bereiche der",
 						"&fFörsterrei wie Setzlinge pflanzen und Bäume schlagen.",
 						"&bMaincategory Forestry",
 						"&fGives insight into various areas of the forestry",
 						"&fwork such as planting seedlings and felling trees."});
+		addMainCategory("stonemason",
+				new String[] {"Steinmetz", "Stonemason"},
+				PlayerAssociatedType.SOLO, 2,
+				new String[] {
+						"if:(a || b):o_1",
+						"output:o_1:true",
+						"a:var1=%tt_hastech,cleanstone%",
+						"b:var1=%tt_hastech,sandstone%"}, true,
+				new String[] {"&7Steinmetz","&7Stonemason"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Hauptkategory Steinmetz",
+						"&cAnforderungen zum einsehen:",
+						"&cMuss die Technology >Stein< oder >Sandstein< erforscht haben.",
+						"&7Maincategory Stonemason",
+						"&cRequirements to view:",
+						"&cMust have researched the Technology >Stone< or >Sandstone<."},
+				new String[] {"",""}, Material.COBBLESTONE_STAIRS, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&bHauptkategory Steinsmetz",
+						"&fGibt Einsicht auf verschiedenste Bereiche des",
+						"&fSteinmetzes wie Steinstufen und Treppen zum craften.",
+						"&bMaincategory Stonemason",
+						"&fGives insight into various areas of the stonemason",
+						"&fto craft stoneslaps and stairs."});
+		addMainCategory("booster",
+				new String[] {"Booster", "Booster"},
+				PlayerAssociatedType.GLOBAL, 0, 
+				new String[] {
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"}, true,
+				new String[] {"&7Booster","&7Booster"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Global Haupkategorie Booster",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Maincategory Booster",
+						"&aThis category is always on display!"},
+				new String[] {"&bBergbau","&bMining"}, Material.BEACON, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Global Haupkategorie Booster",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Maincategory Booster",
+						"&aThis category is always on display!"});
 	}
 	
 	public void addMainCategory(
-			String key, PlayerAssociatedType pat, int guiSlot, boolean useFixGuiSlots, 
+			String key, String[] displayname, PlayerAssociatedType pat, int guiSlot,
 			String[] conditionQuery, boolean showDifferentItemIfYouNormallyDontSeeIt,
 			String[] notSeeDisplayname, Material notSeeMat, int notSeeAmount, String[] notSeeItemFlag, String[] notSeeEnchantments, String[] notSeeLore,
 			String[] canSeeDisplayname, Material canSeeMat, int canSeeAmount, String[] canSeeItemFlag, String[] canSeeEnchantments, String[] canSeeLore)
 	{
 		LinkedHashMap<String, Language> one = new LinkedHashMap<>();
+		one.put("Displayname", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+				displayname}));
 		one.put("PlayerAssociatedType", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 						pat.toString()}));
 		one.put("GuiSlot", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 						guiSlot}));
-		one.put("UseFixGuiSlots", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-						useFixGuiSlots}));
 		one.put("RequirementToSee.ConditionQuery", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 						conditionQuery}));
 		one.put("RequirementToSee.ShowDifferentItemIfYouNormallyDontSeeIt", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
@@ -1277,7 +1321,43 @@ public class YamlManager
 	
 	public void initSubCategory() //INFO:SubCategory
 	{
-		addSubCategory("ore", PlayerAssociatedType.SOLO, 0, true, 
+		addSubCategory("soil",
+				new String[] {"Erde", "Soil"},
+				PlayerAssociatedType.SOLO, 0,
+				new String[] {
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"}, true, "mining",
+				new String[] {"&7Erde","&7Soil"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Subkategorie Erde",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Subcategory Soil",
+						"&aThis category is always on display!"},
+				new String[] {"&bErde","&bSoil"}, Material.DIRT, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Haupkategorie Erde",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Maincategory Soil",
+						"&aThis category is always on display!"});
+		addSubCategory("stone",
+				new String[] {"Steine", "Stone"},
+				PlayerAssociatedType.SOLO, 1, 
+				new String[] {
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"}, true, "mining",
+				new String[] {"&7Erde","&7Soil"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Subkategorie Erde",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Subcategory Soil",
+						"&aThis category is always on display!"},
+				new String[] {"&bErde","&bSoil"}, Material.STONE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Haupkategorie Erde",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Maincategory Soil",
+						"&aThis category is always on display!"});
+		addSubCategory("ore",
+				new String[] {"Erze", "Ore"},
+				PlayerAssociatedType.SOLO, 2,
 				new String[] {
 						"if:(a):o_1",
 						"output:o_1:true",
@@ -1292,21 +1372,55 @@ public class YamlManager
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Maincategory Mining",
 						"&aThis category is always on display!"});
+		addSubCategory("miningbooster",
+				new String[] {"Abbaubooster", "Miningbooster"},
+				PlayerAssociatedType.GLOBAL, 0,
+				new String[] {
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"}, true, "booster",
+				new String[] {"&7Abbaubooster","&7Miningbooster"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Globale Subkategorie Abbaubooster",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Global Subcategory Miningbooster",
+						"&aThis category is always on display!"},
+				new String[] {"&bAbbaubooster","&bMining booster"}, Material.GOLDEN_PICKAXE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Haupkategorie Abbaubooster",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Maincategory Miningbooster",
+						"&aThis category is always on display!"});
+		addSubCategory("craftbooster",
+				new String[] {"Herstellungsbooster", "Craftingbooster"},
+				PlayerAssociatedType.GLOBAL, 1,
+				new String[] {
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"}, true, "booster",
+				new String[] {"&7Herstellungsbooster","&7Craftingbooster"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Globale Subkategorie Herstellungsbooster",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Global Subcategory Craftingbooster",
+						"&aThis category is always on display!"},
+				new String[] {"&bHerstellungsbooster","&bCraftingbooster"}, Material.CRAFTING_TABLE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Haupkategorie Herstellungsbooster",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Maincategory Craftingbooster",
+						"&aThis category is always on display!"});
 	}
 	
 	public void addSubCategory(
-			String key, PlayerAssociatedType pat, int guiSlot, boolean useFixGuiSlots, 
+			String key, String[] displayname, PlayerAssociatedType pat, int guiSlot, 
 			String[] conditionQuery, boolean showDifferentItemIfYouNormallyDontSeeIt, String overlyingMainCategory,
 			String[] notSeeDisplayname, Material notSeeMat, int notSeeAmount, String[] notSeeItemFlag, String[] notSeeEnchantments, String[] notSeeLore,
 			String[] canSeeDisplayname, Material canSeeMat, int canSeeAmount, String[] canSeeItemFlag, String[] canSeeEnchantments, String[] canSeeLore)
 	{
 		LinkedHashMap<String, Language> one = new LinkedHashMap<>();
+		one.put("Displayname", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+				displayname}));
 		one.put("PlayerAssociatedType", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 						pat.toString()}));
 		one.put("GuiSlot", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 						guiSlot}));
-		one.put("UseFixGuiSlots", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-						useFixGuiSlots}));
 		one.put("RequirementToSee.ConditionQuery", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 						conditionQuery}));
 		one.put("RequirementToSee.ShowDifferentItemIfYouNormallyDontSeeIt", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
@@ -1342,13 +1456,135 @@ public class YamlManager
 		subCategoryKeys.put(key, one);
 	}
 	
-	public void initTechnology() //INFO:Technology
+	public void initTechnology()
+	{
+		
+	}
+	
+	public void addTechnology(
+			String key, String[] displayname, TechnologyType techType, int maxTechLevToResearch,
+			PlayerAssociatedType pat, int guiSlot, String ifBoosterDurUntilExp, String overlyingSubCategory,
+			double fUPP_RUInteractionsIP, double fUPP_RRecipesIP, double fUPP_RDropChancesIP, double fUPP_RSilkTouchDropChancesIP,
+			double fUPP_RCommandsIP, double fUPP_RItemsIP, double fUPP_RModifiersInPercent, double fUPP_RValueEntryIP,
+			String[] toSeeConditionQuery, boolean showDifferentItemIfYouNormallyDontSeeIt,
+			String[] notSeeDisplayname, Material notSeeMat, int notSeeAmount, String[] notSeeItemFlag, String[] notSeeEnchantments, String[] notSeeLore,
+			String[] canSeeDisplayname, Material canSeeMat, int canSeeAmount, String[] canSeeItemFlag, String[] canSeeEnchantments, String[] canSeeLore,
+			String[] toResConditionQuery,
+			String toResCostTTExp, String toResCostVanillaExp, String toResCostMoney, String[] toResCostMaterial,
+			String[] canResDisplayname, Material canResMat, int canResAmount, String[] canResItemFlag, String[] canResEnchantments, String[] canResLore,
+			String[] hadResDisplayname, Material hadResMat, int hadResAmount, String[] hadResItemFlag, String[] hadResEnchantments, String[] hadResLore,
+			String[] rewardUnlockableInteractions, String[] rewardUnlockableRecipe, String[] rewardDropChance, String[] rewardSilkTouchDropChance,
+			String[] rewardCommand, String[] rewardItem, String[] rewardModifier, String[] rewardValueEntry) //INFO:Technology
 	{
 		String onekey = "";
 		LinkedHashMap<String, Language> one = new LinkedHashMap<>();
-		one.put("",
+		one.put("Displayname", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						displayname}));
+		one.put("TechnologyType", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						techType.toString()}));
+		one.put("MaximalTechnologyLevelToResearch", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						maxTechLevToResearch}));
+		one.put("PlayerAssociatedType", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						pat.toString()}));
+		one.put("GuiSlot", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						guiSlot}));
+		one.put("IfBoosterDurationUntilExpiration", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						ifBoosterDurUntilExp}));
+		one.put("OverlyingSubCategory", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						overlyingSubCategory}));
+		one.put("OnlyForGlobal.ForUninvolvedPollParticipants.RewardUnlockableInteractionsInPercent",
 				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-						""}));
+				fUPP_RUInteractionsIP}));
+		one.put("OnlyForGlobal.ForUninvolvedPollParticipants.RewardRecipesInPercent",
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				fUPP_RRecipesIP}));
+		one.put("OnlyForGlobal.ForUninvolvedPollParticipants.RewardDropChancesInPercent",
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				fUPP_RDropChancesIP}));
+		one.put("OnlyForGlobal.ForUninvolvedPollParticipants.RewardSilkTouchDropChancesInPercent",
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				fUPP_RSilkTouchDropChancesIP}));
+		one.put("OnlyForGlobal.ForUninvolvedPollParticipants.RewardCommandsInPercent",
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				fUPP_RCommandsIP}));
+		one.put("OnlyForGlobal.ForUninvolvedPollParticipants.RewardItemsInPercent",
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				fUPP_RItemsIP}));
+		one.put("OnlyForGlobal.ForUninvolvedPollParticipants.RewardModifiersInPercent",
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				fUPP_RModifiersInPercent}));
+		one.put("OnlyForGlobal.ForUninvolvedPollParticipants.RewardValueEntryInPercent",
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				fUPP_RValueEntryIP}));
+		one.put("RequirementToSee.ConditionQuery", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						toSeeConditionQuery}));
+		one.put("RequirementToSee.ShowDifferentItemIfYouNormallyDontSeeIt", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						showDifferentItemIfYouNormallyDontSeeIt}));
+		//--- ToSee - ItemIfYouCannotSee ---
+		one.put("RequirementToSee.ItemIfYouCannotSee.Displayname", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						notSeeDisplayname}));
+		one.put("RequirementToSee.ItemIfYouCannotSee.Material", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						notSeeMat}));
+		one.put("RequirementToSee.ItemIfYouCannotSee.Amount", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						notSeeAmount}));
+		one.put("RequirementToSee.ItemIfYouCannotSee.ItemFlag", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						notSeeItemFlag}));
+		one.put("RequirementToSee.ItemIfYouCannotSee.Enchantment", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						notSeeEnchantments}));
+		one.put("RequirementToSee.ItemIfYouCannotSee.Lore", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						notSeeLore}));
+		//--- ToSee - ItemIfYouCanSee ---
+		one.put("RequirementToSee.ItemIfYouCanSee.Displayname", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						canSeeDisplayname}));
+		one.put("RequirementToSee.ItemIfYouCanSee.Material", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						canSeeMat}));
+		one.put("RequirementToSee.ItemIfYouCanSee.Amount", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						canSeeAmount}));
+		one.put("RequirementToSee.ItemIfYouCanSee.ItemFlag", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						canSeeItemFlag}));
+		one.put("RequirementToSee.ItemIfYouCanSee.Enchantment", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						canSeeEnchantments}));
+		one.put("RequirementToSee.ItemIfYouCanSee.Lore", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						canSeeLore}));
+		
+		one.put("RequirementToResearch.ConditionQuery", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						toSeeConditionQuery}));
+		one.put("RequirementToResearch.Costs.TTExp", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						toResCostTTExp}));
+		one.put("RequirementToResearch.Costs.VanillaExp", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						toResCostVanillaExp}));
+		one.put("RequirementToResearch.Costs.Money", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						toResCostMoney}));
+		one.put("RequirementToResearch.Costs.Material", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						toResCostMaterial}));
+		//--- ToResearch - IfYouCanResearchIt ---
+		one.put("RequirementToResearch.IfYouCanResearchIt.Displayname",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						canResDisplayname}));
+		one.put("RequirementToResearch.IfYouCanResearchIt.Material", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						canResMat}));
+		one.put("RequirementToResearch.IfYouCanResearchIt.Amount", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						canResAmount}));
+		one.put("RequirementToResearch.IfYouCanResearchIt.ItemFlag", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						canResItemFlag}));
+		one.put("RequirementToResearch.IfYouCanResearchIt.Enchantment", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						canResEnchantments}));
+		one.put("RequirementToResearch.IfYouCanResearchIt.Lore", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						canResLore}));
+		//--- ToResearch - ItemIfYouHaveResearchedIt ---
+		one.put("RequirementToResearch.ItemIfYouHaveResearchedIt.Displayname",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						hadResDisplayname}));
+		one.put("RequirementToResearch.ItemIfYouHaveResearchedIt.Material", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						hadResMat}));
+		one.put("RequirementToResearch.ItemIfYouHaveResearchedIt.Amount", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						hadResAmount}));
+		one.put("RequirementToResearch.ItemIfYouHaveResearchedIt.ItemFlag", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						hadResItemFlag}));
+		one.put("RequirementToResearch.ItemIfYouHaveResearchedIt.Enchantment", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						hadResEnchantments}));
+		one.put("RequirementToResearch.ItemIfYouHaveResearchedIt.Lore", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						hadResLore}));
 		technologyKeys.put(onekey, one);
 	}
 	

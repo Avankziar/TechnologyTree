@@ -97,10 +97,18 @@ public class CatTechHandler
 				String displayName = y.getString("Displayname");
 				
 				TechnologyType technologyType = TechnologyType.valueOf(y.getString("TechnologyType"));
+				
 				int maximalTechnologyLevelToResearch = 
 						y.get("MaximalTechnologyLevelToResearch") != null 
 						? (y.getInt("MaximalTechnologyLevelToResearch") <= 0 ? 1 : y.getInt("MaximalTechnologyLevelToResearch")) 
 						: 1;
+				
+				PlayerAssociatedType playerAssociatedType = PlayerAssociatedType.valueOf(y.getString("PlayerAssociatedType"));
+				
+				int guiSlot = y.getInt("GuiSlot");
+				guiSlot = guiSlot < 0 ? 0 : guiSlot;
+				guiSlot = guiSlot > 54 ? 54 : guiSlot;
+				
 				long ifBoosterDurationUntilExpiration = -1;
 				if(technologyType == TechnologyType.BOOSTER)
 				{
@@ -126,10 +134,9 @@ public class CatTechHandler
 						}
 					}
 				}
-				PlayerAssociatedType playerAssociatedType = PlayerAssociatedType.valueOf(y.getString("PlayerAssociatedType"));
+				
 				String overlyingSubCategory = y.getString("OverlyingSubCategory");
 				
-				boolean ifResearchedApplyForNewPlayer = y.getBoolean("OnlyForGlobal.IfResearchedApplyForNewPlayer", false);
 				double forUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent
 				= y.getDouble("OnlyForGlobal.ForUninvolvedPollParticipants.RewardUnlockableInteractionsInPercent", 100);
 				double forUninvolvedPollParticipants_RewardRecipesInPercent
@@ -141,19 +148,24 @@ public class CatTechHandler
 				double forUninvolvedPollParticipants_RewardCommandsInPercent
 				= y.getDouble("OnlyForGlobal.ForUninvolvedPollParticipants.RewardCommandsInPercent", 100);
 				double forUninvolvedPollParticipants_RewardItemsInPercent
-				= y.getDouble("OnlyForGlobal.ForUninvolvedPollParticipants.forUninvolvedPollParticipants_RewardCommandsInPercent", 100);
+				= y.getDouble("OnlyForGlobal.ForUninvolvedPollParticipants.RewardItemsInPercent", 100);
 				double forUninvolvedPollParticipants_RewardModifiersInPercent
 				= y.getDouble("OnlyForGlobal.ForUninvolvedPollParticipants.RewardModifiersInPercent", 100);
 				double forUninvolvedPollParticipants_RewardValueEntryInPercent
 				= y.getDouble("OnlyForGlobal.ForUninvolvedPollParticipants.RewardValueEntryInPercent", 100);
 				
-				int guiSlot = y.getInt("MaximalTechnologyLevelToResearch");
-				guiSlot = guiSlot < 0 ? 0 : guiSlot;
-				guiSlot = guiSlot > 54 ? 54 : guiSlot;
-				
+				if(y.get("RequirementToSee.ConditionQuery") == null)
+				{
+					continue;
+				}
 				List<String> seeRequirementConditionQuery = y.getStringList("RequirementToSee.ConditionQuery");
-				boolean seeRequirementShowDifferentItemIfYouNormallyDontSeeIt = y.getBoolean("RequirementToSee.ConditionQuery");
+				boolean seeRequirementShowDifferentItemIfYouNormallyDontSeeIt 
+				= y.getBoolean("RequirementToSee.ShowDifferentItemIfYouNormallyDontSeeIt");
 				
+				if(y.get("RequirementToResearch.ConditionQuery") == null)
+				{
+					continue;
+				}
 				List<String> researchRequirementConditionQuery = y.getStringList("RequirementToResearch.ConditionQuery");
 				
 				String costTTExp = y.getString("RequirementToResearch.Costs.TTExp");
@@ -347,7 +359,7 @@ public class CatTechHandler
 				}
 				Technology t = new Technology(internName, displayName, technologyType, maximalTechnologyLevelToResearch,
 						ifBoosterDurationUntilExpiration,
-						playerAssociatedType, overlyingSubCategory, ifResearchedApplyForNewPlayer,
+						playerAssociatedType, overlyingSubCategory,
 						forUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent,
 						forUninvolvedPollParticipants_RewardRecipesInPercent,
 						forUninvolvedPollParticipants_RewardDropChancesInPercent,
@@ -412,13 +424,12 @@ public class CatTechHandler
 				PlayerAssociatedType playerAssociatedType = PlayerAssociatedType.valueOf(y.getString("PlayerAssociatedType"));
 				String groupAssociatedPermission = y.getString("GroupAssociatedPermission", null);
 				int guiSlot = y.getInt("GuiSlot");
-				boolean useFixGuiSlot = y.getBoolean("UseFixGuiSlots");
 				List<String> seeRequirementConditionQuery = y.getStringList("RequirementToSee.ConditionQuery");
 				boolean seeRequirementShowDifferentItemIfYouNormallyDontSeeIt = y.getBoolean("RequirementToSee.ShowDifferentItemIfYouNormallyDontSeeIt");
 				String overlyingCategory = y.getString("IfSubCategory.OverlyingMainCategory");
 				SubCategory sc = new SubCategory(internName, displayName,
 						playerAssociatedType, groupAssociatedPermission,
-						guiSlot, useFixGuiSlot, 
+						guiSlot,
 						seeRequirementConditionQuery, seeRequirementShowDifferentItemIfYouNormallyDontSeeIt, 
 						overlyingCategory);
 				if(playerAssociatedType == PlayerAssociatedType.SOLO)
@@ -472,12 +483,11 @@ public class CatTechHandler
 				PlayerAssociatedType playerAssociatedType = PlayerAssociatedType.valueOf(y.getString("PlayerAssociatedType"));
 				String groupAssociatedPermission = y.getString("GroupAssociatedPermission", null);
 				int guiSlot = y.getInt("GuiSlot");
-				boolean useFixGuiSlot = y.getBoolean("UseFixGuiSlots");
 				List<String> seeRequirementConditionQuery = y.getStringList("RequirementToSee.ConditionQuery");
 				boolean seeRequirementShowDifferentItemIfYouNormallyDontSeeIt = y.getBoolean("RequirementToSee.ShowDifferentItemIfYouNormallyDontSeeIt");
 				MainCategory mc = new MainCategory(internName, displayName,
 						playerAssociatedType, groupAssociatedPermission,
-						guiSlot, useFixGuiSlot, 
+						guiSlot,
 						seeRequirementConditionQuery, seeRequirementShowDifferentItemIfYouNormallyDontSeeIt);
 				if(playerAssociatedType == PlayerAssociatedType.SOLO)
 				{

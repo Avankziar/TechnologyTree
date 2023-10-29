@@ -26,7 +26,6 @@ public class Technology
 	private PlayerAssociatedType playerAssociatedType;
 	private String overlyingSubCategory;
 	
-	private boolean ifResearchedApplyForNewPlayer;
 	private double forUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent;
 	private double forUninvolvedPollParticipants_RewardRecipesInPercent;
 	private double forUninvolvedPollParticipants_RewardDropChancesInPercent;
@@ -60,7 +59,6 @@ public class Technology
 	public Technology(String internName, String displayName,
 			TechnologyType technologyType, int maximalTechnologyLevelToResearch, long ifBoosterDurationUntilExpiration,
 			PlayerAssociatedType playerAssociatedType, String overlyingSubCategory,
-			boolean ifResearchedApplyForNewPlayer,
 			double forUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent,
 			double forUninvolvedPollParticipants_RewardRecipesInPercent,
 			double forUninvolvedPollParticipants_RewardDropChancesInPercent,
@@ -92,7 +90,6 @@ public class Technology
 		setPlayerAssociatedType(playerAssociatedType);
 		setOverlyingSubCategory(overlyingSubCategory);
 		
-		setIfResearchedApplyForNewPlayer(ifResearchedApplyForNewPlayer);
 		setForUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent(forUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent);
 		setForUninvolvedPollParticipants_RewardRecipesInPercent(forUninvolvedPollParticipants_RewardRecipesInPercent);
 		setForUninvolvedPollParticipants_RewardDropChancesInPercent(forUninvolvedPollParticipants_RewardDropChancesInPercent);
@@ -194,11 +191,6 @@ public class Technology
 		this.overlyingSubCategory = overlyingSubCategory;
 	}
 
-	public boolean isIfResearchedApplyForNewPlayer()
-	{
-		return ifResearchedApplyForNewPlayer;
-	}
-
 	public double getForUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent()
 	{
 		return forUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent;
@@ -285,11 +277,6 @@ public class Technology
 			double forUninvolvedPollParticipants_RewardValueEntryInPercent)
 	{
 		this.forUninvolvedPollParticipants_RewardValueEntryInPercent = forUninvolvedPollParticipants_RewardValueEntryInPercent;
-	}
-
-	public void setIfResearchedApplyForNewPlayer(boolean ifResearchedApplyForNewPlayer)
-	{
-		this.ifResearchedApplyForNewPlayer = ifResearchedApplyForNewPlayer;
 	}
 
 	public int getGuiSlot()

@@ -12,21 +12,19 @@ public class TechCategory
 	private PlayerAssociatedType playerAssociatedType;
 	
 	private int guiSlot;
-	private boolean useFixGuiSlot;
 	
 	private List<String> seeRequirementConditionQuery;
 	private boolean seeRequirementShowDifferentItemIfYouNormallyDontSeeIt;
 	
 	public TechCategory(String internName, String displayName, 
 			PlayerAssociatedType playerAssociatedType,
-			int guiSlot, boolean useFixGuiSlot,
+			int guiSlot,
 			List<String> seeRequirementConditionQuery, boolean seeRequirementShowDifferentItemIfYouNormallyDontSeeIt)
 	{
 		setInternName(internName);
 		setDisplayName(displayName);
 		setPlayerAssociatedType(playerAssociatedType);
 		setGuiSlot(guiSlot);
-		setUseFixGuiSlot(useFixGuiSlot);
 		setSeeRequirementConditionQuery(seeRequirementConditionQuery);
 		setSeeRequirementShowDifferentItemIfYouNormallyDontSeeIt(seeRequirementShowDifferentItemIfYouNormallyDontSeeIt);
 	}
@@ -69,16 +67,6 @@ public class TechCategory
 	public void setGuiSlot(int guiSlot)
 	{
 		this.guiSlot = guiSlot;
-	}
-
-	public boolean isUseFixGuiSlot()
-	{
-		return useFixGuiSlot;
-	}
-
-	public void setUseFixGuiSlot(boolean useFixGuiSlot)
-	{
-		this.useFixGuiSlot = useFixGuiSlot;
 	}
 
 	public List<String> getSeeRequirementConditionQuery()
