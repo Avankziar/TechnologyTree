@@ -121,7 +121,7 @@ public class TT extends JavaPlugin
 		
 		yamlHandler = new YamlHandler(this);
 		
-		String path = plugin.getYamlHandler().getConfig().getString("IFHAdministrationPath");
+		/*String path = plugin.getYamlHandler().getConfig().getString("IFHAdministrationPath");
 		boolean adm = plugin.getAdministration() != null 
 				&& plugin.getYamlHandler().getConfig().getBoolean("useIFHAdministration")
 				&& plugin.getAdministration().isMysqlPathActive(path);
@@ -145,7 +145,7 @@ public class TT extends JavaPlugin
 		RecipeHandler.init();
 		CatTechHandler.reload();
 		setupIFHConsumer();
-		RewardHandler.doRewardOfflinePlayerTask();
+		RewardHandler.doRewardOfflinePlayerTask();*/
 	}
 	
 	public void onDisable()

@@ -58,6 +58,8 @@ import main.java.me.avankziar.tt.spigot.modifiervalueentry.ModifierValueEntry;
 import main.java.me.avankziar.tt.spigot.objects.EntryQueryType;
 import main.java.me.avankziar.tt.spigot.objects.EntryStatusType;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
+import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalEntryQueryStatus;
+import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
 import main.java.me.avankziar.tt.spigot.objects.mysql.SoloEntryQueryStatus;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.MainCategory;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.SubCategory;
@@ -721,6 +723,138 @@ public class GuiHandler
 		if(t != null)
 		{
 			//TODO
+			/**
+			 * 
+			 */
+			if(text.contains("%rawcostttexp%") || text.contains("%costttexp%")
+					|| text.contains("%rawcostvanillaexp%") || text.contains("%costvanillaexp%") 
+					|| text.contains("%rawcostmoney%") || text.contains("%costmoney%")
+					|| text.contains("%rawcostmaterial%"))
+			{
+				int techLevel = 0;
+				int acquiredTech = 0;
+				int totalSoloTechs = plugin.getMysqlHandler().getCount(Type.SOLOENTRYQUERYSTATUS,
+						"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
+						player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
+				int totalGlobalTechs = plugin.getMysqlHandler().getCount(Type.GLOBALENTRYQUERYSTATUS,
+						"`entry_query_type` = ? AND `status_type` = ?",
+						player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
+				if(t.getPlayerAssociatedType() == PlayerAssociatedType.SOLO)
+				{
+					ArrayList<SoloEntryQueryStatus> eeqsList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLOENTRYQUERYSTATUS,
+							"`research_level` DESC", 0, 1,
+							"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+							player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString()));
+					SoloEntryQueryStatus eqs = eeqsList.size() == 0 ? null : eeqsList.get(0);
+					techLevel = eqs == null ? 1 : eqs.getResearchLevel() + 1; //Tech which may to acquire
+					acquiredTech = eqs == null ? 0 : techLevel; //Tech which was already acquire
+				} else
+				{
+					ArrayList<GlobalEntryQueryStatus> eeqsList = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBALENTRYQUERYSTATUS,
+							"`research_level` DESC", 0, 1,
+							"`intern_name` = ? AND `entry_query_type` = ?",
+							t.getInternName(), EntryQueryType.TECHNOLOGY.toString()));
+					GlobalEntryQueryStatus eqs = eeqsList.size() == 0 ? null : eeqsList.get(0);
+					techLevel = eqs == null ? 1 : eqs.getResearchLevel() + 1; //Tech which may to acquire
+					acquiredTech = eqs == null ? 0 : techLevel; //Tech which was already acquire
+				}
+				PlayerData pd = PlayerHandler.getPlayer(player.getUniqueId());
+				HashMap<String, Double> map = new HashMap<>();
+				map.put("techlv", Double.valueOf(techLevel));
+				map.put("techaq", Double.valueOf(acquiredTech));
+				map.put("totalsolotech", Double.valueOf(totalSoloTechs));
+				map.put("totalglobaltech", Double.valueOf(totalGlobalTechs));
+				if(text.contains("%rawcostttexp%"))
+				{
+					double ttexp = 0;
+					if(pd != null && !t.getCostTTExp().isEmpty())
+					{
+						ttexp =  new MathFormulaParser().parse(t.getCostTTExp(), map);
+					}
+					s = s.replace("%rawcostttexp%", String.valueOf(ttexp));
+				}
+				if(text.contains("%costttexp%"))
+				{
+					double ttexp = 0;
+					if(pd != null && !t.getCostTTExp().isEmpty())
+					{
+						ttexp =  new MathFormulaParser().parse(t.getCostTTExp(), map);
+					}
+					s = s.replace("%costttexp%", String.valueOf(ttexp)+" TTExp");
+				}
+				if(text.contains("%rawcostvanillaexp%"))
+				{
+					int vexp = 0;
+					if(!t.getCostVanillaExp().isEmpty())
+					{
+						vexp = (int) Math.floor(new MathFormulaParser().parse(t.getCostVanillaExp(), map));
+					}
+					s = s.replace("%rawcostvanillaexp%", String.valueOf(vexp));
+				}
+				if(text.contains("%costvanillaexp%"))
+				{
+					int vexp = 0;
+					if(!t.getCostVanillaExp().isEmpty())
+					{
+						vexp = (int) Math.floor(new MathFormulaParser().parse(t.getCostVanillaExp(), map));
+					}
+					s = s.replace("%costvanillaexp%", String.valueOf(vexp)+" VanillaExp");
+				}
+				if(text.contains("%rawcostmoney%"))
+				{
+					double money = 0;
+					if(!t.getCostMoney().isEmpty())
+					{
+						money = new MathFormulaParser().parse(t.getCostMoney(), map);
+					}
+					s = s.replace("%rawcostmoney%", String.valueOf(money));
+				}
+				if(text.contains("%costmoney%"))
+				{
+					double money = 0;
+					if(!t.getCostMoney().isEmpty())
+					{
+						money = new MathFormulaParser().parse(t.getCostMoney(), map);
+					}
+					s = s.replace("%costmoney%", String.valueOf(money));
+				}
+				if(text.contains("%rawcostmaterial%"))
+				{
+					StringBuilder sb = new StringBuilder();
+					int i = 0;
+					int j = t.getCostMaterial().entrySet().size();
+					for(Entry<Material, String> e : t.getCostMaterial().entrySet())
+					{
+						int material = (int) Math.floor(new MathFormulaParser().parse(e.getValue(), map));
+						sb.append(material+"x "+  e.getKey().toString());
+						if(i < j)
+						{
+							sb.append(", ");
+						}
+						i++;
+					}
+					s = s.replace("%rawcostmaterial%", sb.toString());
+				}
+				if(text.contains("%costmaterial%"))
+				{
+					StringBuilder sb = new StringBuilder();
+					int i = 0;
+					int j = t.getCostMaterial().entrySet().size();
+					for(Entry<Material, String> e : t.getCostMaterial().entrySet())
+					{
+						int material = (int) Math.floor(new MathFormulaParser().parse(e.getValue(), map));
+						sb.append(material+"x "+  TT.getPlugin().getEnumTl() != null
+								  				? TT.getPlugin().getEnumTl().getLocalization(e.getKey())
+								  				: e.getKey().toString());
+						if(i < j)
+						{
+							sb.append(", ");
+						}
+						i++;
+					}
+					s = s.replace("%costmaterial%", sb.toString());
+				}
+			}
 		}
 		return s;
 	}

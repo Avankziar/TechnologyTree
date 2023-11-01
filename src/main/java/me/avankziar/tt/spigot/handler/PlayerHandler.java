@@ -776,6 +776,12 @@ public class PlayerHandler
 	{
 		int techLevel = 0;
 		int acquiredTech = 0;
+		int totalSoloTechs = plugin.getMysqlHandler().getCount(Type.SOLOENTRYQUERYSTATUS,
+				"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
+				player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
+		int totalGlobalTechs = plugin.getMysqlHandler().getCount(Type.GLOBALENTRYQUERYSTATUS,
+				"`entry_query_type` = ? AND `status_type` = ?",
+				player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
 		if(t.getPlayerAssociatedType() == PlayerAssociatedType.SOLO)
 		{
 			ArrayList<SoloEntryQueryStatus> eeqsList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLOENTRYQUERYSTATUS,
@@ -798,6 +804,8 @@ public class PlayerHandler
 		HashMap<String, Double> map = new HashMap<>();
 		map.put("techlv", Double.valueOf(techLevel));
 		map.put("techaq", Double.valueOf(acquiredTech));
+		map.put("totalsolotech", Double.valueOf(totalSoloTechs));
+		map.put("totalglobaltech", Double.valueOf(totalGlobalTechs));
 		double ttexp = 0;
 		boolean bttexp = true;
 		PlayerData pd = getPlayer(player.getUniqueId());

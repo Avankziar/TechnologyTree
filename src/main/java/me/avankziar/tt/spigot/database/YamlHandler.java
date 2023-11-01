@@ -16,6 +16,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.database.Language.ISO639_2B;
 import main.java.me.avankziar.tt.spigot.gui.objects.GuiType;
+import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
 
 public class YamlHandler
 {
@@ -405,14 +406,14 @@ public class YamlHandler
 	
 	private boolean mkdirMainCategories()
 	{
-		File solo = new File(plugin.getDataFolder()+"/Solo/MainCategory/");
-		File group = new File(plugin.getDataFolder()+"/Group/MainCategory/");
-		File global = new File(plugin.getDataFolder()+"/Global/MainCategory/");
+		File solo = new File(plugin.getDataFolder()+"/Tech/Solo/MainCategory/");
+		//File group = new File(plugin.getDataFolder()+"/Tech/Group/MainCategory/");
+		File global = new File(plugin.getDataFolder()+"/Tech/Global/MainCategory/");
 		if(!solo.exists())
 		{
-			solo.mkdir();
+			solo.mkdirs();
 			if(!createAndLoadMap(solo,
-					plugin.getYamlManager().getMainCategoryKey(), getMainCategories()))
+					plugin.getYamlManager().getMainCategoryKey().get(PlayerAssociatedType.SOLO), getMainCategories()))
 			{
 				return false;
 			}
@@ -420,23 +421,23 @@ public class YamlHandler
 		{
 			onlyLoadMap(solo, getMainCategories());
 		}
-		if(!group.exists())
+		/*if(!group.exists())
 		{
-			group.mkdir();
+			group.mkdirs();
 			if(!createAndLoadMap(group,
-					plugin.getYamlManager().getMainCategoryKey(), getMainCategories()))
+					plugin.getYamlManager().getMainCategoryKey().get(PlayerAssociatedType.), getMainCategories()))
 			{
 				return false;
 			}
 		} else
 		{
 			onlyLoadMap(group, getMainCategories());
-		}
+		}*/
 		if(!global.exists())
 		{
-			global.mkdir();
+			global.mkdirs();
 			if(!createAndLoadMap(global,
-					plugin.getYamlManager().getMainCategoryKey(), getMainCategories()))
+					plugin.getYamlManager().getMainCategoryKey().get(PlayerAssociatedType.GLOBAL), getMainCategories()))
 			{
 				return false;
 			}
@@ -449,14 +450,14 @@ public class YamlHandler
 	
 	private boolean mkdirSubCategories()
 	{
-		File solo = new File(plugin.getDataFolder()+"/Solo/SubCategory/");
-		File group = new File(plugin.getDataFolder()+"/Group/SubCategory/");
-		File global = new File(plugin.getDataFolder()+"/Global/SubCategory/");
+		File solo = new File(plugin.getDataFolder()+"/Tech/Solo/SubCategory/");
+		//File group = new File(plugin.getDataFolder()+"/Tech/Group/SubCategory/");
+		File global = new File(plugin.getDataFolder()+"/Tech/Global/SubCategory/");
 		if(!solo.exists())
 		{
-			solo.mkdir();
+			solo.mkdirs();
 			if(!createAndLoadMap(solo,
-					plugin.getYamlManager().getSubCategoryKey(), getSubCategories()))
+					plugin.getYamlManager().getSubCategoryKey().get(PlayerAssociatedType.SOLO), getSubCategories()))
 			{
 				return false;
 			}
@@ -464,23 +465,23 @@ public class YamlHandler
 		{
 			onlyLoadMap(solo, getSubCategories());
 		}
-		if(!group.exists())
+		/*if(!group.exists())
 		{
-			group.mkdir();
+			group.mkdirs();
 			if(!createAndLoadMap(group,
-					plugin.getYamlManager().getSubCategoryKey(), getSubCategories()))
+					plugin.getYamlManager().getSubCategoryKey().get(PlayerAssociatedType.), getSubCategories()))
 			{
 				return false;
 			}
 		} else
 		{
 			onlyLoadMap(group, getSubCategories());
-		}
+		}*/
 		if(!global.exists())
 		{
-			global.mkdir();
+			global.mkdirs();
 			if(!createAndLoadMap(global,
-					plugin.getYamlManager().getSubCategoryKey(), getSubCategories()))
+					plugin.getYamlManager().getSubCategoryKey().get(PlayerAssociatedType.GLOBAL), getSubCategories()))
 			{
 				return false;
 			}
@@ -493,14 +494,14 @@ public class YamlHandler
 	
 	private boolean mkdirTechnologies()
 	{
-		File solo = new File(plugin.getDataFolder()+"/Solo/Technology/");
-		File group = new File(plugin.getDataFolder()+"/Group/Technology/");
-		File global = new File(plugin.getDataFolder()+"/Global/Technology/");
+		File solo = new File(plugin.getDataFolder()+"/Tech/Solo/Technology/");
+		//File group = new File(plugin.getDataFolder()+"/Tech/Group/Technology/");
+		File global = new File(plugin.getDataFolder()+"/Tech/Global/Technology/");
 		if(!solo.exists())
 		{
-			solo.mkdir();
+			solo.mkdirs();
 			if(!createAndLoadMap(solo,
-					plugin.getYamlManager().getTechnologyKey(), getTechnologies()))
+					plugin.getYamlManager().getTechnologyKey().get(PlayerAssociatedType.SOLO), getTechnologies()))
 			{
 				return false;
 			}
@@ -508,23 +509,23 @@ public class YamlHandler
 		{
 			onlyLoadMap(solo, getTechnologies());
 		}
-		if(!group.exists())
+		/*if(!group.exists())
 		{
-			group.mkdir();
+			group.mkdirs();
 			if(!createAndLoadMap(group,
-					plugin.getYamlManager().getTechnologyKey(), getTechnologies()))
+					plugin.getYamlManager().getTechnologyKey().get(PlayerAssociatedType.SOLO), getTechnologies()))
 			{
 				return false;
 			}
 		} else
 		{
 			onlyLoadMap(group, getTechnologies());
-		}
+		}*/
 		if(!global.exists())
 		{
-			global.mkdir();
+			global.mkdirs();
 			if(!createAndLoadMap(global,
-					plugin.getYamlManager().getTechnologyKey(), getTechnologies()))
+					plugin.getYamlManager().getTechnologyKey().get(PlayerAssociatedType.GLOBAL), getTechnologies()))
 			{
 				return false;
 			}
@@ -619,7 +620,7 @@ public class YamlHandler
 		}
 		if(!smoking.exists())
 		{
-			smoking.mkdir();
+			smoking.mkdirs();
 			if(!createAndLoadMap(smoking,
 					plugin.getYamlManager().getSmokingRecipeKey(), getSmokingRecipe()))
 			{
@@ -631,7 +632,7 @@ public class YamlHandler
 		}
 		if(!stonecutting.exists())
 		{
-			stonecutting.mkdir();
+			stonecutting.mkdirs();
 			if(!createAndLoadMap(stonecutting,
 					plugin.getYamlManager().getStonecuttingRecipeKey(), getStonecuttingRecipe()))
 			{
@@ -647,6 +648,14 @@ public class YamlHandler
 	private boolean createAndLoadMap(File dir,
 			LinkedHashMap<String, LinkedHashMap<String, Language>> mapI, LinkedHashMap<String, YamlConfiguration> mapII)
 	{
+		if(mapI == null)
+		{
+			return true;
+		}
+		if(!dir.exists())
+		{
+			dir.mkdirs();
+		}
 		for(Entry<String, LinkedHashMap<String, Language>> e : mapI.entrySet())
 		{
 			File f = new File(dir.getPath(), e.getKey()+".yml");

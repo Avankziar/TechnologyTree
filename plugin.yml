@@ -2,8 +2,8 @@ name: TechnologyTree
 main: main.java.me.avankziar.tt.spigot.TT
 version: 1
 author: Avankziar
-api-version: 1.17
-description: TBA
+api-version: 1.18
+description: A Plugin which provides a Technology Tree
 depend: [InterfaceHub]
 softdepend: [Vault,RootAdministrationPlaceholderAPI]
 website: TBA

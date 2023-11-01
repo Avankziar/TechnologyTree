@@ -19,6 +19,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.ifh.general.economy.account.AccountCategory;
+import main.java.me.avankziar.ifh.general.economy.currency.CurrencyType;
 import main.java.me.avankziar.ifh.spigot.economy.account.Account;
 import main.java.me.avankziar.ifh.spigot.economy.currency.EconomyCurrency;
 import main.java.me.avankziar.tt.spigot.TT;
@@ -213,7 +214,14 @@ public class RewardHandler
 				plugin.getVaultEco().depositPlayer(Bukkit.getOfflinePlayer(uuid), e.getValue());
 				continue;
 			}
-			EconomyCurrency ec = plugin.getIFHEco().getCurrency(e.getKey());
+			EconomyCurrency ec = null;
+			if(e.getKey().equalsIgnoreCase("default"))
+			{
+				plugin.getIFHEco().getDefaultCurrency(CurrencyType.DIGITAL);
+			} else
+			{
+				ec = plugin.getIFHEco().getCurrency(e.getKey());
+			}
 			Account ac = plugin.getIFHEco().getDefaultAccount(uuid, AccountCategory.JOB, ec);
 			if(ac == null)
 			{
@@ -378,7 +386,7 @@ public class RewardHandler
 		if(material != null)
 		{
 			//https://minecraft.fandom.com/wiki/Fortune
-			int fortunelevel = 0;
+			int fortunelevel = -1;
 			if(playerUsedTools && player.getInventory().getItemInMainHand() != null &&
 					player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) > 0)
 			{
@@ -471,28 +479,15 @@ public class RewardHandler
 	    	    .sorted(Entry.comparingByKey())
 	    	    .collect(Collectors.toMap(Entry::getKey, Entry::getValue,
 	    	                              (e1, e2) -> e1, LinkedHashMap::new));
-		
 		for(Entry<Integer, Double> e : sortedMap.entrySet())
 		{
-			double chance = e.getValue();
-			if(fortunelootlevel > 0 && potionlucklevel > 0)
-			{
-				chance = chance 
-						* (1.0/((double)fortunelootlevel+2.0)+((double)fortunelootlevel+1.0)/2.0)
-						* (1.0/((double)potionlucklevel+2.0) +((double)potionlucklevel*2)/2.0);
-			} else if(fortunelootlevel > 0)
-			{
-				chance = chance * (1.0/((double)fortunelootlevel+2.0)+((double)fortunelootlevel+1.0)/2.0);
-			} else if(potionlucklevel > 0)
-			{
-				chance = chance * (1.0/((double)potionlucklevel+2.0)+((double)potionlucklevel*2)/2.0);
-			}
-			if(chance >= 1.0)
+			double chance = getChance(e.getValue(), fortunelootlevel, potionlucklevel);
+			if(chance >= 1.0 || new Random().nextDouble() < chance)
 			{
 				i = e.getKey();
-			} else if(new Random().nextDouble() < chance)
+			} else
 			{
-				i = e.getKey();
+				break;
 			}
 		}
 		if(plugin.getModifier() != null)
@@ -508,6 +503,96 @@ public class RewardHandler
 		}
 		return is;
 	}
+	
+	private static double getChance(double c, int fortunelootlevel, int potionlucklevel)
+	{
+		double chance = c;
+		if(fortunelootlevel > 0 && potionlucklevel > 0)
+		{
+			chance = chance 
+					* (1.0/((double)fortunelootlevel+2.0)+((double)fortunelootlevel+1.0)/2.0)
+					* (1.0/((double)potionlucklevel+2.0) +((double)potionlucklevel*2)/2.0); // 2/2, ist nur zur veranschaulichung
+		} else if(fortunelootlevel > 0)
+		{
+			chance = chance * (1.0/((double)fortunelootlevel+2.0)+((double)fortunelootlevel+1.0)/2.0);
+		} else if(potionlucklevel > 0)
+		{
+			chance = chance * (1.0/((double)potionlucklevel+2.0)+((double)potionlucklevel*2)/2.0);
+		}
+		return chance;
+	}
+	
+	public static void main(String[] args) //Versuch einer Rechnung um ein Stetigs Dropwachstum zu berechnen
+    {
+		//boolean breakingThroughVanillaDropBarrier = true;
+		int fortunelootlevel = 0;
+		int potionlucklevel = 1;
+		/*double lostExtraPercent = 0.25;
+		if(fortunelootlevel > 0 && potionlucklevel > 0)
+		{
+			lostExtraPercent = 0.25
+					* (1.0/((double)fortunelootlevel+2.0)+((double)fortunelootlevel+1.0)/2.0)
+					* (1.0/((double)potionlucklevel+2.0) +((double)potionlucklevel*2)/2.0); // 2/2, ist nur zur veranschaulichung
+		} else if(fortunelootlevel > 0)
+		{
+			lostExtraPercent = 0.25 * (1.0/((double)fortunelootlevel+2.0)+((double)fortunelootlevel+1.0)/2.0);
+		} else if(potionlucklevel > 0)
+		{
+			lostExtraPercent = 0.25 * (1.0/((double)potionlucklevel+2.0)+((double)potionlucklevel*2)/2.0);
+		}
+		System.out.println("lostExtraPercent = " + lostExtraPercent);*/
+		int i = 0;
+		LinkedHashMap<Integer, Double> map = new LinkedHashMap<>();
+		map.put(2, 0.7);
+		map.put(1, 0.9);
+		map.put(4, 0.3);
+		map.put(3, 0.5);
+		Map<Integer, Double> sortedMap = 
+	    	    map.entrySet().stream()
+	    	    .sorted(Entry.comparingByKey())
+	    	    .collect(Collectors.toMap(Entry::getKey, Entry::getValue,
+	    	                              (e1, e2) -> e1, LinkedHashMap::new));
+		//int j = 0;
+		//int k = sortedMap.entrySet().size();
+		for(Entry<Integer, Double> e : sortedMap.entrySet())
+		{
+			double chance = getChance(e.getValue(), fortunelootlevel, potionlucklevel);
+			//j++;
+			double r = new Random().nextDouble();
+			System.out.println("NR: i = " + (i+1) + " | " + chance + " > " + r + " = " + (chance > r));
+			if(chance >= 1.0 || r < chance)
+			{
+				i = e.getKey();
+			} else
+			{
+				break;
+			}
+			/*if(j == k && i == e.getKey() && breakingThroughVanillaDropBarrier)
+			{
+				//Ende der Map, maximal erreichte Dropzahl. Weiterführung in einer Schleife zur Erhöhung der Dropzahl, solange der Spieler glück hat
+				int l = 1;
+				double groundchance = chance - chance * 0.25;
+				while(true)
+				{
+					groundchance = groundchance - groundchance * lostExtraPercent;
+					double newchance = getChance(groundchance, fortunelootlevel, potionlucklevel);
+					System.out.println("LOOP: i = " + (i+1) + " | chance = " + chance + " | gc = "+groundchance);
+					if(newchance >= 1.0 || new Random().nextDouble() < newchance)
+					{
+						i++;
+					} else
+					{
+						break;
+					}
+					if(i >= 100) 
+					{
+						break;
+					}
+				}
+			}*/
+		}
+        
+    }
 	
 	private static int getVanillaDropBarrier(Material material, int i)
 	{

@@ -403,7 +403,16 @@ public class RecipeHandler
 			ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(plugin, key), r);
 			recipe.setCategory(cbc);
 			recipe.setGroup(y.getString("Group"));
-			recipe.shape(y.getString("Shape.Line1"), y.getString("Shape.Line2"), y.getString("Shape.Line3"));
+			if(y.get("Shape.Line1") != null && y.get("Shape.Line2") != null && y.get("Shape.Line3") != null)
+			{
+				recipe.shape(y.getString("Shape.Line1"), y.getString("Shape.Line2"), y.getString("Shape.Line3"));
+			} else if(y.get("Shape.Line1") != null && y.get("Shape.Line2") != null)
+			{
+				recipe.shape(y.getString("Shape.Line1"), y.getString("Shape.Line2"));
+			} else if(y.get("Shape.Line1") != null)
+			{
+				recipe.shape(y.getString("Shape.Line1"));
+			}
 			for(int i = 0; i < y.getString("Ingredient.CharacterList").length(); i++)
 			{
 				char c = y.getString("Ingredient.CharacterList").charAt(i);

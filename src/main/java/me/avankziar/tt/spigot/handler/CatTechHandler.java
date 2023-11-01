@@ -168,9 +168,9 @@ public class CatTechHandler
 				}
 				List<String> researchRequirementConditionQuery = y.getStringList("RequirementToResearch.ConditionQuery");
 				
-				String costTTExp = y.getString("RequirementToResearch.Costs.TTExp");
-				String costVanillaExp = y.getString("RequirementToResearch.Costs.VanillaExp");
-				String costMoney = y.getString("RequirementToResearch.Costs.Money");
+				String costTTExp = y.getString("RequirementToResearch.Costs.TTExp", "");
+				String costVanillaExp = y.getString("RequirementToResearch.Costs.VanillaExp", "");
+				String costMoney = y.getString("RequirementToResearch.Costs.Money", "");
 				LinkedHashMap<Material, String> costMaterial = new LinkedHashMap<>();
 				if(y.get("RequirementToResearch.Costs.Material") != null)
 				{

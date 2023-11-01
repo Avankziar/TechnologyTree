@@ -1,22 +1,15 @@
 package main.java.me.avankziar.tt.spigot.gui.listener;
 
 import java.io.IOException;
-import java.util.UUID;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import main.java.me.avankziar.ifh.spigot.shop.SignShop;
-import main.java.me.avankziar.sale.spigot.handler.gui.AdminstrationFunctionHandler;
-import main.java.me.avankziar.sale.spigot.handler.gui.ShopFunctionHandler;
 import main.java.me.avankziar.tt.spigot.TT;
-import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
 import main.java.me.avankziar.tt.spigot.gui.events.UpperGuiClickEvent;
-import main.java.me.avankziar.tt.spigot.gui.objects.ClickFunctionType;
 import main.java.me.avankziar.tt.spigot.gui.objects.ClickType;
 import main.java.me.avankziar.tt.spigot.gui.objects.GuiType;
-import main.java.me.avankziar.tt.spigot.handler.GuiHandler;
 
 public class UpperListener implements Listener
 {
@@ -47,7 +40,7 @@ public class UpperListener implements Listener
 		{
 			return;
 		}
-		if(!event.getValuesInteger().containsKey(GuiHandler.SIGNSHOP_ID))
+		/*if(!event.getValuesInteger().containsKey(GuiHandler.SIGNSHOP_ID))
 		{
 			return;
 		}
@@ -106,7 +99,7 @@ public class UpperListener implements Listener
 			break;
 		case SHOP:
 			ShopFunctionHandler.doClickFunktion(gt, cft, player, ssh, event.getEvent().getClickedInventory(), event.getSettingsLevel()); break;
-		}
+		}*/
 	}
 	
 	private ClickType getClickFunctionType(org.bukkit.event.inventory.ClickType ct, int hotbarButton)

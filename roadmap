@@ -7,6 +7,7 @@ Cmd für Infos, wieviele techs man in der Gruppe GROUP hat, ...
 Cmd für Infos, wieviele Techs man in der Gruppe GLOBAL hat, ...
 Cmd zum sehen, wieviele Regestierte Blöcke von welchem Typ habt.
 Cmd zum sehen, zu welchen Blöcken zugang hat.
+Event für das Interagieren mit Blöcken noch rein machen. (Bspw. wenn man Holz entrindet oder Erdblock zum Acker oder Pfad zu machen.
 
 Wiki Themen
 - Dropmechanik mit Verzauberungen, Glücktrankeffekt und BonusMalus. Sowie der VanillaGrenzen, Silktouch etc.
