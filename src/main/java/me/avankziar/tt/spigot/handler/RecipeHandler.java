@@ -21,6 +21,7 @@ import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.SmithingRecipe;
+import org.bukkit.inventory.SmithingTransformRecipe;
 import org.bukkit.inventory.SmokingRecipe;
 import org.bukkit.inventory.StonecuttingRecipe;
 import org.bukkit.inventory.recipe.CookingBookCategory;
@@ -43,12 +44,35 @@ public class RecipeHandler
 	private static boolean haveAllRecipeUnlocked = true;
 	
 	public static LinkedHashMap<RecipeType, ArrayList<String>> recipeMap; //Alle registrierte Recipe
+	public static ArrayList<Recipe> toSaveRecipe = new ArrayList<>();
 	
 	public static void init()
 	{
 		recipeMap = new LinkedHashMap<>();
 		haveAllRecipeUnlocked = plugin.getYamlHandler().getConfig().getBoolean("Do.Recipe.HaveAllRecipeUnlocked");
-		for(Material m : new ArrayList<Material>(EnumSet.allOf(Material.class)))
+		Material[] mar = new Material[]
+				{
+					Material.REDSTONE, Material.GLOWSTONE_DUST, Material.FERMENTED_SPIDER_EYE, Material.MAGMA_CREAM,
+					Material.SUGAR, Material.GLISTERING_MELON_SLICE, Material.SPIDER_EYE, Material.NETHER_WART,
+					Material.GHAST_TEAR, Material.BLAZE_POWDER, Material.RABBIT_FOOT, Material.PUFFERFISH,
+					Material.GUNPOWDER, Material.DRAGON_BREATH, Material.GOLDEN_CARROT, Material.PHANTOM_MEMBRANE,				
+					Material.TURTLE_HELMET, Material.BOOK, Material.COMPASS,
+					Material.WOODEN_AXE, Material.WOODEN_HOE, Material.WOODEN_PICKAXE, Material.WOODEN_SHOVEL, Material.WOODEN_SWORD,
+					Material.STONE_AXE, Material.STONE_HOE, Material.STONE_PICKAXE, Material.STONE_SHOVEL, Material.STONE_SWORD,
+					Material.LEATHER_BOOTS, Material.LEATHER_CHESTPLATE, Material.LEATHER_HELMET, Material.LEATHER_LEGGINGS,
+					Material.IRON_AXE, Material.IRON_HOE, Material.IRON_PICKAXE, Material.IRON_SHOVEL, Material.IRON_SWORD,
+					Material.IRON_BOOTS, Material.IRON_CHESTPLATE, Material.IRON_HELMET, Material.IRON_LEGGINGS,
+					Material.GOLDEN_AXE, Material.GOLDEN_HOE, Material.GOLDEN_PICKAXE, Material.GOLDEN_SHOVEL, Material.GOLDEN_SWORD,
+					Material.GOLDEN_BOOTS, Material.GOLDEN_CHESTPLATE, Material.GOLDEN_HELMET, Material.GOLDEN_LEGGINGS,
+					Material.DIAMOND_AXE, Material.DIAMOND_HOE, Material.DIAMOND_PICKAXE, Material.DIAMOND_SHOVEL, Material.DIAMOND_SWORD,
+					Material.DIAMOND_BOOTS, Material.DIAMOND_CHESTPLATE, Material.DIAMOND_HELMET, Material.DIAMOND_LEGGINGS,
+					Material.NETHERITE_AXE, Material.NETHERITE_HOE, Material.NETHERITE_PICKAXE, Material.NETHERITE_SHOVEL, Material.NETHERITE_SWORD,
+					Material.NETHERITE_BOOTS, Material.NETHERITE_CHESTPLATE, Material.NETHERITE_HELMET, Material.NETHERITE_LEGGINGS,
+					Material.BOW, Material.FISHING_ROD, Material.TRIDENT, Material.CROSSBOW,
+					Material.SHEARS, Material.SHIELD, Material.ELYTRA, Material.FLINT_AND_STEEL,
+					Material.CARROT_ON_A_STICK, Material.WARPED_FUNGUS_ON_A_STICK
+				};
+		for(Material m : mar)//new ArrayList<Material>(EnumSet.allOf(Material.class)))
 		{
 			switch(m)
 			{
@@ -127,6 +151,11 @@ public class RecipeHandler
 			case LEATHER_CHESTPLATE:
 			case LEATHER_HELMET:
 			case LEATHER_LEGGINGS:
+			case STONE_AXE:
+			case STONE_HOE:
+			case STONE_PICKAXE:
+			case STONE_SHOVEL:
+			case STONE_SWORD:
 			case IRON_AXE:
 			case IRON_HOE:
 			case IRON_PICKAXE:
@@ -200,6 +229,12 @@ public class RecipeHandler
 		if(plugin.getYamlHandler().getConfig().getBoolean("Do.Recipe.LoadThePluginRecipe"))
 		{
 			Bukkit.clearRecipes();
+			for(Recipe recipe : toSaveRecipe)
+			{
+				Bukkit.addRecipe(recipe);
+			}
+			TT.log.info("Added "+toSaveRecipe.size()+" default recipe...");
+			int blr = 0;
 			for(Entry<String, YamlConfiguration> a : plugin.getYamlHandler().getBlastingRecipe().entrySet())
 			{
 				BlastingRecipe recipe = getBlastingRecipe(a.getKey(), a.getValue());
@@ -209,7 +244,10 @@ public class RecipeHandler
 				}
 				Bukkit.addRecipe(recipe);
 				registerRecipeInMap(RecipeType.BLASTING, a.getKey());
+				blr++;
 			}
+			TT.log.info("Added "+blr+" blasting recipe...");
+			int car = 0;
 			for(Entry<String, YamlConfiguration> a : plugin.getYamlHandler().getCampfireRecipe().entrySet())
 			{
 				CampfireRecipe recipe = getCampfireRecipe(a.getKey(), a.getValue());
@@ -219,7 +257,10 @@ public class RecipeHandler
 				}
 				Bukkit.addRecipe(recipe);
 				registerRecipeInMap(RecipeType.CAMPFIRE, a.getKey());
+				car++;
 			}
+			TT.log.info("Added "+car+" campfire recipe...");
+			int fur = 0;
 			for(Entry<String, YamlConfiguration> a : plugin.getYamlHandler().getFurnaceRecipe().entrySet())
 			{
 				FurnaceRecipe recipe = getFurnaceRecipe(a.getKey(), a.getValue());
@@ -229,7 +270,10 @@ public class RecipeHandler
 				}
 				Bukkit.addRecipe(recipe);
 				registerRecipeInMap(RecipeType.FURNACE, a.getKey());
+				fur++;
 			}
+			TT.log.info("Added "+fur+" furnace recipe...");
+			int sdr = 0;
 			for(Entry<String, YamlConfiguration> a : plugin.getYamlHandler().getShapedRecipe().entrySet())
 			{
 				ShapedRecipe recipe = getShapedRecipe(a.getKey(), a.getValue());
@@ -239,7 +283,10 @@ public class RecipeHandler
 				}
 				Bukkit.addRecipe(recipe);
 				registerRecipeInMap(RecipeType.SHAPED, a.getKey());
+				sdr++;
 			}
+			TT.log.info("Added "+sdr+" shaped recipe...");
+			int ssr = 0;
 			for(Entry<String, YamlConfiguration> a : plugin.getYamlHandler().getShapelessRecipe().entrySet())
 			{
 				ShapelessRecipe recipe = getShapelessRecipe(a.getKey(), a.getValue());
@@ -249,17 +296,34 @@ public class RecipeHandler
 				}
 				Bukkit.addRecipe(recipe);
 				registerRecipeInMap(RecipeType.SHAPELESS, a.getKey());
+				ssr++;
 			}
-			for(Entry<String, YamlConfiguration> a : plugin.getYamlHandler().getSmithingRecipe().entrySet())
+			TT.log.info("Added "+ssr+" shapeless recipe...");
+			int str = 0;
+			for(Entry<String, YamlConfiguration> a : plugin.getYamlHandler().getSmithingTransformRecipe().entrySet())
 			{
-				SmithingRecipe recipe = getSmithingRecipe(a.getKey(), a.getValue());
+				SmithingTransformRecipe recipe = getSmithingTransformRecipe(a.getKey(), a.getValue());
 				if(recipe == null)
 				{
 					continue;
 				}
 				Bukkit.addRecipe(recipe);
 				registerRecipeInMap(RecipeType.SMITHING, a.getKey());
+				str++;
 			}
+			TT.log.info("Added "+str+" smithingtransform recipe...");
+			//Für die Config nicht geeignet.
+			/*for(Entry<String, YamlConfiguration> a : plugin.getYamlHandler().getSmithingTrimRecipe().entrySet())
+			{
+				SmithingTrimRecipe recipe = getSmithingTrimRecipe(a.getKey(), a.getValue());
+				if(recipe == null)
+				{
+					continue;
+				}
+				Bukkit.addRecipe(recipe);
+				registerRecipeInMap(RecipeType.SMITHING, a.getKey());
+			}*/
+			int smr = 0;
 			for(Entry<String, YamlConfiguration> a : plugin.getYamlHandler().getSmokingRecipe().entrySet())
 			{
 				SmokingRecipe recipe = getSmokingRecipe(a.getKey(), a.getValue());
@@ -269,7 +333,10 @@ public class RecipeHandler
 				}
 				Bukkit.addRecipe(recipe);
 				registerRecipeInMap(RecipeType.SMOKING, a.getKey());
+				smr++;
 			}
+			TT.log.info("Added "+smr+" smoking recipe...");
+			int scr = 0;
 			for(Entry<String, YamlConfiguration> a : plugin.getYamlHandler().getStonecuttingRecipe().entrySet())
 			{
 				StonecuttingRecipe recipe = getStonecuttingRecipe(a.getKey(), a.getValue());
@@ -279,9 +346,19 @@ public class RecipeHandler
 				}
 				Bukkit.addRecipe(recipe);
 				registerRecipeInMap(RecipeType.STONECUTTING, a.getKey());
+				scr++;
 			}
+			TT.log.info("Added "+scr+" stonecutting recipe...");
 		} else
 		{
+			int blr = 0;
+			int car = 0;
+			int fur = 0;
+			int sdr = 0;
+			int ssr = 0;
+			int str = 0;
+			int smr = 0;
+			int scr = 0;
 			for(Iterator<Recipe> iterator = Bukkit.recipeIterator(); iterator.hasNext();) 
 			{
 			    Recipe r = iterator.next();
@@ -289,14 +366,17 @@ public class RecipeHandler
 			    {
 			    	BlastingRecipe a = (BlastingRecipe) r;
 			    	registerRecipeInMap(RecipeType.BLASTING, a.getKey().getKey());
+			    	blr++;
 			    } else if(r instanceof CampfireRecipe)
 			    {
 			    	CampfireRecipe a = (CampfireRecipe) r;
 			    	registerRecipeInMap(RecipeType.CAMPFIRE, a.getKey().getKey());
+			    	car++;
 			    } else if(r instanceof FurnaceRecipe)
 			    {
 			    	FurnaceRecipe a = (FurnaceRecipe) r;
 			    	registerRecipeInMap(RecipeType.FURNACE, a.getKey().getKey());
+			    	fur++;
 			    } else if(r instanceof MerchantRecipe) //https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/inventory/MerchantRecipe.html
 			    {
 			    	//MerchantRecipe a = (MerchantRecipe) r;
@@ -305,24 +385,41 @@ public class RecipeHandler
 			    {
 			    	ShapedRecipe a = (ShapedRecipe) r;
 			    	registerRecipeInMap(RecipeType.SHAPED, a.getKey().getKey());
+			    	sdr++;
 			    } else if(r instanceof ShapelessRecipe)
 			    {
 			    	ShapelessRecipe a = (ShapelessRecipe) r;
 			    	registerRecipeInMap(RecipeType.SHAPELESS, a.getKey().getKey());
-			    } else if(r instanceof SmithingRecipe)
+			    	ssr++;
+			    } else if(r instanceof SmithingTransformRecipe)
 			    {
-			    	SmithingRecipe a = (SmithingRecipe) r;
+			    	SmithingTransformRecipe a = (SmithingTransformRecipe) r;
 			    	registerRecipeInMap(RecipeType.SMITHING, a.getKey().getKey());
-			    } else if(r instanceof SmokingRecipe)
+			    	str++;
+			    }/* else if(r instanceof SmithingTrimRecipe)
+			    {
+			    	SmithingTrimRecipe a = (SmithingTrimRecipe) r;
+			    	registerRecipeInMap(RecipeType.SMITHING, a.getKey().getKey());
+			    }*/ else if(r instanceof SmokingRecipe)
 			    {
 			    	SmokingRecipe a = (SmokingRecipe) r;
 			    	registerRecipeInMap(RecipeType.SMOKING, a.getKey().getKey());
+			    	smr++;
 			    } else if(r instanceof StonecuttingRecipe)
 			    {
 			    	StonecuttingRecipe a = (StonecuttingRecipe) r;
 			    	registerRecipeInMap(RecipeType.STONECUTTING, a.getKey().getKey());
+			    	scr++;
 			    }
 			}
+			TT.log.info("Registered "+blr+" blasting recipe...");
+			TT.log.info("Registered "+car+" campfire recipe...");
+			TT.log.info("Registered "+fur+" furnace recipe...");
+			TT.log.info("Registered "+sdr+" shaped recipe...");
+			TT.log.info("Registered "+ssr+" shapeless recipe...");
+			TT.log.info("Registered "+str+" smithingtransform recipe...");
+			TT.log.info("Registered "+smr+" smoking recipe...");
+			TT.log.info("Registered "+scr+" stonecutting recipe...");
 		}
 	}
 	
@@ -416,8 +513,40 @@ public class RecipeHandler
 			for(int i = 0; i < y.getString("Ingredient.CharacterList").length(); i++)
 			{
 				char c = y.getString("Ingredient.CharacterList").charAt(i);
-				ItemStack ing = new ItemGenerator().generateItem(null, y, "Ingredient."+String.valueOf(c), 0);
-				recipe.setIngredient(c, new RecipeChoice.ExactChoice(ing));
+				if(y.get("Ingredient."+String.valueOf(c)+".ExactChoice.0.Material") != null)
+				{
+					ArrayList<ItemStack> alis = new ArrayList<>();	
+					int ii = 0;
+					while(true)
+					{
+						if(y.get("Ingredient."+String.valueOf(c)+".ExactChoice."+ii+".Material") == null)
+						{
+							break;
+						}
+						ItemStack ing = new ItemGenerator().generateItem(null, y, "Ingredient."+String.valueOf(c)+".ExactChoice."+ii, 0);
+						if(ing != null)
+						{
+							alis.add(ing);
+						}
+						ii++;
+					}
+					recipe.setIngredient(c, new RecipeChoice.ExactChoice(alis.toArray(new ItemStack[alis.size()])));
+				} else
+				{
+					if(y.get("Ingredient."+String.valueOf(c)+".MaterialChoice") != null)
+					{
+						ArrayList<Material> alma = new ArrayList<>();
+						for(String s : y.getStringList("Ingredient."+String.valueOf(c)+".MaterialChoice"))
+						{
+							Material mat = Material.valueOf(s);
+							if(mat != null)
+							{
+								alma.add(mat);
+							}
+						}
+						recipe.setIngredient(c, new RecipeChoice.MaterialChoice(alma.toArray(new Material[alma.size()])));
+					}
+				}
 			}
 			return recipe;
 		} catch (Exception e)
@@ -447,21 +576,99 @@ public class RecipeHandler
 		}
 	}
 	
-	private static SmithingRecipe getSmithingRecipe(String key, YamlConfiguration y)
+	private static SmithingTransformRecipe getSmithingTransformRecipe(String key, YamlConfiguration y)
 	{
 		try
 		{
+			ArrayList<Material> alb = new ArrayList<>();
+			int i = 0;
+			while(true)
+			{
+				if(y.get("Base."+i) == null)
+				{
+					break;
+				}
+				alb.add(Material.valueOf(y.getString("Base."+i)));
+				i++;
+			}
+			ArrayList<Material> ala = new ArrayList<>();
+			i = 0;
+			while(true)
+			{
+				if(y.get("Addition."+i) == null)
+				{
+					break;
+				}
+				ala.add(Material.valueOf(y.getString("Addition."+i)));
+				i++;
+			}
+			ArrayList<Material> alt = new ArrayList<>();
+			i = 0;
+			while(true)
+			{
+				if(y.get("Template."+i) == null)
+				{
+					break;
+				}
+				alt.add(Material.valueOf(y.getString("Template."+i)));
+				i++;
+			}
 			ItemStack r = new ItemGenerator().generateItem(null, y, "Result", 0);
-			ItemStack base = new ItemGenerator().generateItem(null, y, "Base", 0);
-			ItemStack add = new ItemGenerator().generateItem(null, y, "Addition", 0);
-			SmithingRecipe recipe = new SmithingRecipe(new NamespacedKey(plugin, key), r,
-					new RecipeChoice.MaterialChoice(base.getType()), new RecipeChoice.MaterialChoice(add.getType()));
+			SmithingTransformRecipe recipe = new SmithingTransformRecipe(new NamespacedKey(plugin, key), r,
+					new RecipeChoice.MaterialChoice(alt.toArray(new Material[alt.size()])),
+					new RecipeChoice.MaterialChoice(alb.toArray(new Material[alb.size()])),
+					new RecipeChoice.MaterialChoice(ala.toArray(new Material[ala.size()])));
 			return recipe;
 		} catch (Exception e)
 		{
 			return null;
 		}
 	}
+	
+	/*private static SmithingTrimRecipe getSmithingTrimRecipe(String key, YamlConfiguration y)
+	{
+		try
+		{
+			ArrayList<Material> alb = new ArrayList<>();
+			int i = 0;
+			while(true)
+			{
+				if(y.get("Base."+i) == null)
+				{
+					break;
+				}
+				alb.add(Material.valueOf(y.getString("Base."+i)));
+			}
+			ArrayList<Material> ala = new ArrayList<>();
+			i = 0;
+			while(true)
+			{
+				if(y.get("Addition."+i) == null)
+				{
+					break;
+				}
+				ala.add(Material.valueOf(y.getString("Addition."+i)));
+			}
+			ArrayList<Material> alt = new ArrayList<>();
+			i = 0;
+			while(true)
+			{
+				if(y.get("Template."+i) == null)
+				{
+					break;
+				}
+				alt.add(Material.valueOf(y.getString("Template."+i)));
+			}
+			SmithingTrimRecipe recipe = new SmithingTrimRecipe(new NamespacedKey(plugin, key),
+					new RecipeChoice.MaterialChoice(alt.toArray(new Material[alt.size()])),
+					new RecipeChoice.MaterialChoice(alb.toArray(new Material[alb.size()])),
+					new RecipeChoice.MaterialChoice(ala.toArray(new Material[ala.size()])));
+			return recipe;
+		} catch (Exception e)
+		{
+			return null;
+		}
+	}*/
 	
 	private static SmokingRecipe getSmokingRecipe(String key, YamlConfiguration y)
 	{

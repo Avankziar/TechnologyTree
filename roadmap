@@ -12,7 +12,7 @@ Event für das Interagieren mit Blöcken noch rein machen. (Bspw. wenn man Holz 
 Wiki Themen
 - Dropmechanik mit Verzauberungen, Glücktrankeffekt und BonusMalus. Sowie der VanillaGrenzen, Silktouch etc.
 - Ein BeispielsYAML wie man Main/SubCategorgien und Technologien ausfüllen kann.
-
+- Warum die SmithingTrimRecipe nicht in den Rezepten inkludiert sind. (Antwort: Das sind in MC hardgecodet Rezepte)
 
 
 
@@ -246,6 +246,9 @@ RequirementToResearch:
     Lore:
     -
     -
+    ArmorMeta:
+      TrimMaterial: '' https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/inventory/meta/trim/TrimMaterial.html
+      TrimPattern: '' https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/inventory/meta/trim/TrimPattern.html
     AxolotlBucket: '' #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/inventory/meta/AxolotlBucketMeta.html
     Banner:
       - #DyeColor;PatternType https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/block/banner/Pattern.html

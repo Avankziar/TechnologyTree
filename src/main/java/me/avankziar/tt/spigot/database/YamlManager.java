@@ -23,18 +23,20 @@ import org.bukkit.inventory.RecipeChoice.ExactChoice;
 import org.bukkit.inventory.RecipeChoice.MaterialChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
-import org.bukkit.inventory.SmithingRecipe;
+import org.bukkit.inventory.SmithingTransformRecipe;
+import org.bukkit.inventory.SmithingTrimRecipe;
 import org.bukkit.inventory.SmokingRecipe;
 import org.bukkit.inventory.StonecuttingRecipe;
+import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.database.Language.ISO639_2B;
 import main.java.me.avankziar.tt.spigot.gui.objects.ClickFunctionType;
 import main.java.me.avankziar.tt.spigot.gui.objects.ClickType;
 import main.java.me.avankziar.tt.spigot.gui.objects.GuiType;
 import main.java.me.avankziar.tt.spigot.gui.objects.SettingsLevel;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
+import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
 import main.java.me.avankziar.tt.spigot.modifiervalueentry.Bypass;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
@@ -65,7 +67,8 @@ public class YamlManager
 	//private static LinkedHashMap<String, LinkedHashMap<String, Language>> merchantRecipeKeys = new LinkedHashMap<>();
 	private static LinkedHashMap<String, LinkedHashMap<String, Language>> shapedRecipeKeys = new LinkedHashMap<>();
 	private static LinkedHashMap<String, LinkedHashMap<String, Language>> shapelessRecipeKeys = new LinkedHashMap<>();
-	private static LinkedHashMap<String, LinkedHashMap<String, Language>> smithingRecipeKeys = new LinkedHashMap<>();
+	private static LinkedHashMap<String, LinkedHashMap<String, Language>> smithingTransformRecipeKeys = new LinkedHashMap<>();
+	private static LinkedHashMap<String, LinkedHashMap<String, Language>> smithingTrimRecipeKeys = new LinkedHashMap<>();
 	private static LinkedHashMap<String, LinkedHashMap<String, Language>> smokingRecipeKeys = new LinkedHashMap<>();
 	private static LinkedHashMap<String, LinkedHashMap<String, Language>> stonecuttingRecipeKeys = new LinkedHashMap<>();
 	
@@ -171,9 +174,14 @@ public class YamlManager
 		return shapelessRecipeKeys;
 	}
 	
-	public LinkedHashMap<String, LinkedHashMap<String, Language>> getSmithingRecipeKey()
+	public LinkedHashMap<String, LinkedHashMap<String, Language>> getSmithingTransformRecipeKey()
 	{
-		return smithingRecipeKeys;
+		return smithingTransformRecipeKeys;
+	}
+	
+	public LinkedHashMap<String, LinkedHashMap<String, Language>> getSmithingTrimRecipeKey()
+	{
+		return smithingTrimRecipeKeys;
 	}
 	
 	public LinkedHashMap<String, LinkedHashMap<String, Language>> getSmokingRecipeKey()
@@ -2839,6 +2847,7 @@ public class YamlManager
 				furnaceRecipeKeys.put(onekey, one);
 		    } else if(r instanceof MerchantRecipe) //https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/inventory/MerchantRecipe.html
 		    {
+		    	RecipeHandler.toSaveRecipe.add(r);
 		    	/*MerchantRecipe a = (MerchantRecipe) r;
 		    	String onekey = "m"+m;
 		    	LinkedHashMap<String, Language> one = new LinkedHashMap<>();
@@ -2951,43 +2960,58 @@ public class YamlManager
 		    		ItemStack is = null;
 		    		if(entry.getValue() instanceof RecipeChoice.ExactChoice)
 		    		{
+		    			path = path + "ExactChoice.";
 		    			RecipeChoice.ExactChoice rcec = (ExactChoice) entry.getValue();
-		    			is = rcec.getItemStack();
+		    			if(rcec != null)
+		    			{
+		    				for(int i = 0; i < rcec.getChoices().size(); i++)
+		    				{
+		    					ItemStack iss = rcec.getChoices().get(i);
+		    					if(iss == null)
+			    				{
+		    						is = new ItemStack(Material.AIR, 1);
+			    				}
+		    					one.put(path+i+".Material",
+										new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+												is.getType().toString()}));
+		    					if(a.getResult().hasItemMeta())
+						    	{
+						    		ItemMeta im = is.getItemMeta();
+						    		if(im.hasCustomModelData())
+						    		{
+						    			one.put(path+i+".CustomModelData",
+												new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+														im.getCustomModelData()}));
+						    		}
+							    	if(im.hasDisplayName())
+							    	{
+							    		one.put(path+i+".Displayname",
+												new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+														im.getDisplayName()}));
+							    	}
+						    	}
+		    				}
+		    			}
 		    		} else
 		    		{
 		    			RecipeChoice.MaterialChoice rcmc = (MaterialChoice) entry.getValue();
-		    			if(rcmc != null && rcmc.getItemStack() != null)
+		    			if(rcmc != null)
 		    			{
-		    				is = rcmc.getItemStack();
-		    			} else
-		    			{
-		    				is = new ItemStack(Material.AIR, 1); //TODO Hier auch die Choiceliste beachten siehe Noteblock, da man mehrere Hölzer nehemen kann.
+		    				ArrayList<String> als = new ArrayList<>();
+		    				for(Material mat : rcmc.getChoices())
+		    				{
+		    					if(mat == null)
+		    					{
+		    						als.add(Material.AIR.toString());
+		    					} else
+		    					{
+		    						als.add(mat.toString());
+		    					}
+		    				}
+		    				one.put(path+"MaterialChoice",
+									new Language(new ISO639_2B[] {ISO639_2B.GER}, 
+											als.toArray(new String[als.size()])));
 		    			}
-		    		}
-		    		if(is != null)
-		    		{
-		    			one.put(path+"Material",
-								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-										is.getType().toString()}));
-				    	one.put(path+"Amount",
-								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-										is.getAmount()}));
-				    	if(a.getResult().hasItemMeta())
-				    	{
-				    		ItemMeta im = is.getItemMeta();
-				    		if(im.hasCustomModelData())
-				    		{
-				    			one.put(path+"CustomModelData",
-										new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-												im.getCustomModelData()}));
-				    		}
-					    	if(im.hasDisplayName())
-					    	{
-					    		one.put(path+"Displayname",
-										new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-												im.getDisplayName()}));
-					    	}
-				    	}
 		    		}
 		    	}
 		    	one.put("Ingredient.CharacterList",
@@ -3086,13 +3110,90 @@ public class YamlManager
 			    	}
 		    	}
 		    	shapelessRecipeKeys.put(onekey, one);
-		    } else if(r instanceof SmithingRecipe)
+		    } else if(r instanceof SmithingTransformRecipe)
 		    {
-		    	SmithingRecipe a = (SmithingRecipe) r;
+		    	SmithingTransformRecipe a = (SmithingTransformRecipe) r;
 		    	String onekey = a.getKey().getKey();
 		    	LinkedHashMap<String, Language> one = new LinkedHashMap<>();
 		    	String path = "Base.";
-		    	RecipeChoice.MaterialChoice rcecb = (MaterialChoice) a.getBase(); //TODO Checken ob das Fehler verursacht
+		    	RecipeChoice.MaterialChoice rcecb = (MaterialChoice) a.getBase();
+		    	ArrayList<String> alb = new ArrayList<>();
+		    	int i = 0;
+		    	for(Material mat : rcecb.getChoices())
+		    	{
+		    		alb.add(mat.toString());
+		    	}
+		    	one.put(path+i,
+						new Language(new ISO639_2B[] {ISO639_2B.GER},
+								alb.toArray(new String[alb.size()])));
+		    	path = "Addition.";
+		    	ArrayList<String> ala = new ArrayList<>();
+		    	i = 0;
+		    	RecipeChoice.MaterialChoice rceca = (MaterialChoice) a.getAddition();
+		    	for(Material mat : rceca.getChoices())
+		    	{
+		    		ala.add(mat.toString());
+		    	}
+		    	one.put(path+i,
+						new Language(new ISO639_2B[] {ISO639_2B.GER},
+								ala.toArray(new String[ala.size()])));
+		    	path = "Template.";
+		    	ArrayList<String> alt = new ArrayList<>();
+		    	i = 0;
+		    	RecipeChoice.MaterialChoice rcect = (MaterialChoice) a.getAddition();
+		    	for(Material mat : rcect.getChoices())
+		    	{
+		    		alt.add(mat.toString());
+		    	}
+		    	one.put(path+i,
+						new Language(new ISO639_2B[] {ISO639_2B.GER},
+								alt.toArray(new String[alt.size()])));
+		    	path = "Result.";
+		    	one.put(path+"Material",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getResult().getType().toString()}));
+		    	one.put(path+"Amount",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								a.getResult().getAmount()}));
+		    	if(a.getResult().hasItemMeta())
+		    	{
+		    		ItemMeta im = a.getResult().getItemMeta();
+		    		if(im.hasCustomModelData())
+		    		{
+		    			one.put(path+"CustomModelData",
+								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+										im.getCustomModelData()}));
+		    		}
+			    	if(im.hasDisplayName())
+			    	{
+			    		one.put(path+"Displayname",
+								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+										im.getDisplayName()}));
+			    	}
+			    	if(im instanceof ArmorMeta)
+			    	{
+			    		ArmorMeta am = (ArmorMeta) im;
+			    		if(am.hasTrim())
+			    		{
+			    			one.put(path+"ArmorMeta.TrimMaterial",
+									new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+											am.getTrim().getMaterial().getKey().getKey()}));
+				    		one.put(path+"ArmorMeta.TrimPattern",
+									new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+											am.getTrim().getPattern().getKey().getKey()}));
+			    		}
+			    	}
+		    	}
+				smithingTransformRecipeKeys.put(onekey, one);
+		    } else if(r instanceof SmithingTrimRecipe)
+		    {
+		    	RecipeHandler.toSaveRecipe.add(r);
+		    	//Diese Rezepte sind für die Config nicht wirklich machbar.
+		    	/*SmithingTrimRecipe a = (SmithingTrimRecipe) r;
+		    	String onekey = a.getKey().getKey();
+		    	LinkedHashMap<String, Language> one = new LinkedHashMap<>();
+		    	String path = "Base.";
+		    	RecipeChoice.MaterialChoice rcecb = (MaterialChoice) a.getBase();
 		    	one.put(path+"Material",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 								rcecb.getItemStack().getType().toString()}));
@@ -3139,30 +3240,7 @@ public class YamlManager
 										im.getDisplayName()}));
 			    	}
 		    	}
-		    	path = "Result.";
-		    	one.put(path+"Material",
-						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-								a.getResult().getType().toString()}));
-		    	one.put(path+"Amount",
-						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-								a.getResult().getAmount()}));
-		    	if(a.getResult().hasItemMeta())
-		    	{
-		    		ItemMeta im = a.getResult().getItemMeta();
-		    		if(im.hasCustomModelData())
-		    		{
-		    			one.put(path+"CustomModelData",
-								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-										im.getCustomModelData()}));
-		    		}
-			    	if(im.hasDisplayName())
-			    	{
-			    		one.put(path+"Displayname",
-								new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-										im.getDisplayName()}));
-			    	}
-		    	}
-				smithingRecipeKeys.put(onekey, one);
+				smithingTrimRecipeKeys.put(onekey, one);
 		    } else if(r instanceof SmokingRecipe)
 		    {
 		    	SmokingRecipe a = (SmokingRecipe) r;
@@ -3206,7 +3284,7 @@ public class YamlManager
 										im.getDisplayName()}));
 			    	}
 		    	}
-				smokingRecipeKeys.put(onekey, one);
+				smokingRecipeKeys.put(onekey, one);*/
 		    } else if(r instanceof StonecuttingRecipe)
 		    {
 		    	StonecuttingRecipe a = (StonecuttingRecipe) r;

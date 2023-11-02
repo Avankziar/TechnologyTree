@@ -46,7 +46,8 @@ public class YamlHandler
 	private LinkedHashMap<String, YamlConfiguration> furnaceRecipe = new LinkedHashMap<>();
 	private LinkedHashMap<String, YamlConfiguration> shapedRecipe = new LinkedHashMap<>();
 	private LinkedHashMap<String, YamlConfiguration> shapelessRecipe = new LinkedHashMap<>();
-	private LinkedHashMap<String, YamlConfiguration> smithingRecipe = new LinkedHashMap<>();
+	private LinkedHashMap<String, YamlConfiguration> smithingTransformRecipe = new LinkedHashMap<>();
+	private LinkedHashMap<String, YamlConfiguration> smithingTrimRecipe = new LinkedHashMap<>();
 	private LinkedHashMap<String, YamlConfiguration> smokingRecipe = new LinkedHashMap<>();
 	private LinkedHashMap<String, YamlConfiguration> stonecuttingRecipe = new LinkedHashMap<>();
 
@@ -126,9 +127,14 @@ public class YamlHandler
 		return shapelessRecipe;
 	}
 	
-	public LinkedHashMap<String, YamlConfiguration> getSmithingRecipe()
+	public LinkedHashMap<String, YamlConfiguration> getSmithingTransformRecipe()
 	{
-		return smithingRecipe;
+		return smithingTransformRecipe;
+	}
+	
+	public LinkedHashMap<String, YamlConfiguration> getSmithingTrimRecipe()
+	{
+		return smithingTrimRecipe;
 	}
 	
 	public LinkedHashMap<String, YamlConfiguration> getSmokingRecipe()
@@ -543,7 +549,8 @@ public class YamlHandler
 		File furnace = new File(plugin.getDataFolder()+"/Recipe/Furnace/");
 		File shaped = new File(plugin.getDataFolder()+"/Recipe/Shaped/");
 		File shapeless = new File(plugin.getDataFolder()+"/Recipe/Shapeless/");
-		File smithing = new File(plugin.getDataFolder()+"/Recipe/Smithing/");
+		File smithingTransform = new File(plugin.getDataFolder()+"/Recipe/SmithingTransform/");
+		//File smithingTrim = new File(plugin.getDataFolder()+"/Recipe/SmithingTrim/");
 		File smoking = new File(plugin.getDataFolder()+"/Recipe/Smoking/");
 		File stonecutting = new File(plugin.getDataFolder()+"/Recipe/Stonecutting/");
 		if(!blasting.exists())
@@ -606,18 +613,30 @@ public class YamlHandler
 		{
 			onlyLoadMap(shapeless, getShapelessRecipe());
 		}
-		if(!smithing.exists())
+		if(!smithingTransform.exists())
 		{
-			smithing.mkdir();
-			if(!createAndLoadMap(smithing,
-					plugin.getYamlManager().getSmithingRecipeKey(), getSmithingRecipe()))
+			smithingTransform.mkdir();
+			if(!createAndLoadMap(smithingTransform,
+					plugin.getYamlManager().getSmithingTransformRecipeKey(), getSmithingTransformRecipe()))
 			{
 				return false;
 			}
 		} else
 		{
-			onlyLoadMap(smithing, getSmithingRecipe());
+			onlyLoadMap(smithingTransform, getSmithingTrimRecipe());
 		}
+		/*if(!smithingTrim.exists())
+		{
+			smithingTrim.mkdir();
+			if(!createAndLoadMap(smithingTrim,
+					plugin.getYamlManager().getSmithingTrimRecipeKey(), getSmithingTrimRecipe()))
+			{
+				return false;
+			}
+		} else
+		{
+			onlyLoadMap(smithingTrim, getSmithingTrimRecipe());
+		}*/
 		if(!smoking.exists())
 		{
 			smoking.mkdirs();

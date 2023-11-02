@@ -120,6 +120,7 @@ public class TT extends JavaPlugin
 		setupIFHAdministration();
 		
 		yamlHandler = new YamlHandler(this);
+		RecipeHandler.init(); //REMOVEME Testweise hier in dieser Zeile eingesetzt.
 		
 		/*String path = plugin.getYamlHandler().getConfig().getString("IFHAdministrationPath");
 		boolean adm = plugin.getAdministration() != null 

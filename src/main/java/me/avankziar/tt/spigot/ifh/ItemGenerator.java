@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.TropicalFish;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.AxolotlBucketMeta;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.BookMeta;
@@ -29,6 +30,9 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.Repairable;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.inventory.meta.TropicalFishBucketMeta;
+import org.bukkit.inventory.meta.trim.ArmorTrim;
+import org.bukkit.inventory.meta.trim.TrimMaterial;
+import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -154,6 +158,22 @@ public class ItemGenerator
 				lore.add(st);
 			}
 			im.setLore(lore);
+		}
+		if(y.get(parentPath+".ArmorMeta.TrimMaterial") != null 
+				&& y.get(parentPath+".ArmorMeta.TrimPattern") != null 
+				&& im instanceof ArmorMeta)
+		{
+			ArmorMeta ima = (ArmorMeta) im;
+			try
+			{
+				ima.setTrim(new ArmorTrim(getTrimMaterial(y.getString(parentPath+".ArmorMeta.TrimMaterial")),
+						getTrimPattern(y.getString(parentPath+".ArmorMeta.TrimPattern"))));
+			} catch(Exception e)
+			{
+				ima.setTrim(new ArmorTrim(TrimMaterial.IRON, TrimPattern.WILD));
+			}
+			is.setItemMeta(ima);
+			im = is.getItemMeta();
 		}
 		if(y.get(parentPath+".AxolotlBucket") != null && im instanceof AxolotlBucketMeta)
 		{
@@ -477,5 +497,73 @@ public class ItemGenerator
 			break;
 		}
 		return damage;
+	}
+	
+	public TrimMaterial getTrimMaterial(String s)
+	{
+		switch(s)
+		{
+		default:
+			return TrimMaterial.IRON;
+		case "AMETHYST":
+			return TrimMaterial.AMETHYST;
+		case "COPPER":
+			return TrimMaterial.COPPER;
+		case "DIAMOND":
+			return TrimMaterial.DIAMOND;
+		case "EMERALD":
+			return TrimMaterial.EMERALD;
+		case "GOLD":
+			return TrimMaterial.GOLD;
+		case "IRON":
+			return TrimMaterial.IRON;
+		case "LAPIS":
+			return TrimMaterial.LAPIS;
+		case "NETHERITE":
+			return TrimMaterial.NETHERITE;
+		case "QUARTZ":
+			return TrimMaterial.QUARTZ;
+		case "REDSTONE":
+			return TrimMaterial.REDSTONE;
+		}
+	}
+	
+	public TrimPattern getTrimPattern(String s)
+	{
+		switch(s)
+		{
+		default:
+			return TrimPattern.WILD;
+		case "COAST":
+			return TrimPattern.COAST;
+		case "DUNE":
+			return TrimPattern.DUNE;
+		case "EYE":
+			return TrimPattern.EYE;
+		case "HOST":
+			return TrimPattern.HOST;
+		case "RAISER":
+			return TrimPattern.RAISER;
+		case "RIB":
+			return TrimPattern.RIB;
+		case "SENTRY":
+			return TrimPattern.SENTRY;
+		case "SHAPER":
+			return TrimPattern.SHAPER;
+		case "SILENCE":
+			return TrimPattern.SILENCE;
+		case "SNOUT":
+			return TrimPattern.SNOUT;
+		case "SPIRE":
+			return TrimPattern.SPIRE;
+		case "TIDE":
+			return TrimPattern.TIDE;
+		case "VEX":
+			return TrimPattern.VEX;
+		case "WARD":
+			return TrimPattern.WARD;
+		case "WILD":
+			return TrimPattern.WILD;
+		}
 	}
 }
