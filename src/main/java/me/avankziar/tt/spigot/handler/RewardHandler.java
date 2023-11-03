@@ -507,32 +507,40 @@ public class RewardHandler
 	private static double getChance(double c, int fortunelootlevel, int potionlucklevel)
 	{
 		double chance = c;
+		double fll = 0;
+		double pll = 0;
 		if(fortunelootlevel > 0 && potionlucklevel > 0)
 		{
-			chance = chance 
-					* (1.0/((double)fortunelootlevel+2.0)+((double)fortunelootlevel+1.0)/2.0)
-					* (1.0/((double)potionlucklevel+2.0) +((double)potionlucklevel*2)/2.0); // 2/2, ist nur zur veranschaulichung
+			fll = (1 / (1.0/((double)fortunelootlevel+2.0)+((double)fortunelootlevel+1.0)/2.0));
+			pll = (1 / (1.0/((double)potionlucklevel+2.0) +((double)potionlucklevel+1.0)/2.0));
+			chance = chance * (1 + (fll + pll));
+			System.out.println("fll = " + fll + " | pll = " + pll + " >>> 1 + (fll + pll) = " + (1 + (fll + pll)));
 		} else if(fortunelootlevel > 0)
 		{
-			chance = chance * (1.0/((double)fortunelootlevel+2.0)+((double)fortunelootlevel+1.0)/2.0);
+			fll = (1.0/((double)fortunelootlevel+2.0)+((double)fortunelootlevel+1.0)/2.0);
+			chance = chance * (1 + (1 / fll));
+			System.out.println("fll = " + fll + " >>> (1 + (1 / fll) = " + ((1 + (1 / fll))));
 		} else if(potionlucklevel > 0)
 		{
-			chance = chance * (1.0/((double)potionlucklevel+2.0)+((double)potionlucklevel*2)/2.0);
+			pll = (1.0/((double)potionlucklevel+2.0) +((double)potionlucklevel+1.0)/2.0);
+			chance = chance * (1 + (1 / pll));
+			System.out.println("pll = " + pll + " >>> (0.42 + (1 / fll) = " + ((1 + (1 / pll))));
 		}
+		
 		return chance;
 	}
 	
-	public static void main(String[] args) //Versuch einer Rechnung um ein Stetigs Dropwachstum zu berechnen
+	public static void main(String[] args) //TestVersuch (in Eclipse) einer Rechnung um ein Stetigs Dropwachstum zu berechnen
     {
-		//boolean breakingThroughVanillaDropBarrier = true;
-		int fortunelootlevel = 0;
+		boolean breakingThroughVanillaDropBarrier = true;
+		int fortunelootlevel = 3;
 		int potionlucklevel = 1;
 		/*double lostExtraPercent = 0.25;
 		if(fortunelootlevel > 0 && potionlucklevel > 0)
 		{
 			lostExtraPercent = 0.25
-					* (1.0/((double)fortunelootlevel+2.0)+((double)fortunelootlevel+1.0)/2.0)
-					* (1.0/((double)potionlucklevel+2.0) +((double)potionlucklevel*2)/2.0); // 2/2, ist nur zur veranschaulichung
+					* ( (1.0/((double)fortunelootlevel+2.0) ) + ( ((double)fortunelootlevel+1.0)/2.0) )
+					* ( (1.0/((double)potionlucklevel+2.0) )  + ( ((double)potionlucklevel+1.0)/2.0) ); 
 		} else if(fortunelootlevel > 0)
 		{
 			lostExtraPercent = 0.25 * (1.0/((double)fortunelootlevel+2.0)+((double)fortunelootlevel+1.0)/2.0);
@@ -552,29 +560,28 @@ public class RewardHandler
 	    	    .sorted(Entry.comparingByKey())
 	    	    .collect(Collectors.toMap(Entry::getKey, Entry::getValue,
 	    	                              (e1, e2) -> e1, LinkedHashMap::new));
-		//int j = 0;
-		//int k = sortedMap.entrySet().size();
+		int j = 0;
+		int k = sortedMap.entrySet().size();
 		for(Entry<Integer, Double> e : sortedMap.entrySet())
 		{
-			double chance = getChance(e.getValue(), fortunelootlevel, potionlucklevel);
-			//j++;
+			double chance = getChance(e.getValue(), fortunelootlevel, potionlucklevel)-j*0.125;
 			double r = new Random().nextDouble();
+			j++;
 			System.out.println("NR: i = " + (i+1) + " | " + chance + " > " + r + " = " + (chance > r));
-			if(chance >= 1.0 || r < chance)
+			if(r < chance)
 			{
 				i = e.getKey();
 			} else
 			{
 				break;
 			}
-			/*if(j == k && i == e.getKey() && breakingThroughVanillaDropBarrier)
+			if(j == k && i == e.getKey() && !breakingThroughVanillaDropBarrier)
 			{
 				//Ende der Map, maximal erreichte Dropzahl. Weiterführung in einer Schleife zur Erhöhung der Dropzahl, solange der Spieler glück hat
-				int l = 1;
 				double groundchance = chance - chance * 0.25;
 				while(true)
 				{
-					groundchance = groundchance - groundchance * lostExtraPercent;
+					groundchance = groundchance - groundchance; // * lostExtraPercent;
 					double newchance = getChance(groundchance, fortunelootlevel, potionlucklevel);
 					System.out.println("LOOP: i = " + (i+1) + " | chance = " + chance + " | gc = "+groundchance);
 					if(newchance >= 1.0 || new Random().nextDouble() < newchance)
@@ -584,14 +591,13 @@ public class RewardHandler
 					{
 						break;
 					}
-					if(i >= 100) 
+					if(i >= 10) 
 					{
 						break;
 					}
 				}
-			}*/
+			}
 		}
-        
     }
 	
 	private static int getVanillaDropBarrier(Material material, int i)

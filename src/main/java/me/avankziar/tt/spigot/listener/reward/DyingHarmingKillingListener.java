@@ -20,7 +20,7 @@ import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 
-public class DeathHarmKillListener implements Listener
+public class DyingHarmingKillingListener implements Listener
 {
 	private static LinkedHashMap<UUID, LinkedHashMap<UUID, Double>> damageMap = new LinkedHashMap<>();
 	final private static EventType HA = EventType.HARMING;

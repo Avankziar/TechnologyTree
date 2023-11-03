@@ -17,7 +17,8 @@ public class PrepareAnvilListener implements Listener
 	@EventHandler
 	public void onPrepareAnvil(PrepareAnvilEvent event)
 	{
-		if(!EnumHandler.isEventActive(EventType.COLD_FORGING))
+		if(!EnumHandler.isEventActive(EventType.COLD_FORGING)
+				|| event.getResult() == null)
 		{
 			return;
 		}

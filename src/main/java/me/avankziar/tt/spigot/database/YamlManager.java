@@ -2412,7 +2412,7 @@ public class YamlManager
 		//woodentools
 		addTechnology(
 				"woodenpickaxe", new String[] {"Holzspitzhacke", "Woodenpickaxe"},
-				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 0, "", "woodentools", 
+				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 1, "", "woodentools", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				new String[] { //ConditionToSee
 						"if:(a):o_1",
@@ -2423,27 +2423,31 @@ public class YamlManager
 						"&eKosten:",
 						"&f%costttexp% | %costvanillaexp%",
 						"&f%costmoney% Geld",
-						"&f64x Kohle, 64x Bruchstein",
+						"&f16x Eichenbretter, 16x Birkenbretter",
 						"&eSchaltet folgendes frei:",
 						"&fHerstellung von Holzspitzhacke",
 						"&7Technology Woodenpickaxe",
 						"&eCosts:",
 						"&f%costttexp% | %costvanillaexp%",
 						"&f%costmoney% Money",
-						"&f64x Cobblestone, 16x Dirt",
+						"&f16x Oakplanks, 16x Birchplanks",
 						"&eUnlocks the following:",
 						"&fCrafting of Woodenpickaxe"},
 				new String[] {"&7Holzspitzhacke","&7Woodenpickaxe"}, Material.WOODEN_PICKAXE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Erde",
-						"&aStarttechnologie, welche du immer zu Anfang",
-						"&afreigeschaltet hast!",
+						"&7Technologie Holzspitzhacke",
+						"&eKosten:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Geld",
+						"&f16x Eichenbretter, 16x Birkenbretter",
 						"&eSchaltet folgendes frei:",
-						"&fAbbau von Erde/Grass/Sand/Kies",
-						"&7Technology Dirt",
-						"&aStart technology, which you always",
-						"&aunlocked at the beginning!",
+						"&fHerstellung von Holzspitzhacke",
+						"&7Technology Woodenpickaxe",
+						"&eCosts:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Money",
+						"&f16x Oakplanks, 16x Birchplanks",
 						"&eUnlocks the following:",
-						"&fMining of dirt/grassblock/sand/gravel"},
+						"&fCrafting of Woodenpickaxe"},
 				new String[] { //ConditionToResearch
 						"if:(a):o_1",
 						"output:o_1:true",
@@ -2452,40 +2456,36 @@ public class YamlManager
 				"10 * totalsolotech", //VanillaExp
 				"100 * totalsolotech", //money
 				new String[] {//CostMaterial
-						"DIRT;1",
-						"SAND;1"},
+						"OAK_PLANKS;16",
+						"BIRCH_PLANKS;16"},
 				new String[] {"&7Holzspitzhacke","&7Woodenpickaxe"}, Material.WOODEN_PICKAXE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Erde",
-						"&aStarttechnologie, welche du immer zu Anfang",
-						"&afreigeschaltet hast!",
+						"&7Technologie Holzspitzhacke",
+						"&eKosten:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Geld",
+						"&f16x Eichenbretter, 16x Birkenbretter",
 						"&eSchaltet folgendes frei:",
-						"&fAbbau von Erde/Grass/Sand/Kies",
-						"&7Technology Dirt",
-						"&aStart technology, which you always",
-						"&aunlocked at the beginning!",
+						"&fHerstellung von Holzspitzhacke",
+						"&7Technology Woodenpickaxe",
+						"&eCosts:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Money",
+						"&f16x Oakplanks, 16x Birchplanks",
 						"&eUnlocks the following:",
-						"&fMining of dirt/grassblock/sand/gravel"},
+						"&fCrafting of Woodenpickaxe"},
 				new String[] {"&bHolzspitzhacke","&bWoodenpickaxe"}, Material.WOODEN_PICKAXE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Erde",
-						"&aStarttechnologie, welche du immer zu Anfang",
-						"&afreigeschaltet hast!",
+						"&7Technologie Holzspitzhacke",
 						"&eSchaltet folgendes frei:",
-						"&fAbbau von Erde/Grass/Sand/Kies",
-						"&7Technology Dirt",
-						"&aStart technology, which you always",
-						"&aunlocked at the beginning!",
+						"&fHerstellung von Holzspitzhacke",
+						"&7Technology Woodenpickaxe",
 						"&eUnlocks the following:",
-						"&fMining of dirt/grassblock/sand/gravel"},
-				new String[] { //Interaction
-						"BREAKING:DIRT:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:GRASS_BLOCK:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:SAND:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:GRAVEL:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1"},
+						"&fCrafting of Woodenpickaxe"},
+				null,
 				new String[] {//Recipes
-						"",
+						"SHAPED:wooden_pickaxe",
 						""},
 				new String[] {//DropChance
-						"BREAKING:DIRT:null:mat=DIRT:1:1.0",
+						"BREAKING:STICK:null:mat=DIRT:1:1.0",
 						"BREAKING:GRASS_BLOCK:null:mat=DIRT:1:1.0",
 						"BREAKING:SAND:null:mat=SAND:1:1.0",
 						"BREAKING:GRAVEL:null:mat=GRAVEL:1:0.75",
@@ -2709,7 +2709,6 @@ public class YamlManager
 	
 	public void initRecipe()//INFO:Recipe
 	{
-		//int m = 0;
 		for(Iterator<Recipe> iterator = Bukkit.recipeIterator(); iterator.hasNext();) 
 		{
 		    Recipe r = iterator.next();
@@ -3240,7 +3239,7 @@ public class YamlManager
 										im.getDisplayName()}));
 			    	}
 		    	}
-				smithingTrimRecipeKeys.put(onekey, one);
+				smithingTrimRecipeKeys.put(onekey, one);*/
 		    } else if(r instanceof SmokingRecipe)
 		    {
 		    	SmokingRecipe a = (SmokingRecipe) r;
@@ -3284,7 +3283,7 @@ public class YamlManager
 										im.getDisplayName()}));
 			    	}
 		    	}
-				smokingRecipeKeys.put(onekey, one);*/
+				smokingRecipeKeys.put(onekey, one);
 		    } else if(r instanceof StonecuttingRecipe)
 		    {
 		    	StonecuttingRecipe a = (StonecuttingRecipe) r;
@@ -3320,7 +3319,15 @@ public class YamlManager
 			    	}
 		    	}
 				stonecuttingRecipeKeys.put(onekey, one);
+		    } else
+		    {
+		    	RecipeHandler.toSaveRecipe.add(r);
 		    }
+		    /* else if(r instanceof CraftComplexRecipe)
+		    {
+		    	CraftComplexRecipe ccr = (CraftComplexRecipe) r;
+		    	TT.log.info("Cannot be define: "+ccr.getKey().getKey());
+		    }*/
 		}
 	}
 }

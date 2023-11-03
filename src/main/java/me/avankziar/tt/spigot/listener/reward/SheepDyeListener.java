@@ -21,9 +21,11 @@ public class SheepDyeListener implements Listener
 	{
 		if(event.isCancelled()
 				|| event.getPlayer() == null
+				|| event.getEntity() == null
 				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
 				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
-				|| !EnumHandler.isEventActive(SD))
+				|| !EnumHandler.isEventActive(SD)
+				|| event.getEntity().getColor() == event.getColor())
 		{
 			return;
 		}

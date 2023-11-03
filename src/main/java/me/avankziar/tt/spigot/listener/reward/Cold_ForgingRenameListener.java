@@ -24,13 +24,14 @@ public class Cold_ForgingRenameListener implements Listener
 	public void onAnvil(InventoryClickEvent event)
 	{
 		if(event.isCancelled()
+				|| !(event.getClickedInventory() instanceof AnvilInventory)
+				|| event.getClickedInventory() == null
+				|| event.getClickedInventory().getType() != InventoryType.ANVIL
+				|| event.getSlotType() != SlotType.RESULT
 				|| !(event.getWhoClicked() instanceof Player)
 				|| event.getWhoClicked().getGameMode() == GameMode.CREATIVE
 				|| event.getWhoClicked().getGameMode() == GameMode.SPECTATOR
-				|| event.getClickedInventory() == null
-				|| event.getSlotType() != SlotType.RESULT
-				|| event.getClickedInventory().getType() != InventoryType.ANVIL
-				|| !(event.getClickedInventory() instanceof AnvilInventory))
+				)
 		{
 			return;
 		}

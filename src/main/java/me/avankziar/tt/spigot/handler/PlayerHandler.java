@@ -1345,7 +1345,7 @@ public class PlayerHandler
 		}
 		for(String k : key)
 		{
-			if(rrip <= 0)
+			if(rrip <= 0 || k.isBlank() || k.isEmpty())
 			{
 				break;
 			}

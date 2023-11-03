@@ -24,7 +24,7 @@ import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 
-public class ExplodeListener implements Listener
+public class ExplodeIgnitingListener implements Listener
 {
 	private static LinkedHashMap<UUID, String> ignitingMap = new LinkedHashMap<>();
 	final private static EventType IG = EventType.IGNITING;

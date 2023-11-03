@@ -1,7 +1,6 @@
 package main.java.me.avankziar.tt.spigot.handler;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
@@ -20,7 +19,6 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
-import org.bukkit.inventory.SmithingRecipe;
 import org.bukkit.inventory.SmithingTransformRecipe;
 import org.bukkit.inventory.SmokingRecipe;
 import org.bukkit.inventory.StonecuttingRecipe;
@@ -37,7 +35,9 @@ public class RecipeHandler
 	public enum RecipeType
 	{
 		BLASTING, CAMPFIRE, FURNACE, SHAPED, SHAPELESS, SMITHING, SMOKING, STONECUTTING, //Real Recipe
-		ANVIL, BREWING, ENCHANTING, GRINDING; //Added Recipes
+		ANVIL, BREWING, ENCHANTING, GRINDING,//Added not in MC Recipes
+		UNDEFINE //All real Recipe which are SmithingTrimRecipe or CraftComplexRecipe, which cannot be converted in files
+		;
 	}
 	
 	private static TT plugin = BaseConstructor.getPlugin();
@@ -544,6 +544,10 @@ public class RecipeHandler
 								alma.add(mat);
 							}
 						}
+						if(alma.isEmpty())
+						{
+							alma.add(Material.valueOf(y.getString("Ingredient."+String.valueOf(c)+".MaterialChoice")));
+						}
 						recipe.setIngredient(c, new RecipeChoice.MaterialChoice(alma.toArray(new Material[alma.size()])));
 					}
 				}
@@ -551,6 +555,8 @@ public class RecipeHandler
 			return recipe;
 		} catch (Exception e)
 		{
+			TT.log.info("Shaped Recipe "+key+ " failed");
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -713,7 +719,7 @@ public class RecipeHandler
 	    {
 	    	BlastingRecipe a = (BlastingRecipe) r;
 	    	return hasAccessToRecipe(uuid, RecipeType.BLASTING, a.getKey().getKey());
-	    }  else if(r instanceof CampfireRecipe)
+	    } else if(r instanceof CampfireRecipe)
 	    {
 	    	CampfireRecipe a = (CampfireRecipe) r;
 	    	return hasAccessToRecipe(uuid, RecipeType.CAMPFIRE, a.getKey().getKey());
@@ -733,9 +739,9 @@ public class RecipeHandler
 	    {
 	    	ShapelessRecipe a = (ShapelessRecipe) r;
 	    	return hasAccessToRecipe(uuid, RecipeType.SHAPELESS, a.getKey().getKey());
-	    } else if(r instanceof SmithingRecipe)
+	    } else if(r instanceof SmithingTransformRecipe)
 	    {
-	    	SmithingRecipe a = (SmithingRecipe) r;
+	    	SmithingTransformRecipe a = (SmithingTransformRecipe) r;
 	    	return hasAccessToRecipe(uuid, RecipeType.SMITHING, a.getKey().getKey());
 	    } else if(r instanceof SmokingRecipe)
 	    {
@@ -745,6 +751,9 @@ public class RecipeHandler
 	    {
 	    	StonecuttingRecipe a = (StonecuttingRecipe) r;
 	    	return hasAccessToRecipe(uuid, RecipeType.STONECUTTING, a.getKey().getKey());
+	    } else
+	    {
+	    	return true;
 	    }
 		return haveAllRecipeUnlocked;
 	}

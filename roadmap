@@ -14,6 +14,28 @@ Wiki Themen
 - Ein BeispielsYAML wie man Main/SubCategorgien und Technologien ausfüllen kann.
 - Warum die SmithingTrimRecipe nicht in den Rezepten inkludiert sind. (Antwort: Das sind in MC hardgecodet Rezepte)
 
+Items welche als CraftComplexRecipe registriert sind, welche aber nicht manipuliert werden können.
+Testen ob man trotzdem craften kann und ob man Belohungen erhält.
+[16:30:19 INFO]: [TT] Cannot be define: suspicious_stew
+[16:30:19 INFO]: [TT] Cannot be define: firework_star
+[16:30:19 INFO]: [TT] Cannot be define: book_cloning
+[16:30:19 INFO]: [TT] Cannot be define: banner_duplicate
+[16:30:19 INFO]: [TT] Cannot be define: firework_star_fade
+[16:30:19 INFO]: [TT] Cannot be define: shield_decoration
+[16:30:19 INFO]: [TT] Cannot be define: tipped_arrow
+[16:30:19 INFO]: [TT] Cannot be define: firework_rocket
+[16:30:19 INFO]: [TT] Cannot be define: armor_dye
+[16:30:19 INFO]: [TT] Cannot be define: map_cloning
+[16:30:19 INFO]: [TT] Cannot be define: decorated_pot
+[16:30:19 INFO]: [TT] Cannot be define: repair_item
+[16:30:19 INFO]: [TT] Cannot be define: shulker_box_coloring
+
+Beim CraftingEvent kann es sein, dass bei Reperaturen es nicht korrekt verarbeitet wird.
+
+Eventuell durch das CreatureSpawnEvent für Spawner und Spawn_EGG Metadaten ins Entity setzten, damit das aus der TötungBelohung nicht
+berücksichtig wird.
+	event.getEntity().setMetadata("IS_...", new FixedMetadataValue(plugin, true));
+
 
 
 Aufbau von Techkategorien(Gelten als Haupkategorie, wenn sie im Ordner Hauptcategory, im Ordner Subkategorien):
@@ -282,7 +304,7 @@ Rewards:
   #TTExp = 0.5, Money Vault = 1.0, VanillaExp = 20, customcmd = 1.0 (Mit %value% und %player% replacer als consolecommand
   - block_break:DIRT:null:canAccess=true:ttexp=0.5:vault=1.0:vaexp=20:cmd=spigot:give %value %DIAMOND %player%=1.0 
   UnlockableRecipe:
-  - BLASTING:<Filename> //RecipeType, und der Filename des Rezeptes
+  - BLASTING:<Name> //RecipeType, und der Filename des Rezeptes oder Name des Materials des ResultItems (bspw für ANVIL etc.)
   DropChance: #Für jede DropAnzahl wird mit Event und Material
   - block_break:DIRT:null:mat=DIRT:1:1.0 #Gibt 100% Chance, dass beim BlockAbbau von Dirt, 1 DirtItem droppt. Mehrfache DropChange des gleichen Blocks & Event addieren sich.
   - block_break:DIRT:null:mat=DIRT:2:0.10 #DropSystem umschreiben dahingegend, dass Verz. Glück & Loot miteinberechnet werden.

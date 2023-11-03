@@ -23,13 +23,13 @@ public class GrindstoneListener implements Listener
 	public void onGrindstone(InventoryClickEvent event)
 	{
 		if(event.isCancelled()
+				|| event.getClickedInventory() == null
+				|| event.getClickedInventory().getType() != InventoryType.GRINDSTONE
+				|| !(event.getClickedInventory() instanceof GrindstoneInventory)
 				|| !(event.getWhoClicked() instanceof Player)
 				|| event.getWhoClicked().getGameMode() == GameMode.CREATIVE
 				|| event.getWhoClicked().getGameMode() == GameMode.SPECTATOR
-				|| event.getClickedInventory() == null
 				|| event.getSlotType() != SlotType.RESULT
-				|| event.getClickedInventory().getType() != InventoryType.GRINDSTONE
-				|| !(event.getClickedInventory() instanceof GrindstoneInventory)
 				|| !EnumHandler.isEventActive(GR))
 		{
 			return;

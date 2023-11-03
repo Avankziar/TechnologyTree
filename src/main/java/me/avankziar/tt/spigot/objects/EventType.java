@@ -9,6 +9,7 @@ public enum EventType
 	BUCKET_FILLING,
 	COLD_FORGING,
 	COOKING,
+	CRAFTING,
 	DRYING,
 	DYING,
 	ENCHANTING,
@@ -19,6 +20,7 @@ public enum EventType
 	HARMING,
 	HARVEST,
 	IGNITING,
+	INTERACT, //Such as, creat Pathways, stripped Logs, Cow milking
 	ITEM_BREAKING,
 	ITEM_CONSUME,
 	KILLING,
@@ -33,4 +35,15 @@ public enum EventType
 	SMITHING,
 	SMOKING,
 	TAMING;
+	
+	//ADDME Possible new EventTypes
+	/*
+	 * EQUIP_ARMOR > PlayerInteractEvent > Possible New RewardType = Reward.UnlockableEquipment
+	 * EQUIP_WEAPON > PlayerItemHeldEvent > Possible New RewardType = Reward.UnlockableEquipment
+	 * EQUIP_TOOLS > PlayerItemHeldEvent > Possible New RewardType = Reward.UnlockableEquipment
+	 * TRADING > InventoryClickEvent
+	 * 		Info: It muss be prevent the event.getAction NOTHING/PLACE_ONE/PLACE_ALL/PLACE_SOME
+	 * 		InventoryType must be MERCHANT, clicked SlotType must be RESULT
+	 * 		ItemStack resultStack = event.getClickedInventory().getItem(2);
+	 */
 }

@@ -20,9 +20,11 @@ public class TameListener implements Listener
 	public void onEntityTame(EntityTameEvent event)
 	{
 		if(!(event.getOwner() instanceof Player)
+				|| event.getEntity().isDead()
 				|| ((Player) event.getOwner()).getGameMode() == GameMode.CREATIVE
 				|| ((Player) event.getOwner()).getGameMode() == GameMode.SPECTATOR
-				|| !EnumHandler.isEventActive(TA))
+				|| !EnumHandler.isEventActive(TA)
+				)
 		{
 			return;
 		}

@@ -32,10 +32,10 @@ public class DryingListener implements Listener
 	{
 		if(event.isCancelled()
 				|| event.getPlayer() == null
-				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
-				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
 				|| event.getBlock() == null
 				|| event.getBlock().getType() != Material.SPONGE
+				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
+				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
 				|| !EnumHandler.isEventActive(DR))
 		{
 			return;
