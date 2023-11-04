@@ -304,6 +304,9 @@ public class YamlManager
 		configSpigotKeys.put("Do.DeleteExpireTechnologies.TaskRunInMinutes"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				10}));
+		configSpigotKeys.put("Do.DeleteExpirePlacedBlocks.TaskRunInMinutes"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				15}));
 		configSpigotKeys.put("Do.NewPlayer.ShowSyncMessage"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				true}));
@@ -351,12 +354,15 @@ public class YamlManager
 		configSpigotKeys.put("Do.Reward.Payout.TaxInPercent"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				1.0}));
+		configSpigotKeys.put("Do.Reward.Placing.TrackPlacedBlock"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				true}));
+		configSpigotKeys.put("Do.Reward.Placing.PlacedBlockExpirationDate"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				"365d-0H-0m-0s"}));
 		configSpigotKeys.put("Do.Reward.Placing.IfBlockIsManuallyPlacedBefore_RewardItByBreaking"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				false}));
-		configSpigotKeys.put("Do.Reward.Placing.UseMetaDataToTrackPlayerPlacedBlocks"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
 		configSpigotKeys.put("Do.Reward.Brewing.FinishBrewIfPlayerHasNotTheRecipeUnlocked"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				false}));

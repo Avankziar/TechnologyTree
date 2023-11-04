@@ -8,21 +8,13 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 
 import main.java.me.avankziar.tt.spigot.TT;
-import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalEntryQueryStatus;
-import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
-import main.java.me.avankziar.tt.spigot.objects.mysql.RegisteredBlock;
-import main.java.me.avankziar.tt.spigot.objects.mysql.SoloEntryQueryStatus;
-import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalTechnologyPoll;
+import main.java.me.avankziar.tt.spigot.objects.sqllite.PlacedBlock;
 
-public class MysqlHandler
+public class SQLiteHandler
 {
 	public enum Type
 	{
-		PLAYERDATA("ttPlayerData", new PlayerData()),
-		SOLOENTRYQUERYSTATUS("ttSoloEntryQueryStatus", new SoloEntryQueryStatus()),
-		REGISTEREDBLOCK("ttRegisteredBlock", new RegisteredBlock()),
-		GLOBALTECHNOLOGYPOLL("ttGlobalTechnologyPoll", new GlobalTechnologyPoll()),
-		GLOBALENTRYQUERYSTATUS("ttGlobalEntryQueryStatus", new GlobalEntryQueryStatus());
+		PLACEDBLOCKS("ttPlacedBlocks", new PlacedBlock());
 		
 		private Type(String value, Object object)
 		{
@@ -44,49 +36,9 @@ public class MysqlHandler
 		}
 	}
 	
-	public enum QueryType
-	{
-		INSERT, UPDATE, DELETE, READ;
-	}
-	
-	/*
-	 * Alle Mysql Reihen, welche durch den Betrieb aufkommen.
-	 */
-	public static long startRecordTime = System.currentTimeMillis();
-	public static int inserts = 0;
-	public static int updates = 0;
-	public static int deletes = 0;
-	public static int reads = 0;
-	
-	public static void addRows(QueryType type, int amount)
-	{
-		switch(type)
-		{
-		case DELETE:
-			deletes += amount;
-			break;
-		case INSERT:
-			inserts += amount;
-		case READ:
-			reads += amount;
-			break;
-		case UPDATE:
-			updates += amount;
-			break;
-		}
-	}
-	
-	public static void resetsRows()
-	{
-		inserts = 0;
-		updates = 0;
-		reads = 0;
-		deletes = 0;
-	}
-	
 	private TT plugin;
 	
-	public MysqlHandler(TT plugin) 
+	public SQLiteHandler(TT plugin)
 	{
 		this.plugin = plugin;
 	}
@@ -108,23 +60,23 @@ public class MysqlHandler
 		//All Object which leaves the try-block, will be closed. So conn and ps is closed after the methode
 		//No finally needed.
 		//So much as possible in async methode use
-		try (Connection conn = plugin.getMysqlSetup().getConnection();)
+		try (Connection conn = plugin.getSQLLiteSetup().getConnection();)
 		{
 			PreparedStatement ps = getPreparedStatement(conn,
 					"SELECT `id` FROM `" + type.getValue()+ "` WHERE "+whereColumn+" LIMIT 1",
 					1,
 					whereObject);
 	        ResultSet rs = ps.executeQuery();
-	        MysqlHandler.addRows(QueryType.READ, rs.getMetaData().getColumnCount());
+	        //SQLLiteHandler.addRows(QueryType.READ, rs.getMetaData().getColumnCount());
 	        while (rs.next()) 
 	        {
 	        	return true;
 	        }
 	    } catch (SQLException e) 
 		{
-			  if(type.getObject() instanceof MysqlHandable)
+			  if(type.getObject() instanceof SQLiteHandable)
 			  {
-				  MysqlHandable mh = (MysqlHandable) type.getObject();
+				  SQLiteHandable mh = (SQLiteHandable) type.getObject();
 				  mh.log(Level.WARNING, "Could not check "+type.getObject().getClass().getName()+" Object if it exist!", e);
 			  }
 		}
@@ -133,10 +85,10 @@ public class MysqlHandler
 	
 	public boolean create(Type type, Object object)
 	{
-		if(object instanceof MysqlHandable)
+		if(object instanceof SQLiteHandable)
 		{
-			MysqlHandable mh = (MysqlHandable) object;
-			try (Connection conn = plugin.getMysqlSetup().getConnection();)
+			SQLiteHandable mh = (SQLiteHandable) object;
+			try (Connection conn = plugin.getSQLLiteSetup().getConnection();)
 			{
 				mh.create(conn, type.getValue());
 				return true;
@@ -150,10 +102,10 @@ public class MysqlHandler
 	
 	public boolean updateData(Type type, Object object, String whereColumn, Object... whereObject)
 	{
-		if(object instanceof MysqlHandable)
+		if(object instanceof SQLiteHandable)
 		{
-			MysqlHandable mh = (MysqlHandable) object;
-			try (Connection conn = plugin.getMysqlSetup().getConnection();)
+			SQLiteHandable mh = (SQLiteHandable) object;
+			try (Connection conn = plugin.getSQLLiteSetup().getConnection();)
 			{
 				mh.update(conn, type.getValue(), whereColumn, whereObject);
 				return true;
@@ -168,10 +120,10 @@ public class MysqlHandler
 	public Object getData(Type type, String whereColumn, Object... whereObject)
 	{
 		Object object = type.getObject();
-		if(object instanceof MysqlHandable)
+		if(object instanceof SQLiteHandable)
 		{
-			MysqlHandable mh = (MysqlHandable) object;
-			try (Connection conn = plugin.getMysqlSetup().getConnection();)
+			SQLiteHandable mh = (SQLiteHandable) object;
+			try (Connection conn = plugin.getSQLLiteSetup().getConnection();)
 			{
 				ArrayList<Object> list = mh.get(conn, type.getValue(), "`id` ASC", " Limit 1", whereColumn, whereObject);
 				if(!list.isEmpty())
@@ -188,20 +140,20 @@ public class MysqlHandler
 	
 	public int deleteData(Type type, String whereColumn, Object... whereObject)
 	{
-		try (Connection conn = plugin.getMysqlSetup().getConnection();)
+		try (Connection conn = plugin.getSQLLiteSetup().getConnection();)
 		{
 			PreparedStatement ps = getPreparedStatement(conn,
 					"DELETE FROM `" + type.getValue() + "` WHERE "+whereColumn,
 					1,
 					whereObject);
 	        int d = ps.executeUpdate();
-			MysqlHandler.addRows(QueryType.DELETE, d);
+	        //SQLLiteHandler.addRows(QueryType.DELETE, d);
 			return d;
 	    } catch (SQLException e) 
 		{
-	    	if(type.getObject() instanceof MysqlHandable)
+	    	if(type.getObject() instanceof SQLiteHandable)
 			  {
-				  MysqlHandable mh = (MysqlHandable) type.getObject();
+				  SQLiteHandable mh = (SQLiteHandable) type.getObject();
 				  mh.log(Level.WARNING, "Could not delete "+type.getObject().getClass().getName()+" Object!", e);
 			  }
 		}
@@ -210,18 +162,18 @@ public class MysqlHandler
 	
 	public int truncate(Type type)
 	{
-		try (Connection conn = plugin.getMysqlSetup().getConnection();)
+		try (Connection conn = plugin.getSQLLiteSetup().getConnection();)
 		{
 			PreparedStatement ps = getPreparedStatement(conn,
 					"TRUNCATE TABLE `" + type.getValue() + "`", 0, new Object[]{});
 	        int d = ps.executeUpdate();
-			MysqlHandler.addRows(QueryType.DELETE, d);
+	        //SQLLiteHandler.addRows(QueryType.DELETE, d);
 			return d;
 	    } catch (SQLException e)
 		{
-	    	if(type.getObject() instanceof MysqlHandable)
+	    	if(type.getObject() instanceof SQLiteHandable)
 			  {
-				  MysqlHandable mh = (MysqlHandable) type.getObject();
+				  SQLiteHandable mh = (SQLiteHandable) type.getObject();
 				  mh.log(Level.WARNING, "Could not delete "+type.getObject().getClass().getName()+" Object!", e);
 			  }
 		}
@@ -230,22 +182,22 @@ public class MysqlHandler
 	
 	public int lastID(Type type)
 	{
-		try (Connection conn = plugin.getMysqlSetup().getConnection();)
+		try (Connection conn = plugin.getSQLLiteSetup().getConnection();)
 		{
 			PreparedStatement ps = getPreparedStatement(conn,
 					"SELECT `id` FROM `" + type.getValue() + "` ORDER BY `id` DESC LIMIT 1",
 					1);
 	        ResultSet rs = ps.executeQuery();
-	        MysqlHandler.addRows(QueryType.READ, rs.getMetaData().getColumnCount());
+	        //SQLLiteHandler.addRows(QueryType.READ, rs.getMetaData().getColumnCount());
 	        while (rs.next()) 
 	        {
 	        	return rs.getInt("id");
 	        }
 	    } catch (SQLException e) 
 		{
-			  if(type.getObject() instanceof MysqlHandable)
+			  if(type.getObject() instanceof SQLiteHandable)
 			  {
-				  MysqlHandable mh = (MysqlHandable) type.getObject();
+				  SQLiteHandable mh = (SQLiteHandable) type.getObject();
 				  mh.log(Level.WARNING, "Could not get last id from "+type.getObject().getClass().getName()+" Object table!", e);
 			  }
 		}
@@ -254,23 +206,23 @@ public class MysqlHandler
 	
 	public int getCount(Type type, String whereColumn, Object... whereObject)
 	{
-		try (Connection conn = plugin.getMysqlSetup().getConnection();)
+		try (Connection conn = plugin.getSQLLiteSetup().getConnection();)
 		{
 			PreparedStatement ps = getPreparedStatement(conn,
 					" SELECT count(*) FROM `" + type.getValue() + "` WHERE "+whereColumn,
 					1,
 					whereObject);
 	        ResultSet rs = ps.executeQuery();
-	        MysqlHandler.addRows(QueryType.READ, rs.getMetaData().getColumnCount());
+	        //SQLLiteHandler.addRows(QueryType.READ, rs.getMetaData().getColumnCount());
 	        while (rs.next()) 
 	        {
 	        	return rs.getInt(1);
 	        }
 	    } catch (SQLException e) 
 		{
-			  if(type.getObject() instanceof MysqlHandable)
+			  if(type.getObject() instanceof SQLiteHandable)
 			  {
-				  MysqlHandable mh = (MysqlHandable) type.getObject();
+				  SQLiteHandable mh = (SQLiteHandable) type.getObject();
 				  mh.log(Level.WARNING, "Could not count "+type.getObject().getClass().getName()+" Object!", e);
 			  }
 		}
@@ -279,23 +231,23 @@ public class MysqlHandler
 	
 	public double getSum(Type type, String whereColumn, Object... whereObject)
 	{
-		try (Connection conn = plugin.getMysqlSetup().getConnection();)
+		try (Connection conn = plugin.getSQLLiteSetup().getConnection();)
 		{
 			PreparedStatement ps = getPreparedStatement(conn,
 					"SELECT sum("+whereColumn+") FROM `" + type.getValue() + "` WHERE 1",
 					1,
 					whereObject);
 	        ResultSet rs = ps.executeQuery();
-	        MysqlHandler.addRows(QueryType.READ, rs.getMetaData().getColumnCount());
+	        //SQLLiteHandler.addRows(QueryType.READ, rs.getMetaData().getColumnCount());
 	        while (rs.next()) 
 	        {
 	        	return rs.getInt(1);
 	        }
 	    } catch (SQLException e) 
 		{
-			  if(type.getObject() instanceof MysqlHandable)
+			  if(type.getObject() instanceof SQLiteHandable)
 			  {
-				  MysqlHandable mh = (MysqlHandable) type.getObject();
+				  SQLiteHandable mh = (SQLiteHandable) type.getObject();
 				  mh.log(Level.WARNING, "Could not summarized "+type.getObject().getClass().getName()+" Object!", e);
 			  }
 		}
@@ -305,10 +257,10 @@ public class MysqlHandler
 	public ArrayList<Object> getList(Type type, String orderByColumn, int start, int quantity, String whereColumn, Object...whereObject)
 	{
 		Object object = type.getObject();
-		if(object instanceof MysqlHandable)
+		if(object instanceof SQLiteHandable)
 		{
-			MysqlHandable mh = (MysqlHandable) object;
-			try (Connection conn = plugin.getMysqlSetup().getConnection();)
+			SQLiteHandable mh = (SQLiteHandable) object;
+			try (Connection conn = plugin.getSQLLiteSetup().getConnection();)
 			{
 				ArrayList<Object> list = mh.get(conn, type.getValue(), orderByColumn, " Limit "+start+", "+quantity, whereColumn, whereObject);
 				if(!list.isEmpty())
@@ -327,10 +279,10 @@ public class MysqlHandler
 			String whereColumn, Object...whereObject)
 	{
 		Object object = type.getObject();
-		if(object instanceof MysqlHandable)
+		if(object instanceof SQLiteHandable)
 		{
-			MysqlHandable mh = (MysqlHandable) object;
-			try (Connection conn = plugin.getMysqlSetup().getConnection();)
+			SQLiteHandable mh = (SQLiteHandable) object;
+			try (Connection conn = plugin.getSQLLiteSetup().getConnection();)
 			{
 				ArrayList<Object> list = mh.get(conn, type.getValue(), orderByColumn, "", whereColumn, whereObject);
 				if(!list.isEmpty())

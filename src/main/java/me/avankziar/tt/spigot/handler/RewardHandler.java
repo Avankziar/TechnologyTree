@@ -28,6 +28,7 @@ import main.java.me.avankziar.tt.spigot.event.PostRewardEvent;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.objects.RewardType;
+import main.java.me.avankziar.tt.spigot.objects.ToolType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.RewardSummary;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.SimpleDropChance;
@@ -109,97 +110,105 @@ public class RewardHandler
 		ArrayList<RewardSummary> rewardSummaryList = new ArrayList<>();
 		if(matMap.containsKey(uuid))
 		{
-			for(Entry<Material, LinkedHashMap<EventType, Double>> entry : matMap.get(uuid).entrySet())
+			for(ToolType tool : ToolType.values())
 			{
-				Material mat = entry.getKey();
-				for(Entry<EventType, Double> entryII : entry.getValue().entrySet())
+				for(Entry<Material, LinkedHashMap<EventType, Double>> entry : matMap.get(uuid).entrySet())
 				{
-					EventType et = entryII.getKey();
-					double amount = entryII.getValue();
-					if(PlayerHandler.materialInteractionMap.containsKey(uuid)
-							&& PlayerHandler.materialInteractionMap.get(uuid).containsKey(mat)
-							&& PlayerHandler.materialInteractionMap.get(uuid).get(mat).containsKey(et))
-						
+					Material mat = entry.getKey();
+					for(Entry<EventType, Double> entryII : entry.getValue().entrySet())
 					{
-						SimpleUnlockedInteraction sui = PlayerHandler.materialInteractionMap.get(uuid).get(mat).get(et);
-						if(sui == null)
+						EventType et = entryII.getKey();
+						double amount = entryII.getValue();
+						if(PlayerHandler.materialInteractionMap.containsKey(uuid)
+								&& PlayerHandler.materialInteractionMap.get(uuid).containsKey(tool)
+								&& PlayerHandler.materialInteractionMap.get(uuid).get(tool).containsKey(mat)
+								&& PlayerHandler.materialInteractionMap.get(uuid).get(tool).get(mat).containsKey(et))
+							
 						{
-							continue;
-						}
-						toGiveTTExp = toGiveTTExp + sui.getTechnologyExperience() * amount;
-						toGiveVanillaExp = toGiveVanillaExp + sui.getVanillaExperience() * amount;
-						for(Entry<String, Double> s : sui.getMoneyMap().entrySet())
-						{
-							double moneyAmount = 0;
-							if(toGiveMoneyMap.containsKey(s.getKey()))
+							SimpleUnlockedInteraction sui = PlayerHandler.materialInteractionMap.get(uuid).get(tool).get(mat).get(et);
+							if(sui == null)
 							{
-								moneyAmount = toGiveMoneyMap.get(s.getKey());
+								continue;
 							}
-							moneyAmount = moneyAmount + s.getValue() * amount;
-							toGiveMoneyMap.put(s.getKey(), moneyAmount);
-						}
-						for(Entry<String, Double> s : sui.getCommandMap().entrySet())
-						{
-							double cmdAmount = 0;
-							if(toGiveCommandMap.containsKey(s.getKey()))
+							toGiveTTExp = toGiveTTExp + sui.getTechnologyExperience() * amount;
+							toGiveVanillaExp = toGiveVanillaExp + sui.getVanillaExperience() * amount;
+							for(Entry<String, Double> s : sui.getMoneyMap().entrySet())
 							{
-								cmdAmount = toGiveCommandMap.get(s.getKey());
+								double moneyAmount = 0;
+								if(toGiveMoneyMap.containsKey(s.getKey()))
+								{
+									moneyAmount = toGiveMoneyMap.get(s.getKey());
+								}
+								moneyAmount = moneyAmount + s.getValue() * amount;
+								toGiveMoneyMap.put(s.getKey(), moneyAmount);
 							}
-							cmdAmount = cmdAmount + s.getValue() * amount;
-							toGiveCommandMap.put(s.getKey(), cmdAmount);
+							for(Entry<String, Double> s : sui.getCommandMap().entrySet())
+							{
+								double cmdAmount = 0;
+								if(toGiveCommandMap.containsKey(s.getKey()))
+								{
+									cmdAmount = toGiveCommandMap.get(s.getKey());
+								}
+								cmdAmount = cmdAmount + s.getValue() * amount;
+								toGiveCommandMap.put(s.getKey(), cmdAmount);
+							}
+							RewardSummary rs = new RewardSummary(et, mat, null, amount, toGiveVanillaExp, toGiveTTExp, toGiveMoneyMap, toGiveCommandMap);
+							rewardSummaryList.add(rs);
 						}
-						RewardSummary rs = new RewardSummary(et, mat, null, amount, toGiveVanillaExp, toGiveTTExp, toGiveMoneyMap, toGiveCommandMap);
-						rewardSummaryList.add(rs);
 					}
 				}
 			}
 		}
 		if(entityMap.containsKey(uuid))
 		{
-			for(Entry<EntityType, LinkedHashMap<EventType, Double>> entry : entityMap.get(uuid).entrySet())
+			for(ToolType tool : ToolType.values())
 			{
-				EntityType ent = entry.getKey();
-				for(Entry<EventType, Double> entryII : entry.getValue().entrySet())
+				for(Entry<EntityType, LinkedHashMap<EventType, Double>> entry : entityMap.get(uuid).entrySet())
 				{
-					EventType et = entryII.getKey();
-					double amount = entryII.getValue();
-					if(PlayerHandler.entityTypeInteractionMap.containsKey(uuid)
-							&& PlayerHandler.entityTypeInteractionMap.get(uuid).containsKey(ent)
-							&& PlayerHandler.entityTypeInteractionMap.get(uuid).get(ent).containsKey(et))
-						
+					EntityType ent = entry.getKey();
+					for(Entry<EventType, Double> entryII : entry.getValue().entrySet())
 					{
-						SimpleUnlockedInteraction sui = PlayerHandler.entityTypeInteractionMap.get(uuid).get(ent).get(et);
-						if(sui == null)
+						EventType et = entryII.getKey();
+						double amount = entryII.getValue();
+						if(PlayerHandler.entityTypeInteractionMap.containsKey(uuid)
+								&& PlayerHandler.entityTypeInteractionMap.get(uuid).containsKey(tool)
+								&& PlayerHandler.entityTypeInteractionMap.get(uuid).get(tool).containsKey(ent)
+								&& PlayerHandler.entityTypeInteractionMap.get(uuid).get(tool).get(ent).containsKey(et))
+							
 						{
-							continue;
-						}
-						toGiveTTExp = toGiveTTExp + sui.getTechnologyExperience() * amount;
-						toGiveVanillaExp = toGiveVanillaExp + sui.getVanillaExperience() * amount;
-						for(Entry<String, Double> s : sui.getMoneyMap().entrySet())
-						{
-							double moneyAmount = 0;
-							if(toGiveMoneyMap.containsKey(s.getKey()))
+							SimpleUnlockedInteraction sui = PlayerHandler.entityTypeInteractionMap.get(uuid).get(tool).get(ent).get(et);
+							if(sui == null)
 							{
-								moneyAmount = toGiveMoneyMap.get(s.getKey());
+								continue;
 							}
-							moneyAmount = moneyAmount + s.getValue() * amount;
-							toGiveMoneyMap.put(s.getKey(), moneyAmount);
-						}
-						for(Entry<String, Double> s : sui.getCommandMap().entrySet())
-						{
-							double cmdAmount = 0;
-							if(toGiveCommandMap.containsKey(s.getKey()))
+							toGiveTTExp = toGiveTTExp + sui.getTechnologyExperience() * amount;
+							toGiveVanillaExp = toGiveVanillaExp + sui.getVanillaExperience() * amount;
+							for(Entry<String, Double> s : sui.getMoneyMap().entrySet())
 							{
-								cmdAmount = toGiveCommandMap.get(s.getKey());
+								double moneyAmount = 0;
+								if(toGiveMoneyMap.containsKey(s.getKey()))
+								{
+									moneyAmount = toGiveMoneyMap.get(s.getKey());
+								}
+								moneyAmount = moneyAmount + s.getValue() * amount;
+								toGiveMoneyMap.put(s.getKey(), moneyAmount);
 							}
-							cmdAmount = cmdAmount + s.getValue() * amount;
-							toGiveCommandMap.put(s.getKey(), cmdAmount);
+							for(Entry<String, Double> s : sui.getCommandMap().entrySet())
+							{
+								double cmdAmount = 0;
+								if(toGiveCommandMap.containsKey(s.getKey()))
+								{
+									cmdAmount = toGiveCommandMap.get(s.getKey());
+								}
+								cmdAmount = cmdAmount + s.getValue() * amount;
+								toGiveCommandMap.put(s.getKey(), cmdAmount);
+							}
+							RewardSummary rs = new RewardSummary(et, null, ent, amount, toGiveVanillaExp, toGiveTTExp, toGiveMoneyMap, toGiveCommandMap);
+							rewardSummaryList.add(rs);
 						}
-						RewardSummary rs = new RewardSummary(et, null, ent, amount, toGiveVanillaExp, toGiveTTExp, toGiveMoneyMap, toGiveCommandMap);
-						rewardSummaryList.add(rs);
 					}
 				}
-			}					
+			}				
 		}
 		PlayerData pd = PlayerHandler.getPlayer(uuid);
 		String playername = pd.getName();
@@ -303,7 +312,7 @@ public class RewardHandler
 		}
 	}
 	
-	public static boolean canAccessInteraction(Player player, EventType eventType, Material material, EntityType entityType) //Return true, if player cannot maniplulate a Block/Material
+	public static boolean canAccessInteraction(Player player, ToolType toolType, EventType eventType, Material material, EntityType entityType) //Return true, if player cannot maniplulate a Block/Material
 	{
 		if(player == null || eventType == null)
 		{
@@ -313,10 +322,11 @@ public class RewardHandler
 		if(material != null)
 		{
 			if(PlayerHandler.materialInteractionMap.containsKey(uuid)
-					&& PlayerHandler.materialInteractionMap.get(uuid).containsKey(material)
-					&& PlayerHandler.materialInteractionMap.get(uuid).get(material).containsKey(eventType))
+					&& PlayerHandler.materialInteractionMap.get(uuid).containsKey(toolType)
+					&& PlayerHandler.materialInteractionMap.get(uuid).get(toolType).containsKey(material)
+					&& PlayerHandler.materialInteractionMap.get(uuid).get(toolType).get(material).containsKey(eventType))
 			{
-				boolean b = PlayerHandler.materialInteractionMap.get(uuid).get(material).get(eventType).isCanAccess();
+				boolean b = PlayerHandler.materialInteractionMap.get(uuid).get(toolType).get(material).get(eventType).isCanAccess();
 				return b ? b : plugin.getValueEntry().getBooleanValueEntry(uuid, 
 							CatTechHandler.getValueEntry(RewardType.ACCESS, eventType, material, entityType),
 							plugin.getServername(), player.getWorld().getName());
@@ -324,10 +334,11 @@ public class RewardHandler
 		} else if(entityType != null)
 		{
 			if(PlayerHandler.entityTypeInteractionMap.containsKey(uuid)
-					&& PlayerHandler.entityTypeInteractionMap.get(uuid).containsKey(entityType)
-					&& PlayerHandler.entityTypeInteractionMap.get(uuid).get(entityType).containsKey(eventType))
+					&& PlayerHandler.entityTypeInteractionMap.get(uuid).containsKey(toolType)
+					&& PlayerHandler.entityTypeInteractionMap.get(uuid).get(toolType).containsKey(entityType)
+					&& PlayerHandler.entityTypeInteractionMap.get(uuid).get(toolType).get(entityType).containsKey(eventType))
 			{
-				boolean b = PlayerHandler.entityTypeInteractionMap.get(uuid).get(entityType).get(eventType).isCanAccess();
+				boolean b = PlayerHandler.entityTypeInteractionMap.get(uuid).get(toolType).get(entityType).get(eventType).isCanAccess();
 				return b ? b : plugin.getValueEntry().getBooleanValueEntry(uuid, 
 						CatTechHandler.getValueEntry(RewardType.ACCESS, eventType, material, entityType),
 						plugin.getServername(), player.getWorld().getName());

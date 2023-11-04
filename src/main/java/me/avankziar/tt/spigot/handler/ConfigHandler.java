@@ -81,14 +81,19 @@ public class ConfigHandler
 		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("Do.Reward.Placing.IfBlockIsManuallyPlacedBefore_RewardItByBreaking", false);
 	}
 	
+	public boolean trackPlacedBlocks()
+	{
+		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("Do.Reward.Placing.TrackPlacedBlock", false);
+	}
+	
+	public String placedBlocksExpirationDate()
+	{
+		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getString("Do.Reward.Placing.PlacedBlockExpirationDate", "365d-0H-0m-0s");
+	}
+	
 	public boolean finishBrewIfPlayerHasNotTheRecipeUnlocked()
 	{
 		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("Do.Reward.Brewing.FinishBrewIfPlayerHasNotTheRecipeUnlocked", false);
-	}
-	
-	public boolean useMetaDataToTrackPlayerPlacedBlocks()
-	{
-		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("Do.Reward.Placing.UseMetaDataToTrackPlayerPlacedBlocks", true);
 	}
 	
 	public boolean startSmeltIfPlayerIsNotOnline()

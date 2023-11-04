@@ -13,6 +13,7 @@ import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.ToolType;
 
 public class BreedListener implements Listener
 {
@@ -25,7 +26,9 @@ public class BreedListener implements Listener
 				|| ((HumanEntity) event.getBreeder()).getGameMode() == GameMode.CREATIVE
 				|| ((HumanEntity) event.getBreeder()).getGameMode() == GameMode.SPECTATOR
 				|| !EnumHandler.isEventActive(BR)
-				|| !RewardHandler.canAccessInteraction((Player) event.getBreeder(), BR, null, event.getEntityType()))
+				|| !RewardHandler.canAccessInteraction((Player) event.getBreeder(),
+						ToolType.getToolType(((Player) event.getBreeder()).getInventory().getItemInMainHand().getType()),
+						BR, null, event.getEntityType()))
 		{
 			return;
 		}

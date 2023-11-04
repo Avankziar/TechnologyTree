@@ -11,6 +11,7 @@ import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.ToolType;
 
 public class ShearListener implements Listener
 {
@@ -26,7 +27,8 @@ public class ShearListener implements Listener
 		{
 			return;
 		}
-		if(!RewardHandler.canAccessInteraction(event.getPlayer(), SH, null, event.getEntity().getType()))
+		if(!RewardHandler.canAccessInteraction(event.getPlayer(), 
+				ToolType.getToolType(event.getPlayer().getInventory().getItemInMainHand().getType()), SH, null, event.getEntity().getType()))
 		{
 			event.setCancelled(true);
 			return;

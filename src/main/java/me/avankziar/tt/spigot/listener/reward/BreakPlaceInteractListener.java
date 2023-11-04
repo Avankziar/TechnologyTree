@@ -1,7 +1,12 @@
 package main.java.me.avankziar.tt.spigot.listener.reward;
 
+import java.util.UUID;
+
 import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -9,23 +14,49 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.scheduler.BukkitRunnable;
 
-import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
+import main.java.me.avankziar.tt.spigot.TT;
+import main.java.me.avankziar.tt.spigot.database.SQLiteHandler;
 import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.sqllite.PlacedBlock;
 
 public class BreakPlaceInteractListener implements Listener
 {
-	private static boolean USE_METADATA = new ConfigHandler().useMetaDataToTrackPlayerPlacedBlocks();
+	private static boolean TRACK_PLACED_BLOCKS = new ConfigHandler().trackPlacedBlocks();
 	private static boolean REWARD_IF_MANUALLY_PLACED_BEFORE = new ConfigHandler().ifBlockIsManuallyPlacedBefore_RewardItByBreaking();
-	private static String IS_PLACED_MANUALLY = BaseConstructor.getPlugin().pluginName+":"+"IsPlacedManually";
+	private static long EXPIRATION_DATE = 0;
 	final private static EventType BR = EventType.BREAKING;
 	final private static EventType PL = EventType.PLACING;
-	final private static EventType IA = EventType.INTERACT;
+	
+	static
+	{
+		String parse = new ConfigHandler().placedBlocksExpirationDate();
+		String[] split = parse.split("-");
+		if(split.length == 4)
+		{
+			if(split[0].endsWith("d"))
+			{
+				EXPIRATION_DATE += Long.valueOf(split[0].substring(0, split[0].length()-1)) * 24 * 60 * 60 * 1000;
+			}
+			if(split[1].endsWith("H"))
+			{
+				EXPIRATION_DATE += Long.valueOf(split[1].substring(0, split[1].length()-1)) * 60 * 60 * 1000;
+			}
+			if(split[2].endsWith("m"))
+			{
+				EXPIRATION_DATE += Long.valueOf(split[2].substring(0, split[2].length()-1)) * 60 * 1000;
+			}
+			if(split[3].endsWith("s"))
+			{
+				EXPIRATION_DATE += Long.valueOf(split[3].substring(0, split[3].length()-1)) * 1000;
+			}
+		}
+	}
 	
 	@EventHandler
 	public void onBreak(BlockBreakEvent event)
@@ -39,19 +70,37 @@ public class BreakPlaceInteractListener implements Listener
 		}
 		event.setExpToDrop(0);
 		event.setDropItems(false);
-		if(USE_METADATA && event.getBlock().hasMetadata(IS_PLACED_MANUALLY)) //MetaDaten ins Mysql versetzten.
+		final Player player = event.getPlayer();
+		final UUID uuid = player.getUniqueId();
+		final Material blockType = event.getBlock().getType();
+		final Location loc = event.getBlock().getLocation();
+		new BukkitRunnable()
 		{
-			if(!REWARD_IF_MANUALLY_PLACED_BEFORE)
+			@Override
+			public void run()
 			{
-				return;
+				if(TRACK_PLACED_BLOCKS)
+				{
+					if(PlacedBlock.wasPlaced(loc) && !REWARD_IF_MANUALLY_PLACED_BEFORE)
+					{
+						return;
+					}
+				}
+				for(ItemStack is : RewardHandler.getDrops(player, BR, blockType, null, true))
+				{
+					new BukkitRunnable()
+					{
+						@Override
+						public void run()
+						{
+							Item it = event.getPlayer().getWorld().dropItem(loc, is);
+							ItemHandler.addItemToTask(it, uuid);
+						}
+					}.runTask(TT.getPlugin());
+				}
+				RewardHandler.rewardPlayer(uuid, BR, blockType, null, 1);
 			}
-		}
-		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), BR, event.getBlock().getType(), null, true))
-		{
-			Item it = event.getPlayer().getWorld().dropItem(event.getBlock().getLocation(), is);
-			ItemHandler.addItemToTask(it, event.getPlayer().getUniqueId());
-		}
-		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), BR, event.getBlock().getType(), null, 1);
+		}.runTaskAsynchronously(TT.getPlugin());
 	}
 	
 	@EventHandler
@@ -65,17 +114,39 @@ public class BreakPlaceInteractListener implements Listener
 		{
 			return;
 		}
-		if(USE_METADATA)
+		final Player player = event.getPlayer();
+		final UUID uuid = player.getUniqueId();
+		final Material blockType = event.getBlock().getType();
+		final Location loc = event.getBlock().getLocation();
+		new BukkitRunnable()
 		{
-			//TODO Hier die wachsenden Block (Weizen etc.) beachten. Da sonst beim Abbau nicht vergütet wird.
-			event.getBlock().setMetadata(IS_PLACED_MANUALLY, new FixedMetadataValue(BaseConstructor.getPlugin(), true));
-		}
-		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), PL, event.getBlockPlaced().getType(), null, false))
-		{
-			Item it = event.getPlayer().getWorld().dropItem(event.getBlock().getLocation(), is);
-			ItemHandler.addItemToTask(it, event.getPlayer().getUniqueId());
-		}
-		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), PL, event.getBlockPlaced().getType(), null, 1);
+			@Override
+			public void run()
+			{
+				if(TRACK_PLACED_BLOCKS)
+				{
+					TT.getPlugin().getSQLLiteHandler().create(SQLiteHandler.Type.PLACEDBLOCKS,
+							new PlacedBlock(0,
+									loc.getWorld().getName(),
+									loc.getBlockX(), loc.getBlockY(), loc.getBlockZ(),
+									System.currentTimeMillis()+EXPIRATION_DATE));
+				}
+				for(ItemStack is : RewardHandler.getDrops(player, PL, blockType, null, false))
+				{
+					new BukkitRunnable()
+					{
+						
+						@Override
+						public void run()
+						{
+							Item it = event.getPlayer().getWorld().dropItem(loc, is);
+							ItemHandler.addItemToTask(it, uuid);
+						}
+					}.runTask(TT.getPlugin());
+				}
+				RewardHandler.rewardPlayer(uuid, PL, blockType, null, 1);
+			}
+		}.runTaskAsynchronously(TT.getPlugin());
 	}
 	
 	/*Do not needed. Do it in BlockBreakEvent
@@ -101,17 +172,97 @@ public class BreakPlaceInteractListener implements Listener
 				|| event.getAction() == Action.PHYSICAL
 				|| event.getClickedBlock() == null
 				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
-				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
-				|| !EnumHandler.isEventActive(IA))
+				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR)
 		{
 			return;
 		}
-		//ADDME Hier noch die Logik
-		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), IA, event.getClickedBlock().getType(), null, true))
+		final EventType et = isAppropiateTool(
+				event.getPlayer().getInventory().getItemInMainHand() != null 
+					? event.getPlayer().getInventory().getItemInMainHand().getType() 
+					: Material.AIR,
+				event.getClickedBlock() != null
+					? event.getClickedBlock().getType()
+					: Material.AIR);
+		if(et == null)
 		{
-			Item it = event.getPlayer().getWorld().dropItem(event.getClickedBlock().getLocation(), is);
-			ItemHandler.addItemToTask(it, event.getPlayer().getUniqueId());
+			return;
 		}
-		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), IA, event.getClickedBlock().getType(), null, 1);
+		final Player player = event.getPlayer();
+		final UUID uuid = player.getUniqueId();
+		final Material blockType = event.getClickedBlock().getType();
+		final Location loc = event.getClickedBlock().getLocation();
+		new BukkitRunnable()
+		{
+			@Override
+			public void run()
+			{
+				for(ItemStack is : RewardHandler.getDrops(player, et, blockType, null, true))
+				{
+					new BukkitRunnable()
+					{
+						@Override
+						public void run()
+						{
+							Item it = event.getPlayer().getWorld().dropItem(loc, is);
+							ItemHandler.addItemToTask(it, uuid);
+						}
+					}.runTask(TT.getPlugin());
+				}
+				RewardHandler.rewardPlayer(uuid, et, blockType, null, 1);
+			}
+		}.runTaskAsynchronously(TT.getPlugin());
+	}
+	
+	public EventType isAppropiateTool(Material toolmat, Material blockmat)
+	{
+		switch(blockmat)
+		{
+		default:
+			return null;
+		case DIRT:
+		case GRASS_BLOCK:
+			switch(toolmat)
+			{
+				default:
+					return null;
+				case DIAMOND_SHOVEL:
+				case GOLDEN_SHOVEL:
+				case IRON_SHOVEL:
+				case NETHERITE_SHOVEL:
+				case STONE_SHOVEL:
+				case WOODEN_SHOVEL:
+					return EventType.CREATE_PATH;
+			}
+		case ACACIA_LOG:
+		case BIRCH_LOG:
+		case CHERRY_LOG:
+		case DARK_OAK_LOG:
+		case JUNGLE_LOG:
+		case MANGROVE_LOG:
+		case OAK_LOG:
+		case SPRUCE_LOG:
+		case ACACIA_WOOD:
+		case BIRCH_WOOD:
+		case CHERRY_WOOD:
+		case DARK_OAK_WOOD:
+		case JUNGLE_WOOD:
+		case MANGROVE_WOOD:
+		case OAK_WOOD:
+		case SPRUCE_WOOD:
+		case CRIMSON_HYPHAE:
+		case WARPED_HYPHAE:
+			switch(toolmat)
+			{
+			default:
+				return null;
+			case DIAMOND_AXE:
+			case GOLDEN_AXE:
+			case IRON_AXE:
+			case NETHERITE_AXE:
+			case STONE_AXE:
+			case WOODEN_AXE:
+				return EventType.DEBARKING;
+			}
+		}
 	}
 }

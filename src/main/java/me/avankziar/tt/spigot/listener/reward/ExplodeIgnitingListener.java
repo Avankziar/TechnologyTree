@@ -23,6 +23,7 @@ import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.ToolType;
 
 public class ExplodeIgnitingListener implements Listener
 {
@@ -37,7 +38,8 @@ public class ExplodeIgnitingListener implements Listener
 				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
 				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
 				|| !EnumHandler.isEventActive(IG)
-				|| !RewardHandler.canAccessInteraction(event.getPlayer(), IG, event.getBlock().getType(), null))
+				|| !RewardHandler.canAccessInteraction(event.getPlayer(),
+						ToolType.getToolType(event.getPlayer().getInventory().getItemInMainHand().getType()), IG, event.getBlock().getType(), null))
 		{
 			return;
 		}

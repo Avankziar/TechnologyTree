@@ -18,6 +18,7 @@ import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
 import main.java.me.avankziar.tt.spigot.objects.RewardType;
 import main.java.me.avankziar.tt.spigot.objects.TechnologyType;
+import main.java.me.avankziar.tt.spigot.objects.ToolType;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.DropChance;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.MainCategory;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.SubCategory;
@@ -166,196 +167,288 @@ public class CatTechHandler
 				{
 					continue;
 				}
-				List<String> researchRequirementConditionQuery = y.getStringList("RequirementToResearch.ConditionQuery");
+				LinkedHashMap<Integer, List<String>> researchRequirementConditionQuery = new LinkedHashMap<>();
+				if(y.get("RequirementToResearch.ConditionQuery") != null)
+				{
+					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
+					{
+						if(y.get("RequirementToResearch.ConditionQuery."+i) == null)
+						{
+							continue;
+						}
+						researchRequirementConditionQuery.put(i, y.getStringList("RequirementToResearch.ConditionQuery."+i));
+					}
+				}
 				
-				String costTTExp = y.getString("RequirementToResearch.Costs.TTExp", "");
-				String costVanillaExp = y.getString("RequirementToResearch.Costs.VanillaExp", "");
-				String costMoney = y.getString("RequirementToResearch.Costs.Money", "");
-				LinkedHashMap<Material, String> costMaterial = new LinkedHashMap<>();
+				LinkedHashMap<Integer, String> costTTExp = new LinkedHashMap<>();
+				if(y.get("RequirementToResearch.Costs.TTExp") != null)
+				{
+					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
+					{
+						costTTExp.put(i, y.getString("RequirementToResearch.Costs.TTExp."+i, ""));
+					}
+				}
+				LinkedHashMap<Integer, String> costVanillaExp = new LinkedHashMap<>();
+				if(y.get("RequirementToResearch.Costs.VanillaExp") != null)
+				{
+					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
+					{
+						costVanillaExp.put(i, y.getString("RequirementToResearch.Costs.VanillaExp."+i, ""));
+					}
+				}
+				LinkedHashMap<Integer, String> costMoney = new LinkedHashMap<>();
+				if(y.get("RequirementToResearch.Costs.Money") != null)
+				{
+					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
+					{
+						costMoney.put(i, y.getString("RequirementToResearch.Costs.Money."+i, ""));
+					}
+				}
+				LinkedHashMap<Integer, LinkedHashMap<Material, String>> costMaterial = new LinkedHashMap<>();
 				if(y.get("RequirementToResearch.Costs.Material") != null)
 				{
-					for(String s : y.getStringList("RequirementToResearch.Costs.Material"))
+					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
 					{
-						String[] split = s.split(";");
-						if(split.length != 2)
+						if(y.getStringList("RequirementToResearch.Costs.Material."+i) == null)
 						{
 							continue;
 						}
-						try
+						for(String s : y.getStringList("RequirementToResearch.Costs.Material."+i))
 						{
-							Material mat = Material.valueOf(split[0]);
-							String amount = split[1];
-							costMaterial.put(mat, amount);
-						} catch(Exception e)
-						{
-							continue;
-						}
-					}
-				}
-				
-				ArrayList<UnlockableInteraction> rewardUnlockableInteractions = new ArrayList<>();
-				if(y.get("Rewards.UnlockableInteractions") != null)
-				{
-					for(String s : y.getStringList("Rewards.UnlockableInteractions"))
-					{
-						String[] split  = s.split(":");
-						if(split.length < 2)
-						{
-							continue;
-						}
-						try
-						{
-							EventType eventType = EventType.valueOf(split[0]);
-							Material material = split[1].equals("null") ? null : Material.valueOf(split[1]);
-							EntityType entityType = split[2].equals("null") ? null : EntityType.valueOf(split[2]);
-							UnlockableInteraction ui = new UnlockableInteraction(eventType, material, entityType, false, 0.0, 0.0);
-							for(int i = 3; i < split.length; i++)
-							{
-								String[] sp = split[i].split("=");
-								if(split[i].startsWith("canAccess") && sp.length == 2)
-								{
-									ui.setCanAccess(Boolean.parseBoolean(sp[1]));
-								} else if(split[i].startsWith("ttexp") && sp.length == 2)
-								{
-									ui.setTechnologyExperience(Double.parseDouble(sp[1]));
-								} else if(split[i].startsWith("vaexp") && sp.length == 2)
-								{
-									ui.setVanillaExperience(i);
-								} else if(split[i].startsWith("cmd") && sp.length == 3)
-								{
-									ui.addCommandValues(sp[1], Double.parseDouble(sp[2]));
-								} else if(sp.length == 2) //Money
-								{
-									ui.addMoneyValues(sp[0], Double.parseDouble(sp[1]));
-								} 
-							}
-							rewardUnlockableInteractions.add(ui);
-						} catch(Exception e)
-						{
-							continue;
-						}
-					}
-				}
-				LinkedHashMap<RecipeType, ArrayList<String>> rewardRecipes = new LinkedHashMap<>();
-				if(y.get("Rewards.UnlockableRecipe") != null)
-				{
-					for(String s : y.getStringList("Rewards.UnlockableRecipe"))
-					{
-						String[] split  = s.split(":");
-						if(split.length != 2)
-						{
-							continue;
-						}
-						try
-						{
-							RecipeType rt = RecipeType.valueOf(split[0]);
-							String key = split[1];
-							if(!RecipeHandler.recipeMap.containsKey(rt)
-									|| !RecipeHandler.recipeMap.get(rt).contains(key))
+							LinkedHashMap<Material, String> m = new LinkedHashMap<>();
+							String[] split = s.split(";");
+							if(split.length != 2)
 							{
 								continue;
 							}
-							ArrayList<String> list = new ArrayList<>();
-							if(rewardRecipes.containsKey(rt))
+							try
 							{
-								list = rewardRecipes.get(rt);
-							}
-							if(!list.contains(key))
+								Material mat = Material.valueOf(split[0]);
+								String amount = split[1];
+								m.put(mat, amount);
+								costMaterial.put(i, m);
+							} catch(Exception e)
 							{
-								list.add(key);
+								continue;
 							}
-							rewardRecipes.put(rt, list);
-						} catch(Exception e)
-						{
-							continue;
 						}
 					}
 				}
-				ArrayList<DropChance> rewardDropChances = new ArrayList<>();
+				
+				LinkedHashMap<Integer, ArrayList<UnlockableInteraction>> rewardUnlockableInteractions = new LinkedHashMap<>();
+				if(y.get("Rewards.UnlockableInteractions") != null)
+				{
+					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
+					{
+						for(String s : y.getStringList("Rewards.UnlockableInteractions."+i))
+						{
+							ArrayList<UnlockableInteraction> rui = new ArrayList<>();
+							String[] split  = s.split(":");
+							if(split.length < 2)
+							{
+								continue;
+							}
+							try
+							{
+								EventType eventType = EventType.valueOf(split[0]);
+								Material material = split[1].equals("null") ? null : Material.valueOf(split[1]);
+								EntityType entityType = split[2].equals("null") ? null : EntityType.valueOf(split[2]);
+								UnlockableInteraction ui = new UnlockableInteraction(eventType, ToolType.ALL, material, entityType, true, 0.0, 0.0);
+								for(int ii = 3; i < split.length; i++)
+								{
+									String[] sp = split[i].split("=");
+									if(split[ii].startsWith("tooltype") && sp.length == 2)
+									{
+										ui.setToolType(ToolType.valueOf(sp[1]));
+									}if(split[ii].startsWith("canAccess") && sp.length == 2)
+									{
+										ui.setCanAccess(Boolean.valueOf(sp[1]));
+									} else if(split[ii].startsWith("ttexp") && sp.length == 2)
+									{
+										ui.setTechnologyExperience(Double.parseDouble(sp[1]));
+									} else if(split[ii].startsWith("vaexp") && sp.length == 2)
+									{
+										ui.setVanillaExperience(Integer.valueOf(sp[1]));
+									} else if(split[ii].startsWith("cmd") && sp.length == 3)
+									{
+										ui.addCommandValues(sp[1], Double.parseDouble(sp[2]));
+									} else if(sp.length == 2) //Money
+									{
+										ui.addMoneyValues(sp[0], Double.parseDouble(sp[1]));
+									} 
+								}
+								rui.add(ui);
+								rewardUnlockableInteractions.put(i, rui);
+							} catch(Exception e)
+							{
+								continue;
+							}
+						}
+					}
+				}
+				LinkedHashMap<Integer, LinkedHashMap<RecipeType, ArrayList<String>>> rewardRecipes = new LinkedHashMap<>();
+				if(y.get("Rewards.UnlockableRecipe") != null)
+				{
+					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
+					{
+						for(String s : y.getStringList("Rewards.UnlockableRecipe."+i))
+						{
+							LinkedHashMap<RecipeType, ArrayList<String>> rr = new LinkedHashMap<>();
+							String[] split  = s.split(":");
+							if(split.length != 2)
+							{
+								continue;
+							}
+							try
+							{
+								RecipeType rt = RecipeType.valueOf(split[0]);
+								String key = split[1];
+								if(!RecipeHandler.recipeMap.containsKey(rt)
+										|| !RecipeHandler.recipeMap.get(rt).contains(key))
+								{
+									continue;
+								}
+								ArrayList<String> list = new ArrayList<>();
+								if(rr.containsKey(rt))
+								{
+									list = rr.get(rt);
+								}
+								if(!list.contains(key))
+								{
+									list.add(key);
+								}
+								rr.put(rt, list);
+								rewardRecipes.put(i, rr);
+							} catch(Exception e)
+							{
+								continue;
+							}
+						}
+					}
+				}
+				LinkedHashMap<Integer, ArrayList<DropChance>> rewardDropChances = new LinkedHashMap<>();
 				if(y.get("Rewards.DropChance") != null)
 				{
-					for(String s : y.getStringList("Rewards.DropChance"))
+					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
 					{
-						String[] split  = s.split(":");
-						if(split.length != 6)
+						for(String s : y.getStringList("Rewards.DropChance"))
 						{
-							continue;
-						}
-						try
-						{
-							EventType eventType = EventType.valueOf(split[0]);
-							Material material = null;
-							EntityType entityType = null;
-							if(!split[1].equalsIgnoreCase("null"))
+							ArrayList<DropChance> adc = new ArrayList<>();
+							String[] split  = s.split(":");
+							if(split.length != 6)
 							{
-								material = Material.valueOf(split[1]);
+								continue;
 							}
-							if(!split[2].equalsIgnoreCase("null"))
+							try
 							{
-								entityType = EntityType.valueOf(split[2]);
+								EventType eventType = EventType.valueOf(split[0]);
+								Material material = null;
+								EntityType entityType = null;
+								if(!split[1].equalsIgnoreCase("null"))
+								{
+									material = Material.valueOf(split[1]);
+								}
+								if(!split[2].equalsIgnoreCase("null"))
+								{
+									entityType = EntityType.valueOf(split[2]);
+								}
+								String item = split[3];
+								int amount = Integer.parseInt(split[4]);
+								DropChance dc = new DropChance(eventType, material, entityType, item, amount, Double.parseDouble(split[5]));
+								adc.add(dc);
+								rewardDropChances.put(i, adc);
+							} catch(Exception e)
+							{
+								continue;
 							}
-							String item = split[3];
-							int amount = Integer.parseInt(split[4]);
-							DropChance dc = new DropChance(eventType, material, entityType, item, amount, Double.parseDouble(split[5]));
-							rewardDropChances.add(dc);
-						} catch(Exception e)
-						{
-							continue;
 						}
 					}
 				}
-				ArrayList<DropChance> rewardSilkTouchDropChances = new ArrayList<>();
+				LinkedHashMap<Integer, ArrayList<DropChance>> rewardSilkTouchDropChances = new LinkedHashMap<>();
 				if(y.get("Rewards.SilkTouchDropChance") != null)
 				{
-					for(String s : y.getStringList("Rewards.SilkTouchDropChance"))
+					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
 					{
-						String[] split  = s.split(":");
-						if(split.length != 6)
+						for(String s : y.getStringList("Rewards.SilkTouchDropChance."+i))
 						{
-							continue;
-						}
-						try
-						{
-							EventType eventType = EventType.valueOf(split[0]);
-							Material material = null;
-							EntityType entityType = null;
-							if(!split[1].equalsIgnoreCase("null"))
+							ArrayList<DropChance> adc = new ArrayList<>();
+							String[] split  = s.split(":");
+							if(split.length != 6)
 							{
-								material = Material.valueOf(split[1]);
+								continue;
 							}
-							if(!split[2].equalsIgnoreCase("null"))
+							try
 							{
-								entityType = EntityType.valueOf(split[2]);
+								EventType eventType = EventType.valueOf(split[0]);
+								Material material = null;
+								EntityType entityType = null;
+								if(!split[1].equalsIgnoreCase("null"))
+								{
+									material = Material.valueOf(split[1]);
+								}
+								if(!split[2].equalsIgnoreCase("null"))
+								{
+									entityType = EntityType.valueOf(split[2]);
+								}
+								String item = split[3];
+								int amount = Integer.parseInt(split[4]);
+								DropChance dc = new DropChance(eventType, material, entityType, item, amount, Double.parseDouble(split[5]));
+								adc.add(dc);
+								rewardSilkTouchDropChances.put(i, adc);
+							} catch(Exception e)
+							{
+								continue;
 							}
-							String item = split[3];
-							int amount = Integer.parseInt(split[4]);
-							DropChance dc = new DropChance(eventType, material, entityType, item, amount, Double.parseDouble(split[5]));
-							rewardSilkTouchDropChances.add(dc);
-						} catch(Exception e)
-						{
-							continue;
 						}
 					}
 				}
-				ArrayList<String> rewardCommandList = new ArrayList<>();
+				LinkedHashMap<Integer, ArrayList<String>> rewardCommandList = new LinkedHashMap<>();
 				if(y.get("Rewards.Command") != null)
 				{
-					rewardCommandList = (ArrayList<String>) y.getStringList("Rewards.Command");
+					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
+					{
+						if(y.get("Rewards.Command."+i) == null)
+						{
+							continue;
+						}
+						rewardCommandList.put(i, (ArrayList<String>) y.getStringList("Rewards.Command."+i));
+					}
 				}
-				ArrayList<String> rewardItemList = new ArrayList<>();
+				LinkedHashMap<Integer, ArrayList<String>> rewardItemList = new LinkedHashMap<>();
 				if(y.get("Rewards.Item") != null)
 				{
-					rewardItemList = (ArrayList<String>) y.getStringList("Rewards.Item");
+					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
+					{
+						if(y.get("Rewards.Item."+i) == null)
+						{
+							continue;
+						}
+						rewardItemList.put(i, (ArrayList<String>) y.getStringList("Rewards.Item."+i));
+					}
 				}
-				ArrayList<String> rewardModifierList = new ArrayList<>();
-				if(y.get("Rewards.Modifier") != null && plugin.getModifier() != null)
+				LinkedHashMap<Integer, ArrayList<String>> rewardModifierList = new LinkedHashMap<>();
+				if(plugin.getModifier() != null)
 				{
-					rewardModifierList = (ArrayList<String>) y.getStringList("Rewards.Modifier");
+					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
+					{
+						if(y.get("Rewards.Modifier."+i) == null)
+						{
+							continue;
+						}
+						rewardModifierList.put(i, (ArrayList<String>) y.getStringList("Rewards.Modifier."+i));
+					}
 				}
-				ArrayList<String> rewardValueEntryList = new ArrayList<>();
-				if(y.get("Rewards.ValueEntry") != null && plugin.getValueEntry() != null)
+				LinkedHashMap<Integer, ArrayList<String>> rewardValueEntryList = new LinkedHashMap<>();
+				if(plugin.getValueEntry() != null)
 				{
-					rewardValueEntryList = (ArrayList<String>) y.getStringList("Rewards.ValueEntry");
+					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
+					{
+						if(y.get("Rewards.ValueEntry."+i) == null)
+						{
+							continue;
+						}
+						rewardValueEntryList.put(i, (ArrayList<String>) y.getStringList("Rewards.ValueEntry."+i));
+					}
 				}
 				Technology t = new Technology(internName, displayName, technologyType, maximalTechnologyLevelToResearch,
 						ifBoosterDurationUntilExpiration,

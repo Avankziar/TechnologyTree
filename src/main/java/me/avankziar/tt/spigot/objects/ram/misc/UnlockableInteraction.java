@@ -6,25 +6,29 @@ import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 
 import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.ToolType;
 
 public class UnlockableInteraction //per Technology
 {	
-	private EventType eventType;
-	private Material material;
-	private EntityType eventEntityType;
 	private boolean canAccess;
+	private EventType eventType;
+	private ToolType toolType;
+	private Material eventMaterial;
+	private EntityType eventEntityType;
 	private double technologyExperience;
 	private HashMap<String, Double> moneyMap = new HashMap<>();
 	private double vanillaExperience;
 	private HashMap<String, Double> commandMap = new HashMap<>();
 	
-	public UnlockableInteraction(EventType eventType, Material material, EntityType eventEntityType,
-			boolean canAccess, double technologyExperience,
+	public UnlockableInteraction(EventType eventType, ToolType toolType, Material eventMaterial, EntityType eventEntityType,
+			boolean canAccess,
+			double technologyExperience,
 			HashMap<String, Double> moneyMap,
 			double vanillaExperience, HashMap<String, Double> commandMap)
 	{
 		setEventType(eventType);
-		setEventMaterial(material);
+		setToolType(toolType);
+		setEventMaterial(eventMaterial);
 		setCanAccess(canAccess);
 		setTechnologyExperience(technologyExperience);
 		setMoneyMap(moneyMap);
@@ -32,11 +36,13 @@ public class UnlockableInteraction //per Technology
 		setCommandMap(commandMap);
 	}
 	
-	public UnlockableInteraction(EventType eventType, Material material, EntityType eventEntityType, boolean canAccess, double technologyExperience, double vanillaExperience)
+	public UnlockableInteraction(EventType eventType, ToolType toolType, Material eventMaterial, EntityType eventEntityType,
+			boolean canAccess, double technologyExperience, double vanillaExperience)
 	{
-		setCanAccess(canAccess);
 		setEventType(eventType);
-		setEventMaterial(material);
+		setToolType(toolType);
+		setEventMaterial(eventMaterial);
+		setCanAccess(canAccess);
 		setTechnologyExperience(technologyExperience);
 		setVanillaExperience(vanillaExperience);
 	}
@@ -61,14 +67,24 @@ public class UnlockableInteraction //per Technology
 		this.eventType = eventType;
 	}
 
-	public Material getEventMaterial()
+	public ToolType getToolType()
 	{
-		return material;
+		return toolType;
 	}
 
-	public void setEventMaterial(Material material)
+	public void setToolType(ToolType toolType)
 	{
-		this.material = material;
+		this.toolType = toolType;
+	}
+
+	public Material getEventMaterial()
+	{
+		return eventMaterial;
+	}
+
+	public void setEventMaterial(Material eventMaterial)
+	{
+		this.eventMaterial = eventMaterial;
 	}
 
 	public EntityType getEventEntityType()

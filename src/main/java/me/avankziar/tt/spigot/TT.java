@@ -39,11 +39,14 @@ import main.java.me.avankziar.tt.spigot.cmdtree.CommandConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.CommandExecuteType;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
 import main.java.me.avankziar.tt.spigot.database.MysqlSetup;
+import main.java.me.avankziar.tt.spigot.database.SQLiteHandler;
+import main.java.me.avankziar.tt.spigot.database.SQLiteSetup;
 import main.java.me.avankziar.tt.spigot.database.YamlHandler;
 import main.java.me.avankziar.tt.spigot.database.YamlManager;
 import main.java.me.avankziar.tt.spigot.handler.CatTechHandler;
 import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
+import main.java.me.avankziar.tt.spigot.listener.BlockFormListener;
 import main.java.me.avankziar.tt.spigot.listener.JoinQuitListener;
 import main.java.me.avankziar.tt.spigot.listener.recipe.PrepareAnvilListener;
 import main.java.me.avankziar.tt.spigot.listener.recipe.PrepareGrindstoneListener;
@@ -57,8 +60,8 @@ import main.java.me.avankziar.tt.spigot.listener.reward.BucketEmptyFillListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.Cold_ForgingRenameListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.CookMeltSmeltSmokeListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.CraftItemListener;
-import main.java.me.avankziar.tt.spigot.listener.reward.DyingHarmingKillingListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.DryingListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.DyingHarmingKillingListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.EnchantListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.ExplodeIgnitingListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.FertilizeListener;
@@ -82,6 +85,8 @@ public class TT extends JavaPlugin
 	private YamlManager yamlManager;
 	private MysqlSetup mysqlSetup;
 	private MysqlHandler mysqlHandler;
+	private SQLiteSetup sqlLiteSetup;
+	private SQLiteHandler sqlLiteHandler;
 	private Utility utility;
 	private BackgroundTask backgroundTask;
 	
@@ -137,6 +142,9 @@ public class TT extends JavaPlugin
 			return;
 		}
 		
+		sqlLiteHandler = new SQLLiteHandler(plugin);
+		sqlLiteSetup = new SQLLiteSetup();
+		
 		utility = new Utility(plugin);
 		backgroundTask = new BackgroundTask(this);
 		
@@ -184,6 +192,16 @@ public class TT extends JavaPlugin
 	public MysqlHandler getMysqlHandler()
 	{
 		return mysqlHandler;
+	}
+	
+	public SQLiteSetup getSQLLiteSetup() 
+	{
+		return sqlLiteSetup;
+	}
+	
+	public SQLiteHandler getSQLLiteHandler()
+	{
+		return sqlLiteHandler;
 	}
 	
 	public Utility getUtility()
@@ -369,6 +387,8 @@ public class TT extends JavaPlugin
 		PluginManager pm = getServer().getPluginManager();
 		
 		pm.registerEvents(new JoinQuitListener(), plugin);
+		//Dryconcrete etc. delete from SQLLite
+		pm.registerEvents(new BlockFormListener(), plugin);
 		//Registering Blocks, f.e. furnace etc.
 		pm.registerEvents(new RegisterBlockListener(), plugin);
 		//Recipe, to cancel if the recipe isnt unlocked

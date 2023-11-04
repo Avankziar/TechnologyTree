@@ -10,6 +10,8 @@ public enum EventType
 	COLD_FORGING,
 	COOKING,
 	CRAFTING,
+	CREATE_PATH, //Dirtpath
+	DEBARKING, //Debarking woodlog
 	DRYING,
 	DYING,
 	ENCHANTING,
@@ -20,11 +22,11 @@ public enum EventType
 	HARMING,
 	HARVEST,
 	IGNITING,
-	INTERACT, //Such as, creat Pathways, stripped Logs, Cow milking
 	ITEM_BREAKING,
 	ITEM_CONSUME,
 	KILLING,
 	MELTING,
+	MILKING, //Cows
 	PLACING,
 	PREPARE_ITEMCRAFT, //Do not can be used to reward a player, only used in permit the player access to the event
 	PREPARE_SMITHING, //Do not can be used to reward a player, only used in permit the player access to the event

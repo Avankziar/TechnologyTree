@@ -5,7 +5,6 @@ import java.util.UUID;
 import org.bukkit.entity.Player;
 
 import main.java.me.avankziar.tt.spigot.TT;
-import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
 public class PAPIHook extends PlaceholderExpansion
@@ -53,7 +52,7 @@ public class PAPIHook extends PlaceholderExpansion
 	 */
 	
 	@Override
-	public String onPlaceholderRequest(Player player, String idf)
+	public String onPlaceholderRequest(Player player, String idf) //ADDME
 	{
 		if(player == null)
 		{

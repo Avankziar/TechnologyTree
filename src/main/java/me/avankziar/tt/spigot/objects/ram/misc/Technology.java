@@ -40,21 +40,21 @@ public class Technology
 	private List<String> seeRequirementConditionQuery;
 	private boolean seeRequirementShowDifferentItemIfYouNormallyDontSeeIt;
 	
-	private List<String> researchRequirementConditionQuery;
+	private LinkedHashMap<Integer, List<String>> researchRequirementConditionQuery;
 	
-	private String costTTExp;
-	private String costVanillaExp;
-	private String costMoney;
-	private LinkedHashMap<Material, String> costMaterial;
+	private LinkedHashMap<Integer, String> costTTExp; //int = toresearch level
+	private LinkedHashMap<Integer, String> costVanillaExp;
+	private LinkedHashMap<Integer, String> costMoney;
+	private LinkedHashMap<Integer, LinkedHashMap<Material, String>> costMaterial;
 	
-	private ArrayList<UnlockableInteraction> rewardUnlockableInteractions;
-	private LinkedHashMap<RecipeType, ArrayList<String>> rewardRecipes; 
-	private ArrayList<DropChance> rewardDropChances;
-	private ArrayList<DropChance> rewardSilkTouchDropChances;
-	private ArrayList<String> rewardCommandList; //Angelegt wie spigot:player:/warp %player% oder bungee:console:/do do
-	private ArrayList<String> rewardItemList; //Angelegt wie sword_y:64, sword_y ist der Dateiname in dem ItemOrdner
-	private ArrayList<String> rewardModifierList; //Angelegt wie bonusmalusname:ADDITION:5
-	private ArrayList<String> rewardValueEntryList; //Angelegt wie conditionname:Wert
+	private LinkedHashMap<Integer, ArrayList<UnlockableInteraction>> rewardUnlockableInteractions; //int = level, beginning at 1, for all Reward
+	private LinkedHashMap<Integer, LinkedHashMap<RecipeType, ArrayList<String>>> rewardRecipes;
+	private LinkedHashMap<Integer, ArrayList<DropChance>> rewardDropChances;
+	private LinkedHashMap<Integer, ArrayList<DropChance>> rewardSilkTouchDropChances;
+	private LinkedHashMap<Integer, ArrayList<String>> rewardCommandList; //Angelegt wie spigot:player:/warp %player% oder bungee:console:/do do
+	private LinkedHashMap<Integer, ArrayList<String>> rewardItemList; //Angelegt wie sword_y:64, sword_y ist der Dateiname in dem ItemOrdner
+	private LinkedHashMap<Integer, ArrayList<String>> rewardModifierList; //Angelegt wie bonusmalusname:ADDITION:5
+	private LinkedHashMap<Integer, ArrayList<String>> rewardValueEntryList; //Angelegt wie conditionname:Wert
 	
 	public Technology(String internName, String displayName,
 			TechnologyType technologyType, int maximalTechnologyLevelToResearch, long ifBoosterDurationUntilExpiration,
@@ -69,16 +69,19 @@ public class Technology
 			double forUninvolvedPollParticipants_RewardValueEntryInPercent,
 			int guiSlot,
 			List<String> seeRequirementConditionQuery, boolean seeRequirementShowDifferentItemIfYouNormallyDontSeeIt,
-			List<String> researchRequirementConditionQuery,
-			String costTTExp, String costVanillaExp, String costMoney, LinkedHashMap<Material, String> costMaterial,
-			ArrayList<UnlockableInteraction> rewardUnlockableInteractions,
-			LinkedHashMap<RecipeType, ArrayList<String>> rewardRecipes,
-			ArrayList<DropChance> rewardDropChances,
-			ArrayList<DropChance> rewardSilkTouchDropChances,
-			ArrayList<String> rewardCommandList,
-			ArrayList<String> rewardItemList,
-			ArrayList<String> rewardModifierList,
-			ArrayList<String> rewardValueEntryList)
+			LinkedHashMap<Integer, List<String>> researchRequirementConditionQuery,
+			LinkedHashMap<Integer, String> costTTExp,
+			LinkedHashMap<Integer, String> costVanillaExp,
+			LinkedHashMap<Integer, String> costMoney,
+			LinkedHashMap<Integer, LinkedHashMap<Material, String>> costMaterial,
+			LinkedHashMap<Integer, ArrayList<UnlockableInteraction>> rewardUnlockableInteractions,
+			LinkedHashMap<Integer, LinkedHashMap<RecipeType, ArrayList<String>>> rewardRecipes,
+			LinkedHashMap<Integer, ArrayList<DropChance>> rewardDropChances,
+			LinkedHashMap<Integer, ArrayList<DropChance>> rewardSilkTouchDropChances,
+			LinkedHashMap<Integer, ArrayList<String>> rewardCommandList,
+			LinkedHashMap<Integer, ArrayList<String>> rewardItemList,
+			LinkedHashMap<Integer, ArrayList<String>> rewardModifierList,
+			LinkedHashMap<Integer, ArrayList<String>> rewardValueEntryList)
 	{
 		setInternName(internName);
 		setDisplayName(displayName);
@@ -322,12 +325,12 @@ public class Technology
 				"RequirementToSee.ItemIfYouCannotSee", 0, null, null, this, getPlayerAssociatedType(), player);
 	}
 
-	public List<String> getResearchRequirementConditionQuery()
+	public LinkedHashMap<Integer, List<String>> getResearchRequirementConditionQuery()
 	{
 		return researchRequirementConditionQuery;
 	}
 
-	public void setResearchRequirementConditionQuery(List<String> researchRequirementConditionQuery)
+	public void setResearchRequirementConditionQuery(LinkedHashMap<Integer, List<String>> researchRequirementConditionQuery)
 	{
 		this.researchRequirementConditionQuery = researchRequirementConditionQuery;
 	}
@@ -344,122 +347,122 @@ public class Technology
 				"RequirementToResearch.ItemIfYouHaveResearchedIt", 0, null, null, this, getPlayerAssociatedType(), player);
 	}
 	
-	public String getCostTTExp()
+	public LinkedHashMap<Integer, String> getCostTTExp()
 	{
 		return costTTExp;
 	}
 
-	public void setCostTTExp(String costTTExp)
+	public void setCostTTExp(LinkedHashMap<Integer, String> costTTExp)
 	{
 		this.costTTExp = costTTExp;
 	}
 
-	public String getCostVanillaExp()
+	public LinkedHashMap<Integer, String> getCostVanillaExp()
 	{
 		return costVanillaExp;
 	}
 
-	public void setCostVanillaExp(String costVanillaExp)
+	public void setCostVanillaExp(LinkedHashMap<Integer, String> costVanillaExp)
 	{
 		this.costVanillaExp = costVanillaExp;
 	}
 
-	public String getCostMoney()
+	public LinkedHashMap<Integer, String> getCostMoney()
 	{
 		return costMoney;
 	}
 
-	public void setCostMoney(String costMoney)
+	public void setCostMoney(LinkedHashMap<Integer, String> costMoney)
 	{
 		this.costMoney = costMoney;
 	}
 
-	public LinkedHashMap<Material, String> getCostMaterial()
+	public LinkedHashMap<Integer, LinkedHashMap<Material, String>> getCostMaterial()
 	{
 		return costMaterial;
 	}
 
-	public void setCostMaterial(LinkedHashMap<Material, String> costMaterial)
+	public void setCostMaterial(LinkedHashMap<Integer, LinkedHashMap<Material, String>> costMaterial)
 	{
 		this.costMaterial = costMaterial;
 	}
 
-	public ArrayList<UnlockableInteraction> getRewardUnlockableInteractions()
+	public LinkedHashMap<Integer, ArrayList<UnlockableInteraction>> getRewardUnlockableInteractions()
 	{
 		return rewardUnlockableInteractions;
 	}
 
-	public void setRewardUnlockableInteractions(ArrayList<UnlockableInteraction> rewardUnlockableInteractions)
+	public void setRewardUnlockableInteractions(LinkedHashMap<Integer, ArrayList<UnlockableInteraction>> rewardUnlockableInteractions)
 	{
 		this.rewardUnlockableInteractions = rewardUnlockableInteractions;
 	}
 
-	public LinkedHashMap<RecipeType, ArrayList<String>> getRewardRecipes()
+	public LinkedHashMap<Integer, LinkedHashMap<RecipeType, ArrayList<String>>> getRewardRecipes()
 	{
 		return rewardRecipes;
 	}
 
-	public void setRewardRecipes(LinkedHashMap<RecipeType, ArrayList<String>> rewardRecipes)
+	public void setRewardRecipes(LinkedHashMap<Integer, LinkedHashMap<RecipeType, ArrayList<String>>> rewardRecipes)
 	{
 		this.rewardRecipes = rewardRecipes;
 	}
 
-	public ArrayList<DropChance> getRewardDropChances()
+	public LinkedHashMap<Integer, ArrayList<DropChance>> getRewardDropChances()
 	{
 		return rewardDropChances;
 	}
 
-	public void setRewardDropChances(ArrayList<DropChance> rewardDropChances)
+	public void setRewardDropChances(LinkedHashMap<Integer, ArrayList<DropChance>> rewardDropChances)
 	{
 		this.rewardDropChances = rewardDropChances;
 	}
 
-	public ArrayList<DropChance> getRewardSilkTouchDropChances()
+	public LinkedHashMap<Integer, ArrayList<DropChance>> getRewardSilkTouchDropChances()
 	{
 		return rewardSilkTouchDropChances;
 	}
 
-	public void setRewardSilkTouchDropChances(ArrayList<DropChance> rewardSilkTouchDropChances)
+	public void setRewardSilkTouchDropChances(LinkedHashMap<Integer, ArrayList<DropChance>> rewardSilkTouchDropChances)
 	{
 		this.rewardSilkTouchDropChances = rewardSilkTouchDropChances;
 	}
 
-	public ArrayList<String> getRewardCommandList()
+	public LinkedHashMap<Integer, ArrayList<String>> getRewardCommandList()
 	{
 		return rewardCommandList;
 	}
 
-	public void setRewardCommandList(ArrayList<String> rewardCommandList)
+	public void setRewardCommandList(LinkedHashMap<Integer, ArrayList<String>> rewardCommandList)
 	{
 		this.rewardCommandList = rewardCommandList;
 	}
 
-	public ArrayList<String> getRewardItemList()
+	public LinkedHashMap<Integer, ArrayList<String>> getRewardItemList()
 	{
 		return rewardItemList;
 	}
 
-	public void setRewardItemList(ArrayList<String> rewardItemList)
+	public void setRewardItemList(LinkedHashMap<Integer, ArrayList<String>> rewardItemList)
 	{
 		this.rewardItemList = rewardItemList;
 	}
 
-	public ArrayList<String> getRewardModifierList()
+	public LinkedHashMap<Integer, ArrayList<String>> getRewardModifierList()
 	{
 		return rewardModifierList;
 	}
 
-	public void setRewardModifierList(ArrayList<String> rewardModifierList)
+	public void setRewardModifierList(LinkedHashMap<Integer, ArrayList<String>> rewardModifierList)
 	{
 		this.rewardModifierList = rewardModifierList;
 	}
 
-	public ArrayList<String> getRewardValueEntryList()
+	public LinkedHashMap<Integer, ArrayList<String>> getRewardValueEntryList()
 	{
 		return rewardValueEntryList;
 	}
 
-	public void setRewardValueEntryList(ArrayList<String> rewardValueEntryList)
+	public void setRewardValueEntryList(LinkedHashMap<Integer, ArrayList<String>> rewardValueEntryList)
 	{
 		this.rewardValueEntryList = rewardValueEntryList;
 	}

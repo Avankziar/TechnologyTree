@@ -41,6 +41,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.inventory.meta.TropicalFishBucketMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
@@ -661,11 +662,19 @@ public class GuiHandler
 			}
 			break;
 		}
-		if(closeInv)
+		new BukkitRunnable()
 		{
-			player.closeInventory();
-		}
-		gui.open(player, gt);
+			
+			@Override
+			public void run()
+			{
+				if(closeInv)
+				{
+					player.closeInventory();
+				}
+				gui.open(player, gt);
+			}
+		}.runTask(plugin);
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -746,7 +755,8 @@ public class GuiHandler
 			/**
 			 * 
 			 */
-			if(text.contains("%rawcostttexp%") || text.contains("%costttexp%")
+			if(text.contains("%acquiredtechlev%") || text.contains("%rawcostttexp%")
+					|| text.contains("%rawcostttexp%") || text.contains("%costttexp%")
 					|| text.contains("%rawcostvanillaexp%") || text.contains("%costvanillaexp%") 
 					|| text.contains("%rawcostmoney%") || text.contains("%costmoney%")
 					|| text.contains("%rawcostmaterial%"))

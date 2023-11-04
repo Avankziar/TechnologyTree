@@ -12,6 +12,7 @@ import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.ToolType;
 
 public class BucketEmptyFillListener implements Listener
 {
@@ -47,7 +48,8 @@ public class BucketEmptyFillListener implements Listener
 		{
 			return;
 		}
-		if(!RewardHandler.canAccessInteraction(event.getPlayer(), BF, event.getBucket(), null))
+		if(!RewardHandler.canAccessInteraction(event.getPlayer(),
+				ToolType.getToolType(event.getPlayer().getInventory().getItemInMainHand().getType()), BF, event.getBucket(), null))
 		{
 			event.setCancelled(true);
 			return;

@@ -15,6 +15,7 @@ import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler.BlockType;
+import main.java.me.avankziar.tt.spigot.objects.ToolType;
 import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 
@@ -42,7 +43,9 @@ public class RegisterBlockListener implements Listener
 		{
 			return;
 		}
-		if(!RewardHandler.canAccessInteraction(event.getPlayer(), BlockHandler.getEventType(event.getClickedBlock().getType()),
+		if(!RewardHandler.canAccessInteraction(event.getPlayer(),
+				ToolType.getToolType(event.getPlayer().getInventory().getItemInMainHand().getType()), 
+				BlockHandler.getEventType(event.getClickedBlock().getType()),
 				event.getClickedBlock().getType(), null))
 		{
 			event.setCancelled(true);
@@ -87,6 +90,10 @@ public class RegisterBlockListener implements Listener
 		}
 		final Block block = event.getBlock();
 		BlockType bt = BlockHandler.getBlockType(block.getType());
+		if(bt == BlockType.UNKNOW)
+		{
+			return;
+		}
 		if(!BlockHandler.isAlreadyRegisteredBlock(bt, block.getLocation()))
 		{
 			return;

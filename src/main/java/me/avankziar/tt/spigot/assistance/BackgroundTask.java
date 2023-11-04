@@ -17,6 +17,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
+import main.java.me.avankziar.tt.spigot.database.SQLiteHandler;
 import main.java.me.avankziar.tt.spigot.handler.CatTechHandler;
 import main.java.me.avankziar.tt.spigot.handler.PlayerHandler;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
@@ -38,6 +39,7 @@ public class BackgroundTask
 	{
 		doDeleteExpiringTechnologies();
 		doTechnologyPoll();
+		doDeleteExpirePlacedBlocks();
 		return true;
 	}
 	
@@ -193,7 +195,7 @@ public class BackgroundTask
 		}
 		for(Player player : Bukkit.getOnlinePlayers())
 		{
-			PlayerHandler.doUpdate(player, globalChoosen, geqs.getId());
+			PlayerHandler.doUpdate(player, globalChoosen, geqs.getId(), researchlevel);
 		}
 	}
 	
@@ -213,5 +215,18 @@ public class BackgroundTask
 	private static LocalDate getNthOfMonth(int type, DayOfWeek dayOfWeek, int month, int year)
 	{
 	    return LocalDate.now().withMonth(month).withYear(year).with(TemporalAdjusters.dayOfWeekInMonth(type, dayOfWeek));
+	}
+	
+	private void doDeleteExpirePlacedBlocks()
+	{
+		new BukkitRunnable()
+		{
+			@Override
+			public void run()
+			{
+				plugin.getSQLLiteHandler().deleteData(SQLiteHandler.Type.PLACEDBLOCKS, "`expiration_date` > ?", System.currentTimeMillis());
+			}
+		}.runTaskTimerAsynchronously(plugin, 20L, 
+				plugin.getYamlHandler().getConfig().getLong("Do.DeleteExpirePlacedBlocks.TaskRunInMinutes", 5)*60*20L);
 	}
 }
