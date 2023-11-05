@@ -57,11 +57,11 @@ public class PlayerHandler
 	public static LinkedHashMap<UUID, LinkedHashMap<ToolType, LinkedHashMap<Material, LinkedHashMap<EventType, SimpleUnlockedInteraction>>>> materialInteractionMap = new LinkedHashMap<>();
 	public static LinkedHashMap<UUID, LinkedHashMap<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, SimpleUnlockedInteraction>>>> entityTypeInteractionMap = new LinkedHashMap<>();
 	
-	public static LinkedHashMap<UUID, LinkedHashMap<Material, LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>>>> materialDropMap = new LinkedHashMap<>(); //String ist der Internename vom SimpleDropChance
-	public static LinkedHashMap<UUID, LinkedHashMap<EntityType, LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>>>> entityTypeDropMap = new LinkedHashMap<>();
+	public static LinkedHashMap<UUID, LinkedHashMap<ToolType, LinkedHashMap<Material, LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>>>>> materialDropMap = new LinkedHashMap<>(); //String ist der Internename vom SimpleDropChance
+	public static LinkedHashMap<UUID, LinkedHashMap<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>>>>> entityTypeDropMap = new LinkedHashMap<>();
 	
-	public static LinkedHashMap<UUID, LinkedHashMap<Material, LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>>>> materialSilkTouchDropMap = new LinkedHashMap<>(); //String ist der Internename vom SimpleDropChance
-	public static LinkedHashMap<UUID, LinkedHashMap<EntityType, LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>>>> entityTypeSilkTouchDropMap = new LinkedHashMap<>();
+	public static LinkedHashMap<UUID, LinkedHashMap<ToolType, LinkedHashMap<Material, LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>>>>> materialSilkTouchDropMap = new LinkedHashMap<>(); //String ist der Internename vom SimpleDropChance
+	public static LinkedHashMap<UUID, LinkedHashMap<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>>>>> entityTypeSilkTouchDropMap = new LinkedHashMap<>();
 	
 	public static LinkedHashMap<UUID, LinkedHashMap<RecipeType, ArrayList<String>>> recipeMap = new LinkedHashMap<>(); //UUID, RecipeType und der Key des Recipe
 	
@@ -74,7 +74,6 @@ public class PlayerHandler
 		final UUID uuid = player.getUniqueId();
 		new BukkitRunnable()
 		{
-			
 			@Override
 			public void run()
 			{
@@ -247,7 +246,7 @@ public class PlayerHandler
 		plugin.getMysqlHandler().updateData(Type.PLAYERDATA, pd, "`player_uuid` = ?", pd.getUUID().toString());
 	}
 	
-	public static LinkedHashMap<ItemStack, Boolean> canSeeOrResearch_ForGU(Player player, UUID uuid,
+	public static LinkedHashMap<ItemStack, Boolean> canSeeOrResearch_ForGUI(Player player, UUID uuid,
 			PlayerAssociatedType pat, MainCategory mcat, SubCategory scat, Technology tech)
 	/* HashMap with only 1 Entry.
 	 * If Boolean is true, item can be research. Only works for techs
@@ -361,7 +360,7 @@ public class PlayerHandler
 				boolean exist = sseqs != null;
 				if(!exist)
 				{
-					sseqs = new SoloEntryQueryStatus(0, mcat.getInternName(), uuid, EntryQueryType.SUB_CATEGORY, EntryStatusType.CANNOT_SEE_IT, 0, 0);
+					sseqs = new SoloEntryQueryStatus(0, scat.getInternName(), uuid, EntryQueryType.SUB_CATEGORY, EntryStatusType.CANNOT_SEE_IT, 0, 0);
 				}
 				if(exist && sseqs.getStatusType() == EntryStatusType.CAN_SEE_IT)
 				{
@@ -405,9 +404,9 @@ public class PlayerHandler
 				if(!existII)
 				{
 					sgeqs = new GlobalEntryQueryStatus(0,
-							mcat.getInternName(), EntryQueryType.SUB_CATEGORY, EntryStatusType.CANNOT_SEE_IT, 0, 0);
+							scat.getInternName(), EntryQueryType.SUB_CATEGORY, EntryStatusType.CANNOT_SEE_IT, 0, 0);
 				}
-				if(exist && sgeqs.getStatusType() == EntryStatusType.CAN_SEE_IT)
+				if(existII && sgeqs.getStatusType() == EntryStatusType.CAN_SEE_IT)
 				{
 					map.put(scat.getSeeRequirementItemIfYouCanSeeIt(player), null);
 					return map;
@@ -430,7 +429,7 @@ public class PlayerHandler
 				{
 					map.put(scat.getSeeRequirementItemIfYouCannotSeeIt(player), null);
 				}
-				if(exist)
+				if(existII)
 				{
 					sgeqs.setStatusType(EntryStatusType.CAN_SEE_IT);
 					plugin.getMysqlHandler().updateData(Type.GLOBALENTRYQUERYSTATUS, sgeqs,
@@ -453,11 +452,11 @@ public class PlayerHandler
 						player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString()));
 				SoloEntryQueryStatus tseqs = eeqsList.size() == 0 ? null : eeqsList.get(0);
 				boolean exist = tseqs != null;
-				if(exist)
+				if(!exist)
 				{
 					tseqs = new SoloEntryQueryStatus(0, tech.getInternName(), uuid, EntryQueryType.TECHNOLOGY, EntryStatusType.CANNOT_SEE_IT, 0, 0);
 				}
-				if(tseqs != null)
+				if(exist)
 				{
 					int researchlev = tseqs.getResearchLevel() >= tech.getMaximalTechnologyLevelToResearch()
 							? tech.getMaximalTechnologyLevelToResearch() 
@@ -485,7 +484,6 @@ public class PlayerHandler
 							return null;
 						}
 						tsls.clear();
-						//TODO Hier weitermachen mit dem richtigen Aufbau
 						for(String s : tech.getResearchRequirementConditionQuery().get(researchlev))
 						{
 							if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
@@ -500,7 +498,8 @@ public class PlayerHandler
 						{
 							tseqs.setStatusType(EntryStatusType.CAN_RESEARCH_IT);
 							map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), false);
-						} else
+						} else if(researchOrNot != null &&  researchOrNot.get(0).equalsIgnoreCase("false")
+								&& seeOrNot != null && seeOrNot.get(0).equalsIgnoreCase("false"))
 						{
 							tseqs.setStatusType(EntryStatusType.CAN_SEE_IT);
 							map.put(tech.getSeeRequirementItemIfYouCanSeeIt(player), false);
@@ -512,7 +511,7 @@ public class PlayerHandler
 					} else if(tseqs.getStatusType() == EntryStatusType.CAN_SEE_IT)
 					{
 						ArrayList<String> tsls = new ArrayList<>();
-						for(String s : tech.getResearchRequirementConditionQuery().get())
+						for(String s : tech.getResearchRequirementConditionQuery().get(researchlev))
 						{
 							if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
 							{
@@ -543,6 +542,7 @@ public class PlayerHandler
 					}
 					return map;
 				}
+				int researchlev = 1;
 				//tseqs dont exist after here in mysql
 				ArrayList<String> tsls = new ArrayList<>();
 				for(String s : tech.getSeeRequirementConditionQuery())
@@ -558,7 +558,7 @@ public class PlayerHandler
 				if(seeOrRes != null && seeOrRes.get(0).equalsIgnoreCase("true"))
 				{
 					tsls.clear();
-					for(String s : tech.getResearchRequirementConditionQuery().get(1))
+					for(String s : tech.getResearchRequirementConditionQuery().get(researchlev))
 					{
 						if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
 						{
@@ -571,26 +571,19 @@ public class PlayerHandler
 					if(resOrNot != null && resOrNot.get(0).equalsIgnoreCase("true"))
 					{
 						tseqs.setStatusType(EntryStatusType.CAN_RESEARCH_IT);
-						plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, tseqs,
-								"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-								player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
+						plugin.getMysqlHandler().create(Type.SOLOENTRYQUERYSTATUS, tseqs);
 						map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), true);
 						return map;
 					} else
 					{
 						tseqs.setStatusType(EntryStatusType.CAN_SEE_IT);
-						plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, tseqs,
-								"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-								player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
-						map.put(tech.getSeeRequirementItemIfYouCanSeeIt(player), false);
+						plugin.getMysqlHandler().create(Type.SOLOENTRYQUERYSTATUS, tseqs);
 						return map;
 					}
 				} else
 				{
 					tseqs.setStatusType(EntryStatusType.CANNOT_SEE_IT);
-					plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, tseqs,
-							"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-							player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
+					plugin.getMysqlHandler().create(Type.SOLOENTRYQUERYSTATUS, tseqs);
 					map.put(tech.getSeeRequirementItemIfYouCannotSeeIt(player), false);
 					return map;
 				}
@@ -601,8 +594,17 @@ public class PlayerHandler
 						"`intern_name` = ? AND `entry_query_type` = ?",
 						tech.getInternName(), EntryQueryType.TECHNOLOGY.toString()));
 				GlobalEntryQueryStatus tgeqs = eqsList.size() == 0 ? null : eqsList.get(0);
-				if(tgeqs != null)
+				boolean existII = tgeqs != null;
+				if(!existII)
 				{
+					tgeqs = new GlobalEntryQueryStatus(0, tech.getInternName(), EntryQueryType.TECHNOLOGY, EntryStatusType.CANNOT_SEE_IT, 0, 0);
+				}
+				if(existII)
+				{
+					int researchlevII = tgeqs.getResearchLevel() >= tech.getMaximalTechnologyLevelToResearch()
+							? tech.getMaximalTechnologyLevelToResearch() 
+							: (tgeqs.getResearchLevel()+1 >= tech.getMaximalTechnologyLevelToResearch()
+								? tech.getMaximalTechnologyLevelToResearch() : tgeqs.getResearchLevel()+1);
 					if(tgeqs.getStatusType() == EntryStatusType.CANNOT_SEE_IT)
 					{
 						ArrayList<String> tgls = new ArrayList<>();
@@ -619,13 +621,13 @@ public class PlayerHandler
 						if(seeOrNot != null && seeOrNot.get(0).equalsIgnoreCase("false"))
 						{
 							map.put(tech.getSeeRequirementItemIfYouCannotSeeIt(player), false);
-							return map;
+							//Here not return, so it can see
 						} else if(seeOrNot == null)
 						{
 							return null;
 						}
 						tgls.clear();
-						for(String s : tech.getResearchRequirementConditionQuery().get(1))
+						for(String s : tech.getResearchRequirementConditionQuery().get(researchlevII))
 						{
 							if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
 							{
@@ -638,24 +640,21 @@ public class PlayerHandler
 						if(researchOrNot != null &&  researchOrNot.get(0).equalsIgnoreCase("true"))
 						{
 							tgeqs.setStatusType(EntryStatusType.CAN_RESEARCH_IT);
-							plugin.getMysqlHandler().updateData(Type.GLOBALENTRYQUERYSTATUS, tgeqs,
-									"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-									player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
 							map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), false);
-							return map;
-						} else
+						} else if(researchOrNot != null &&  researchOrNot.get(0).equalsIgnoreCase("true")
+								&& seeOrNot != null && seeOrNot.get(0).equalsIgnoreCase("false"))
 						{
 							tgeqs.setStatusType(EntryStatusType.CAN_SEE_IT);
-							plugin.getMysqlHandler().updateData(Type.GLOBALENTRYQUERYSTATUS, tgeqs,
-									"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-									player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
 							map.put(tech.getSeeRequirementItemIfYouCanSeeIt(player), false);
-							return map;
 						}
+						plugin.getMysqlHandler().updateData(Type.GLOBALENTRYQUERYSTATUS, tgeqs,
+								"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+								player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
+						return map;
 					} else if(tgeqs.getStatusType() == EntryStatusType.CAN_SEE_IT)
 					{
 						ArrayList<String> tgls = new ArrayList<>();
-						for(String s : tech.getResearchRequirementConditionQuery().get(1))
+						for(String s : tech.getResearchRequirementConditionQuery().get(researchlevII))
 						{
 							if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
 							{
@@ -672,46 +671,22 @@ public class PlayerHandler
 									"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 									player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
 							map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), false);
-							return map;
 						} else
 						{
 							map.put(tech.getSeeRequirementItemIfYouCanSeeIt(player), false);
-							return map;
 						}
+						return map;
 					} else if(tgeqs.getStatusType() == EntryStatusType.CAN_RESEARCH_IT)
 					{
 						map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), false);
 						return map;
 					} else if(tgeqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT)
 					{
-						ArrayList<String> tgls = new ArrayList<>();
-						for(String s : tech.getResearchRequirementConditionQuery().get(tgeqs.getResearchLevel()))
-						{
-							if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
-							{
-								tgls.add(s);
-								continue;
-							}
-							tgls.add(getTTReplacerValues(uuid, s));
-						}
-						ArrayList<String> researchOrNot = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, tgls);
-						if(researchOrNot != null &&  researchOrNot.get(0).equalsIgnoreCase("true"))
-						{
-							tgeqs.setStatusType(EntryStatusType.CAN_RESEARCH_IT);
-							plugin.getMysqlHandler().updateData(Type.GLOBALENTRYQUERYSTATUS, tgeqs,
-									"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-									player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
-							map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), false);
-							return map;
-						} else
-						{
-							map.put(tech.getSeeRequirementItemIfYouCanSeeIt(player), false);
-							return map;
-						}
 						map.put(tech.getResearchRequirementItemIfYouHaveResearchedIt(player), false);
 						return map;
 					}
 				}
+				int researchlevII = 1;
 				ArrayList<String> tgls = new ArrayList<>();
 				for(String s : tech.getSeeRequirementConditionQuery())
 				{
@@ -726,7 +701,7 @@ public class PlayerHandler
 				if(seeOrRese != null && seeOrRese.get(0).equalsIgnoreCase("true"))
 				{
 					tgls.clear();
-					for(String s : tech.getResearchRequirementConditionQuery())
+					for(String s : tech.getResearchRequirementConditionQuery().get(researchlevII))
 					{
 						if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
 						{
@@ -739,31 +714,22 @@ public class PlayerHandler
 					if(resOrNot != null && resOrNot.get(0).equalsIgnoreCase("true"))
 					{
 						tgeqs.setStatusType(EntryStatusType.CAN_RESEARCH_IT);
-						plugin.getMysqlHandler().updateData(Type.GLOBALENTRYQUERYSTATUS, tgeqs,
-								"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-								player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
 						map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), true);
-						return map;
 					} else
 					{
 						tgeqs.setStatusType(EntryStatusType.CAN_SEE_IT);
-						plugin.getMysqlHandler().updateData(Type.GLOBALENTRYQUERYSTATUS, tgeqs,
-								"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-								player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
 						map.put(tech.getSeeRequirementItemIfYouCanSeeIt(player), false);
-						return map;
 					}
+					plugin.getMysqlHandler().create(Type.GLOBALENTRYQUERYSTATUS, tgeqs);
+					return map;
 				} else
 				{
 					tgeqs.setStatusType(EntryStatusType.CANNOT_SEE_IT);
-					plugin.getMysqlHandler().updateData(Type.GLOBALENTRYQUERYSTATUS, tgeqs,
-							"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-							player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
+					plugin.getMysqlHandler().create(Type.GLOBALENTRYQUERYSTATUS, tgeqs);
 					map.put(tech.getSeeRequirementItemIfYouCannotSeeIt(player), false);
 					return map;
 				}
 			}
-			
 		}
 		return null;
 	}
@@ -907,21 +873,21 @@ public class PlayerHandler
 		PlayerData pd = getPlayer(player.getUniqueId());
 		if(pd != null && !t.getCostTTExp().isEmpty())
 		{
-			ttexp =  new MathFormulaParser().parse(t.getCostTTExp(), map) * proportionateCosts;
+			ttexp =  new MathFormulaParser().parse(t.getCostTTExp().get(techLevel), map) * proportionateCosts;
 			bttexp = pd.getActualTTExp() >= ttexp;
 		}
 		boolean bvexp = true;
 		int vexp = 0;
 		if(!t.getCostVanillaExp().isEmpty())
 		{
-			vexp = (int) Math.floor(new MathFormulaParser().parse(t.getCostVanillaExp(), map) * proportionateCosts);
+			vexp = (int) Math.floor(new MathFormulaParser().parse(t.getCostVanillaExp().get(techLevel), map) * proportionateCosts);
 			bvexp = Experience.getExp(player) > vexp;
 		}
 		double money = 0;
 		boolean bmoney = true;
 		if(!t.getCostMoney().isEmpty())
 		{
-			money = new MathFormulaParser().parse(t.getCostMoney(), map) * proportionateCosts;
+			money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map) * proportionateCosts;
 			if(plugin.getIFHEco() != null)
 			{
 				Account acc = plugin.getIFHEco().getDefaultAccount(player.getUniqueId(), AccountCategory.MAIN,
@@ -934,7 +900,7 @@ public class PlayerHandler
 		}
 		boolean bmaterial = true;
 		LinkedHashMap<Material, Integer> matmap = new LinkedHashMap<>();
-		for(Entry<Material, String> e : t.getCostMaterial().entrySet())
+		for(Entry<Material, String> e : t.getCostMaterial().get(techLevel).entrySet())
 		{
 			int material = (int) Math.floor(new MathFormulaParser().parse(e.getValue(), map) * proportionateCosts);
 			matmap.put(e.getKey(), material);
@@ -1272,19 +1238,19 @@ public class PlayerHandler
 		PlayerData pd = getPlayer(player.getUniqueId());
 		if(pd != null && !t.getCostTTExp().isEmpty())
 		{
-			ttexp =  new MathFormulaParser().parse(t.getCostTTExp(), map);
+			ttexp =  new MathFormulaParser().parse(t.getCostTTExp().get(techLevel), map);
 		}
 		int vexp = 0;
 		if(!t.getCostVanillaExp().isEmpty())
 		{
-			vexp = (int) Math.floor(new MathFormulaParser().parse(t.getCostVanillaExp(), map));
+			vexp = (int) Math.floor(new MathFormulaParser().parse(t.getCostVanillaExp().get(techLevel), map));
 		}
 		double money = 0;
 		if(!t.getCostMoney().isEmpty())
 		{
-			money = new MathFormulaParser().parse(t.getCostMoney(), map);
+			money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map);
 		}
-		LinkedHashMap<Material, String> matmap = t.getCostMaterial();
+		LinkedHashMap<Material, String> matmap = t.getCostMaterial().get(techLevel);
 		pd.setActualTTExp(pd.getActualTTExp()+ttexp);
 		updatePlayer(pd);
 		Experience.changeExp(player, +vexp, true);
@@ -1474,10 +1440,15 @@ public class PlayerHandler
 		double rrip = rewardReceivedInPercent/100; //value for calculation
 		if(dc.getEventMaterial() != null)
 		{
-			LinkedHashMap<Material, LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>>> mapI = new LinkedHashMap<>();
+			LinkedHashMap<ToolType, LinkedHashMap<Material, LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>>>> map0 = new LinkedHashMap<>();
 			if(materialDropMap.containsKey(uuid))
 			{
-				mapI = materialDropMap.get(uuid); 
+				map0 = materialDropMap.get(uuid); 
+			}
+			LinkedHashMap<Material, LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>>> mapI = new LinkedHashMap<>();
+			if(map0.containsKey(dc.getToolType()))
+			{
+				mapI = map0.get(dc.getToolType()); 
 			}
 			LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>> mapII = new LinkedHashMap<>();
 			if(mapI.containsKey(dc.getEventMaterial()))
@@ -1506,13 +1477,19 @@ public class PlayerHandler
 			mapIII.put(sdc.getToDropItem(), sdc);
 			mapII.put(dc.getEventType(), mapIII);
 			mapI.put(dc.getEventMaterial(), mapII);
-			materialDropMap.put(uuid, mapI);
+			map0.put(dc.getToolType(), mapI);
+			materialDropMap.put(uuid, map0);
 		} else if(dc.getEventEntity() != null)
 		{
-			LinkedHashMap<EntityType, LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>>> mapI = new LinkedHashMap<>();
+			LinkedHashMap<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>>>> map0 = new LinkedHashMap<>();
 			if(entityTypeDropMap.containsKey(uuid))
 			{
-				mapI = entityTypeDropMap.get(uuid); 
+				map0 = entityTypeDropMap.get(uuid); 
+			}
+			LinkedHashMap<EntityType, LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>>> mapI = new LinkedHashMap<>();
+			if(map0.containsKey(dc.getToolType()))
+			{
+				mapI = map0.get(dc.getToolType()); 
 			}
 			LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>> mapII = new LinkedHashMap<>();
 			if(mapI.containsKey(dc.getEventEntity()))
@@ -1541,7 +1518,8 @@ public class PlayerHandler
 			mapIII.put(sdc.getToDropItem(), sdc);
 			mapII.put(dc.getEventType(), mapIII);
 			mapI.put(dc.getEventEntity(), mapII);
-			entityTypeDropMap.put(uuid, mapI);
+			map0.put(dc.getToolType(), mapI);
+			entityTypeDropMap.put(uuid, map0);
 		}
 	}
 	
@@ -1550,10 +1528,15 @@ public class PlayerHandler
 		double rrip = rewardReceivedInPercent/100; //value for calculation
 		if(dc.getEventMaterial() != null)
 		{
-			LinkedHashMap<Material, LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>>> mapI = new LinkedHashMap<>();
+			LinkedHashMap<ToolType, LinkedHashMap<Material, LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>>>> map0 = new LinkedHashMap<>();
 			if(materialSilkTouchDropMap.containsKey(uuid))
 			{
-				mapI = materialSilkTouchDropMap.get(uuid); 
+				map0 = materialSilkTouchDropMap.get(uuid); 
+			}
+			LinkedHashMap<Material, LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>>> mapI = new LinkedHashMap<>();
+			if(map0.containsKey(dc.getToolType()))
+			{
+				mapI = map0.get(dc.getToolType()); 
 			}
 			LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>> mapII = new LinkedHashMap<>();
 			if(mapI.containsKey(dc.getEventMaterial()))
@@ -1582,13 +1565,19 @@ public class PlayerHandler
 			mapIII.put(sdc.getToDropItem(), sdc);
 			mapII.put(dc.getEventType(), mapIII);
 			mapI.put(dc.getEventMaterial(), mapII);
-			materialSilkTouchDropMap.put(uuid, mapI);
+			map0.put(dc.getToolType(), mapI);
+			materialSilkTouchDropMap.put(uuid, map0);
 		} else if(dc.getEventEntity() != null)
 		{
-			LinkedHashMap<EntityType, LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>>> mapI = new LinkedHashMap<>();
+			LinkedHashMap<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>>>> map0 = new LinkedHashMap<>();
 			if(entityTypeSilkTouchDropMap.containsKey(uuid))
 			{
-				mapI = entityTypeSilkTouchDropMap.get(uuid); 
+				map0 = entityTypeSilkTouchDropMap.get(uuid); 
+			}
+			LinkedHashMap<EntityType, LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>>> mapI = new LinkedHashMap<>();
+			if(map0.containsKey(dc.getToolType()))
+			{
+				mapI = map0.get(dc.getToolType()); 
 			}
 			LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>> mapII = new LinkedHashMap<>();
 			if(mapI.containsKey(dc.getEventEntity()))
@@ -1617,7 +1606,8 @@ public class PlayerHandler
 			mapIII.put(sdc.getToDropItem(), sdc);
 			mapII.put(dc.getEventType(), mapIII);
 			mapI.put(dc.getEventEntity(), mapII);
-			entityTypeSilkTouchDropMap.put(uuid, mapI);
+			map0.put(dc.getToolType(), mapI);
+			entityTypeSilkTouchDropMap.put(uuid, map0);
 		}
 	}
 }

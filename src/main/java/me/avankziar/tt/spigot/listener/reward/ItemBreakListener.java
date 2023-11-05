@@ -12,6 +12,7 @@ import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.ToolType;
 
 public class ItemBreakListener implements Listener
 {	
@@ -27,11 +28,12 @@ public class ItemBreakListener implements Listener
 			return;
 		}
 		final Material mat = event.getBrokenItem().getType();
-		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), IB, mat, null, true))
+		final ToolType tool = ToolType.getToolType(mat);
+		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), IB, tool, mat, null))
 		{
 			Item it = event.getPlayer().getWorld().dropItem(event.getPlayer().getLocation(), is);
 			ItemHandler.addItemToTask(it, event.getPlayer().getUniqueId());
 		}
-		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), IB,	mat, null, 1);
+		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), IB, tool, mat, null, 1);
 	}
 }

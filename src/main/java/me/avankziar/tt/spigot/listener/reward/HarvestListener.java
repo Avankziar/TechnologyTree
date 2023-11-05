@@ -11,6 +11,7 @@ import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.ToolType;
 
 public class HarvestListener implements Listener
 {
@@ -19,18 +20,18 @@ public class HarvestListener implements Listener
 	public void onHarvest(PlayerHarvestBlockEvent event)
 	{
 		if(event.isCancelled()
-				|| event.getPlayer() == null
 				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
 				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
 				|| !EnumHandler.isEventActive(HA))
 		{
 			return;
 		}
-		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), HA, event.getHarvestedBlock().getType(), null, true))
+		final ToolType tool = ToolType.getHandToolType(event.getPlayer());
+		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), HA, tool, event.getHarvestedBlock().getType(), null))
 		{
 			Item it = event.getPlayer().getWorld().dropItem(event.getPlayer().getLocation(), is);
 			ItemHandler.addItemToTask(it, event.getPlayer().getUniqueId());
 		}
-		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), HA,	event.getHarvestedBlock().getType(), null, 1);
+		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), HA, tool, event.getHarvestedBlock().getType(), null, 1);
 	}
 }

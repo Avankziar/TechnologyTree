@@ -1,0 +1,15 @@
+Achivments gibt es in SOLO, GROUP oder GLOBAL.
+Dabei sollen alle Vanilla Statistic abgenommen werden => PlayerStatisticIncrementEvent
+
+Achivments sollen Etappen aufweisen, dabei ist natürlicherweise das vorherige Etappenziel, die Anforderung des nächsten Etappenziels.
+
+Achivments sollten nur Belohnungen ausgeben.
+
+Erreichte Achivments können als vorraussetztung von Technologien gelten.
+
+Das GruppenManagment soll per Cmd durchgeführt werden, dabei soll eine neu erstellte Gruppe, dem GruppenVerwalter zugewiesen werden.
+Der Gruppenverwalter kann dann Personen einladen und ausladen wie beliebt.
+Spieler sollten nur einer Gruppe zugewiesen werden können.
+
+Statistikerhöhungen sollten mit und Ohne TechTree Listener von statten gehen.
+Bedeutet, dass in dem bspw. BlockBreakListener, geschaut werden muss, ob nun der Block mit oder Ohne einwirken des TechTrees gezählt wird.

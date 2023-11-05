@@ -21,6 +21,7 @@ import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.ToolType;
 
 public class CraftItemListener implements Listener
 {
@@ -56,12 +57,12 @@ public class CraftItemListener implements Listener
 			schedulePostDetectionAll(player, result, result.getType(), result.getItemMeta());
 		} else
 		{
-			for(ItemStack is : RewardHandler.getDrops(player, CR, result.getType(), null, false))
+			for(ItemStack is : RewardHandler.getDrops(player, CR, ToolType.ALL, result.getType(), null))
 			{
 				Item it = player.getWorld().dropItem(player.getLocation(), is);
 				ItemHandler.addItemToTask(it, player.getUniqueId());
 			}
-			RewardHandler.rewardPlayer(player.getUniqueId(), CR, result.getType(), null, 1);
+			RewardHandler.rewardPlayer(player.getUniqueId(), CR, ToolType.ALL, result.getType(), null, 1);
 		}
 	}
 	

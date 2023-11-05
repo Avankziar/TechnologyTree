@@ -38,8 +38,8 @@ public class RewardHandler
 {
 	private static TT plugin = BaseConstructor.getPlugin();
 	
-	public static LinkedHashMap<UUID, LinkedHashMap<Material, LinkedHashMap<EventType, Double>>> rewardMaterialMap = new LinkedHashMap<>();
-	public static LinkedHashMap<UUID, LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>>> rewardEntityTypeMap = new LinkedHashMap<>();
+	public static LinkedHashMap<UUID, LinkedHashMap<ToolType, LinkedHashMap<Material, LinkedHashMap<EventType, Double>>>> rewardMaterialMap = new LinkedHashMap<>();
+	public static LinkedHashMap<UUID, LinkedHashMap<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>>>> rewardEntityTypeMap = new LinkedHashMap<>();
 	
 	public static void doRewardJoinTask(Player player, long period)
 	{
@@ -103,16 +103,17 @@ public class RewardHandler
 		double toGiveVanillaExp = 0;
 		LinkedHashMap<String, Double> toGiveMoneyMap = new LinkedHashMap<>();
 		LinkedHashMap<String, Double> toGiveCommandMap = new LinkedHashMap<>();
-		final LinkedHashMap<UUID, LinkedHashMap<Material, LinkedHashMap<EventType, Double>>> matMap = rewardMaterialMap;
+		final LinkedHashMap<UUID, LinkedHashMap<ToolType, LinkedHashMap<Material, LinkedHashMap<EventType, Double>>>> matMap = rewardMaterialMap;
 		rewardMaterialMap.remove(uuid);
-		final LinkedHashMap<UUID, LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>>> entityMap = rewardEntityTypeMap;
+		final LinkedHashMap<UUID, LinkedHashMap<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>>>> entityMap = rewardEntityTypeMap;
 		rewardEntityTypeMap.remove(uuid);
 		ArrayList<RewardSummary> rewardSummaryList = new ArrayList<>();
 		if(matMap.containsKey(uuid))
 		{
-			for(ToolType tool : ToolType.values())
+			for(Entry<ToolType, LinkedHashMap<Material, LinkedHashMap<EventType, Double>>> entry0 : matMap.get(uuid).entrySet())
 			{
-				for(Entry<Material, LinkedHashMap<EventType, Double>> entry : matMap.get(uuid).entrySet())
+				ToolType tool = entry0.getKey();
+				for(Entry<Material, LinkedHashMap<EventType, Double>> entry : matMap.get(uuid).get(tool).entrySet())
 				{
 					Material mat = entry.getKey();
 					for(Entry<EventType, Double> entryII : entry.getValue().entrySet())
@@ -161,9 +162,10 @@ public class RewardHandler
 		}
 		if(entityMap.containsKey(uuid))
 		{
-			for(ToolType tool : ToolType.values())
+			for(Entry<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>>> entry0 : entityMap.get(uuid).entrySet())
 			{
-				for(Entry<EntityType, LinkedHashMap<EventType, Double>> entry : entityMap.get(uuid).entrySet())
+				ToolType tool = entry0.getKey();
+				for(Entry<EntityType, LinkedHashMap<EventType, Double>> entry : entityMap.get(uuid).get(tool).entrySet())
 				{
 					EntityType ent = entry.getKey();
 					for(Entry<EventType, Double> entryII : entry.getValue().entrySet())
@@ -267,47 +269,59 @@ public class RewardHandler
 		Bukkit.getPluginManager().callEvent(postRewardEvent);
 	}
 	
-	public static void rewardPlayer(UUID uuid, EventType eventType, Material material, EntityType entityType, double amount)
+	public static void rewardPlayer(UUID uuid, EventType eventType, ToolType tool, Material material, EntityType entityType, double amount)
 	{
 		if(material != null)
 		{
-			LinkedHashMap<Material, LinkedHashMap<EventType, Double>> mapI = new LinkedHashMap<>();
+			LinkedHashMap<ToolType, LinkedHashMap<Material, LinkedHashMap<EventType, Double>>> mapI = new LinkedHashMap<>();
 			if(rewardMaterialMap.containsKey(uuid))
 			{
 				mapI = rewardMaterialMap.get(uuid);
 			}
-			LinkedHashMap<EventType, Double> mapII = new LinkedHashMap<>();
-			if(mapI.containsKey(material))
+			LinkedHashMap<Material, LinkedHashMap<EventType, Double>> mapII = new LinkedHashMap<>();
+			if(mapI.containsKey(tool))
 			{
-				mapII = mapI.get(material);
+				mapII = mapI.get(tool);
+			}
+			LinkedHashMap<EventType, Double> mapIII = new LinkedHashMap<>();
+			if(mapII.containsKey(material))
+			{
+				mapIII = mapII.get(material);
 			}
 			double d = amount;
-			if(mapII.containsKey(eventType))
+			if(mapIII.containsKey(eventType))
 			{
-				d = d + mapII.get(eventType);
+				d = d + mapIII.get(eventType);
 			}
-			mapII.put(eventType, d);
-			mapI.put(material, mapII);
+			mapIII.put(eventType, d);
+			mapII.put(material, mapIII);
+			mapI.put(tool, mapII);
 			rewardMaterialMap.put(uuid, mapI);
 		} else if(entityType != null)
 		{
-			LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>> mapI = new LinkedHashMap<>();
+			LinkedHashMap<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>>> mapI = new LinkedHashMap<>();
 			if(rewardEntityTypeMap.containsKey(uuid))
 			{
 				mapI = rewardEntityTypeMap.get(uuid);
 			}
-			LinkedHashMap<EventType, Double> mapII = new LinkedHashMap<>();
-			if(mapI.containsKey(entityType))
+			LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>> mapII = new LinkedHashMap<>();
+			if(mapI.containsKey(tool))
 			{
-				mapII = mapI.get(entityType);
+				mapII = mapI.get(tool);
+			}
+			LinkedHashMap<EventType, Double> mapIII = new LinkedHashMap<>();
+			if(mapII.containsKey(entityType))
+			{
+				mapIII = mapII.get(entityType);
 			}
 			double d = amount;
-			if(mapII.containsKey(eventType))
+			if(mapIII.containsKey(eventType))
 			{
-				d = d + mapII.get(eventType);
+				d = d + mapIII.get(eventType);
 			}
-			mapII.put(eventType, d);
-			mapI.put(entityType, mapII);
+			mapIII.put(eventType, d);
+			mapII.put(entityType, mapIII);
+			mapI.put(tool, mapII);
 			rewardEntityTypeMap.put(uuid, mapI);
 		}
 	}
@@ -377,13 +391,14 @@ public class RewardHandler
 	}
 	
 	public static ArrayList<ItemStack> getDrops(Player player,
-			EventType eventType, Material material, EntityType entityType,
-			boolean playerUsedTools)
+			EventType eventType, ToolType toolType, Material material, EntityType entityType)
 	{
 		//https://minecraft.fandom.com/wiki/Fortune
 		boolean breakingThroughVanillaDropBarrier = plugin.getYamlHandler().getConfig().getBoolean("Do.Drops.BreakingThroughVanillaDropBarrier", true);
 		boolean silkTouch = (player.getInventory().getItemInMainHand() != null &&
 				player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.SILK_TOUCH) > 0);
+		final ToolType tool = toolType != null ? toolType : ToolType.getHandToolType(player);
+		boolean playerUsedTools = ToolType.isTool(tool);
 		if(!playerUsedTools)
 		{
 			silkTouch = false;
@@ -406,10 +421,11 @@ public class RewardHandler
 			if(silkTouch)
 			{
 				if(PlayerHandler.materialSilkTouchDropMap.containsKey(uuid)
-						&& PlayerHandler.materialSilkTouchDropMap.get(uuid).containsKey(material)
-						&& PlayerHandler.materialSilkTouchDropMap.get(uuid).get(material).containsKey(eventType))
+						&& PlayerHandler.materialSilkTouchDropMap.get(uuid).containsKey(tool)
+						&& PlayerHandler.materialSilkTouchDropMap.get(uuid).get(tool).containsKey(material)
+						&& PlayerHandler.materialSilkTouchDropMap.get(uuid).get(tool).get(material).containsKey(eventType))
 				{
-					for(SimpleDropChance sdc : PlayerHandler.materialSilkTouchDropMap.get(uuid).get(material).get(eventType).values())
+					for(SimpleDropChance sdc : PlayerHandler.materialSilkTouchDropMap.get(uuid).get(tool).get(material).get(eventType).values())
 					{
 						ItemStack is = getSingleDrops(player, sdc, fortunelevel, lucklevel, 
 								breakingThroughVanillaDropBarrier, eventType, material, entityType);
@@ -419,10 +435,11 @@ public class RewardHandler
 			} else
 			{
 				if(PlayerHandler.materialDropMap.containsKey(uuid)
-						&& PlayerHandler.materialDropMap.get(uuid).containsKey(material)
-						&& PlayerHandler.materialDropMap.get(uuid).get(material).containsKey(eventType))
+						&& PlayerHandler.materialDropMap.get(uuid).containsKey(tool)
+						&& PlayerHandler.materialDropMap.get(uuid).get(tool).containsKey(material)
+						&& PlayerHandler.materialDropMap.get(uuid).get(tool).get(material).containsKey(eventType))
 				{
-					for(SimpleDropChance sdc : PlayerHandler.materialDropMap.get(uuid).get(material).get(eventType).values())
+					for(SimpleDropChance sdc : PlayerHandler.materialDropMap.get(uuid).get(tool).get(material).get(eventType).values())
 					{
 						ItemStack is = getSingleDrops(player, sdc, fortunelevel, lucklevel,
 								breakingThroughVanillaDropBarrier, eventType, material, entityType);
@@ -451,10 +468,11 @@ public class RewardHandler
 			if(silkTouch)
 			{
 				if(PlayerHandler.entityTypeSilkTouchDropMap.containsKey(uuid)
-						&& PlayerHandler.entityTypeSilkTouchDropMap.get(uuid).containsKey(entityType)
-						&& PlayerHandler.entityTypeSilkTouchDropMap.get(uuid).get(entityType).containsKey(eventType))
+						&& PlayerHandler.entityTypeSilkTouchDropMap.get(uuid).containsKey(tool)
+						&& PlayerHandler.entityTypeSilkTouchDropMap.get(uuid).get(tool).containsKey(entityType)
+						&& PlayerHandler.entityTypeSilkTouchDropMap.get(uuid).get(tool).get(entityType).containsKey(eventType))
 				{
-					for(SimpleDropChance sdc : PlayerHandler.entityTypeSilkTouchDropMap.get(uuid).get(entityType).get(eventType).values())
+					for(SimpleDropChance sdc : PlayerHandler.entityTypeSilkTouchDropMap.get(uuid).get(tool).get(entityType).get(eventType).values())
 					{
 						ItemStack is = getSingleDrops(player, sdc, lootlevel, lucklevel,
 								breakingThroughVanillaDropBarrier, eventType, material, entityType);
@@ -464,10 +482,11 @@ public class RewardHandler
 			} else
 			{
 				if(PlayerHandler.entityTypeDropMap.containsKey(uuid)
-						&& PlayerHandler.entityTypeDropMap.get(uuid).containsKey(entityType)
-						&& PlayerHandler.entityTypeDropMap.get(uuid).get(entityType).containsKey(eventType))
+						&& PlayerHandler.entityTypeDropMap.get(uuid).containsKey(tool)
+						&& PlayerHandler.entityTypeDropMap.get(uuid).get(tool).containsKey(entityType)
+						&& PlayerHandler.entityTypeDropMap.get(uuid).get(tool).get(entityType).containsKey(eventType))
 				{
-					for(SimpleDropChance sdc : PlayerHandler.entityTypeDropMap.get(uuid).get(entityType).get(eventType).values())
+					for(SimpleDropChance sdc : PlayerHandler.entityTypeDropMap.get(uuid).get(tool).get(entityType).get(eventType).values())
 					{
 						ItemStack is = getSingleDrops(player, sdc, lootlevel, lucklevel,
 								breakingThroughVanillaDropBarrier, eventType, material, entityType);

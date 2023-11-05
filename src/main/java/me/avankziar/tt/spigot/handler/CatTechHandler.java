@@ -257,7 +257,7 @@ public class CatTechHandler
 								for(int ii = 3; i < split.length; i++)
 								{
 									String[] sp = split[i].split("=");
-									if(split[ii].startsWith("tooltype") && sp.length == 2)
+									if(split[ii].startsWith("tool") && sp.length == 2)
 									{
 										ui.setToolType(ToolType.valueOf(sp[1]));
 									}if(split[ii].startsWith("canAccess") && sp.length == 2)
@@ -342,19 +342,20 @@ public class CatTechHandler
 							try
 							{
 								EventType eventType = EventType.valueOf(split[0]);
+								ToolType tool = ToolType.valueOf(split[1]);
 								Material material = null;
 								EntityType entityType = null;
-								if(!split[1].equalsIgnoreCase("null"))
-								{
-									material = Material.valueOf(split[1]);
-								}
 								if(!split[2].equalsIgnoreCase("null"))
 								{
-									entityType = EntityType.valueOf(split[2]);
+									material = Material.valueOf(split[2]);
 								}
-								String item = split[3];
-								int amount = Integer.parseInt(split[4]);
-								DropChance dc = new DropChance(eventType, material, entityType, item, amount, Double.parseDouble(split[5]));
+								if(!split[3].equalsIgnoreCase("null"))
+								{
+									entityType = EntityType.valueOf(split[3]);
+								}
+								String item = split[4];
+								int amount = Integer.parseInt(split[5]);
+								DropChance dc = new DropChance(eventType, tool, material, entityType, item, amount, Double.parseDouble(split[5]));
 								adc.add(dc);
 								rewardDropChances.put(i, adc);
 							} catch(Exception e)
@@ -380,19 +381,20 @@ public class CatTechHandler
 							try
 							{
 								EventType eventType = EventType.valueOf(split[0]);
+								ToolType tool = ToolType.valueOf(split[1]);
 								Material material = null;
 								EntityType entityType = null;
-								if(!split[1].equalsIgnoreCase("null"))
-								{
-									material = Material.valueOf(split[1]);
-								}
 								if(!split[2].equalsIgnoreCase("null"))
 								{
-									entityType = EntityType.valueOf(split[2]);
+									material = Material.valueOf(split[2]);
 								}
-								String item = split[3];
-								int amount = Integer.parseInt(split[4]);
-								DropChance dc = new DropChance(eventType, material, entityType, item, amount, Double.parseDouble(split[5]));
+								if(!split[3].equalsIgnoreCase("null"))
+								{
+									entityType = EntityType.valueOf(split[3]);
+								}
+								String item = split[4];
+								int amount = Integer.parseInt(split[5]);
+								DropChance dc = new DropChance(eventType, tool, material, entityType, item, amount, Double.parseDouble(split[5]));
 								adc.add(dc);
 								rewardSilkTouchDropChances.put(i, adc);
 							} catch(Exception e)

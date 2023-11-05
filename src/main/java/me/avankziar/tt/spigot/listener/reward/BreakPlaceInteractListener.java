@@ -23,6 +23,7 @@ import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.ToolType;
 import main.java.me.avankziar.tt.spigot.objects.sqllite.PlacedBlock;
 
 public class BreakPlaceInteractListener implements Listener
@@ -73,12 +74,18 @@ public class BreakPlaceInteractListener implements Listener
 		final Player player = event.getPlayer();
 		final UUID uuid = player.getUniqueId();
 		final Material blockType = event.getBlock().getType();
+		final ToolType tool = ToolType.getHandToolType(player);
 		final Location loc = event.getBlock().getLocation();
 		new BukkitRunnable()
 		{
 			@Override
 			public void run()
 			{
+				if(!RewardHandler.canAccessInteraction(player,
+						ToolType.getToolType(player.getInventory().getItemInMainHand().getType()), BR, blockType, null))
+				{
+					return;
+				}
 				if(TRACK_PLACED_BLOCKS)
 				{
 					if(PlacedBlock.wasPlaced(loc) && !REWARD_IF_MANUALLY_PLACED_BEFORE)
@@ -86,7 +93,7 @@ public class BreakPlaceInteractListener implements Listener
 						return;
 					}
 				}
-				for(ItemStack is : RewardHandler.getDrops(player, BR, blockType, null, true))
+				for(ItemStack is : RewardHandler.getDrops(player, BR, tool, blockType, null))
 				{
 					new BukkitRunnable()
 					{
@@ -98,7 +105,7 @@ public class BreakPlaceInteractListener implements Listener
 						}
 					}.runTask(TT.getPlugin());
 				}
-				RewardHandler.rewardPlayer(uuid, BR, blockType, null, 1);
+				RewardHandler.rewardPlayer(uuid, BR, tool, blockType, null, 1);
 			}
 		}.runTaskAsynchronously(TT.getPlugin());
 	}
@@ -117,6 +124,7 @@ public class BreakPlaceInteractListener implements Listener
 		final Player player = event.getPlayer();
 		final UUID uuid = player.getUniqueId();
 		final Material blockType = event.getBlock().getType();
+		final ToolType tool = ToolType.getHandToolType(player);
 		final Location loc = event.getBlock().getLocation();
 		new BukkitRunnable()
 		{
@@ -131,7 +139,7 @@ public class BreakPlaceInteractListener implements Listener
 									loc.getBlockX(), loc.getBlockY(), loc.getBlockZ(),
 									System.currentTimeMillis()+EXPIRATION_DATE));
 				}
-				for(ItemStack is : RewardHandler.getDrops(player, PL, blockType, null, false))
+				for(ItemStack is : RewardHandler.getDrops(player, PL, tool, blockType, null))
 				{
 					new BukkitRunnable()
 					{
@@ -144,7 +152,7 @@ public class BreakPlaceInteractListener implements Listener
 						}
 					}.runTask(TT.getPlugin());
 				}
-				RewardHandler.rewardPlayer(uuid, PL, blockType, null, 1);
+				RewardHandler.rewardPlayer(uuid, PL, tool, blockType, null, 1);
 			}
 		}.runTaskAsynchronously(TT.getPlugin());
 	}
@@ -190,13 +198,14 @@ public class BreakPlaceInteractListener implements Listener
 		final Player player = event.getPlayer();
 		final UUID uuid = player.getUniqueId();
 		final Material blockType = event.getClickedBlock().getType();
+		final ToolType tool = ToolType.getHandToolType(player);
 		final Location loc = event.getClickedBlock().getLocation();
 		new BukkitRunnable()
 		{
 			@Override
 			public void run()
 			{
-				for(ItemStack is : RewardHandler.getDrops(player, et, blockType, null, true))
+				for(ItemStack is : RewardHandler.getDrops(player, et, tool, blockType, null))
 				{
 					new BukkitRunnable()
 					{
@@ -208,7 +217,7 @@ public class BreakPlaceInteractListener implements Listener
 						}
 					}.runTask(TT.getPlugin());
 				}
-				RewardHandler.rewardPlayer(uuid, et, blockType, null, 1);
+				RewardHandler.rewardPlayer(uuid, et, tool, blockType, null, 1);
 			}
 		}.runTaskAsynchronously(TT.getPlugin());
 	}

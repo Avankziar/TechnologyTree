@@ -1,13 +1,20 @@
 package main.java.me.avankziar.tt.spigot.listener.reward;
 
+import java.util.UUID;
+
 import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
@@ -29,12 +36,37 @@ public class BucketEmptyFillListener implements Listener
 		{
 			return;
 		}
-		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), BE, event.getBucket(), null, true))
+		if(!RewardHandler.canAccessInteraction(event.getPlayer(),
+				ToolType.getToolType(event.getPlayer().getInventory().getItemInMainHand().getType()), BF, event.getBucket(), null))
 		{
-			Item it = event.getPlayer().getWorld().dropItem(event.getPlayer().getLocation(), is);
-			ItemHandler.addItemToTask(it, event.getPlayer().getUniqueId());
+			event.setCancelled(true);
+			return;
 		}
-		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), BE,	event.getBucket(), null, 1);
+		final Player player = event.getPlayer();
+		final UUID uuid = player.getUniqueId();
+		final Material bucket = event.getBucket();
+		final ToolType tool = ToolType.getToolType(bucket);
+		final Location loc = player.getLocation();
+		new BukkitRunnable()
+		{
+			@Override
+			public void run()
+			{
+				for(ItemStack is : RewardHandler.getDrops(player, BE, tool, bucket, null))
+				{
+					new BukkitRunnable()
+					{
+						@Override
+						public void run()
+						{
+							Item it = event.getPlayer().getWorld().dropItem(loc, is);
+							ItemHandler.addItemToTask(it, uuid);
+						}
+					}.runTask(TT.getPlugin());
+				}
+				RewardHandler.rewardPlayer(uuid, BE, tool, bucket, null, 1);
+			}
+		}.runTaskAsynchronously(TT.getPlugin());
 	}
 	
 	@EventHandler
@@ -54,11 +86,27 @@ public class BucketEmptyFillListener implements Listener
 			event.setCancelled(true);
 			return;
 		}
-		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), BF, event.getBlockClicked().getType(), null, true))
+		new BukkitRunnable()
 		{
-			Item it = event.getPlayer().getWorld().dropItem(event.getPlayer().getLocation(), is);
-			ItemHandler.addItemToTask(it, event.getPlayer().getUniqueId());
-		}
-		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), BF,	event.getBlockClicked().getType(), null, 1);
+			
+			@Override
+			public void run()
+			{
+				for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), BF, null, event.getBlockClicked().getType(), null))
+				{
+					new BukkitRunnable()
+					{
+						
+						@Override
+						public void run()
+						{
+							Item it = event.getPlayer().getWorld().dropItem(event.getPlayer().getLocation(), is);
+							ItemHandler.addItemToTask(it, event.getPlayer().getUniqueId());
+						}
+					}.runTask(TT.getPlugin());
+				}
+				RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), BF, ToolType.ALL, event.getBlockClicked().getType(), null, 1);
+			}
+		}.runTaskAsynchronously(TT.getPlugin());	
 	}
 }

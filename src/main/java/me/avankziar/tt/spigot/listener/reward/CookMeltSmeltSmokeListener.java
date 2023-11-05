@@ -21,6 +21,7 @@ import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.ToolType;
 
 public class CookMeltSmeltSmokeListener implements Listener
 {
@@ -95,12 +96,12 @@ public class CookMeltSmeltSmokeListener implements Listener
 		Player player = Bukkit.getPlayer(uuid);
 		if(player != null)
 		{
-			for(ItemStack is : RewardHandler.getDrops(player, et, event.getBlock().getType(), null, true))
+			for(ItemStack is : RewardHandler.getDrops(player, et, ToolType.ALL, event.getBlock().getType(), null))
 			{
 				Item it = event.getBlock().getWorld().dropItem(event.getBlock().getLocation(), is);
 				ItemHandler.addItemToTask(it, uuid);
 			}
 		}
-		RewardHandler.rewardPlayer(uuid, et, event.getResult().getType(), null, event.getResult().getAmount());
+		RewardHandler.rewardPlayer(uuid, et, ToolType.ALL, event.getResult().getType(), null, event.getResult().getAmount());
 	}
 }

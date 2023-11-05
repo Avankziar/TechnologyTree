@@ -8,20 +8,23 @@ import org.bukkit.inventory.ItemStack;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.tt.spigot.ifh.ItemGenerator;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.ToolType;
 
 public class DropChance
 {
 	private EventType eventType;
+	private ToolType toolType;
 	private Material eventMaterial;
 	private EntityType eventEntity;
 	private String toDropItem;
 	private int toDropItemAmount;
 	private double dropChance;
 	
-	public DropChance(EventType eventType, Material eventMaterial, EntityType eventEntity,
+	public DropChance(EventType eventType, ToolType toolType, Material eventMaterial, EntityType eventEntity,
 			String toDropItem, int toDropItemAmount, double dropChance)
 	{
 		setEventType(eventType);
+		setToolType(toolType);
 		setEventMaterial(eventMaterial);
 		setToDropItem(toDropItem);
 		setToDropItemAmount(toDropItemAmount);
@@ -36,6 +39,16 @@ public class DropChance
 	public void setEventType(EventType eventType)
 	{
 		this.eventType = eventType;
+	}
+
+	public ToolType getToolType()
+	{
+		return toolType;
+	}
+
+	public void setToolType(ToolType toolType)
+	{
+		this.toolType = toolType;
 	}
 
 	public Material getEventMaterial()

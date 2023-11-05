@@ -1207,9 +1207,33 @@ public class YamlManager
 	
 	public void initMainCategory() //INFO:MainCategory
 	{
+		
+		addMainCategory("miscellaneous",
+				new String[] {"Sonstiges", "Miscellaneous"},
+				PlayerAssociatedType.SOLO, 0, 
+				new String[] {
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"}, true,
+				new String[] {"&7Sonstiges","&7Miscellaneous"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Haupkategorie Sonstiges",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&f====================",
+						"&eHier sind alle Werkzeuge, Waffen,",
+						"&eRüstungen und mehr untergebracht.",
+						"&7Maincategory Miscellaneous",
+						"&aThis category is always on display!",
+						"&f====================",
+						"&eThey house all the tools, weapons,",
+						"&earmor and more.",},
+				new String[] {"&bBergbau","&bMiscellaneous"}, Material.WOODEN_PICKAXE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Haupkategorie Sonstiges",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Maincategory Miscellaneous",
+						"&aThis category is always on display!"});
 		addMainCategory("mining",
 				new String[] {"Bergbau", "Mining"},
-				PlayerAssociatedType.SOLO, 0, 
+				PlayerAssociatedType.SOLO, 1, 
 				new String[] {
 						"if:(a):o_1",
 						"output:o_1:true",
@@ -1224,8 +1248,8 @@ public class YamlManager
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Maincategory Mining",
 						"&aThis category is always on display!"});
-		addMainCategory("forestry",
-				new String[] {"Försterei", "Forestry"},
+		addMainCategory("woodworking",
+				new String[] {"Holzarbeiten", "Woodworking"},
 				PlayerAssociatedType.SOLO, 1, 
 				new String[] {
 						"if:(a):o_1",
@@ -1234,23 +1258,23 @@ public class YamlManager
 						"output:o_2:true",
 						"a:var1:perm=here.your.first.permission",
 						"b:var1:perm=here.your.other.permission"}, true,
-				new String[] {"&7Försterei","&7Forestry"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Hauptkategory Försterei",
+				new String[] {"&7Holzarbeiten","&7Woodworking"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Hauptkategory Holzarbeiten",
 						"&cAnforderungen zum einsehen:",
 						"&cPermission >here.your.first.permission< / >here.your.other.permission<",
-						"&7Maincategory Forestry",
+						"&7Maincategory Woodworking",
 						"&cRequirements to view:",
 						"&c>here.your.first.permission< / >here.your.other.permission<"},
-				new String[] {"&bFörsterei","&bForestry"}, Material.OAK_SAPLING, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&bHauptkategory Försterei",
+				new String[] {"&bHolzarbeiten","&bWoodworking"}, Material.OAK_PLANKS, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&bHauptkategorie Holzarbeiten",
 						"&fGibt Einsicht auf verschiedenste Bereiche der",
-						"&fFörsterrei wie Setzlinge pflanzen und Bäume schlagen.",
-						"&bMaincategory Forestry",
-						"&fGives insight into various areas of the forestry",
+						"&fHolzarbeiten wie Setzlinge pflanzen, Bäume schlagen, etc.",
+						"&bMaincategory Woodworking",
+						"&fGives insight into various areas of the woodworking",
 						"&fwork such as planting seedlings and felling trees."});
 		addMainCategory("stonemason",
 				new String[] {"Steinmetz", "Stonemason"},
-				PlayerAssociatedType.SOLO, 2,
+				PlayerAssociatedType.SOLO, 3,
 				new String[] {
 						"if:(a || b):o_1",
 						"output:o_1:true",
@@ -1263,13 +1287,30 @@ public class YamlManager
 						"&7Maincategory Stonemason",
 						"&cRequirements to view:",
 						"&cMust have researched the Technology >Stone< or >Sandstone<."},
-				new String[] {"",""}, Material.COBBLESTONE_STAIRS, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&bSteinmetz","&bStonemason"}, Material.COBBLESTONE_STAIRS, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
 						"&bHauptkategory Steinsmetz",
 						"&fGibt Einsicht auf verschiedenste Bereiche des",
 						"&fSteinmetzes wie Steinstufen und Treppen zum craften.",
 						"&bMaincategory Stonemason",
 						"&fGives insight into various areas of the stonemason",
 						"&fto craft stoneslaps and stairs."});
+		addMainCategory("tablerecipe",
+				new String[] {"Tischrezepte", "Tablerecipe"},
+				PlayerAssociatedType.SOLO, 4,
+				new String[] {
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"}, true,
+				new String[] {"&7Tischrezepte","&7Tablerecipe"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Hauptkategory Tischrezepte",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Maincategory Tablerecipe",
+						"&aThis category is always on display!"},
+				new String[] {"&bTischrezepte","&bTablerecipe"}, Material.ENCHANTING_TABLE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Hauptkategory Tischrezepte",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Maincategory Tablerecipe",
+						"&aThis category is always on display!"});
 		addMainCategory("booster",
 				new String[] {"Booster", "Booster"},
 				PlayerAssociatedType.GLOBAL, 0, 
@@ -1343,23 +1384,63 @@ public class YamlManager
 	
 	public void initSubCategory() //INFO:SubCategory
 	{
-		addSubCategory("starttechnology",
-				new String[] {"Starttechnology", "Starttechnology"},
+		subc_Miscellaneous();
+		subc_Mining();
+		subc_Woodworking();
+		subc_Stonemason();
+		subc_TableRecipes();
+		subc_Booster();
+	}
+	
+	public void subc_Miscellaneous()
+	{
+		/*
+		 * Werkzeuge(Schaufel, Hacke, Spitzhacke, Axt, Eimer(Wasser, etc.), Angel, Feuerzeug, Schere)
+		 * WaffenRüstungen(Schwert, Schild, Dreizack, Bogen, Armbrust,
+		 */
+		addSubCategory("tools",
+				new String[] {"Werkzeuge", "Tools"},
 				PlayerAssociatedType.SOLO, 0,
 				new String[] {
 						"if:(a):o_1",
 						"output:o_1:true",
-						"a:true"}, true, "forestry",
-				new String[] {"&7Starttechnology","&7Starttechnology"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Subkategorie Starttechnology",
+						"a:true"}, true, "miscellaneous",
+				new String[] {"&7Werkzeuge","&7Tools"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Subkategorie Werkzeuge",
 						"&aDiese Kategorie ist immer zu sehen!",
-						"&7Subcategory Starttechnology",
+						"&7Subcategory Tools",
 						"&aThis category is always on display!"},
-				new String[] {"&bStarttechnology","&bStarttechnology"}, Material.BEDROCK, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Subkategorie Starttechnology",
+				new String[] {"&bWerkzeuge","&bTools"}, Material.WOODEN_PICKAXE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Subkategorie Werkzeuge",
 						"&aDiese Kategorie ist immer zu sehen!",
-						"&7Subcategory Starttechnology",
+						"&7Subcategory Tools",
 						"&aThis category is always on display!"});
+		addSubCategory("weapons_armor",
+				new String[] {"Waffen_Rüstungen", "Weapons_Armor"},
+				PlayerAssociatedType.SOLO, 1,
+				new String[] {
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"}, true, "miscellaneous",
+				new String[] {"&7Waffen und Rüstungen","&7Weapons and Armor"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Subkategorie Waffen und Rüstungen",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Subcategory Weapons and Armor",
+						"&aThis category is always on display!"},
+				new String[] {"&bWaffen und Rüstungen","&bWeapons and Armor"}, Material.WOODEN_SWORD, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Subkategorie Waffen und Rüstungen",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Subcategory Weapons and Armor",
+						"&aThis category is always on display!"});
+	}
+	
+	public void subc_Mining()
+	{
+		/*
+		 * Erde,
+		 * Steine
+		 * Erze
+		 */
 		addSubCategory("soil",
 				new String[] {"Erde", "Soil"},
 				PlayerAssociatedType.SOLO, 0,
@@ -1411,14 +1492,22 @@ public class YamlManager
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Maincategory Mining",
 						"&aThis category is always on display!"});
-		
+	}
+	
+	public void subc_Woodworking()
+	{
+		/*
+		 * Setzlinge
+		 * Holzstämme
+		 * Holzbretter
+		 */
 		addSubCategory("sapling",
 				new String[] {"Setzlinge", "Saplings"},
 				PlayerAssociatedType.SOLO, 0,
 				new String[] {
 						"if:(a):o_1",
 						"output:o_1:true",
-						"a:true"}, true, "forestry",
+						"a:true"}, true, "woodworking",
 				new String[] {"&7Setzlinge","&7Saplings"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
 						"&7Subkategorie Setzlinge",
 						"&aDiese Kategorie ist immer zu sehen!",
@@ -1435,7 +1524,7 @@ public class YamlManager
 				new String[] {
 						"if:(a):o_1",
 						"output:o_1:true",
-						"a:true"}, true, "forestry",
+						"a:true"}, true, "woodworking",
 				new String[] {"&7Holzstämme","&7Woodenlog"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
 						"&7Subkategorie Holzstämme",
 						"&aDiese Kategorie ist immer zu sehen!",
@@ -1446,7 +1535,31 @@ public class YamlManager
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Subcategory Woodenlog",
 						"&aThis category is always on display!"});
-		
+		addSubCategory("planks",
+				new String[] {"Holzbretter", "Planks"},
+				PlayerAssociatedType.SOLO, 2,
+				new String[] {
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"}, true, "woodworking",
+				new String[] {"&7Holzbretter","&7Planks"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Subkategorie Holzbretter",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Subcategory Planks",
+						"&aThis category is always on display!"},
+				new String[] {"&bHolzbretter","&bPlanks"}, Material.OAK_PLANKS, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Subkategorie Holzbretter",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Subcategory Planks",
+						"&aThis category is always on display!"});
+	}
+	
+	public void subc_Stonemason()
+	{
+		/*
+		 * Stufen
+		 * Treppen
+		 */
 		addSubCategory("stoneslaps",
 				new String[] {"Steinstufen", "Stoneslaps"},
 				PlayerAssociatedType.SOLO, 0,
@@ -1481,24 +1594,106 @@ public class YamlManager
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Subcategory Stonestairs",
 						"&aThis category is always on display!"});
-		addSubCategory("stonetools",
-				new String[] {"Steinwerkzeuge", "Stonetools"},
+	}
+	
+	public void subc_TableRecipes()
+	{
+		/*
+		 * Brennen
+		 * Verzaubern
+		 * Tränke
+		 * Amboss
+		 * Schmieden
+		 */
+		addSubCategory("furnancerecipe",
+				new String[] {"Ofenrezepte", "Furnacerecipe"},
+				PlayerAssociatedType.SOLO, 0,
+				new String[] {
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"}, true, "tablerecipe",
+				new String[] {"&7Ofenrezepte","&7Furnacerecipe"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Subkategorie Ofenrezepte",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Subcategory Furnacerecipe",
+						"&aThis category is always on display!"},
+				new String[] {"&bOfenrezepte","&bFurnacerecipe"}, Material.FURNACE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Subkategorie Ofenrezepte",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Subcategory Furnacerecipe",
+						"&aThis category is always on display!"});
+		addSubCategory("enchantmentrecipe",
+				new String[] {"Verzauberungsrezepte", "Enchantmentrecipe"},
+				PlayerAssociatedType.SOLO, 1,
+				new String[] {
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"}, true, "tablerecipe",
+				new String[] {"&7Verzauberungsrezepte","&7Enchantmentrecipe"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Subkategorie Verzauberungsrezepte",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Subcategory Enchantmentrecipe",
+						"&aThis category is always on display!"},
+				new String[] {"&bVerzauberungsrezepte","&bEnchantmentrecipe"}, Material.ENCHANTING_TABLE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Subkategorie Verzauberungsrezepte",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Subcategory Enchantmentrecipe",
+						"&aThis category is always on display!"});
+		addSubCategory("brewingrecipe",
+				new String[] {"Braurezepte", "Brewingrecipe"},
 				PlayerAssociatedType.SOLO, 2,
 				new String[] {
 						"if:(a):o_1",
 						"output:o_1:true",
-						"a:true"}, true, "stonemason",
-				new String[] {"&7Steinwerkzeuge","&7Stonetools"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Subkategorie Steinwerkzeuge",
+						"a:true"}, true, "tablerecipe",
+				new String[] {"&7Braurezepte","&7Brewingrecipe"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Subkategorie Braurezepte",
 						"&aDiese Kategorie ist immer zu sehen!",
-						"&7Subcategory Stonewall",
+						"&7Subcategory Brewingrecipe",
 						"&aThis category is always on display!"},
-				new String[] {"&bSteinwerkzeuge","&bStonetools"}, Material.STONE_PICKAXE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Subkategorie Steinwerkzeuge",
+				new String[] {"&bBraurezepte","&bFurnacerecipe"}, Material.BREWING_STAND, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Subkategorie Braurezepte",
 						"&aDiese Kategorie ist immer zu sehen!",
-						"&7Subcategory Stonetools",
+						"&7Subcategory Brewingrecipe",
 						"&aThis category is always on display!"});
-		
+		addSubCategory("anvilrecipe",
+				new String[] {"Ambossrezepte", "Anvilrecipe"},
+				PlayerAssociatedType.SOLO, 3,
+				new String[] {
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"}, true, "tablerecipe",
+				new String[] {"&7Ambossrezepte","&7Anvilrecipe"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Subkategorie Ambossrezepte",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Subcategory Anvilrecipe",
+						"&aThis category is always on display!"},
+				new String[] {"&bAmbossrezepte","&bAnvilrecipe"}, Material.ANVIL, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Subkategorie Ambossrezepte",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Subcategory Anvilrecipe",
+						"&aThis category is always on display!"});
+		addSubCategory("forgingcerecipe",
+				new String[] {"Schmiederezepte", "Forgingcerecipe"},
+				PlayerAssociatedType.SOLO, 4,
+				new String[] {
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"}, true, "tablerecipe",
+				new String[] {"&7Schmiederezepte","&7Forgingcerecipe"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Subkategorie Schmiederezepte",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Subcategory Forgingcerecipe",
+						"&aThis category is always on display!"},
+				new String[] {"&bSchmiederezepte","&bForgingcerecipe"}, Material.SMITHING_TABLE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Subkategorie Schmiederezepte",
+						"&aDiese Kategorie ist immer zu sehen!",
+						"&7Subcategory Forgingcerecipe",
+						"&aThis category is always on display!"});
+	}
+	
+	public void subc_Booster()
+	{
 		addSubCategory("miningbooster",
 				new String[] {"Abbaubooster", "Miningbooster"},
 				PlayerAssociatedType.GLOBAL, 0,
@@ -1591,831 +1786,55 @@ public class YamlManager
 	
 	public void initTechnology() //INFO:Technology
 	{
-		//starttechnology
-		addTechnology(
-				"dirt", new String[] {"Erde", "Dirt"}, TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 0, "", "starttechnology", 
-				0, 0, 0, 0, 0, 0, 0, 0,
-				new String[] { //ConditionToSee
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"}, true,
-				new String[] {"&7Erde","&7Dirt"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Erde",
-						"&aStarttechnologie, welche du immer zu Anfang",
-						"&afreigeschaltet hast!",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Erde/Grass/Sand/Kies",
-						"&7Technology Dirt",
-						"&aStart technology, which you always",
-						"&aunlocked at the beginning!",
-						"&eUnlocks the following:",
-						"&fMining of dirt/grassblock/sand/gravel"},
-				new String[] {"&7Erde","&7Dirt"}, Material.DIRT, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Erde",
-						"&aStarttechnologie, welche du immer zu Anfang",
-						"&afreigeschaltet hast!",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Erde/Grass/Sand/Kies",
-						"&7Technology Dirt",
-						"&aStart technology, which you always",
-						"&aunlocked at the beginning!",
-						"&eUnlocks the following:",
-						"&fMining of dirt/grassblock/sand/gravel"},
-				new String[] { //ConditionToResearch
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"},
-				"1000 * totalsolotech", //TTExp
-				"10 * totalsolotech", //VanillaExp
-				"100 * totalsolotech", //money
-				new String[] {//CostMaterial
-						"DIRT;1",
-						"SAND;1"},
-				new String[] {"&7Erde","&7Dirt"}, Material.DIRT, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Erde",
-						"&aStarttechnologie, welche du immer zu Anfang",
-						"&afreigeschaltet hast!",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Erde/Grass/Sand/Kies",
-						"&7Technology Dirt",
-						"&aStart technology, which you always",
-						"&aunlocked at the beginning!",
-						"&eUnlocks the following:",
-						"&fMining of dirt/grassblock/sand/gravel"},
-				new String[] {"&bErde","&bDirt"}, Material.DIRT, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Erde",
-						"&aStarttechnologie, welche du immer zu Anfang",
-						"&afreigeschaltet hast!",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Erde/Grass/Sand/Kies",
-						"&7Technology Dirt",
-						"&aStart technology, which you always",
-						"&aunlocked at the beginning!",
-						"&eUnlocks the following:",
-						"&fMining of dirt/grassblock/sand/gravel"},
-				new String[] { //Interaction
-						"BREAKING:DIRT:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:GRASS_BLOCK:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:SAND:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:GRAVEL:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1"},
-				new String[] {//Recipes
-						"",
-						""},
-				new String[] {//DropChance
-						"BREAKING:DIRT:null:mat=DIRT:1:1.0",
-						"BREAKING:GRASS_BLOCK:null:mat=DIRT:1:1.0",
-						"BREAKING:SAND:null:mat=SAND:1:1.0",
-						"BREAKING:GRAVEL:null:mat=GRAVEL:1:0.75",
-						"BREAKING:GRAVEL:null:mat=FLINT:1:0.25"},
-				new String[] {//Silktouch Dropchance
-						"BREAKING:DIRT:null:mat=DIRT:1:1.0",
-						"BREAKING:GRASS_BLOCK:null:mat=GRASS_BLOCK:1:1.0",
-						"BREAKING:SAND:null:mat=SAND:1:1.0",
-						"BREAKING:GRAVEL:null:mat=GRAVEL:1:1.0"},
-				new String[] {//Command
-						"",
-						""},
-				new String[] {//Item
-						"",
-						""},
-				new String[] {//Modifier
-						"",
-						""},
-				new String[] {//ValueEntry
-						"",
-						""}
-				);
-		addTechnology(
-				"woodenlog", new String[] {"Holzstamm", "Woodenlog"}, TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 1, "", "starttechnology", 
-				0, 0, 0, 0, 0, 0, 0, 0,
-				new String[] { //ConditionToSee
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"}, true,
-				new String[] {"&7Holzstamm","&7Woodenlog"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Holzstamm",
-						"&aStarttechnologie, welche du immer zu Anfang",
-						"&afreigeschaltet hast!",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von allen Holzstämme",
-						"&7Technology Woodenlog",
-						"&aStart technology, which you always",
-						"&aunlocked at the beginning!",
-						"&eUnlocks the following:",
-						"&fMining of all woodenlog"},
-				new String[] {"&7Eichenstamm","&7Oaklog"}, Material.OAK_LOG, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Holzstamm",
-						"&aStarttechnologie, welche du immer zu Anfang",
-						"&afreigeschaltet hast!",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von allen Holzstämme",
-						"&7Technology Woodenlog",
-						"&aStart technology, which you always",
-						"&aunlocked at the beginning!",
-						"&eUnlocks the following:",
-						"&fMining of all woodenlog"},
-				new String[] { //ConditionToResearch
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"},
-				"", //TTExp
-				"", //VanillaExp
-				"", //money
-				null,
-				new String[] {"&7Eichenstamm","&7Oaklog"}, Material.OAK_LOG, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Holzstamm",
-						"&aStarttechnologie, welche du immer zu Anfang",
-						"&afreigeschaltet hast!",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von allen Holzstämme",
-						"&7Technology Woodenlog",
-						"&aStart technology, which you always",
-						"&aunlocked at the beginning!",
-						"&eUnlocks the following:",
-						"&fMining of all woodenlog"},
-				new String[] {"&7Eichenstamm","&7Oaklog"}, Material.OAK_LOG, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Holzstamm",
-						"&aStarttechnologie, welche du immer zu Anfang",
-						"&afreigeschaltet hast!",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von allen Holzstämme",
-						"&7Technology Woodenlog",
-						"&aStart technology, which you always",
-						"&aunlocked at the beginning!",
-						"&eUnlocks the following:",
-						"&fMining of all woodenlog"},
-				new String[] { //Interaction
-						"BREAKING:OAK_LOG:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:SPRUCE_LOG:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:BIRCH_LOG:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:JUNGLE_LOG:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:ACACIA_LOG:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:DARK_OAK_LOG:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:MANGROVE_LOG:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:CHERRY_LOG:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1"},
-				null,
-				new String[] {//DropChance
-						"BREAKING:OAK_LOG:null:mat=OAK_LOG:1:1.0",
-						"BREAKING:SPRUCE_LOG:null:mat=SPRUCE_LOG:1:1.0",
-						"BREAKING:BIRCH_LOG:null:mat=BIRCH_LOG:1:1.0",
-						"BREAKING:JUNGLE_LOG:null:mat=JUNGLE_LOG:1:1.0",
-						"BREAKING:ACACIA_LOG:null:mat=ACACIA_LOG:1:1.0",
-						"BREAKING:DARK_OAK_LOG:null:mat=DARK_OAK_LOG:1:1.0",
-						"BREAKING:MANGROVE_LOG:null:mat=MANGROVE_LOG:1:1.0",
-						"BREAKING:CHERRY_LOG:null:mat=CHERRY_LOG:1:1.0"},
-				new String[] {//Silktouch Dropchance
-						"BREAKING:OAK_LOG:null:mat=OAK_LOG:1:1.0",
-						"BREAKING:SPRUCE_LOG:null:mat=SPRUCE_LOG:1:1.0",
-						"BREAKING:BIRCH_LOG:null:mat=BIRCH_LOG:1:1.0",
-						"BREAKING:JUNGLE_LOG:null:mat=JUNGLE_LOG:1:1.0",
-						"BREAKING:ACACIA_LOG:null:mat=ACACIA_LOG:1:1.0",
-						"BREAKING:DARK_OAK_LOG:null:mat=DARK_OAK_LOG:1:1.0",
-						"BREAKING:MANGROVE_LOG:null:mat=MANGROVE_LOG:1:1.0",
-						"BREAKING:CHERRY_LOG:null:mat=CHERRY_LOG:1:1.0"},
-				null, null, null, null);
+		tech_Miscellaneous_Tools();
+		
 		//soil
-		addTechnology(
-				"soil_I", new String[] {"Böden_I", "Soil_I"}, TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 0, "", "soil", 
-				0, 0, 0, 0, 0, 0, 0, 0,
-				new String[] { //ConditionToSee
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"}, true,
-				new String[] {"&7Böden I","&7Soil I"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Böden I",
-						"",
-						"&7Technology Soil I",
-						""},
-				new String[] {"&7Böden I","&7Soil I"}, Material.ROOTED_DIRT, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Böden I",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Geld",
-						"&f64x Erde, 16x Kies",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Grobe Erde/Wurzelerde/Erdpfad/Podsol",
-						"&7Technology Soil I",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&f64x Dirt, 16x Gravel",
-						"&eUnlocks the following:",
-						"&fMining coarsedirt/rooteddirt/dirtpath/podzol"},
-				new String[] { //ConditionToResearch
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"},
-				"100 * totalsolotech",
-				"10 * totalsolotech",
-				"1 * totalsolotech",
-				new String[] {//CostMaterial
-						"DIRT;64",
-						"GRAVEL:16"},
-				new String[] {"&7Böden II","&7Soil II"}, Material.ROOTED_DIRT, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Böden I",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Geld",
-						"&f64x Erde, 16x Kies",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Grobe Erde/Wurzelerde/Erdpfad/Podsol",
-						"&7Technology Soil I",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&f64x Dirt, 16x Gravel",
-						"&eUnlocks the following:",
-						"&fMining coarsedirt/rooteddirt/dirtpath/podzol"},
-				new String[] {"&bBöden II","&bSoil II"}, Material.ROOTED_DIRT, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Böden I",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Grobe Erde/Wurzelerde/Erdpfad/Podsol",
-						"&7Technology Soil I",
-						"&eUnlocks the following:",
-						"&fMining coarsedirt/rooteddirt/dirtpath/podzol"},
-				new String[] { //Interaction
-						"BREAKING:COARSE_DIRT:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:ROOTED_DIRT:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:DIRT_PATH:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:PODZOL:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1"},
-				null,
-				new String[] {//DropChance
-						"BREAKING:COARSE_DIRT:null:mat=COARSE_DIRT:1:1.0",
-						"BREAKING:ROOTED_DIRT:null:mat=ROOTED_DIRT:1:1.0",
-						"BREAKING:DIRT_PATH:null:mat=DIRT:1:1.0",
-						"BREAKING:PODZOL:null:mat=DIRTL:1:1.0"},
-				new String[] {//Silktouch Dropchance
-						"BREAKING:COARSE_DIRT:null:mat=COARSE_DIRT:1:1.0",
-						"BREAKING:ROOTED_DIRT:null:mat=ROOTED_DIRT:1:1.0",
-						"BREAKING:DIRT_PATH:null:mat=DIRT:1:1.0",
-						"BREAKING:PODZOL:null:mat=PODZOL:1:1.0"},
-				null, null, null, null
-				);
-		addTechnology(
-				"soil_II", new String[] {"Böden_II", "Soil_II"}, TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 1, "", "soil", 
-				0, 0, 0, 0, 0, 0, 0, 0,
-				new String[] { //ConditionToSee
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"}, true,
-				new String[] {"&7Böden II","&7Soil II"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Böden II",
-						"",
-						"&7Technology Soil II",
-						""},
-				new String[] {"&7Böden II","&7Soil II"}, Material.CLAY, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Böden II",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Geld",
-						"&f128x Erde, 64x Podzol",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Ton/Schlamm/Myzel/Schnee/Schneeblock/Tuffstein",
-						"&7Technology Soil II",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&f128x Dirt, 64x Podzol",
-						"&eUnlocks the following:",
-						"&fMining Clay/Mud/Mycelium/Snow/Snowblock/Tuff"},
-				new String[] { //ConditionToResearch
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"},
-				"5000 * totalsolotech",
-				"500 * totalsolotech",
-				"50 * totalsolotech",
-				new String[] {//CostMaterial
-						"DIRT;128",
-						"PODZOL;64"},
-				new String[] {"&7Böden II","&7Soil II"}, Material.CLAY, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Böden II",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Geld",
-						"&f128x Erde, 64x Podzol",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Ton/Schlamm/Myzel/Schnee/Schneeblock/Tuffstein",
-						"&7Technology Soil II",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&f128x Dirt, 64x Podzol",
-						"&eUnlocks the following:",
-						"&fMining Clay/Mud/Mycelium/Snow/Snowblock/Tuff"},
-				new String[] {"&bBöden II","&bSoil II"}, Material.CLAY, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Böden II",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Ton/Schlamm/Myzel/Schnee/Schneeblock/Tuffstein",
-						"&7Technology Soil II",
-						"&eUnlocks the following:",
-						"&fMining Clay/Mud/Mycelium/Snow/Snowblock/Tuff"},
-				new String[] { //Interaction
-						"BREAKING:CLAY:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:MUD:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:MYCELIUM:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:SNOW:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:SNOW_BLOCK:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:TUFF:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1"},
-				null,
-				new String[] {//DropChance
-						"BREAKING:CLAY:null:mat=CLAY:1:1.0",
-						"BREAKING:MUD:null:mat=MUD:1:1.0",
-						"BREAKING:MYCELIUM:null:mat=MYCELIUM:1:1.0",
-						"BREAKING:SNOW:null:mat=SNOWBALL:1:1.0",
-						"BREAKING:SNOW_BLOCK:null:mat=SNOWBALL:4:1.0",
-						"BREAKING:TUFF:null:mat=TUFF:1:1.0"},
-				new String[] {//Silktouch Dropchance
-						"BREAKING:CLAY:null:mat=CLAY:1:1.0",
-						"BREAKING:MUD:null:mat=MUD:1:1.0",
-						"BREAKING:MYCELIUM:null:mat=MYCELIUM:1:1.0",
-						"BREAKING:SNOW:null:mat=SNOW:1:1.0",
-						"BREAKING:SNOW_BLOCK:null:mat=SNOW_BLOCK:1:1.0",
-						"BREAKING:TUFF:null:mat=TUFF:1:1.0"},
-				null, null, null, null);
+		
 		//stone
-		addTechnology(
-				"stone_I", new String[] {"Stein_I", "Stone_I"}, TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 0, "", "stone", 
-				0, 0, 0, 0, 0, 0, 0, 0,
-				new String[] { //ConditionToSee
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"}, true,
-				new String[] {"&7Stein I","&7Stone I"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Stein I",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Geld",
-						"&f64x Erde, 16x Eichenstämme",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Stein/Bruchstein",
-						"&7Technology Stone I",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&f64x Dirt, 16x Oaklog",
-						"&eUnlocks the following:",
-						"&fMining of Stone/Cobblestone"},
-				new String[] {"&7Stein I","&7Stone I"}, Material.STONE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Stein I",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Geld",
-						"&f64x Erde, 16x Eichenstämme",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Stein/Bruchstein",
-						"&7Technology Stone I",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&f64x Dirt, 16x Oaklog",
-						"&eUnlocks the following:",
-						"&fMining of Stone/Cobblestone"},
-				new String[] { //ConditionToResearch
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"},
-				"1000 * totalsolotech", //TTExp
-				"10 * totalsolotech", //VanillaExp
-				"100 * totalsolotech", //money
-				new String[] {//CostMaterial
-						"DIRT;64",
-						"OAK_LOG;16"},
-				new String[] {"&7Stein I","&7Stone I"}, Material.STONE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Stein I",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Geld",
-						"&f64x Erde, 16x Eichenstämme",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Stein/Bruchstein",
-						"&7Technology Stone I",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&f64x Dirt, 16x Oaklog",
-						"&eUnlocks the following:",
-						"&fMining of Stone/Cobblestone"},
-				new String[] {"&bStein I","&bStone I"}, Material.STONE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Stein I",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Stein/Bruchstein",
-						"&7Technology Stone I",
-						"&eUnlocks the following:",
-						"&fMining of Stone/Cobblestone"},
-				new String[] { //Interaction
-						"BREAKING:STONE:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:COBBLESTONE:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1"},
-				null,
-				new String[] {//DropChance
-						"BREAKING:STONE:null:mat=COBBLESTONE:1:1.0",
-						"BREAKING:COBBLESTONE:null:mat=COBBLESTONE:1:1.0"},
-				new String[] {//Silktouch Dropchance
-						"BREAKING:STONE:null:mat=STONE:1:1.0",
-						"BREAKING:COBBLESTONE:null:mat=COBBLESTONE:1:1.0"},
-				null, null, null, null);
-		addTechnology(
-				"stone_II", new String[] {"Stein_II", "Stone_II"}, TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 1, "", "stone", 
-				0, 0, 0, 0, 0, 0, 0, 0,
-				new String[] { //ConditionToSee
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"}, true,
-				new String[] {"&7Stein_II","&7Stone_II"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Stein II",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Geld",
-						"&f64x Bruchstein, 16x Erde",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Granit/Andesit/Diorit",
-						"&7Technology Stone II",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&f64x Cobblestone, 16x Dirt",
-						"&eUnlocks the following:",
-						"&fMining of Granite/Andesite/Diorite"},
-				new String[] {"&7Stein_II","&7Stone_II"}, Material.GRANITE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Stein II",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Geld",
-						"&f64x Bruchstein, 16x Erde",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Granit/Andesit/Diorit",
-						"&7Technology Stone II",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&f64x Cobblestone, 16x Dirt",
-						"&eUnlocks the following:",
-						"&fMining of Granite/Andesite/Diorite"},
-				new String[] { //ConditionToResearch
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"},
-				"1000 * totalsolotech", //TTExp
-				"10 * totalsolotech", //VanillaExp
-				"100 * totalsolotech", //money
-				new String[] {//CostMaterial
-						"COBBLESTONE;64",
-						"DIRT;16"},
-				new String[] {"&7Stein_II","&7Stone_II"}, Material.GRANITE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Stein II",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Geld",
-						"&f64x Bruchstein, 16x Erde",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Granit/Andesit/Diorit",
-						"&7Technology Stone II",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&f64x Cobblestone, 16x Dirt",
-						"&eUnlocks the following:",
-						"&fMining of Granite/Andesite/Diorite"},
-				new String[] {"&bStein_II","&7Stone_II"}, Material.GRANITE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Stein II",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Granit/Andesit/Diorit",
-						"&7Technology Stone II",
-						"&eUnlocks the following:",
-						"&fMining of Granite/Andesite/Diorite"},
-				new String[] { //Interaction
-						"BREAKING:GRANITE:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:ANDESITE:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:DIORITE:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1"},
-				null,
-				new String[] {//DropChance
-						"BREAKING:GRANITE:null:mat=GRANITE:1:1.0",
-						"BREAKING:COBBLESTONE:null:mat=COBBLESTONE:1:1.0",
-						"BREAKING:COBBLESTONE:null:mat=COBBLESTONE:1:1.0"},
-				new String[] {//Silktouch Dropchance
-						"BREAKING:GRANITE:null:mat=GRANITE:1:1.0",
-						"BREAKING:ANDESITE:null:mat=ANDESITE:1:1.0",
-						"BREAKING:DIORITE:null:mat=DIORITE:1:1.0"},
-				null, null, null, null);
+		
 		//ore
-		addTechnology(
-				"coalore", new String[] {"Kohleerz", "Coalore"}, TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 0, "", "ore", 
-				0, 0, 0, 0, 0, 0, 0, 0,
-				new String[] { //ConditionToSee
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"}, true,
-				new String[] {"&7Kohleerz","&7Coalore"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Kohleerz",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Geld",
-						"&f64x Bruchstein, 16x Erde",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Kohleerz/Tiefenschieferkohleerz",
-						"&7Technology Coalore",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&f64x Cobblestone, 16x Dirt",
-						"&eUnlocks the following:",
-						"&fMining of coalore/deepslatecoalore"},
-				new String[] {"&7Kohleerz","&7Coalore"}, Material.COAL_ORE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Kohleerz",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Geld",
-						"&f64x Bruchstein, 16x Erde",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Kohleerz/Tiefenschieferkohleerz",
-						"&7Technology Coalore",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&f64x Cobblestone, 16x Dirt",
-						"&eUnlocks the following:",
-						"&fMining of coalore/deepslatecoalore"},
-				new String[] { //ConditionToResearch
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"},
-				"1000 * totalsolotech", //TTExp
-				"10 * totalsolotech", //VanillaExp
-				"100 * totalsolotech", //money
-				new String[] {//CostMaterial
-						"COBBLESTONE;64",
-						"DIRT;16"},
-				new String[] {"&7Kohleerz","&7Coalore"}, Material.COAL_ORE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Kohleerz",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Geld",
-						"&f64x Bruchstein, 16x Erde",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Kohleerz/Tiefenschieferkohleerz",
-						"&7Technology Coalore",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&f64x Cobblestone, 16x Dirt",
-						"&eUnlocks the following:",
-						"&fMining of coalore/deepslatecoalore"},
-				new String[] {"&7Kohleerz","&7Coalore"}, Material.COAL_ORE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Kohleerz",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Kohleerz/Tiefenschieferkohleerz",
-						"&7Technology Coalore",
-						"&eUnlocks the following:",
-						"&fMining of coalore/deepslatecoalore"},
-				new String[] { //Interaction
-						"BREAKING:COAL_ORE:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:DEEPSLATE_COAL_ORE:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1"},
-				null,
-				new String[] {//DropChance
-						"BREAKING:COAL_ORE:null:mat=COAL:1:1.0",
-						"BREAKING:COAL_ORE:null:mat=COAL:2:0.5",
-						"BREAKING:COAL_ORE:null:mat=COAL:3:0.25",
-						"BREAKING:COAL_ORE:null:mat=COAL:4:0.125",
-						"BREAKING:DEEPSLATE_COAL_ORE:null:mat=COAL:1:1.0",
-						"BREAKING:DEEPSLATE_COAL_ORE:null:mat=COAL:2:0.5",
-						"BREAKING:DEEPSLATE_COAL_ORE:null:mat=COAL:3:0.25",
-						"BREAKING:DEEPSLATE_COAL_ORE:null:mat=COAL:4:0.125",},
-				new String[] {//Silktouch Dropchance
-						"BREAKING:COAL_ORE:null:mat=COAL_ORE:1:1.0",
-						"BREAKING:DEEPSLATE_COAL_ORE:null:mat=DEEPSLATE_COAL_ORE:1:1.0"},
-				null, null, null, null);
-		addTechnology(
-				"ironore", new String[] {"Eisenerz", "Ironore"}, TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 1, "", "ore", 
-				0, 0, 0, 0, 0, 0, 0, 0,
-				new String[] { //ConditionToSee
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"}, true,
-				new String[] {"&7Eisenerz","&7Ironore"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Eisenerz",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Geld",
-						"&f64x Kohle, 64x Bruchstein",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Eisenerz/Tiefenschiefereisenerz",
-						"&7Technology Ironore",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&f64x Coal, 64x Cobblestone",
-						"&eUnlocks the following:",
-						"&fMining of ironore/deepslateironore"},
-				new String[] {"&7Eisenerz","&7Ironore"}, Material.IRON_ORE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Eisenerz",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Geld",
-						"&f64x Kohle, 64x Bruchstein",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Eisenerz/Tiefenschiefereisenerz",
-						"&7Technology Ironore",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&f64x Coal, 64x Cobblestone",
-						"&eUnlocks the following:",
-						"&fMining of ironore/deepslateironore"},
-				new String[] { //ConditionToResearch
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"},
-				"1000 * totalsolotech", //TTExp
-				"10 * totalsolotech", //VanillaExp
-				"100 * totalsolotech", //money
-				new String[] {//CostMaterial
-						"COAL;64",
-						"COBBLESTONE;64"},
-				new String[] {"&7Eisenerz","&7Ironore"}, Material.IRON_ORE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Eisenerz",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Geld",
-						"&f64x Kohle, 64x Bruchstein",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Eisenerz/Tiefenschiefereisenerz",
-						"&7Technology Ironore",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&f64x Coal, 64x Cobblestone",
-						"&eUnlocks the following:",
-						"&fMining of ironore/deepslateironore"},
-				new String[] {"&7Eisenerz","&7Coalore"}, Material.IRON_ORE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Eisenerz",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von Eisenerz/Tiefenschiefereisenerz",
-						"&7Technology Ironore",
-						"&eUnlocks the following:",
-						"&fMining of ironore/deepslateironore"},
-				new String[] { //Interaction
-						"BREAKING:IRON_ORE:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:DEEPSLATE_IRON_ORE:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1"},
-				null,
-				new String[] {//DropChance
-						"BREAKING:IRON_ORE:null:mat=RAW_IRON:1:1.0",
-						"BREAKING:IRON_ORE:null:mat=RAW_IRON:2:0.5",
-						"BREAKING:IRONL_ORE:null:mat=RAW_IRON:3:0.25",
-						"BREAKING:IRON_ORE:null:mat=RAW_IRON:4:0.125",
-						"BREAKING:DEEPSLATE_IRON_ORE:null:mat=RAW_IRON:1:1.0",
-						"BREAKING:DEEPSLATE_IRON_ORE:null:mat=RAW_IRON:2:0.5",
-						"BREAKING:DEEPSLATE_IRON_ORE:null:mat=RAW_IRON:3:0.25",
-						"BREAKING:DEEPSLATE_IRON_ORE:null:mat=RAW_IRON:4:0.125",},
-				new String[] {//Silktouch Dropchance
-						"BREAKING:IRON_ORE:null:mat=IRON_ORE:1:1.0",
-						"BREAKING:IRON_COAL_ORE:null:mat=DEEPSLATE_IRON_ORE:1:1.0"},
-				null, null, null, null);
+		
 		//sapling
-		addTechnology(
-				"oaksapling", new String[] {"Eichensetzling", "Oaksapling"}, TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 0, "", "sapling", 
-				0, 0, 0, 0, 0, 0, 0, 0,
-				new String[] { //ConditionToSee
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"}, true,
-				new String[] {"&7Eichensetzling","&7Oaksapling"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Eichensetzling",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Geld",
-						"&eSchaltet folgendes frei:",
-						"&fSetzten von Eichensetzling",
-						"&7Technology Oaksapling",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&eUnlocks the following:",
-						"&fMining of oaksapling"},
-				new String[] {"&7Eichensetzling","&7Oaksapling"}, Material.OAK_SAPLING, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Eichensetzling",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Geld",
-						"&eSchaltet folgendes frei:",
-						"&fSetzten von Eichensetzling",
-						"&7Technology Oaksapling",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&eUnlocks the following:",
-						"&fMining of oaksapling"},
-				new String[] { //ConditionToResearch
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"},
-				"100 * totalsolotech", //TTExp
-				"1 * totalsolotech", //VanillaExp
-				"1 * totalsolotech", //money
-				null,
-				new String[] {"&7Eichensetzling","&7Oaksapling"}, Material.OAK_SAPLING, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Eichensetzling",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Geld",
-						"&eSchaltet folgendes frei:",
-						"&fSetzten von Eichensetzling",
-						"&7Technology Oaksapling",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&eUnlocks the following:",
-						"&fMining of oaksapling"},
-				new String[] {"&bEichensetzling","&bOaksapling"}, Material.OAK_SAPLING, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Eichensetzling",
-						"&eSchaltet folgendes frei:",
-						"&fSetzten von Eichensetzling",
-						"&7Technology Oaksapling",
-						"&eUnlocks the following:",
-						"&fMining of oaksapling"},
-				new String[] { //Interaction
-						"PLACING:OAK_SAPLING:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:OAK_SAPLING:null:canAccess=true"},
-				null,
-				new String[] {//DropChance
-						"BREAKING:OAK_SAPLING:null:mat=OAK_SAPLING:1:1.0",
-						""},
-				new String[] {//Silktouch Dropchance
-						"BREAKING:OAK_SAPLING:null:mat=OAK_SAPLING:1:1.0",
-						""},
-				null, null, null, null);
-		addTechnology(
-				"sprucesapling", new String[] {"Fichtensetzling", "Sprucesapling"}, TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 1, "", "sapling", 
-				0, 0, 0, 0, 0, 0, 0, 0,
-				new String[] { //ConditionToSee
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"}, true,
-				new String[] {"&7Fichtensetzling","&7Sprucesapling"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Fichtensetzling",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Geld",
-						"&eSchaltet folgendes frei:",
-						"&fSetzten von Fichtensetzling",
-						"&7Technology Sprucesapling",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&eUnlocks the following:",
-						"&fMining of oaksapling"},
-				new String[] {"&7Fichtensetzling","&7Sprucesapling"}, Material.SPRUCE_SAPLING, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Fichtensetzling",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Geld",
-						"&eSchaltet folgendes frei:",
-						"&fSetzten von Fichtensetzling",
-						"&7Technology Sprucesapling",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&eUnlocks the following:",
-						"&fMining of oaksapling"},
-				new String[] { //ConditionToResearch
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"},
-				"100 * totalsolotech", //TTExp
-				"1 * totalsolotech", //VanillaExp
-				"1 * totalsolotech", //money
-				null,
-				new String[] {"&7Fichtensetzling","&7Sprucesapling"}, Material.SPRUCE_SAPLING, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Fichtensetzling",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Geld",
-						"&eSchaltet folgendes frei:",
-						"&fSetzten von Fichtensetzling",
-						"&7Technology Sprucesapling",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&eUnlocks the following:",
-						"&fMining of oaksapling"},
-				new String[] {"&bFichtensetzling","&bSprucesapling"}, Material.SPRUCE_SAPLING, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Technologie Fichtensetzling",
-						"&eSchaltet folgendes frei:",
-						"&fSetzten von Fichtensetzling",
-						"&7Technology Sprucesapling",
-						"&eUnlocks the following:",
-						"&fMining of oaksapling"},
-				new String[] { //Interaction
-						"PLACING:SPRUCE_SAPLING:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
-						"BREAKING:SPRUCE_SAPLING:null:canAccess=true"},
-				null,
-				new String[] {//DropChance
-						"BREAKING:SPRUCE_SAPLING:null:mat=SPRUCE_SAPLING:1:1.0",
-						""},
-				new String[] {//Silktouch Dropchance
-						"BREAKING:SPRUCE_SAPLING:null:mat=SPRUCE_SAPLING:1:1.0",
-						""},
-				null, null, null, null);
+		
 		//woodentools
+		
+		
+		//stoneslaps
+		//stonestairs
+		//stonetools
+		
+		//miningbooster
+		//craftbooster
+	}
+	
+	private void tech_Miscellaneous_Tools() //INFO:Miscellaneous_Tools
+	{
+		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
+		toResCondition.put(1, new String[] {
+				"if:(a):o_1",
+				"output:o_1:true",
+				"a:true"});
+		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, "1000 * totalsolotech");
+		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, "10 * totalsolotech");
+		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
+		toResCostMoney.put(1, "100 * totalsolotech");
+		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
+		toResCostMaterial.put(1, new String[] {
+				"OAK_PLANKS;16",
+				"BIRCH_PLANKS;16"});
+		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardUnlockableRecipe.put(1, new String[] {
+				"SHAPED:wooden_pickaxe",
+				""});
+		LinkedHashMap<Integer, String[]> rewardDropChance = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardValueEntry = new LinkedHashMap<>();
 		addTechnology(
 				"woodenpickaxe", new String[] {"Holzspitzhacke", "Woodenpickaxe"},
 				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 1, "", "woodentools", 
@@ -2454,16 +1873,7 @@ public class YamlManager
 						"&f16x Oakplanks, 16x Birchplanks",
 						"&eUnlocks the following:",
 						"&fCrafting of Woodenpickaxe"},
-				new String[] { //ConditionToResearch
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"},
-				"1000 * totalsolotech", //TTExp
-				"10 * totalsolotech", //VanillaExp
-				"100 * totalsolotech", //money
-				new String[] {//CostMaterial
-						"OAK_PLANKS;16",
-						"BIRCH_PLANKS;16"},
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
 				new String[] {"&7Holzspitzhacke","&7Woodenpickaxe"}, Material.WOODEN_PICKAXE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
 						"&7Technologie Holzspitzhacke",
 						"&eKosten:",
@@ -2486,41 +1896,1008 @@ public class YamlManager
 						"&7Technology Woodenpickaxe",
 						"&eUnlocks the following:",
 						"&fCrafting of Woodenpickaxe"},
-				null,
-				new String[] {//Recipes
-						"SHAPED:wooden_pickaxe",
-						""},
-				new String[] {//DropChance
-						"BREAKING:STICK:null:mat=DIRT:1:1.0",
-						"BREAKING:GRASS_BLOCK:null:mat=DIRT:1:1.0",
-						"BREAKING:SAND:null:mat=SAND:1:1.0",
-						"BREAKING:GRAVEL:null:mat=GRAVEL:1:0.75",
-						"BREAKING:GRAVEL:null:mat=FLINT:1:0.25"},
-				new String[] {//Silktouch Dropchance
-						"BREAKING:DIRT:null:mat=DIRT:1:1.0",
-						"BREAKING:GRASS_BLOCK:null:mat=GRASS_BLOCK:1:1.0",
-						"BREAKING:SAND:null:mat=SAND:1:1.0",
-						"BREAKING:GRAVEL:null:mat=GRAVEL:1:1.0"},
-				new String[] {//Command
-						"",
-						""},
-				new String[] {//Item
-						"",
-						""},
-				new String[] {//Modifier
-						"",
-						""},
-				new String[] {//ValueEntry
-						"",
-						""}
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
+	}
+	
+	private void tech_Miscellaneous_Armor() //INFO:Miscellaneous_Armor
+	{
 		
-		//stoneslaps
-		//stonestairs
-		//stonetools
+	}
+	
+	private void tech_Mining_Soil() //INFO:Mining_Soil
+	{
+		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
+		toResCondition.put(1, 
+				new String[] {
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"});
+		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, "1000 * totalsolotech");
+		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, "10 * totalsolotech");
+		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
+		toResCostMoney.put(1, "100 * totalsolotech");
+		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
+		toResCostMaterial.put(1, 
+				new String[] {
+						"DIRT;1",
+						"SAND;1"});
+		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
+		rewardUnlockableInteractions.put(1, new String[] {
+						"BREAKING:DIRT:null:tool=WOODEN_SHOVEL:ttexp=0.01:vault=0.1:default=0.1",
+						"BREAKING:GRASS_BLOCK:null:tool=WOODEN_SHOVEL:ttexp=0.01:vault=0.1:default=0.1",
+						"BREAKING:SAND:null:tool=WOODEN_SHOVEL:ttexp=0.01:vault=0.1:default=0.1",
+						"BREAKING:GRAVEL:null:tool=WOODEN_SHOVEL:ttexp=0.01:vault=0.1:default=0.1"});
+		LinkedHashMap<Integer, String[]> rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardUnlockableRecipe.put(1, 
+				new String[] {//Recipes
+						"",
+						""});
+		LinkedHashMap<Integer, String[]> rewardDropChance = new LinkedHashMap<>();
+		rewardDropChance.put(1, new String[] {
+						"BREAKING:WOODEN_SHOVEL:DIRT:null:mat=DIRT:1:1.0",
+						"BREAKING:WOODEN_SHOVEL:GRASS_BLOCK:null:mat=DIRT:1:1.0",
+						"BREAKING:WOODEN_SHOVEL:SAND:null:mat=SAND:1:1.0",
+						"BREAKING:WOODEN_SHOVEL:GRAVEL:null:mat=GRAVEL:1:0.75",
+						"BREAKING:WOODEN_SHOVEL:GRAVEL:null:mat=FLINT:1:0.25"});
+		LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance.put(1, new String[] {
+						"BREAKING:WOODEN_SHOVEL:DIRT:null:mat=DIRT:1:1.0",
+						"BREAKING:WOODEN_SHOVEL:GRASS_BLOCK:null:mat=GRASS_BLOCK:1:1.0",
+						"BREAKING:WOODEN_SHOVEL:SAND:null:mat=SAND:1:1.0",
+						"BREAKING:WOODEN_SHOVEL:GRAVEL:null:mat=GRAVEL:1:1.0"});
+		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
+		rewardCommand.put(1, 
+				new String[] {//Command
+				"",
+				""});
+		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
+		rewardItem.put(1, 
+				new String[] {//Item
+				"",
+				""});
+		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
+		rewardModifier.put(1, 
+				new String[] {//Modifier
+				"",
+				""});
+		LinkedHashMap<Integer, String[]> rewardValueEntry = new LinkedHashMap<>();
+		rewardValueEntry.put(1, 
+				new String[] {//ValueEntry
+				"",
+				""});
+		addTechnology(
+				"dirt", new String[] {"Erde", "Dirt"}, TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 0, "", "starttechnology", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				new String[] { //ConditionToSee
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"}, true,
+				new String[] {"&7Erde","&7Dirt"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Erde",
+						"&aStarttechnologie, welche du immer zu Anfang",
+						"&afreigeschaltet hast!",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Erde/Grass/Sand/Kies",
+						"&7Technology Dirt",
+						"&aStart technology, which you always",
+						"&aunlocked at the beginning!",
+						"&eUnlocks the following:",
+						"&fMining of dirt/grassblock/sand/gravel"},
+				new String[] {"&7Erde","&7Dirt"}, Material.DIRT, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Erde",
+						"&aStarttechnologie, welche du immer zu Anfang",
+						"&afreigeschaltet hast!",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Erde/Grass/Sand/Kies",
+						"&7Technology Dirt",
+						"&aStart technology, which you always",
+						"&aunlocked at the beginning!",
+						"&eUnlocks the following:",
+						"&fMining of dirt/grassblock/sand/gravel"},
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&7Erde","&7Dirt"}, Material.DIRT, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Erde",
+						"&aStarttechnologie, welche du immer zu Anfang",
+						"&afreigeschaltet hast!",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Erde/Grass/Sand/Kies",
+						"&7Technology Dirt",
+						"&aStart technology, which you always",
+						"&aunlocked at the beginning!",
+						"&eUnlocks the following:",
+						"&fMining of dirt/grassblock/sand/gravel"},
+				new String[] {"&bErde","&bDirt"}, Material.DIRT, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Erde",
+						"&aStarttechnologie, welche du immer zu Anfang",
+						"&afreigeschaltet hast!",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Erde/Grass/Sand/Kies",
+						"&7Technology Dirt",
+						"&aStart technology, which you always",
+						"&aunlocked at the beginning!",
+						"&eUnlocks the following:",
+						"&fMining of dirt/grassblock/sand/gravel"},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				);
+		toResCondition = new LinkedHashMap<>();
+		toResCondition.put(1, new String[] {
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"});
+		toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, "100 * totalsolotech");
+		toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, "10 * totalsolotech");
+		toResCostMoney = new LinkedHashMap<>();
+		toResCostMoney.put(1, "1 * totalsolotech");
+		toResCostMaterial = new LinkedHashMap<>();
+		toResCostMaterial.put(1, new String[] {
+						"DIRT;64",
+						"GRAVEL:16"});
+		rewardUnlockableInteractions = new LinkedHashMap<>();
+		rewardUnlockableInteractions.put(1,new String[] {
+						"BREAKING:COARSE_DIRT:null:tool=WOODEN_SHOVEL:ttexp=0.01:vault=0.1:default=0.1",
+						"BREAKING:ROOTED_DIRT:null:tool=WOODEN_SHOVEL:ttexp=0.01:vault=0.1:default=0.1",
+						"BREAKING:DIRT_PATH:null:tool=WOODEN_SHOVEL:ttexp=0.01:vault=0.1:default=0.1",
+						"BREAKING:PODZOL:null:tool=WOODEN_SHOVEL:ttexp=0.01:vault=0.1:default=0.1"});
+		rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardDropChance = new LinkedHashMap<>();
+		rewardDropChance.put(1, new String[] {
+						"BREAKING:WOODEN_SHOVEL:COARSE_DIRT:null:mat=COARSE_DIRT:1:1.0",
+						"BREAKING:WOODEN_SHOVEL:ROOTED_DIRT:null:mat=ROOTED_DIRT:1:1.0",
+						"BREAKING:WOODEN_SHOVEL:DIRT_PATH:null:mat=DIRT:1:1.0",
+						"BREAKING:WOODEN_SHOVEL:PODZOL:null:mat=DIRTL:1:1.0"});
+		rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance.put(1, new String[] {
+						"BREAKING:WOODEN_SHOVEL:COARSE_DIRT:null:mat=COARSE_DIRT:1:1.0",
+						"BREAKING:WOODEN_SHOVEL:ROOTED_DIRT:null:mat=ROOTED_DIRT:1:1.0",
+						"BREAKING:WOODEN_SHOVEL:DIRT_PATH:null:mat=DIRT:1:1.0",
+						"BREAKING:WOODEN_SHOVEL:PODZOL:null:mat=PODZOL:1:1.0"});
+		rewardCommand = new LinkedHashMap<>();
+		rewardItem = new LinkedHashMap<>();
+		rewardModifier = new LinkedHashMap<>();
+		rewardValueEntry = new LinkedHashMap<>();
+		addTechnology(
+				"soil_I", new String[] {"Böden_I", "Soil_I"}, TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 0, "", "soil", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				new String[] { //ConditionToSee
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"}, true,
+				new String[] {"&7Böden I","&7Soil I"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Böden I",
+						"",
+						"&7Technology Soil I",
+						""},
+				new String[] {"&7Böden I","&7Soil I"}, Material.ROOTED_DIRT, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Böden I",
+						"&eKosten:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Geld",
+						"&f64x Erde, 16x Kies",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Grobe Erde/Wurzelerde/Erdpfad/Podsol",
+						"&7Technology Soil I",
+						"&eCosts:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Money",
+						"&f64x Dirt, 16x Gravel",
+						"&eUnlocks the following:",
+						"&fMining coarsedirt/rooteddirt/dirtpath/podzol"},
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&7Böden II","&7Soil II"}, Material.ROOTED_DIRT, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Böden I",
+						"&eKosten:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Geld",
+						"&f64x Erde, 16x Kies",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Grobe Erde/Wurzelerde/Erdpfad/Podsol",
+						"&7Technology Soil I",
+						"&eCosts:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Money",
+						"&f64x Dirt, 16x Gravel",
+						"&eUnlocks the following:",
+						"&fMining coarsedirt/rooteddirt/dirtpath/podzol"},
+				new String[] {"&bBöden II","&bSoil II"}, Material.ROOTED_DIRT, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Böden I",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Grobe Erde/Wurzelerde/Erdpfad/Podsol",
+						"&7Technology Soil I",
+						"&eUnlocks the following:",
+						"&fMining coarsedirt/rooteddirt/dirtpath/podzol"},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				);
+		toResCondition = new LinkedHashMap<>();
+		toResCondition.put(1, new String[] {
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"});
+		toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, "5000 * totalsolotech");
+		toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, "500 * totalsolotech");
+		toResCostMoney = new LinkedHashMap<>();
+		toResCostMoney.put(1, "50 * totalsolotech");
+		toResCostMaterial = new LinkedHashMap<>();
+		toResCostMaterial.put(1,new String[] {
+						"DIRT;128",
+						"PODZOL;64"});
+		rewardUnlockableInteractions = new LinkedHashMap<>();
+		rewardUnlockableInteractions.put(1, new String[] {
+				"BREAKING:CLAY:null:tool=WOODEN_SHOVEL:ttexp=0.01:vault=0.1:default=0.1",
+				"BREAKING:MUD:null:tool=WOODEN_SHOVEL:ttexp=0.01:vault=0.1:default=0.1",
+				"BREAKING:MYCELIUM:null:tool=WOODEN_SHOVEL:ttexp=0.01:vault=0.1:default=0.1",
+				"BREAKING:SNOW:null:tool=WOODEN_SHOVEL:ttexp=0.01:vault=0.1:default=0.1",
+				"BREAKING:SNOW_BLOCK:null:tool=WOODEN_SHOVEL:ttexp=0.01:vault=0.1:default=0.1",
+				"BREAKING:TUFF:null:tool=WOODEN_SHOVEL:ttexp=0.01:vault=0.1:default=0.1"});
+		rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardDropChance = new LinkedHashMap<>();
+		rewardDropChance.put(1, new String[] {
+				"BREAKING:WOODEN_SHOVEL:CLAY:null:mat=CLAY:1:1.0",
+				"BREAKING:WOODEN_SHOVEL:MUD:null:mat=MUD:1:1.0",
+				"BREAKING:WOODEN_SHOVEL:MYCELIUM:null:mat=MYCELIUM:1:1.0",
+				"BREAKING:WOODEN_SHOVEL:SNOW:null:mat=SNOWBALL:1:1.0",
+				"BREAKING:WOODEN_SHOVEL:SNOW_BLOCK:null:mat=SNOWBALL:4:1.0",
+				"BREAKING:WOODEN_SHOVEL:TUFF:null:mat=TUFF:1:1.0"});
+		rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance.put(1, new String[] {
+				"BREAKING:WOODEN_SHOVEL:CLAY:null:mat=CLAY:1:1.0",
+				"BREAKING:WOODEN_SHOVEL:MUD:null:mat=MUD:1:1.0",
+				"BREAKING:WOODEN_SHOVEL:MYCELIUM:null:mat=MYCELIUM:1:1.0",
+				"BREAKING:WOODEN_SHOVEL:SNOW:null:mat=SNOW:1:1.0",
+				"BREAKING:WOODEN_SHOVEL:SNOW_BLOCK:null:mat=SNOW_BLOCK:1:1.0",
+				"BREAKING:WOODEN_SHOVEL:TUFF:null:mat=TUFF:1:1.0"});
+		rewardCommand = new LinkedHashMap<>();
+		rewardItem = new LinkedHashMap<>();
+		rewardModifier = new LinkedHashMap<>();
+		rewardValueEntry = new LinkedHashMap<>();
+		addTechnology(
+				"soil_II", new String[] {"Böden_II", "Soil_II"}, TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 1, "", "soil", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				new String[] { //ConditionToSee
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"}, true,
+				new String[] {"&7Böden II","&7Soil II"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Böden II",
+						"",
+						"&7Technology Soil II",
+						""},
+				new String[] {"&7Böden II","&7Soil II"}, Material.CLAY, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Böden II",
+						"&eKosten:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Geld",
+						"&f128x Erde, 64x Podzol",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Ton/Schlamm/Myzel/Schnee/Schneeblock/Tuffstein",
+						"&7Technology Soil II",
+						"&eCosts:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Money",
+						"&f128x Dirt, 64x Podzol",
+						"&eUnlocks the following:",
+						"&fMining Clay/Mud/Mycelium/Snow/Snowblock/Tuff"},
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&7Böden II","&7Soil II"}, Material.CLAY, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Böden II",
+						"&eKosten:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Geld",
+						"&f128x Erde, 64x Podzol",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Ton/Schlamm/Myzel/Schnee/Schneeblock/Tuffstein",
+						"&7Technology Soil II",
+						"&eCosts:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Money",
+						"&f128x Dirt, 64x Podzol",
+						"&eUnlocks the following:",
+						"&fMining Clay/Mud/Mycelium/Snow/Snowblock/Tuff"},
+				new String[] {"&bBöden II","&bSoil II"}, Material.CLAY, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Böden II",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Ton/Schlamm/Myzel/Schnee/Schneeblock/Tuffstein",
+						"&7Technology Soil II",
+						"&eUnlocks the following:",
+						"&fMining Clay/Mud/Mycelium/Snow/Snowblock/Tuff"},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				);
+	}
+	
+	private void tech_Mining_Stone() //INFO:Mining_Stone
+	{
+		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
+		toResCondition.put(1, new String[] {
+				"if:(a):o_1",
+				"output:o_1:true",
+				"a:true"});
+		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, "1000 * totalsolotech");
+		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, "10 * totalsolotech");
+		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
+		toResCostMoney.put(1, "100 * totalsolotech");
+		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
+		toResCostMaterial.put(1,new String[] {
+				"DIRT;64",
+				"OAK_LOG;16"});
+		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
+		rewardUnlockableInteractions.put(1, new String[] {
+				"BREAKING:STONE:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
+				"BREAKING:COBBLESTONE:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1"});
+		LinkedHashMap<Integer, String[]> rewardUnlockableRecipe = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardDropChance = new LinkedHashMap<>();
+		rewardDropChance.put(1, new String[] {
+				"BREAKING:STONE:null:mat=COBBLESTONE:1:1.0",
+				"BREAKING:COBBLESTONE:null:mat=COBBLESTONE:1:1.0"});
+		LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance.put(1, new String[] {
+				"BREAKING:STONE:null:mat=STONE:1:1.0",
+				"BREAKING:COBBLESTONE:null:mat=COBBLESTONE:1:1.0"});
+		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardValueEntry = new LinkedHashMap<>();
+		addTechnology(
+				"stone_I", new String[] {"Stein_I", "Stone_I"}, TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 0, "", "stone", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				new String[] { //ConditionToSee
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"}, true,
+				new String[] {"&7Stein I","&7Stone I"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Stein I",
+						"&eKosten:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Geld",
+						"&f64x Erde, 16x Eichenstämme",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Stein/Bruchstein",
+						"&7Technology Stone I",
+						"&eCosts:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Money",
+						"&f64x Dirt, 16x Oaklog",
+						"&eUnlocks the following:",
+						"&fMining of Stone/Cobblestone"},
+				new String[] {"&7Stein I","&7Stone I"}, Material.STONE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Stein I",
+						"&eKosten:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Geld",
+						"&f64x Erde, 16x Eichenstämme",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Stein/Bruchstein",
+						"&7Technology Stone I",
+						"&eCosts:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Money",
+						"&f64x Dirt, 16x Oaklog",
+						"&eUnlocks the following:",
+						"&fMining of Stone/Cobblestone"},
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&7Stein I","&7Stone I"}, Material.STONE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Stein I",
+						"&eKosten:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Geld",
+						"&f64x Erde, 16x Eichenstämme",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Stein/Bruchstein",
+						"&7Technology Stone I",
+						"&eCosts:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Money",
+						"&f64x Dirt, 16x Oaklog",
+						"&eUnlocks the following:",
+						"&fMining of Stone/Cobblestone"},
+				new String[] {"&bStein I","&bStone I"}, Material.STONE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Stein I",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Stein/Bruchstein",
+						"&7Technology Stone I",
+						"&eUnlocks the following:",
+						"&fMining of Stone/Cobblestone"},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+		toResCondition = new LinkedHashMap<>();
+		toResCondition.put(1, new String[] {
+				"if:(a):o_1",
+				"output:o_1:true",
+				"a:true"});
+		toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, "1000 * totalsolotech");
+		toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, "10 * totalsolotech");
+		toResCostMoney = new LinkedHashMap<>();
+		toResCostMoney.put(1, "100 * totalsolotech");
+		toResCostMaterial = new LinkedHashMap<>();
+		toResCostMaterial.put(1, new String[] {
+				"COBBLESTONE;64",
+				"DIRT;16"});
+		rewardUnlockableInteractions = new LinkedHashMap<>();
+		rewardUnlockableInteractions.put(1, new String[] {
+				"BREAKING:GRANITE:null:tool=WOODEN_PICKAXE:ttexp=0.01:vault=0.1:default=0.1",
+				"BREAKING:ANDESITE:null:tool=WOODEN_PICKAXE:ttexp=0.01:vault=0.1:default=0.1",
+				"BREAKING:DIORITE:null:tool=WOODEN_PICKAXE:ttexp=0.01:vault=0.1:default=0.1"});
+		rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardDropChance = new LinkedHashMap<>();
+		rewardDropChance.put(1, new String[] {
+				"BREAKING:WOODEN_PICKAXE:GRANITE:null:mat=GRANITE:1:1.0",
+				"BREAKING:WOODEN_PICKAXE:COBBLESTONE:null:mat=COBBLESTONE:1:1.0",
+				"BREAKING:WOODEN_PICKAXE:COBBLESTONE:null:mat=COBBLESTONE:1:1.0"});
+		rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance.put(1, new String[] {
+				"BREAKING:WOODEN_PICKAXE:GRANITE:null:mat=GRANITE:1:1.0",
+				"BREAKING:WOODEN_PICKAXE:ANDESITE:null:mat=ANDESITE:1:1.0",
+				"BREAKING:WOODEN_PICKAXE:DIORITE:null:mat=DIORITE:1:1.0"});
+		rewardCommand = new LinkedHashMap<>();
+		rewardItem = new LinkedHashMap<>();
+		rewardModifier = new LinkedHashMap<>();
+		rewardValueEntry = new LinkedHashMap<>();
+		addTechnology(
+				"stone_II", new String[] {"Stein_II", "Stone_II"}, TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 1, "", "stone", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				new String[] { //ConditionToSee
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"}, true,
+				new String[] {"&7Stein_II","&7Stone_II"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Stein II",
+						"&eKosten:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Geld",
+						"&f64x Bruchstein, 16x Erde",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Granit/Andesit/Diorit",
+						"&7Technology Stone II",
+						"&eCosts:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Money",
+						"&f64x Cobblestone, 16x Dirt",
+						"&eUnlocks the following:",
+						"&fMining of Granite/Andesite/Diorite"},
+				new String[] {"&7Stein_II","&7Stone_II"}, Material.GRANITE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Stein II",
+						"&eKosten:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Geld",
+						"&f64x Bruchstein, 16x Erde",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Granit/Andesit/Diorit",
+						"&7Technology Stone II",
+						"&eCosts:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Money",
+						"&f64x Cobblestone, 16x Dirt",
+						"&eUnlocks the following:",
+						"&fMining of Granite/Andesite/Diorite"},
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&7Stein_II","&7Stone_II"}, Material.GRANITE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Stein II",
+						"&eKosten:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Geld",
+						"&f64x Bruchstein, 16x Erde",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Granit/Andesit/Diorit",
+						"&7Technology Stone II",
+						"&eCosts:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Money",
+						"&f64x Cobblestone, 16x Dirt",
+						"&eUnlocks the following:",
+						"&fMining of Granite/Andesite/Diorite"},
+				new String[] {"&bStein_II","&7Stone_II"}, Material.GRANITE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Stein II",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Granit/Andesit/Diorit",
+						"&7Technology Stone II",
+						"&eUnlocks the following:",
+						"&fMining of Granite/Andesite/Diorite"},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				);
+	}
+	
+	private void tech_Mining_Ore() //INFO:Mining_Ore
+	{
+		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
+		toResCondition.put(1, new String[] {
+				"if:(a):o_1",
+				"output:o_1:true",
+				"a:true"});
+		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, "1000 * totalsolotech");
+		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, "10 * totalsolotech");
+		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
+		toResCostMoney.put(1, "100 * totalsolotech");
+		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
+		toResCostMaterial.put(1, new String[] {
+				"COBBLESTONE;64",
+				"DIRT;16"});
+		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
+		rewardUnlockableInteractions.put(1, new String[] {
+				"BREAKING:COAL_ORE:null:tool=WOODEN_PICKAXE:ttexp=0.01:vault=0.1:default=0.1",
+				"BREAKING:DEEPSLATE_COAL_ORE:null:tool=WOODEN_PICKAXE:ttexp=0.01:vault=0.1:default=0.1"});
+		LinkedHashMap<Integer, String[]> rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardUnlockableRecipe.put(1, null);
+		LinkedHashMap<Integer, String[]> rewardDropChance = new LinkedHashMap<>();
+		rewardDropChance.put(1, new String[] {
+				"BREAKING:WOODEN_PICKAXE:COAL_ORE:null:mat=COAL:1:1.0",
+				"BREAKING:WOODEN_PICKAXE:COAL_ORE:null:mat=COAL:2:0.5",
+				"BREAKING:WOODEN_PICKAXE:COAL_ORE:null:mat=COAL:3:0.25",
+				"BREAKING:WOODEN_PICKAXE:COAL_ORE:null:mat=COAL:4:0.125",
+				"BREAKING:WOODEN_PICKAXE:DEEPSLATE_COAL_ORE:null:mat=COAL:1:1.0",
+				"BREAKING:WOODEN_PICKAXE:DEEPSLATE_COAL_ORE:null:mat=COAL:2:0.5",
+				"BREAKING:WOODEN_PICKAXE:DEEPSLATE_COAL_ORE:null:mat=COAL:3:0.25",
+				"BREAKING:WOODEN_PICKAXE:DEEPSLATE_COAL_ORE:null:mat=COAL:4:0.125"});
+		LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance.put(1, new String[] {
+				"BREAKING:COAL_ORE:null:mat=COAL_ORE:1:1.0",
+				"BREAKING:DEEPSLATE_COAL_ORE:null:mat=DEEPSLATE_COAL_ORE:1:1.0"});
+		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardValueEntry = new LinkedHashMap<>();
+		addTechnology(
+				"coalore", new String[] {"Kohleerz", "Coalore"}, TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 0, "", "ore", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				new String[] { //ConditionToSee
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"}, true,
+				new String[] {"&7Kohleerz","&7Coalore"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Kohleerz",
+						"&eKosten:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Geld",
+						"&f64x Bruchstein, 16x Erde",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Kohleerz/Tiefenschieferkohleerz",
+						"&7Technology Coalore",
+						"&eCosts:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Money",
+						"&f64x Cobblestone, 16x Dirt",
+						"&eUnlocks the following:",
+						"&fMining of coalore/deepslatecoalore"},
+				new String[] {"&7Kohleerz","&7Coalore"}, Material.COAL_ORE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Kohleerz",
+						"&eKosten:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Geld",
+						"&f64x Bruchstein, 16x Erde",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Kohleerz/Tiefenschieferkohleerz",
+						"&7Technology Coalore",
+						"&eCosts:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Money",
+						"&f64x Cobblestone, 16x Dirt",
+						"&eUnlocks the following:",
+						"&fMining of coalore/deepslatecoalore"},
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&7Kohleerz","&7Coalore"}, Material.COAL_ORE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Kohleerz",
+						"&eKosten:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Geld",
+						"&f64x Bruchstein, 16x Erde",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Kohleerz/Tiefenschieferkohleerz",
+						"&7Technology Coalore",
+						"&eCosts:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Money",
+						"&f64x Cobblestone, 16x Dirt",
+						"&eUnlocks the following:",
+						"&fMining of coalore/deepslatecoalore"},
+				new String[] {"&7Kohleerz","&7Coalore"}, Material.COAL_ORE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Kohleerz",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Kohleerz/Tiefenschieferkohleerz",
+						"&7Technology Coalore",
+						"&eUnlocks the following:",
+						"&fMining of coalore/deepslatecoalore"},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				);
+		toResCondition = new LinkedHashMap<>();
+		toResCondition.put(1, new String[] {
+				"if:(a):o_1",
+				"output:o_1:true",
+				"a:true"});
+		toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, "1000 * totalsolotech");
+		toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, "10 * totalsolotech");
+		toResCostMoney = new LinkedHashMap<>();
+		toResCostMoney.put(1, "100 * totalsolotech");
+		toResCostMaterial = new LinkedHashMap<>();
+		toResCostMaterial.put(1, new String[] {
+				"COAL;64",
+				"COBBLESTONE;64"});
+		rewardUnlockableInteractions = new LinkedHashMap<>();
+		rewardUnlockableInteractions.put(1, new String[] {
+				"BREAKING:IRON_ORE:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
+				"BREAKING:DEEPSLATE_IRON_ORE:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1"});
+		rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardDropChance = new LinkedHashMap<>();
+		rewardDropChance.put(1, new String[] {
+				"BREAKING:IRON_ORE:null:mat=RAW_IRON:1:1.0",
+				"BREAKING:IRON_ORE:null:mat=RAW_IRON:2:0.5",
+				"BREAKING:IRONL_ORE:null:mat=RAW_IRON:3:0.25",
+				"BREAKING:IRON_ORE:null:mat=RAW_IRON:4:0.125",
+				"BREAKING:DEEPSLATE_IRON_ORE:null:mat=RAW_IRON:1:1.0",
+				"BREAKING:DEEPSLATE_IRON_ORE:null:mat=RAW_IRON:2:0.5",
+				"BREAKING:DEEPSLATE_IRON_ORE:null:mat=RAW_IRON:3:0.25",
+				"BREAKING:DEEPSLATE_IRON_ORE:null:mat=RAW_IRON:4:0.125"});
+		rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance.put(1, new String[] {
+				"BREAKING:IRON_ORE:null:mat=IRON_ORE:1:1.0",
+				"BREAKING:IRON_COAL_ORE:null:mat=DEEPSLATE_IRON_ORE:1:1.0"});
+		rewardCommand = new LinkedHashMap<>();
+		rewardItem = new LinkedHashMap<>();
+		rewardModifier = new LinkedHashMap<>();
+		rewardValueEntry = new LinkedHashMap<>();
+		addTechnology(
+				"ironore", new String[] {"Eisenerz", "Ironore"}, TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 1, "", "ore", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				new String[] { //ConditionToSee
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"}, true,
+				new String[] {"&7Eisenerz","&7Ironore"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Eisenerz",
+						"&eKosten:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Geld",
+						"&f64x Kohle, 64x Bruchstein",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Eisenerz/Tiefenschiefereisenerz",
+						"&7Technology Ironore",
+						"&eCosts:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Money",
+						"&f64x Coal, 64x Cobblestone",
+						"&eUnlocks the following:",
+						"&fMining of ironore/deepslateironore"},
+				new String[] {"&7Eisenerz","&7Ironore"}, Material.IRON_ORE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Eisenerz",
+						"&eKosten:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Geld",
+						"&f64x Kohle, 64x Bruchstein",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Eisenerz/Tiefenschiefereisenerz",
+						"&7Technology Ironore",
+						"&eCosts:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Money",
+						"&f64x Coal, 64x Cobblestone",
+						"&eUnlocks the following:",
+						"&fMining of ironore/deepslateironore"},
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&7Eisenerz","&7Ironore"}, Material.IRON_ORE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Eisenerz",
+						"&eKosten:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Geld",
+						"&f64x Kohle, 64x Bruchstein",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Eisenerz/Tiefenschiefereisenerz",
+						"&7Technology Ironore",
+						"&eCosts:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Money",
+						"&f64x Coal, 64x Cobblestone",
+						"&eUnlocks the following:",
+						"&fMining of ironore/deepslateironore"},
+				new String[] {"&7Eisenerz","&7Coalore"}, Material.IRON_ORE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Eisenerz",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Eisenerz/Tiefenschiefereisenerz",
+						"&7Technology Ironore",
+						"&eUnlocks the following:",
+						"&fMining of ironore/deepslateironore"},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				);
+	}
+	
+	private void tech_Woodworking_Sapling() //INFO:Woodworking_Sapling
+	{
+		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
+		toResCondition.put(1, new String[] {
+				"if:(a):o_1",
+				"output:o_1:true",
+				"a:true"});
+		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, "100 * totalsolotech");
+		LinkedHashMap<Integer, String>toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, "1 * totalsolotech");
+		LinkedHashMap<Integer, String>toResCostMoney = new LinkedHashMap<>();
+		toResCostMoney.put(1, "1 * totalsolotech");
+		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
+		rewardUnlockableInteractions.put(1, new String[] {
+				"PLACING:OAK_SAPLING:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
+				"BREAKING:OAK_SAPLING:null:canAccess=true"});
+		LinkedHashMap<Integer, String[]> rewardUnlockableRecipe = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardDropChance = new LinkedHashMap<>();
+		rewardDropChance.put(1, new String[] {
+				"BREAKING:OAK_SAPLING:null:mat=OAK_SAPLING:1:1.0",
+				""});
+		LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance.put(1, new String[] {
+				"BREAKING:OAK_SAPLING:null:mat=OAK_SAPLING:1:1.0",
+				""});
+		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardValueEntry = new LinkedHashMap<>();
+		addTechnology(
+				"oaksapling", new String[] {"Eichensetzling", "Oaksapling"}, TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 0, "", "sapling", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				new String[] { //ConditionToSee
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"}, true,
+				new String[] {"&7Eichensetzling","&7Oaksapling"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Eichensetzling",
+						"&eKosten:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Geld",
+						"&eSchaltet folgendes frei:",
+						"&fSetzten von Eichensetzling",
+						"&7Technology Oaksapling",
+						"&eCosts:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Money",
+						"&eUnlocks the following:",
+						"&fMining of oaksapling"},
+				new String[] {"&7Eichensetzling","&7Oaksapling"}, Material.OAK_SAPLING, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Eichensetzling",
+						"&eKosten:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Geld",
+						"&eSchaltet folgendes frei:",
+						"&fSetzten von Eichensetzling",
+						"&7Technology Oaksapling",
+						"&eCosts:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Money",
+						"&eUnlocks the following:",
+						"&fMining of oaksapling"},
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&7Eichensetzling","&7Oaksapling"}, Material.OAK_SAPLING, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Eichensetzling",
+						"&eKosten:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Geld",
+						"&eSchaltet folgendes frei:",
+						"&fSetzten von Eichensetzling",
+						"&7Technology Oaksapling",
+						"&eCosts:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Money",
+						"&eUnlocks the following:",
+						"&fMining of oaksapling"},
+				new String[] {"&bEichensetzling","&bOaksapling"}, Material.OAK_SAPLING, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Eichensetzling",
+						"&eSchaltet folgendes frei:",
+						"&fSetzten von Eichensetzling",
+						"&7Technology Oaksapling",
+						"&eUnlocks the following:",
+						"&fMining of oaksapling"},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				);
+		toResCondition = new LinkedHashMap<>();
+		toResCondition.put(1, new String[] {
+				"if:(a):o_1",
+				"output:o_1:true",
+				"a:true"});
+		toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, "100 * totalsolotech");
+		toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, "1 * totalsolotech");
+		toResCostMoney = new LinkedHashMap<>();
+		toResCostMoney.put(1, "1 * totalsolotech");
+		toResCostMaterial = new LinkedHashMap<>();
+		rewardUnlockableInteractions = new LinkedHashMap<>();
+		rewardUnlockableInteractions.put(1, new String[] {
+				"PLACING:SPRUCE_SAPLING:null:canAccess=true:ttexp=0.01:vault=0.1:default=0.1",
+				"BREAKING:SPRUCE_SAPLING:null:canAccess=true"});
+		rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardUnlockableRecipe.put(1, null);
+		rewardDropChance = new LinkedHashMap<>();
+		rewardDropChance.put(1, new String[] {
+				"BREAKING:SPRUCE_SAPLING:null:mat=SPRUCE_SAPLING:1:1.0",
+				""});
+		rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance.put(1, new String[] {
+				"BREAKING:SPRUCE_SAPLING:null:mat=SPRUCE_SAPLING:1:1.0",
+				""});
+		rewardCommand = new LinkedHashMap<>();
+		rewardItem = new LinkedHashMap<>();
+		rewardModifier = new LinkedHashMap<>();
+		rewardValueEntry = new LinkedHashMap<>();
+		addTechnology(
+				"sprucesapling", new String[] {"Fichtensetzling", "Sprucesapling"}, TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 1, "", "sapling", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				new String[] { //ConditionToSee
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"}, true,
+				new String[] {"&7Fichtensetzling","&7Sprucesapling"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Fichtensetzling",
+						"&eKosten:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Geld",
+						"&eSchaltet folgendes frei:",
+						"&fSetzten von Fichtensetzling",
+						"&7Technology Sprucesapling",
+						"&eCosts:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Money",
+						"&eUnlocks the following:",
+						"&fMining of oaksapling"},
+				new String[] {"&7Fichtensetzling","&7Sprucesapling"}, Material.SPRUCE_SAPLING, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Fichtensetzling",
+						"&eKosten:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Geld",
+						"&eSchaltet folgendes frei:",
+						"&fSetzten von Fichtensetzling",
+						"&7Technology Sprucesapling",
+						"&eCosts:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Money",
+						"&eUnlocks the following:",
+						"&fMining of oaksapling"},
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&7Fichtensetzling","&7Sprucesapling"}, Material.SPRUCE_SAPLING, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Fichtensetzling",
+						"&eKosten:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Geld",
+						"&eSchaltet folgendes frei:",
+						"&fSetzten von Fichtensetzling",
+						"&7Technology Sprucesapling",
+						"&eCosts:",
+						"&f%costttexp% | %costvanillaexp%",
+						"&f%costmoney% Money",
+						"&eUnlocks the following:",
+						"&fMining of oaksapling"},
+				new String[] {"&bFichtensetzling","&bSprucesapling"}, Material.SPRUCE_SAPLING, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Fichtensetzling",
+						"&eSchaltet folgendes frei:",
+						"&fSetzten von Fichtensetzling",
+						"&7Technology Sprucesapling",
+						"&eUnlocks the following:",
+						"&fMining of oaksapling"},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+	}
+	
+	private void tech_Woodworking_Woodenlog() //INFO:Woodworking_Woodenlog
+	{
+		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
+		toResCondition.put(1,new String[] {
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"});
+		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
+		rewardUnlockableInteractions.put(1, new String[] {
+						"BREAKING:OAK_LOG:null:tool=WOODEN_AXE:ttexp=0.01:vault=0.1:default=0.1",
+						"BREAKING:SPRUCE_LOG:null:tool=WOODEN_AXE:ttexp=0.01:vault=0.1:default=0.1",
+						"BREAKING:BIRCH_LOG:null:tool=WOODEN_AXE:ttexp=0.01:vault=0.1:default=0.1",
+						"BREAKING:JUNGLE_LOG:null:tool=WOODEN_AXE:ttexp=0.01:vault=0.1:default=0.1",
+						"BREAKING:ACACIA_LOG:null:tool=WOODEN_AXE:ttexp=0.01:vault=0.1:default=0.1",
+						"BREAKING:DARK_OAK_LOG:null:tool=WOODEN_AXE:ttexp=0.01:vault=0.1:default=0.1",
+						"BREAKING:MANGROVE_LOG:null:tool=WOODEN_AXE:ttexp=0.01:vault=0.1:default=0.1",
+						"BREAKING:CHERRY_LOG:null:tool=WOODEN_AXE:ttexp=0.01:vault=0.1:default=0.1"});
+		LinkedHashMap<Integer, String[]> rewardUnlockableRecipe = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardDropChance = new LinkedHashMap<>();
+		rewardDropChance.put(1, new String[] {
+						"BREAKING:WOODEN_AXE:OAK_LOG:null:mat=OAK_LOG:1:1.0",
+						"BREAKING:WOODEN_AXE:SPRUCE_LOG:null:mat=SPRUCE_LOG:1:1.0",
+						"BREAKING:WOODEN_AXE:BIRCH_LOG:null:mat=BIRCH_LOG:1:1.0",
+						"BREAKING:WOODEN_AXE:JUNGLE_LOG:null:mat=JUNGLE_LOG:1:1.0",
+						"BREAKING:WOODEN_AXE:ACACIA_LOG:null:mat=ACACIA_LOG:1:1.0",
+						"BREAKING:WOODEN_AXE:DARK_OAK_LOG:null:mat=DARK_OAK_LOG:1:1.0",
+						"BREAKING:WOODEN_AXE:MANGROVE_LOG:null:mat=MANGROVE_LOG:1:1.0",
+						"BREAKING:WOODEN_AXE:CHERRY_LOG:null:mat=CHERRY_LOG:1:1.0"});
+		LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance.put(1, new String[] {
+						"BREAKING:WOODEN_AXE:OAK_LOG:null:mat=OAK_LOG:1:1.0",
+						"BREAKING:WOODEN_AXE:SPRUCE_LOG:null:mat=SPRUCE_LOG:1:1.0",
+						"BREAKING:WOODEN_AXE:BIRCH_LOG:null:mat=BIRCH_LOG:1:1.0",
+						"BREAKING:WOODEN_AXE:JUNGLE_LOG:null:mat=JUNGLE_LOG:1:1.0",
+						"BREAKING:WOODEN_AXE:ACACIA_LOG:null:mat=ACACIA_LOG:1:1.0",
+						"BREAKING:WOODEN_AXE:DARK_OAK_LOG:null:mat=DARK_OAK_LOG:1:1.0",
+						"BREAKING:WOODEN_AXE:MANGROVE_LOG:null:mat=MANGROVE_LOG:1:1.0",
+						"BREAKING:WOODEN_AXE:CHERRY_LOG:null:mat=CHERRY_LOG:1:1.0"});
+		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardValueEntry = new LinkedHashMap<>();
+		addTechnology(
+				"woodenlog", new String[] {"Holzstamm", "Woodenlog"}, TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 1, "", "starttechnology", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				new String[] { //ConditionToSee
+						"if:(a):o_1",
+						"output:o_1:true",
+						"a:true"}, true,
+				new String[] {"&7Holzstamm","&7Woodenlog"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Holzstamm",
+						"&aStarttechnologie, welche du immer zu Anfang",
+						"&afreigeschaltet hast!",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von allen Holzstämme",
+						"&7Technology Woodenlog",
+						"&aStart technology, which you always",
+						"&aunlocked at the beginning!",
+						"&eUnlocks the following:",
+						"&fMining of all woodenlog"},
+				new String[] {"&7Eichenstamm","&7Oaklog"}, Material.OAK_LOG, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Holzstamm",
+						"&aStarttechnologie, welche du immer zu Anfang",
+						"&afreigeschaltet hast!",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von allen Holzstämme",
+						"&7Technology Woodenlog",
+						"&aStart technology, which you always",
+						"&aunlocked at the beginning!",
+						"&eUnlocks the following:",
+						"&fMining of all woodenlog"},
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&7Eichenstamm","&7Oaklog"}, Material.OAK_LOG, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Holzstamm",
+						"&aStarttechnologie, welche du immer zu Anfang",
+						"&afreigeschaltet hast!",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von allen Holzstämme",
+						"&7Technology Woodenlog",
+						"&aStart technology, which you always",
+						"&aunlocked at the beginning!",
+						"&eUnlocks the following:",
+						"&fMining of all woodenlog"},
+				new String[] {"&7Eichenstamm","&7Oaklog"}, Material.OAK_LOG, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"&7Technologie Holzstamm",
+						"&aStarttechnologie, welche du immer zu Anfang",
+						"&afreigeschaltet hast!",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von allen Holzstämme",
+						"&7Technology Woodenlog",
+						"&aStart technology, which you always",
+						"&aunlocked at the beginning!",
+						"&eUnlocks the following:",
+						"&fMining of all woodenlog"},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+	}
+	
+	private void tech_Stonemason_() //INFO:
+	{
 		
-		//miningbooster
-		//craftbooster
 	}
 	
 	public void addTechnology(
@@ -2531,12 +2908,17 @@ public class YamlManager
 			String[] toSeeConditionQuery, boolean showDifferentItemIfYouNormallyDontSeeIt,
 			String[] notSeeDisplayname, Material notSeeMat, int notSeeAmount, String[] notSeeItemFlag, String[] notSeeEnchantments, String[] notSeeLore,
 			String[] canSeeDisplayname, Material canSeeMat, int canSeeAmount, String[] canSeeItemFlag, String[] canSeeEnchantments, String[] canSeeLore,
-			String[] toResConditionQuery,
-			String toResCostTTExp, String toResCostVanillaExp, String toResCostMoney, String[] toResCostMaterial,
+			LinkedHashMap<Integer, String[]> toResConditionQuery,
+			LinkedHashMap<Integer, String> toResCostTTExp,
+			LinkedHashMap<Integer, String> toResCostVanillaExp,
+			LinkedHashMap<Integer, String> toResCostMoney,
+			LinkedHashMap<Integer, String[]> toResCostMaterial,
 			String[] canResDisplayname, Material canResMat, int canResAmount, String[] canResItemFlag, String[] canResEnchantments, String[] canResLore,
 			String[] hadResDisplayname, Material hadResMat, int hadResAmount, String[] hadResItemFlag, String[] hadResEnchantments, String[] hadResLore,
-			String[] rewardUnlockableInteractions, String[] rewardUnlockableRecipe, String[] rewardDropChance, String[] rewardSilkTouchDropChance,
-			String[] rewardCommand, String[] rewardItem, String[] rewardModifier, String[] rewardValueEntry) //INFO:Technology
+			LinkedHashMap<Integer, String[]> rewardUnlockableInteractions, LinkedHashMap<Integer, String[]> rewardUnlockableRecipe,
+			LinkedHashMap<Integer, String[]> rewardDropChance, LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance,
+			LinkedHashMap<Integer, String[]> rewardCommand, LinkedHashMap<Integer, String[]> rewardItem, 
+			LinkedHashMap<Integer, String[]> rewardModifier, LinkedHashMap<Integer, String[]> rewardValueEntry) //INFO:Technology
 	{
 		LinkedHashMap<String, Language> one = new LinkedHashMap<>();
 		one.put("Displayname", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, 
@@ -2614,27 +2996,31 @@ public class YamlManager
 		one.put("RequirementToSee.ItemIfYouCanSee.Lore", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, 
 						canSeeLore));
 		
-		one.put("RequirementToResearch.ConditionQuery", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-						toSeeConditionQuery));
-		if(toResCostTTExp != null)
+		for(Entry<Integer, String[]> e : toResConditionQuery.entrySet())
 		{
-			one.put("RequirementToResearch.Costs.TTExp", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-					toResCostTTExp}));
+			one.put("RequirementToResearch.ConditionQuery."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER}, 
+					e.getValue()));
 		}
-		if(toResCostVanillaExp != null)
+		
+		for(Entry<Integer, String> e : toResCostTTExp.entrySet())
 		{
-			one.put("RequirementToResearch.Costs.VanillaExp", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-					toResCostVanillaExp}));
+			one.put("RequirementToResearch.Costs.TTExp."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+					e.getValue()}));
 		}
-		if(toResCostMoney != null)
+		for(Entry<Integer, String> e : toResCostVanillaExp.entrySet())
 		{
-			one.put("RequirementToResearch.Costs.Money", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-					toResCostMoney}));
+			one.put("RequirementToResearch.Costs.VanillaExp."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+					e.getValue()}));
 		}
-		if(toResCostMaterial != null)
+		for(Entry<Integer, String> e : toResCostMoney.entrySet())
 		{
-			one.put("RequirementToResearch.Costs.Material", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-					toResCostMaterial));
+			one.put("RequirementToResearch.Costs.Money."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+					e.getValue()}));
+		}
+		for(Entry<Integer, String[]> e : toResCostMaterial.entrySet())
+		{
+			one.put("RequirementToResearch.Costs.Money."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER}, 
+					e.getValue()));
 		}
 		//--- ToResearch - IfYouCanResearchIt ---
 		one.put("RequirementToResearch.IfYouCanResearchIt.Displayname",
@@ -2664,45 +3050,46 @@ public class YamlManager
 						hadResEnchantments));
 		one.put("RequirementToResearch.ItemIfYouHaveResearchedIt.Lore", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, 
 						hadResLore));
-		if(rewardUnlockableInteractions != null)
+		
+		for(Entry<Integer, String[]> e : rewardUnlockableInteractions.entrySet())
 		{
-			one.put("Rewards.UnlockableInteractions", new Language(new ISO639_2B[] {ISO639_2B.GER},
-					rewardUnlockableInteractions));
+			one.put("Rewards.UnlockableInteractions."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
+					e.getValue()));
 		}
-		if(rewardUnlockableRecipe != null)
+		for(Entry<Integer, String[]> e : rewardUnlockableRecipe.entrySet())
 		{
-			one.put("Rewards.UnlockableRecipe", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-					rewardUnlockableRecipe));
+			one.put("Rewards.UnlockableRecipe."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
+					e.getValue()));
 		}
-		if(rewardDropChance != null)
+		for(Entry<Integer, String[]> e : rewardDropChance.entrySet())
 		{
-			one.put("Rewards.DropChance", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-					rewardDropChance));
+			one.put("Rewards.DropChance."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
+					e.getValue()));
 		}
-		if(rewardSilkTouchDropChance != null)
+		for(Entry<Integer, String[]> e : rewardSilkTouchDropChance.entrySet())
 		{
-			one.put("Rewards.SilkTouchDropChance", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-					rewardSilkTouchDropChance));
+			one.put("Rewards.SilkTouchDropChance."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
+					e.getValue()));
 		}
-		if(rewardCommand != null)
+		for(Entry<Integer, String[]> e : rewardCommand.entrySet())
 		{
-			one.put("Rewards.Command", new Language(new ISO639_2B[] {ISO639_2B.GER},
-					rewardCommand));
+			one.put("Rewards.Command."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
+					e.getValue()));
 		}
-		if(rewardItem != null)
+		for(Entry<Integer, String[]> e : rewardItem.entrySet())
 		{
-			one.put("Rewards.Item", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-					rewardItem));
+			one.put("Rewards.Item."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
+					e.getValue()));
 		}
-		if(rewardModifier != null)
+		for(Entry<Integer, String[]> e : rewardModifier.entrySet())
 		{
-			one.put("Rewards.Modifier", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-					rewardModifier));
+			one.put("Rewards.Modifier."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
+					e.getValue()));
 		}
-		if(rewardValueEntry != null)
+		for(Entry<Integer, String[]> e : rewardValueEntry.entrySet())
 		{
-			one.put("Rewards.ValueEntry", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-					rewardValueEntry));
+			one.put("Rewards.ValueEntry."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
+					e.getValue()));
 		}
 		LinkedHashMap<String, LinkedHashMap<String, Language>> map = new LinkedHashMap<>();
 		if(technologyKeys.containsKey(pat))

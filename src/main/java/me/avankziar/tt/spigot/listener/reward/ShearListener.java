@@ -33,11 +33,11 @@ public class ShearListener implements Listener
 			event.setCancelled(true);
 			return;
 		}
-		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), SH, null, event.getEntity().getType(), true))
+		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), SH, ToolType.ALL, null, event.getEntity().getType()))
 		{
 			Item it = event.getPlayer().getWorld().dropItem(event.getPlayer().getLocation(), is);
 			ItemHandler.addItemToTask(it, event.getPlayer().getUniqueId());
 		}
-		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), SH,	null, event.getEntity().getType(), 1);
+		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), SH,	ToolType.SHEARS, null, event.getEntity().getType(), 1);
 	}
 }

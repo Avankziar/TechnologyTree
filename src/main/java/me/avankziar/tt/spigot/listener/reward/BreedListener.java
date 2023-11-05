@@ -8,7 +8,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityBreedEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
@@ -33,12 +35,27 @@ public class BreedListener implements Listener
 			return;
 		}
 		Player player = (Player) event.getBreeder();
+		final ToolType tool = ToolType.getHandToolType(player);
 		event.setExperience(0);
-		for(ItemStack is : RewardHandler.getDrops(player, BR, null, event.getEntityType(), false))
+		new BukkitRunnable()
 		{
-			Item it = player.getWorld().dropItem(event.getEntity().getLocation(), is);
-			ItemHandler.addItemToTask(it, player.getUniqueId());
-		}
-		RewardHandler.rewardPlayer(player.getUniqueId(), BR, null, event.getEntityType(), 1);
+			@Override
+			public void run()
+			{
+				for(ItemStack is : RewardHandler.getDrops(player, BR, tool, null, event.getEntityType()))
+				{
+					new BukkitRunnable()
+					{
+						@Override
+						public void run()
+						{
+							Item it = player.getWorld().dropItem(event.getEntity().getLocation(), is);
+							ItemHandler.addItemToTask(it, player.getUniqueId());
+						}
+					}.runTask(TT.getPlugin());
+				}
+				RewardHandler.rewardPlayer(player.getUniqueId(), BR, tool, null, event.getEntityType(), 1);
+			}
+		}.runTaskAsynchronously(TT.getPlugin());
 	}
 }

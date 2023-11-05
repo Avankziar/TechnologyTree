@@ -21,10 +21,12 @@ import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.ToolType;
 
 public class BrewListener implements Listener
 {
 	final private static EventType BR = EventType.BREWING;
+	final private static boolean FINISHBREW_IFPLAYERHASNOTTHERECIPEUNLOCKED = new ConfigHandler().finishBrewIfPlayerHasNotTheRecipeUnlocked();
 	@EventHandler
 	public void onBrewingStart(BrewingStartEvent event)
 	{
@@ -50,22 +52,22 @@ public class BrewListener implements Listener
 		{
 			return;
 		}
-		BlockType bt = BlockType.BREWING_STAND;
-		UUID uuid = BlockHandler.getRegisterBlockOwner(bt, event.getBlock().getLocation());
+		final BlockType bt = BlockType.BREWING_STAND;
+		final UUID uuid = BlockHandler.getRegisterBlockOwner(bt, event.getBlock().getLocation());
 		if(uuid == null)
 		{
 			return;
 		}
-		event.getContents().getIngredient().getType();
 		if(!RecipeHandler.hasAccessToRecipe(uuid, bt, recipeKey))
 		{
-			if(!new ConfigHandler().finishBrewIfPlayerHasNotTheRecipeUnlocked())
+			if(!FINISHBREW_IFPLAYERHASNOTTHERECIPEUNLOCKED)
 			{
 				return;
 			}
 			event.setCancelled(true);
 			return;
 		}
+		//ADDME Async!
 		int i = 0;
 		Player player = Bukkit.getPlayer(uuid);
 		for(ItemStack is : event.getContents().getContents())
@@ -75,7 +77,7 @@ public class BrewListener implements Listener
 				i++;
 				if(player != null)
 				{
-					for(ItemStack iss : RewardHandler.getDrops(player, BR, is.getType(), null, true))
+					for(ItemStack iss : RewardHandler.getDrops(player, BR, ToolType.ALL, is.getType(), null))
 					{
 						Item it = event.getBlock().getWorld().dropItem(event.getBlock().getLocation(), iss);
 						ItemHandler.addItemToTask(it, uuid);
@@ -83,6 +85,6 @@ public class BrewListener implements Listener
 				}
 			}
 		}
-		RewardHandler.rewardPlayer(uuid, BR, Material.valueOf(recipeKey), null, i);
+		RewardHandler.rewardPlayer(uuid, BR, ToolType.ALL, Material.valueOf(recipeKey), null, i);
 	}
 }

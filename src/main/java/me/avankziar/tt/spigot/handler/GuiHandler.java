@@ -799,7 +799,7 @@ public class GuiHandler
 					double ttexp = 0;
 					if(pd != null && !t.getCostTTExp().isEmpty())
 					{
-						ttexp =  new MathFormulaParser().parse(t.getCostTTExp(), map);
+						ttexp =  new MathFormulaParser().parse(t.getCostTTExp().get(techLevel), map);
 					}
 					s = s.replace("%rawcostttexp%", String.valueOf(ttexp));
 				}
@@ -808,7 +808,7 @@ public class GuiHandler
 					double ttexp = 0;
 					if(pd != null && !t.getCostTTExp().isEmpty())
 					{
-						ttexp =  new MathFormulaParser().parse(t.getCostTTExp(), map);
+						ttexp =  new MathFormulaParser().parse(t.getCostTTExp().get(techLevel), map);
 					}
 					s = s.replace("%costttexp%", String.valueOf(ttexp)+" TTExp");
 				}
@@ -817,7 +817,7 @@ public class GuiHandler
 					int vexp = 0;
 					if(!t.getCostVanillaExp().isEmpty())
 					{
-						vexp = (int) Math.floor(new MathFormulaParser().parse(t.getCostVanillaExp(), map));
+						vexp = (int) Math.floor(new MathFormulaParser().parse(t.getCostVanillaExp().get(techLevel), map));
 					}
 					s = s.replace("%rawcostvanillaexp%", String.valueOf(vexp));
 				}
@@ -826,7 +826,7 @@ public class GuiHandler
 					int vexp = 0;
 					if(!t.getCostVanillaExp().isEmpty())
 					{
-						vexp = (int) Math.floor(new MathFormulaParser().parse(t.getCostVanillaExp(), map));
+						vexp = (int) Math.floor(new MathFormulaParser().parse(t.getCostVanillaExp().get(techLevel), map));
 					}
 					s = s.replace("%costvanillaexp%", String.valueOf(vexp)+" VanillaExp");
 				}
@@ -835,7 +835,7 @@ public class GuiHandler
 					double money = 0;
 					if(!t.getCostMoney().isEmpty())
 					{
-						money = new MathFormulaParser().parse(t.getCostMoney(), map);
+						money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map);
 					}
 					s = s.replace("%rawcostmoney%", String.valueOf(money));
 				}
@@ -844,7 +844,7 @@ public class GuiHandler
 					double money = 0;
 					if(!t.getCostMoney().isEmpty())
 					{
-						money = new MathFormulaParser().parse(t.getCostMoney(), map);
+						money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map);
 					}
 					s = s.replace("%costmoney%", String.valueOf(money));
 				}
@@ -853,7 +853,7 @@ public class GuiHandler
 					StringBuilder sb = new StringBuilder();
 					int i = 0;
 					int j = t.getCostMaterial().entrySet().size();
-					for(Entry<Material, String> e : t.getCostMaterial().entrySet())
+					for(Entry<Material, String> e : t.getCostMaterial().get(techLevel).entrySet())
 					{
 						int material = (int) Math.floor(new MathFormulaParser().parse(e.getValue(), map));
 						sb.append(material+"x "+  e.getKey().toString());
@@ -870,7 +870,7 @@ public class GuiHandler
 					StringBuilder sb = new StringBuilder();
 					int i = 0;
 					int j = t.getCostMaterial().entrySet().size();
-					for(Entry<Material, String> e : t.getCostMaterial().entrySet())
+					for(Entry<Material, String> e : t.getCostMaterial().get(techLevel).entrySet())
 					{
 						int material = (int) Math.floor(new MathFormulaParser().parse(e.getValue(), map));
 						sb.append(material+"x "+  TT.getPlugin().getEnumTl() != null
@@ -914,7 +914,7 @@ public class GuiHandler
 				double money = 0.0;
 				if(t != null)
 				{
-					money = new MathFormulaParser().parse(t.getCostMoney(), map);
+					money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map);
 					moneyFrac = String.valueOf(money).split("\\.")[1].length();
 				}
 				s = s.replace("%techcostmoney%", t == null ? "/" : 
@@ -945,7 +945,7 @@ public class GuiHandler
 			double money = 0.0;
 			if(t != null)
 			{
-				money = new MathFormulaParser().parse(t.getCostMoney(), map);
+				money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map);
 			}
 			s = s.replace("%techcostmoney%%", t == null ? "/" : 
 				String.valueOf(money)+" "+ plugin.getVaultEco().currencyNamePlural());

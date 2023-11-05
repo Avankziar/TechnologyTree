@@ -12,8 +12,9 @@ import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.ToolType;
 
-public class SmithRenameListener implements Listener
+public class SmithingListener implements Listener
 {
 	final private static EventType SM = EventType.SMITHING;
 	@EventHandler
@@ -30,11 +31,11 @@ public class SmithRenameListener implements Listener
 		}
 		final ItemStack result = event.getCurrentItem().clone();
 		Player player = (Player) event.getWhoClicked();
-		for(ItemStack is : RewardHandler.getDrops(player, SM, result.getType(), null, false))
+		for(ItemStack is : RewardHandler.getDrops(player, SM, ToolType.ALL, result.getType(), null))
 		{
 			Item it = player.getWorld().dropItem(player.getLocation(), is);
 			ItemHandler.addItemToTask(it, player.getUniqueId());
 		}
-		RewardHandler.rewardPlayer(player.getUniqueId(), SM, result.getType(), null, 1);
+		RewardHandler.rewardPlayer(player.getUniqueId(), SM, ToolType.ALL, result.getType(), null, 1);
 	}
 }

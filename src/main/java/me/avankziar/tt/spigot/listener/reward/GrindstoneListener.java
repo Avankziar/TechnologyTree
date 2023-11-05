@@ -15,6 +15,7 @@ import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.ToolType;
 
 public class GrindstoneListener implements Listener
 {
@@ -37,11 +38,11 @@ public class GrindstoneListener implements Listener
 		Player player = (Player) event.getWhoClicked();
 		GrindstoneInventory ai = (GrindstoneInventory) event.getClickedInventory();
 		ItemStack result = ai.getContents()[2];
-		for(ItemStack is : RewardHandler.getDrops(player, GR, result.getType(), null, false))
+		for(ItemStack is : RewardHandler.getDrops(player, GR, ToolType.ALL, result.getType(), null))
 		{
 			Item it = player.getWorld().dropItem(player.getLocation(), is);
 			ItemHandler.addItemToTask(it, player.getUniqueId());
 		}
-		RewardHandler.rewardPlayer(player.getUniqueId(), GR, result.getType(), null, 1);
+		RewardHandler.rewardPlayer(player.getUniqueId(), GR, ToolType.ALL, result.getType(), null, 1);
 	}
 }

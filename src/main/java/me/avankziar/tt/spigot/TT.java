@@ -70,9 +70,10 @@ import main.java.me.avankziar.tt.spigot.listener.reward.GrindstoneListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.HarvestListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.ItemBreakListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.ItemConsumeListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.MilkingListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.ShearListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.SheepDyeListener;
-import main.java.me.avankziar.tt.spigot.listener.reward.SmithRenameListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.SmithingListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.TameListener;
 import main.java.me.avankziar.tt.spigot.modifiervalueentry.Bypass;
 
@@ -387,10 +388,13 @@ public class TT extends JavaPlugin
 		PluginManager pm = getServer().getPluginManager();
 		
 		pm.registerEvents(new JoinQuitListener(), plugin);
+		
 		//Dryconcrete etc. delete from SQLLite
 		pm.registerEvents(new BlockFormListener(), plugin);
+		
 		//Registering Blocks, f.e. furnace etc.
 		pm.registerEvents(new RegisterBlockListener(), plugin);
+		
 		//Recipe, to cancel if the recipe isnt unlocked
 		pm.registerEvents(new PrepareAnvilListener(), plugin);
 		pm.registerEvents(new PrepareGrindstoneListener(), plugin);
@@ -415,9 +419,10 @@ public class TT extends JavaPlugin
 		pm.registerEvents(new HarvestListener(), plugin);
 		pm.registerEvents(new ItemBreakListener(), plugin);
 		pm.registerEvents(new ItemConsumeListener(), plugin);
+		pm.registerEvents(new MilkingListener(), plugin);
 		pm.registerEvents(new ShearListener(), plugin);
 		pm.registerEvents(new SheepDyeListener(), plugin);
-		pm.registerEvents(new SmithRenameListener(), plugin);
+		pm.registerEvents(new SmithingListener(), plugin);
 		pm.registerEvents(new TameListener(), plugin);		
 	}
 	

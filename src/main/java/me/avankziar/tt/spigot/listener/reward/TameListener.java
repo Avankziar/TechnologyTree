@@ -12,6 +12,7 @@ import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.ToolType;
 
 public class TameListener implements Listener
 {
@@ -29,11 +30,11 @@ public class TameListener implements Listener
 			return;
 		}
 		Player player = (Player) event.getOwner();
-		for(ItemStack is : RewardHandler.getDrops(player, TA, null, event.getEntityType(), true))
+		for(ItemStack is : RewardHandler.getDrops(player, TA, ToolType.ALL, null, event.getEntityType()))
 		{
 			Item it = event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), is);
 			ItemHandler.addItemToTask(it, player.getUniqueId());
 		}
-		RewardHandler.rewardPlayer(player.getUniqueId(), TA, null, event.getEntityType(), 1);
+		RewardHandler.rewardPlayer(player.getUniqueId(), TA, ToolType.ALL, null, event.getEntityType(), 1);
 	}
 }

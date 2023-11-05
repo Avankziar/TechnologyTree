@@ -11,6 +11,7 @@ import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.ToolType;
 
 public class SheepDyeListener implements Listener
 {
@@ -29,11 +30,11 @@ public class SheepDyeListener implements Listener
 		{
 			return;
 		}
-		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), SD, null, event.getEntityType(), false))
+		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), SD, ToolType.ALL, null, event.getEntityType()))
 		{
 			Item it = event.getPlayer().getWorld().dropItem(event.getEntity().getLocation(), is);
 			ItemHandler.addItemToTask(it, event.getPlayer().getUniqueId());
 		}
-		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), SD, null, event.getEntityType(), 1);
+		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), SD, ToolType.ALL, null, event.getEntityType(), 1);
 	}
 }

@@ -13,6 +13,7 @@ import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.ToolType;
 
 public class FishingListener implements Listener
 {	
@@ -40,11 +41,11 @@ public class FishingListener implements Listener
 		{
 			return;
 		}
-		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), FI, ismat.getType(), null, true))
+		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), FI, ToolType.FISHING_ROD, ismat.getType(), null))
 		{
 			Item it = event.getPlayer().getWorld().dropItem(event.getPlayer().getLocation(), is);
 			ItemHandler.addItemToTask(it, event.getPlayer().getUniqueId());
 		}
-		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), FI,	ismat.getType(), null, ismat.getAmount());
+		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), FI, ToolType.FISHING_ROD, ismat.getType(), null, ismat.getAmount());
 	}
 }
