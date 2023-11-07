@@ -105,7 +105,7 @@ public class BucketEmptyFillListener implements Listener
 						}
 					}.runTask(TT.getPlugin());
 				}
-				RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), BF, ToolType.ALL, event.getBlockClicked().getType(), null, 1);
+				RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), BF, ToolType.HAND, event.getBlockClicked().getType(), null, 1);
 			}
 		}.runTaskAsynchronously(TT.getPlugin());	
 	}

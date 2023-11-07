@@ -53,24 +53,24 @@ public class Cold_ForgingRenameListener implements Listener
 			{
 				return;
 			}
-			for(ItemStack is : RewardHandler.getDrops(player, RN, ToolType.ALL, result.getType(), null))
+			for(ItemStack is : RewardHandler.getDrops(player, RN, ToolType.HAND, result.getType(), null))
 			{
 				Item it = player.getWorld().dropItem(player.getLocation(), is);
 				ItemHandler.addItemToTask(it, player.getUniqueId());
 			}
-			RewardHandler.rewardPlayer(player.getUniqueId(), RN, ToolType.ALL, result.getType(), null, 1);
+			RewardHandler.rewardPlayer(player.getUniqueId(), RN, ToolType.HAND, result.getType(), null, 1);
 		} else
 		{
 			if(!EnumHandler.isEventActive(CF))
 			{
 				return;
 			}
-			for(ItemStack is : RewardHandler.getDrops(player, CF, ToolType.ALL, result.getType(), null))
+			for(ItemStack is : RewardHandler.getDrops(player, CF, ToolType.HAND, result.getType(), null))
 			{
 				Item it = player.getWorld().dropItem(player.getLocation(), is);
 				ItemHandler.addItemToTask(it, player.getUniqueId());
 			}
-			RewardHandler.rewardPlayer(player.getUniqueId(), CF, ToolType.ALL, result.getType(), null, 1);
+			RewardHandler.rewardPlayer(player.getUniqueId(), CF, ToolType.HAND, result.getType(), null, 1);
 		}
 	}
 }

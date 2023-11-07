@@ -67,6 +67,12 @@ public class PlayerHandler
 	
 	public static LinkedHashMap<UUID, LinkedHashMap<BlockType, ArrayList<String>>> registeredBlocks = new LinkedHashMap<>();//UUID, BlockType, Location as Text
 	
+	public final static String 
+		TECHLEVEL = "techlev",
+		TECHACQUIRED = "techacq",
+		SOLOTOTALTECH = "solotototaltech",
+		GROUPTOTALTECH = "grouptotaltech",
+		GLOBALTOTALTECH = "globaltotaltech";	
 	
 	//DO ASYNC!
 	public static void joinPlayer(final Player player)
@@ -745,10 +751,10 @@ public class PlayerHandler
 		{
 			return s;
 		}
-		if(b.startsWith("tt_can_see")) 
+		if(b.startsWith("canseetech")) 
 		{
-			//tt_can_see_<maincategory/subcategory/technology>_<Name of that>
-			String[] c = b.split("_");
+			//canseetech,<maincategory/subcategory/technology>,<Name of that>
+			String[] c = b.split(",");
 			if(c.length != 5)
 			{
 				return s;
@@ -760,10 +766,10 @@ public class PlayerHandler
 					uuid.toString(), c[4], eqt.toString());
 			b = eqs == null ? "false"
 				: (eqs.getStatusType() == EntryStatusType.CANNOT_SEE_IT ? "false" : "true");
-		} else if(b.startsWith("tt_has_researched"))
+		} else if(b.startsWith("hasresearchedtech"))
 		{
-			//tt_has_researched_<Name of Tech>
-			String[] c = b.split("_");
+			//hasresearchedtech,<Name of Tech>,<Researchlevel>
+			String[] c = b.split(",");
 			if(c.length != 4)
 			{
 				return s;
@@ -773,10 +779,10 @@ public class PlayerHandler
 					uuid.toString(), c[3], EntryQueryType.TECHNOLOGY.toString());
 			b = eqs == null ? "false" :
 				(eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT ? "true" : "false");
-		} else if(b.startsWith("tt_get_researched_level"))
+		} else if(b.startsWith("gethighestresearchedtechlevel"))
 		{
-			//tt_get_research_level_<Tech>
-			String[] c = b.split("_");
+			//gethighestresearchedtechlevel,<Tech>
+			String[] c = b.split("");
 			if(c.length != 5)
 			{
 				return s;
@@ -785,11 +791,11 @@ public class PlayerHandler
 					"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 					uuid.toString(), c[4], EntryQueryType.TECHNOLOGY.toString());
 			b = eqs == null ? "0" : String.valueOf(eqs.getResearchLevel());
-		} else if(b.startsWith("tt_get_player_actual_ttexp"))
+		} else if(b.startsWith("getplayeractualttexp"))
 		{
 			PlayerData pd = getPlayer(uuid);
 			b = pd == null ? "0" : String.valueOf(pd.getActualTTExp());
-		} else if(b.startsWith("tt_get_player_total_received_ttexp"))
+		} else if(b.startsWith("getplayertotalreceivedttexp"))
 		{
 			PlayerData pd = getPlayer(uuid);
 			b = pd == null ? "0" : String.valueOf(pd.getTotalReceivedTTExp());
@@ -864,10 +870,10 @@ public class PlayerHandler
 			acquiredTech = eqs == null ? 0 : techLevel; //Tech which was already acquire
 		}		
 		HashMap<String, Double> map = new HashMap<>();
-		map.put("techlv", Double.valueOf(techLevel));
-		map.put("techaq", Double.valueOf(acquiredTech));
-		map.put("totalsolotech", Double.valueOf(totalSoloTechs));
-		map.put("totalglobaltech", Double.valueOf(totalGlobalTechs));
+		map.put(TECHLEVEL, Double.valueOf(techLevel));
+		map.put(TECHACQUIRED, Double.valueOf(acquiredTech));
+		map.put(SOLOTOTALTECH, Double.valueOf(totalSoloTechs));
+		map.put(GLOBALTOTALTECH, Double.valueOf(totalGlobalTechs));
 		double ttexp = 0;
 		boolean bttexp = true;
 		PlayerData pd = getPlayer(player.getUniqueId());
@@ -914,7 +920,7 @@ public class PlayerHandler
 				if(is.hasItemMeta())
 				{
 					ItemMeta im = (ItemMeta) is.getItemMeta();
-					if(im.hasDisplayName() || im.hasEnchants() || im.hasLore())
+					if(im.hasDisplayName() || im.hasEnchants() || im.hasLore() || im.hasCustomModelData())
 					{
 						continue;
 					}
@@ -1231,9 +1237,17 @@ public class PlayerHandler
 	{
 		int techLevel = researchlevel;
 		int acquiredTech = researchlevel - 1;
+		int totalSoloTechs = plugin.getMysqlHandler().getCount(Type.SOLOENTRYQUERYSTATUS,
+				"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
+				player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
+		int totalGlobalTechs = plugin.getMysqlHandler().getCount(Type.GLOBALENTRYQUERYSTATUS,
+				"`entry_query_type` = ? AND `status_type` = ?",
+				player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
 		HashMap<String, Double> map = new HashMap<>();
-		map.put("techlv", Double.valueOf(techLevel));
-		map.put("techaq", Double.valueOf(acquiredTech));
+		map.put(TECHLEVEL, Double.valueOf(techLevel));
+		map.put(TECHACQUIRED, Double.valueOf(acquiredTech));
+		map.put(SOLOTOTALTECH, Double.valueOf(totalSoloTechs));
+		map.put(GLOBALTOTALTECH, Double.valueOf(totalGlobalTechs));
 		double ttexp = 0;
 		PlayerData pd = getPlayer(player.getUniqueId());
 		if(pd != null && !t.getCostTTExp().isEmpty())

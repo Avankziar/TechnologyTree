@@ -103,12 +103,12 @@ public class DyingHarmingKillingListener implements Listener
 		{
 			return;
 		}
-		for(ItemStack is : RewardHandler.getDrops(event.getEntity(), DY, ToolType.ALL, null, EntityType.PLAYER))
+		for(ItemStack is : RewardHandler.getDrops(event.getEntity(), DY, ToolType.HAND, null, EntityType.PLAYER))
 		{
 			Item it = event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), is);
 			ItemHandler.addItemToTask(it, event.getEntity().getUniqueId());
 		}
-		RewardHandler.rewardPlayer(event.getEntity().getUniqueId(), DY, ToolType.ALL, null, EntityType.PLAYER, 1);
+		RewardHandler.rewardPlayer(event.getEntity().getUniqueId(), DY, ToolType.HAND, null, EntityType.PLAYER, 1);
 	}
 	
 	@EventHandler

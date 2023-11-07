@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 public enum ToolType
 {
-	ALL, //All Items
+	//ALL, //All Items
 	//UNDEFINE, //All other Items in the Hand
 	HAND,
 	//SHOVEL, 
@@ -37,7 +37,7 @@ public enum ToolType
 			return tt;
 		} catch(Exception e)
 		{
-			return ToolType.ALL;
+			return ToolType.HAND;
 		}
 	}
 	
@@ -53,7 +53,7 @@ public enum ToolType
 			return tt;
 		} catch(Exception e)
 		{
-			return ToolType.ALL;
+			return ToolType.HAND;
 		}
 	}
 	

@@ -30,11 +30,11 @@ public class ItemConsumeListener implements Listener
 			return;
 		}
 		final Material mat = event.getItem().getType();
-		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), IC, ToolType.ALL, mat, null))
+		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), IC, ToolType.HAND, mat, null))
 		{
 			Item it = event.getPlayer().getWorld().dropItem(event.getPlayer().getLocation(), is);
 			ItemHandler.addItemToTask(it, event.getPlayer().getUniqueId());
 		}
-		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), IC, ToolType.ALL, mat, null, 1);
+		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), IC, ToolType.HAND, mat, null, 1);
 	}
 }

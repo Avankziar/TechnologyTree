@@ -27,11 +27,11 @@ public class MilkingListener implements Listener
 		{
 			return;
 		}
-		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), MI, ToolType.ALL, null, event.getRightClicked().getType()))
+		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), MI, ToolType.HAND, null, event.getRightClicked().getType()))
 		{
 			Item it = event.getPlayer().getWorld().dropItem(event.getPlayer().getLocation(), is);
 			ItemHandler.addItemToTask(it, event.getPlayer().getUniqueId());
 		}
-		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), MI, ToolType.ALL, null, event.getRightClicked().getType(), 1);
+		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), MI, ToolType.HAND, null, event.getRightClicked().getType(), 1);
 	}
 }

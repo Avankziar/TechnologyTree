@@ -30,11 +30,11 @@ public class TameListener implements Listener
 			return;
 		}
 		Player player = (Player) event.getOwner();
-		for(ItemStack is : RewardHandler.getDrops(player, TA, ToolType.ALL, null, event.getEntityType()))
+		for(ItemStack is : RewardHandler.getDrops(player, TA, ToolType.HAND, null, event.getEntityType()))
 		{
 			Item it = event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), is);
 			ItemHandler.addItemToTask(it, player.getUniqueId());
 		}
-		RewardHandler.rewardPlayer(player.getUniqueId(), TA, ToolType.ALL, null, event.getEntityType(), 1);
+		RewardHandler.rewardPlayer(player.getUniqueId(), TA, ToolType.HAND, null, event.getEntityType(), 1);
 	}
 }

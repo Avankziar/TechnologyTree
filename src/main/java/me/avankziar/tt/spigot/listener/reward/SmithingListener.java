@@ -31,11 +31,11 @@ public class SmithingListener implements Listener
 		}
 		final ItemStack result = event.getCurrentItem().clone();
 		Player player = (Player) event.getWhoClicked();
-		for(ItemStack is : RewardHandler.getDrops(player, SM, ToolType.ALL, result.getType(), null))
+		for(ItemStack is : RewardHandler.getDrops(player, SM, ToolType.HAND, result.getType(), null))
 		{
 			Item it = player.getWorld().dropItem(player.getLocation(), is);
 			ItemHandler.addItemToTask(it, player.getUniqueId());
 		}
-		RewardHandler.rewardPlayer(player.getUniqueId(), SM, ToolType.ALL, result.getType(), null, 1);
+		RewardHandler.rewardPlayer(player.getUniqueId(), SM, ToolType.HAND, result.getType(), null, 1);
 	}
 }

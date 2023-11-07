@@ -29,12 +29,12 @@ public class FertilizeListener implements Listener
 		{
 			return;
 		}
-		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), FE, ToolType.ALL, event.getBlock().getType(), null))
+		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), FE, ToolType.HAND, event.getBlock().getType(), null))
 		{
 			Item it = event.getPlayer().getWorld().dropItem(event.getBlock().getLocation(), is);
 			ItemHandler.addItemToTask(it, event.getPlayer().getUniqueId());
 		}
-		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), FE, ToolType.ALL, event.getBlock().getType(), null, 1);
+		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), FE, ToolType.HAND, event.getBlock().getType(), null, 1);
 	}
 	
 	//Do not needed

@@ -96,12 +96,12 @@ public class CookMeltSmeltSmokeListener implements Listener
 		Player player = Bukkit.getPlayer(uuid);
 		if(player != null)
 		{
-			for(ItemStack is : RewardHandler.getDrops(player, et, ToolType.ALL, event.getBlock().getType(), null))
+			for(ItemStack is : RewardHandler.getDrops(player, et, ToolType.HAND, event.getResult().getType(), null))
 			{
 				Item it = event.getBlock().getWorld().dropItem(event.getBlock().getLocation(), is);
 				ItemHandler.addItemToTask(it, uuid);
 			}
 		}
-		RewardHandler.rewardPlayer(uuid, et, ToolType.ALL, event.getResult().getType(), null, event.getResult().getAmount());
+		RewardHandler.rewardPlayer(uuid, et, ToolType.HAND, event.getResult().getType(), null, event.getResult().getAmount());
 	}
 }

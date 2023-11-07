@@ -64,13 +64,13 @@ public class DryingListener implements Listener
 				&& player.getGameMode() != GameMode.CREATIVE
 				&& player.getGameMode() != GameMode.SPECTATOR)
 		{
-			for(ItemStack is : RewardHandler.getDrops(player, DR, ToolType.ALL, Material.SPONGE, null))
+			for(ItemStack is : RewardHandler.getDrops(player, DR, ToolType.HAND, Material.SPONGE, null))
 			{
 				Item it = player.getWorld().dropItem(player.getLocation(), is);
 				ItemHandler.addItemToTask(it, uuid);
 			}
 		}
-		RewardHandler.rewardPlayer(uuid, DR, ToolType.ALL, Material.SPONGE, null, event.getBlocks().size());
+		RewardHandler.rewardPlayer(uuid, DR, ToolType.HAND, Material.SPONGE, null, event.getBlocks().size());
 	}
 	
 	@EventHandler(priority = EventPriority.LOW)

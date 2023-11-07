@@ -49,11 +49,11 @@ public class EnchantListener implements Listener
 		{
 			return;
 		}
-		for(ItemStack is : RewardHandler.getDrops(event.getEnchanter(), EN, ToolType.ALL, event.getItem().getType(), null))
+		for(ItemStack is : RewardHandler.getDrops(event.getEnchanter(), EN, ToolType.HAND, event.getItem().getType(), null))
 		{
 			Item it = event.getEnchantBlock().getWorld().dropItem(event.getEnchantBlock().getLocation(), is);
 			ItemHandler.addItemToTask(it, event.getEnchanter().getUniqueId());
 		}
-		RewardHandler.rewardPlayer(event.getEnchanter().getUniqueId(), EN, ToolType.ALL, event.getItem().getType(), null, 1);
+		RewardHandler.rewardPlayer(event.getEnchanter().getUniqueId(), EN, ToolType.HAND, event.getItem().getType(), null, 1);
 	}
 }

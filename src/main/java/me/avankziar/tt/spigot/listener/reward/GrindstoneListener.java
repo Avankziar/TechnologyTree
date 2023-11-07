@@ -38,11 +38,11 @@ public class GrindstoneListener implements Listener
 		Player player = (Player) event.getWhoClicked();
 		GrindstoneInventory ai = (GrindstoneInventory) event.getClickedInventory();
 		ItemStack result = ai.getContents()[2];
-		for(ItemStack is : RewardHandler.getDrops(player, GR, ToolType.ALL, result.getType(), null))
+		for(ItemStack is : RewardHandler.getDrops(player, GR, ToolType.HAND, result.getType(), null))
 		{
 			Item it = player.getWorld().dropItem(player.getLocation(), is);
 			ItemHandler.addItemToTask(it, player.getUniqueId());
 		}
-		RewardHandler.rewardPlayer(player.getUniqueId(), GR, ToolType.ALL, result.getType(), null, 1);
+		RewardHandler.rewardPlayer(player.getUniqueId(), GR, ToolType.HAND, result.getType(), null, 1);
 	}
 }

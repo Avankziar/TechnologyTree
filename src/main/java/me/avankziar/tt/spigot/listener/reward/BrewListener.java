@@ -77,7 +77,7 @@ public class BrewListener implements Listener
 				i++;
 				if(player != null)
 				{
-					for(ItemStack iss : RewardHandler.getDrops(player, BR, ToolType.ALL, is.getType(), null))
+					for(ItemStack iss : RewardHandler.getDrops(player, BR, ToolType.HAND, is.getType(), null))
 					{
 						Item it = event.getBlock().getWorld().dropItem(event.getBlock().getLocation(), iss);
 						ItemHandler.addItemToTask(it, uuid);
@@ -85,6 +85,6 @@ public class BrewListener implements Listener
 				}
 			}
 		}
-		RewardHandler.rewardPlayer(uuid, BR, ToolType.ALL, Material.valueOf(recipeKey), null, i);
+		RewardHandler.rewardPlayer(uuid, BR, ToolType.HAND, Material.valueOf(recipeKey), null, i);
 	}
 }

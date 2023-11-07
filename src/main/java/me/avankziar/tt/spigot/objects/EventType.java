@@ -24,6 +24,7 @@ public enum EventType
 	IGNITING,
 	ITEM_BREAKING,
 	ITEM_CONSUME,
+	INTERACT, //To interact with f.e. CraftingTable, Furnace etc.
 	KILLING,
 	MELTING,
 	MILKING, //Cows

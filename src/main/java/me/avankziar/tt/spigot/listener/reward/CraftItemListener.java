@@ -57,12 +57,12 @@ public class CraftItemListener implements Listener
 			schedulePostDetectionAll(player, result, result.getType(), result.getItemMeta());
 		} else
 		{
-			for(ItemStack is : RewardHandler.getDrops(player, CR, ToolType.ALL, result.getType(), null))
+			for(ItemStack is : RewardHandler.getDrops(player, CR, ToolType.HAND, result.getType(), null))
 			{
 				Item it = player.getWorld().dropItem(player.getLocation(), is);
 				ItemHandler.addItemToTask(it, player.getUniqueId());
 			}
-			RewardHandler.rewardPlayer(player.getUniqueId(), CR, ToolType.ALL, result.getType(), null, 1);
+			RewardHandler.rewardPlayer(player.getUniqueId(), CR, ToolType.HAND, result.getType(), null, 1);
 		}
 	}
 	

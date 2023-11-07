@@ -15,9 +15,10 @@ import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler.BlockType;
-import main.java.me.avankziar.tt.spigot.objects.ToolType;
 import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
+import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.ToolType;
 
 public class RegisterBlockListener implements Listener
 {
@@ -44,8 +45,8 @@ public class RegisterBlockListener implements Listener
 			return;
 		}
 		if(!RewardHandler.canAccessInteraction(event.getPlayer(),
-				ToolType.getToolType(event.getPlayer().getInventory().getItemInMainHand().getType()), 
-				BlockHandler.getEventType(event.getClickedBlock().getType()),
+				ToolType.HAND, 
+				EventType.INTERACT,
 				event.getClickedBlock().getType(), null))
 		{
 			event.setCancelled(true);

@@ -405,7 +405,7 @@ public class YamlHandler
 			}
 		} else
 		{
-			onlyLoadMap(directory, getItemGenerators());
+			onlyDeepLoadMap(directory, getItemGenerators());
 		}
 		return true;
 	}
@@ -425,7 +425,7 @@ public class YamlHandler
 			}
 		} else
 		{
-			onlyLoadMap(solo, getMainCategories());
+			onlyDeepLoadMap(solo, getMainCategories());
 		}
 		/*if(!group.exists())
 		{
@@ -437,7 +437,7 @@ public class YamlHandler
 			}
 		} else
 		{
-			onlyLoadMap(group, getMainCategories());
+			onlyDeepLoadMap(group, getMainCategories());
 		}*/
 		if(!global.exists())
 		{
@@ -449,7 +449,7 @@ public class YamlHandler
 			}
 		} else
 		{
-			onlyLoadMap(global, getMainCategories());
+			onlyDeepLoadMap(global, getMainCategories());
 		}
 		return true;
 	}
@@ -469,7 +469,7 @@ public class YamlHandler
 			}
 		} else
 		{
-			onlyLoadMap(solo, getSubCategories());
+			onlyDeepLoadMap(solo, getSubCategories());
 		}
 		/*if(!group.exists())
 		{
@@ -493,7 +493,7 @@ public class YamlHandler
 			}
 		} else
 		{
-			onlyLoadMap(global, getSubCategories());
+			onlyDeepLoadMap(global, getSubCategories());
 		}
 		return true;
 	}
@@ -513,7 +513,7 @@ public class YamlHandler
 			}
 		} else
 		{
-			onlyLoadMap(solo, getTechnologies());
+			onlyDeepLoadMap(solo, getTechnologies());
 		}
 		/*if(!group.exists())
 		{
@@ -525,7 +525,7 @@ public class YamlHandler
 			}
 		} else
 		{
-			onlyLoadMap(group, getTechnologies());
+			onlyDeepLoadMap(group, getTechnologies());
 		}*/
 		if(!global.exists())
 		{
@@ -537,7 +537,7 @@ public class YamlHandler
 			}
 		} else
 		{
-			onlyLoadMap(global, getTechnologies());
+			onlyDeepLoadMap(global, getTechnologies());
 		}
 		return true;
 	}
@@ -707,6 +707,23 @@ public class YamlHandler
 		{
 			if(!listOfFiles[i].isFile()) 
 			{
+				continue;
+			}
+			YamlConfiguration y = new YamlConfiguration();
+			y = loadYamlTask(listOfFiles[i], y);
+			String name = listOfFiles[i].getName().split(".")[0];
+			map.put(name, y);
+		}
+	}
+	
+	private void onlyDeepLoadMap(File directory, LinkedHashMap<String, YamlConfiguration> map)
+	{
+		File[] listOfFiles = directory.listFiles();
+		for (int i = 0; i < listOfFiles.length; i++) 
+		{
+			if(!listOfFiles[i].isFile()) 
+			{
+				onlyDeepLoadMap(listOfFiles[i], map);
 				continue;
 			}
 			YamlConfiguration y = new YamlConfiguration();

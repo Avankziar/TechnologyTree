@@ -23,7 +23,7 @@ public class BlockHandler
 {
 	public enum BlockType
 	{
-		UNKNOW, BLASTFURNACE, CAMPFIRE, ENCHANTING_TABLE, FURNACE, SMOKER, BREWING_STAND;
+		UNKNOW, BLASTFURNACE, CAMPFIRE, CRAFTING_TABLE, ENCHANTING_TABLE, FURNACE, SMOKER, BREWING_STAND;
 	}
 	
 	private static TT plugin = BaseConstructor.getPlugin();
@@ -46,6 +46,9 @@ public class BlockHandler
 			break;
 		case BREWING_STAND:
 			bt = BlockType.BREWING_STAND;
+			break;
+		case CRAFTING_TABLE:
+			bt = BlockType.CRAFTING_TABLE;
 			break;
 		case ENCHANTING_TABLE:
 			bt = BlockType.ENCHANTING_TABLE;
@@ -77,6 +80,9 @@ public class BlockHandler
 			break;
 		case BREWING_STAND:
 			bt = EventType.BREWING;
+			break;
+		case CRAFTING_TABLE:
+			bt = EventType.CRAFTING;
 			break;
 		case ENCHANTING_TABLE:
 			bt = EventType.ENCHANTING;

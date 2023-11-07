@@ -44,12 +44,12 @@ public class ExplodeIgnitingListener implements Listener
 			return;
 		}
 		ignitingMap.put(event.getPlayer().getUniqueId(), BlockHandler.getLocationText(event.getBlock().getLocation()));
-		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), IG, ToolType.ALL, event.getBlock().getType(), null))
+		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), IG, ToolType.HAND, event.getBlock().getType(), null))
 		{
 			Item it = event.getBlock().getLocation().getWorld().dropItem(event.getBlock().getLocation(), is);
 			ItemHandler.addItemToTask(it, event.getPlayer().getUniqueId());
 		}
-		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), IG, ToolType.ALL, event.getBlock().getType(), null, 1);
+		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), IG, ToolType.HAND, event.getBlock().getType(), null, 1);
 	}
 	
 	@EventHandler
@@ -79,13 +79,13 @@ public class ExplodeIgnitingListener implements Listener
 		Player player = Bukkit.getPlayer(uuid);
 		if(player != null)
 		{
-			for(ItemStack is : RewardHandler.getDrops(player, EX, ToolType.ALL, event.getBlock().getType(), null))
+			for(ItemStack is : RewardHandler.getDrops(player, EX, ToolType.HAND, event.getBlock().getType(), null))
 			{
 				Item it = player.getWorld().dropItem(event.getBlock().getLocation(), is);
 				ItemHandler.addItemToTask(it, player.getUniqueId());
 			}
 		}
-		RewardHandler.rewardPlayer(uuid, EX, ToolType.ALL, event.getBlock().getType(), null, 1);
+		RewardHandler.rewardPlayer(uuid, EX, ToolType.HAND, event.getBlock().getType(), null, 1);
 	}
 		
 	
@@ -126,13 +126,13 @@ public class ExplodeIgnitingListener implements Listener
 		{
 			if(player != null)
 			{
-				for(ItemStack is : RewardHandler.getDrops(player, EX, ToolType.ALL, b.getType(), null))
+				for(ItemStack is : RewardHandler.getDrops(player, EX, ToolType.HAND, b.getType(), null))
 				{
 					Item it = player.getWorld().dropItem(b.getLocation(), is);
 					ItemHandler.addItemToTask(it, player.getUniqueId());
 				}
 			}			
-			RewardHandler.rewardPlayer(uuid, EX, ToolType.ALL, b.getType(), null, 1);
+			RewardHandler.rewardPlayer(uuid, EX, ToolType.HAND, b.getType(), null, 1);
 		}
 	}
 }

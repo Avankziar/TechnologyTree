@@ -497,7 +497,7 @@ public class GuiHandler
 					: (TT.getPlugin().getEnumTl() != null
 							  ? TT.getPlugin().getEnumTl().getLocalization(mat)
 							  : is.getType().toString()));
-			displayname = getStringPlaceHolder(player, mcat, scat, null, displayname, playername);
+			displayname = getStringPlaceHolder(player, mcat, scat, null, displayname, playername, 0, 0);
 			if(is == null)
 			{
 				is = new ItemStack(mat, amount);
@@ -706,9 +706,16 @@ public class GuiHandler
 	public static List<String> getLorePlaceHolder(Player player, MainCategory mcat, SubCategory scat, Technology t, List<String> lore, String playername)
 	{
 		List<String> list = new ArrayList<>();
+		int totalSoloTechs = plugin.getMysqlHandler().getCount(Type.SOLOENTRYQUERYSTATUS,
+				"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
+				player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
+		int totalGlobalTechs = plugin.getMysqlHandler().getCount(Type.GLOBALENTRYQUERYSTATUS,
+				"`entry_query_type` = ? AND `status_type` = ?",
+				player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
 		for(String s : lore)
 		{
-			String a = getStringPlaceHolder(player, mcat, scat, t, s, playername);
+			String a = getStringPlaceHolder(player, mcat, scat, t, s, playername,
+					totalSoloTechs, totalGlobalTechs);
 			if(plugin.getIFHEco() != null)
 			{
 				Account ac = plugin.getIFHEco().getDefaultAccount(player.getUniqueId(), AccountCategory.MAIN,
@@ -718,17 +725,20 @@ public class GuiHandler
 				boolean useSy = ac == null ? false : plugin.getIFHEco().getDefaultUseSymbol(ac.getCurrency());
 				String ts = ac == null ? "." : plugin.getIFHEco().getDefaultThousandSeperator(ac.getCurrency());
 				String ds = ac == null ? "," : plugin.getIFHEco().getDefaultDecimalSeperator(ac.getCurrency());
-				a = getStringPlaceHolderIFH(player, t, a, ac, dg, useSI, useSy, ts, ds, playername);
+				a = getStringPlaceHolderIFH(player, t, a, ac, dg, useSI, useSy, ts, ds, playername,
+						totalSoloTechs, totalGlobalTechs);
 			} else
 			{
-				a = getStringPlaceHolderVault(player, t, a, playername);
+				a = getStringPlaceHolderVault(player, t, a, playername,
+						totalSoloTechs, totalGlobalTechs);
 			}
 			list.add(ChatApi.tl(a));
 		}
 		return list;
 	}
 	
-	private static String getStringPlaceHolder(Player player, MainCategory mcat, SubCategory scat, Technology t, String text, String playername)
+	private static String getStringPlaceHolder(Player player, MainCategory mcat, SubCategory scat, Technology t, String text, String playername,
+			int totalSoloTechs, int totalGlobalTechs)
 	{
 		String s = text;
 		if(text.contains("%player%"))
@@ -758,17 +768,11 @@ public class GuiHandler
 			if(text.contains("%acquiredtechlev%") || text.contains("%rawcostttexp%")
 					|| text.contains("%rawcostttexp%") || text.contains("%costttexp%")
 					|| text.contains("%rawcostvanillaexp%") || text.contains("%costvanillaexp%") 
-					|| text.contains("%rawcostmoney%") || text.contains("%costmoney%")
-					|| text.contains("%rawcostmaterial%"))
+					|| text.contains("%rawcostmoney%")
+					|| text.contains("%rawcostmaterial%") || text.contains("%costmaterial%"))
 			{
 				int techLevel = 0;
 				int acquiredTech = 0;
-				int totalSoloTechs = plugin.getMysqlHandler().getCount(Type.SOLOENTRYQUERYSTATUS,
-						"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
-						player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
-				int totalGlobalTechs = plugin.getMysqlHandler().getCount(Type.GLOBALENTRYQUERYSTATUS,
-						"`entry_query_type` = ? AND `status_type` = ?",
-						player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
 				if(t.getPlayerAssociatedType() == PlayerAssociatedType.SOLO)
 				{
 					ArrayList<SoloEntryQueryStatus> eeqsList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLOENTRYQUERYSTATUS,
@@ -790,10 +794,10 @@ public class GuiHandler
 				}
 				PlayerData pd = PlayerHandler.getPlayer(player.getUniqueId());
 				HashMap<String, Double> map = new HashMap<>();
-				map.put("techlv", Double.valueOf(techLevel));
-				map.put("techaq", Double.valueOf(acquiredTech));
-				map.put("totalsolotech", Double.valueOf(totalSoloTechs));
-				map.put("totalglobaltech", Double.valueOf(totalGlobalTechs));
+				map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
+				map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
+				map.put(PlayerHandler.SOLOTOTALTECH, Double.valueOf(totalSoloTechs));
+				map.put(PlayerHandler.GLOBALTOTALTECH, Double.valueOf(totalGlobalTechs));
 				if(text.contains("%rawcostttexp%"))
 				{
 					double ttexp = 0;
@@ -839,15 +843,6 @@ public class GuiHandler
 					}
 					s = s.replace("%rawcostmoney%", String.valueOf(money));
 				}
-				if(text.contains("%costmoney%"))
-				{
-					double money = 0;
-					if(!t.getCostMoney().isEmpty())
-					{
-						money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map);
-					}
-					s = s.replace("%costmoney%", String.valueOf(money));
-				}
 				if(text.contains("%rawcostmaterial%"))
 				{
 					StringBuilder sb = new StringBuilder();
@@ -856,7 +851,7 @@ public class GuiHandler
 					for(Entry<Material, String> e : t.getCostMaterial().get(techLevel).entrySet())
 					{
 						int material = (int) Math.floor(new MathFormulaParser().parse(e.getValue(), map));
-						sb.append(material+"x "+  e.getKey().toString());
+						sb.append(material+"x "+ e.getKey().toString());
 						if(i < j)
 						{
 							sb.append(", ");
@@ -873,7 +868,7 @@ public class GuiHandler
 					for(Entry<Material, String> e : t.getCostMaterial().get(techLevel).entrySet())
 					{
 						int material = (int) Math.floor(new MathFormulaParser().parse(e.getValue(), map));
-						sb.append(material+"x "+  TT.getPlugin().getEnumTl() != null
+						sb.append(material+"x "+ TT.getPlugin().getEnumTl() != null
 								  				? TT.getPlugin().getEnumTl().getLocalization(e.getKey())
 								  				: e.getKey().toString());
 						if(i < j)
@@ -890,7 +885,8 @@ public class GuiHandler
 	}
 	
 	private static String getStringPlaceHolderIFH(Player player, Technology t, String text,
-			Account ac, int dg, boolean useSI, boolean useSy, String ts, String ds, String playername)
+			Account ac, int dg, boolean useSI, boolean useSy, String ts, String ds, String playername,
+			int totalSoloTechs, int totalGlobalTechs)
 	{
 		String s = text;
 		/*if(text.contains("%accountname%"))
@@ -906,9 +902,11 @@ public class GuiHandler
 			int techLevel = seqs == null ? 1 : seqs.getResearchLevel() + 1; //Tech which may to acquire
 			int acquiredTech = seqs == null ? 0 : techLevel; //Tech which was already acquire
 			HashMap<String, Double> map = new HashMap<>();
-			map.put("techlv", Double.valueOf(techLevel));
-			map.put("techaq", Double.valueOf(acquiredTech));
-			if(text.contains("%techcostmoney%"))
+			map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
+			map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
+			map.put(PlayerHandler.SOLOTOTALTECH, Double.valueOf(totalSoloTechs));
+			map.put(PlayerHandler.GLOBALTOTALTECH, Double.valueOf(totalGlobalTechs));
+			if(text.contains("%costmoney%"))
 			{
 				int moneyFrac = 0;
 				double money = 0.0;
@@ -917,7 +915,7 @@ public class GuiHandler
 					money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map);
 					moneyFrac = String.valueOf(money).split("\\.")[1].length();
 				}
-				s = s.replace("%techcostmoney%", t == null ? "/" : 
+				s = s.replace("%costmoney%", t == null ? "/" : 
 					plugin.getIFHEco().format(money, ac.getCurrency(), dg, moneyFrac, useSI, useSy, ts, ds));
 			}
 			break;
@@ -927,7 +925,8 @@ public class GuiHandler
 		return s;
 	}
 	
-	private static String getStringPlaceHolderVault(Player player, Technology t, String text, String playername)
+	private static String getStringPlaceHolderVault(Player player, Technology t, String text, String playername,
+			int totalSoloTechs, int totalGlobalTechs)
 	{
 		String s = text;
 		SoloEntryQueryStatus eqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLOENTRYQUERYSTATUS,
@@ -938,16 +937,18 @@ public class GuiHandler
 				"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
 				player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT);
 		HashMap<String, Double> map = new HashMap<>();
-		map.put("techlv", Double.valueOf(techLevel));
-		map.put("techaq", Double.valueOf(acquiredTech));
-		if(text.contains("%techcostmoney%"))
+		map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
+		map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
+		map.put(PlayerHandler.SOLOTOTALTECH, Double.valueOf(totalSoloTechs));
+		map.put(PlayerHandler.GLOBALTOTALTECH, Double.valueOf(totalGlobalTechs));
+		if(text.contains("%costmoney%"))
 		{
 			double money = 0.0;
 			if(t != null)
 			{
 				money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map);
 			}
-			s = s.replace("%techcostmoney%%", t == null ? "/" : 
+			s = s.replace("%costmoney%%", t == null ? "/" : 
 				String.valueOf(money)+" "+ plugin.getVaultEco().currencyNamePlural());
 		}
 		return s;

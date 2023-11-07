@@ -155,18 +155,19 @@ public class CatTechHandler
 				double forUninvolvedPollParticipants_RewardValueEntryInPercent
 				= y.getDouble("OnlyForGlobal.ForUninvolvedPollParticipants.RewardValueEntryInPercent", 100);
 				
-				if(y.get("RequirementToSee.ConditionQuery") == null)
+				List<String> seeRequirementConditionQuery = new ArrayList<>();
+				if(y.get("RequirementToSee.ConditionQuery") != null)
 				{
-					continue;
+					seeRequirementConditionQuery = y.getStringList("RequirementToSee.ConditionQuery");
+				} else
+				{
+					seeRequirementConditionQuery.add("if:(a):o_1");
+					seeRequirementConditionQuery.add("output:o_1:true");
+					seeRequirementConditionQuery.add("a:true");
 				}
-				List<String> seeRequirementConditionQuery = y.getStringList("RequirementToSee.ConditionQuery");
 				boolean seeRequirementShowDifferentItemIfYouNormallyDontSeeIt 
 				= y.getBoolean("RequirementToSee.ShowDifferentItemIfYouNormallyDontSeeIt");
 				
-				if(y.get("RequirementToResearch.ConditionQuery") == null)
-				{
-					continue;
-				}
 				LinkedHashMap<Integer, List<String>> researchRequirementConditionQuery = new LinkedHashMap<>();
 				if(y.get("RequirementToResearch.ConditionQuery") != null)
 				{
@@ -177,6 +178,16 @@ public class CatTechHandler
 							continue;
 						}
 						researchRequirementConditionQuery.put(i, y.getStringList("RequirementToResearch.ConditionQuery."+i));
+					}
+				} else
+				{
+					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
+					{
+						List<String> l = new ArrayList<>();
+						l.add("if:(a):o_1");
+						l.add("output:o_1:true");
+						l.add("a:true");
+						researchRequirementConditionQuery.put(i, l);
 					}
 				}
 				
@@ -244,7 +255,7 @@ public class CatTechHandler
 						{
 							ArrayList<UnlockableInteraction> rui = new ArrayList<>();
 							String[] split  = s.split(":");
-							if(split.length < 2)
+							if(split.length < 3)
 							{
 								continue;
 							}
@@ -253,7 +264,7 @@ public class CatTechHandler
 								EventType eventType = EventType.valueOf(split[0]);
 								Material material = split[1].equals("null") ? null : Material.valueOf(split[1]);
 								EntityType entityType = split[2].equals("null") ? null : EntityType.valueOf(split[2]);
-								UnlockableInteraction ui = new UnlockableInteraction(eventType, ToolType.ALL, material, entityType, true, 0.0, 0.0);
+								UnlockableInteraction ui = new UnlockableInteraction(eventType, ToolType.HAND, material, entityType, true, 0.0, 0.0);
 								for(int ii = 3; i < split.length; i++)
 								{
 									String[] sp = split[i].split("=");

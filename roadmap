@@ -1,6 +1,7 @@
 Cmd SettingsLevel wechseln.
 Cmd für den SynMsg des Plugins
-Cmd zum erreichen der MainCats
+Cmd zum erreichen der StartGui
+Cmd für detailreiche Infos einer Techs pro researchlevel
 Cmd für Infos, wieviele Techs man im gesamten hat und wieviele man sehen kann.
 Cmd für Infos, wieviele Techs man in der Gruppe SOLO hat von wieviel die man Sehen kann, sowie dadrunter wieviele man nichts sieht.
 Cmd für Infos, wieviele techs man in der Gruppe GROUP hat, ...
@@ -49,6 +50,31 @@ Liste an Events mit der RewardHandler.canAccessInteraction Methode:
 - PrepareItemEnchant
 - BlockFertilize
 - PlayerShearEntity
+
+Beispiel für ConditionAbfragen:
+	Immer true:
+		"if:(a):o_1",
+		"output:o_1:true",
+		"a:true"
+	Permission:
+		"if:(a):o_1",
+		"elseif:(b):o_2",
+		"output:o_1:true",
+		"output:o_2:true",
+		"a:var1:perm=here.your.first.permission",
+		"b:var1:perm=here.your.other.permission"
+	Technology interne Werte:
+		"if:(a||b||c||d):o_1",
+		"output:o_1:true",
+		"a:var1=canseetech,stone_I:==:true", //canseetech,<maincategory/subcategory/technology>,<Name of that>
+		"b:var1=hasresearchedtech,stone_I,1:==:true", //hasresearchedtech,<Name of Tech>,<Researchlevel>
+		"c:var1=gethighestresearchedtechlevel,stone_I:>=:5", //gethighestresearchedtechlevel,<Tech>
+		"d:var1=getplayeractualttexp:>:5000"//getplayeractualttexp
+		"e:var1=getplayertotalreceivedttexp:>:10000"//getplayertotalreceivedttexp
+	PlacerHolderapi:
+		"if:(a):o_1",
+		"output:o_1:true",
+		"a:var1=%raw_user_total_alltime%:>:1000*60*60*24*5", //Gesamtzeit über afkr müsste größer als 5 Tage sein.
 
 Aufbau von Techkategorien(Gelten als Haupkategorie, wenn sie im Ordner Hauptcategory, im Ordner Subkategorien):
 categoryinternname == file name
