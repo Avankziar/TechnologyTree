@@ -10,6 +10,7 @@ import java.util.logging.Level;
 
 import main.java.me.avankziar.tt.spigot.database.MysqlHandable;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
+import main.java.me.avankziar.tt.spigot.gui.objects.SettingsLevel;
 
 public class PlayerData implements MysqlHandable
 {
@@ -20,12 +21,13 @@ public class PlayerData implements MysqlHandable
 	private double actualTTExp; //TTExp die man gerade hat.
 	private double totalReceivedTTExp; //TTExp die man insgesamt gehabt hat.
 	private int vanillaExpStillToBeObtained; //Wenn man nicht online ist und doch Vanilla Exp bekommt.
+	private SettingsLevel lastSettingLevel;
 	
 	public PlayerData(){}
 	
 	public PlayerData(int id, UUID uuid, String name, boolean showSyncMessage,
 			double actualTTExp, double totalReceivedTTExp,
-			int vanillaExpStillToBeObtained)
+			int vanillaExpStillToBeObtained, SettingsLevel lastSettingLevel)
 			
 	{
 		setId(id);
@@ -107,6 +109,16 @@ public class PlayerData implements MysqlHandable
 		this.vanillaExpStillToBeObtained = vanillaExpStillToBeObtained;
 	}
 
+	public SettingsLevel getLastSettingLevel()
+	{
+		return lastSettingLevel;
+	}
+
+	public void setLastSettingLevel(SettingsLevel lastSettingLevel)
+	{
+		this.lastSettingLevel = lastSettingLevel;
+	}
+
 	@Override
 	public boolean create(Connection conn, String tablename)
 	{
@@ -114,8 +126,8 @@ public class PlayerData implements MysqlHandable
 		{
 			String sql = "INSERT INTO `" + tablename
 					+ "`(`player_uuid`, `player_name`, `show_sync_msg`,"
-					+ " `ttexp_actual`, `ttexp_total_received`, `vanilla_exp_still_to_be_obtained`) " 
-					+ "VALUES(?, ?, ?, ?, ?, ?)";
+					+ " `ttexp_actual`, `ttexp_total_received`, `vanilla_exp_still_to_be_obtained`, `lastSettingLevel`) " 
+					+ "VALUES(?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 	        ps.setString(1, getUUID().toString());
 	        ps.setString(2, getName());
@@ -123,6 +135,7 @@ public class PlayerData implements MysqlHandable
 	        ps.setDouble(4, getActualTTExp());
 	        ps.setDouble(5, getTotalReceivedTTExp());
 	        ps.setInt(6, getVanillaExpStillToBeObtained());
+	        ps.setString(7, getLastSettingLevel().toString());
 	        int i = ps.executeUpdate();
 	        MysqlHandler.addRows(MysqlHandler.QueryType.INSERT, i);
 	        return true;
@@ -139,18 +152,18 @@ public class PlayerData implements MysqlHandable
 		try
 		{
 			String sql = "UPDATE `" + tablename
-				+ "` SET `player_uuid` = ?, `player_name` = ?, `balance` = ?,"
-				+ " `bankaccountlist` = ?, `moneyplayerflow` = ?, `moneybankflow` = ?, `generalmessage` = ?,"
-				+ " `pendinginvite` = ?, `frozen` = ?" 
+				+ "` SET `player_uuid` = ?, `player_name` = ?, `show_sync_msg` = ?,"
+				+ " `ttexp_actual` = ?, `ttexp_total_received` = ?, `vanilla_exp_still_to_be_obtained` = ?, `lastSettingLevel` = ?"
 				+ " WHERE "+whereColumn;
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, getUUID().toString());
-	        ps.setString(2, getName());
-	        ps.setBoolean(3, isShowSyncMessage());
-	        ps.setDouble(4, getActualTTExp());
-	        ps.setDouble(5, getTotalReceivedTTExp());
-	        ps.setInt(6, getVanillaExpStillToBeObtained());
-			int i = 6;
+		    ps.setString(2, getName());
+		    ps.setBoolean(3, isShowSyncMessage());
+		    ps.setDouble(4, getActualTTExp());
+		    ps.setDouble(5, getTotalReceivedTTExp());
+		    ps.setInt(6, getVanillaExpStillToBeObtained());
+		    ps.setString(7, getLastSettingLevel().toString());
+			int i = 8;
 			for(Object o : whereObject)
 			{
 				ps.setObject(i, o);
@@ -192,7 +205,8 @@ public class PlayerData implements MysqlHandable
 						rs.getBoolean("show_sync_msg"),
 						rs.getDouble("ttexp_actual"),
 						rs.getDouble("ttexp_total_received"),
-						rs.getInt("vanilla_exp_still_to_be_obtained")));
+						rs.getInt("vanilla_exp_still_to_be_obtained"),
+						SettingsLevel.valueOf(rs.getString("lastSettingLevel"))));
 			}
 			return al;
 		} catch (SQLException e)

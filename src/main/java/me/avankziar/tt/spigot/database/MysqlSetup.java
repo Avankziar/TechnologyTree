@@ -147,7 +147,8 @@ public class MysqlSetup
 		+ " show_sync_msg boolean,"
 		+ " ttexp_actual double,"
 		+ " ttexp_total_received double,"
-		+ " vanilla_exp_still_to_be_obtained int);";
+		+ " vanilla_exp_still_to_be_obtained int,"
+		+ " lastSettingLevel text);";
 		baseSetup(data);
 		return true;
 	}

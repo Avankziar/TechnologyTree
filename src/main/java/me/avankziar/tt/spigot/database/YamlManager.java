@@ -388,15 +388,15 @@ public class YamlManager
 	{
 		comBypass();
 		String path = "";
-		commandsInput("path", "base", "perm.command.perm", 
-				"/base [pagenumber]", "/base ", false,
-				"&c/base &f| Infoseite für alle Befehle.",
-				"&c/base &f| Info page for all commands.",
-				"&bBefehlsrecht für &f/base",
-				"&bCommandright for &f/base",
-				"&eBasisbefehl für das BaseTemplate Plugin.",
-				"&eGroundcommand for the BaseTemplate Plugin.");
-		String basePermission = "perm.base.";
+		commandsInput("tt", "tt", "tt.cmd.tt", 
+				"/tt [pagenumber]", "/tt ", false,
+				"&c/tt &f| Infoseite für alle Befehle.",
+				"&c/tt &f| Info page for all commands.",
+				"&bBefehlsrecht für &f/tt",
+				"&bCommandright for &f/tt",
+				"&eBasisbefehl für das TechnologyTree Plugin.",
+				"&eGroundcommand for the TechnologyTree Plugin.");
+		String basePermission = "tt.cmd.tt";
 		argumentInput("base_argument", "argument", basePermission,
 				"/base argument <id>", "/econ deletelog ", false,
 				"&c/base argument &f| Ein Subbefehl",
@@ -405,6 +405,14 @@ public class YamlManager
 				"&bCommandright for &f/base argument",
 				"&eBasisbefehl für das BaseTemplate Plugin.",
 				"&eGroundcommand for the BaseTemplate Plugin.");
+		commandsInput("techgui", "techgui", "techgui.command.techgui", 
+				"/techgui", "/techgui ", false,
+				"&c/techgui &f| Infoseite für alle Befehle.",
+				"&c/techgui &f| Info page for all commands.",
+				"&bBefehlsrecht für &f/techgui",
+				"&bCommandright for &f/techgui",
+				"&eGuizugriffsbefehl für das TechnologyTree Plugin.",
+				"&eGuiAccesscommand for the TechnologyTree Plugin.");
 	}
 	
 	private void comBypass() //INFO:ComBypass
@@ -1196,12 +1204,12 @@ public class YamlManager
 	
 	public void initItemGenerator() //INFO:ItemGenerator
 	{
-		String onekey = "";
+		/*String onekey = "";
 		LinkedHashMap<String, Language> one = new LinkedHashMap<>();
 		one.put("",
 				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 						""}));
-		itemGeneratorKeys.put(onekey, one);
+		itemGeneratorKeys.put(onekey, one);*/
 	}
 	
 	public void initMainCategory() //INFO:MainCategory
@@ -4354,7 +4362,6 @@ public class YamlManager
 				"BREAKING:COAL_ORE:null:tool=NETHERITE_PICKAXE:ttexp=0.01:vault=0.1:default=0.1",
 				"BREAKING:DEEPSLATE_COAL_ORE:null:tool=NETHERITE_PICKAXE:ttexp=0.01:vault=0.1:default=0.1"});
 		LinkedHashMap<Integer, String[]> rewardUnlockableRecipe = new LinkedHashMap<>();
-		rewardUnlockableRecipe.put(1, null);
 		LinkedHashMap<Integer, String[]> rewardDropChance = new LinkedHashMap<>();
 		rewardDropChance.put(1, new String[] {
 				"BREAKING:WOODEN_PICKAXE:COAL_ORE:null:mat=COAL:1:1.0",
@@ -4796,7 +4803,6 @@ public class YamlManager
 		rewardUnlockableInteractions.put(1, new String[] {
 				"PLACING:SPRUCE_SAPLING:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",""});
 		rewardUnlockableRecipe = new LinkedHashMap<>();
-		rewardUnlockableRecipe.put(1, null);
 		rewardDropChance = new LinkedHashMap<>();
 		rewardDropChance.put(1, new String[] {
 				"BREAKING:SPRUCE_SAPLING:null:mat=SPRUCE_SAPLING:1:1.0",""});
@@ -4808,7 +4814,8 @@ public class YamlManager
 		rewardModifier = new LinkedHashMap<>();
 		rewardValueEntry = new LinkedHashMap<>();
 		addTechnology(
-				"sprucesapling", new String[] {"Fichtensetzling", "Sprucesapling"}, TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 1, "", "sapling", 
+				"sprucesapling", new String[] {"Fichtensetzling", "Sprucesapling"},
+				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 1, "", "sapling", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				new String[] { //ConditionToSee
 						"if:(a):o_1",

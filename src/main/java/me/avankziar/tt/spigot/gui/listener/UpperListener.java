@@ -8,8 +8,11 @@ import org.bukkit.event.Listener;
 
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.gui.events.UpperGuiClickEvent;
+import main.java.me.avankziar.tt.spigot.gui.handler.GuiFunctionHandler;
+import main.java.me.avankziar.tt.spigot.gui.objects.ClickFunctionType;
 import main.java.me.avankziar.tt.spigot.gui.objects.ClickType;
 import main.java.me.avankziar.tt.spigot.gui.objects.GuiType;
+import main.java.me.avankziar.tt.spigot.handler.GuiHandler;
 
 public class UpperListener implements Listener
 {
@@ -40,21 +43,6 @@ public class UpperListener implements Listener
 		{
 			return;
 		}
-		/*if(!event.getValuesInteger().containsKey(GuiHandler.SIGNSHOP_ID))
-		{
-			return;
-		}
-		int sshID = event.getValuesInteger().get(GuiHandler.SIGNSHOP_ID);
-		SignShop ssh = (SignShop) plugin.getMysqlHandler().getData(MysqlHandler.Type.SIGNSHOP, "`id` = ?", sshID);
-		if(ssh == null)
-		{
-			return;
-		}
-		UUID otheruuid = null;
-		if(event.getValuesString().containsKey(GuiHandler.PLAYER_UUID))
-		{
-			otheruuid = UUID.fromString(event.getValuesString().get(GuiHandler.PLAYER_UUID));
-		}
 		ClickType ct = getClickFunctionType(event.getEvent().getClick(), event.getEvent().getHotbarButton());
 		if(ct == null)
 		{
@@ -72,34 +60,21 @@ public class UpperListener implements Listener
 		{
 			return;
 		}
-		switch(gt)
+		String mcat = null;
+		String scat = null;
+		String tech = null;
+		if(event.getValuesString().containsKey(GuiHandler.MAINCATEGORY))
 		{
-		case ITEM_INPUT:
-			break;
-		case ADMINISTRATION:
-		case NUMPAD_ACCOUNT:
-		case NUMPAD_BUY:
-		case NUMPAD_DISCOUNT_BUY:
-		case NUMPAD_DISCOUNT_END:
-		case NUMPAD_DISCOUNT_POSSIBLE_BUY:
-		case NUMPAD_DISCOUNT_POSSIBLE_SELL:
-		case NUMPAD_DISCOUNT_HOUR:
-		case NUMPAD_DISCOUNT_SELL:
-		case NUMPAD_DISCOUNT_START:
-		case NUMPAD_POSSIBLE_BUY:
-		case NUMPAD_POSSIBLE_SELL:
-		case NUMPAD_SELL:
-		case KEYBOARD_BLACKLIST:
-		case KEYBOARD_CUSTOM:
-		case KEYBOARD_MEMBER:
-		case KEYBOARD_SIGNSHOPNAME:
-		case KEYBOARD_WHITELIST:
-			AdminstrationFunctionHandler
-				.doClickFunktion(gt, cft, player, ssh, event.getEvent().getClickedInventory(), event.getSettingsLevel(), otheruuid);
-			break;
-		case SHOP:
-			ShopFunctionHandler.doClickFunktion(gt, cft, player, ssh, event.getEvent().getClickedInventory(), event.getSettingsLevel()); break;
-		}*/
+			mcat = event.getValuesString().get(GuiHandler.MAINCATEGORY);
+		} else if(event.getValuesString().containsKey(GuiHandler.SUBCATEGORY))
+		{
+			scat = event.getValuesString().get(GuiHandler.SUBCATEGORY);
+		} else if(event.getValuesString().containsKey(GuiHandler.TECHNOLOGY))
+		{
+			tech = event.getValuesString().get(GuiHandler.TECHNOLOGY);
+		}
+		GuiFunctionHandler.doClickFunktion(gt, cft, player, event.getEvent().getClickedInventory(), event.getSettingsLevel(),
+				mcat, scat, tech);
 	}
 	
 	private ClickType getClickFunctionType(org.bukkit.event.inventory.ClickType ct, int hotbarButton)

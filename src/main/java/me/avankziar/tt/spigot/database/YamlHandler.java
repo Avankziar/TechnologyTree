@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.apache.commons.io.FilenameUtils;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -407,6 +408,7 @@ public class YamlHandler
 		{
 			onlyDeepLoadMap(directory, getItemGenerators());
 		}
+		TT.log.info("Loaded %x% Items.".replace("%x%", String.valueOf(getItemGenerators().size())));
 		return true;
 	}
 	
@@ -451,6 +453,7 @@ public class YamlHandler
 		{
 			onlyDeepLoadMap(global, getMainCategories());
 		}
+		TT.log.info("Loaded %x% MainCategories.".replace("%x%", String.valueOf(getMainCategories().size())));
 		return true;
 	}
 	
@@ -495,6 +498,7 @@ public class YamlHandler
 		{
 			onlyDeepLoadMap(global, getSubCategories());
 		}
+		TT.log.info("Loaded %x% SubCategories.".replace("%x%", String.valueOf(getSubCategories().size())));
 		return true;
 	}
 	
@@ -539,6 +543,7 @@ public class YamlHandler
 		{
 			onlyDeepLoadMap(global, getTechnologies());
 		}
+		TT.log.info("Loaded %x% Technologies.".replace("%x%", String.valueOf(getTechnologies().size())));
 		return true;
 	}
 	
@@ -565,6 +570,7 @@ public class YamlHandler
 		{
 			onlyLoadMap(blasting, getBlastingRecipe());
 		}
+		TT.log.info("Loaded %x% BlastingRecipes.".replace("%x%", String.valueOf(getBlastingRecipe().size())));
 		if(!campfire.exists())
 		{
 			campfire.mkdir();
@@ -576,7 +582,8 @@ public class YamlHandler
 		} else
 		{
 			onlyLoadMap(campfire, getCampfireRecipe());
-		}	
+		}
+		TT.log.info("Loaded %x% CampfireRecipes.".replace("%x%", String.valueOf(getCampfireRecipe().size())));
 		if(!furnace.exists())
 		{
 			furnace.mkdir();
@@ -589,6 +596,7 @@ public class YamlHandler
 		{
 			onlyLoadMap(furnace, getFurnaceRecipe());
 		}
+		TT.log.info("Loaded %x% FurnaceRecipes.".replace("%x%", String.valueOf(getFurnaceRecipe().size())));
 		if(!shaped.exists())
 		{
 			shaped.mkdir();
@@ -601,6 +609,7 @@ public class YamlHandler
 		{
 			onlyLoadMap(shaped, getShapedRecipe());
 		}
+		TT.log.info("Loaded %x% ShapedRecipes.".replace("%x%", String.valueOf(getShapedRecipe().size())));
 		if(!shapeless.exists())
 		{
 			shapeless.mkdir();
@@ -613,6 +622,7 @@ public class YamlHandler
 		{
 			onlyLoadMap(shapeless, getShapelessRecipe());
 		}
+		TT.log.info("Loaded %x% ShapelessRecipes.".replace("%x%", String.valueOf(getShapelessRecipe().size())));
 		if(!smithingTransform.exists())
 		{
 			smithingTransform.mkdir();
@@ -625,6 +635,7 @@ public class YamlHandler
 		{
 			onlyLoadMap(smithingTransform, getSmithingTrimRecipe());
 		}
+		TT.log.info("Loaded %x% SmithingRecipes.".replace("%x%", String.valueOf(getSmithingTransformRecipe().size())));
 		/*if(!smithingTrim.exists())
 		{
 			smithingTrim.mkdir();
@@ -649,6 +660,7 @@ public class YamlHandler
 		{
 			onlyLoadMap(smoking, getSmokingRecipe());
 		}
+		TT.log.info("Loaded %x% SmokingRecipes.".replace("%x%", String.valueOf(getSmokingRecipe().size())));
 		if(!stonecutting.exists())
 		{
 			stonecutting.mkdirs();
@@ -661,6 +673,7 @@ public class YamlHandler
 		{
 			onlyLoadMap(stonecutting, getStonecuttingRecipe());
 		}
+		TT.log.info("Loaded %x% StonecuttingRecipes.".replace("%x%", String.valueOf(getStonecuttingRecipe().size())));
 		return true;
 	}
 	
@@ -680,7 +693,7 @@ public class YamlHandler
 			File f = new File(dir.getPath(), e.getKey()+".yml");
 			if(!f.exists()) 
 			{
-				TT.log.info("Create %f%.yml...".replace("%f%", e.getKey()));
+				//TT.log.info("Create %f%.yml...".replace("%f%", e.getKey()));
 				try(InputStream in = plugin.getResource("default.yml"))
 				{
 					Files.copy(in, f.toPath());
@@ -709,10 +722,8 @@ public class YamlHandler
 			{
 				continue;
 			}
-			YamlConfiguration y = new YamlConfiguration();
-			y = loadYamlTask(listOfFiles[i], y);
-			String name = listOfFiles[i].getName().split(".")[0];
-			map.put(name, y);
+			YamlConfiguration y = loadYamlTask(listOfFiles[i], new YamlConfiguration());
+			map.put(FilenameUtils.removeExtension(listOfFiles[i].getName()), y);
 		}
 	}
 	
@@ -726,10 +737,8 @@ public class YamlHandler
 				onlyDeepLoadMap(listOfFiles[i], map);
 				continue;
 			}
-			YamlConfiguration y = new YamlConfiguration();
-			y = loadYamlTask(listOfFiles[i], y);
-			String name = listOfFiles[i].getName().split(".")[0];
-			map.put(name, y);
+			YamlConfiguration y = loadYamlTask(listOfFiles[i], new YamlConfiguration());
+			map.put(FilenameUtils.removeExtension(listOfFiles[i].getName()), y);
 		}
 	}
 }

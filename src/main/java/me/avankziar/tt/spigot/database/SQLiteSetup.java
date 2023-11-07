@@ -17,7 +17,7 @@ public class SQLiteSetup
 	
 	public SQLiteSetup()
 	{
-		loadSQLLitelSetup();
+		loadSQLitelSetup();
 	}
 	
 	public boolean connectToDatabase() 
@@ -42,7 +42,7 @@ public class SQLiteSetup
 	
 	private Connection reConnect() throws SQLException
 	{
-		File directory = new File(BaseConstructor.getPlugin().getDataFolder()+"/SQLLite/");
+		File directory = new File(BaseConstructor.getPlugin().getDataFolder()+"/SQLite/");
 		if(!directory.exists())
 		{
 			directory.mkdir();
@@ -93,7 +93,7 @@ public class SQLiteSetup
 		return true;
 	}
 	
-	public boolean loadSQLLitelSetup()
+	public boolean loadSQLitelSetup()
 	{
 		if(!connectToDatabase())
 		{

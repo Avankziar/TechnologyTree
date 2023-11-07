@@ -29,6 +29,7 @@ import main.java.me.avankziar.tt.spigot.assistance.MatchApi;
 import main.java.me.avankziar.tt.spigot.assistance.TimeHandler;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
+import main.java.me.avankziar.tt.spigot.gui.objects.SettingsLevel;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler.BlockType;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
 import main.java.me.avankziar.tt.spigot.ifh.ItemGenerator;
@@ -238,7 +239,7 @@ public class PlayerHandler
 	{
 		PlayerData pd = new PlayerData(0, player.getUniqueId(), player.getName(), 
 				plugin.getYamlHandler().getConfig().getBoolean("Do.NewPlayer.ShowSyncMessage", true),
-				0, 0, 0);
+				0, 0, 0, SettingsLevel.BASE);
 		plugin.getMysqlHandler().create(Type.PLAYERDATA, pd);
 	}
 	

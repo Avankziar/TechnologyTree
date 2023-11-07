@@ -31,7 +31,8 @@ import main.java.me.avankziar.ifh.spigot.interfaces.EnumTranslation;
 import main.java.me.avankziar.ifh.spigot.tobungee.commands.CommandToBungee;
 import main.java.me.avankziar.tt.spigot.assistance.BackgroundTask;
 import main.java.me.avankziar.tt.spigot.assistance.Utility;
-import main.java.me.avankziar.tt.spigot.cmd.BaseCommandExecutor;
+import main.java.me.avankziar.tt.spigot.cmd.TTCommandExecutor;
+import main.java.me.avankziar.tt.spigot.cmd.TechGuiCommandExecutor;
 import main.java.me.avankziar.tt.spigot.cmd.TabCompletion;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
@@ -43,6 +44,8 @@ import main.java.me.avankziar.tt.spigot.database.SQLiteHandler;
 import main.java.me.avankziar.tt.spigot.database.SQLiteSetup;
 import main.java.me.avankziar.tt.spigot.database.YamlHandler;
 import main.java.me.avankziar.tt.spigot.database.YamlManager;
+import main.java.me.avankziar.tt.spigot.gui.listener.GuiPreListener;
+import main.java.me.avankziar.tt.spigot.gui.listener.UpperListener;
 import main.java.me.avankziar.tt.spigot.handler.CatTechHandler;
 import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
@@ -126,9 +129,8 @@ public class TT extends JavaPlugin
 		setupIFHAdministration();
 		
 		yamlHandler = new YamlHandler(this);
-		RecipeHandler.init(); //REMOVEME Testweise hier in dieser Zeile eingesetzt.
 		
-		/*String path = plugin.getYamlHandler().getConfig().getString("IFHAdministrationPath");
+		String path = plugin.getYamlHandler().getConfig().getString("IFHAdministrationPath");
 		boolean adm = plugin.getAdministration() != null 
 				&& plugin.getYamlHandler().getConfig().getBoolean("useIFHAdministration")
 				&& plugin.getAdministration().isMysqlPathActive(path);
@@ -143,8 +145,8 @@ public class TT extends JavaPlugin
 			return;
 		}
 		
-		sqlLiteHandler = new SQLLiteHandler(plugin);
-		sqlLiteSetup = new SQLLiteSetup();
+		sqlLiteHandler = new SQLiteHandler(plugin);
+		sqlLiteSetup = new SQLiteSetup();
 		
 		utility = new Utility(plugin);
 		backgroundTask = new BackgroundTask(this);
@@ -155,7 +157,7 @@ public class TT extends JavaPlugin
 		RecipeHandler.init();
 		CatTechHandler.reload();
 		setupIFHConsumer();
-		RewardHandler.doRewardOfflinePlayerTask();*/
+		//RewardHandler.doRewardOfflinePlayerTask(); ADDME
 	}
 	
 	public void onDisable()
@@ -223,14 +225,19 @@ public class TT extends JavaPlugin
 	
 	private void setupCommandTree()
 	{		
-		infoCommand += plugin.getYamlHandler().getCommands().getString("base.Name");
+		infoCommand += plugin.getYamlHandler().getCommands().getString("tt.Name");
 		
 		TabCompletion tab = new TabCompletion(plugin);
 		
-		CommandConstructor base = new CommandConstructor(CommandExecuteType.BASEMAIN, "base", false);
-		registerCommand(base.getPath(), base.getName());
-		getCommand(base.getName()).setExecutor(new BaseCommandExecutor(plugin, base));
-		getCommand(base.getName()).setTabCompleter(tab);
+		CommandConstructor tt = new CommandConstructor(CommandExecuteType.BASEMAIN, "tt", false);
+		registerCommand(tt.getPath(), tt.getName());
+		getCommand(tt.getName()).setExecutor(new TTCommandExecutor(plugin, tt));
+		getCommand(tt.getName()).setTabCompleter(tab);
+		
+		CommandConstructor techgui = new CommandConstructor(CommandExecuteType.BASEMAIN, "techgui", false);
+		registerCommand(techgui.getPath(), tt.getName());
+		getCommand(techgui.getName()).setExecutor(new TechGuiCommandExecutor(plugin, techgui));
+		getCommand(techgui.getName()).setTabCompleter(tab);
 	}
 	
 	public void setupBypassPerm()
@@ -386,6 +393,10 @@ public class TT extends JavaPlugin
 	public void setupListeners()
 	{
 		PluginManager pm = getServer().getPluginManager();
+		
+		//GuiEvents
+		pm.registerEvents(new GuiPreListener(plugin), plugin);
+		pm.registerEvents(new UpperListener(plugin), plugin);
 		
 		pm.registerEvents(new JoinQuitListener(), plugin);
 		

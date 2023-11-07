@@ -22,15 +22,15 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
-public class BaseCommandExecutor implements CommandExecutor
+public class TTCommandExecutor implements CommandExecutor
 {
 	private TT plugin;
 	private static CommandConstructor cc;
 	
-	public BaseCommandExecutor(TT plugin, CommandConstructor cc)
+	public TTCommandExecutor(TT plugin, CommandConstructor cc)
 	{
 		this.plugin = plugin;
-		BaseCommandExecutor.cc = cc;
+		TTCommandExecutor.cc = cc;
 	}
 	
 	@Override

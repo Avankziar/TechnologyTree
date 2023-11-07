@@ -21,6 +21,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Axolotl;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TropicalFish;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ArmorMeta;
@@ -28,9 +29,6 @@ import org.bukkit.inventory.meta.AxolotlBucketMeta;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.BookMeta.Generation;
-import org.bukkit.inventory.meta.trim.ArmorTrim;
-import org.bukkit.inventory.meta.trim.TrimMaterial;
-import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -39,6 +37,9 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.Repairable;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.inventory.meta.TropicalFishBucketMeta;
+import org.bukkit.inventory.meta.trim.ArmorTrim;
+import org.bukkit.inventory.meta.trim.TrimMaterial;
+import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -96,6 +97,30 @@ public class GuiHandler
 		}
 		GUIApi gui = new GUIApi(plugin.pluginName, gt.toString(), null, 6, title, st);
 		openGui(mcat, scat, pat, player, gt, gui, st, closeInv);
+	}
+	
+	public static void openStart(Player player, SettingsLevel settingsLevel, Inventory inv, boolean closeInv)
+	{
+		GuiType gt = GuiType.START;
+		GUIApi gui = new GUIApi(plugin.pluginName, inv, gt.toString(), 
+				settingsLevel == null ? SettingsLevel.BASE : settingsLevel);
+		openGui(null, null, null, player, gt, gui, settingsLevel, closeInv);
+	}
+	
+	public static void openMCat(Player player, SettingsLevel settingsLevel, Inventory inv, boolean closeInv, MainCategory mcat)
+	{
+		GuiType gt = GuiType.MAIN_CATEGORY;
+		GUIApi gui = new GUIApi(plugin.pluginName, inv, gt.toString(), 
+				settingsLevel == null ? SettingsLevel.BASE : settingsLevel);
+		openGui(mcat, null, mcat.getPlayerAssociatedType(), player, gt, gui, settingsLevel, closeInv);
+	}
+	
+	public static void openSCat(Player player, SettingsLevel settingsLevel, Inventory inv, boolean closeInv, SubCategory scat)
+	{
+		GuiType gt = GuiType.SUB_CATEGORY;
+		GUIApi gui = new GUIApi(plugin.pluginName, inv, gt.toString(), 
+				settingsLevel == null ? SettingsLevel.BASE : settingsLevel);
+		openGui(null, scat, scat.getPlayerAssociatedType(), player, gt, gui, settingsLevel, closeInv);
 	}
 	
 	/*public static void openAdministration(SignShop ssh, Player player, SettingsLevel settingsLevel, Inventory inv, boolean closeInv)
