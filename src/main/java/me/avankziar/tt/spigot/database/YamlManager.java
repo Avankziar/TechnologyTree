@@ -646,6 +646,62 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&b%subcat% Technologien",
 						"&b%subcat% Techologys"}));
+		languageKeys.put(path+"Technology.NotEnoughTTExp", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu hast nicht genug TTExp!",
+						"&cYou dont have enough TTExp!"}));
+		languageKeys.put(path+"Technology.NotEnoughVanillaExp", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu hast nicht genug VanillaExp!",
+						"&cYou dont have enough TTExp!"}));
+		languageKeys.put(path+"Technology.NotEnoughMoney", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu hast nicht genug Geld!",
+						"&cYou dont have enough money!"}));
+		languageKeys.put(path+"Technology.NotEnoughMaterial", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu hast nicht genug Materialien!",
+						"&cYou dont have enough materials!"}));
+		languageKeys.put(path+"Technology.IsSimpleAndAlreadyResearched", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu hast die Technologie %tech% schon erforscht!",
+						"&cYou have already researched the Technology %tech%!"}));
+		languageKeys.put(path+"Technology.MaxResearchLevelAlreadyReached", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu hast schon das maximale Level der Technologie %tech% erforscht!",
+						"&cYou have already researched the maximum level of technology %tech%!"}));
+		languageKeys.put(path+"Technology.TechnologyResearched", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&6Du hast das Level &f%level% &6der Technologie &f%tech% &6erfolgreich erforscht!",
+						"&6You have successfully researched the level &f%level% &6of the technology &f%tech%&6!"}));
+		languageKeys.put(path+"Technology.Info.Headline", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&f====> &6Tech %tech% &f<====",
+						"&f====> &6Tech %tech% &f<===="}));
+		languageKeys.put(path+"Technology.Info.Internname", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cInternname: &f%name%",
+						"&cInternname: &f%name%"}));
+		languageKeys.put(path+"Technology.Info.OverlyingSubCategory", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cÜbergeordnete SubCategory: &f%name%",
+						"&cOverlyingSubCategory: &f%name%"}));
+		languageKeys.put(path+"Technology.Info.MaxTechLvlToResearchAndGuiSlot", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cMaxTechLvlToResearch: &f%lvl% &e| &cGuiSlot: &f%slot%",
+						"&cMaxTechLvlToResearch: &f%lvl% &e| &cGuiSlot: &f%slot%"}));
+		languageKeys.put(path+"Technology.Info.PlayerAssociatedTypeAndTechType", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cPlayerAssociatedType: &f%pat% &e| &cTechType: &f%ttype%",
+						"&cPlayerAssociatedType: &f%pat% &e| &cTechType: &f%ttype%"}));
+		languageKeys.put(path+"Technology.Info.BoosterExpireTimes", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cNach Erforschungs Verfallszeiten: &f%exp%",
+						"&cAccording to research expiration times: &f%exp%"}));
+		languageKeys.put(path+"Technology.Info.GlobalTechPollParticipants.Info", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cNach Erforschungs Verfallszeiten: &f%exp%",
+						"&cAccording to research expiration times: &f%exp%"}));
 	}
 	
 	public void initModifierValueEntryLanguage() //INFO:ModifierValueEntryLanguages

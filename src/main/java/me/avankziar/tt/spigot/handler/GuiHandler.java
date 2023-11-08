@@ -77,6 +77,7 @@ public class GuiHandler
 	public static String MAINCATEGORY = "maincategory";
 	public static String SUBCATEGORY = "subcategory";
 	public static String TECHNOLOGY = "technology";
+	public static String PAT = "playerassociatedType";
 	
 	public static void openCatOrTech(Player player, GuiType gt, MainCategory mcat, SubCategory scat,
 			PlayerAssociatedType pat, SettingsLevel st, boolean closeInv)
@@ -589,6 +590,8 @@ public class GuiHandler
 					LinkedHashMap<String, Entry<GUIApi.Type, Object>> map = new LinkedHashMap<>();
 					map.put(MAINCATEGORY, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
 							ee.getValue() != null ? ee.getValue().getInternName() : ""));
+					map.put(PAT, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
+							ee.getValue() != null ? ee.getValue().getPlayerAssociatedType().toString() : ""));
 					ArrayList<ClickFunction> ctar = new ArrayList<>();
 					ClickFunctionType cft = ClickFunctionType.MAINCATEGORYS_SUBCATEGORYS_SOLO;
 					ctar.add(new ClickFunction(ClickType.LEFT, cft));
@@ -633,6 +636,8 @@ public class GuiHandler
 					LinkedHashMap<String, Entry<GUIApi.Type, Object>> map = new LinkedHashMap<>();
 					map.put(SUBCATEGORY, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
 							ee.getValue() != null ? ee.getValue().getInternName() : ""));
+					map.put(PAT, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
+							ee.getValue() != null ? ee.getValue().getPlayerAssociatedType().toString() : ""));
 					ArrayList<ClickFunction> ctar = new ArrayList<>();
 					ClickFunctionType cft = ClickFunctionType.SUBCATEGORYS_TECHNOLOGYS_SOLO;
 					ctar.add(new ClickFunction(ClickType.LEFT, cft));
@@ -644,14 +649,21 @@ public class GuiHandler
 			break;
 		case TECHNOLOGY:
 			LinkedHashMap<Integer, Technology> techmap = null;
+			ClickFunctionType cft = null;
 			switch(scat.getPlayerAssociatedType())
 			{
 			case GLOBAL:
-				techmap = CatTechHandler.subCategoryTechnologyMapGlobal.get(scat.getInternName()); break;
+				techmap = CatTechHandler.subCategoryTechnologyMapGlobal.get(scat.getInternName());
+				cft = ClickFunctionType.RESEARCH_TECHNOLOGY_GLOBAL;
+				break;
 			/*case GROUP:
-				techmap = CatTechHandler.subCategoryTechnologyMapGroup.get(tcat.getInternName()); break;*/
+				techmap = CatTechHandler.subCategoryTechnologyMapGroup.get(tcat.getInternName());
+				cft = ClickFunctionType.RESEARCH_TECHNOLOGY_GLOBAL;
+				break;*/
 			case SOLO:
-				techmap = CatTechHandler.subCategoryTechnologyMapSolo.get(scat.getInternName()); break;
+				cft = ClickFunctionType.RESEARCH_TECHNOLOGY_SOLO;
+				techmap = CatTechHandler.subCategoryTechnologyMapSolo.get(scat.getInternName());
+				break;
 			}
 			int tj = 0;
 			for(Entry<Integer, Technology> ee : techmap.entrySet())
@@ -674,12 +686,13 @@ public class GuiHandler
 					LinkedHashMap<String, Entry<GUIApi.Type, Object>> map = new LinkedHashMap<>();
 					map.put(TECHNOLOGY, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
 							ee.getValue().getInternName()));
+					map.put(PAT, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
+							ee.getValue() != null ? ee.getValue().getPlayerAssociatedType().toString() : ""));
 					ArrayList<ClickFunction> ctar = new ArrayList<>();
 					if(eee.getValue() != null && eee.getValue() == true)
 					{
-						ClickFunctionType cft = ClickFunctionType.RESEARCH_TECHNOLOGY;
 						ctar.add(new ClickFunction(ClickType.LEFT, cft));
-						ctar.add(new ClickFunction(ClickType.RIGHT, cft));
+						ctar.add(new ClickFunction(ClickType.RIGHT, ClickFunctionType.INFO_TECHNOLOGY));
 					}
 					gui.add(ii, iss, settingsLevel, true, map, ctar.toArray(new ClickFunction[ctar.size()]));
 				}

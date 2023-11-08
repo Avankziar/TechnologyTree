@@ -13,6 +13,7 @@ import main.java.me.avankziar.tt.spigot.gui.objects.ClickFunctionType;
 import main.java.me.avankziar.tt.spigot.gui.objects.ClickType;
 import main.java.me.avankziar.tt.spigot.gui.objects.GuiType;
 import main.java.me.avankziar.tt.spigot.handler.GuiHandler;
+import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
 
 public class UpperListener implements Listener
 {
@@ -73,8 +74,13 @@ public class UpperListener implements Listener
 		{
 			tech = event.getValuesString().get(GuiHandler.TECHNOLOGY);
 		}
+		PlayerAssociatedType pat = null;
+		if(event.getValuesString().containsKey(GuiHandler.PAT))
+		{
+			pat = PlayerAssociatedType.valueOf(event.getValuesString().get(GuiHandler.PAT));
+		}
 		GuiFunctionHandler.doClickFunktion(gt, cft, player, event.getEvent().getClickedInventory(), event.getSettingsLevel(),
-				mcat, scat, tech);
+				mcat, scat, tech, pat);
 	}
 	
 	private ClickType getClickFunctionType(org.bukkit.event.inventory.ClickType ct, int hotbarButton)

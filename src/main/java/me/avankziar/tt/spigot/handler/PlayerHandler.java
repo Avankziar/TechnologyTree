@@ -1020,7 +1020,8 @@ public class PlayerHandler
 	}
 	
 	//The Payment for the cost should be called before this!
-	public static void researchSoloTechnology(Player player, Technology t, boolean doUpdate)
+	public static int researchSoloTechnology(Player player, Technology t, boolean doUpdate)
+	//Return researchLevel of the technology
 	{
 		ArrayList<SoloEntryQueryStatus> eeqsList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLOENTRYQUERYSTATUS,
 				"`research_level` DESC", 0, 1,
@@ -1030,7 +1031,7 @@ public class PlayerHandler
 		int researchLevel = 0;
 		if(t.getTechnologyType() == TechnologyType.SIMPLE && eeqs != null && eeqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT)
 		{
-			return;
+			return 0;
 		} else if(t.getTechnologyType() == TechnologyType.MULTIPLE 
 				&& eeqs != null && eeqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT
 				&& eeqs.getResearchLevel() < t.getMaximalTechnologyLevelToResearch())
@@ -1042,7 +1043,7 @@ public class PlayerHandler
 		} else if(eeqs != null && eeqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT
 				&& eeqs.getResearchLevel() == t.getMaximalTechnologyLevelToResearch())
 		{
-			return;
+			return 0;
 		} else
 		{
 			SoloEntryQueryStatus eqs = new SoloEntryQueryStatus(0, t.getInternName(), player.getUniqueId(),
@@ -1056,6 +1057,7 @@ public class PlayerHandler
 		{
 			doUpdate(player, t, 0, researchLevel);
 		}		
+		return researchLevel;
 	}
 	
 	//Return the researchlevel
