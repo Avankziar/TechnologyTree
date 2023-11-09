@@ -1,7 +1,9 @@
 package main.java.me.avankziar.tt.spigot.gui.handler;
 
 import java.util.ArrayList;
+import java.util.Map.Entry;
 
+import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -216,18 +218,89 @@ public class GuiFunctionHandler
 		}
 		if(pat == PlayerAssociatedType.GLOBAL)
 		{
-			ChatApi.hoverEvent(y.getString(path+"Headline").replace("%tech%", t.getDisplayName()),
+			tx = ChatApi.hoverEvent(y.getString(path+"GlobalTechPollParticipants.Info"),
 					Action.SHOW_TEXT,
-					y.getString(path+"Internname").replace("%name%", t.getInternName())+"~!~"+
-					y.getString(path+"OverlyingSubCategory").replace("%name%", t.getOverlyingSubCategory())
-					);
-			t.getForUninvolvedPollParticipants_RewardCommandsInPercent();
+					y.getString(path+"GlobalTechPollParticipants.Interaction")
+					.replace("%v%", String.valueOf(t.getForUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent()))
+					+"~!~"+
+					y.getString(path+"GlobalTechPollParticipants.Recipe")
+					.replace("%v%", String.valueOf(t.getForUninvolvedPollParticipants_RewardRecipesInPercent()))
+					+"~!~"+
+					y.getString(path+"GlobalTechPollParticipants.DropChance")
+					.replace("%v%", String.valueOf(t.getForUninvolvedPollParticipants_RewardDropChancesInPercent()))
+					+"~!~"+
+					y.getString(path+"GlobalTechPollParticipants.SilkTouchDropChance")
+					.replace("%v%", String.valueOf(t.getForUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent()))
+					+"~!~"+
+					y.getString(path+"GlobalTechPollParticipants.Commands")
+					.replace("%v%", String.valueOf(t.getForUninvolvedPollParticipants_RewardCommandsInPercent()))
+					+"~!~"+
+					y.getString(path+"GlobalTechPollParticipants.Items")
+					.replace("%v%", String.valueOf(t.getForUninvolvedPollParticipants_RewardItemsInPercent()))
+					+"~!~"+
+					y.getString(path+"GlobalTechPollParticipants.Modifier")
+					.replace("%v%", String.valueOf(t.getForUninvolvedPollParticipants_RewardModifiersInPercent()))
+					+"~!~"+
+					y.getString(path+"GlobalTechPollParticipants.ValueEntry")
+					.replace("%v%", String.valueOf(t.getForUninvolvedPollParticipants_RewardValueEntryInPercent())));
+			albc.add(tx);
 		}
+		StringBuilder costTTExp = new StringBuilder();
+		StringBuilder costVExp = new StringBuilder();
+		StringBuilder costMoney = new StringBuilder();
+		StringBuilder costMaterial = new StringBuilder();
+		for(int i = 1; i <= t.getMaximalTechnologyLevelToResearch(); i++)
+		{
+			if(t.getCostTTExp().containsKey(i))
+			{
+				if(!costTTExp.isEmpty())
+				{
+					costTTExp.append("~!~");
+				}
+				costTTExp.append(y.getString(path+"Technology.Info.Lvl.CostTTExpHover").replace("%v%", t.getCostTTExp().get(i)));
+			}
+			if(t.getCostVanillaExp().containsKey(i))
+			{
+				if(!costVExp.isEmpty())
+				{
+					costVExp.append("~!~");
+				}
+				costVExp.append(y.getString(path+"Technology.Info.Lvl.CostVExpHover").replace("%v%", t.getCostVanillaExp().get(i)));
+			}
+			if(t.getCostMoney().containsKey(i))
+			{
+				if(!costMoney.isEmpty())
+				{
+					costMoney.append("~!~");
+				}
+				costMoney.append(y.getString(path+"Technology.Info.Lvl.CostMooneyHover").replace("%v%", t.getCostMoney().get(i)));
+			}
+			if(t.getCostMaterial().containsKey(i))
+			{
+				if(!costMaterial.isEmpty())
+				{
+					costMaterial.append("~!~");
+				}
+				costMaterial.append(y.getString(path+"Technology.Info.Lvl.CostMaterialHover"));
+				int j = 0;
+				for(Entry<Material, String> e : t.getCostMaterial().get(i).entrySet())
+				{
+					if(j + 1 <  t.getCostMaterial().get(i).size())
+					{
+						costMaterial.append("~!~");
+					}
+					costMaterial.append("&f"+e.getValue()+"x "+TT.getPlugin().getEnumTl() != null
+							  									? TT.getPlugin().getEnumTl().getLocalization(e.getKey())
+							  									: e.getKey().toString());
+				}
+			}
+			
+		}
+		albc.add(ChatApi.hoverEvent(y.getString(path+"Technology.Info.Lvl.CostTTExp"), Action.SHOW_TEXT, costTTExp.toString()));
+		albc.add(ChatApi.hoverEvent(y.getString(path+"Technology.Info.Lvl.CostVExp"), Action.SHOW_TEXT, costVExp.toString()));
+		albc.add(ChatApi.hoverEvent(y.getString(path+"Technology.Info.Lvl.CostMoney"), Action.SHOW_TEXT, costMoney.toString()));
+		albc.add(ChatApi.hoverEvent(y.getString(path+"Technology.Info.Lvl.CostMaterial"), Action.SHOW_TEXT, costMaterial.toString()));
 		//Levelbezogene Dinge
-		t.getCostMaterial();
-		t.getCostMoney();
-		t.getCostTTExp();
-		t.getCostVanillaExp();
 		t.getResearchRequirementConditionQuery();
 		t.getRewardCommandList();
 		t.getRewardDropChances();

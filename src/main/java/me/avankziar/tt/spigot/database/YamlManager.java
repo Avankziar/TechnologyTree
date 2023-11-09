@@ -700,8 +700,73 @@ public class YamlManager
 						"&cAccording to research expiration times: &f%exp%"}));
 		languageKeys.put(path+"Technology.Info.GlobalTechPollParticipants.Info", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&cNach Erforschungs Verfallszeiten: &f%exp%",
-						"&cAccording to research expiration times: &f%exp%"}));
+						"&cUninvolvierte Teilnehmer der Umfrage, Belohung in Prozent Hover",
+						"&cUninvolved participants in the survey, reward in percent Hover"}));
+		languageKeys.put(path+"Technology.Info.GlobalTechPollParticipants.Interaction", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cBelohnung Interaktion: &f%v% %",
+						"&cReward Interaction: &f%v% %"}));
+		languageKeys.put(path+"Technology.Info.GlobalTechPollParticipants.Recipe", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cBelohnung Rezepte: &f%v% %",
+						"&cReward Recipe: &f%v% %"}));
+		languageKeys.put(path+"Technology.Info.GlobalTechPollParticipants.DropChance", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cBelohnung DropChance: &f%v% %",
+						"&cReward DropChance: &f%v% %"}));
+		languageKeys.put(path+"Technology.Info.GlobalTechPollParticipants.SilkTouchDropChance", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cBelohnung SilkTouchDropChance: &f%v% %",
+						"&cReward SilkTouchDropChance: &f%v% %"}));
+		languageKeys.put(path+"Technology.Info.GlobalTechPollParticipants.Commands", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cBelohnung Befehle: &f%v% %",
+						"&cReward Commands: &f%v% %"}));
+		languageKeys.put(path+"Technology.Info.GlobalTechPollParticipants.Items", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cBelohnung Items: &f%v% %",
+						"&cReward Items: &f%v% %"}));
+		languageKeys.put(path+"Technology.Info.GlobalTechPollParticipants.Modifier", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cBelohnung Items: &f%v% %",
+						"&cReward Items: &f%v% %"}));
+		languageKeys.put(path+"Technology.Info.GlobalTechPollParticipants.ValueEntry", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cBelohnung Items: &f%v% %",
+						"&cReward Items: &f%v% %"}));
+		languageKeys.put(path+"Technology.Info.Lvl.CostTTExp", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cTTExp Kosten per Technologie Level (Hover)",
+						"&cTTExp cost per technology Level (Hover)"}));
+		languageKeys.put(path+"Technology.Info.Lvl.CostTTExpHover", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cLevel &e%i%&c: &f%v% TTExp",
+						"&cLevel &e%i%&c: &f%v% TTExp"}));
+		languageKeys.put(path+"Technology.Info.Lvl.CostVExp", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cVanillaExp Kosten per Technologie Level (Hover)",
+						"&cVanillaExp cost per technology Level (Hover)"}));
+		languageKeys.put(path+"Technology.Info.Lvl.CostVExpHover", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cLevel &e%i%&c: &f%v% VanillaExp",
+						"&cLevel &e%i%&c: &f%v% VanillaExp"}));
+		languageKeys.put(path+"Technology.Info.Lvl.CostMoney", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cGeldkosten per Technologie Level (Hover)",
+						"&cMoney cost per technology Level (Hover)"}));
+		languageKeys.put(path+"Technology.Info.Lvl.CostMoneyHover", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cLevel &e%i%&c: &f%v%",
+						"&cLevel &e%i%&c: &f%v%"}));
+		languageKeys.put(path+"Technology.Info.Lvl.CostMaterial", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cMaterialkosten per Technologie Level (Hover)",
+						"&cMaterial cost per technology Level (Hover)"}));
+		languageKeys.put(path+"Technology.Info.Lvl.CostMaterialHover", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cLevel &e%i%&c:",
+						"&cLevel &e%i%&c:"}));
+		
 	}
 	
 	public void initModifierValueEntryLanguage() //INFO:ModifierValueEntryLanguages
