@@ -19,12 +19,14 @@ import main.java.me.avankziar.tt.spigot.handler.CatTechHandler;
 import main.java.me.avankziar.tt.spigot.handler.GuiHandler;
 import main.java.me.avankziar.tt.spigot.handler.PlayerHandler;
 import main.java.me.avankziar.tt.spigot.handler.PlayerHandler.AcquireRespond;
+import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
 import main.java.me.avankziar.tt.spigot.objects.TechnologyType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.MainCategory;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.SubCategory;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.Technology;
+import main.java.me.avankziar.tt.spigot.objects.ram.misc.UnlockableInteraction;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent.Action;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -249,6 +251,15 @@ public class GuiFunctionHandler
 		StringBuilder costVExp = new StringBuilder();
 		StringBuilder costMoney = new StringBuilder();
 		StringBuilder costMaterial = new StringBuilder();
+		StringBuilder resReqCQ = new StringBuilder();
+		StringBuilder rwInteraction = new StringBuilder();
+		StringBuilder rwRecipe = new StringBuilder();
+		StringBuilder rwDC = new StringBuilder();
+		StringBuilder rwSTDC = new StringBuilder();
+		StringBuilder rwCmd = new StringBuilder();
+		StringBuilder rwItem = new StringBuilder();
+		StringBuilder rwMod = new StringBuilder();
+		StringBuilder rwVE = new StringBuilder();
 		for(int i = 1; i <= t.getMaximalTechnologyLevelToResearch(); i++)
 		{
 			if(t.getCostTTExp().containsKey(i))
@@ -257,7 +268,9 @@ public class GuiFunctionHandler
 				{
 					costTTExp.append("~!~");
 				}
-				costTTExp.append(y.getString(path+"Technology.Info.Lvl.CostTTExpHover").replace("%v%", t.getCostTTExp().get(i)));
+				costTTExp.append(y.getString(path+"Technology.Info.Lvl.CostTTExpHover")
+						.replace("%i%", String.valueOf(i))
+						.replace("%v%", t.getCostTTExp().get(i)));
 			}
 			if(t.getCostVanillaExp().containsKey(i))
 			{
@@ -265,7 +278,9 @@ public class GuiFunctionHandler
 				{
 					costVExp.append("~!~");
 				}
-				costVExp.append(y.getString(path+"Technology.Info.Lvl.CostVExpHover").replace("%v%", t.getCostVanillaExp().get(i)));
+				costVExp.append(y.getString(path+"Technology.Info.Lvl.CostVExpHover")
+						.replace("%i%", String.valueOf(i))
+						.replace("%v%", t.getCostVanillaExp().get(i)));
 			}
 			if(t.getCostMoney().containsKey(i))
 			{
@@ -273,7 +288,9 @@ public class GuiFunctionHandler
 				{
 					costMoney.append("~!~");
 				}
-				costMoney.append(y.getString(path+"Technology.Info.Lvl.CostMooneyHover").replace("%v%", t.getCostMoney().get(i)));
+				costMoney.append(y.getString(path+"Technology.Info.Lvl.CostMooneyHover")
+						.replace("%i%", String.valueOf(i))
+						.replace("%v%", t.getCostMoney().get(i)));
 			}
 			if(t.getCostMaterial().containsKey(i))
 			{
@@ -281,7 +298,8 @@ public class GuiFunctionHandler
 				{
 					costMaterial.append("~!~");
 				}
-				costMaterial.append(y.getString(path+"Technology.Info.Lvl.CostMaterialHover"));
+				costMaterial.append(y.getString(path+"Technology.Info.Lvl.CostMaterialHover")
+						.replace("%i%", String.valueOf(i)));
 				int j = 0;
 				for(Entry<Material, String> e : t.getCostMaterial().get(i).entrySet())
 				{
@@ -292,16 +310,98 @@ public class GuiFunctionHandler
 					costMaterial.append("&f"+e.getValue()+"x "+TT.getPlugin().getEnumTl() != null
 							  									? TT.getPlugin().getEnumTl().getLocalization(e.getKey())
 							  									: e.getKey().toString());
+					j++;
 				}
 			}
-			
+			if(t.getResearchRequirementConditionQuery().containsKey(i))
+			{
+				if(!resReqCQ.isEmpty())
+				{
+					resReqCQ.append("~!~");
+				}
+				resReqCQ.append(y.getString(path+"Technology.Info.Lvl.ResearchRequirementConditionQueryHover")
+						.replace("%i%", String.valueOf(i)));
+				int j = 0;
+				for(String s : t.getResearchRequirementConditionQuery().get(i))
+				{
+					if(s.startsWith("event"))
+					{
+						j++;
+						continue;
+					}
+					if(j + 1 <  t.getResearchRequirementConditionQuery().get(i).size())
+					{
+						resReqCQ.append("~!~");
+					}
+					String[] sp = s.split(":");
+					int k = 0;
+					for(String ss : sp)
+					{
+						if(k == 0)
+						{
+							k++;
+							continue;
+						}
+						if(k > 0)
+						{
+							resReqCQ.append(" ");
+						}
+						resReqCQ.append(ss);
+						k++;
+					}
+					j++;
+				}
+			}
+			if(t.getRewardUnlockableInteractions().containsKey(i))
+			{
+				if(!rwInteraction.isEmpty())
+				{
+					rwInteraction.append("~!~");
+				}
+				rwInteraction.append(y.getString(path+"Technology.Info.Lvl.RewardInteractionHover")
+						.replace("%i%", String.valueOf(i)));
+				for(UnlockableInteraction ui : t.getRewardUnlockableInteractions().get(i))
+				{
+					rwInteraction.append(ui.getEventType().toString()+":"+
+							ui.getEventMaterial() != null ? ui.getEventMaterial().toString() : "/"+":"+
+							ui.getEventEntityType() != null ? ui.getEventEntityType().toString() : "/");
+					rwInteraction.append("~!~"+ui.getToolType().toString()+" | CanAccess="+ui.isCanAccess());
+					for(Entry<String, Double> e : ui.getMoneyMap().entrySet())
+					{
+						rwInteraction.append("~!~"+e.getKey()+"="+e.getValue());
+					}
+					for(Entry<String, Double> e : ui.getCommandMap().entrySet())
+					{
+						rwInteraction.append("~!~"+e.getKey()+"="+e.getValue());
+					}
+				}
+			}
+			if(t.getRewardRecipes().containsKey(i))
+			{
+				if(!rwRecipe.isEmpty())
+				{
+					rwRecipe.append("~!~");
+				}
+				rwRecipe.append(y.getString(path+"Technology.Info.Lvl.RewardInteractionHover")
+						.replace("%i%", String.valueOf(i)));
+				for(Entry<RecipeType, ArrayList<String>> e :t.getRewardRecipes().get(i).entrySet())
+				{
+					rwRecipe.append("~!~");
+					for(int j = 0; j < e.getValue().size(); j++)
+					{
+						
+					}
+				}
+			}
 		}
 		albc.add(ChatApi.hoverEvent(y.getString(path+"Technology.Info.Lvl.CostTTExp"), Action.SHOW_TEXT, costTTExp.toString()));
 		albc.add(ChatApi.hoverEvent(y.getString(path+"Technology.Info.Lvl.CostVExp"), Action.SHOW_TEXT, costVExp.toString()));
 		albc.add(ChatApi.hoverEvent(y.getString(path+"Technology.Info.Lvl.CostMoney"), Action.SHOW_TEXT, costMoney.toString()));
 		albc.add(ChatApi.hoverEvent(y.getString(path+"Technology.Info.Lvl.CostMaterial"), Action.SHOW_TEXT, costMaterial.toString()));
+		albc.add(ChatApi.hoverEvent(y.getString(path+"Technology.Info.LvlResearchRequirementConditionQuery"),
+																						Action.SHOW_TEXT, resReqCQ.toString()));
+		albc.add(ChatApi.hoverEvent(y.getString(path+"Technology.Info.Lvl.RewardInteraction"), Action.SHOW_TEXT, rwInteraction.toString()));
 		//Levelbezogene Dinge
-		t.getResearchRequirementConditionQuery();
 		t.getRewardCommandList();
 		t.getRewardDropChances();
 		t.getRewardItemList();

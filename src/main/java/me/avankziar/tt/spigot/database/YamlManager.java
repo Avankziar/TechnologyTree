@@ -766,6 +766,22 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cLevel &e%i%&c:",
 						"&cLevel &e%i%&c:"}));
+		languageKeys.put(path+"Technology.Info.Lvl.ResearchRequirementConditionQuery", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cAnforderungen für die Forschung per Technologie Level (Hover)",
+						"&cRequirements for research per technology level (Hover)"}));
+		languageKeys.put(path+"Technology.Info.Lvl.ResearchRequirementConditionQueryHover", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cLevel &e%i%&c:",
+						"&cLevel &e%i%&c:"}));
+		languageKeys.put(path+"Technology.Info.Lvl.RewardInteraction", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cInteraktionsbelohnung per Technologie Level (Hover)",
+						"&cInteraction reward per technology level (Hover)"}));
+		languageKeys.put(path+"Technology.Info.Lvl.RewardInteractionHover", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cLevel &e%i%&c:",
+						"&cLevel &e%i%&c:"}));
 		
 	}
 	
