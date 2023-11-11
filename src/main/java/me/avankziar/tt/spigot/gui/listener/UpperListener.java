@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.gui.events.UpperGuiClickEvent;
@@ -35,52 +36,66 @@ public class UpperListener implements Listener
 		{
 			return;
 		}
-		Player player = (Player) event.getEvent().getWhoClicked();
-		GuiType gt = null;
+		final Player player = (Player) event.getEvent().getWhoClicked();
+		GuiType guit = null;
 		try
 		{
-			gt = GuiType.valueOf(event.getInventoryIdentifier());
+			guit = GuiType.valueOf(event.getInventoryIdentifier());
 		} catch(Exception e)
 		{
 			return;
 		}
+		final GuiType gt = guit;
 		ClickType ct = getClickFunctionType(event.getEvent().getClick(), event.getEvent().getHotbarButton());
 		if(ct == null)
 		{
 			return;
 		}
-		ClickFunctionType cft = null;
+		ClickFunctionType clft = null;
 		try
 		{
-			cft = ClickFunctionType.valueOf(event.getFunction(ct));
+			clft = ClickFunctionType.valueOf(event.getFunction(ct));
 		} catch(Exception e)
 		{
 			return;
 		}
-		if(cft == null)
+		if(clft == null)
 		{
 			return;
 		}
-		String mcat = null;
-		String scat = null;
-		String tech = null;
+		final ClickFunctionType cft = clft;
+		String macat = null;
+		String sucat = null;
+		String techn = null;
 		if(event.getValuesString().containsKey(GuiHandler.MAINCATEGORY))
 		{
-			mcat = event.getValuesString().get(GuiHandler.MAINCATEGORY);
+			macat = event.getValuesString().get(GuiHandler.MAINCATEGORY);
 		} else if(event.getValuesString().containsKey(GuiHandler.SUBCATEGORY))
 		{
-			scat = event.getValuesString().get(GuiHandler.SUBCATEGORY);
+			sucat = event.getValuesString().get(GuiHandler.SUBCATEGORY);
 		} else if(event.getValuesString().containsKey(GuiHandler.TECHNOLOGY))
 		{
-			tech = event.getValuesString().get(GuiHandler.TECHNOLOGY);
+			techn = event.getValuesString().get(GuiHandler.TECHNOLOGY);
 		}
-		PlayerAssociatedType pat = null;
+		final String mcat = macat;
+		final String scat = sucat;
+		final String tech = techn;
+		PlayerAssociatedType paty = null;
 		if(event.getValuesString().containsKey(GuiHandler.PAT))
 		{
-			pat = PlayerAssociatedType.valueOf(event.getValuesString().get(GuiHandler.PAT));
+			paty = PlayerAssociatedType.valueOf(event.getValuesString().get(GuiHandler.PAT));
 		}
-		GuiFunctionHandler.doClickFunktion(gt, cft, player, event.getEvent().getClickedInventory(), event.getSettingsLevel(),
-				mcat, scat, tech, pat);
+		final PlayerAssociatedType pat = paty;
+		new BukkitRunnable()
+		{
+			
+			@Override
+			public void run()
+			{
+				GuiFunctionHandler.doClickFunktion(gt, cft, player, event.getEvent().getClickedInventory(), event.getSettingsLevel(),
+						mcat, scat, tech, pat);
+			}
+		}.runTaskAsynchronously(plugin);
 	}
 	
 	private ClickType getClickFunctionType(org.bukkit.event.inventory.ClickType ct, int hotbarButton)

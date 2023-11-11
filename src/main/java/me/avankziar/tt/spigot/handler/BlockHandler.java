@@ -119,6 +119,11 @@ public class BlockHandler
 		return new Location(Bukkit.getWorld(s[0]), Integer.parseInt(s[1]), Integer.parseInt(s[2]), Integer.parseInt(s[3]));
 	}
 	
+	public static int getMaxRegisteredBlocks(Player player, BlockType bt)
+	{
+		return ModifierValueEntry.getResult(player, 0.0, Bypass.Counter.REGISTER_BLOCK_, bt.toString()+".");
+	}
+	
 	public static boolean isAlreadyRegisteredBlock(BlockType bt, Location l)
 	{
 		if(plugin.getMysqlHandler().exist(MysqlHandler.Type.REGISTEREDBLOCK,
@@ -155,7 +160,7 @@ public class BlockHandler
 	{
 		int already = plugin.getMysqlHandler().getCount(Type.REGISTEREDBLOCK,
 				"`player_uuid` = ? AND `block_type` = ?", player.getUniqueId().toString(), bt.toString());
-		int canPossible = ModifierValueEntry.getResult(player, Bypass.Counter.REGISTER_BLOCK);
+		int canPossible = ModifierValueEntry.getResult(player, 0.0, Bypass.Counter.REGISTER_BLOCK_, bt.toString()+".");
 		if(already >= canPossible)
 		{
 			return false;

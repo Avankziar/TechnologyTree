@@ -52,6 +52,10 @@ public class RegisterBlockListener implements Listener
 			event.setCancelled(true);
 			return;
 		}
+		if(!BlockHandler.canRegisterBlock(event.getPlayer(), bt))
+		{
+			return;
+		}
 		if(BlockHandler.isAlreadyRegisteredBlock(event.getPlayer().getUniqueId(), bt, loc))
 		{
 			return;

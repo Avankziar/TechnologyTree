@@ -30,6 +30,7 @@ import org.bukkit.inventory.StonecuttingRecipe;
 import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.database.Language.ISO639_2B;
 import main.java.me.avankziar.tt.spigot.gui.objects.ClickFunctionType;
 import main.java.me.avankziar.tt.spigot.gui.objects.ClickType;
@@ -397,14 +398,14 @@ public class YamlManager
 				"&eBasisbefehl für das TechnologyTree Plugin.",
 				"&eGroundcommand for the TechnologyTree Plugin.");
 		String basePermission = "tt.cmd.tt";
-		argumentInput("base_argument", "argument", basePermission,
-				"/base argument <id>", "/econ deletelog ", false,
-				"&c/base argument &f| Ein Subbefehl",
-				"&c/base argument &f| A Subcommand.",
-				"&bBefehlsrecht für &f/base argument",
-				"&bCommandright for &f/base argument",
-				"&eBasisbefehl für das BaseTemplate Plugin.",
-				"&eGroundcommand for the BaseTemplate Plugin.");
+		argumentInput("tt_techinfo", "techinfo", basePermission,
+				"/tt techinfo <technology> [level]", "/tt techinfo ", false,
+				"&c/tt techinfo <technology> [level] &f| Ein InfoBefehl für Technologien. Bei keiner Angabe eines Level, wird nach dem Spieler geschaut, welche Level er nun zu erforschen hätte.",
+				"&c/tt techinfo <technology> [level] &f| An info command for technologies. If no level is specified, the system looks for the player to see which levels they should research.",
+				"&bBefehlsrecht für &f/tt techinfo",
+				"&bCommandright for &f/tt techinfo",
+				"&eEin InfoBefehl für Technologien. Bei keiner Angabe eines Level, wird nach dem Spieler geschaut, welche Level er nun zu erforschen hätte.",
+				"&eAn info command for technologies. If no level is specified, the system looks for the player to see which levels they should research..");
 		commandsInput("techgui", "techgui", "techgui.command.techgui", 
 				"/techgui", "/techgui ", false,
 				"&c/techgui &f| Infoseite für alle Befehle.",
@@ -420,9 +421,9 @@ public class YamlManager
 		List<Bypass.Permission> list = new ArrayList<Bypass.Permission>(EnumSet.allOf(Bypass.Permission.class));
 		for(Bypass.Permission ept : list)
 		{
-			commandsKeys.put("Bypass."+ept.toString().replace("_", ".")
+			commandsKeys.put("Bypass."+ept.toString()
 					, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-					"base."+ept.toString().toLowerCase().replace("_", ".")}));
+					"tt."+ept.toString().toLowerCase().replace("_", ".")}));
 		}
 		
 		List<Bypass.Counter> list2 = new ArrayList<Bypass.Counter>(EnumSet.allOf(Bypass.Counter.class));
@@ -432,9 +433,9 @@ public class YamlManager
 			{
 				continue;
 			}
-			commandsKeys.put("Count."+ept.toString().replace("_", ".")
+			commandsKeys.put("Count."+ept.toString()
 					, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-					"base."+ept.toString().toLowerCase().replace("_", ".")}));
+					"tt."+ept.toString().toLowerCase().replace("_", ".")}));
 		}
 	}
 	
@@ -540,8 +541,8 @@ public class YamlManager
 						"&eClick me!"}));
 		languageKeys.put("Headline", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&e=====&7[&6BungeeTeleportManager&7]&e=====",
-						"&e=====&7[&6BungeeTeleportManager&7]&e====="}));
+						"&e=====&7[&6TechnologyTree&7]&e=====",
+						"&e=====&7[&6TechnologyTree&7]&e====="}));
 		languageKeys.put("Next", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&e&nnächste Seite &e==>",
@@ -558,15 +559,19 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&c✖",
 						"&c✖"}));
-		initEnumHandlerLang();
+		initCommandsLang();
 		initPlayerHandlerLang();
 		initBlockHandlerLang();
 		initGuiHandlerLang();
 	}
 	
-	public void initEnumHandlerLang() //INFO:EnumHandlerLang
+	public void initCommandsLang() //INFO:CommandsLang
 	{
-		String path = "EnumHandler.";
+		String path = "Commands.";
+		languageKeys.put(path+"TechInfo.TechNotFound", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDie Technologie %tech% existiert nicht!",
+						"&cThe %tech% technology does not exist!"}));
 	}
 	
 	private void initPlayerHandlerLang() //INFO:PlayerHandlerLang
@@ -632,20 +637,20 @@ public class YamlManager
 		String path = "GuiHandler.";
 		languageKeys.put(path+"Main.Title", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&bTT Gui",
-						"&bTT Gui"}));
+						"&eTT Gui",
+						"&eTT Gui"}));
 		languageKeys.put(path+"MainCategorys.Title", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&bHauptkategorien",
-						"&bMain Categorys"}));
+						"&eHauptkategorien",
+						"&eMain Categorys"}));
 		languageKeys.put(path+"MainCategorysSubCategorys.Title", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&b%maincat% Subkategorien",
-						"&b%maincat% Sub Categorys"}));
+						"&e%maincat% Subkategorien",
+						"&e%maincat% Sub Categorys"}));
 		languageKeys.put(path+"SubCategorysTechnologys.Title", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&b%subcat% Technologien",
-						"&b%subcat% Techologys"}));
+						"&e%subcat% Technologien",
+						"&e%subcat% Techologys"}));
 		languageKeys.put(path+"Technology.NotEnoughTTExp", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cDu hast nicht genug TTExp!",
@@ -686,6 +691,18 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cÜbergeordnete SubCategory: &f%name%",
 						"&cOverlyingSubCategory: &f%name%"}));
+		languageKeys.put(path+"Technology.Info.Headline", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&f====> &6Tech %tech% &f<====",
+						"&f====> &6Tech %tech% &f<===="}));
+		languageKeys.put(path+"Technology.Info.LevelResearched", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cErforschtes Level: &f%lvl%",
+						"&cResearched Level: &f%lvl%"}));
+		languageKeys.put(path+"Technology.Info.LevelDisplayed", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cTheoretisch Erforschtes Level: &f%lvl%",
+						"&cTheoretical researched Level: &f%lvl%"}));
 		languageKeys.put(path+"Technology.Info.MaxTechLvlToResearchAndGuiSlot", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cMaxTechLvlToResearch: &f%lvl% &e| &cGuiSlot: &f%slot%",
@@ -736,53 +753,56 @@ public class YamlManager
 						"&cReward Items: &f%v% %"}));
 		languageKeys.put(path+"Technology.Info.Lvl.CostTTExp", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&cTTExp Kosten per Technologie Level (Hover)",
-						"&cTTExp cost per technology Level (Hover)"}));
-		languageKeys.put(path+"Technology.Info.Lvl.CostTTExpHover", 
-				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&cLevel &e%i%&c: &f%v% TTExp",
-						"&cLevel &e%i%&c: &f%v% TTExp"}));
+						"&cTTExp Kosten: &f%v% | &f(%f%)",
+						"&cTTExp Costs: &f%v% | &f(%f%)"}));
 		languageKeys.put(path+"Technology.Info.Lvl.CostVExp", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&cVanillaExp Kosten per Technologie Level (Hover)",
-						"&cVanillaExp cost per technology Level (Hover)"}));
-		languageKeys.put(path+"Technology.Info.Lvl.CostVExpHover", 
-				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&cLevel &e%i%&c: &f%v% VanillaExp",
-						"&cLevel &e%i%&c: &f%v% VanillaExp"}));
-		languageKeys.put(path+"Technology.Info.Lvl.CostMoney", 
-				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&cGeldkosten per Technologie Level (Hover)",
-						"&cMoney cost per technology Level (Hover)"}));
+						"&cVanillaExp Kosten: &f%v% | &f(%f%)",
+						"&cVanillaExp costs: &f%v% | &f(%f%)"}));
 		languageKeys.put(path+"Technology.Info.Lvl.CostMoneyHover", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&cLevel &e%i%&c: &f%v%",
-						"&cLevel &e%i%&c: &f%v%"}));
+						"&cGeldkosten: &f%v% | &f(%f%)",
+						"&cMoney costs: &f%v% | &f(%f%)"}));
 		languageKeys.put(path+"Technology.Info.Lvl.CostMaterial", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&cMaterialkosten per Technologie Level (Hover)",
-						"&cMaterial cost per technology Level (Hover)"}));
-		languageKeys.put(path+"Technology.Info.Lvl.CostMaterialHover", 
-				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&cLevel &e%i%&c:",
-						"&cLevel &e%i%&c:"}));
+						"&cMaterialkosten:",
+						"&cMaterial costs:"}));
 		languageKeys.put(path+"Technology.Info.Lvl.ResearchRequirementConditionQuery", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&cAnforderungen für die Forschung per Technologie Level (Hover)",
-						"&cRequirements for research per technology level (Hover)"}));
-		languageKeys.put(path+"Technology.Info.Lvl.ResearchRequirementConditionQueryHover", 
-				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&cLevel &e%i%&c:",
-						"&cLevel &e%i%&c:"}));
+						"&cAnforderungen für die Forschung:",
+						"&cRequirements for research:"}));
 		languageKeys.put(path+"Technology.Info.Lvl.RewardInteraction", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&cInteraktionsbelohnung per Technologie Level (Hover)",
-						"&cInteraction reward per technology level (Hover)"}));
-		languageKeys.put(path+"Technology.Info.Lvl.RewardInteractionHover", 
+						"&cInteraktionsbelohnung:",
+						"&cInteraction reward:"}));
+		languageKeys.put(path+"Technology.Info.Lvl.RewardRecipe", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&cLevel &e%i%&c:",
-						"&cLevel &e%i%&c:"}));
-		
+						"&cRezeptbelohnung:",
+						"&cRecipe reward:"}));
+		languageKeys.put(path+"Technology.Info.Lvl.RewardDropChance", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDropchancebelohnung:",
+						"&cDropChance reward:"}));
+		languageKeys.put(path+"Technology.Info.Lvl.RewardSilkTouchDropChance", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cBehutsamkeitDropchancebelohnung:",
+						"&cSilkTouchDropChance reward:"}));
+		languageKeys.put(path+"Technology.Info.Lvl.RewardCommand", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cBefehlsbelohnung:",
+						"&cCommand reward:"}));
+		languageKeys.put(path+"Technology.Info.Lvl.RewardItem", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cItembelohnung:",
+						"&cItem reward:"}));
+		languageKeys.put(path+"Technology.Info.Lvl.RewardModifier", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cModifierbelohnung:",
+						"&cModifier reward:"}));
+		languageKeys.put(path+"Technology.Info.Lvl.RewardValueEntry", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cValueEntrybelohnung:",
+						"&cValueEntry reward:"}));
 	}
 	
 	public void initModifierValueEntryLanguage() //INFO:ModifierValueEntryLanguages
@@ -815,11 +835,11 @@ public class YamlManager
 						"&ethe plugin TechnologyTree.",
 						"&eAllows you to see all",
 						"&ethe sub categories."}));
-		mvelanguageKeys.put(Bypass.Counter.REGISTER_BLOCK.toString()+".Displayname",
+		mvelanguageKeys.put(Bypass.Counter.REGISTER_BLOCK_.toString()+".Displayname",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&eZählpermission für die Registrierung von Blöcken.",
 						"&eCounting mission for the registration of blocks."}));
-		mvelanguageKeys.put(Bypass.Counter.REGISTER_BLOCK.toString()+".Explanation",
+		mvelanguageKeys.put(Bypass.Counter.REGISTER_BLOCK_.toString()+".Explanation",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&eZählpermission für",
 						"&edas Plugin TechnologyTree.",
@@ -1010,60 +1030,60 @@ public class YamlManager
 						"&cDeine freie TTExp: &f%freettexp%",
 						"&cDeine eingesetzte TTExp: &f%allocatedttexp%",
 						"",
-						"&eRegistrierte Blöcke => &ahat man&7/&ckann man haben",
-						"&cBraustand: &a%brewing_standfree%&7/&c%brewing_standmax%",
-						"&cVerz. Tisch: &a%enchanting_tablefree%&7/&c%enchanting_tablemax%",
-						"&cLagerfeuer: &a%campfirefree%&7/&c%campfiremax%",
-						"&cOfen: &a%furnacefree%&7/&c%furnacemax%",
-						"&cSchmelzofen: &a%blast_furnacefree%&7/&c%blast_furnacemax%",
-						"&cRäucherofen: &a%smokerfree%&7/&c%smokermax%",
+						"&eRegistrierte Blöcke => &ahat man&7/&bkann man haben",
+						"&cBraustand: &a%brewing_standfree%&7/&b%brewing_standmax%",
+						"&cVerz. Tisch: &a%enchanting_tablefree%&7/&b%enchanting_tablemax%",
+						"&cLagerfeuer: &a%campfirefree%&7/&b%campfiremax%",
+						"&cOfen: &a%furnacefree%&7/&b%furnacemax%",
+						"&cSchmelzofen: &a%blast_furnacefree%&7/&b%blast_furnacemax%",
+						"&cRäucherofen: &a%smokerfree%&7/&b%smokermax%",
 						
 						"&cYour free TTExp: &f%freettexp%",
 						"&cYour allocated TTExp: &f%allocatedttexp%",
 						"",
-						"&eRegistrated Blocks => &ahave&7/&ccan have",
-						"&cBrewing Stand: &a%brewing_standfree%&7/&c%brewing_standmax%",
-						"&cEnchanting Table: &a%enchanting_tablefree%&7/&c%enchanting_tablemax%",
-						"&cCampfire: &a%campfirefree%&7/&c%campfiremax%",
-						"&cFurnance: &a%furnacefree%&7/&c%furnacemax%",
-						"&cBlastfurnace: &a%blast_furnacefree%&7/&c%blast_furnacemax%",
-						"&cSmoker: &a%smokerfree%&7/&c%smokermax%"
+						"&eRegistrated Blocks => &ahave&7/&bcan have",
+						"&cBrewing Stand: &a%brewing_standfree%&7/&b%brewing_standmax%",
+						"&cEnchanting Table: &a%enchanting_tablefree%&7/&b%enchanting_tablemax%",
+						"&cCampfire: &a%campfirefree%&7/&b%campfiremax%",
+						"&cFurnance: &a%furnacefree%&7/&b%furnacemax%",
+						"&cBlastfurnace: &a%blast_furnacefree%&7/&b%blast_furnacemax%",
+						"&cSmoker: &a%smokerfree%&7/&b%smokermax%"
 						}));
 		start.put(path+".Lore."+SettingsLevel.MASTER.toString(),
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cDeine freie TTExp: &f%freettexp%",
 						"&cDeine eingesetzte TTExp: &f%allocatedttexp%",
 						"",
-						"&eTechnologie => &ahat man&f/&7sieht man&f/&cexistieren",
-						"&cTotal Techs: &a%techhave%&f/&7%techsee%&f/&c%techexist%",
-						"&cSolo Techs: &a%solotechhave%&f/&7%solotechsee%&f/&c%solotechexist%",
-						"&cGruppen Techs: &a%grouptechhave%&f/&7%grouptechsee%&f/&c%grouptechexist%",
-						"&cGlobale Techs: &a%globaltechhave%&f/&7%globaltechsee%&f/&c%globaltechexist%",
+						"&eTechnologie => &ahat man&f/&bexistieren",
+						"&cTotal Techs: &a%techhave%&f/&b%techexist%",
+						"&cSolo Techs: &a%solotechhave%&f/&b%solotechexist%",
+						"&cGruppen Techs: &a%grouptechhave%&f/&b%grouptechexist%",
+						"&cGlobale Techs: &a%globaltechhave%&f/&b%globaltechexist%",
 						"",
-						"&eRegistrierte Blöcke => &ahat man&7/&ckann man haben",
-						"&cBraustand: &a%brewing_standfree%&7/&c%brewing_standmax%",
-						"&cVerz. Tisch: &a%enchanting_tablefree%&7/&c%enchanting_tablemax%",
-						"&cLagerfeuer: &a%campfirefree%&7/&c%campfiremax%",
-						"&cOfen: &a%furnacefree%&7/&c%furnacemax%",
-						"&cSchmelzofen: &a%blast_furnacefree%&7/&c%blast_furnacemax%",
-						"&cRäucherofen: &a%smokerfree%&7/&c%smokermax%",
+						"&eRegistrierte Blöcke => &ahat man&7/&bkann man haben",
+						"&cBraustand: &a%brewing_standhas%&7/&b%brewing_standmax%",
+						"&cVerz. Tisch: &a%enchanting_tablehas%&7/&b%enchanting_tablemax%",
+						"&cLagerfeuer: &a%campfirehas%&7/&b%campfiremax%",
+						"&cOfen: &a%furnacehas%&7/&b%furnacemax%",
+						"&cSchmelzofen: &a%blast_furnacehas%&7/&b%blast_furnacemax%",
+						"&cRäucherofen: &a%smokerhas%&7/&b%smokermax%",
 						
 						"&cYour free TTExp: &f%freettexp%",
 						"&cYour allocated TTExp: &f%allocatedttexp%",
 						"",
-						"&eTechnology => &ahave&f/&7see&f/&cexist",
-						"&cTotal Techs: &a%techhave%&f/&7%techsee%&f/&c%techexist%",
-						"&cSolo Techs: &a%solotechhave%&f/&7%solotechsee%&f/&c%solotechexist%",
-						"&cGroup Techs: &a%grouptechhave%&f/&7%grouptechsee%&f/&c%grouptechexist%",
-						"&cGlobal Techs: &a%globaltechhave%&f/&7%globaltechsee%&f/&c%globaltechexist%",
+						"&eTechnology => &ahave&f/&bexist",
+						"&cTotal Techs: &a%techhave%&f/&b%techexist%",
+						"&cSolo Techs: &a%solotechhave%&f/&b%solotechexist%",
+						"&cGroup Techs: &a%grouptechhave%&f/&b%grouptechexist%",
+						"&cGlobal Techs: &a%globaltechhave%&f/&b%globaltechexist%",
 						"",
-						"&eRegistrated Blocks => &ahave&7/&ccan have",
-						"&cBrewing Stand: &a%brewing_standfree%&7/&c%brewing_standmax%",
-						"&cEnchanting Table: &a%enchanting_tablefree%&7/&c%enchanting_tablemax%",
-						"&cCampfire: &a%campfirefree%&7/&c%campfiremax%",
-						"&cFurnance: &a%furnacefree%&7/&c%furnacemax%",
-						"&cBlastfurnace: &a%blast_furnacefree%&7/&c%blast_furnacemax%",
-						"&cSmoker: &a%smokerfree%&7/&c%smokermax%"
+						"&eRegistrated Blocks => &ahave&7/&bcan have",
+						"&cBrewing Stand: &a%brewing_standhas%&7/&b%brewing_standmax%",
+						"&cEnchanting Table: &a%enchanting_tablehas%&7/&b%enchanting_tablemax%",
+						"&cCampfire: &a%campfirehas%&7/&b%campfiremax%",
+						"&cFurnance: &a%furnacehas%&7/&b%furnacemax%",
+						"&cBlastfurnace: &a%blast_furnacehas%&7/&b%blast_furnacemax%",
+						"&cSmoker: &a%smokerhas%&7/&b%smokermax%"
 						}));
 		path = "16"; //ShowSyncMsg Button
 		start.put(path+".SettingLevel",

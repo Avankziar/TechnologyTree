@@ -32,8 +32,10 @@ import main.java.me.avankziar.ifh.spigot.tobungee.commands.CommandToBungee;
 import main.java.me.avankziar.tt.spigot.assistance.BackgroundTask;
 import main.java.me.avankziar.tt.spigot.assistance.Utility;
 import main.java.me.avankziar.tt.spigot.cmd.TTCommandExecutor;
-import main.java.me.avankziar.tt.spigot.cmd.TechGuiCommandExecutor;
 import main.java.me.avankziar.tt.spigot.cmd.TabCompletion;
+import main.java.me.avankziar.tt.spigot.cmd.TechGuiCommandExecutor;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGTechInfo;
+import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.CommandConstructor;
@@ -151,11 +153,12 @@ public class TT extends JavaPlugin
 		utility = new Utility(plugin);
 		backgroundTask = new BackgroundTask(this);
 		
+		CatTechHandler.reload();
+		RecipeHandler.init();
+		
 		setupBypassPerm();
 		setupCommandTree();
 		setupListeners();
-		RecipeHandler.init();
-		CatTechHandler.reload();
 		setupIFHConsumer();
 		//RewardHandler.doRewardOfflinePlayerTask(); ADDME
 	}
@@ -229,12 +232,31 @@ public class TT extends JavaPlugin
 		
 		TabCompletion tab = new TabCompletion(plugin);
 		
-		CommandConstructor tt = new CommandConstructor(CommandExecuteType.BASEMAIN, "tt", false);
+		LinkedHashMap<Integer, ArrayList<String>> techMapI = new LinkedHashMap<>();
+		ArrayList<String> techList = new ArrayList<>();
+		for(String ts : CatTechHandler.technologyMapSolo.keySet())
+		{
+			techList.add(ts);
+		}
+		for(String ts : CatTechHandler.technologyMapGroup.keySet())
+		{
+			techList.add(ts);
+		}
+		for(String ts : CatTechHandler.technologyMapGlobal.keySet())
+		{
+			techList.add(ts);
+		}
+		techMapI.put(1, techList);
+		
+		ArgumentConstructor techinfo = new ArgumentConstructor(CommandExecuteType.TT_TECHINFO, "tt_techinfo", 0, 1, 2, false, techMapI);
+		new ARGTechInfo(techinfo);
+		CommandConstructor tt = new CommandConstructor(CommandExecuteType.TT, "tt", false,
+				techinfo);
 		registerCommand(tt.getPath(), tt.getName());
 		getCommand(tt.getName()).setExecutor(new TTCommandExecutor(plugin, tt));
 		getCommand(tt.getName()).setTabCompleter(tab);
 		
-		CommandConstructor techgui = new CommandConstructor(CommandExecuteType.BASEMAIN, "techgui", false);
+		CommandConstructor techgui = new CommandConstructor(CommandExecuteType.TECHGUI, "techgui", false);
 		registerCommand(techgui.getPath(), tt.getName());
 		getCommand(techgui.getName()).setExecutor(new TechGuiCommandExecutor(plugin, techgui));
 		getCommand(techgui.getName()).setTabCompleter(tab);
@@ -615,7 +637,7 @@ public class TT extends JavaPlugin
 							ModificationType modt = null;
 							switch(ept)
 							{
-							case REGISTER_BLOCK:
+							case REGISTER_BLOCK_:
 								modt = ModificationType.UP;
 								break;
 							}

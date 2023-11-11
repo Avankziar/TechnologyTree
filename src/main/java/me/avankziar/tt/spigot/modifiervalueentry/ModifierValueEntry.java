@@ -120,12 +120,12 @@ public class ModifierValueEntry
 	
 	public static int getResult(@NonNull Player player, Bypass.Counter countPermission)
 	{
-		return getResult(player, 0.0, countPermission);
+		return getResult(player, 0.0, countPermission, "");
 	}
 	
-	public static int getResult(@NonNull Player player, double value, Bypass.Counter countPermission)
+	public static int getResult(@NonNull Player player, double value, Bypass.Counter countPermission, String addition)
 	{
-		if(player.hasPermission(Bypass.get(countPermission)+"*"))
+		if(player.hasPermission(Bypass.get(countPermission)+addition+"*"))
 		{
 			return Integer.MAX_VALUE;
 		}
@@ -136,7 +136,7 @@ public class ModifierValueEntry
 		case ADDUP:
 			for(int i = 1000; i >= 0; i--)
 			{
-				if(player.hasPermission(Bypass.get(countPermission)+i))
+				if(player.hasPermission(Bypass.get(countPermission)+addition+""+i))
 				{
 					possibleAmount += i;
 				}
@@ -145,7 +145,7 @@ public class ModifierValueEntry
 		case HIGHEST:
 			for(int i = 1000; i >= 0; i--)
 			{
-				if(player.hasPermission(Bypass.get(countPermission)+i))
+				if(player.hasPermission(Bypass.get(countPermission)+addition+""+i))
 				{
 					possibleAmount = i;
 					break;

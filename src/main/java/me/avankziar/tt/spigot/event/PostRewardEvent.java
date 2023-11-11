@@ -17,6 +17,7 @@ public class PostRewardEvent extends Event
 	
 	public PostRewardEvent(UUID playerUUID, String playerName, ArrayList<RewardSummary> rewardSummaryList)
 	{
+		super(true);
 		setPlayerUUID(playerUUID);
 		setPlayerName(playerName);
 		setRewardSummaryList(rewardSummaryList);

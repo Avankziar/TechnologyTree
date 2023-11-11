@@ -108,6 +108,10 @@ public class RewardHandler
 		final LinkedHashMap<UUID, LinkedHashMap<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>>>> entityMap = rewardEntityTypeMap;
 		rewardEntityTypeMap.remove(uuid);
 		ArrayList<RewardSummary> rewardSummaryList = new ArrayList<>();
+		if(!matMap.containsKey(uuid) && !entityMap.containsKey(uuid))
+		{
+			return;
+		}
 		if(matMap.containsKey(uuid))
 		{
 			for(Entry<ToolType, LinkedHashMap<Material, LinkedHashMap<EventType, Double>>> entry0 : matMap.get(uuid).entrySet())

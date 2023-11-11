@@ -111,7 +111,7 @@ public class PlayerHandler
 				PlayerData pd = getPlayer(player.getUniqueId());
 				if(pd.isShowSyncMessage())
 				{
-					player.spigot().sendMessage(ChatApi.tctl("PlayerHandler.SyncStart"));
+					player.spigot().sendMessage(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("PlayerHandler.SyncStart")));
 				}
 				for(SoloEntryQueryStatus eqs : SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getFullList(Type.SOLOENTRYQUERYSTATUS,
 						"`id` ASC", "`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
@@ -134,26 +134,38 @@ public class PlayerHandler
 							}
 						}
 					}
-					for(UnlockableInteraction ui : t.getRewardUnlockableInteractions().get(eqs.getResearchLevel()))
+					if(t.getRewardUnlockableInteractions().containsKey(eqs.getResearchLevel()))
 					{
-						addInteraction(uuid, ui, 100.0);
+						for(UnlockableInteraction ui : t.getRewardUnlockableInteractions().get(eqs.getResearchLevel()))
+						{
+							addInteraction(uuid, ui, 100.0);
+						}
 					}
-					for(Entry<RecipeType, ArrayList<String>> rtl : t.getRewardRecipes().get(eqs.getResearchLevel()).entrySet())
+					if(t.getRewardRecipes().containsKey(eqs.getResearchLevel()))
 					{
-						addRecipe(uuid, rtl.getKey(), 100.0, rtl.getValue().toArray(new String[rtl.getValue().size()]));
+						for(Entry<RecipeType, ArrayList<String>> rtl : t.getRewardRecipes().get(eqs.getResearchLevel()).entrySet())
+						{
+							addRecipe(uuid, rtl.getKey(), 100.0, rtl.getValue().toArray(new String[rtl.getValue().size()]));
+						}
 					}
-					for(DropChance dc : t.getRewardDropChances().get(eqs.getResearchLevel()))
+					if(t.getRewardDropChances().containsKey(eqs.getResearchLevel()))
 					{
-						addDropChances(uuid, dc, 100.0);
-					}
-					for(DropChance dc : t.getRewardSilkTouchDropChances().get(eqs.getResearchLevel()))
+						for(DropChance dc : t.getRewardDropChances().get(eqs.getResearchLevel()))
+						{
+							addDropChances(uuid, dc, 100.0);
+						}
+					}					
+					if(t.getRewardSilkTouchDropChances().containsKey(eqs.getResearchLevel()))
 					{
-						addSilkTouchDropChances(uuid, dc, 100.0);
+						for(DropChance dc : t.getRewardSilkTouchDropChances().get(eqs.getResearchLevel()))
+						{
+							addSilkTouchDropChances(uuid, dc, 100.0);
+						}
 					}
 				}
 				for(GlobalEntryQueryStatus eqs : GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getFullList(Type.GLOBALENTRYQUERYSTATUS,
 						"`id` ASC", "`entry_query_type` = ? AND `status_type` = ?",
-						player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString())))
+						EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString())))
 				{
 					if(eqs == null)
 					{
@@ -167,26 +179,38 @@ public class PlayerHandler
 					boolean ifGlobal_HasParticipated = plugin.getMysqlHandler().exist(Type.GLOBALTECHNOLOGYPOLL,
 							"`player_uuid` = ? AND `global_choosen_technology_id` = ?",
 							player.getUniqueId().toString(), eqs.getId());
-					for(UnlockableInteraction ui : t.getRewardUnlockableInteractions().get(eqs.getResearchLevel()))
+					if(t.getRewardUnlockableInteractions().containsKey(eqs.getResearchLevel()))
 					{
-						addInteraction(uuid, ui,
-								ifGlobal_HasParticipated ? t.getForUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent() : 100.0);
+						for(UnlockableInteraction ui : t.getRewardUnlockableInteractions().get(eqs.getResearchLevel()))
+						{
+							addInteraction(uuid, ui,
+									ifGlobal_HasParticipated ? t.getForUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent() : 100.0);
+						}
 					}
-					for(Entry<RecipeType, ArrayList<String>> rtl : t.getRewardRecipes().get(eqs.getResearchLevel()).entrySet())
+					if(t.getRewardRecipes().containsKey(eqs.getResearchLevel()))
 					{
-						addRecipe(uuid, rtl.getKey(),
-								ifGlobal_HasParticipated ? t.getForUninvolvedPollParticipants_RewardRecipesInPercent() : 100.0,
-								rtl.getValue().toArray(new String[rtl.getValue().size()]));
+						for(Entry<RecipeType, ArrayList<String>> rtl : t.getRewardRecipes().get(eqs.getResearchLevel()).entrySet())
+						{
+							addRecipe(uuid, rtl.getKey(),
+									ifGlobal_HasParticipated ? t.getForUninvolvedPollParticipants_RewardRecipesInPercent() : 100.0,
+									rtl.getValue().toArray(new String[rtl.getValue().size()]));
+						}
 					}
-					for(DropChance dc : t.getRewardDropChances().get(eqs.getResearchLevel()))
+					if(t.getRewardDropChances().containsKey(eqs.getResearchLevel()))
 					{
-						addDropChances(uuid, dc,
-								ifGlobal_HasParticipated ? t.getForUninvolvedPollParticipants_RewardDropChancesInPercent() : 100.0);
-					}
-					for(DropChance dc : t.getRewardSilkTouchDropChances().get(eqs.getResearchLevel()))
+						for(DropChance dc : t.getRewardDropChances().get(eqs.getResearchLevel()))
+						{
+							addDropChances(uuid, dc,
+									ifGlobal_HasParticipated ? t.getForUninvolvedPollParticipants_RewardDropChancesInPercent() : 100.0);
+						}
+					}					
+					if(t.getRewardSilkTouchDropChances().containsKey(eqs.getResearchLevel()))
 					{
-						addSilkTouchDropChances(uuid, dc,
-								ifGlobal_HasParticipated ? t.getForUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent() : 100.0);
+						for(DropChance dc : t.getRewardSilkTouchDropChances().get(eqs.getResearchLevel()))
+						{
+							addSilkTouchDropChances(uuid, dc,
+									ifGlobal_HasParticipated ? t.getForUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent() : 100.0);
+						}
 					}
 				}		
 				registeredBlocks.remove(uuid);
@@ -198,7 +222,7 @@ public class PlayerHandler
 				RewardHandler.doRewardJoinTask(player, new ConfigHandler().rewardPayoutRepetitionRateForOnlinePlayer());
 				if(pd.isShowSyncMessage())
 				{
-					player.spigot().sendMessage(ChatApi.tctl("PlayerHandler.SyncEnd"));
+					player.spigot().sendMessage(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("PlayerHandler.SyncEnd")));
 				}
 			}
 		}.runTaskAsynchronously(plugin);

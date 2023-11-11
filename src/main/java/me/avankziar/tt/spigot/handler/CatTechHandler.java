@@ -41,6 +41,11 @@ public class CatTechHandler
 	public static LinkedHashMap<String, SubCategory> subCategoryMapGlobal;
 	public static LinkedHashMap<String, Technology> technologyMapGlobal;
 	
+	public static int totalTech = 0;
+	public static int totalSoloTech = 0;
+	public static int totalGroupTech = 0;
+	public static int totalGlobalTech = 0;
+	
 	//Um den Baum der kategorien bis zu den Technologien runterzugehen. Vorallem für das Gui
 	public static LinkedHashMap<String, LinkedHashMap<Integer, Technology>> subCategoryTechnologyMapSolo;
 	public static LinkedHashMap<String, LinkedHashMap<Integer, SubCategory>> mainCategorySubCategoryMapSolo;
@@ -479,6 +484,7 @@ public class CatTechHandler
 						costTTExp, costVanillaExp, costMoney, costMaterial,
 						rewardUnlockableInteractions, rewardRecipes, rewardDropChances, rewardSilkTouchDropChances,
 						rewardCommandList, rewardItemList, rewardModifierList, rewardValueEntryList);
+				totalTech += t.getMaximalTechnologyLevelToResearch();
 				if(playerAssociatedType == PlayerAssociatedType.SOLO)
 				{
 					technologyMapSolo.put(internName, t);
@@ -489,6 +495,7 @@ public class CatTechHandler
 					}
 					map.put(guiSlot, t);
 					subCategoryTechnologyMapSolo.put(overlyingSubCategory, map);
+					totalSoloTech += t.getMaximalTechnologyLevelToResearch();
 				}/* else if(playerAssociatedType == PlayerAssociatedType.GROUP)
 				{
 					technologyMapGroup.put(internName, t);
@@ -499,6 +506,7 @@ public class CatTechHandler
 					}
 					map.put(guiSlot, t);
 					subCategoryTechnologyMapGroup.put(overlyingSubCategory, map);
+					totalGroupTech += t.getMaximalTechnologyLevelToResearch();
 				}*/ else if(playerAssociatedType == PlayerAssociatedType.GLOBAL)
 				{
 					technologyMapGlobal.put(internName, t);
@@ -509,6 +517,7 @@ public class CatTechHandler
 					}
 					map.put(guiSlot, t);
 					subCategoryTechnologyMapGlobal.put(overlyingSubCategory, map);
+					totalGlobalTech += t.getMaximalTechnologyLevelToResearch();
 				}
 			} catch(Exception e)
 			{

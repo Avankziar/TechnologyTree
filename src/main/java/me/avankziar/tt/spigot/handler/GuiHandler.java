@@ -60,6 +60,7 @@ import main.java.me.avankziar.tt.spigot.gui.objects.ClickFunctionType;
 import main.java.me.avankziar.tt.spigot.gui.objects.ClickType;
 import main.java.me.avankziar.tt.spigot.gui.objects.GuiType;
 import main.java.me.avankziar.tt.spigot.gui.objects.SettingsLevel;
+import main.java.me.avankziar.tt.spigot.handler.BlockHandler.BlockType;
 import main.java.me.avankziar.tt.spigot.modifiervalueentry.ModifierValueEntry;
 import main.java.me.avankziar.tt.spigot.objects.EntryQueryType;
 import main.java.me.avankziar.tt.spigot.objects.EntryStatusType;
@@ -96,7 +97,7 @@ public class GuiHandler
 			title = plugin.getYamlHandler().getLang().getString("GuiHandler.SubCategorysTechnologys.Title")
 			.replace("%subcat%", scat != null ? scat.getDisplayName() : "/"); break;
 		}
-		GUIApi gui = new GUIApi(plugin.pluginName, gt.toString(), null, 6, title, st);
+		GUIApi gui = new GUIApi(plugin.pluginName, gt.toString(), null, 6, ChatApi.tl(title), st);
 		openGui(mcat, scat, pat, player, gt, gui, st, closeInv);
 	}
 	
@@ -532,7 +533,7 @@ public class GuiHandler
 				is.setAmount(amount);
 			}
 			ItemMeta im = is.getItemMeta();
-			im.setDisplayName(displayname);
+			im.setDisplayName(ChatApi.tl(displayname));
 			if(lore != null)
 			{
 				im.setLore(lore);
@@ -749,7 +750,7 @@ public class GuiHandler
 				player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
 		int totalGlobalTechs = plugin.getMysqlHandler().getCount(Type.GLOBALENTRYQUERYSTATUS,
 				"`entry_query_type` = ? AND `status_type` = ?",
-				player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
+				EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
 		for(String s : lore)
 		{
 			String a = getStringPlaceHolder(player, mcat, scat, t, s, playername,
@@ -782,6 +783,149 @@ public class GuiHandler
 		if(text.contains("%player%"))
 		{
 			s = s.replace("%player%", player.getName());
+		}
+		PlayerData pd = PlayerHandler.getPlayer(player.getUniqueId());
+		if(text.contains("%syncmsg%"))
+		{
+			s = s.replace("%syncmsg%", pd.isShowSyncMessage() 
+					? plugin.getYamlHandler().getLang().getString("IsTrue") : plugin.getYamlHandler().getLang().getString("IsFalse"));
+		}
+		if(text.contains("%freettexp%"))
+		{
+			s = s.replace("%freettexp%", String.valueOf(pd.getActualTTExp()));
+		}
+		if(text.contains("%allocatedttexp%"))
+		{
+			s = s.replace("%allocatedttexp%", String.valueOf((pd.getTotalReceivedTTExp()-pd.getActualTTExp())));
+		}
+		if(text.contains("%techhave%"))
+		{
+			int c = plugin.getMysqlHandler().getCount(Type.SOLOENTRYQUERYSTATUS,
+						"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
+						player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString())
+					+
+					plugin.getMysqlHandler().getCount(Type.GLOBALENTRYQUERYSTATUS,
+						"`entry_query_type` = ? AND `status_type` = ?",
+						EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
+			s = s.replace("%techhave%",  String.valueOf(c));
+		}
+		if(text.contains("%techexist%"))
+		{
+			s = s.replace("%techexist%", String.valueOf(CatTechHandler.totalTech));
+		}
+		if(text.contains("%solotechhave%"))
+		{
+			int c = plugin.getMysqlHandler().getCount(Type.SOLOENTRYQUERYSTATUS,
+					"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
+					player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
+			s = s.replace("%solotechhave%", String.valueOf(c));
+		}
+		if(text.contains("%solotechexist%"))
+		{
+			s = s.replace("%solotechexist%", String.valueOf(CatTechHandler.totalSoloTech));
+		}
+		if(text.contains("%grouptechhave%"))
+		{
+			s = s.replace("%grouptechhave%", "0"); //TODO
+		}
+		if(text.contains("%grouptechexist%"))
+		{
+			s = s.replace("%grouptechexist%", String.valueOf(CatTechHandler.totalGroupTech));
+		}
+		if(text.contains("%globaltechhave%"))
+		{
+			int c = plugin.getMysqlHandler().getCount(Type.GLOBALENTRYQUERYSTATUS,
+					"`entry_query_type` = ? AND `status_type` = ?",
+					EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
+			s = s.replace("%globaltechhave%", String.valueOf(c));
+		}
+		if(text.contains("%globaltechexist%"))
+		{
+			s = s.replace("%globaltechexist%", String.valueOf(CatTechHandler.totalGlobalTech));
+		}
+		if(text.contains("%brewing_standhas%"))
+		{
+			BlockType bt = BlockType.BREWING_STAND;
+			int c = plugin.getMysqlHandler().getCount(Type.REGISTEREDBLOCK,
+					"`player_uuid` = ? AND `block_type` = ?",
+					player.getUniqueId().toString(), bt.toString());
+			s = s.replace("%brewing_standhas%", String.valueOf(c));
+		}
+		if(text.contains("%brewing_standmax%"))
+		{
+			BlockType bt = BlockType.BREWING_STAND;
+			int c = BlockHandler.getMaxRegisteredBlocks(player, bt);
+			s = s.replace("%brewing_standmax%", String.valueOf(c));
+		}
+		if(text.contains("%enchanting_tablehas%"))
+		{
+			BlockType bt = BlockType.ENCHANTING_TABLE;
+			int c = plugin.getMysqlHandler().getCount(Type.REGISTEREDBLOCK,
+					"`player_uuid` = ? AND `block_type` = ?",
+					player.getUniqueId().toString(), bt.toString());
+			s = s.replace("%enchanting_tablehas%", String.valueOf(c));
+		}
+		if(text.contains("%enchanting_tablemax%"))
+		{
+			BlockType bt = BlockType.ENCHANTING_TABLE;
+			int c = BlockHandler.getMaxRegisteredBlocks(player, bt);
+			s = s.replace("%enchanting_tablemax%", String.valueOf(c));
+		}
+		if(text.contains("%campfirehas%"))
+		{
+			BlockType bt = BlockType.CAMPFIRE;
+			int c = plugin.getMysqlHandler().getCount(Type.REGISTEREDBLOCK,
+					"`player_uuid` = ? AND `block_type` = ?",
+					player.getUniqueId().toString(), bt.toString());
+			s = s.replace("%campfirehas%", String.valueOf(c));
+		}
+		if(text.contains("%campfiremax%"))
+		{
+			BlockType bt = BlockType.CAMPFIRE;
+			int c = BlockHandler.getMaxRegisteredBlocks(player, bt);
+			s = s.replace("%campfiremax%", String.valueOf(c));
+		}
+		if(text.contains("%furnacehas%"))
+		{
+			BlockType bt = BlockType.FURNACE;
+			int c = plugin.getMysqlHandler().getCount(Type.REGISTEREDBLOCK,
+					"`player_uuid` = ? AND `block_type` = ?",
+					player.getUniqueId().toString(), bt.toString());
+			s = s.replace("%furnacehas%", String.valueOf(c));
+		}
+		if(text.contains("%furnacemax%"))
+		{
+			BlockType bt = BlockType.FURNACE;
+			int c = BlockHandler.getMaxRegisteredBlocks(player, bt);
+			s = s.replace("%furnacemax%", String.valueOf(c));
+		}
+		if(text.contains("%blast_furnacehas%"))
+		{
+			BlockType bt = BlockType.BLASTFURNACE;
+			int c = plugin.getMysqlHandler().getCount(Type.REGISTEREDBLOCK,
+					"`player_uuid` = ? AND `block_type` = ?",
+					player.getUniqueId().toString(), bt.toString());
+			s = s.replace("%blast_furnacehas%", String.valueOf(c));
+		}
+		if(text.contains("%blast_furnacemax%"))
+		{
+			BlockType bt = BlockType.BLASTFURNACE;
+			int c = BlockHandler.getMaxRegisteredBlocks(player, bt);
+			s = s.replace("%blast_furnacemax%", String.valueOf(c));
+		}
+		if(text.contains("%smokerhas%"))
+		{
+			BlockType bt = BlockType.SMOKER;
+			int c = plugin.getMysqlHandler().getCount(Type.REGISTEREDBLOCK,
+					"`player_uuid` = ? AND `block_type` = ?",
+					player.getUniqueId().toString(), bt.toString());
+			s = s.replace("%smokerhas%", String.valueOf(c));
+		}
+		if(text.contains("%smokermax%"))
+		{
+			BlockType bt = BlockType.SMOKER;
+			int c = BlockHandler.getMaxRegisteredBlocks(player, bt);
+			s = s.replace("%smokermax%", String.valueOf(c));
 		}
 		if(mcat != null)
 		{
@@ -830,7 +974,6 @@ public class GuiHandler
 					techLevel = eqs == null ? 1 : eqs.getResearchLevel() + 1; //Tech which may to acquire
 					acquiredTech = eqs == null ? 0 : techLevel; //Tech which was already acquire
 				}
-				PlayerData pd = PlayerHandler.getPlayer(player.getUniqueId());
 				HashMap<String, Double> map = new HashMap<>();
 				map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
 				map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
@@ -931,9 +1074,14 @@ public class GuiHandler
 		{
 			s = s.replace("%accountname%", (ac == null || ac.getID() == 0) ? "/" : ac.getAccountName());
 		}*/
+		if(t == null)
+		{
+			return s;
+		}
 		switch(t.getPlayerAssociatedType())
 		{
 		case SOLO:
+			//TODO Das noch als Liste ändern und daher das Object herholen.
 			SoloEntryQueryStatus seqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLOENTRYQUERYSTATUS,
 					"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 					player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString());
@@ -958,6 +1106,7 @@ public class GuiHandler
 			}
 			break;
 		case GLOBAL:
+			//TODO noch machen
 		}
 		
 		return s;

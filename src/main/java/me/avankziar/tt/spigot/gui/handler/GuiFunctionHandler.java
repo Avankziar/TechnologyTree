@@ -1,16 +1,11 @@
 package main.java.me.avankziar.tt.spigot.gui.handler;
 
-import java.util.ArrayList;
-import java.util.Map.Entry;
-
-import org.bukkit.Material;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 import main.java.me.avankziar.tt.general.ChatApi;
 import main.java.me.avankziar.tt.spigot.TT;
-import main.java.me.avankziar.tt.spigot.assistance.TimeHandler;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGTechInfo;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
 import main.java.me.avankziar.tt.spigot.gui.objects.ClickFunctionType;
 import main.java.me.avankziar.tt.spigot.gui.objects.GuiType;
@@ -19,17 +14,11 @@ import main.java.me.avankziar.tt.spigot.handler.CatTechHandler;
 import main.java.me.avankziar.tt.spigot.handler.GuiHandler;
 import main.java.me.avankziar.tt.spigot.handler.PlayerHandler;
 import main.java.me.avankziar.tt.spigot.handler.PlayerHandler.AcquireRespond;
-import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
-import main.java.me.avankziar.tt.spigot.objects.TechnologyType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.MainCategory;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.SubCategory;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.Technology;
-import main.java.me.avankziar.tt.spigot.objects.ram.misc.UnlockableInteraction;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.HoverEvent.Action;
-import net.md_5.bungee.api.chat.TextComponent;
 
 public class GuiFunctionHandler
 {
@@ -56,7 +45,7 @@ public class GuiFunctionHandler
 		case SUBCATEGORYS_TECHNOLOGYS_SOLO: fromMainCatToSubCat(player, openInv, settingsLevel, scat, PlayerAssociatedType.SOLO); break;
 		case SUBCATEGORYS_TECHNOLOGYS_GROUP: break; //TODO
 		case SUBCATEGORYS_TECHNOLOGYS_GLOBAL: fromMainCatToSubCat(player, openInv, settingsLevel, scat, PlayerAssociatedType.GLOBAL); break;
-		case INFO_TECHNOLOGY:
+		case INFO_TECHNOLOGY: infoTechnology(player, tech, pat); break;
 		case RESEARCH_TECHNOLOGY_SOLO: researchTechnologySolo(player, openInv, settingsLevel, tech, pat);
 		}	
 	}
@@ -188,228 +177,13 @@ public class GuiFunctionHandler
 		switch(pat)
 		{
 		case SOLO:
-			t = CatTechHandler.technologyMapSolo.get(tech); break;
+			t = CatTechHandler.technologyMapSolo.get(tech);
+			break;
 		case GLOBAL:
-			t = CatTechHandler.technologyMapGlobal.get(tech); break;
-		}//GuiHandler.
-		YamlConfiguration y = plugin.getYamlHandler().getLang();
-		String path = "GuiHandler.Technology.Info.";
-		ArrayList<BaseComponent> albc = new ArrayList<>();
-		TextComponent tx = ChatApi.hoverEvent(y.getString(path+"Headline").replace("%tech%", t.getDisplayName()),
-				Action.SHOW_TEXT,
-				y.getString(path+"Internname").replace("%name%", t.getInternName())+"~!~"+
-				y.getString(path+"OverlyingSubCategory").replace("%name%", t.getOverlyingSubCategory())
-				);
-		albc.add(tx);
-		tx = ChatApi.tctl(y.getString(path+"MaxTechLvlToResearchAndGuiSlot")
-				.replace("%lvl%", String.valueOf((t.getTechnologyType() == TechnologyType.MULTIPLE ? t.getMaximalTechnologyLevelToResearch() : 1)))
-				.replace("%slot%", String.valueOf(t.getGuiSlot()))
-				);
-		albc.add(tx);
-		tx = ChatApi.tctl(y.getString(path+"PlayerAssociatedTypeAndTechType")
-				.replace("%pat%", t.getPlayerAssociatedType().toString())
-				.replace("%ttype%", t.getTechnologyType().toString())
-				);
-		albc.add(tx);
-		//GenerelleInfos
-		if(t.getTechnologyType() == TechnologyType.BOOSTER)
-		{
-			tx = ChatApi.tctl(y.getString(path+"BoosterExpireTimes")
-					.replace("%exp%", TimeHandler.getRepeatingTime(t.getIfBoosterDurationUntilExpiration(), "yyyy-dd-HH:mm")));
-			albc.add(tx);
+			t = CatTechHandler.technologyMapGlobal.get(tech);
+			break;
 		}
-		if(pat == PlayerAssociatedType.GLOBAL)
-		{
-			tx = ChatApi.hoverEvent(y.getString(path+"GlobalTechPollParticipants.Info"),
-					Action.SHOW_TEXT,
-					y.getString(path+"GlobalTechPollParticipants.Interaction")
-					.replace("%v%", String.valueOf(t.getForUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent()))
-					+"~!~"+
-					y.getString(path+"GlobalTechPollParticipants.Recipe")
-					.replace("%v%", String.valueOf(t.getForUninvolvedPollParticipants_RewardRecipesInPercent()))
-					+"~!~"+
-					y.getString(path+"GlobalTechPollParticipants.DropChance")
-					.replace("%v%", String.valueOf(t.getForUninvolvedPollParticipants_RewardDropChancesInPercent()))
-					+"~!~"+
-					y.getString(path+"GlobalTechPollParticipants.SilkTouchDropChance")
-					.replace("%v%", String.valueOf(t.getForUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent()))
-					+"~!~"+
-					y.getString(path+"GlobalTechPollParticipants.Commands")
-					.replace("%v%", String.valueOf(t.getForUninvolvedPollParticipants_RewardCommandsInPercent()))
-					+"~!~"+
-					y.getString(path+"GlobalTechPollParticipants.Items")
-					.replace("%v%", String.valueOf(t.getForUninvolvedPollParticipants_RewardItemsInPercent()))
-					+"~!~"+
-					y.getString(path+"GlobalTechPollParticipants.Modifier")
-					.replace("%v%", String.valueOf(t.getForUninvolvedPollParticipants_RewardModifiersInPercent()))
-					+"~!~"+
-					y.getString(path+"GlobalTechPollParticipants.ValueEntry")
-					.replace("%v%", String.valueOf(t.getForUninvolvedPollParticipants_RewardValueEntryInPercent())));
-			albc.add(tx);
-		}
-		StringBuilder costTTExp = new StringBuilder();
-		StringBuilder costVExp = new StringBuilder();
-		StringBuilder costMoney = new StringBuilder();
-		StringBuilder costMaterial = new StringBuilder();
-		StringBuilder resReqCQ = new StringBuilder();
-		StringBuilder rwInteraction = new StringBuilder();
-		StringBuilder rwRecipe = new StringBuilder();
-		StringBuilder rwDC = new StringBuilder();
-		StringBuilder rwSTDC = new StringBuilder();
-		StringBuilder rwCmd = new StringBuilder();
-		StringBuilder rwItem = new StringBuilder();
-		StringBuilder rwMod = new StringBuilder();
-		StringBuilder rwVE = new StringBuilder();
-		for(int i = 1; i <= t.getMaximalTechnologyLevelToResearch(); i++)
-		{
-			if(t.getCostTTExp().containsKey(i))
-			{
-				if(!costTTExp.isEmpty())
-				{
-					costTTExp.append("~!~");
-				}
-				costTTExp.append(y.getString(path+"Technology.Info.Lvl.CostTTExpHover")
-						.replace("%i%", String.valueOf(i))
-						.replace("%v%", t.getCostTTExp().get(i)));
-			}
-			if(t.getCostVanillaExp().containsKey(i))
-			{
-				if(!costVExp.isEmpty())
-				{
-					costVExp.append("~!~");
-				}
-				costVExp.append(y.getString(path+"Technology.Info.Lvl.CostVExpHover")
-						.replace("%i%", String.valueOf(i))
-						.replace("%v%", t.getCostVanillaExp().get(i)));
-			}
-			if(t.getCostMoney().containsKey(i))
-			{
-				if(!costMoney.isEmpty())
-				{
-					costMoney.append("~!~");
-				}
-				costMoney.append(y.getString(path+"Technology.Info.Lvl.CostMooneyHover")
-						.replace("%i%", String.valueOf(i))
-						.replace("%v%", t.getCostMoney().get(i)));
-			}
-			if(t.getCostMaterial().containsKey(i))
-			{
-				if(!costMaterial.isEmpty())
-				{
-					costMaterial.append("~!~");
-				}
-				costMaterial.append(y.getString(path+"Technology.Info.Lvl.CostMaterialHover")
-						.replace("%i%", String.valueOf(i)));
-				int j = 0;
-				for(Entry<Material, String> e : t.getCostMaterial().get(i).entrySet())
-				{
-					if(j + 1 <  t.getCostMaterial().get(i).size())
-					{
-						costMaterial.append("~!~");
-					}
-					costMaterial.append("&f"+e.getValue()+"x "+TT.getPlugin().getEnumTl() != null
-							  									? TT.getPlugin().getEnumTl().getLocalization(e.getKey())
-							  									: e.getKey().toString());
-					j++;
-				}
-			}
-			if(t.getResearchRequirementConditionQuery().containsKey(i))
-			{
-				if(!resReqCQ.isEmpty())
-				{
-					resReqCQ.append("~!~");
-				}
-				resReqCQ.append(y.getString(path+"Technology.Info.Lvl.ResearchRequirementConditionQueryHover")
-						.replace("%i%", String.valueOf(i)));
-				int j = 0;
-				for(String s : t.getResearchRequirementConditionQuery().get(i))
-				{
-					if(s.startsWith("event"))
-					{
-						j++;
-						continue;
-					}
-					if(j + 1 <  t.getResearchRequirementConditionQuery().get(i).size())
-					{
-						resReqCQ.append("~!~");
-					}
-					String[] sp = s.split(":");
-					int k = 0;
-					for(String ss : sp)
-					{
-						if(k == 0)
-						{
-							k++;
-							continue;
-						}
-						if(k > 0)
-						{
-							resReqCQ.append(" ");
-						}
-						resReqCQ.append(ss);
-						k++;
-					}
-					j++;
-				}
-			}
-			if(t.getRewardUnlockableInteractions().containsKey(i))
-			{
-				if(!rwInteraction.isEmpty())
-				{
-					rwInteraction.append("~!~");
-				}
-				rwInteraction.append(y.getString(path+"Technology.Info.Lvl.RewardInteractionHover")
-						.replace("%i%", String.valueOf(i)));
-				for(UnlockableInteraction ui : t.getRewardUnlockableInteractions().get(i))
-				{
-					rwInteraction.append(ui.getEventType().toString()+":"+
-							ui.getEventMaterial() != null ? ui.getEventMaterial().toString() : "/"+":"+
-							ui.getEventEntityType() != null ? ui.getEventEntityType().toString() : "/");
-					rwInteraction.append("~!~"+ui.getToolType().toString()+" | CanAccess="+ui.isCanAccess());
-					for(Entry<String, Double> e : ui.getMoneyMap().entrySet())
-					{
-						rwInteraction.append("~!~"+e.getKey()+"="+e.getValue());
-					}
-					for(Entry<String, Double> e : ui.getCommandMap().entrySet())
-					{
-						rwInteraction.append("~!~"+e.getKey()+"="+e.getValue());
-					}
-				}
-			}
-			if(t.getRewardRecipes().containsKey(i))
-			{
-				if(!rwRecipe.isEmpty())
-				{
-					rwRecipe.append("~!~");
-				}
-				rwRecipe.append(y.getString(path+"Technology.Info.Lvl.RewardInteractionHover")
-						.replace("%i%", String.valueOf(i)));
-				for(Entry<RecipeType, ArrayList<String>> e :t.getRewardRecipes().get(i).entrySet())
-				{
-					rwRecipe.append("~!~");
-					for(int j = 0; j < e.getValue().size(); j++)
-					{
-						
-					}
-				}
-			}
-		}
-		albc.add(ChatApi.hoverEvent(y.getString(path+"Technology.Info.Lvl.CostTTExp"), Action.SHOW_TEXT, costTTExp.toString()));
-		albc.add(ChatApi.hoverEvent(y.getString(path+"Technology.Info.Lvl.CostVExp"), Action.SHOW_TEXT, costVExp.toString()));
-		albc.add(ChatApi.hoverEvent(y.getString(path+"Technology.Info.Lvl.CostMoney"), Action.SHOW_TEXT, costMoney.toString()));
-		albc.add(ChatApi.hoverEvent(y.getString(path+"Technology.Info.Lvl.CostMaterial"), Action.SHOW_TEXT, costMaterial.toString()));
-		albc.add(ChatApi.hoverEvent(y.getString(path+"Technology.Info.LvlResearchRequirementConditionQuery"),
-																						Action.SHOW_TEXT, resReqCQ.toString()));
-		albc.add(ChatApi.hoverEvent(y.getString(path+"Technology.Info.Lvl.RewardInteraction"), Action.SHOW_TEXT, rwInteraction.toString()));
-		//Levelbezogene Dinge
-		t.getRewardCommandList();
-		t.getRewardDropChances();
-		t.getRewardItemList();
-		t.getRewardModifierList();
-		t.getRewardRecipes();
-		t.getRewardSilkTouchDropChances();
-		t.getRewardUnlockableInteractions();
-		t.getRewardValueEntryList();
+		ARGTechInfo.techInfo(player, t, null);
 	}
 	
 	private static void researchTechnologySolo(Player player, Inventory inv, SettingsLevel settingsLevel, String tech, PlayerAssociatedType pat)

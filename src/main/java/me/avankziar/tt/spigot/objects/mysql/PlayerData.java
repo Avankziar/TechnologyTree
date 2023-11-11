@@ -37,6 +37,7 @@ public class PlayerData implements MysqlHandable
 		setActualTTExp(actualTTExp);
 		setTotalReceivedTTExp(totalReceivedTTExp);
 		setVanillaExpStillToBeObtained(vanillaExpStillToBeObtained);
+		setLastSettingLevel(lastSettingLevel);
 	}
 
 	public int getId()

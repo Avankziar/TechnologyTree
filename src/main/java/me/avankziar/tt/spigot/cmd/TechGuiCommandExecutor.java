@@ -9,7 +9,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmdtree.CommandConstructor;
 import main.java.me.avankziar.tt.spigot.gui.objects.GuiType;
+import main.java.me.avankziar.tt.spigot.gui.objects.SettingsLevel;
 import main.java.me.avankziar.tt.spigot.handler.GuiHandler;
+import main.java.me.avankziar.tt.spigot.handler.PlayerHandler;
+import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
 
 public class TechGuiCommandExecutor implements CommandExecutor
 {
@@ -35,12 +38,13 @@ public class TechGuiCommandExecutor implements CommandExecutor
 			return false;
 		}
 		Player player = (Player) sender;
+		PlayerData pd = PlayerHandler.getPlayer(player.getUniqueId());
 		new BukkitRunnable()
 		{
 			@Override
 			public void run()
 			{
-				GuiHandler.openCatOrTech(player, GuiType.START, null, null, null, null, true);
+				GuiHandler.openCatOrTech(player, GuiType.START, null, null, null, pd.getLastSettingLevel(), true);
 			}
 		}.runTaskAsynchronously(plugin);
 		return true;
