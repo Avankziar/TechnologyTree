@@ -88,7 +88,6 @@ public class UpperListener implements Listener
 		final PlayerAssociatedType pat = paty;
 		new BukkitRunnable()
 		{
-			
 			@Override
 			public void run()
 			{

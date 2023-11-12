@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.gui.GUIApi;
@@ -33,7 +34,7 @@ public class GuiPreListener implements Listener
 	}
 	
 	@EventHandler
-	public void onClickListener(InventoryClickEvent event)
+	public void onClickListener(final InventoryClickEvent event)
 	{
 		if(event.isCancelled())
 		{
@@ -49,7 +50,15 @@ public class GuiPreListener implements Listener
 		}
 		if(event.getClickedInventory().getType() == InventoryType.CHEST)
 		{
-			getUpperGuiEvent(plugin, event);
+			new BukkitRunnable()
+			{
+				@Override
+				public void run()
+				{
+					getUpperGuiEvent(plugin, event);
+				}
+			}.runTaskAsynchronously(plugin);
+			
 		} else if(event.getClickedInventory().getType() == InventoryType.PLAYER)
 		{
 			getBottomGuiEvent(event);
@@ -83,7 +92,7 @@ public class GuiPreListener implements Listener
 		Bukkit.getPluginManager().callEvent(gce);
 	}
 	
-	private void getUpperGuiEvent(JavaPlugin plugin, InventoryClickEvent event)
+	private void getUpperGuiEvent(JavaPlugin plugin, final InventoryClickEvent event)
 	{
 		if(event.getCurrentItem() == null)
 		{

@@ -143,7 +143,12 @@ public class BackgroundTask
 	
 	private static void processPoll(PlayerAssociatedType pat)
 	{
-		ArrayList<GlobalTechnologyPoll> tpar = GlobalTechnologyPoll.convert(plugin.getMysqlHandler().getFullList(MysqlHandler.Type.GLOBALTECHNOLOGYPOLL,
+		if(!plugin.getMysqlHandler().exist(MysqlHandler.Type.GLOBALTECHNOLOGYPOLL, "`processed_in_repayment` = ?", false))
+		{
+			return;
+		}
+		ArrayList<GlobalTechnologyPoll> tpar = GlobalTechnologyPoll.convert(
+				plugin.getMysqlHandler().getFullList(MysqlHandler.Type.GLOBALTECHNOLOGYPOLL,
 				"`id`", "`processed_in_repayment = ?`", false));
 		LinkedHashMap<String, Integer> countMap = new LinkedHashMap<>();
 		int participants = tpar.size();
