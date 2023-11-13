@@ -30,7 +30,6 @@ import org.bukkit.inventory.StonecuttingRecipe;
 import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.database.Language.ISO639_2B;
 import main.java.me.avankziar.tt.spigot.gui.objects.ClickFunctionType;
 import main.java.me.avankziar.tt.spigot.gui.objects.ClickType;
@@ -78,7 +77,7 @@ public class YamlManager
 		initConfig();
 		initCommands();
 		initLanguage();
-		initModifierValueEntryLanguage();
+		//initModifierValueEntryLanguage(); TODO
 		initGuiStart();
 		initGuiMainCat();
 		initGuiSubCat();
@@ -1413,11 +1412,12 @@ public class YamlManager
 						"&aThis category is always on display!"});
 		addMainCategory("woodworking",
 				new String[] {"Holzarbeiten", "Woodworking"},
-				PlayerAssociatedType.SOLO, 1, 
+				PlayerAssociatedType.SOLO, 2, 
 				new String[] {
-						"if:(a):o_1",
+						"if:(a||b):o_1",
 						"output:o_1:true",
-						"a:true"}, true,
+						"a:var1=perm=here.your.first.permission",
+						"b:var1=perm=here.your.other.permission"}, true,
 				new String[] {"&7Holzarbeiten","&7Woodworking"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
 						"&7Hauptkategory Holzarbeiten",
 						"&cAnforderungen zum einsehen:",
@@ -1438,7 +1438,7 @@ public class YamlManager
 				new String[] {
 						"if:(a):o_1",
 						"output:o_1:true",
-						"a:var1=hasresearchedtech,stone_I,1:==:true"}, true,
+						"a:hasresearchedtech,stone_I,1:==:true"}, true,
 				new String[] {"&7Steinmetz","&7Stonemason"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
 						"&7Hauptkategory Steinmetz",
 						"&cAnforderungen zum einsehen:",
@@ -1459,8 +1459,8 @@ public class YamlManager
 				new String[] {
 						"if:(a||b):o_1",
 						"output:o_1:true",
-						"a:var1=hasresearchedtech,stone_I,1:==:true",
-						"b:var1=hasresearchedtech,ironore,1:==:true"}, true,
+						"a:hasresearchedtech,stone_I,1:==:true",
+						"b:hasresearchedtech,ironore,1:==:true"}, true,
 				new String[] {"&7Tischrezepte","&7Tablerecipe"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
 						"&7Hauptkategory Tischrezepte",
 						"&cAnforderungen zum einsehen:",

@@ -30,7 +30,8 @@ public class GuiFunctionHandler
 	{
 		switch(cft)
 		{
-		default: return;
+		default: 
+			return;
 		case ADMINISTRATION_SETTINGSLEVEL_SETTO_ADVANCED: switchSettingsLevel(player, openInv, SettingsLevel.ADVANCED); break;
 		case ADMINISTRATION_SETTINGSLEVEL_SETTO_BASE: switchSettingsLevel(player, openInv, SettingsLevel.BASE); break;
 		case ADMINISTRATION_SETTINGSLEVEL_SETTO_EXPERT: switchSettingsLevel(player, openInv, SettingsLevel.EXPERT); break;
@@ -39,12 +40,15 @@ public class GuiFunctionHandler
 		case RETURN_TOSTART: returnToStart(player, openInv, settingsLevel); break;
 		case RETURN_TOMAINCATEGORY: returnToMainCategory(player, openInv, settingsLevel, mcat, pat); break;
 		case RETURN_TOSUBCATEGORY: returnToSubCategory(player, openInv, settingsLevel, scat, pat); break;
-		case MAINCATEGORYS_SUBCATEGORYS_SOLO: fromStartToMainCat(player, openInv, settingsLevel, mcat, PlayerAssociatedType.SOLO); break;
+		case START_MAINCATEGORYS_SOLO: fromStartToMainCat(player, openInv, settingsLevel, PlayerAssociatedType.SOLO); break;
+		case START_MAINCATEGORYS_GROUP: break; //TODO
+		case START_MAINCATEGORYS_GLOBAL: fromStartToMainCat(player, openInv, settingsLevel, PlayerAssociatedType.GLOBAL); break;
+		case MAINCATEGORYS_SUBCATEGORYS_SOLO: fromMainCatToSubCat(player, openInv, settingsLevel, mcat, PlayerAssociatedType.SOLO); break;
 		case MAINCATEGORYS_SUBCATEGORYS_GROUP: break; //TODO
-		case MAINCATEGORYS_SUBCATEGORYS_GLOBAL: fromStartToMainCat(player, openInv, settingsLevel, mcat, PlayerAssociatedType.GLOBAL); break;
-		case SUBCATEGORYS_TECHNOLOGYS_SOLO: fromMainCatToSubCat(player, openInv, settingsLevel, scat, PlayerAssociatedType.SOLO); break;
+		case MAINCATEGORYS_SUBCATEGORYS_GLOBAL: fromMainCatToSubCat(player, openInv, settingsLevel, mcat, PlayerAssociatedType.GLOBAL); break;
+		case SUBCATEGORYS_TECHNOLOGYS_SOLO: fromSubCatToTechs(player, openInv, settingsLevel, scat, PlayerAssociatedType.SOLO); break;
 		case SUBCATEGORYS_TECHNOLOGYS_GROUP: break; //TODO
-		case SUBCATEGORYS_TECHNOLOGYS_GLOBAL: fromMainCatToSubCat(player, openInv, settingsLevel, scat, PlayerAssociatedType.GLOBAL); break;
+		case SUBCATEGORYS_TECHNOLOGYS_GLOBAL: fromSubCatToTechs(player, openInv, settingsLevel, scat, PlayerAssociatedType.GLOBAL); break;
 		case INFO_TECHNOLOGY: infoTechnology(player, tech, pat); break;
 		case RESEARCH_TECHNOLOGY_SOLO: researchTechnologySolo(player, openInv, settingsLevel, tech, pat);
 		}	
@@ -104,7 +108,7 @@ public class GuiFunctionHandler
 			returnToStart(player, inv, settingsLevel);
 			return;
 		}
-		GuiHandler.openMCat(player, settingsLevel, inv, false, mc);
+		GuiHandler.openMainCatSubCat(player, settingsLevel, inv, false, mc);
 	}
 	
 	private static void returnToSubCategory(Player player, Inventory inv, SettingsLevel settingsLevel, String sCat, PlayerAssociatedType pat)
@@ -138,10 +142,15 @@ public class GuiFunctionHandler
 			returnToStart(player, inv, settingsLevel);
 			return;
 		}
-		GuiHandler.openSCat(player, settingsLevel, inv, false, sc);
+		GuiHandler.openSubCTech(player, settingsLevel, inv, false, sc);
 	}
 	
-	private static void fromStartToMainCat(Player player, Inventory inv, SettingsLevel settingsLevel, String mCat, PlayerAssociatedType pat)
+	private static void fromStartToMainCat(Player player, Inventory inv, SettingsLevel settingsLevel, PlayerAssociatedType pat)
+	{
+		GuiHandler.openStartMCat(player, settingsLevel, inv, false, pat);
+	}
+	
+	private static void fromMainCatToSubCat(Player player, Inventory inv, SettingsLevel settingsLevel, String mCat, PlayerAssociatedType pat)
 	{
 		MainCategory mc = null;
 		switch(pat)
@@ -153,10 +162,10 @@ public class GuiFunctionHandler
 		{
 			return;
 		}
-		GuiHandler.openMCat(player, settingsLevel, inv, false, mc);
+		GuiHandler.openMainCatSubCat(player, settingsLevel, inv, false, mc);
 	}
 	
-	private static void fromMainCatToSubCat(Player player, Inventory inv, SettingsLevel settingsLevel, String sCat, PlayerAssociatedType pat)
+	private static void fromSubCatToTechs(Player player, Inventory inv, SettingsLevel settingsLevel, String sCat, PlayerAssociatedType pat)
 	{
 		SubCategory sc = null;
 		switch(pat)
@@ -168,7 +177,7 @@ public class GuiFunctionHandler
 		{
 			return;
 		}
-		GuiHandler.openSCat(player, settingsLevel, inv, false, sc);
+		GuiHandler.openSubCTech(player, settingsLevel, inv, false, sc);
 	}
 	
 	private static void infoTechnology(Player player, String tech, PlayerAssociatedType pat)
@@ -222,7 +231,7 @@ public class GuiFunctionHandler
 			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.TechnologyResearched")
 					.replace("%level%", String.valueOf(rlvl))
 					.replace("%tech%", t.getDisplayName())));
-			fromMainCatToSubCat(player, inv, settingsLevel, t.getOverlyingSubCategory(), pat);
+			fromSubCatToTechs(player, inv, settingsLevel, t.getOverlyingSubCategory(), pat);
 			break;
 		}
 	}

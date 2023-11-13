@@ -289,6 +289,7 @@ public class PlayerHandler
 		LinkedHashMap<ItemStack, Boolean> map = new LinkedHashMap<>();
 		if(mcat != null)
 		{
+			TT.log.info("MCat Start : "+mcat.getInternName()); //REMOVEME
 			switch(pat)
 			{
 			case SOLO:
@@ -306,16 +307,28 @@ public class PlayerHandler
 					return map;
 				}
 				ArrayList<String> msls = new ArrayList<>();
+				TT.log.info("SeeRequirementConditionQuery"); //REMOVEME
 				for(String s : mcat.getSeeRequirementConditionQuery())
 				{
 					if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
 					{
+						TT.log.info("s = "+s); //REMOVEME
 						msls.add(s);
 						continue;
 					}
-					msls.add(getTTReplacerValues(uuid, s));
+					String r = getTTReplacerValues(uuid, s);
+					TT.log.info("r = "+r); //REMOVEME
+					msls.add(r);
 				}
 				ArrayList<String> msal = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, msls);
+				TT.log.info("msal != null : "+(msal != null)); //REMOVEME
+				if(msal != null) //REMOVEME
+				{
+					for(String s : msal) //REMOVEME
+					{
+						TT.log.info("msal = "+s); //REMOVEME
+					}
+				}
 				if(msal != null && msal.get(0).equalsIgnoreCase("true"))
 				{
 					map.put(mcat.getSeeRequirementItemIfYouCanSeeIt(player), null);
@@ -769,63 +782,74 @@ public class PlayerHandler
 	{
 		String[] a = s.split(":");
 		String b = "";
-		if(a.length == 2 || a.length == 4)
+		String xyz = "";
+		if(a.length == 2)
 		{
 			b = a[1];
-		} else
+			xyz = a[0]+":%b%";
+		} else if(a.length == 4) 
 		{
-			return s;
+			b = a[1];
+			xyz = a[0]+":%b%:"+a[2]+":"+a[3];
 		}
 		if(b.startsWith("canseetech")) 
 		{
 			//canseetech,<maincategory/subcategory/technology>,<Name of that>
 			String[] c = b.split(",");
-			if(c.length != 5)
+			if(c.length != 3)
 			{
 				return s;
 			}
-			EntryQueryType eqt = c[3].equalsIgnoreCase("maincategory") ? EntryQueryType.MAIN_CATEGORY
-					: (c[3].equalsIgnoreCase("subcategory") ? EntryQueryType.SUB_CATEGORY : EntryQueryType.TECHNOLOGY);
+			EntryQueryType eqt = c[1].equalsIgnoreCase("maincategory") ? EntryQueryType.MAIN_CATEGORY
+					: (c[1].equalsIgnoreCase("subcategory") ? EntryQueryType.SUB_CATEGORY : EntryQueryType.TECHNOLOGY);
 			SoloEntryQueryStatus eqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLOENTRYQUERYSTATUS,
 					"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-					uuid.toString(), c[4], eqt.toString());
+					uuid.toString(), c[2], eqt.toString());
 			b = eqs == null ? "false"
 				: (eqs.getStatusType() == EntryStatusType.CANNOT_SEE_IT ? "false" : "true");
+			xyz.replace("%b%", b);
 		} else if(b.startsWith("hasresearchedtech"))
 		{
 			//hasresearchedtech,<Name of Tech>,<Researchlevel>
 			String[] c = b.split(",");
-			if(c.length != 4)
+			if(c.length != 3)
 			{
 				return s;
 			}
 			SoloEntryQueryStatus eqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLOENTRYQUERYSTATUS,
-					"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-					uuid.toString(), c[3], EntryQueryType.TECHNOLOGY.toString());
+					"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ? AND `research_level` = ?",
+					uuid.toString(), c[1], EntryQueryType.TECHNOLOGY.toString(), c[2]);
 			b = eqs == null ? "false" :
 				(eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT ? "true" : "false");
+			xyz.replace("%b%", b);
 		} else if(b.startsWith("gethighestresearchedtechlevel"))
 		{
 			//gethighestresearchedtechlevel,<Tech>
 			String[] c = b.split("");
-			if(c.length != 5)
+			if(c.length != 2)
 			{
 				return s;
 			}
 			SoloEntryQueryStatus eqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLOENTRYQUERYSTATUS,
 					"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-					uuid.toString(), c[4], EntryQueryType.TECHNOLOGY.toString());
+					uuid.toString(), c[1], EntryQueryType.TECHNOLOGY.toString());
 			b = eqs == null ? "0" : String.valueOf(eqs.getResearchLevel());
+			xyz.replace("%b%", b);
 		} else if(b.startsWith("getplayeractualttexp"))
 		{
 			PlayerData pd = getPlayer(uuid);
 			b = pd == null ? "0" : String.valueOf(pd.getActualTTExp());
+			xyz.replace("%b%", b);
 		} else if(b.startsWith("getplayertotalreceivedttexp"))
 		{
 			PlayerData pd = getPlayer(uuid);
 			b = pd == null ? "0" : String.valueOf(pd.getTotalReceivedTTExp());
+			xyz.replace("%b%", b);
+		} else
+		{
+			return s;
 		}
-		return b;
+		return xyz;
 	}
 	
 	public enum AcquireRespond

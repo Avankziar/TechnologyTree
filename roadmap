@@ -61,20 +61,20 @@ Beispiel für ConditionAbfragen:
 		"elseif:(b):o_2",
 		"output:o_1:true",
 		"output:o_2:true",
-		"a:var1:perm=here.your.first.permission",
-		"b:var1:perm=here.your.other.permission"
+		"a:var1=perm=here.your.first.permission",
+		"b:var1=perm=here.your.other.permission"
 	Technology interne Werte:
 		"if:(a||b||c||d):o_1",
 		"output:o_1:true",
-		"a:var1=canseetech,stone_I:==:true", //canseetech,<maincategory/subcategory/technology>,<Name of that>
-		"b:var1=hasresearchedtech,stone_I,1:==:true", //hasresearchedtech,<Name of Tech>,<Researchlevel>
-		"c:var1=gethighestresearchedtechlevel,stone_I:>=:5", //gethighestresearchedtechlevel,<Tech>
-		"d:var1=getplayeractualttexp:>:5000"//getplayeractualttexp
-		"e:var1=getplayertotalreceivedttexp:>:10000"//getplayertotalreceivedttexp
+		"a:canseetech,stone_I:==:true", //canseetech,<maincategory/subcategory/technology>,<Name of that>
+		"b:hasresearchedtech,stone_I,1:==:true", //hasresearchedtech,<Name of Tech>,<Researchlevel>
+		"c:gethighestresearchedtechlevel,stone_I:>=:5", //gethighestresearchedtechlevel,<Tech>
+		"d:getplayeractualttexp:>:5000"//getplayeractualttexp
+		"e:getplayertotalreceivedttexp:>:10000"//getplayertotalreceivedttexp
 	PlacerHolderapi:
 		"if:(a):o_1",
 		"output:o_1:true",
-		"a:var1=%raw_user_total_alltime%:>:1000*60*60*24*5", //Gesamtzeit über afkr müsste größer als 5 Tage sein.
+		"a:var1=%raw_user_total_alltime%:>:var1=math=1000*60*60*24*5", //Gesamtzeit über afkr müsste größer als 5 Tage sein.
 
 Aufbau von Techkategorien(Gelten als Haupkategorie, wenn sie im Ordner Hauptcategory, im Ordner Subkategorien):
 categoryinternname == file name

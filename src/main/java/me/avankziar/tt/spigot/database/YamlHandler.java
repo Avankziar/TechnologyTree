@@ -323,7 +323,7 @@ public class YamlHandler
 			return false;
 		}
 		writeFile(language, lang, plugin.getYamlManager().getLanguageKey());
-		mvelanguage = new File(directory.getPath(), "mve_"+languageString+".yml");
+		/*mvelanguage = new File(directory.getPath(), "mve_"+languageString+".yml"); TODO
 		if(!mvelanguage.exists()) 
 		{
 			TT.log.info("Create mve_%lang%.yml...".replace("%lang%", languageString));
@@ -340,7 +340,7 @@ public class YamlHandler
 		{
 			return false;
 		}
-		writeFile(mvelanguage, mvelang, plugin.getYamlManager().getModifierValueEntryLanguageKey());
+		writeFile(mvelanguage, mvelang, plugin.getYamlManager().getModifierValueEntryLanguageKey());*/
 		return true;
 	}
 	
