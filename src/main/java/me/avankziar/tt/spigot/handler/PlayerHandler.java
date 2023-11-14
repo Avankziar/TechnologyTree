@@ -289,7 +289,7 @@ public class PlayerHandler
 		LinkedHashMap<ItemStack, Boolean> map = new LinkedHashMap<>();
 		if(mcat != null)
 		{
-			TT.log.info("MCat Start : "+mcat.getInternName()); //REMOVEME
+			//TT.log.info("MCat Start : "+mcat.getInternName()); //REMOVEME
 			switch(pat)
 			{
 			case SOLO:
@@ -299,7 +299,8 @@ public class PlayerHandler
 				boolean exist = mseqs != null;
 				if(!exist)
 				{
-					mseqs = new SoloEntryQueryStatus(0, mcat.getInternName(), uuid, EntryQueryType.MAIN_CATEGORY, EntryStatusType.CANNOT_SEE_IT, 0, 0);
+					mseqs = new SoloEntryQueryStatus(0, mcat.getInternName(), uuid,
+							EntryQueryType.MAIN_CATEGORY, EntryStatusType.CANNOT_SEE_IT, 0, Long.MAX_VALUE);
 				}
 				if(exist && mseqs.getStatusType() == EntryStatusType.CAN_SEE_IT)
 				{
@@ -307,38 +308,38 @@ public class PlayerHandler
 					return map;
 				}
 				ArrayList<String> msls = new ArrayList<>();
-				TT.log.info("SeeRequirementConditionQuery"); //REMOVEME
+				//TT.log.info("SeeRequirementConditionQuery"); //REMOVEME
 				for(String s : mcat.getSeeRequirementConditionQuery())
 				{
 					if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
 					{
-						TT.log.info("s = "+s); //REMOVEME
+						//TT.log.info("s = "+s); //REMOVEME
 						msls.add(s);
 						continue;
 					}
 					String r = getTTReplacerValues(uuid, s);
-					TT.log.info("r = "+r); //REMOVEME
+					//TT.log.info("r = "+r); //REMOVEME
 					msls.add(r);
 				}
 				ArrayList<String> msal = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, msls);
-				TT.log.info("msal != null : "+(msal != null)); //REMOVEME
-				if(msal != null) //REMOVEME
+				//TT.log.info("msal != null : "+(msal != null)); //REMOVEME
+				/*if(msal != null) //REMOVEME
 				{
 					for(String s : msal) //REMOVEME
 					{
 						TT.log.info("msal = "+s); //REMOVEME
 					}
-				}
+				}*/
 				if(msal != null && msal.get(0).equalsIgnoreCase("true"))
 				{
+					mseqs.setStatusType(EntryStatusType.CAN_SEE_IT);
 					map.put(mcat.getSeeRequirementItemIfYouCanSeeIt(player), null);
 				} else
 				{
 					map.put(mcat.getSeeRequirementItemIfYouCannotSeeIt(player), null);
 				}
 				if(exist)
-				{
-					mseqs.setStatusType(EntryStatusType.CAN_SEE_IT);
+				{					
 					plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, mseqs,
 							"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 							player.getUniqueId().toString(), mcat.getInternName(), EntryQueryType.MAIN_CATEGORY.toString());
@@ -347,6 +348,8 @@ public class PlayerHandler
 					plugin.getMysqlHandler().create(Type.SOLOENTRYQUERYSTATUS, mseqs);
 				}
 				return map;
+			case GROUP:
+				return null;//TODO
 			case GLOBAL:
 				GlobalEntryQueryStatus mgeqs = (GlobalEntryQueryStatus) plugin.getMysqlHandler().getData(Type.GLOBALENTRYQUERYSTATUS,
 						"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
@@ -440,6 +443,8 @@ public class PlayerHandler
 					plugin.getMysqlHandler().create(Type.SOLOENTRYQUERYSTATUS, sseqs);
 				}
 				return map;
+			case GROUP:
+				return null;//TODO
 			case GLOBAL:
 				GlobalEntryQueryStatus sgeqs = (GlobalEntryQueryStatus) plugin.getMysqlHandler().getData(Type.GLOBALENTRYQUERYSTATUS,
 						"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
@@ -631,6 +636,8 @@ public class PlayerHandler
 					map.put(tech.getSeeRequirementItemIfYouCannotSeeIt(player), false);
 					return map;
 				}
+			case GROUP:
+				return null;//TODO
 			case GLOBAL:
 				ArrayList<GlobalEntryQueryStatus> eqsList = GlobalEntryQueryStatus.convert(
 						plugin.getMysqlHandler().getList(Type.GLOBALENTRYQUERYSTATUS,
@@ -807,7 +814,7 @@ public class PlayerHandler
 					uuid.toString(), c[2], eqt.toString());
 			b = eqs == null ? "false"
 				: (eqs.getStatusType() == EntryStatusType.CANNOT_SEE_IT ? "false" : "true");
-			xyz.replace("%b%", b);
+			xyz = xyz.replace("%b%", b);
 		} else if(b.startsWith("hasresearchedtech"))
 		{
 			//hasresearchedtech,<Name of Tech>,<Researchlevel>
@@ -821,7 +828,7 @@ public class PlayerHandler
 					uuid.toString(), c[1], EntryQueryType.TECHNOLOGY.toString(), c[2]);
 			b = eqs == null ? "false" :
 				(eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT ? "true" : "false");
-			xyz.replace("%b%", b);
+			xyz = xyz.replace("%b%", b);
 		} else if(b.startsWith("gethighestresearchedtechlevel"))
 		{
 			//gethighestresearchedtechlevel,<Tech>
@@ -834,7 +841,7 @@ public class PlayerHandler
 					"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 					uuid.toString(), c[1], EntryQueryType.TECHNOLOGY.toString());
 			b = eqs == null ? "0" : String.valueOf(eqs.getResearchLevel());
-			xyz.replace("%b%", b);
+			xyz = xyz.replace("%b%", b);
 		} else if(b.startsWith("getplayeractualttexp"))
 		{
 			PlayerData pd = getPlayer(uuid);
@@ -844,7 +851,7 @@ public class PlayerHandler
 		{
 			PlayerData pd = getPlayer(uuid);
 			b = pd == null ? "0" : String.valueOf(pd.getTotalReceivedTTExp());
-			xyz.replace("%b%", b);
+			xyz = xyz.replace("%b%", b);
 		} else
 		{
 			return s;

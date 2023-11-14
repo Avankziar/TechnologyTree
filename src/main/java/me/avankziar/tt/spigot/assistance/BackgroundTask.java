@@ -128,13 +128,12 @@ public class BackgroundTask
 						}
 					}
 					PlayerAssociatedType pat = PlayerAssociatedType.valueOf(split[0]);
-					if(pat == PlayerAssociatedType.SOLO)
+					if(pat == PlayerAssociatedType.GLOBAL)
 					{
-						continue;
+						inProcess = false;
+						processPoll(pat);
+						inProcess = true;
 					}
-					inProcess = false;
-					processPoll(pat);
-					inProcess = true;
 					return;
 				}
 			}

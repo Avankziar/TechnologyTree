@@ -78,7 +78,7 @@ public class GuiHandler
 	public static String MAINCATEGORY = "maincategory";
 	public static String SUBCATEGORY = "subcategory";
 	public static String TECHNOLOGY = "technology";
-	public static String PAT = "playerassociatedType";
+	public static String PAT = "playerassociatedtype";
 	
 	public static void openCatOrTech(Player player, GuiType gt, MainCategory mcat, SubCategory scat,
 			PlayerAssociatedType pat, SettingsLevel st, boolean closeInv)
@@ -119,7 +119,7 @@ public class GuiHandler
 	
 	public static void openMainCatSubCat(Player player, SettingsLevel settingsLevel, Inventory inv, boolean closeInv, MainCategory mcat)
 	{
-		GuiType gt = GuiType.MAIN_CATEGORY;
+		GuiType gt = GuiType.SUB_CATEGORY;
 		GUIApi gui = new GUIApi(plugin.pluginName, inv, gt.toString(), 
 				settingsLevel == null ? SettingsLevel.BASE : settingsLevel);
 		openGui(mcat, null, mcat.getPlayerAssociatedType(), player, gt, gui, settingsLevel, closeInv);
@@ -127,7 +127,7 @@ public class GuiHandler
 	
 	public static void openSubCTech(Player player, SettingsLevel settingsLevel, Inventory inv, boolean closeInv, SubCategory scat)
 	{
-		GuiType gt = GuiType.SUB_CATEGORY;
+		GuiType gt = GuiType.TECHNOLOGY;
 		GUIApi gui = new GUIApi(plugin.pluginName, inv, gt.toString(), 
 				settingsLevel == null ? SettingsLevel.BASE : settingsLevel);
 		openGui(null, scat, scat.getPlayerAssociatedType(), player, gt, gui, settingsLevel, closeInv);
@@ -447,29 +447,186 @@ public class GuiHandler
 		return is;
 	}
 	
+	@SuppressWarnings("deprecation")
 	private static void openGui(MainCategory mcat, SubCategory scat, PlayerAssociatedType pat, Player player, GuiType gt, GUIApi gui,
 			SettingsLevel settingsLevel, boolean closeInv)
 	{
+		switch(gt)
+		{
+		case START:
+			break;
+		case MAIN_CATEGORY:
+			LinkedHashMap<String, MainCategory> maincmap = null;
+			switch(pat)
+			{
+			case GLOBAL:
+				maincmap = CatTechHandler.mainCategoryMapGlobal; break;
+			case GROUP:
+				maincmap = CatTechHandler.mainCategoryMapGroup; break;
+			case SOLO:
+				maincmap = CatTechHandler.mainCategoryMapSolo; break;
+			}
+			int mj = 0;
+			for(Entry<String, MainCategory> ee : maincmap.entrySet())
+			{
+				if(mj >= 53)
+				{
+					break;
+				}
+				LinkedHashMap<ItemStack, Boolean> isb = PlayerHandler.canSeeOrResearch_ForGUI(
+														player, player.getUniqueId(), pat, ee.getValue(), null, null);
+				if(isb == null)
+				{
+					mj++;
+					continue;
+				}
+				for(Entry<ItemStack, Boolean> eee : isb.entrySet())
+				{
+					if(isb == null || (eee.getValue() != null && eee.getValue() == false))
+					{
+						continue;
+					}
+					ItemStack iss = eee.getKey();
+					LinkedHashMap<String, Entry<GUIApi.Type, Object>> map = new LinkedHashMap<>();
+					map.put(MAINCATEGORY, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
+							ee.getValue() != null ? ee.getValue().getInternName() : ""));
+					map.put(PAT, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
+							ee.getValue() != null ? ee.getValue().getPlayerAssociatedType().toString() : ""));
+					ArrayList<ClickFunction> ctar = new ArrayList<>();
+					ClickFunctionType cft = ClickFunctionType.MAINCATEGORYS_SUBCATEGORYS_SOLO;
+					ctar.add(new ClickFunction(ClickType.LEFT, cft));
+					ctar.add(new ClickFunction(ClickType.RIGHT, cft));
+					gui.add(ee.getValue().getGuiSlot(), iss, settingsLevel, true, true, map, ctar.toArray(new ClickFunction[ctar.size()]));
+				}
+				mj++;
+			}
+			break;
+		case SUB_CATEGORY:
+			LinkedHashMap<Integer, SubCategory> subcmap = null;
+			switch(mcat.getPlayerAssociatedType())
+			{
+			case GLOBAL:
+				subcmap = CatTechHandler.mainCategorySubCategoryMapGlobal.get(mcat.getInternName()); break;
+			case GROUP:
+				subcmap = CatTechHandler.mainCategorySubCategoryMapGroup.get(mcat.getInternName()); break;
+			case SOLO:
+				subcmap = CatTechHandler.mainCategorySubCategoryMapSolo.get(mcat.getInternName()); break;
+			}
+			int sj = 0;
+			for(Entry<Integer, SubCategory> ee : subcmap.entrySet())
+			{
+				if(sj >= 53)
+				{
+					break;
+				}
+				int ii = ee.getKey();
+				LinkedHashMap<ItemStack, Boolean> isb = PlayerHandler.canSeeOrResearch_ForGUI(
+						player, player.getUniqueId(), pat, null, ee.getValue(), null);
+				if(isb == null)
+				{
+					sj++;
+				}
+				for(Entry<ItemStack, Boolean> eee : isb.entrySet())
+				{
+					if(eee.getValue() != null && eee.getValue() == false)
+					{
+						continue;
+					}
+					ItemStack iss = eee.getKey();
+					LinkedHashMap<String, Entry<GUIApi.Type, Object>> map = new LinkedHashMap<>();
+					map.put(SUBCATEGORY, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
+							ee.getValue() != null ? ee.getValue().getInternName() : ""));
+					map.put(PAT, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
+							ee.getValue() != null ? ee.getValue().getPlayerAssociatedType().toString() : ""));
+					ArrayList<ClickFunction> ctar = new ArrayList<>();
+					ClickFunctionType cft = ClickFunctionType.SUBCATEGORYS_TECHNOLOGYS_SOLO;
+					ctar.add(new ClickFunction(ClickType.LEFT, cft));
+					ctar.add(new ClickFunction(ClickType.RIGHT, cft));
+					gui.add(ii, iss, settingsLevel, true, true, map, ctar.toArray(new ClickFunction[ctar.size()]));
+				}
+				sj++;
+			}
+			break;
+		case TECHNOLOGY:
+			LinkedHashMap<Integer, Technology> techmap = null;
+			ClickFunctionType cft = null;
+			switch(scat.getPlayerAssociatedType())
+			{
+			case GLOBAL:
+				techmap = CatTechHandler.subCategoryTechnologyMapGlobal.get(scat.getInternName());
+				cft = ClickFunctionType.RESEARCH_TECHNOLOGY_GLOBAL;
+				break;
+			case GROUP:
+				techmap = CatTechHandler.subCategoryTechnologyMapGroup.get(scat.getInternName());
+				cft = ClickFunctionType.RESEARCH_TECHNOLOGY_GROUP;
+				break;
+			case SOLO:
+				cft = ClickFunctionType.RESEARCH_TECHNOLOGY_SOLO;
+				techmap = CatTechHandler.subCategoryTechnologyMapSolo.get(scat.getInternName());
+				break;
+			}
+			int tj = 0;
+			for(Entry<Integer, Technology> ee : techmap.entrySet())
+			{
+				if(tj >= 53)
+				{
+					break;
+				}
+				int ii = ee.getKey();
+				LinkedHashMap<ItemStack, Boolean> isb = PlayerHandler.canSeeOrResearch_ForGUI(
+						player, player.getUniqueId(), pat, null, null, ee.getValue());
+				if(isb == null)
+				{
+					tj++;
+					continue;
+				}
+				for(Entry<ItemStack, Boolean> eee : isb.entrySet())
+				{
+					ItemStack iss = eee.getKey();
+					LinkedHashMap<String, Entry<GUIApi.Type, Object>> map = new LinkedHashMap<>();
+					map.put(TECHNOLOGY, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
+							ee.getValue().getInternName()));
+					map.put(PAT, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
+							ee.getValue() != null ? ee.getValue().getPlayerAssociatedType().toString() : ""));
+					ArrayList<ClickFunction> ctar = new ArrayList<>();
+					if(eee.getValue() != null && eee.getValue() == true)
+					{
+						ctar.add(new ClickFunction(ClickType.LEFT, cft));
+						ctar.add(new ClickFunction(ClickType.RIGHT, ClickFunctionType.INFO_TECHNOLOGY));
+					}
+					gui.add(ii, iss, settingsLevel, true, true, map, ctar.toArray(new ClickFunction[ctar.size()]));
+				}
+				tj++;
+			}
+			break;
+		}
+		boolean fillNotDefineGuiSlots = new ConfigHandler().fillNotDefineGuiSlots();
+		Material filler = Material.valueOf(plugin.getConfig().getString("Do.Gui.FillerItemMaterial", "LIGHT_GRAY_STAINED_GLASS_PANE"));
 		YamlConfiguration y = plugin.getYamlHandler().getGui(gt);
 		for(int i = 0; i < 54; i++)
 		{
-			if(y.get(i+".Material") == null && y.get(i+".Material."+settingsLevel.toString()) == null)
+			SettingsLevel itemSL = SettingsLevel.NOLEVEL;
+			if(y.get(i+".SettingLevel") != null)
 			{
+				itemSL = SettingsLevel.valueOf(y.getString(i+".SettingLevel"));
+			}
+			if(y.get(i+".Material") == null 
+					&& y.get(i+".Material."+settingsLevel.toString()) == null
+					&& y.get(i+".Material."+itemSL.toString()) == null)
+			{
+				filler(gui, i, filler, fillNotDefineGuiSlots);
 				continue;
-			}			
-			SettingsLevel itemSL = SettingsLevel.valueOf(y.getString(i+".SettingLevel"));
-			if(y.get(i+".SettingLevel") == null)
-			{
-				itemSL = SettingsLevel.NOLEVEL;
 			}
 			if(settingsLevel.getOrdinal() < itemSL.getOrdinal())
 			{
+				filler(gui, i, filler, fillNotDefineGuiSlots);
 				continue;
 			}
 			if(y.get(i+".Permission") != null)
 			{
 				if(!ModifierValueEntry.hasPermission(player, y.getString(i+".Permission")))
 				{
+					filler(gui, i, filler, fillNotDefineGuiSlots);
 					continue;
 				}
 			}
@@ -479,6 +636,7 @@ public class GuiHandler
 				{
 					if(plugin.getIFHEco() == null)
 					{
+						filler(gui, i, filler, fillNotDefineGuiSlots);
 						continue;
 					}
 				}
@@ -492,6 +650,13 @@ public class GuiHandler
 				{
 					is = getSkull(y.getString(i+"."+settingsLevel.getName()+".PlayerHeadTexture"), 1);
 				}
+			} else if(y.get(i+".Material."+itemSL.toString()) != null)
+			{
+				mat = Material.valueOf(y.getString(i+".Material."+itemSL.toString()));
+				if(mat == Material.PLAYER_HEAD && y.getString(i+"."+itemSL.toString()+".PlayerHeadTexture") != null)
+				{
+					is = getSkull(y.getString(i+"."+itemSL.getName()+".PlayerHeadTexture"), 1);
+				}
 			} else
 			{
 				try
@@ -503,6 +668,7 @@ public class GuiHandler
 					}
 				} catch(Exception e)
 				{
+					filler(gui, i, filler, fillNotDefineGuiSlots);
 					continue;
 				}
 			}
@@ -543,6 +709,65 @@ public class GuiHandler
 			}
 			ItemMeta im = is.getItemMeta();
 			im.setDisplayName(ChatApi.tl(displayname));
+			if(y.get(i+".ItemFlag") != null)
+			{
+				for(String s : y.getStringList(i+".ItemFlag"))
+				{
+					try
+					{
+						im.addItemFlags(ItemFlag.valueOf(s));
+					} catch(Exception e)
+					{
+						continue;
+					}
+				}
+			}
+			if(mat == Material.ENCHANTED_BOOK)
+			{
+				if(im instanceof EnchantmentStorageMeta)
+				{
+					EnchantmentStorageMeta esm = (EnchantmentStorageMeta) im;
+					for(String s : y.getStringList(i+".Enchantment"))
+					{
+						String[] split = s.split(";");
+						if(split.length != 2)
+						{
+							continue;
+						}					
+						try
+						{
+							esm.addStoredEnchant(Enchantment.getByName(split[0]), Integer.parseInt(split[1]), true);
+						} catch(Exception e)
+						{
+							continue;
+						}
+					}
+					is.setItemMeta(esm);
+					im = is.getItemMeta();
+				}
+			} else
+			{
+				if(y.get(i+".Enchantment") != null)
+				{
+					for(String s : y.getStringList(i+".Enchantment"))
+					{
+						String[] split = s.split(";");
+						if(split.length != 2)
+						{
+							filler(gui, i, filler, fillNotDefineGuiSlots);
+							continue;
+						}					
+						try
+						{
+							im.addEnchant(Enchantment.getByName(split[0]), Integer.parseInt(split[1]), true);
+						} catch(Exception e)
+						{
+							filler(gui, i, filler, fillNotDefineGuiSlots);
+							continue;
+						}
+					}
+				}
+			}
 			if(lore != null)
 			{
 				im.setLore(lore);
@@ -552,172 +777,51 @@ public class GuiHandler
 			{
 			case START:
 				LinkedHashMap<String, Entry<GUIApi.Type, Object>> stmap = new LinkedHashMap<>();
-				gui.add(i, is, settingsLevel, true, stmap, getClickFunction(y, String.valueOf(i)));
+				ClickFunction[] cfts = getClickFunction(y, String.valueOf(i));
+				for(ClickFunction c : cfts)
+				{
+					if(c.getFunction().equalsIgnoreCase(ClickFunctionType.START_MAINCATEGORYS_GLOBAL.toString()))
+					{
+						stmap.put(PAT, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
+								PlayerAssociatedType.GLOBAL.toString()));
+						break;
+					} else if(c.getFunction().equalsIgnoreCase(ClickFunctionType.START_MAINCATEGORYS_GROUP.toString()))
+					{
+						stmap.put(PAT, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
+								PlayerAssociatedType.GROUP.toString()));
+						break;
+					} else if(c.getFunction().equalsIgnoreCase(ClickFunctionType.START_MAINCATEGORYS_SOLO.toString()))
+					{
+						stmap.put(PAT, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
+								PlayerAssociatedType.SOLO.toString()));
+						break;
+					}
+				}
+				gui.add(i, is, settingsLevel, true, true, stmap, cfts);
 				break;
 			case MAIN_CATEGORY:
+				LinkedHashMap<String, Entry<GUIApi.Type, Object>> map = new LinkedHashMap<>();
+				map.put(PAT, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
+						pat.toString()));
+				gui.add(i, is, settingsLevel, true, true, map, getClickFunction(y, String.valueOf(i)));
 				break;
 			case SUB_CATEGORY:
 				LinkedHashMap<String, Entry<GUIApi.Type, Object>> smap = new LinkedHashMap<>();
 				smap.put(MAINCATEGORY, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
 						mcat != null ? mcat.getInternName() : ""));
-				gui.add(i, is, settingsLevel, true, smap, getClickFunction(y, String.valueOf(i)));
+				smap.put(PAT, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
+						pat.toString()));
+				gui.add(i, is, settingsLevel, true, true, smap, getClickFunction(y, String.valueOf(i)));
 				break;
 			case TECHNOLOGY:
 				LinkedHashMap<String, Entry<GUIApi.Type, Object>> tmap = new LinkedHashMap<>();
 				tmap.put(SUBCATEGORY, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
 						scat != null ? scat.getInternName() : ""));
-				gui.add(i, is, settingsLevel, true, tmap, getClickFunction(y, String.valueOf(i)));
+				tmap.put(PAT, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
+						pat.toString()));
+				gui.add(i, is, settingsLevel, true, true, tmap, getClickFunction(y, String.valueOf(i)));
 				break;
 			}
-		}
-		switch(gt)
-		{
-		case START:
-			break;
-		case MAIN_CATEGORY:
-			LinkedHashMap<String, MainCategory> maincmap = null;
-			switch(pat)
-			{
-			case GLOBAL:
-				maincmap = CatTechHandler.mainCategoryMapGlobal; break;
-			/*case GROUP:
-				subcmap = CatTechHandler.mainCategorySubCategoryMapGroup.get(tcat.getInternName()); break;*/
-			case SOLO:
-				maincmap = CatTechHandler.mainCategoryMapSolo; break;
-			}
-			int mj = 0;
-			for(Entry<String, MainCategory> ee : maincmap.entrySet())
-			{
-				if(mj >= 53)
-				{
-					break;
-				}
-				LinkedHashMap<ItemStack, Boolean> isb = PlayerHandler.canSeeOrResearch_ForGUI(
-														player, player.getUniqueId(), pat, ee.getValue(), null, null);
-				if(isb == null)
-				{
-					mj++;
-					continue;
-				}
-				for(Entry<ItemStack, Boolean> eee : isb.entrySet())
-				{
-					if(isb == null || (eee.getValue() != null && eee.getValue() == false))
-					{
-						continue;
-					}
-					ItemStack iss = eee.getKey();
-					LinkedHashMap<String, Entry<GUIApi.Type, Object>> map = new LinkedHashMap<>();
-					map.put(MAINCATEGORY, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
-							ee.getValue() != null ? ee.getValue().getInternName() : ""));
-					map.put(PAT, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
-							ee.getValue() != null ? ee.getValue().getPlayerAssociatedType().toString() : ""));
-					ArrayList<ClickFunction> ctar = new ArrayList<>();
-					ClickFunctionType cft = ClickFunctionType.MAINCATEGORYS_SUBCATEGORYS_SOLO;
-					ctar.add(new ClickFunction(ClickType.LEFT, cft));
-					ctar.add(new ClickFunction(ClickType.RIGHT, cft));
-					gui.add(ee.getValue().getGuiSlot(), iss, settingsLevel, true, map, ctar.toArray(new ClickFunction[ctar.size()]));
-				}
-				mj++;
-			}
-			break;
-		case SUB_CATEGORY:
-			LinkedHashMap<Integer, SubCategory> subcmap = null;
-			switch(mcat.getPlayerAssociatedType())
-			{
-			case GLOBAL:
-				subcmap = CatTechHandler.mainCategorySubCategoryMapGlobal.get(mcat.getInternName()); break;
-			/*case GROUP:
-				subcmap = CatTechHandler.mainCategorySubCategoryMapGroup.get(tcat.getInternName()); break;*/
-			case SOLO:
-				subcmap = CatTechHandler.mainCategorySubCategoryMapSolo.get(mcat.getInternName()); break;
-			}
-			int sj = 0;
-			for(Entry<Integer, SubCategory> ee : subcmap.entrySet())
-			{
-				if(sj >= 53)
-				{
-					break;
-				}
-				int ii = ee.getKey();
-				LinkedHashMap<ItemStack, Boolean> isb = PlayerHandler.canSeeOrResearch_ForGUI(
-						player, player.getUniqueId(), pat, null, ee.getValue(), null);
-				if(isb == null)
-				{
-					sj++;
-				}
-				for(Entry<ItemStack, Boolean> eee : isb.entrySet())
-				{
-					if(eee.getValue() != null && eee.getValue() == false)
-					{
-						continue;
-					}
-					ItemStack iss = eee.getKey();
-					LinkedHashMap<String, Entry<GUIApi.Type, Object>> map = new LinkedHashMap<>();
-					map.put(SUBCATEGORY, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
-							ee.getValue() != null ? ee.getValue().getInternName() : ""));
-					map.put(PAT, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
-							ee.getValue() != null ? ee.getValue().getPlayerAssociatedType().toString() : ""));
-					ArrayList<ClickFunction> ctar = new ArrayList<>();
-					ClickFunctionType cft = ClickFunctionType.SUBCATEGORYS_TECHNOLOGYS_SOLO;
-					ctar.add(new ClickFunction(ClickType.LEFT, cft));
-					ctar.add(new ClickFunction(ClickType.RIGHT, cft));
-					gui.add(ii, iss, settingsLevel, true, map, ctar.toArray(new ClickFunction[ctar.size()]));
-				}
-				sj++;
-			}
-			break;
-		case TECHNOLOGY:
-			LinkedHashMap<Integer, Technology> techmap = null;
-			ClickFunctionType cft = null;
-			switch(scat.getPlayerAssociatedType())
-			{
-			case GLOBAL:
-				techmap = CatTechHandler.subCategoryTechnologyMapGlobal.get(scat.getInternName());
-				cft = ClickFunctionType.RESEARCH_TECHNOLOGY_GLOBAL;
-				break;
-			/*case GROUP:
-				techmap = CatTechHandler.subCategoryTechnologyMapGroup.get(tcat.getInternName());
-				cft = ClickFunctionType.RESEARCH_TECHNOLOGY_GLOBAL;
-				break;*/
-			case SOLO:
-				cft = ClickFunctionType.RESEARCH_TECHNOLOGY_SOLO;
-				techmap = CatTechHandler.subCategoryTechnologyMapSolo.get(scat.getInternName());
-				break;
-			}
-			int tj = 0;
-			for(Entry<Integer, Technology> ee : techmap.entrySet())
-			{
-				if(tj >= 53)
-				{
-					break;
-				}
-				int ii = ee.getKey();
-				LinkedHashMap<ItemStack, Boolean> isb = PlayerHandler.canSeeOrResearch_ForGUI(
-						player, player.getUniqueId(), pat, null, null, ee.getValue());
-				if(isb == null)
-				{
-					tj++;
-					continue;
-				}
-				for(Entry<ItemStack, Boolean> eee : isb.entrySet())
-				{
-					ItemStack iss = eee.getKey();
-					LinkedHashMap<String, Entry<GUIApi.Type, Object>> map = new LinkedHashMap<>();
-					map.put(TECHNOLOGY, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
-							ee.getValue().getInternName()));
-					map.put(PAT, new AbstractMap.SimpleEntry<GUIApi.Type, Object>(GUIApi.Type.STRING,
-							ee.getValue() != null ? ee.getValue().getPlayerAssociatedType().toString() : ""));
-					ArrayList<ClickFunction> ctar = new ArrayList<>();
-					if(eee.getValue() != null && eee.getValue() == true)
-					{
-						ctar.add(new ClickFunction(ClickType.LEFT, cft));
-						ctar.add(new ClickFunction(ClickType.RIGHT, ClickFunctionType.INFO_TECHNOLOGY));
-					}
-					gui.add(ii, iss, settingsLevel, true, map, ctar.toArray(new ClickFunction[ctar.size()]));
-				}
-				tj++;
-			}
-			break;
 		}
 		new BukkitRunnable()
 		{
@@ -1123,6 +1227,7 @@ public class GuiHandler
 					plugin.getIFHEco().format(money, ac.getCurrency(), dg, moneyFrac, useSI, useSy, ts, ds));
 			}
 			break;
+		case GROUP:
 		case GLOBAL:
 			//TODO noch machen
 		}
@@ -1472,5 +1577,23 @@ public class GuiHandler
 			ctar.add(new ClickFunction(ct, cft));
 		}
 		return ctar.toArray(new ClickFunction[ctar.size()]);
+	}
+	
+	private static void filler(GUIApi gui, int i, Material mat, boolean fillNotDefineGuiSlots)
+	{
+		if(!fillNotDefineGuiSlots)
+		{
+			return;
+		}
+		ItemStack is = new ItemStack(mat, 1);
+		ItemMeta im = is.getItemMeta();
+		im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+		im.addItemFlags(ItemFlag.HIDE_DESTROYS);
+		im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		im.setDisplayName(ChatApi.tl("&0"));
+		im.setLore(new ArrayList<>());
+		is.setItemMeta(im);
+		LinkedHashMap<String, Entry<GUIApi.Type, Object>> map = new LinkedHashMap<>();
+		gui.add(i, is, SettingsLevel.NOLEVEL, true, false, map, new ClickFunction[0]);
 	}
 }

@@ -125,4 +125,9 @@ public class ConfigHandler
 	{
 		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getLong("Do.Reward.Payout.TaxInPercent", 0);
 	}
+	
+	public boolean fillNotDefineGuiSlots()
+	{
+		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("Do.Gui.FillNotDefineGuiSlots", true);
+	}
 }

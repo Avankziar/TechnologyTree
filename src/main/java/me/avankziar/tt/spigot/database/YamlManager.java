@@ -15,6 +15,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.BlastingRecipe;
 import org.bukkit.inventory.CampfireRecipe;
 import org.bukkit.inventory.FurnaceRecipe;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
 import org.bukkit.inventory.Recipe;
@@ -329,6 +330,12 @@ public class YamlManager
 		configSpigotKeys.put("Do.Drops.BreakingThroughVanillaDropBarrier"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				true}));
+		configSpigotKeys.put("Do.Gui.FillNotDefineGuiSlots"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				true}));
+		configSpigotKeys.put("Do.Gui.FillNotDefineGuiSlots"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				Material.LIGHT_GRAY_STAINED_GLASS_PANE.toString()}));
 		configSpigotKeys.put("Do.Recipe.LoadThePluginRecipe"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				true}));
@@ -1373,11 +1380,9 @@ public class YamlManager
 		addMainCategory("miscellaneous",
 				new String[] {"Sonstiges", "Miscellaneous"},
 				PlayerAssociatedType.SOLO, 0, 
-				new String[] {
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"}, true,
-				new String[] {"&7Sonstiges","&7Miscellaneous"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				null, true,
+				new String[] {"&7Sonstiges","&7Miscellaneous"}, Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Haupkategorie Sonstiges",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&f====================",
@@ -1388,27 +1393,27 @@ public class YamlManager
 						"&f====================",
 						"&eThey house all the tools, weapons,",
 						"&earmor and more.",},
-				new String[] {"&bBergbau","&bMiscellaneous"}, Material.WOODEN_PICKAXE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Haupkategorie Sonstiges",
+				new String[] {"&bSonstiges","&bMiscellaneous"}, Material.WOODEN_PICKAXE, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
+						"&bHaupkategorie Sonstiges",
 						"&aDiese Kategorie ist immer zu sehen!",
-						"&7Maincategory Miscellaneous",
+						"&bMaincategory Miscellaneous",
 						"&aThis category is always on display!"});
 		addMainCategory("mining",
 				new String[] {"Bergbau", "Mining"},
 				PlayerAssociatedType.SOLO, 1, 
-				new String[] {
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"}, true,
-				new String[] {"&7Bergbau","&7Mining"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				null, true,
+				new String[] {"&7Bergbau","&7Mining"}, Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Haupkategorie Bergbau",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Maincategory Mining",
 						"&aThis category is always on display!"},
-				new String[] {"&bBergbau","&bMining"}, Material.IRON_ORE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
-						"&7Haupkategorie Bergbau",
+				new String[] {"&bBergbau","&bMining"}, Material.IRON_ORE, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
+						"&bHaupkategorie Bergbau",
 						"&aDiese Kategorie ist immer zu sehen!",
-						"&7Maincategory Mining",
+						"&bMaincategory Mining",
 						"&aThis category is always on display!"});
 		addMainCategory("woodworking",
 				new String[] {"Holzarbeiten", "Woodworking"},
@@ -1416,16 +1421,18 @@ public class YamlManager
 				new String[] {
 						"if:(a||b):o_1",
 						"output:o_1:true",
-						"a:var1=perm=here.your.first.permission",
-						"b:var1=perm=here.your.other.permission"}, true,
-				new String[] {"&7Holzarbeiten","&7Woodworking"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+						"a:var1=perm=here.your.first.permission:==:true",
+						"b:var1=perm=here.your.other.permission:==:true"}, true,
+				new String[] {"&7Holzarbeiten","&7Woodworking"}, Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Hauptkategory Holzarbeiten",
 						"&cAnforderungen zum einsehen:",
 						"&cPermission >here.your.first.permission< / >here.your.other.permission<",
 						"&7Maincategory Woodworking",
 						"&cRequirements to view:",
 						"&c>here.your.first.permission< / >here.your.other.permission<"},
-				new String[] {"&bHolzarbeiten","&bWoodworking"}, Material.OAK_PLANKS, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&bHolzarbeiten","&bWoodworking"}, Material.OAK_PLANKS, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&bHauptkategorie Holzarbeiten",
 						"&fGibt Einsicht auf verschiedenste Bereiche der",
 						"&fHolzarbeiten wie Setzlinge pflanzen, Bäume schlagen, etc.",
@@ -1439,14 +1446,16 @@ public class YamlManager
 						"if:(a):o_1",
 						"output:o_1:true",
 						"a:hasresearchedtech,stone_I,1:==:true"}, true,
-				new String[] {"&7Steinmetz","&7Stonemason"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&7Steinmetz","&7Stonemason"}, Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Hauptkategory Steinmetz",
 						"&cAnforderungen zum einsehen:",
 						"&cMuss die Technology >Stein I< erforscht haben.",
 						"&7Maincategory Stonemason",
 						"&cRequirements to view:",
 						"&cMust have researched the Technology >Stone I<."},
-				new String[] {"&bSteinmetz","&bStonemason"}, Material.COBBLESTONE_STAIRS, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&bSteinmetz","&bStonemason"}, Material.COBBLESTONE_STAIRS, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&bHauptkategory Steinsmetz",
 						"&fGibt Einsicht auf verschiedenste Bereiche des",
 						"&fSteinmetzes wie Steinstufen und Treppen zum craften.",
@@ -1461,14 +1470,16 @@ public class YamlManager
 						"output:o_1:true",
 						"a:hasresearchedtech,stone_I,1:==:true",
 						"b:hasresearchedtech,ironore,1:==:true"}, true,
-				new String[] {"&7Tischrezepte","&7Tablerecipe"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&7Tischrezepte","&7Tablerecipe"}, Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Hauptkategory Tischrezepte",
 						"&cAnforderungen zum einsehen:",
 						"&cMuss die Technology >Stein I< oder >Eisenerz< erforscht haben.",
 						"&7Maincategory Tablerecipe",
 						"&cRequirements to view:",
 						"&cMust have researched the Technology >Stone I< or <Ironore>."},
-				new String[] {"&bTischrezepte","&bTablerecipe"}, Material.ENCHANTING_TABLE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&bTischrezepte","&bTablerecipe"}, Material.ENCHANTING_TABLE, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Hauptkategory Tischrezepte",
 						"&fGibt Einsicht auf verschiedenste Bereiche des",
 						"&fTischrezepte wie brennen im Ofen, Verzauben, Tränkebrauen etc...",
@@ -1478,16 +1489,15 @@ public class YamlManager
 		addMainCategory("booster",
 				new String[] {"Booster", "Booster"},
 				PlayerAssociatedType.GLOBAL, 0, 
-				new String[] {
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"}, true,
-				new String[] {"&7Booster","&7Booster"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				null, true,
+				new String[] {"&7Booster","&7Booster"}, Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Global Haupkategorie Booster",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Maincategory Booster",
 						"&aThis category is always on display!"},
-				new String[] {"&bBergbau","&bMining"}, Material.BEACON, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&bBooster","&bBooster"}, Material.BEACON, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Global Haupkategorie Booster",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Maincategory Booster",
@@ -1507,8 +1517,11 @@ public class YamlManager
 						pat.toString()}));
 		one.put("GuiSlot", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 						guiSlot}));
-		one.put("RequirementToSee.ConditionQuery", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-						conditionQuery));
+		if(conditionQuery != null)
+		{
+			one.put("RequirementToSee.ConditionQuery", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
+					conditionQuery));
+		}
 		one.put("RequirementToSee.ShowDifferentItemIfYouNormallyDontSeeIt", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 						showDifferentItemIfYouNormallyDontSeeIt}));
 		//--- ItemIfYouCannotSee ---
@@ -1518,10 +1531,16 @@ public class YamlManager
 						notSeeMat.toString()}));
 		one.put("RequirementToSee.ItemIfYouCannotSee.Amount", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 						notSeeAmount}));
-		one.put("RequirementToSee.ItemIfYouCannotSee.ItemFlag", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-						notSeeItemFlag));
-		one.put("RequirementToSee.ItemIfYouCannotSee.Enchantment", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-						notSeeEnchantments));
+		if(notSeeItemFlag != null)
+		{
+			one.put("RequirementToSee.ItemIfYouCannotSee.ItemFlag", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
+					notSeeItemFlag));
+		}
+		if(notSeeEnchantments != null)
+		{
+			one.put("RequirementToSee.ItemIfYouCannotSee.Enchantment", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
+					notSeeEnchantments));
+		}
 		one.put("RequirementToSee.ItemIfYouCannotSee.Lore", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, 
 						notSeeLore));
 		//--- ItemIfYouCanSee ---
@@ -1531,10 +1550,16 @@ public class YamlManager
 						canSeeMat.toString()}));
 		one.put("RequirementToSee.ItemIfYouCanSee.Amount", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 						canSeeAmount}));
-		one.put("RequirementToSee.ItemIfYouCanSee.ItemFlag", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-						canSeeItemFlag));
-		one.put("RequirementToSee.ItemIfYouCanSee.Enchantment", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-						canSeeEnchantments));
+		if(canSeeItemFlag != null)
+		{
+			one.put("RequirementToSee.ItemIfYouCanSee.ItemFlag", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
+					canSeeItemFlag));
+		}
+		if(canSeeEnchantments != null)
+		{
+			one.put("RequirementToSee.ItemIfYouCanSee.Enchantment", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
+					canSeeEnchantments));
+		}
 		one.put("RequirementToSee.ItemIfYouCanSee.Lore", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG},
 						canSeeLore));
 		LinkedHashMap<String, LinkedHashMap<String, Language>> map = new LinkedHashMap<>();
@@ -1555,12 +1580,10 @@ public class YamlManager
 		addSubCategory("tools",
 				new String[] {"Werkzeuge", "Tools"},
 				PlayerAssociatedType.SOLO, 0,
-				new String[] {
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"}, true, "miscellaneous",
+				null, true, "miscellaneous",
 				new String[] {"&7Werkzeuge","&7Tools"},
-				Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Subkategorie Werkzeuge",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Subcategory Tools",
@@ -1574,18 +1597,17 @@ public class YamlManager
 		addSubCategory("weapons_armor",
 				new String[] {"Waffen_Rüstungen", "Weapons_Armor"},
 				PlayerAssociatedType.SOLO, 1,
-				new String[] {
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"}, true, "miscellaneous",
+				null, true, "miscellaneous",
 				new String[] {"&7Waffen und Rüstungen","&7Weapons and Armor"},
-				Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Subkategorie Waffen und Rüstungen",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Subcategory Weapons and Armor",
 						"&aThis category is always on display!"},
 				new String[] {"&bWaffen und Rüstungen","&bWeapons and Armor"},
-				Material.WOODEN_SWORD, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				Material.WOODEN_SWORD, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Subkategorie Waffen und Rüstungen",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Subcategory Weapons and Armor",
@@ -1593,18 +1615,17 @@ public class YamlManager
 		addSubCategory("interactionblocks",
 				new String[] {"Interaktionsblöcke", "Interactionblocks"},
 				PlayerAssociatedType.SOLO, 2,
-				new String[] {
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"}, true, "miscellaneous",
+				null, true, "miscellaneous",
 				new String[] {"&7Interaktionsblöcke","&7Interactionblocks"},
-				Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Subkategorie Interaktionsblöcke",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Subcategory Interactionblocks",
 						"&aThis category is always on display!"},
 				new String[] {"&bInteraktionsblöcke","&bInteractionblocks"},
-				Material.CRAFTING_TABLE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				Material.CRAFTING_TABLE, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Subkategorie Interaktionsblöcke",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Subcategory Interactionblocks",
@@ -1621,16 +1642,15 @@ public class YamlManager
 		addSubCategory("soil",
 				new String[] {"Erde", "Soil"},
 				PlayerAssociatedType.SOLO, 0,
-				new String[] {
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"}, true, "mining",
-				new String[] {"&7Erde","&7Soil"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				null, true, "mining",
+				new String[] {"&7Erde","&7Soil"}, Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Subkategorie Erde",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Subcategory Soil",
 						"&aThis category is always on display!"},
-				new String[] {"&bErde","&bSoil"}, Material.DIRT, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&bErde","&bSoil"}, Material.DIRT, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Haupkategorie Erde",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Maincategory Soil",
@@ -1638,16 +1658,15 @@ public class YamlManager
 		addSubCategory("stone",
 				new String[] {"Steine", "Stone"},
 				PlayerAssociatedType.SOLO, 1, 
-				new String[] {
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"}, true, "mining",
-				new String[] {"&7Erde","&7Soil"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				null, true, "mining",
+				new String[] {"&7Erde","&7Soil"}, Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Subkategorie Erde",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Subcategory Soil",
 						"&aThis category is always on display!"},
-				new String[] {"&bErde","&bSoil"}, Material.STONE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&bErde","&bSoil"}, Material.STONE, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Haupkategorie Erde",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Maincategory Soil",
@@ -1655,16 +1674,15 @@ public class YamlManager
 		addSubCategory("ore",
 				new String[] {"Erze", "Ore"},
 				PlayerAssociatedType.SOLO, 2,
-				new String[] {
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"}, true, "mining",
-				new String[] {"&7Erze","&7Ores"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				null, true, "mining",
+				new String[] {"&7Erze","&7Ores"}, Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Subkategorie Erze",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Subcategory Ores",
 						"&aThis category is always on display!"},
-				new String[] {"&bErze","&bOres"}, Material.IRON_ORE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&bErze","&bOres"}, Material.IRON_ORE, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Haupkategorie Bergbau",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Maincategory Mining",
@@ -1681,16 +1699,15 @@ public class YamlManager
 		addSubCategory("sapling",
 				new String[] {"Setzlinge", "Saplings"},
 				PlayerAssociatedType.SOLO, 1,
-				new String[] {
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"}, true, "woodworking",
-				new String[] {"&7Setzlinge","&7Saplings"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				null, true, "woodworking",
+				new String[] {"&7Setzlinge","&7Saplings"}, Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Subkategorie Setzlinge",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Subcategory Saplings",
 						"&aThis category is always on display!"},
-				new String[] {"&bSetzlinge","&bSapling"}, Material.OAK_SAPLING, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&bSetzlinge","&bSapling"}, Material.OAK_SAPLING, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Haupkategorie Setzling",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Maincategory Sapling",
@@ -1698,11 +1715,9 @@ public class YamlManager
 		addSubCategory("wood",
 				new String[] {"Holz", "Wood"},
 				PlayerAssociatedType.SOLO, 2,
-				new String[] {
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"}, true, "woodworking",
-				new String[] {"&7Holz","&7Wood"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				null, true, "woodworking",
+				new String[] {"&7Holz","&7Wood"}, Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Subkategorie Holz",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Subcategory Wood",
@@ -1723,16 +1738,15 @@ public class YamlManager
 		addSubCategory("stoneslaps",
 				new String[] {"Steinstufen", "Stoneslaps"},
 				PlayerAssociatedType.SOLO, 0,
-				new String[] {
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"}, true, "stonemason",
-				new String[] {"&7Steinstufen","&7Stoneslaps"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				null, true, "stonemason",
+				new String[] {"&7Steinstufen","&7Stoneslaps"}, Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Subkategorie Steinstufen",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Subcategory Stoneslaps",
 						"&aThis category is always on display!"},
-				new String[] {"&bSteinstufen","&bStoneslaps"}, Material.STONE_SLAB, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&bSteinstufen","&bStoneslaps"}, Material.STONE_SLAB, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Subkategorie Steinstufen",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Subcategory Stoneslaps",
@@ -1740,16 +1754,15 @@ public class YamlManager
 		addSubCategory("stonestairs",
 				new String[] {"Steintreppen", "Stonestairs"},
 				PlayerAssociatedType.SOLO, 1,
-				new String[] {
-						"if:(a):o_1",
-						"output:o_1:true",
-						"a:true"}, true, "stonemason",
-				new String[] {"&7Steintreppen","&7Stonestairs"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				null, true, "stonemason",
+				new String[] {"&7Steintreppen","&7Stonestairs"}, Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Subkategorie Steintreppen",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Subcategory Stonestairs",
 						"&aThis category is always on display!"},
-				new String[] {"&bSteintreppen","&bStonestairs"}, Material.STONE_STAIRS, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&bSteintreppen","&bStonestairs"}, Material.STONE_STAIRS, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Subkategorie Steintreppen",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Subcategory Stonestairs",
@@ -1772,14 +1785,16 @@ public class YamlManager
 						"if:(a):o_1",
 						"output:o_1:true",
 						"a:var1=hasresearchedtech,furnace,1:==:true"}, true, "tablerecipe",
-				new String[] {"&7Ofenrezepte","&7Furnacerecipe"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&7Ofenrezepte","&7Furnacerecipe"}, Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Subkategorie Ofenrezepte",
 						"&cAnforderungen zum einsehen:",
 						"&cTechnologie >Ofen< erforscht haben.",
 						"&7Maincategory Furnacerecipe",
 						"&cRequirements to view:",
 						"&cTechnology >Furnace< researched."},
-				new String[] {"&bOfenrezepte","&bFurnacerecipe"}, Material.FURNACE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&bOfenrezepte","&bFurnacerecipe"}, Material.FURNACE, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Subkategorie Ofenrezepte",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Subcategory Furnacerecipe",
@@ -1791,12 +1806,14 @@ public class YamlManager
 						"if:(a):o_1",
 						"output:o_1:true",
 						"a:true"}, true, "tablerecipe",
-				new String[] {"&7Verzauberungsrezepte","&7Enchantmentrecipe"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&7Verzauberungsrezepte","&7Enchantmentrecipe"}, Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Subkategorie Verzauberungsrezepte",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Subcategory Enchantmentrecipe",
 						"&aThis category is always on display!"},
-				new String[] {"&bVerzauberungsrezepte","&bEnchantmentrecipe"}, Material.ENCHANTING_TABLE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&bVerzauberungsrezepte","&bEnchantmentrecipe"}, Material.ENCHANTING_TABLE, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Subkategorie Verzauberungsrezepte",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Subcategory Enchantmentrecipe",
@@ -1808,12 +1825,14 @@ public class YamlManager
 						"if:(a):o_1",
 						"output:o_1:true",
 						"a:true"}, true, "tablerecipe",
-				new String[] {"&7Braurezepte","&7Brewingrecipe"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&7Braurezepte","&7Brewingrecipe"}, Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Subkategorie Braurezepte",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Subcategory Brewingrecipe",
 						"&aThis category is always on display!"},
-				new String[] {"&bBraurezepte","&bFurnacerecipe"}, Material.BREWING_STAND, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&bBraurezepte","&bFurnacerecipe"}, Material.BREWING_STAND, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Subkategorie Braurezepte",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Subcategory Brewingrecipe",
@@ -1825,12 +1844,14 @@ public class YamlManager
 						"if:(a):o_1",
 						"output:o_1:true",
 						"a:true"}, true, "tablerecipe",
-				new String[] {"&7Ambossrezepte","&7Anvilrecipe"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&7Ambossrezepte","&7Anvilrecipe"}, Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Subkategorie Ambossrezepte",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Subcategory Anvilrecipe",
 						"&aThis category is always on display!"},
-				new String[] {"&bAmbossrezepte","&bAnvilrecipe"}, Material.ANVIL, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&bAmbossrezepte","&bAnvilrecipe"}, Material.ANVIL, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Subkategorie Ambossrezepte",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Subcategory Anvilrecipe",
@@ -1842,12 +1863,14 @@ public class YamlManager
 						"if:(a):o_1",
 						"output:o_1:true",
 						"a:true"}, true, "tablerecipe",
-				new String[] {"&7Schmiederezepte","&7Forgingcerecipe"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&7Schmiederezepte","&7Forgingcerecipe"}, Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Subkategorie Schmiederezepte",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Subcategory Forgingcerecipe",
 						"&aThis category is always on display!"},
-				new String[] {"&bSchmiederezepte","&bForgingcerecipe"}, Material.SMITHING_TABLE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&bSchmiederezepte","&bForgingcerecipe"}, Material.SMITHING_TABLE, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Subkategorie Schmiederezepte",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Subcategory Forgingcerecipe",
@@ -1863,12 +1886,14 @@ public class YamlManager
 						"if:(a):o_1",
 						"output:o_1:true",
 						"a:true"}, true, "booster",
-				new String[] {"&7Abbaubooster","&7Miningbooster"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&7Abbaubooster","&7Miningbooster"}, Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Globale Subkategorie Abbaubooster",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Global Subcategory Miningbooster",
 						"&aThis category is always on display!"},
-				new String[] {"&bAbbaubooster","&bMining booster"}, Material.GOLDEN_PICKAXE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&bAbbaubooster","&bMining booster"}, Material.GOLDEN_PICKAXE, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Haupkategorie Abbaubooster",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Maincategory Miningbooster",
@@ -1880,12 +1905,14 @@ public class YamlManager
 						"if:(a):o_1",
 						"output:o_1:true",
 						"a:true"}, true, "booster",
-				new String[] {"&7Herstellungsbooster","&7Craftingbooster"}, Material.BARRIER, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&7Herstellungsbooster","&7Craftingbooster"}, Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Globale Subkategorie Herstellungsbooster",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Global Subcategory Craftingbooster",
 						"&aThis category is always on display!"},
-				new String[] {"&bHerstellungsbooster","&bCraftingbooster"}, Material.CRAFTING_TABLE, 1, new String[] {"",""}, new String[] {"",""}, new String[] {
+				new String[] {"&bHerstellungsbooster","&bCraftingbooster"}, Material.CRAFTING_TABLE, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"&7Haupkategorie Herstellungsbooster",
 						"&aDiese Kategorie ist immer zu sehen!",
 						"&7Maincategory Craftingbooster",
@@ -1905,8 +1932,11 @@ public class YamlManager
 						pat.toString()}));
 		one.put("GuiSlot", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 						guiSlot}));
-		one.put("RequirementToSee.ConditionQuery", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-						conditionQuery));
+		if(conditionQuery != null)
+		{
+			one.put("RequirementToSee.ConditionQuery", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
+					conditionQuery));
+		}
 		one.put("RequirementToSee.ShowDifferentItemIfYouNormallyDontSeeIt", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 						showDifferentItemIfYouNormallyDontSeeIt}));
 		one.put("IfSubCategory.OverlyingMainCategory", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
@@ -1918,10 +1948,16 @@ public class YamlManager
 						notSeeMat.toString()}));
 		one.put("RequirementToSee.ItemIfYouCannotSee.Amount", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 						notSeeAmount}));
-		one.put("RequirementToSee.ItemIfYouCannotSee.ItemFlag", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-						notSeeItemFlag));
-		one.put("RequirementToSee.ItemIfYouCannotSee.Enchantment", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-						notSeeEnchantments));
+		if(notSeeItemFlag != null)
+		{
+			one.put("RequirementToSee.ItemIfYouCannotSee.ItemFlag", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
+					notSeeItemFlag));
+		}
+		if(notSeeEnchantments != null)
+		{
+			one.put("RequirementToSee.ItemIfYouCannotSee.Enchantment", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
+					notSeeEnchantments));
+		}
 		one.put("RequirementToSee.ItemIfYouCannotSee.Lore", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, 
 						notSeeLore));
 		//--- ItemIfYouCanSee ---
@@ -1931,10 +1967,16 @@ public class YamlManager
 						canSeeMat.toString()}));
 		one.put("RequirementToSee.ItemIfYouCanSee.Amount", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 						canSeeAmount}));
-		one.put("RequirementToSee.ItemIfYouCanSee.ItemFlag", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-						canSeeItemFlag));
-		one.put("RequirementToSee.ItemIfYouCanSee.Enchantment", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-						canSeeEnchantments));
+		if(canSeeItemFlag != null)
+		{
+			one.put("RequirementToSee.ItemIfYouCanSee.ItemFlag", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
+					canSeeItemFlag));
+		}
+		if(canSeeEnchantments != null)
+		{
+			one.put("RequirementToSee.ItemIfYouCanSee.Enchantment", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
+					canSeeEnchantments));
+		}
 		one.put("RequirementToSee.ItemIfYouCanSee.Lore", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, 
 						canSeeLore));
 		LinkedHashMap<String, LinkedHashMap<String, Language>> map = new LinkedHashMap<>();

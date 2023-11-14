@@ -28,6 +28,13 @@ public class GuiFunctionHandler
 			Inventory openInv, SettingsLevel settingsLevel,
 			String mcat, String scat, String tech, PlayerAssociatedType pat)
 	{
+		TT.log.info("=========================="); //REMOVEME
+		TT.log.info("guitype : "+guiType.toString());
+		TT.log.info("cft : "+cft.toString());
+		TT.log.info("pat != null : "+(pat != null ? pat.toString(): "/"));
+		TT.log.info("mcat != null : "+(mcat != null ? mcat : "/"));
+		TT.log.info("scat != null : "+(scat != null ? scat : "/"));
+		TT.log.info("tech != null : "+(tech != null ? tech : "/"));
 		switch(cft)
 		{
 		default: 
@@ -38,8 +45,8 @@ public class GuiFunctionHandler
 		case ADMINISTRATION_SETTINGSLEVEL_SETTO_MASTER: switchSettingsLevel(player, openInv, SettingsLevel.MASTER); break;
 		case START_SYNCMESSAGE: syncMessage(player, openInv, settingsLevel); break;
 		case RETURN_TOSTART: returnToStart(player, openInv, settingsLevel); break;
-		case RETURN_TOMAINCATEGORY: returnToMainCategory(player, openInv, settingsLevel, mcat, pat); break;
-		case RETURN_TOSUBCATEGORY: returnToSubCategory(player, openInv, settingsLevel, scat, pat); break;
+		case RETURN_TOMAINCATEGORY: returnToMainCategory(player, openInv, settingsLevel, pat); break;
+		case RETURN_TOSUBCATEGORY: returnToSubCategory(player, openInv, settingsLevel, mcat, pat); break;
 		case START_MAINCATEGORYS_SOLO: fromStartToMainCat(player, openInv, settingsLevel, PlayerAssociatedType.SOLO); break;
 		case START_MAINCATEGORYS_GROUP: break; //TODO
 		case START_MAINCATEGORYS_GLOBAL: fromStartToMainCat(player, openInv, settingsLevel, PlayerAssociatedType.GLOBAL); break;
@@ -77,7 +84,12 @@ public class GuiFunctionHandler
 		GuiHandler.openStart(player, settingsLevel, inv, false);
 	}
 	
-	private static void returnToMainCategory(Player player, Inventory inv, SettingsLevel settingsLevel, String mCat, PlayerAssociatedType pat)
+	private static void returnToMainCategory(Player player, Inventory inv, SettingsLevel settingsLevel, PlayerAssociatedType pat)
+	{
+		GuiHandler.openStartMCat(player, settingsLevel, inv, false, pat);
+	}
+	
+	private static void returnToSubCategory(Player player, Inventory inv, SettingsLevel settingsLevel, String mCat, PlayerAssociatedType pat)
 	{
 		if(mCat == null)
 		{
@@ -100,49 +112,16 @@ public class GuiFunctionHandler
 			switch(pat)
 			{
 			case SOLO: mc = CatTechHandler.mainCategoryMapSolo.get(mCat); break;
+			case GROUP: mc = CatTechHandler.mainCategoryMapGroup.get(mCat); break;
 			case GLOBAL: mc = CatTechHandler.mainCategoryMapGlobal.get(mCat); break;
 			}
-		}		
+		}
 		if(mc == null)
 		{
 			returnToStart(player, inv, settingsLevel);
 			return;
 		}
 		GuiHandler.openMainCatSubCat(player, settingsLevel, inv, false, mc);
-	}
-	
-	private static void returnToSubCategory(Player player, Inventory inv, SettingsLevel settingsLevel, String sCat, PlayerAssociatedType pat)
-	{
-		if(sCat == null)
-		{
-			return;
-		}
-		SubCategory sc = null;
-		if(pat == null)
-		{
-			sc = CatTechHandler.subCategoryMapSolo.get(sCat);
-			if(sc == null)
-			{
-				sc = CatTechHandler.subCategoryMapGroup.get(sCat);
-				if(sc == null)
-				{
-					sc = CatTechHandler.subCategoryMapGlobal.get(sCat);
-				}
-			}
-		} else
-		{
-			switch(pat)
-			{
-			case SOLO: sc = CatTechHandler.subCategoryMapSolo.get(sCat); break;
-			case GLOBAL: sc = CatTechHandler.subCategoryMapGlobal.get(sCat); break;
-			}
-		}
-		if(sc == null)
-		{
-			returnToStart(player, inv, settingsLevel);
-			return;
-		}
-		GuiHandler.openSubCTech(player, settingsLevel, inv, false, sc);
 	}
 	
 	private static void fromStartToMainCat(Player player, Inventory inv, SettingsLevel settingsLevel, PlayerAssociatedType pat)
@@ -156,6 +135,7 @@ public class GuiFunctionHandler
 		switch(pat)
 		{
 		case SOLO: mc = CatTechHandler.mainCategoryMapSolo.get(mCat); break;
+		case GROUP: mc = CatTechHandler.mainCategoryMapGroup.get(mCat); break;
 		case GLOBAL: mc = CatTechHandler.mainCategoryMapGlobal.get(mCat); break;
 		}
 		if(mc == null)
@@ -171,6 +151,7 @@ public class GuiFunctionHandler
 		switch(pat)
 		{
 		case SOLO: sc = CatTechHandler.subCategoryMapSolo.get(sCat); break;
+		case GROUP: sc = CatTechHandler.subCategoryMapGroup.get(sCat); break;
 		case GLOBAL: sc = CatTechHandler.subCategoryMapGlobal.get(sCat); break;
 		}
 		if(sc == null)
@@ -185,12 +166,9 @@ public class GuiFunctionHandler
 		Technology t = null;
 		switch(pat)
 		{
-		case SOLO:
-			t = CatTechHandler.technologyMapSolo.get(tech);
-			break;
-		case GLOBAL:
-			t = CatTechHandler.technologyMapGlobal.get(tech);
-			break;
+		case SOLO: t = CatTechHandler.technologyMapSolo.get(tech); break;
+		case GROUP: t = CatTechHandler.technologyMapGroup.get(tech); break;
+		case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(tech); break;
 		}
 		ARGTechInfo.techInfo(player, t, null);
 	}

@@ -539,7 +539,16 @@ public class CatTechHandler
 				PlayerAssociatedType playerAssociatedType = PlayerAssociatedType.valueOf(y.getString("PlayerAssociatedType"));
 				String groupAssociatedPermission = y.getString("GroupAssociatedPermission", null);
 				int guiSlot = y.getInt("GuiSlot");
-				List<String> seeRequirementConditionQuery = y.getStringList("RequirementToSee.ConditionQuery");
+				List<String> seeRequirementConditionQuery = new ArrayList<>();
+				if(y.get("RequirementToSee.ConditionQuery") != null)
+				{
+					seeRequirementConditionQuery = y.getStringList("RequirementToSee.ConditionQuery");
+				} else
+				{
+					seeRequirementConditionQuery.add("if:(a):o_1");
+					seeRequirementConditionQuery.add("output:o_1:true");
+					seeRequirementConditionQuery.add("a:true");
+				}
 				boolean seeRequirementShowDifferentItemIfYouNormallyDontSeeIt = y.getBoolean("RequirementToSee.ShowDifferentItemIfYouNormallyDontSeeIt");
 				String overlyingCategory = y.getString("IfSubCategory.OverlyingMainCategory");
 				SubCategory sc = new SubCategory(internName, displayName,
@@ -598,7 +607,16 @@ public class CatTechHandler
 				PlayerAssociatedType playerAssociatedType = PlayerAssociatedType.valueOf(y.getString("PlayerAssociatedType"));
 				String groupAssociatedPermission = y.getString("GroupAssociatedPermission", null);
 				int guiSlot = y.getInt("GuiSlot");
-				List<String> seeRequirementConditionQuery = y.getStringList("RequirementToSee.ConditionQuery");
+				List<String> seeRequirementConditionQuery = new ArrayList<>();
+				if(y.get("RequirementToSee.ConditionQuery") != null)
+				{
+					seeRequirementConditionQuery = y.getStringList("RequirementToSee.ConditionQuery");
+				} else
+				{
+					seeRequirementConditionQuery.add("if:(a):o_1");
+					seeRequirementConditionQuery.add("output:o_1:true");
+					seeRequirementConditionQuery.add("a:true");
+				}
 				boolean seeRequirementShowDifferentItemIfYouNormallyDontSeeIt = y.getBoolean("RequirementToSee.ShowDifferentItemIfYouNormallyDontSeeIt");
 				MainCategory mc = new MainCategory(internName, displayName,
 						playerAssociatedType, groupAssociatedPermission,
@@ -708,10 +726,9 @@ public class CatTechHandler
 	{
 		switch(pat)
 		{
-		case GLOBAL:
-			return technologyMapGlobal.get(uniqueIdentifier);
-		case SOLO:
-			return technologyMapSolo.get(uniqueIdentifier);
+		case GLOBAL: return technologyMapGlobal.get(uniqueIdentifier);
+		case GROUP: return technologyMapGroup.get(uniqueIdentifier);
+		case SOLO: return technologyMapSolo.get(uniqueIdentifier);
 		}
 		return null;
 	}
@@ -722,8 +739,8 @@ public class CatTechHandler
 		{
 		case GLOBAL:
 			return subCategoryMapGlobal.get(t.getOverlyingSubCategory());
-		/*case GROUP:
-			return subCategoryMapGroup.get(t.getOverlyingSubCategory());*/
+		case GROUP:
+			return subCategoryMapGroup.get(t.getOverlyingSubCategory());
 		case SOLO:
 			return subCategoryMapSolo.get(t.getOverlyingSubCategory());
 		}
@@ -736,8 +753,8 @@ public class CatTechHandler
 		{
 		case GLOBAL:
 			return mainCategoryMapGlobal.get(sc.getOverlyingCategory());
-		/*case GROUP:
-			return mainCategoryMapGroup.get(sc.getOverlyingCategory());*/
+		case GROUP:
+			return mainCategoryMapGroup.get(sc.getOverlyingCategory());
 		case SOLO:
 			return mainCategoryMapSolo.get(sc.getOverlyingCategory());
 		}

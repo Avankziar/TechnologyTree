@@ -7,6 +7,7 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -213,13 +214,20 @@ public class GUIApi
 	}
 	
 	public void add(int slot, ItemStack itemstack, 
-			SettingsLevel settingsLevel, boolean clickEventCancel,
+			SettingsLevel settingsLevel, boolean clickEventCancel, boolean overrideSlot,
 			@Nullable LinkedHashMap<String, Entry<Type, Object>> values,
 			ClickFunction...clickFunction)
 	{
 		if(itemstack == null)
 		{
 			return;
+		}
+		if(this.inventory != null && !overrideSlot)
+		{
+			if(this.inventory.getItem(slot) != null && this.inventory.getItem(slot).getType() != Material.AIR)
+			{
+				return;
+			}
 		}
 		ItemStack i = itemstack.clone();
 		ItemMeta im = i.getItemMeta();
@@ -338,7 +346,16 @@ public class GUIApi
 		i.setItemMeta(im);
 		if(this.inventory != null)
 		{
-			this.inventory.setItem(slot, i);
+			if(overrideSlot)
+			{
+				this.inventory.setItem(slot, i);
+			} else
+			{
+				if(this.inventory.getItem(slot) == null || this.inventory.getItem(slot).getType() == Material.AIR)
+				{
+					this.inventory.setItem(slot, i);
+				}
+			}
 		}
 	}
 

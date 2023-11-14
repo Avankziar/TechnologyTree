@@ -26,7 +26,7 @@ public class UpperListener implements Listener
 	}
 	
 	@EventHandler
-	public void onUpperGui(UpperGuiClickEvent event) throws IOException
+	public void onUpperGui(final UpperGuiClickEvent event) throws IOException
 	{
 		if(!event.getPluginName().equals(plugin.pluginName))
 		{
@@ -63,7 +63,11 @@ public class UpperListener implements Listener
 		{
 			return;
 		}
-		final ClickFunctionType cft = clft;
+		PlayerAssociatedType paty = null;
+		if(event.getValuesString().containsKey(GuiHandler.PAT))
+		{
+			paty = PlayerAssociatedType.valueOf(event.getValuesString().get(GuiHandler.PAT));
+		}
 		String macat = null;
 		String sucat = null;
 		String techn = null;
@@ -77,14 +81,10 @@ public class UpperListener implements Listener
 		{
 			techn = event.getValuesString().get(GuiHandler.TECHNOLOGY);
 		}
+		final ClickFunctionType cft = clft;
 		final String mcat = macat;
 		final String scat = sucat;
 		final String tech = techn;
-		PlayerAssociatedType paty = null;
-		if(event.getValuesString().containsKey(GuiHandler.PAT))
-		{
-			paty = PlayerAssociatedType.valueOf(event.getValuesString().get(GuiHandler.PAT));
-		}
 		final PlayerAssociatedType pat = paty;
 		new BukkitRunnable()
 		{
