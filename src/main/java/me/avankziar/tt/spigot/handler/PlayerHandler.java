@@ -71,7 +71,7 @@ public class PlayerHandler
 	public final static String 
 		TECHLEVEL = "techlev",
 		TECHACQUIRED = "techacq",
-		SOLOTOTALTECH = "solotototaltech",
+		SOLOTOTALTECH = "solototaltech",
 		GROUPTOTALTECH = "grouptotaltech",
 		GLOBALTOTALTECH = "globaltotaltech";	
 	
@@ -358,7 +358,7 @@ public class PlayerHandler
 				if(!existII)
 				{
 					mgeqs = new GlobalEntryQueryStatus(0,
-							mcat.getInternName(), EntryQueryType.MAIN_CATEGORY, EntryStatusType.CANNOT_SEE_IT, 0, 0);
+							mcat.getInternName(), EntryQueryType.MAIN_CATEGORY, EntryStatusType.CANNOT_SEE_IT, 0, Long.MAX_VALUE);
 				}
 				if(existII && mgeqs.getStatusType() == EntryStatusType.CAN_SEE_IT)
 				{
@@ -407,7 +407,8 @@ public class PlayerHandler
 				boolean exist = sseqs != null;
 				if(!exist)
 				{
-					sseqs = new SoloEntryQueryStatus(0, scat.getInternName(), uuid, EntryQueryType.SUB_CATEGORY, EntryStatusType.CANNOT_SEE_IT, 0, 0);
+					sseqs = new SoloEntryQueryStatus(0, scat.getInternName(), uuid,
+							EntryQueryType.SUB_CATEGORY, EntryStatusType.CANNOT_SEE_IT, 0, Long.MAX_VALUE);
 				}
 				if(exist && sseqs.getStatusType() == EntryStatusType.CAN_SEE_IT)
 				{
@@ -453,7 +454,7 @@ public class PlayerHandler
 				if(!existII)
 				{
 					sgeqs = new GlobalEntryQueryStatus(0,
-							scat.getInternName(), EntryQueryType.SUB_CATEGORY, EntryStatusType.CANNOT_SEE_IT, 0, 0);
+							scat.getInternName(), EntryQueryType.SUB_CATEGORY, EntryStatusType.CANNOT_SEE_IT, 0, Long.MAX_VALUE);
 				}
 				if(existII && sgeqs.getStatusType() == EntryStatusType.CAN_SEE_IT)
 				{

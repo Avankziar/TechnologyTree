@@ -873,6 +873,8 @@ public class GuiHandler
 		int totalGlobalTechs = plugin.getMysqlHandler().getCount(Type.GLOBALENTRYQUERYSTATUS,
 				"`entry_query_type` = ? AND `status_type` = ?",
 				EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
+		TT.log.info("totalSoloTechs : "+totalSoloTechs);//REMOVEME
+		TT.log.info("totalGlobalTechs : "+totalGlobalTechs);//REMOVEME
 		for(String s : lore)
 		{
 			String a = getStringPlaceHolder(player, mcat, scat, t, s, playername,
@@ -1097,10 +1099,10 @@ public class GuiHandler
 					acquiredTech = eqs == null ? 0 : techLevel; //Tech which was already acquire
 				}
 				HashMap<String, Double> map = new HashMap<>();
-				map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
-				map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
-				map.put(PlayerHandler.SOLOTOTALTECH, Double.valueOf(totalSoloTechs));
-				map.put(PlayerHandler.GLOBALTOTALTECH, Double.valueOf(totalGlobalTechs));
+				map.put(PlayerHandler.TECHLEVEL, (double) techLevel);
+				map.put(PlayerHandler.TECHACQUIRED, (double) acquiredTech);
+				map.put(PlayerHandler.SOLOTOTALTECH, (double) totalSoloTechs);
+				map.put(PlayerHandler.GLOBALTOTALTECH, (double) totalGlobalTechs);
 				if(text.contains("%rawcostttexp%"))
 				{
 					double ttexp = 0;
@@ -1115,7 +1117,8 @@ public class GuiHandler
 					double ttexp = 0;
 					if(pd != null && !t.getCostTTExp().isEmpty())
 					{
-						ttexp =  new MathFormulaParser().parse(t.getCostTTExp().get(techLevel), map);
+						TT.log.info("costTTExp : "+t.getCostTTExp().get(techLevel));
+						ttexp = new MathFormulaParser().parse(t.getCostTTExp().get(techLevel), map);
 					}
 					s = s.replace("%costttexp%", String.valueOf(ttexp)+" TTExp");
 				}

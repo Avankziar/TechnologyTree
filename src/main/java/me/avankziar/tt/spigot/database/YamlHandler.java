@@ -133,10 +133,10 @@ public class YamlHandler
 		return smithingTransformRecipe;
 	}
 	
-	public LinkedHashMap<String, YamlConfiguration> getSmithingTrimRecipe()
+	/*public LinkedHashMap<String, YamlConfiguration> getSmithingTrimRecipe()
 	{
 		return smithingTrimRecipe;
-	}
+	}*/
 	
 	public LinkedHashMap<String, YamlConfiguration> getSmokingRecipe()
 	{
@@ -633,7 +633,7 @@ public class YamlHandler
 			}
 		} else
 		{
-			onlyLoadMap(smithingTransform, getSmithingTrimRecipe());
+			onlyLoadMap(smithingTransform, getSmithingTransformRecipe());
 		}
 		TT.log.info("Loaded %x% SmithingRecipes.".replace("%x%", String.valueOf(getSmithingTransformRecipe().size())));
 		/*if(!smithingTrim.exists())

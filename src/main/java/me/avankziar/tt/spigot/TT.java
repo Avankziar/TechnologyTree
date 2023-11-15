@@ -153,8 +153,9 @@ public class TT extends JavaPlugin
 		utility = new Utility(plugin);
 		backgroundTask = new BackgroundTask(this);
 		
-		CatTechHandler.reload();
 		RecipeHandler.init();
+		CatTechHandler.reload();
+		
 		
 		setupBypassPerm();
 		setupCommandTree();

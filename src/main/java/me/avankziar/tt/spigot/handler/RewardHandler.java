@@ -1,6 +1,7 @@
 package main.java.me.avankziar.tt.spigot.handler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -20,6 +21,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.ifh.general.economy.account.AccountCategory;
 import main.java.me.avankziar.ifh.general.economy.currency.CurrencyType;
+import main.java.me.avankziar.ifh.general.math.MathFormulaParser;
 import main.java.me.avankziar.ifh.spigot.economy.account.Account;
 import main.java.me.avankziar.ifh.spigot.economy.currency.EconomyCurrency;
 import main.java.me.avankziar.tt.spigot.TT;
@@ -566,7 +568,16 @@ public class RewardHandler
 	
 	public static void main(String[] args) //TestVersuch (in Eclipse) einer Rechnung um ein Stetigs Dropwachstum zu berechnen
     {
-		boolean breakingThroughVanillaDropBarrier = true;
+		HashMap<String, Double> map = new HashMap<>();
+		map.put("techlev", (double) 0);
+		map.put("techacq", (double) 0);
+		map.put("solototaltech", (double) 0);
+		map.put("globaltotaltech", (double) 0);
+		
+		double ttexp = new MathFormulaParser().parse("100 * techlev + 50 * techacq + 25 * solototaltech", map);
+		System.out.println("ttexp : "+ttexp);
+		
+		/*boolean breakingThroughVanillaDropBarrier = true;
 		int fortunelootlevel = 3;
 		int potionlucklevel = 1;
 		/*double lostExtraPercent = 0.25;
@@ -583,7 +594,7 @@ public class RewardHandler
 			lostExtraPercent = 0.25 * (1.0/((double)potionlucklevel+2.0)+((double)potionlucklevel*2)/2.0);
 		}
 		System.out.println("lostExtraPercent = " + lostExtraPercent);*/
-		int i = 0;
+		/*int i = 0;
 		LinkedHashMap<Integer, Double> map = new LinkedHashMap<>();
 		map.put(2, 0.7);
 		map.put(1, 0.9);
@@ -631,7 +642,7 @@ public class RewardHandler
 					}
 				}
 			}
-		}
+		}*/
     }
 	
 	private static int getVanillaDropBarrier(Material material, int i)

@@ -225,13 +225,13 @@ public class CatTechHandler
 				{
 					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
 					{
-						if(y.getStringList("RequirementToResearch.Costs.Material."+i) == null)
+						if(y.get("RequirementToResearch.Costs.Material."+i) == null)
 						{
 							continue;
 						}
+						LinkedHashMap<Material, String> m = new LinkedHashMap<>();
 						for(String s : y.getStringList("RequirementToResearch.Costs.Material."+i))
 						{
-							LinkedHashMap<Material, String> m = new LinkedHashMap<>();
 							String[] split = s.split(";");
 							if(split.length != 2)
 							{
@@ -242,12 +242,12 @@ public class CatTechHandler
 								Material mat = Material.valueOf(split[0]);
 								String amount = split[1];
 								m.put(mat, amount);
-								costMaterial.put(i, m);
 							} catch(Exception e)
 							{
 								continue;
 							}
 						}
+						costMaterial.put(i, m);
 					}
 				}
 				
@@ -256,9 +256,13 @@ public class CatTechHandler
 				{
 					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
 					{
+						if(y.get("Rewards.UnlockableInteractions."+i) == null)
+						{
+							continue;
+						}
+						ArrayList<UnlockableInteraction> rui = new ArrayList<>();
 						for(String s : y.getStringList("Rewards.UnlockableInteractions."+i))
 						{
-							ArrayList<UnlockableInteraction> rui = new ArrayList<>();
 							String[] split  = s.split(":");
 							if(split.length < 3)
 							{
@@ -270,13 +274,13 @@ public class CatTechHandler
 								Material material = split[1].equals("null") ? null : Material.valueOf(split[1]);
 								EntityType entityType = split[2].equals("null") ? null : EntityType.valueOf(split[2]);
 								UnlockableInteraction ui = new UnlockableInteraction(eventType, ToolType.HAND, material, entityType, true, 0.0, 0.0);
-								for(int ii = 3; i < split.length; i++)
+								for(int ii = 3; ii < split.length; ii++)
 								{
-									String[] sp = split[i].split("=");
+									String[] sp = split[ii].split("=");
 									if(split[ii].startsWith("tool") && sp.length == 2)
 									{
 										ui.setToolType(ToolType.valueOf(sp[1]));
-									}if(split[ii].startsWith("canAccess") && sp.length == 2)
+									} else if(split[ii].startsWith("canAccess") && sp.length == 2)
 									{
 										ui.setCanAccess(Boolean.valueOf(sp[1]));
 									} else if(split[ii].startsWith("ttexp") && sp.length == 2)
@@ -294,12 +298,14 @@ public class CatTechHandler
 									} 
 								}
 								rui.add(ui);
-								rewardUnlockableInteractions.put(i, rui);
 							} catch(Exception e)
 							{
+								TT.log.info("Rewards.UnlockableInteractions.i Exception | s: "+s);//REMOVEME
+								e.printStackTrace();
 								continue;
 							}
 						}
+						rewardUnlockableInteractions.put(i, rui);
 					}
 				}
 				LinkedHashMap<Integer, LinkedHashMap<RecipeType, ArrayList<String>>> rewardRecipes = new LinkedHashMap<>();
@@ -307,21 +313,32 @@ public class CatTechHandler
 				{
 					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
 					{
+						if(y.get("Rewards.UnlockableRecipe."+i) == null)
+						{
+							continue;
+						}
+						LinkedHashMap<RecipeType, ArrayList<String>> rr = new LinkedHashMap<>();
 						for(String s : y.getStringList("Rewards.UnlockableRecipe."+i))
 						{
-							LinkedHashMap<RecipeType, ArrayList<String>> rr = new LinkedHashMap<>();
 							String[] split  = s.split(":");
-							if(split.length != 2)
+							if(s.isBlank() || s.isEmpty() || split.length != 2)
 							{
+								TT.log.info("s.isBlank() || s.isEmpty() || split.length != 2 > s: "+s); //REMOVEME
 								continue;
 							}
 							try
 							{
 								RecipeType rt = RecipeType.valueOf(split[0]);
 								String key = split[1];
-								if(!RecipeHandler.recipeMap.containsKey(rt)
-										|| !RecipeHandler.recipeMap.get(rt).contains(key))
+								if(!RecipeHandler.recipeMap.containsKey(rt))
+								{	
+									TT.log.info("!RecipeHandler.recipeMap.containsKey(rt) > s: "+s); //REMOVEME
+									continue;
+								}
+								ArrayList<String> rtal = RecipeHandler.recipeMap.get(rt);
+								if(!rtal.contains(key))
 								{
+									TT.log.info("!rtal.contains(key) > s: "+s); //REMOVEME
 									continue;
 								}
 								ArrayList<String> list = new ArrayList<>();
@@ -334,12 +351,14 @@ public class CatTechHandler
 									list.add(key);
 								}
 								rr.put(rt, list);
-								rewardRecipes.put(i, rr);
 							} catch(Exception e)
 							{
+								TT.log.info("Exception > s: "+s); //REMOVEME
+								e.printStackTrace();
 								continue;
 							}
 						}
+						rewardRecipes.put(i, rr);
 					}
 				}
 				LinkedHashMap<Integer, ArrayList<DropChance>> rewardDropChances = new LinkedHashMap<>();
@@ -347,9 +366,13 @@ public class CatTechHandler
 				{
 					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
 					{
-						for(String s : y.getStringList("Rewards.DropChance"))
+						if(y.get("Rewards.DropChance."+i) == null)
 						{
-							ArrayList<DropChance> adc = new ArrayList<>();
+							continue;
+						}
+						ArrayList<DropChance> adc = new ArrayList<>();
+						for(String s : y.getStringList("Rewards.DropChance."+i))
+						{							
 							String[] split  = s.split(":");
 							if(split.length != 6)
 							{
@@ -373,12 +396,12 @@ public class CatTechHandler
 								int amount = Integer.parseInt(split[5]);
 								DropChance dc = new DropChance(eventType, tool, material, entityType, item, amount, Double.parseDouble(split[5]));
 								adc.add(dc);
-								rewardDropChances.put(i, adc);
 							} catch(Exception e)
 							{
 								continue;
 							}
 						}
+						rewardDropChances.put(i, adc);
 					}
 				}
 				LinkedHashMap<Integer, ArrayList<DropChance>> rewardSilkTouchDropChances = new LinkedHashMap<>();
@@ -386,9 +409,13 @@ public class CatTechHandler
 				{
 					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
 					{
+						if(y.get("Rewards.SilkTouchDropChance."+i) == null)
+						{
+							continue;
+						}
+						ArrayList<DropChance> adc = new ArrayList<>();
 						for(String s : y.getStringList("Rewards.SilkTouchDropChance."+i))
 						{
-							ArrayList<DropChance> adc = new ArrayList<>();
 							String[] split  = s.split(":");
 							if(split.length != 6)
 							{
@@ -411,13 +438,13 @@ public class CatTechHandler
 								String item = split[4];
 								int amount = Integer.parseInt(split[5]);
 								DropChance dc = new DropChance(eventType, tool, material, entityType, item, amount, Double.parseDouble(split[5]));
-								adc.add(dc);
-								rewardSilkTouchDropChances.put(i, adc);
+								adc.add(dc);								
 							} catch(Exception e)
 							{
 								continue;
 							}
 						}
+						rewardSilkTouchDropChances.put(i, adc);
 					}
 				}
 				LinkedHashMap<Integer, ArrayList<String>> rewardCommandList = new LinkedHashMap<>();

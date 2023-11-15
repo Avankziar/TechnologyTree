@@ -105,6 +105,9 @@ public class ARGTechInfo extends ArgumentModule
 				techLevel = seqs == null ? 1 : seqs.getResearchLevel() + 1; //Tech which may to acquire
 				acquiredTech = seqs == null ? 0 : techLevel; //Tech which was already acquire
 				break;
+			case GROUP:
+				//TODO
+				break;
 			case GLOBAL:
 				ArrayList<GlobalEntryQueryStatus> geqsList = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBALENTRYQUERYSTATUS,
 						"`research_level` DESC", 0, 1,
@@ -134,7 +137,17 @@ public class ARGTechInfo extends ArgumentModule
 				y.getString(path+"OverlyingSubCategory").replace("%name%", t.getOverlyingSubCategory())
 				);
 		albc.add(tx);
-		if(lvl != null)
+		tx = ChatApi.tctl(y.getString(path+"PlayerAssociatedTypeAndTechType")
+				.replace("%pat%", t.getPlayerAssociatedType().toString())
+				.replace("%ttype%", t.getTechnologyType().toString())
+				);
+		albc.add(tx);
+		tx = ChatApi.tctl(y.getString(path+"MaxTechLvlToResearchAndGuiSlot")
+				.replace("%lvl%", String.valueOf((t.getTechnologyType() == TechnologyType.MULTIPLE ? t.getMaximalTechnologyLevelToResearch() : 1)))
+				.replace("%slot%", String.valueOf(t.getGuiSlot()))
+				);
+		albc.add(tx);
+		if(lvl == null)
 		{
 			tx = ChatApi.tctl(y.getString(path+"LevelResearched")
 					.replace("%lvl%", String.valueOf(acquiredTech)));
@@ -143,17 +156,7 @@ public class ARGTechInfo extends ArgumentModule
 			tx = ChatApi.tctl(y.getString(path+"LevelDisplayed")
 					.replace("%lvl%", String.valueOf(acquiredTech)));
 		}
-		albc.add(tx);
-		tx = ChatApi.tctl(y.getString(path+"MaxTechLvlToResearchAndGuiSlot")
-				.replace("%lvl%", String.valueOf((t.getTechnologyType() == TechnologyType.MULTIPLE ? t.getMaximalTechnologyLevelToResearch() : 1)))
-				.replace("%slot%", String.valueOf(t.getGuiSlot()))
-				);
-		albc.add(tx);
-		tx = ChatApi.tctl(y.getString(path+"PlayerAssociatedTypeAndTechType")
-				.replace("%pat%", t.getPlayerAssociatedType().toString())
-				.replace("%ttype%", t.getTechnologyType().toString())
-				);
-		albc.add(tx);
+		albc.add(tx);		
 		if(t.getTechnologyType() == TechnologyType.BOOSTER)
 		{
 			tx = ChatApi.tctl(y.getString(path+"BoosterExpireTimes")
@@ -192,38 +195,37 @@ public class ARGTechInfo extends ArgumentModule
 		if(t.getCostTTExp().containsKey(techLevel))
 		{
 			double ttexp =  new MathFormulaParser().parse(t.getCostTTExp().get(techLevel), map);
-			albc.add(ChatApi.tctl(y.getString(path+"Technology.Info.Lvl.CostTTExp")
-					.replace("%f%", t.getCostMoney().get(techLevel))
+			albc.add(ChatApi.tctl(y.getString(path+"Lvl.CostTTExp")
+					.replace("%f%", t.getCostTTExp().get(techLevel))
 					.replace("%v%", String.valueOf(ttexp))));
 		}
 		if(t.getCostVanillaExp().containsKey(techLevel))
 		{
 			double vexp = (int) Math.floor(new MathFormulaParser().parse(t.getCostVanillaExp().get(techLevel), map));
-			albc.add(ChatApi.tctl(y.getString(path+"Technology.Info.Lvl.CostVExp")
-					.replace("%f%", t.getCostMoney().get(techLevel))
+			albc.add(ChatApi.tctl(y.getString(path+"Lvl.CostVExp")
+					.replace("%f%", t.getCostVanillaExp().get(techLevel))
 					.replace("%v%", String.valueOf(vexp))));
 		}
 		if(t.getCostMoney().containsKey(techLevel))
 		{
 			double money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map);
-			albc.add(ChatApi.tctl(y.getString(path+"Technology.Info.Lvl.CostMoney")
+			albc.add(ChatApi.tctl(y.getString(path+"Lvl.CostMoney")
 					.replace("%f%", t.getCostMoney().get(techLevel))
 					.replace("%v%", String.valueOf(money))));
 		}
 		if(t.getCostMaterial().containsKey(techLevel))
 		{
-			albc.add(ChatApi.tctl(y.getString(path+"Technology.Info.Lvl.CostMaterialHover")
-					.replace("%i%", String.valueOf(techLevel))));
+			albc.add(ChatApi.tctl(y.getString(path+"Lvl.CostMaterial")));
 			for(Entry<Material, String> e : t.getCostMaterial().get(techLevel).entrySet())
 			{
-				albc.add(ChatApi.tctl("&f"+e.getValue()+"x "+TT.getPlugin().getEnumTl() != null
+				albc.add(ChatApi.tctl("&e"+e.getValue()+"x "+(TT.getPlugin().getEnumTl() != null
 						  									? TT.getPlugin().getEnumTl().getLocalization(e.getKey())
-						  									: e.getKey().toString()));
+						  									: e.getKey().toString())));
 			}
 		}
 		if(t.getResearchRequirementConditionQuery().containsKey(techLevel))
 		{
-			albc.add(ChatApi.tctl(y.getString(path+"Technology.Info.Lvl.ResearchRequirementConditionQuery")));
+			albc.add(ChatApi.tctl(y.getString(path+"Lvl.ResearchRequirementConditionQuery")));
 			for(String s : t.getResearchRequirementConditionQuery().get(techLevel))
 			{
 				if(s.startsWith("event"))
@@ -235,13 +237,14 @@ public class ARGTechInfo extends ArgumentModule
 		}
 		if(t.getRewardUnlockableInteractions().containsKey(techLevel))
 		{
-			albc.add(ChatApi.tctl(y.getString(path+"Technology.Info.Lvl.RewardInteraction")));
+			albc.add(ChatApi.tctl(y.getString(path+"Lvl.RewardInteraction")));
 			for(UnlockableInteraction ui : t.getRewardUnlockableInteractions().get(techLevel))
 			{
 				albc.add(ChatApi.tctl("◦ "+ui.getEventType().toString()+":"+
-						ui.getEventMaterial() != null ? ui.getEventMaterial().toString() : "/"+":"+
-						ui.getEventEntityType() != null ? ui.getEventEntityType().toString() : "/"));
+						(ui.getEventMaterial() != null ? ui.getEventMaterial().toString() : "/")+":"+
+						(ui.getEventEntityType() != null ? ui.getEventEntityType().toString() : "/")));
 				albc.add(ChatApi.tctl("  "+ui.getToolType().toString()+" | CanAccess="+ui.isCanAccess()));
+				albc.add(ChatApi.tctl("  "+ui.getTechnologyExperience()+" TTExp | "+ui.getVanillaExperience()+" VanillaExp"));
 				for(Entry<String, Double> e : ui.getMoneyMap().entrySet())
 				{
 					albc.add(ChatApi.tctl("  "+e.getKey()+"="+e.getValue()));
@@ -254,7 +257,7 @@ public class ARGTechInfo extends ArgumentModule
 		}
 		if(t.getRewardRecipes().containsKey(techLevel))
 		{
-			albc.add(ChatApi.tctl(y.getString(path+"Technology.Info.Lvl.RewardRecipe")));
+			albc.add(ChatApi.tctl(y.getString(path+"Lvl.RewardRecipe")));
 			for(Entry<RecipeType, ArrayList<String>> e : t.getRewardRecipes().get(techLevel).entrySet())
 			{
 				albc.add(ChatApi.tctl("◦ "+e.getKey().toString()+":"));
@@ -266,7 +269,7 @@ public class ARGTechInfo extends ArgumentModule
 		}
 		if(t.getRewardDropChances().containsKey(techLevel))
 		{
-			albc.add(ChatApi.tctl(y.getString(path+"Technology.Info.Lvl.RewardDropChance")));
+			albc.add(ChatApi.tctl(y.getString(path+"Lvl.RewardDropChance")));
 			for(DropChance s : t.getRewardDropChances().get(techLevel))
 			{
 				albc.add(ChatApi.tctl("◦ "+s.getEventType().toString()+":"+s.getToolType().toString()
@@ -277,7 +280,7 @@ public class ARGTechInfo extends ArgumentModule
 		}
 		if(t.getRewardSilkTouchDropChances().containsKey(techLevel))
 		{
-			albc.add(ChatApi.tctl(y.getString(path+"Technology.Info.Lvl.RewardSilkTouchDropChance")));
+			albc.add(ChatApi.tctl(y.getString(path+"Lvl.RewardSilkTouchDropChance")));
 			for(DropChance s : t.getRewardSilkTouchDropChances().get(techLevel))
 			{
 				albc.add(ChatApi.tctl("◦ "+s.getEventType().toString()+":"+s.getToolType().toString()
@@ -288,7 +291,7 @@ public class ARGTechInfo extends ArgumentModule
 		}
 		if(t.getRewardCommandList().containsKey(techLevel))
 		{
-			albc.add(ChatApi.tctl(y.getString(path+"Technology.Info.Lvl.RewardCommand")));
+			albc.add(ChatApi.tctl(y.getString(path+"Lvl.RewardCommand")));
 			for(String s : t.getRewardCommandList().get(techLevel))
 			{
 				albc.add(ChatApi.tctl("◦ "+s));
@@ -296,7 +299,7 @@ public class ARGTechInfo extends ArgumentModule
 		}
 		if(t.getRewardItemList().containsKey(techLevel))
 		{
-			albc.add(ChatApi.tctl(y.getString(path+"Technology.Info.Lvl.RewardItem")));
+			albc.add(ChatApi.tctl(y.getString(path+"Lvl.RewardItem")));
 			for(String s : t.getRewardItemList().get(techLevel))
 			{
 				albc.add(ChatApi.tctl("◦ "+s));
@@ -304,7 +307,7 @@ public class ARGTechInfo extends ArgumentModule
 		}
 		if(t.getRewardModifierList().containsKey(techLevel))
 		{
-			albc.add(ChatApi.tctl(y.getString(path+"Technology.Info.Lvl.RewardModifier")));
+			albc.add(ChatApi.tctl(y.getString(path+"Lvl.RewardModifier")));
 			for(String s : t.getRewardModifierList().get(techLevel))
 			{
 				albc.add(ChatApi.tctl("◦ "+s));
@@ -312,11 +315,15 @@ public class ARGTechInfo extends ArgumentModule
 		}
 		if(t.getRewardValueEntryList().containsKey(techLevel))
 		{
-			albc.add(ChatApi.tctl(y.getString(path+"Technology.Info.Lvl.RewardValueEntry")));
+			albc.add(ChatApi.tctl(y.getString(path+"Lvl.RewardValueEntry")));
 			for(String s : t.getRewardValueEntryList().get(techLevel))
 			{
 				albc.add(ChatApi.tctl("◦ "+s));
 			}
+		}
+		for(BaseComponent bc : albc)
+		{
+			player.spigot().sendMessage(bc);
 		}
 	}
 }

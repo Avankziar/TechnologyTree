@@ -695,7 +695,7 @@ public class YamlManager
 						"&cInternname: &f%name%"}));
 		languageKeys.put(path+"Technology.Info.OverlyingSubCategory", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&cÜbergeordnete SubCategory: &f%name%",
+						"&cÜbergeordnete SubCategorie: &f%name%",
 						"&cOverlyingSubCategory: &f%name%"}));
 		languageKeys.put(path+"Technology.Info.Headline", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
@@ -711,12 +711,12 @@ public class YamlManager
 						"&cTheoretical researched Level: &f%lvl%"}));
 		languageKeys.put(path+"Technology.Info.MaxTechLvlToResearchAndGuiSlot", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&cMaxTechLvlToResearch: &f%lvl% &e| &cGuiSlot: &f%slot%",
-						"&cMaxTechLvlToResearch: &f%lvl% &e| &cGuiSlot: &f%slot%"}));
+						"&cMaxTechLvlToResearch: &f%lvl% &1| &cGuiSlot: &f%slot%",
+						"&cMaxTechLvlToResearch: &f%lvl% &1| &cGuiSlot: &f%slot%"}));
 		languageKeys.put(path+"Technology.Info.PlayerAssociatedTypeAndTechType", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&cPlayerAssociatedType: &f%pat% &e| &cTechType: &f%ttype%",
-						"&cPlayerAssociatedType: &f%pat% &e| &cTechType: &f%ttype%"}));
+						"&cPlayerAssociatedType: &f%pat% &1| &cTechType: &f%ttype%",
+						"&cPlayerAssociatedType: &f%pat% &1| &cTechType: &f%ttype%"}));
 		languageKeys.put(path+"Technology.Info.BoosterExpireTimes", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cNach Erforschungs Verfallszeiten: &f%exp%",
@@ -759,16 +759,16 @@ public class YamlManager
 						"&cReward Items: &f%v% %"}));
 		languageKeys.put(path+"Technology.Info.Lvl.CostTTExp", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&cTTExp Kosten: &f%v% | &f(%f%)",
-						"&cTTExp Costs: &f%v% | &f(%f%)"}));
+						"&cTTExp Kosten: &e%v% &1| &f(%f%)",
+						"&cTTExp Costs: &e%v% &1| &f(%f%)"}));
 		languageKeys.put(path+"Technology.Info.Lvl.CostVExp", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&cVanillaExp Kosten: &f%v% | &f(%f%)",
-						"&cVanillaExp costs: &f%v% | &f(%f%)"}));
-		languageKeys.put(path+"Technology.Info.Lvl.CostMoneyHover", 
+						"&cVanillaExp Kosten: &e%v% &1| &f(%f%)",
+						"&cVanillaExp costs: &e%v% &1| &f(%f%)"}));
+		languageKeys.put(path+"Technology.Info.Lvl.CostMoney", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&cGeldkosten: &f%v% | &f(%f%)",
-						"&cMoney costs: &f%v% | &f(%f%)"}));
+						"&cGeldkosten: &e%v% &1| &f(%f%)",
+						"&cMoney costs: &e%v% &1| &f(%f%)"}));
 		languageKeys.put(path+"Technology.Info.Lvl.CostMaterial", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cMaterialkosten:",
@@ -2028,36 +2028,36 @@ public class YamlManager
 				"output:o_1:true",
 				"a:true"});
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(7, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
-		toResCostTTExp.put(8, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
-		toResCostTTExp.put(9, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
-		toResCostTTExp.put(10, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
-		toResCostTTExp.put(11, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(7, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(8, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(9, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(10, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(11, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(7, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
-		toResCostMoney.put(8, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
-		toResCostMoney.put(9, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
-		toResCostMoney.put(10, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
-		toResCostMoney.put(11, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(7, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(8, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(9, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(10, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(11, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(1, new String[] {
 				"OAK_PLANKS;16",
@@ -2079,17 +2079,17 @@ public class YamlManager
 				"STICK;16"});
 		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] {
-				"CRAFTING:WOODEN_PICKAXE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:WOODEN_PICKAXE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(2, new String[] {
-				"CRAFTING:STONE_PICKAXE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:STONE_PICKAXE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(3, new String[] {
-				"CRAFTING:IRON_PICKAXE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:IRON_PICKAXE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(4, new String[] {
-				"CRAFTING:GOLDEN_PICKAXEL:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:GOLDEN_PICKAXE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(5, new String[] {
-				"CRAFTING:DIAMOND_PICKAXE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:DIAMOND_PICKAXE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(6, new String[] {
-				"CRAFTING:NETHERITE_PICKAXE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:NETHERITE_PICKAXE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		String[] rui = new String[] {
 				"CRAFTING:WOODEN_PICKAXE:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
 				"CRAFTING:STONE_PICKAXE:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
@@ -2108,7 +2108,7 @@ public class YamlManager
 		rewardUnlockableRecipe.put(3, new String[] {"SHAPED:iron_pickaxe",""});
 		rewardUnlockableRecipe.put(4, new String[] {"SHAPED:golden_pickaxe",""});
 		rewardUnlockableRecipe.put(5, new String[] {"SHAPED:diamond_pickaxe",""});
-		rewardUnlockableRecipe.put(6, new String[] {"SMITHING:netherite_pickaxe",""});
+		rewardUnlockableRecipe.put(6, new String[] {"SMITHING:netherite_pickaxe_smithing",""});
 		LinkedHashMap<Integer, String[]> rewardDropChance = new LinkedHashMap<>();
 		rewardDropChance.put(4, new String[] {
 				"CRAFTING:HAND:IRON_PICKAXE:null:mat=IRON_INGOT:1:0.005",""});
@@ -2213,36 +2213,36 @@ public class YamlManager
 				"output:o_1:true",
 				"a:true"});
 		toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(7, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
-		toResCostTTExp.put(8, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
-		toResCostTTExp.put(9, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
-		toResCostTTExp.put(10, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
-		toResCostTTExp.put(11, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(7, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(8, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(9, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(10, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(11, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
 		toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
 		toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(7, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
-		toResCostMoney.put(8, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
-		toResCostMoney.put(9, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
-		toResCostMoney.put(10, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
-		toResCostMoney.put(11, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(7, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(8, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(9, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(10, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(11, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
 		toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(1, new String[] {
 				"OAK_PLANKS;16",
@@ -2264,17 +2264,17 @@ public class YamlManager
 				"STICK;16"});
 		rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] {
-				"CRAFTING:WOODEN_SHOVEL:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:WOODEN_SHOVEL:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(2, new String[] {
-				"CRAFTING:STONE_SHOVEL:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:STONE_SHOVEL:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(3, new String[] {
-				"CRAFTING:IRON_SHOVEL:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:IRON_SHOVEL:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(4, new String[] {
-				"CRAFTING:GOLDEN_SHOVEL:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:GOLDEN_SHOVEL:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(5, new String[] {
-				"CRAFTING:DIAMOND_SHOVEL:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:DIAMOND_SHOVEL:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(6, new String[] {
-				"CRAFTING:NETHERITE_SHOVEL:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:NETHERITE_SHOVEL:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rui = new String[] {
 				"CRAFTING:WOODEN_SHOVEL:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
 				"CRAFTING:STONE_SHOVEL:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
@@ -2293,7 +2293,7 @@ public class YamlManager
 		rewardUnlockableRecipe.put(3, new String[] {"SHAPED:iron_shovel",""});
 		rewardUnlockableRecipe.put(4, new String[] {"SHAPED:golden_shovel",""});
 		rewardUnlockableRecipe.put(5, new String[] {"SHAPED:diamond_shovel",""});
-		rewardUnlockableRecipe.put(6, new String[] {"SMITHING:netherite_shovel",""});
+		rewardUnlockableRecipe.put(6, new String[] {"SMITHING:netherite_shovel_smithing",""});
 		rewardDropChance = new LinkedHashMap<>();
 		rewardDropChance.put(4, new String[] {
 				"CRAFTING:HAND:IRON_SHOVEL:null:mat=IRON_INGOT:1:0.005",""});
@@ -2398,36 +2398,36 @@ public class YamlManager
 				"output:o_1:true",
 				"a:true"});
 		toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(7, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
-		toResCostTTExp.put(8, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
-		toResCostTTExp.put(9, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
-		toResCostTTExp.put(10, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
-		toResCostTTExp.put(11, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(7, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(8, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(9, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(10, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(11, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
 		toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
 		toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(7, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
-		toResCostMoney.put(8, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
-		toResCostMoney.put(9, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
-		toResCostMoney.put(10, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
-		toResCostMoney.put(11, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(7, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(8, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(9, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(10, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(11, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
 		toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(1, new String[] {
 				"OAK_PLANKS;16",
@@ -2449,17 +2449,17 @@ public class YamlManager
 				"STICK;16"});
 		rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] {
-				"CRAFTING:WOODEN_HOE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:WOODEN_HOE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(2, new String[] {
-				"CRAFTING:STONE_HOE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:STONE_HOE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(3, new String[] {
-				"CRAFTING:IRON_HOE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:IRON_HOE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(4, new String[] {
-				"CRAFTING:GOLDEN_HOE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:GOLDEN_HOE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(5, new String[] {
-				"CRAFTING:DIAMOND_HOE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:DIAMOND_HOE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(6, new String[] {
-				"CRAFTING:NETHERITE_HOE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:NETHERITE_HOE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rui = new String[] {
 				"CRAFTING:WOODEN_HOE:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
 				"CRAFTING:STONE_HOE:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
@@ -2478,7 +2478,7 @@ public class YamlManager
 		rewardUnlockableRecipe.put(3, new String[] {"SHAPED:iron_hoe",""});
 		rewardUnlockableRecipe.put(4, new String[] {"SHAPED:golden_hoe",""});
 		rewardUnlockableRecipe.put(5, new String[] {"SHAPED:diamond_hoe",""});
-		rewardUnlockableRecipe.put(6, new String[] {"SMITHING:netherite_hoe",""});
+		rewardUnlockableRecipe.put(6, new String[] {"SMITHING:netherite_hoe_smithing",""});
 		rewardDropChance = new LinkedHashMap<>();
 		rewardDropChance.put(4, new String[] {
 				"CRAFTING:HAND:IRON_HOE:null:mat=IRON_INGOT:1:0.005",""});
@@ -2583,36 +2583,36 @@ public class YamlManager
 				"output:o_1:true",
 				"a:true"});
 		toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(7, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
-		toResCostTTExp.put(8, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
-		toResCostTTExp.put(9, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
-		toResCostTTExp.put(10, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
-		toResCostTTExp.put(11, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(7, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(8, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(9, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(10, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(11, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
 		toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
 		toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(7, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
-		toResCostMoney.put(8, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
-		toResCostMoney.put(9, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
-		toResCostMoney.put(10, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
-		toResCostMoney.put(11, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(7, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(8, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(9, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(10, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(11, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
 		toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(1, new String[] {
 				"OAK_PLANKS;16",
@@ -2634,53 +2634,53 @@ public class YamlManager
 				"STICK;16"});
 		rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] {
-				"CRAFTING:WOODEN_HOEL:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:WOODEN_AXE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(2, new String[] {
-				"CRAFTING:STONE_HOE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:STONE_AXE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(3, new String[] {
-				"CRAFTING:IRON_HOE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:IRON_AXE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(4, new String[] {
-				"CRAFTING:GOLDEN_HOE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:GOLDEN_AXE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(5, new String[] {
-				"CRAFTING:DIAMOND_HOE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:DIAMOND_AXE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(6, new String[] {
-				"CRAFTING:NETHERITE_HOE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:NETHERITE_AXE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rui = new String[] {
-				"CRAFTING:WOODEN_HOE:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
-				"CRAFTING:STONE_HOE:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
-				"CRAFTING:IRON_HOE:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
-				"CRAFTING:DIAMOND_HOE:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
-				"CRAFTING:GOLDEN_HOE:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
-				"CRAFTING:NETHERITE_HOE:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1"};
+				"CRAFTING:WOODEN_AXE:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
+				"CRAFTING:STONE_AXE:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
+				"CRAFTING:IRON_AXE:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
+				"CRAFTING:DIAMOND_AXE:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
+				"CRAFTING:GOLDEN_AXE:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
+				"CRAFTING:NETHERITE_AXE:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1"};
 		rewardUnlockableInteractions.put(7, rui);
 		rewardUnlockableInteractions.put(8, rui);
 		rewardUnlockableInteractions.put(9, rui);
 		rewardUnlockableInteractions.put(10, rui);
 		rewardUnlockableInteractions.put(11, rui);
 		rewardUnlockableRecipe = new LinkedHashMap<>();
-		rewardUnlockableRecipe.put(1, new String[] {"SHAPED:wooden_hoe",""});
-		rewardUnlockableRecipe.put(2, new String[] {"SHAPED:stone_hoe",""});
-		rewardUnlockableRecipe.put(3, new String[] {"SHAPED:iron_hoe",""});
-		rewardUnlockableRecipe.put(4, new String[] {"SHAPED:golden_hoe",""});
-		rewardUnlockableRecipe.put(5, new String[] {"SHAPED:diamond_hoe",""});
-		rewardUnlockableRecipe.put(6, new String[] {"SMITHING:netherite_hoe",""});
+		rewardUnlockableRecipe.put(1, new String[] {"SHAPED:wooden_axe",""});
+		rewardUnlockableRecipe.put(2, new String[] {"SHAPED:stone_axe",""});
+		rewardUnlockableRecipe.put(3, new String[] {"SHAPED:iron_axe",""});
+		rewardUnlockableRecipe.put(4, new String[] {"SHAPED:golden_axe",""});
+		rewardUnlockableRecipe.put(5, new String[] {"SHAPED:diamond_axe",""});
+		rewardUnlockableRecipe.put(6, new String[] {"SMITHING:netherite_axe_smithing",""});
 		rewardDropChance = new LinkedHashMap<>();
 		rewardDropChance.put(4, new String[] {
-				"CRAFTING:HAND:IRON_HOE:null:mat=IRON_INGOT:1:0.005",""});
+				"CRAFTING:HAND:IRON_AXE:null:mat=IRON_INGOT:1:0.005",""});
 		rewardDropChance.put(5, new String[] {
-				"CRAFTING:HAND:IRON_HOE:null:mat=IRON_INGOT:1:0.02",""});
+				"CRAFTING:HAND:IRON_AXE:null:mat=IRON_INGOT:1:0.02",""});
 		rewardDropChance.put(6, new String[] {
-				"CRAFTING:HAND:GOLDEN_HOE:null:mat=GOLD_INGOT:1:0.005",""});
+				"CRAFTING:HAND:GOLDEN_AXE:null:mat=GOLD_INGOT:1:0.005",""});
 		rewardDropChance.put(7, new String[] {
-				"CRAFTING:HAND:GOLDEN_HOE:null:mat=GOLD_INGOT:1:0.02",""});
+				"CRAFTING:HAND:GOLDEN_AXE:null:mat=GOLD_INGOT:1:0.02",""});
 		rewardDropChance.put(8, new String[] {
-				"CRAFTING:HAND:DIAMOND_HOE:null:mat=DIAMOND:1:0.005",""});
+				"CRAFTING:HAND:DIAMOND_AXE:null:mat=DIAMOND:1:0.005",""});
 		rewardDropChance.put(9, new String[] {
-				"CRAFTING:HAND:DIAMOND_HOE:null:mat=DIAMOND:1:0.02",""});
+				"CRAFTING:HAND:DIAMOND_AXE:null:mat=DIAMOND:1:0.02",""});
 		rewardDropChance.put(10, new String[] {
-				"SMITHING:HAND:NETHERITE_HOE:null:mat=NETHERITE_INGOT:1:0.005",""});
+				"SMITHING:HAND:NETHERITE_AXE:null:mat=NETHERITE_INGOT:1:0.005",""});
 		rewardDropChance.put(11, new String[] {
-				"SMITHING:HAND:NETHERITE_HOE:null:mat=NETHERITE_INGOT:1:0.02",""});
+				"SMITHING:HAND:NETHERITE_AXE:null:mat=NETHERITE_INGOT:1:0.02",""});
 		rewardSilkTouchDropChance = new LinkedHashMap<>();
 		rewardCommand = new LinkedHashMap<>();
 		rewardItem = new LinkedHashMap<>();
@@ -2772,36 +2772,36 @@ public class YamlManager
 				"output:o_1:true",
 				"a:true"});
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(7, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
-		toResCostTTExp.put(8, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
-		toResCostTTExp.put(9, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
-		toResCostTTExp.put(10, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
-		toResCostTTExp.put(11, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(7, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(8, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(9, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(10, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(11, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(7, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
-		toResCostMoney.put(8, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
-		toResCostMoney.put(9, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
-		toResCostMoney.put(10, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
-		toResCostMoney.put(11, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(7, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(8, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(9, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(10, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(11, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(1, new String[] {
 				"OAK_PLANKS;16",
@@ -2823,17 +2823,17 @@ public class YamlManager
 				"STICK;16"});
 		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] {
-				"CRAFTING:WOODEN_SWORD:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:WOODEN_SWORD:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(2, new String[] {
-				"CRAFTING:STONE_SWORD:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:STONE_SWORD:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(3, new String[] {
-				"CRAFTING:IRON_SWORD:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:IRON_SWORD:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(4, new String[] {
-				"CRAFTING:GOLDEN_SWORD:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:GOLDEN_SWORD:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(5, new String[] {
-				"CRAFTING:DIAMOND_SWORD:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:DIAMOND_SWORD:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(6, new String[] {
-				"CRAFTING:NETHERITE_SWORD:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:NETHERITE_SWORD:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		String[] rui = new String[] {
 				"CRAFTING:WOODEN_SWORD:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
 				"CRAFTING:STONE_SWORD:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
@@ -2852,7 +2852,7 @@ public class YamlManager
 		rewardUnlockableRecipe.put(3, new String[] {"SHAPED:iron_sword",""});
 		rewardUnlockableRecipe.put(4, new String[] {"SHAPED:golden_sword",""});
 		rewardUnlockableRecipe.put(5, new String[] {"SHAPED:diamond_sword",""});
-		rewardUnlockableRecipe.put(6, new String[] {"SMITHING:netherite_sword",""});
+		rewardUnlockableRecipe.put(6, new String[] {"SMITHING:netherite_sword_smithing",""});
 		LinkedHashMap<Integer, String[]> rewardDropChance = new LinkedHashMap<>();
 		rewardDropChance.put(4, new String[] {
 				"CRAFTING:HAND:IRON_SWORD:null:mat=IRON_INGOT:1:0.005",""});
@@ -2957,36 +2957,36 @@ public class YamlManager
 				"output:o_1:true",
 				"a:true"});
 		toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(7, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
-		toResCostTTExp.put(8, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
-		toResCostTTExp.put(9, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
-		toResCostTTExp.put(10, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
-		toResCostTTExp.put(11, "10 * (100 * techlev + 50 * techacq + 25 * totalsolotech)");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(7, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(8, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(9, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(10, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(11, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
 		toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
 		toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(7, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
-		toResCostMoney.put(8, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
-		toResCostMoney.put(9, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
-		toResCostMoney.put(10, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
-		toResCostMoney.put(11, "5 * (1 * techlev + 0.5 * techacq + 0.25 * totalsolotech)");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(7, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(8, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(9, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(10, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(11, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
 		toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(1, new String[] {
 				"LEATHER;2",
@@ -3005,15 +3005,15 @@ public class YamlManager
 				"STRING;64"});
 		rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] {
-				"CRAFTING:LEATHER_BOOTS:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:LEATHER_BOOTS:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(2, new String[] {
-				"CRAFTING:IRON_BOOTS:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:IRON_BOOTS:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(3, new String[] {
-				"CRAFTING:GOLDEN_BOOTS:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:GOLDEN_BOOTS:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(4, new String[] {
-				"CRAFTING:DIAMOND_BOOTS:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:DIAMOND_BOOTS:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(5, new String[] {
-				"CRAFTING:NETHERITE_BOOTS:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1"});
+				"CRAFTING:NETHERITE_BOOTS:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rui = new String[] {
 				"CRAFTING:LEATHER_BOOTS:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
 				"CRAFTING:IRON_BOOTS:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
@@ -3031,7 +3031,7 @@ public class YamlManager
 		rewardUnlockableRecipe.put(2, new String[] {"SHAPED:iron_boots",""});
 		rewardUnlockableRecipe.put(3, new String[] {"SHAPED:golden_boots",""});
 		rewardUnlockableRecipe.put(4, new String[] {"SHAPED:diamond_boots",""});
-		rewardUnlockableRecipe.put(5, new String[] {"SMITHING:netherite_boots",""});
+		rewardUnlockableRecipe.put(5, new String[] {"SMITHING:netherite_boots_smithing",""});
 		rewardDropChance = new LinkedHashMap<>();
 		rewardDropChance.put(2, new String[] {
 				"CRAFTING:HAND:LEATHER_BOOTS:null:mat=LEATHER:1:0.005",""});
@@ -3144,11 +3144,11 @@ public class YamlManager
 				"output:o_1:true",
 				"a:var1=hasresearchedtech,woodenplanks,1:==:true"});
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * totalsolotech");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] {
@@ -3267,14 +3267,14 @@ public class YamlManager
 				"output:o_1:true",
 				"a:true"});
 		toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * totalsolotech");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
 		toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
 		toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
 		toResCostMaterial = new LinkedHashMap<>();
 		rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] {
@@ -3436,26 +3436,26 @@ public class YamlManager
 						"output:o_1:true",
 						"a:true"});
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(7, "100 * techlev + 50 * techacq + 25 * totalsolotech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(7, "100 * techlev + 50 * techacq + 25 * solototaltech");
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(7, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(7, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(7, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(7, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(2, new String[] {
 				"WOODEN_SHOVEL;8",
@@ -3507,10 +3507,10 @@ public class YamlManager
 				"BREAKING:SAND:null:tool=DIAMOND_SHOVEL:ttexp=0.01:vault=0.1:default=0.1",
 				"BREAKING:GRAVEL:null:tool=DIAMOND_SHOVEL:ttexp=0.01:vault=0.1:default=0.1"});
 		rewardUnlockableInteractions.put(7, new String[] {
-				"BREAKING:DIRT:null:tool=NETHERITHE_SHOVEL:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:GRASS_BLOCK:null:tool=NETHERITHE_SHOVEL:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:SAND:null:tool=NETHERITHE_SHOVEL:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:GRAVEL:null:tool=NETHERITHE_SHOVEL:ttexp=0.01:vault=0.1:default=0.1"});
+				"BREAKING:DIRT:null:tool=NETHERITE_SHOVEL:ttexp=0.01:vault=0.1:default=0.1",
+				"BREAKING:GRASS_BLOCK:null:tool=NETHERITE_SHOVEL:ttexp=0.01:vault=0.1:default=0.1",
+				"BREAKING:SAND:null:tool=NETHERITE_SHOVEL:ttexp=0.01:vault=0.1:default=0.1",
+				"BREAKING:GRAVEL:null:tool=NETHERITE_SHOVEL:ttexp=0.01:vault=0.1:default=0.1"});
 		LinkedHashMap<Integer, String[]> rewardUnlockableRecipe = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardDropChance = new LinkedHashMap<>();
 		rewardDropChance.put(1, new String[] {
@@ -3663,30 +3663,29 @@ public class YamlManager
 						"output:o_1:true",
 						"a:true"});
 		toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(7, "100 * techlev + 50 * techacq + 25 * totalsolotech");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(7, "100 * techlev + 50 * techacq + 25 * solototaltech");
 		toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(7, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(7, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
 		toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(7, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMaterial = new LinkedHashMap<>();
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(7, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
 		toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(2, new String[] {
 				"WOODEN_SHOVEL;8",
@@ -3875,30 +3874,29 @@ public class YamlManager
 						"output:o_1:true",
 						"a:true"});
 		toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(7, "100 * techlev + 50 * techacq + 25 * totalsolotech");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(7, "100 * techlev + 50 * techacq + 25 * solototaltech");
 		toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(7, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(7, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
 		toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(7, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMaterial = new LinkedHashMap<>();
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(7, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
 		toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(2, new String[] {
 				"WOODEN_SHOVEL;8",
@@ -4133,26 +4131,26 @@ public class YamlManager
 				"output:o_1:true",
 				"a:true"});
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * totalsolotech");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(1, new String[] {
 				"WOODEN_PICKAXE;8",
@@ -4306,26 +4304,26 @@ public class YamlManager
 				"output:o_1:true",
 				"a:true"});
 		toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * totalsolotech");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
 		toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
 		toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
 		toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(1, new String[] {
 				"WOODEN_PICKAXE;8",
@@ -4502,26 +4500,26 @@ public class YamlManager
 				"output:o_1:true",
 				"a:true"});
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * totalsolotech");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(1, new String[] {
 				"WOODEN_PICKAXE;8",
@@ -4712,23 +4710,23 @@ public class YamlManager
 				"output:o_1:true",
 				"a:true"});
 		toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * totalsolotech");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
 		toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
 		toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
 		toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(1, new String[] {
 				"STONE_PICKAXE;8",
@@ -4901,11 +4899,11 @@ public class YamlManager
 				"output:o_1:true",
 				"a:true"});
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 25 * totalsolotech");
+		toResCostTTExp.put(1, "100 * techlev + 25 * solototaltech");
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * totalsolotech");
+		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * solototaltech");
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.25 * totalsolotech");
+		toResCostMoney.put(1, "1 * techlev + 0.25 * solototaltech");
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] {
@@ -4992,11 +4990,11 @@ public class YamlManager
 				"output:o_1:true",
 				"a:true"});
 		toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 25 * totalsolotech");
+		toResCostTTExp.put(1, "100 * techlev + 25 * solototaltech");
 		toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * totalsolotech");
+		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * solototaltech");
 		toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.25 * totalsolotech");
+		toResCostMoney.put(1, "1 * techlev + 0.25 * solototaltech");
 		toResCostMaterial = new LinkedHashMap<>();
 		rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] {
@@ -5083,26 +5081,26 @@ public class YamlManager
 						"output:o_1:true",
 						"a:true"});
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(7, "100 * techlev + 50 * techacq + 25 * totalsolotech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(7, "100 * techlev + 50 * techacq + 25 * solototaltech");
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(7, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(7, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(7, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(7, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(2, new String[] {
 				"WOODEN_PICKAXE;8",
@@ -5388,29 +5386,29 @@ public class YamlManager
 						"output:o_1:true",
 						"a:var1=hasresearchedtech,woodenlog,1:==:true"});
 		toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * totalsolotech");
-		toResCostTTExp.put(7, "100 * techlev + 50 * techacq + 25 * totalsolotech");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(7, "100 * techlev + 50 * techacq + 25 * solototaltech");
 		toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(7, "10 * techlev + 5 * techacq + 2.5 * totalsolotech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(7, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
 		toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
-		toResCostMoney.put(7, "1 * techlev + 0.5 * techacq + 0.25 * totalsolotech");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(7, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
 		toResCostMaterial = new LinkedHashMap<>();
 		rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] {
@@ -5482,7 +5480,7 @@ public class YamlManager
 		rewardUnlockableRecipe.put(1, new String[] {
 				"SHAPELESS:oak_planks",
 				"SHAPELESS:spruce_planks",
-				"SHAPELESS:birck_planks",
+				"SHAPELESS:birch_planks",
 				"SHAPELESS:jungle_planks",
 				"SHAPELESS:acacia_planks",
 				"SHAPELESS:dark_oak_planks",
@@ -5691,14 +5689,14 @@ public class YamlManager
 				"output:o_1:true",
 				"a:true"});
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 25 * totalsolotech");
-		toResCostTTExp.put(2, "100 * techlev + 25 * totalsolotech");
+		toResCostTTExp.put(1, "100 * techlev + 25 * solototaltech");
+		toResCostTTExp.put(2, "100 * techlev + 25 * solototaltech");
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(2, "10 * techlev + 2.5 * totalsolotech");
+		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * solototaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 2.5 * solototaltech");
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.25 * totalsolotech");
-		toResCostMoney.put(2, "1 * techlev + 0.25 * totalsolotech");
+		toResCostMoney.put(1, "1 * techlev + 0.25 * solototaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.25 * solototaltech");
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] {
@@ -5856,21 +5854,21 @@ public class YamlManager
 				"output:o_1:true",
 				"a:true"});
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 25 * totalsolotech");
-		toResCostTTExp.put(2, "100 * techlev + 25 * totalsolotech");
+		toResCostTTExp.put(1, "100 * techlev + 25 * solototaltech");
+		toResCostTTExp.put(2, "100 * techlev + 25 * solototaltech");
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * totalsolotech");
-		toResCostVanillaExp.put(2, "10 * techlev + 2.5 * totalsolotech");
+		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * solototaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 2.5 * solototaltech");
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.25 * totalsolotech");
-		toResCostMoney.put(2, "1 * techlev + 0.25 * totalsolotech");
+		toResCostMoney.put(1, "1 * techlev + 0.25 * solototaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.25 * solototaltech");
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] {
 				"PLACING:COBBLESTONE_STAIRS:null:tool=HAND",
 				"BREAKING:COBBLESTONE_STAIRS:null:tool=HAND",
 				"PLACING:COBBLESTONE_STAIRS:null:tool=WOODEN_PICKAXE",
-				"BREAKING:COBBLESTONE_STAIRSnull:tool=WOODEN_PICKAXE",
+				"BREAKING:COBBLESTONE_STAIRS:null:tool=WOODEN_PICKAXE",
 				"PLACING:COBBLESTONE_STAIRS:null:tool=STONE_PICKAXE",
 				"BREAKING:COBBLESTONE_STAIRS:null:tool=STONE_PICKAXE",
 				"PLACING:COBBLESTONE_STAIRS:null:tool=IRON_PICKAXE",
@@ -6021,11 +6019,11 @@ public class YamlManager
 				"output:o_1:true",
 				"a:var1=hasresearchedtech,furnace,1:==:true"});
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 25 * totalsolotech");
+		toResCostTTExp.put(1, "100 * techlev + 25 * solototaltech");
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * totalsolotech");
+		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * solototaltech");
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.25 * totalsolotech");
+		toResCostMoney.put(1, "1 * techlev + 0.25 * solototaltech");
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] 
@@ -6106,11 +6104,11 @@ public class YamlManager
 				"output:o_1:true",
 				"a:var1=hasresearchedtech,furnace,1:==:true"});
 		toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 25 * totalsolotech");
+		toResCostTTExp.put(1, "100 * techlev + 25 * solototaltech");
 		toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * totalsolotech");
+		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * solototaltech");
 		toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.25 * totalsolotech");
+		toResCostMoney.put(1, "1 * techlev + 0.25 * solototaltech");
 		toResCostMaterial = new LinkedHashMap<>();
 		rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] 
@@ -6336,7 +6334,7 @@ public class YamlManager
 		}
 		for(Entry<Integer, String[]> e : toResCostMaterial.entrySet())
 		{
-			one.put("RequirementToResearch.Costs.Money."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER}, 
+			one.put("RequirementToResearch.Costs.Material."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER}, 
 					e.getValue()));
 		}
 		//--- ToResearch - IfYouCanResearchIt ---

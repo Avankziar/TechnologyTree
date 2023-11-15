@@ -428,7 +428,7 @@ public class RecipeHandler
 		ArrayList<String> keylist = new ArrayList<>();
 		if(recipeMap.containsKey(rt))
 		{
-			recipeMap.get(rt);
+			keylist = recipeMap.get(rt);
 		}
 		if(!keylist.contains(key))
 		{
