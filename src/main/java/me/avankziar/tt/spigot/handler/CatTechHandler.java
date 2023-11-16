@@ -167,7 +167,9 @@ public class CatTechHandler
 				} else
 				{
 					seeRequirementConditionQuery.add("if:(a):o_1");
+					seeRequirementConditionQuery.add("else:o_2");
 					seeRequirementConditionQuery.add("output:o_1:true");
+					seeRequirementConditionQuery.add("output:o_2:false");
 					seeRequirementConditionQuery.add("a:true");
 				}
 				boolean seeRequirementShowDifferentItemIfYouNormallyDontSeeIt 
@@ -190,7 +192,9 @@ public class CatTechHandler
 					{
 						List<String> l = new ArrayList<>();
 						l.add("if:(a):o_1");
+						l.add("else:o_2");
 						l.add("output:o_1:true");
+						l.add("output:o_2:false");
 						l.add("a:true");
 						researchRequirementConditionQuery.put(i, l);
 					}
@@ -201,7 +205,10 @@ public class CatTechHandler
 				{
 					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
 					{
-						costTTExp.put(i, y.getString("RequirementToResearch.Costs.TTExp."+i, ""));
+						if(y.get("RequirementToResearch.Costs.TTExp."+i) != null)
+						{
+							costTTExp.put(i, y.getString("RequirementToResearch.Costs.TTExp."+i, ""));
+						}
 					}
 				}
 				LinkedHashMap<Integer, String> costVanillaExp = new LinkedHashMap<>();
@@ -209,7 +216,10 @@ public class CatTechHandler
 				{
 					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
 					{
-						costVanillaExp.put(i, y.getString("RequirementToResearch.Costs.VanillaExp."+i, ""));
+						if(y.get("RequirementToResearch.Costs.VanillaExp."+i) != null)
+						{
+							costVanillaExp.put(i, y.getString("RequirementToResearch.Costs.VanillaExp."+i, ""));
+						}
 					}
 				}
 				LinkedHashMap<Integer, String> costMoney = new LinkedHashMap<>();
@@ -217,7 +227,10 @@ public class CatTechHandler
 				{
 					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
 					{
-						costMoney.put(i, y.getString("RequirementToResearch.Costs.Money."+i, ""));
+						if(y.get("RequirementToResearch.Costs.Money."+i) != null)
+						{
+							costMoney.put(i, y.getString("RequirementToResearch.Costs.Money."+i, ""));
+						}
 					}
 				}
 				LinkedHashMap<Integer, LinkedHashMap<Material, String>> costMaterial = new LinkedHashMap<>();
@@ -300,7 +313,6 @@ public class CatTechHandler
 								rui.add(ui);
 							} catch(Exception e)
 							{
-								TT.log.info("Rewards.UnlockableInteractions.i Exception | s: "+s);//REMOVEME
 								e.printStackTrace();
 								continue;
 							}
@@ -323,23 +335,25 @@ public class CatTechHandler
 							String[] split  = s.split(":");
 							if(s.isBlank() || s.isEmpty() || split.length != 2)
 							{
-								TT.log.info("s.isBlank() || s.isEmpty() || split.length != 2 > s: "+s); //REMOVEME
 								continue;
 							}
 							try
 							{
 								RecipeType rt = RecipeType.valueOf(split[0]);
 								String key = split[1];
-								if(!RecipeHandler.recipeMap.containsKey(rt))
-								{	
-									TT.log.info("!RecipeHandler.recipeMap.containsKey(rt) > s: "+s); //REMOVEME
-									continue;
-								}
-								ArrayList<String> rtal = RecipeHandler.recipeMap.get(rt);
-								if(!rtal.contains(key))
+								if(rt == RecipeType.BLASTING || rt == RecipeType.CAMPFIRE || rt == RecipeType.FURNACE
+										|| rt == RecipeType.SHAPED || rt == RecipeType.SHAPELESS || rt == RecipeType.SMITHING
+										|| rt == RecipeType.SMOKING || rt == RecipeType.STONECUTTING)
 								{
-									TT.log.info("!rtal.contains(key) > s: "+s); //REMOVEME
-									continue;
+									if(!RecipeHandler.recipeMap.containsKey(rt))
+									{	
+										continue;
+									}
+									ArrayList<String> rtal = RecipeHandler.recipeMap.get(rt);
+									if(!rtal.contains(key))
+									{
+										continue;
+									}
 								}
 								ArrayList<String> list = new ArrayList<>();
 								if(rr.containsKey(rt))
@@ -353,7 +367,6 @@ public class CatTechHandler
 								rr.put(rt, list);
 							} catch(Exception e)
 							{
-								TT.log.info("Exception > s: "+s); //REMOVEME
 								e.printStackTrace();
 								continue;
 							}

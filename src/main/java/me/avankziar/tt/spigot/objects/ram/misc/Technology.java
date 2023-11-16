@@ -335,10 +335,10 @@ public class Technology
 		this.researchRequirementConditionQuery = researchRequirementConditionQuery;
 	}
 
-	public ItemStack getResearchRequirementItemIfYouCanResearchIt(Player player)
+	public ItemStack getResearchRequirementItemIfYouCanResearchIt(Player player, int researchlev)
 	{
 		return GuiHandler.generateItem(BaseConstructor.getPlugin().getYamlHandler().getTechnologies().get(this.getInternName()),
-				"RequirementToResearch.IfYouCanResearchIt", 0, null, null, this, getPlayerAssociatedType(), player);
+				"RequirementToResearch.IfYouCanResearchIt."+researchlev, 0, null, null, this, getPlayerAssociatedType(), player);
 	}
 
 	public ItemStack getResearchRequirementItemIfYouHaveResearchedIt(Player player)

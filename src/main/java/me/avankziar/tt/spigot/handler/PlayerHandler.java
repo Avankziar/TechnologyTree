@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
@@ -289,7 +290,6 @@ public class PlayerHandler
 		LinkedHashMap<ItemStack, Boolean> map = new LinkedHashMap<>();
 		if(mcat != null)
 		{
-			//TT.log.info("MCat Start : "+mcat.getInternName()); //REMOVEME
 			switch(pat)
 			{
 			case SOLO:
@@ -304,39 +304,32 @@ public class PlayerHandler
 				}
 				if(exist && mseqs.getStatusType() == EntryStatusType.CAN_SEE_IT)
 				{
-					map.put(mcat.getSeeRequirementItemIfYouCanSeeIt(player), null);
+					map.put(mcat.getSeeRequirementItemIfYouCanSeeIt(player), true);
 					return map;
 				}
 				ArrayList<String> msls = new ArrayList<>();
-				//TT.log.info("SeeRequirementConditionQuery"); //REMOVEME
 				for(String s : mcat.getSeeRequirementConditionQuery())
 				{
 					if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
 					{
-						//TT.log.info("s = "+s); //REMOVEME
 						msls.add(s);
 						continue;
 					}
 					String r = getTTReplacerValues(uuid, s);
-					//TT.log.info("r = "+r); //REMOVEME
 					msls.add(r);
 				}
 				ArrayList<String> msal = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, msls);
-				//TT.log.info("msal != null : "+(msal != null)); //REMOVEME
-				/*if(msal != null) //REMOVEME
-				{
-					for(String s : msal) //REMOVEME
-					{
-						TT.log.info("msal = "+s); //REMOVEME
-					}
-				}*/
 				if(msal != null && msal.get(0).equalsIgnoreCase("true"))
 				{
 					mseqs.setStatusType(EntryStatusType.CAN_SEE_IT);
-					map.put(mcat.getSeeRequirementItemIfYouCanSeeIt(player), null);
+					map.put(mcat.getSeeRequirementItemIfYouCanSeeIt(player), true);
 				} else
 				{
-					map.put(mcat.getSeeRequirementItemIfYouCannotSeeIt(player), null);
+					if(!mcat.isSeeRequirementShowDifferentItemIfYouNormallyDontSeeIt())
+					{
+						return null;
+					}
+					map.put(mcat.getSeeRequirementItemIfYouCannotSeeIt(player), false);
 				}
 				if(exist)
 				{					
@@ -352,8 +345,8 @@ public class PlayerHandler
 				return null;//TODO
 			case GLOBAL:
 				GlobalEntryQueryStatus mgeqs = (GlobalEntryQueryStatus) plugin.getMysqlHandler().getData(Type.GLOBALENTRYQUERYSTATUS,
-						"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-						player.getUniqueId().toString(), mcat.getInternName(), EntryQueryType.MAIN_CATEGORY.toString());
+						"`intern_name` = ? AND `entry_query_type` = ?",
+						mcat.getInternName(), EntryQueryType.MAIN_CATEGORY.toString());
 				boolean existII = mgeqs != null;
 				if(!existII)
 				{
@@ -362,7 +355,7 @@ public class PlayerHandler
 				}
 				if(existII && mgeqs.getStatusType() == EntryStatusType.CAN_SEE_IT)
 				{
-					map.put(mcat.getSeeRequirementItemIfYouCanSeeIt(player), null);
+					map.put(mcat.getSeeRequirementItemIfYouCanSeeIt(player), true);
 					return map;
 				}
 				ArrayList<String> mgls = new ArrayList<>();
@@ -378,14 +371,18 @@ public class PlayerHandler
 				ArrayList<String> al = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, mgls);
 				if(al != null && al.get(0).equalsIgnoreCase("true"))
 				{
-					map.put(mcat.getSeeRequirementItemIfYouCanSeeIt(player), null);
+					mgeqs.setStatusType(EntryStatusType.CAN_SEE_IT);
+					map.put(mcat.getSeeRequirementItemIfYouCanSeeIt(player), true);
 				} else
 				{
-					map.put(mcat.getSeeRequirementItemIfYouCannotSeeIt(player), null);
+					if(!mcat.isSeeRequirementShowDifferentItemIfYouNormallyDontSeeIt())
+					{
+						return null;
+					}
+					map.put(mcat.getSeeRequirementItemIfYouCannotSeeIt(player), false);
 				}
 				if(existII)
 				{
-					mgeqs.setStatusType(EntryStatusType.CAN_SEE_IT);
 					plugin.getMysqlHandler().updateData(Type.GLOBALENTRYQUERYSTATUS, mgeqs,
 							"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 							player.getUniqueId().toString(), mcat.getInternName(), EntryQueryType.MAIN_CATEGORY.toString());
@@ -412,7 +409,7 @@ public class PlayerHandler
 				}
 				if(exist && sseqs.getStatusType() == EntryStatusType.CAN_SEE_IT)
 				{
-					map.put(scat.getSeeRequirementItemIfYouCanSeeIt(player), null);
+					map.put(scat.getSeeRequirementItemIfYouCanSeeIt(player), true);
 					return map;
 				}
 				ArrayList<String> ssls = new ArrayList<>();
@@ -428,14 +425,18 @@ public class PlayerHandler
 				ArrayList<String> ssal = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, ssls);
 				if(ssal != null && ssal.get(0).equalsIgnoreCase("true"))
 				{
-					map.put(scat.getSeeRequirementItemIfYouCanSeeIt(player), null);
+					sseqs.setStatusType(EntryStatusType.CAN_SEE_IT);
+					map.put(scat.getSeeRequirementItemIfYouCanSeeIt(player), true);
 				} else
 				{
-					map.put(scat.getSeeRequirementItemIfYouCannotSeeIt(player), null);
+					if(!scat.isSeeRequirementShowDifferentItemIfYouNormallyDontSeeIt())
+					{
+						return null;
+					}
+					map.put(scat.getSeeRequirementItemIfYouCannotSeeIt(player), false);
 				}
 				if(exist)
 				{
-					sseqs.setStatusType(EntryStatusType.CAN_SEE_IT);
 					plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, sseqs,
 							"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 							player.getUniqueId().toString(), scat.getInternName(), EntryQueryType.SUB_CATEGORY.toString());
@@ -448,8 +449,8 @@ public class PlayerHandler
 				return null;//TODO
 			case GLOBAL:
 				GlobalEntryQueryStatus sgeqs = (GlobalEntryQueryStatus) plugin.getMysqlHandler().getData(Type.GLOBALENTRYQUERYSTATUS,
-						"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-						player.getUniqueId().toString(), scat.getInternName(), EntryQueryType.SUB_CATEGORY.toString());
+						"`intern_name` = ? AND `entry_query_type` = ?",
+						scat.getInternName(), EntryQueryType.SUB_CATEGORY.toString());
 				boolean existII = sgeqs != null;
 				if(!existII)
 				{
@@ -474,14 +475,18 @@ public class PlayerHandler
 				ArrayList<String> sgal = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, sgls);
 				if(sgal != null && sgal.get(0).equalsIgnoreCase("true"))
 				{
+					sgeqs.setStatusType(EntryStatusType.CAN_SEE_IT);
 					map.put(scat.getSeeRequirementItemIfYouCanSeeIt(player), null);
 				} else
 				{
+					if(!scat.isSeeRequirementShowDifferentItemIfYouNormallyDontSeeIt())
+					{
+						return null;
+					}
 					map.put(scat.getSeeRequirementItemIfYouCannotSeeIt(player), null);
 				}
 				if(existII)
 				{
-					sgeqs.setStatusType(EntryStatusType.CAN_SEE_IT);
 					plugin.getMysqlHandler().updateData(Type.GLOBALENTRYQUERYSTATUS, sgeqs,
 							"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 							player.getUniqueId().toString(), scat.getInternName(), EntryQueryType.SUB_CATEGORY.toString());
@@ -496,147 +501,7 @@ public class PlayerHandler
 			switch(pat)
 			{
 			case SOLO:
-				ArrayList<SoloEntryQueryStatus> eeqsList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLOENTRYQUERYSTATUS,
-						"`research_level` DESC", 0, 1,
-						"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-						player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString()));
-				SoloEntryQueryStatus tseqs = eeqsList.size() == 0 ? null : eeqsList.get(0);
-				boolean exist = tseqs != null;
-				if(!exist)
-				{
-					tseqs = new SoloEntryQueryStatus(0, tech.getInternName(), uuid, EntryQueryType.TECHNOLOGY, EntryStatusType.CANNOT_SEE_IT, 0, 0);
-				}
-				if(exist)
-				{
-					int researchlev = tseqs.getResearchLevel() >= tech.getMaximalTechnologyLevelToResearch()
-							? tech.getMaximalTechnologyLevelToResearch() 
-							: (tseqs.getResearchLevel()+1 >= tech.getMaximalTechnologyLevelToResearch()
-								? tech.getMaximalTechnologyLevelToResearch() : tseqs.getResearchLevel()+1);
-					if(tseqs.getStatusType() == EntryStatusType.CANNOT_SEE_IT)
-					{
-						ArrayList<String> tsls = new ArrayList<>();
-						for(String s : tech.getSeeRequirementConditionQuery())
-						{
-							if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
-							{
-								tsls.add(s);
-								continue;
-							}
-							tsls.add(getTTReplacerValues(uuid, s));
-						}
-						ArrayList<String> seeOrNot = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, tsls);
-						if(seeOrNot != null && seeOrNot.get(0).equalsIgnoreCase("false"))
-						{
-							map.put(tech.getSeeRequirementItemIfYouCannotSeeIt(player), false);
-							//Here not return map, maybe the player can already research it or something else.
-						} else if(seeOrNot == null)
-						{
-							return null;
-						}
-						tsls.clear();
-						for(String s : tech.getResearchRequirementConditionQuery().get(researchlev))
-						{
-							if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
-							{
-								tsls.add(s);
-								continue;
-							}
-							tsls.add(getTTReplacerValues(uuid, s));
-						}
-						ArrayList<String> researchOrNot = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, tsls);
-						if(researchOrNot != null &&  researchOrNot.get(0).equalsIgnoreCase("true"))
-						{
-							tseqs.setStatusType(EntryStatusType.CAN_RESEARCH_IT);
-							map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), false);
-						} else if(researchOrNot != null &&  researchOrNot.get(0).equalsIgnoreCase("false")
-								&& seeOrNot != null && seeOrNot.get(0).equalsIgnoreCase("false"))
-						{
-							tseqs.setStatusType(EntryStatusType.CAN_SEE_IT);
-							map.put(tech.getSeeRequirementItemIfYouCanSeeIt(player), false);
-						}
-						plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, tseqs,
-								"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-								player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
-						return map;
-					} else if(tseqs.getStatusType() == EntryStatusType.CAN_SEE_IT)
-					{
-						ArrayList<String> tsls = new ArrayList<>();
-						for(String s : tech.getResearchRequirementConditionQuery().get(researchlev))
-						{
-							if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
-							{
-								tsls.add(s);
-								continue;
-							}
-							tsls.add(getTTReplacerValues(uuid, s));
-						}
-						ArrayList<String> researchOrNot = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, tsls);
-						if(researchOrNot != null &&  researchOrNot.get(0).equalsIgnoreCase("true"))
-						{
-							tseqs.setStatusType(EntryStatusType.CAN_RESEARCH_IT);
-							plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, tseqs,
-									"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-									player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
-							map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), false);
-						} else
-						{
-							map.put(tech.getSeeRequirementItemIfYouCanSeeIt(player), false);
-						}
-						return map;
-					} else if(tseqs.getStatusType() == EntryStatusType.CAN_RESEARCH_IT)
-					{
-						map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), false);
-					} else if(tseqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT)
-					{
-						map.put(tech.getResearchRequirementItemIfYouHaveResearchedIt(player), false);
-					}
-					return map;
-				}
-				int researchlev = 1;
-				//tseqs dont exist after here in mysql
-				ArrayList<String> tsls = new ArrayList<>();
-				for(String s : tech.getSeeRequirementConditionQuery())
-				{
-					if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
-					{
-						tsls.add(s);
-						continue;
-					}
-					tsls.add(getTTReplacerValues(uuid, s));
-				}
-				ArrayList<String> seeOrRes = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, tsls);
-				if(seeOrRes != null && seeOrRes.get(0).equalsIgnoreCase("true"))
-				{
-					tsls.clear();
-					for(String s : tech.getResearchRequirementConditionQuery().get(researchlev))
-					{
-						if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
-						{
-							tsls.add(s);
-							continue;
-						}
-						tsls.add(getTTReplacerValues(uuid, s));
-					}
-					ArrayList<String> resOrNot = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, tsls);
-					if(resOrNot != null && resOrNot.get(0).equalsIgnoreCase("true"))
-					{
-						tseqs.setStatusType(EntryStatusType.CAN_RESEARCH_IT);
-						plugin.getMysqlHandler().create(Type.SOLOENTRYQUERYSTATUS, tseqs);
-						map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), true);
-						return map;
-					} else
-					{
-						tseqs.setStatusType(EntryStatusType.CAN_SEE_IT);
-						plugin.getMysqlHandler().create(Type.SOLOENTRYQUERYSTATUS, tseqs);
-						return map;
-					}
-				} else
-				{
-					tseqs.setStatusType(EntryStatusType.CANNOT_SEE_IT);
-					plugin.getMysqlHandler().create(Type.SOLOENTRYQUERYSTATUS, tseqs);
-					map.put(tech.getSeeRequirementItemIfYouCannotSeeIt(player), false);
-					return map;
-				}
+				return techcanSeeOrResearch_ForGUI(player, uuid, pat, mcat, scat, tech);
 			case GROUP:
 				return null;//TODO
 			case GLOBAL:
@@ -692,7 +557,7 @@ public class PlayerHandler
 						if(researchOrNot != null &&  researchOrNot.get(0).equalsIgnoreCase("true"))
 						{
 							tgeqs.setStatusType(EntryStatusType.CAN_RESEARCH_IT);
-							map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), false);
+							map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player, tgeqs.getResearchLevel()), false);
 						} else if(researchOrNot != null &&  researchOrNot.get(0).equalsIgnoreCase("true")
 								&& seeOrNot != null && seeOrNot.get(0).equalsIgnoreCase("false"))
 						{
@@ -722,7 +587,7 @@ public class PlayerHandler
 							plugin.getMysqlHandler().updateData(Type.GLOBALENTRYQUERYSTATUS, tgeqs,
 									"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 									player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
-							map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), false);
+							map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player, tgeqs.getResearchLevel()), false);
 						} else
 						{
 							map.put(tech.getSeeRequirementItemIfYouCanSeeIt(player), false);
@@ -730,7 +595,7 @@ public class PlayerHandler
 						return map;
 					} else if(tgeqs.getStatusType() == EntryStatusType.CAN_RESEARCH_IT)
 					{
-						map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), false);
+						map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player,tgeqs.getResearchLevel()), false);
 						return map;
 					} else if(tgeqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT)
 					{
@@ -766,7 +631,7 @@ public class PlayerHandler
 					if(resOrNot != null && resOrNot.get(0).equalsIgnoreCase("true"))
 					{
 						tgeqs.setStatusType(EntryStatusType.CAN_RESEARCH_IT);
-						map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player), true);
+						map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player, tgeqs.getResearchLevel()), true);
 					} else
 					{
 						tgeqs.setStatusType(EntryStatusType.CAN_SEE_IT);
@@ -784,6 +649,201 @@ public class PlayerHandler
 			}
 		}
 		return null;
+	}
+	
+	private static LinkedHashMap<ItemStack, Boolean> techcanSeeOrResearch_ForGUI(Player player, UUID uuid,
+			PlayerAssociatedType pat, MainCategory mcat, SubCategory scat, Technology tech)
+	{
+		LinkedHashMap<ItemStack, Boolean> map = new LinkedHashMap<>();
+		ArrayList<SoloEntryQueryStatus> highestNotResearchedEntryList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLOENTRYQUERYSTATUS,
+				"`research_level` DESC", 0, 1,
+				"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ? AND `status_type` != ?",
+				player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString(),
+				EntryStatusType.HAVE_RESEARCHED_IT.toString()));
+		SoloEntryQueryStatus hNRE = highestNotResearchedEntryList.size() == 0 ? null : highestNotResearchedEntryList.get(0); //highestNotResearchedEntry
+		ArrayList<SoloEntryQueryStatus> highestEntryResearchedList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLOENTRYQUERYSTATUS,
+				"`research_level` DESC", 0, 1,
+				"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ? AND `status_type` = ?",
+				player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString(),
+				EntryStatusType.HAVE_RESEARCHED_IT.toString()));
+		SoloEntryQueryStatus hRE = highestEntryResearchedList.size() == 0 ? null : highestEntryResearchedList.get(0); //highestResearchedEntry
+		
+		if((hNRE == null && hRE == null) //Beide existieren nicht, somit ist der spieler höchstwahrscheinlich neu
+				|| (hNRE != null && hRE == null) //Spieler hat zwar schonmal die Gui erforscht, aber noch nicht die Technology erforscht
+				)
+		{
+			boolean exist = hNRE != null;
+			ArrayList<String> tsls = new ArrayList<>();
+			if(!exist)
+			{
+				hNRE = new SoloEntryQueryStatus(0, tech.getInternName(), uuid,
+						EntryQueryType.TECHNOLOGY, EntryStatusType.CANNOT_SEE_IT, 1,
+						Long.MAX_VALUE);
+			}
+			if(hNRE.getStatusType() == EntryStatusType.CANNOT_SEE_IT)
+			{
+				for(String s : tech.getSeeRequirementConditionQuery())
+				{
+					if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
+					{
+						tsls.add(s);
+						continue;
+					}
+					tsls.add(getTTReplacerValues(uuid, s));
+				}
+				ArrayList<String> seeOrNot = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, tsls);
+				if(seeOrNot == null //Error somewhere
+						|| (!tech.isSeeRequirementShowDifferentItemIfYouNormallyDontSeeIt()
+							&& seeOrNot != null && seeOrNot.get(0).equalsIgnoreCase("false"))) //If you cannot see it, show no item
+				{
+					TT.log.info("techcanSeeOrResearch_ForGUI 0"); //REMOVEME
+					return null; 
+				} else if(seeOrNot != null && seeOrNot.get(0).equalsIgnoreCase("false"))
+				{
+					map.put(tech.getSeeRequirementItemIfYouCannotSeeIt(player), false); //Result: Cannot See it
+					return map;
+				}
+				tsls.clear();
+			}
+			for(String s : tech.getResearchRequirementConditionQuery().get(1))
+			{
+				if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
+				{
+					tsls.add(s);
+					continue;
+				}
+				tsls.add(getTTReplacerValues(uuid, s));
+			}
+			ArrayList<String> researchOrNot = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, tsls);
+			if(researchOrNot != null &&  researchOrNot.get(0).equalsIgnoreCase("true"))
+			{
+				hNRE.setStatusType(EntryStatusType.CAN_RESEARCH_IT);
+				map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player, hNRE.getResearchLevel()), false);
+			} else if(researchOrNot != null &&  researchOrNot.get(0).equalsIgnoreCase("false"))
+			{
+				hNRE.setStatusType(EntryStatusType.CAN_SEE_IT);
+				map.put(tech.getSeeRequirementItemIfYouCanSeeIt(player), false);
+			} else
+			{
+				map.put(tech.getSeeRequirementItemIfYouCannotSeeIt(player), false); //Result: Cannot See it
+				return map;
+			}
+			if(exist)
+			{
+				plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, hNRE,
+						"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+						player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
+			} else
+			{
+				plugin.getMysqlHandler().create(Type.SOLOENTRYQUERYSTATUS, hNRE);
+			}
+			return map;
+		} else if(hNRE == null && hRE != null) //Spieler hat die Technology letztes Mal erforscht, Gui wird scheinbar neu geladen.
+		{
+			if(hRE.getResearchLevel() >= tech.getMaximalTechnologyLevelToResearch())
+			{
+				//Spieler hat schon alles erforscht
+				map.put(tech.getResearchRequirementItemIfYouHaveResearchedIt(player), false);
+				return map;
+			}
+			int researchLvl = hRE.getResearchLevel()+1;
+			ArrayList<String> tsls = new ArrayList<>();
+			for(String s : tech.getResearchRequirementConditionQuery().get(researchLvl))
+			{
+				if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
+				{
+					tsls.add(s);
+					continue;
+				}
+				tsls.add(getTTReplacerValues(uuid, s));
+			}
+			hNRE = new SoloEntryQueryStatus(0, tech.getInternName(), uuid,
+					EntryQueryType.TECHNOLOGY, EntryStatusType.CANNOT_SEE_IT, researchLvl,
+					Long.MAX_VALUE);
+			ArrayList<String> researchOrNot = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, tsls);
+			if(researchOrNot != null &&  researchOrNot.get(0).equalsIgnoreCase("true"))
+			{
+				hNRE.setStatusType(EntryStatusType.CAN_RESEARCH_IT);
+				map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player, researchLvl), false);
+			} else if(researchOrNot != null &&  researchOrNot.get(0).equalsIgnoreCase("false"))
+			{
+				hNRE.setStatusType(EntryStatusType.CAN_SEE_IT);
+				map.put(tech.getSeeRequirementItemIfYouCanSeeIt(player), false);
+			} else
+			{
+				TT.log.info("techcanSeeOrResearch_ForGUI 2"); //REMOVEME
+				return null; //Error
+			}
+			plugin.getMysqlHandler().create(Type.SOLOENTRYQUERYSTATUS, hNRE);
+			return map;
+		} else if(hNRE != null && hRE != null) //Spieler hat die Technology schonmal erforscht
+		{
+			if(hRE.getResearchLevel() >= tech.getMaximalTechnologyLevelToResearch())
+			{
+				//Spieler hat schon alles erforscht
+				map.put(tech.getResearchRequirementItemIfYouHaveResearchedIt(player), false);
+				return map;
+			}
+			if(hRE.getResearchLevel() >= hNRE.getResearchLevel())
+			{
+				//Das Erforschte Lvl ist höher oder gleich groß, als das nicht erforschte lvl, was nicht sein darf.
+				//Error, shouldnt happend
+				map.put(tech.getResearchRequirementItemIfYouHaveResearchedIt(player), false);
+				return map;
+			}
+			ArrayList<String> tsls = new ArrayList<>();
+			if(hNRE.getStatusType() == EntryStatusType.CANNOT_SEE_IT)
+			{
+				for(String s : tech.getSeeRequirementConditionQuery())
+				{
+					if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
+					{
+						tsls.add(s);
+						continue;
+					}
+					tsls.add(getTTReplacerValues(uuid, s));
+				}
+				ArrayList<String> seeOrNot = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, tsls);
+				if(seeOrNot == null //Error somewhere
+						|| (!tech.isSeeRequirementShowDifferentItemIfYouNormallyDontSeeIt()
+							&& seeOrNot != null && seeOrNot.get(0).equalsIgnoreCase("false"))) //If you cannot see it, show no item
+				{
+					TT.log.info("techcanSeeOrResearch_ForGUI 3"); //REMOVEME
+					return null; 
+				} else if(seeOrNot != null && seeOrNot.get(0).equalsIgnoreCase("false"))
+				{
+					map.put(tech.getSeeRequirementItemIfYouCannotSeeIt(player), false); //Result: Cannot See it
+					return map;
+				}
+				tsls.clear();
+			}
+			for(String s : tech.getResearchRequirementConditionQuery().get(hNRE.getResearchLevel()))
+			{
+				if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
+				{
+					tsls.add(s);
+					continue;
+				}
+				tsls.add(getTTReplacerValues(uuid, s));
+			}
+			ArrayList<String> researchOrNot = plugin.getConditionQueryParser().parseBranchedConditionQuery(uuid, uuid, tsls);
+			if(researchOrNot != null &&  researchOrNot.get(0).equalsIgnoreCase("true"))
+			{
+				hNRE.setStatusType(EntryStatusType.CAN_RESEARCH_IT);
+				map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player, hNRE.getResearchLevel()), false);
+			} else if(researchOrNot != null &&  researchOrNot.get(0).equalsIgnoreCase("false"))
+			{
+				hNRE.setStatusType(EntryStatusType.CAN_SEE_IT);
+				map.put(tech.getSeeRequirementItemIfYouCanSeeIt(player), false);
+			} else
+			{
+				map.put(tech.getSeeRequirementItemIfYouCannotSeeIt(player), false); //Result: Cannot See it
+				return map;
+			}
+			plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, hNRE,"`id` = ?",	hNRE.getId());
+			return map;			
+		}
+		return null; //Error
 	}
 	
 	private static String getTTReplacerValues(UUID uuid, String s)
@@ -873,25 +933,38 @@ public class PlayerHandler
 	
 	//Called if wished to buy the tech
 	public static AcquireRespond haveAlreadyResearched(Player player, Technology t)
-	{
-		SoloEntryQueryStatus eeqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLOENTRYQUERYSTATUS,
-				"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-				player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString());
-		if(t.getTechnologyType() == TechnologyType.SIMPLE && eeqs != null && eeqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT)
+	{		
+		ArrayList<SoloEntryQueryStatus> sEQSList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLOENTRYQUERYSTATUS,
+				"`research_level` DESC", 0, 1,
+				"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ? AND `status_type` != ?",
+				player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString(),
+				EntryStatusType.HAVE_RESEARCHED_IT.toString()));
+		SoloEntryQueryStatus sEQS = sEQSList.size() == 0 ? null : sEQSList.get(0);
+		if(sEQS == null)
 		{
-			return AcquireRespond.TECH_IS_SIMPLE_AND_ALREADY_RESEARCHED;
-		} else if(t.getTechnologyType() == TechnologyType.MULTIPLE 
-				&& eeqs != null && eeqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT
-				&& eeqs.getResearchLevel() < t.getMaximalTechnologyLevelToResearch())
+			//Nie etwas erforscht
+			sEQS = new SoloEntryQueryStatus(0, t.getInternName(), player.getUniqueId(),
+					EntryQueryType.TECHNOLOGY, EntryStatusType.HAVE_RESEARCHED_IT, 1,
+					t.getTechnologyType() == TechnologyType.BOOSTER ?
+							System.currentTimeMillis()+t.getIfBoosterDurationUntilExpiration() : Long.MAX_VALUE);
+			plugin.getMysqlHandler().create(Type.SOLOENTRYQUERYSTATUS, sEQS);
+		} else if(t.getTechnologyType() == TechnologyType.SIMPLE && sEQS.getResearchLevel() >= 1)
 		{
-			//Nothing, should exist the if-else
-		} else if(eeqs != null && eeqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT
-				&& eeqs.getResearchLevel() == t.getMaximalTechnologyLevelToResearch())
+			//Sollte nicht passieren, da der Spieler diese Technology schon komplett erforscht hat.
+			return AcquireRespond.TECH_IS_SIMPLE_AND_ALREADY_RESEARCHED; //Error
+		} else if(t.getTechnologyType() == TechnologyType.MULTIPLE && t.getMaximalTechnologyLevelToResearch() > sEQS.getResearchLevel())
 		{
-			return AcquireRespond.TECH_MAX_LEVEL_IS_REACHED;
-		} else
+			//Spieler erforsch das nächste level
+			sEQS.setResearchLevel(sEQS.getResearchLevel()+1);
+			sEQS.setStatusType(EntryStatusType.HAVE_RESEARCHED_IT);
+			sEQS.setDurationUntilExpiration(t.getTechnologyType() == TechnologyType.BOOSTER 
+											? System.currentTimeMillis() + t.getIfBoosterDurationUntilExpiration() 
+											: Long.MAX_VALUE);
+			plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, sEQS,"`id` = ?", sEQS.getId());
+		} else if(t.getTechnologyType() == TechnologyType.MULTIPLE && sEQS.getResearchLevel() >= t.getMaximalTechnologyLevelToResearch())
 		{
-			//Nothing, should exist the if-else
+			//Spieler hat schon das maxlevel erreischt.
+			return AcquireRespond.TECH_MAX_LEVEL_IS_REACHED; //Error
 		}
 		return AcquireRespond.CAN_BE_RESEARCHED;
 	}
@@ -899,6 +972,10 @@ public class PlayerHandler
 	//Should call haveAlreadyResearched Methode before this.
 	public static AcquireRespond payTechnology(Player player, Technology t, double proportionateCosts)
 	{
+		if(player.getGameMode() == GameMode.CREATIVE)
+		{
+			return AcquireRespond.CAN_BE_RESEARCHED;
+		}
 		int techLevel = 0;
 		int acquiredTech = 0;
 		int totalSoloTechs = plugin.getMysqlHandler().getCount(Type.SOLOENTRYQUERYSTATUS,
@@ -915,7 +992,7 @@ public class PlayerHandler
 					player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString()));
 			SoloEntryQueryStatus eqs = eeqsList.size() == 0 ? null : eeqsList.get(0);
 			techLevel = eqs == null ? 1 : eqs.getResearchLevel() + 1; //Tech which may to acquire
-			acquiredTech = eqs == null ? 0 : techLevel; //Tech which was already acquire
+			acquiredTech = eqs == null ? 0 : techLevel - 1; //Tech which was already acquire
 		} else
 		{
 			ArrayList<GlobalEntryQueryStatus> eeqsList = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBALENTRYQUERYSTATUS,
@@ -924,7 +1001,7 @@ public class PlayerHandler
 					t.getInternName(), EntryQueryType.TECHNOLOGY.toString()));
 			GlobalEntryQueryStatus eqs = eeqsList.size() == 0 ? null : eeqsList.get(0);
 			techLevel = eqs == null ? 1 : eqs.getResearchLevel() + 1; //Tech which may to acquire
-			acquiredTech = eqs == null ? 0 : techLevel; //Tech which was already acquire
+			acquiredTech = eqs == null ? 0 : techLevel - 1; //Tech which was already acquire
 		}		
 		HashMap<String, Double> map = new HashMap<>();
 		map.put(TECHLEVEL, Double.valueOf(techLevel));
@@ -1079,35 +1156,40 @@ public class PlayerHandler
 	public static int researchSoloTechnology(Player player, Technology t, boolean doUpdate)
 	//Return researchLevel of the technology
 	{
-		ArrayList<SoloEntryQueryStatus> eeqsList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLOENTRYQUERYSTATUS,
+		ArrayList<SoloEntryQueryStatus> sEQSList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLOENTRYQUERYSTATUS,
 				"`research_level` DESC", 0, 1,
-				"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-				player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString()));
-		SoloEntryQueryStatus eeqs = eeqsList.size() == 0 ? null : eeqsList.get(0);
+				"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ? AND `status_type` != ?",
+				player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString(),
+				EntryStatusType.HAVE_RESEARCHED_IT.toString()));
+		SoloEntryQueryStatus sEQS = sEQSList.size() == 0 ? null : sEQSList.get(0);
 		int researchLevel = 0;
-		if(t.getTechnologyType() == TechnologyType.SIMPLE && eeqs != null && eeqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT)
+		if(sEQS == null)
 		{
-			return 0;
-		} else if(t.getTechnologyType() == TechnologyType.MULTIPLE 
-				&& eeqs != null && eeqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT
-				&& eeqs.getResearchLevel() < t.getMaximalTechnologyLevelToResearch())
-		{
-			SoloEntryQueryStatus eeqsNew = eeqs;
-			eeqsNew.setResearchLevel(eeqs.getResearchLevel()+1);
-			researchLevel = eeqs.getResearchLevel()+1;
-			plugin.getMysqlHandler().create(Type.SOLOENTRYQUERYSTATUS, eeqsNew);
-		} else if(eeqs != null && eeqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT
-				&& eeqs.getResearchLevel() == t.getMaximalTechnologyLevelToResearch())
-		{
-			return 0;
-		} else
-		{
-			SoloEntryQueryStatus eqs = new SoloEntryQueryStatus(0, t.getInternName(), player.getUniqueId(),
+			//Nie etwas erforscht
+			sEQS = new SoloEntryQueryStatus(0, t.getInternName(), player.getUniqueId(),
 					EntryQueryType.TECHNOLOGY, EntryStatusType.HAVE_RESEARCHED_IT, 1,
 					t.getTechnologyType() == TechnologyType.BOOSTER ?
 							System.currentTimeMillis()+t.getIfBoosterDurationUntilExpiration() : Long.MAX_VALUE);
 			researchLevel = 1;
-			plugin.getMysqlHandler().create(Type.SOLOENTRYQUERYSTATUS, eqs);
+			plugin.getMysqlHandler().create(Type.SOLOENTRYQUERYSTATUS, sEQS);
+		} else if(t.getTechnologyType() == TechnologyType.SIMPLE && sEQS.getResearchLevel() >= 1)
+		{
+			//Sollte nicht passieren, da der Spieler diese Technology schon komplett erforscht hat.
+			return 0; //Error
+		} else if(t.getTechnologyType() == TechnologyType.MULTIPLE && t.getMaximalTechnologyLevelToResearch() > sEQS.getResearchLevel())
+		{
+			//Spieler erforsch das nächste level
+			researchLevel = sEQS.getResearchLevel();
+			sEQS.setResearchLevel(researchLevel);
+			sEQS.setStatusType(EntryStatusType.HAVE_RESEARCHED_IT);
+			sEQS.setDurationUntilExpiration(t.getTechnologyType() == TechnologyType.BOOSTER 
+											? System.currentTimeMillis() + t.getIfBoosterDurationUntilExpiration() 
+											: Long.MAX_VALUE);
+			plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, sEQS,"`id` = ?", sEQS.getId());
+		} else if(t.getTechnologyType() == TechnologyType.MULTIPLE && sEQS.getResearchLevel() >= t.getMaximalTechnologyLevelToResearch())
+		{
+			//Spieler hat schon das maxlevel erreischt.
+			return 0; //Error
 		}
 		if(doUpdate)
 		{
