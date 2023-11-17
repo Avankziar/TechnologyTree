@@ -873,6 +873,8 @@ public class GuiHandler
 		int totalGlobalTechs = plugin.getMysqlHandler().getCount(Type.GLOBALENTRYQUERYSTATUS,
 				"`entry_query_type` = ? AND `status_type` = ?",
 				EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
+		boolean papi = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null 
+				&& Bukkit.getPluginManager().getPlugin("PlaceholderAPI").isEnabled();
 		for(String s : lore)
 		{
 			String a = getStringPlaceHolder(player, mcat, scat, t, s, playername,
@@ -904,6 +906,10 @@ public class GuiHandler
 				{
 					continue;
 				}
+			}
+			if(papi)
+			{
+				a = ChatApi.tl(me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(player, a));
 			}
 			list.add(ChatApi.tl(a));
 		}

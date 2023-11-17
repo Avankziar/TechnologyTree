@@ -274,7 +274,7 @@ public class ARGTechInfo extends ArgumentModule
 			{
 				albc.add(ChatApi.tctl("◦ "+s.getEventType().toString()+":"+s.getToolType().toString()
 						+":"+s.getEventMaterial() != null ? s.getEventMaterial().toString() : "/"
-						+":"+s.getEventEntity() != null ? s.getEventEntity().toString() : "/"
+						+":"+s.getEventEntityType() != null ? s.getEventEntityType().toString() : "/"
 						+":"+s.getToDropItem()+":"+s.getToDropItemAmount()+":"+(s.getDropChance()*100)+" %"));
 			}
 		}
@@ -285,7 +285,7 @@ public class ARGTechInfo extends ArgumentModule
 			{
 				albc.add(ChatApi.tctl("◦ "+s.getEventType().toString()+":"+s.getToolType().toString()
 						+":"+s.getEventMaterial() != null ? s.getEventMaterial().toString() : "/"
-						+":"+s.getEventEntity() != null ? s.getEventEntity().toString() : "/"
+						+":"+s.getEventEntityType() != null ? s.getEventEntityType().toString() : "/"
 						+":"+s.getToDropItem()+":"+s.getToDropItemAmount()+":"+(s.getDropChance()*100)+" %"));
 			}
 		}

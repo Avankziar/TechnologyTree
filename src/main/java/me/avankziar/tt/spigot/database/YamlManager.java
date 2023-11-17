@@ -302,12 +302,43 @@ public class YamlManager
 		configSpigotKeys.put("ValueEntry.OverrulePermission"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				false}));
+		configSpigotKeys.put("Do.Access.MainCategory.BypassIfCreative"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				true}));
+		configSpigotKeys.put("Do.Access.SubCategory.BypassIfCreative"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				true}));
+		configSpigotKeys.put("Do.Access.Technology.BypassIfCreative"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				true}));
+		configSpigotKeys.put("Do.Block.OverrideAlreadyRegisteredBlocks"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				false}));
+		configSpigotKeys.put("Do.Drops.UsePluginDropsCalculation"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				true}));
 		configSpigotKeys.put("Do.DeleteExpireTechnologies.TaskRunInMinutes"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				10}));
 		configSpigotKeys.put("Do.DeleteExpirePlacedBlocks.TaskRunInMinutes"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				15}));
+		configSpigotKeys.put("Do.Drops.DoNotUsePluginDropsCalculationWorlds"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				"hubdummy",
+				"spawncitydummy"}));
+		configSpigotKeys.put("Do.Drops.BreakingThroughVanillaDropBarrier"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				true}));		
+		configSpigotKeys.put("Do.Gui.FillNotDefineGuiSlots"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				true}));
+		configSpigotKeys.put("Do.Gui.FillNotDefineGuiSlots"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				Material.LIGHT_GRAY_STAINED_GLASS_PANE.toString()}));
+		configSpigotKeys.put("Do.Item.LoseDropItemOwnershipAfterTimeInSeconds"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				300}));
 		configSpigotKeys.put("Do.NewPlayer.ShowSyncMessage"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				true}));
@@ -315,28 +346,6 @@ public class YamlManager
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				"soil_I",
 				"woodenlog"}));
-		configSpigotKeys.put("Do.Block.OverrideAlreadyRegisteredBlocks"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				false}));
-		configSpigotKeys.put("Do.Drops.UsePluginDropsCalculation"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
-		configSpigotKeys.put("Do.Drops.DoNotUsePluginDropsCalculationWorlds"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				"hubdummy",
-				"spawncitydummy"}));
-		configSpigotKeys.put("Do.Item.LoseDropItemOwnershipAfterTimeInSeconds"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				300}));
-		configSpigotKeys.put("Do.Drops.BreakingThroughVanillaDropBarrier"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
-		configSpigotKeys.put("Do.Gui.FillNotDefineGuiSlots"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
-		configSpigotKeys.put("Do.Gui.FillNotDefineGuiSlots"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				Material.LIGHT_GRAY_STAINED_GLASS_PANE.toString()}));
 		configSpigotKeys.put("Do.Recipe.LoadThePluginRecipe"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				true}));
@@ -2422,14 +2431,14 @@ public class YamlManager
 		rewardUnlockableInteractions.put(5, new String[] {
 				"CRAFTING:DIAMOND_PICKAXE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(6, new String[] {
-				"CRAFTING:NETHERITE_PICKAXE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
+				"SMITHING:NETHERITE_PICKAXE:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		String[] rui = new String[] {
 				"CRAFTING:WOODEN_PICKAXE:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
 				"CRAFTING:STONE_PICKAXE:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
 				"CRAFTING:IRON_PICKAXE:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
 				"CRAFTING:DIAMOND_PICKAXE:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
 				"CRAFTING:GOLDEN_PICKAXE:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
-				"CRAFTING:NETHERITE_PICKAXE:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1"};
+				"SMITHING:NETHERITE_PICKAXE:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1"};
 		rewardUnlockableInteractions.put(7, rui);
 		rewardUnlockableInteractions.put(8, rui);
 		rewardUnlockableInteractions.put(9, rui);
@@ -2475,6 +2484,9 @@ public class YamlManager
 				"",
 				"&eSchaltet folgendes frei:",
 				"&fHerstellung von Holzspitzhacke",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,1,CRAFTING,HAND,WOODEN_PICKAXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,1,CRAFTING,HAND,WOODEN_PICKAXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,1,CRAFTING,HAND,WOODEN_PICKAXE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -2486,6 +2498,9 @@ public class YamlManager
 				"",
 				"&eUnlocks the following:",
 				"&fCrafting of woodenpickaxe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,1,CRAFTING,HAND,WOODEN_PICKAXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,1,CRAFTING,HAND,WOODEN_PICKAXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,1,CRAFTING,HAND,WOODEN_PICKAXE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(2, new String[] {
@@ -2497,7 +2512,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Spitzhacke",
+				"&fHerstellung von Steinspitzhacke",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,2,CRAFTING,HAND,STONE_PICKAXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,2,CRAFTING,HAND,STONE_PICKAXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,2,CRAFTING,HAND,STONE_PICKAXE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -2508,7 +2526,247 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of pickaxe",
+				"&fCrafting of stonepickaxe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,2,CRAFTING,HAND,STONE_PICKAXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,2,CRAFTING,HAND,STONE_PICKAXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,2,CRAFTING,HAND,STONE_PICKAXE% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(3, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Eisenspitzhacke",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,3,CRAFTING,HAND,IRON_PICKAXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,3,CRAFTING,HAND,IRON_PICKAXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,3,CRAFTING,HAND,IRON_PICKAXE% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of ironpickaxe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,3,CRAFTING,HAND,IRON_PICKAXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,3,CRAFTING,HAND,IRON_PICKAXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,3,CRAFTING,HAND,IRON_PICKAXE% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(4, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Goldspitzhacke",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,4,CRAFTING,HAND,GOLDEN_PICKAXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,4,CRAFTING,HAND,GOLDEN_PICKAXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,4,CRAFTING,HAND,GOLDEN_PICKAXE% Dollar",
+				"&f+0,5 % Chance 1 Eisenbarren bei Herstellen einer Eisenspitzhacke zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of goldenpickaxe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,4,CRAFTING,HAND,GOLDEN_PICKAXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,4,CRAFTING,HAND,GOLDEN_PICKAXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,4,CRAFTING,HAND,GOLDEN_PICKAXE% Dollar",
+				"&f+0.5% chance to drop 1 iron ingot when crafting a iron pickaxe.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(5, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Diamantspitzhacke",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,5,CRAFTING,HAND,DIAMOND_PICKAXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,5,CRAFTING,HAND,DIAMOND_PICKAXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,5,CRAFTING,HAND,DIAMOND_PICKAXE% Dollar",
+				"&f+2 % Chance 1 Eisenbarren bei Herstellen einer Eisenspitzhacke zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of diamondpickaxe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,5,CRAFTING,HAND,DIAMOND_PICKAXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,5,CRAFTING,HAND,DIAMOND_PICKAXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,5,CRAFTING,HAND,DIAMOND_PICKAXE% Dollar",
+				"&f+2% chance to drop 1 iron ingot when crafting a iron pickaxe.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(6, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Netheritespitzhacke",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,6,SMITHING,HAND,NETHERITE_PICKAXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,6,SMITHING,HAND,NETHERITE_PICKAXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,6,SMITHING,HAND,NETHERITE_PICKAXE% Dollar",
+				"&f+0,5 % Chance 1 Goldbarren bei Herstellen einer Goldspitzhacke zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of netheritepickaxe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,6,SMITHING,HAND,NETHERITE_PICKAXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,6,SMITHING,HAND,NETHERITE_PICKAXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,6,SMITHING,HAND,NETHERITE_PICKAXE% Dollar",
+				"&f+0.5% chance to drop 1 gold ingot when crafting a gold pickaxe.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(7, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+2 % Chance 1 Goldbarren bei Herstellen einer Goldspitzhacke zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+2% chance to drop 1 gold ingot when crafting a gold pickaxe.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(8, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+0,5 % Chance 1 Diamand bei Herstellen einer Diamantspitzhacke zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+0.5% chance to drop 1 diamond when crafting a diamond pickaxe.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(9, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+2 % Chance 1 Diamand bei Herstellen einer Diamantspitzhacke zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+2% chance to drop 1 diamond when crafting a diamond pickaxe.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(10, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+0,5 % Chance 1 Netheritebarren bei Herstellen einer Netheritespitzhacke zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+0.5% chance to drop 1 netherite ingot when crafting a netherite pickaxe.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(11, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+2 % Chance 1 Netheritebarren bei Herstellen einer Netheritespitzhacke zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+2% chance to drop 1 netherite ingot when crafting a netherite pickaxe.",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
@@ -2537,14 +2795,62 @@ public class YamlManager
 				Material.WOODEN_PICKAXE, 1, itemflag, enchantment, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Spitzhacke",
+						"&f◦ Herstellung:",
+						"&f◦◦ Holzspitzhacke %tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,WOODEN_PICKAXE% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,WOODEN_PICKAXE% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,WOODEN_PICKAXE% Dollar",
+						"&f◦◦ Steinspitzhacke %tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,STONE_PICKAXE% TTExp | "
+										   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,STONE_PICKAXE% VanillaExp | "
+										   + "%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,STONE_PICKAXE% Dollar",
+						"&f◦◦ Eisenspitzhacke %tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,IRON_PICKAXE% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,IRON_PICKAXE% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,IRON_PICKAXE% Dollar",
+						"&f◦◦ Goldspitzhacke %tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,GOLDEN_PICKAXE% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,GOLDEN_PICKAXE% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,GOLDEN_PICKAXE% Dollar",
+						"&f◦◦ Diamandspitzhacke %tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,DIAMOND_PICKAXE% TTExp | "
+										     + "%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,DIAMOND_PICKAXE% VanillaExp | "
+										     + "%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,DIAMOND_PICKAXE% Dollar",
+						"&f◦ Schmieden:",
+						"&f◦◦ Netheritespitzhacke %tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,SMITHING,HAND,NETHERITE_PICKAXE% TTExp | "
+										       + "%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,SMITHING,HAND,NETHERITE_PICKAXE% VanillaExp | "
+										       + "%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,SMITHING,HAND,NETHERITE_PICKAXE% Dollar",
+						"&f◦ Drops:",
+						"&f◦◦ Eisenbarren beim herstellen einer Eisenspitzhacke %tt_reward_techtotal_dropchance_mat,SOLO,pickaxe,CRAFTING,HAND,IRON_PICKAXE,mat=IRON_INGOT%",
+						"&f◦◦ Goldbarren beim herstellen einer Goldspitzhacke %tt_reward_techtotal_dropchance_mat,SOLO,pickaxe,CRAFTING,HAND,GOLDEN_PICKAXE,mat=GOLD_INGOT%",
+						"&f◦◦ Diamant beim herstellen einer Diamantspitzhacke %tt_reward_techtotal_dropchance_mat,SOLO,pickaxe,CRAFTING,HAND,DIAMOND_PICKAXE,mat=DIAMOND%",
+						"&f◦◦ Netheritebarren beim herstellen einer Netheritespitzhacke %tt_reward_techtotal_dropchance_mat,SOLO,pickaxe,CRAFTING,HAND,NETHERITE_PICKAXE,mat=NETHERITE_INGOT%",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fCrafting of pickaxe",
+						"&f◦ Crafting:",
+						"&f◦◦ Woodenpickaxe %tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,WOODEN_PICKAXE% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,WOODEN_PICKAXE% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,WOODEN_PICKAXE% Dollar",
+						"&f◦◦ Stonepickaxe %tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,STONE_PICKAXE% TTExp | "
+										   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,STONE_PICKAXE% VanillaExp | "
+										   + "%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,STONE_PICKAXE% Dollar",
+						"&f◦◦ Ironpickaxe %tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,IRON_PICKAXE% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,IRON_PICKAXE% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,IRON_PICKAXE% Dollar",
+						"&f◦◦ Goldenpickaxe %tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,GOLDEN_PICKAXE% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,GOLDEN_PICKAXE% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,GOLDEN_PICKAXE% Dollar",
+						"&f◦◦ Diamondpickaxe %tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,DIAMOND_PICKAXE% TTExp | "
+										     + "%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,DIAMOND_PICKAXE% VanillaExp | "
+										     + "%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,DIAMOND_PICKAXE% Dollar",
+						"&f◦ Smithing:",
+						"&f◦◦ Netheritepickaxe %tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,SMITHING,HAND,NETHERITE_PICKAXE% TTExp | "
+										       + "%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,SMITHING,HAND,NETHERITE_PICKAXE% VanillaExp | "
+										       + "%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,SMITHING,HAND,NETHERITE_PICKAXE% Dollar",
+						"&f◦ Drops:",
+						"&f◦◦ Ironingots during the production of an ironpickaxe %tt_reward_techtotal_dropchance_mat,SOLO,pickaxe,CRAFTING,HAND,IRON_PICKAXE,mat=IRON_INGOT",
+						"&f◦◦ Goldingots during the production of an goldenpickaxe %tt_reward_techtotal_dropchance_mat,SOLO,pickaxe,CRAFTING,HAND,GOLDEN_PICKAXE,mat=GOLD_INGOT",
+						"&f◦◦ Diamonds during the production of an diamondpickaxe %tt_reward_techtotal_dropchance_mat,SOLO,pickaxe,CRAFTING,HAND,DIAMOND_PICKAXE,mat=DIAMOND_INGOT",
+						"&f◦◦ Netheriteingots during the production of an netheritepickaxe %tt_reward_techtotal_dropchance_mat,SOLO,pickaxe,CRAFTING,HAND,NETHERITE_PICKAXE,mat=NETHERITE_INGOT%",
 						"",
-						"&cRightclick &bfor a more detailed view.",},
+						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
 				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
@@ -2653,6 +2959,302 @@ public class YamlManager
 		rewardItem = new LinkedHashMap<>();
 		rewardModifier = new LinkedHashMap<>();
 		rewardValueEntry = new LinkedHashMap<>();
+		canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Holzschaufel",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,shovel,1,CRAFTING,HAND,WOODEN_SHOVEL% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,shovel,1,CRAFTING,HAND,WOODEN_SHOVEL% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,shovel,1,CRAFTING,HAND,WOODEN_SHOVEL% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of woodenshovel",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,shovel,1,CRAFTING,HAND,WOODEN_SHOVEL% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,shovel,1,CRAFTING,HAND,WOODEN_SHOVEL% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,shovel,1,CRAFTING,HAND,WOODEN_SHOVEL% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(2, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Steinschaufel",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,shovel,2,CRAFTING,HAND,STONE_SHOVEL% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,shovel,2,CRAFTING,HAND,STONE_SHOVEL% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,shovel,2,CRAFTING,HAND,STONE_SHOVEL% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of stoneshovel",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,shovel,2,CRAFTING,HAND,STONE_SHOVEL% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,shovel,2,CRAFTING,HAND,STONE_SHOVEL% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,shovel,2,CRAFTING,HAND,STONE_SHOVEL% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(3, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Eisenschaufel",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,shovel,3,CRAFTING,HAND,IRON_SHOVEL% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,shovel,3,CRAFTING,HAND,IRON_SHOVEL% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,shovel,3,CRAFTING,HAND,IRON_SHOVEL% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of ironshovel",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,shovel,3,CRAFTING,HAND,IRON_SHOVEL% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,shovel,3,CRAFTING,HAND,IRON_SHOVEL% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,shovel,3,CRAFTING,HAND,IRON_SHOVEL% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(4, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Goldschaufel",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,shovel,1,CRAFTING,HAND,GOLDEN_SHOVEL% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,shovel,1,CRAFTING,HAND,GOLDEN_SHOVEL% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,shovel,1,CRAFTING,HAND,GOLDEN_SHOVEL% Dollar",
+				"&f+0,5 % Chance 1 Eisenbarren bei Herstellen einer Eisenschaufel zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of goldenshovel",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,shovel,4,CRAFTING,HAND,GOLDEN_SHOVEL% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,shovel,4,CRAFTING,HAND,GOLDEN_SHOVEL% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,shovel,4,CRAFTING,HAND,GOLDEN_SHOVEL% Dollar",
+				"&f+0.5% chance to drop 1 iron ingot when crafting a iron shovel.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(5, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Diamantschaufel",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,shovel,5,CRAFTING,HAND,DIAMOND_SHOVEL% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,shovel,5,CRAFTING,HAND,DIAMOND_SHOVEL% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,shovel,5,CRAFTING,HAND,DIAMOND_SHOVEL% Dollar",
+				"&f+2 % Chance 1 Eisenbarren bei Herstellen einer Eisenschaufel zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of diamondshovel",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,shovel,5,CRAFTING,HAND,DIAMOND_SHOVEL% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,shovel,5,CRAFTING,HAND,DIAMOND_SHOVEL% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,shovel,5,CRAFTING,HAND,DIAMOND_SHOVEL% Dollar",
+				"&f+2% chance to drop 1 iron ingot when crafting a iron shovel.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(6, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Netheriteschaufel",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,shovel,6,SMITHING,HAND,NETHERITE_SHOVEL% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,shovel,6,SMITHING,HAND,NETHERITE_SHOVEL% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,shovel,6,SMITHING,HAND,NETHERITE_SHOVEL% Dollar",
+				"&f+0,5 % Chance 1 Goldbarren bei Herstellen einer Goldschaufel zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of netheriteshovel",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,shovel,6,SMITHING,HAND,NETHERITE_SHOVEL% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,shovel,6,SMITHING,HAND,NETHERITE_SHOVEL% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,shovel,6,SMITHING,HAND,NETHERITE_SHOVEL% Dollar",
+				"&f+0.5% chance to drop 1 gold ingot when crafting a gold shovel.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(7, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+2 % Chance 1 Goldbarren bei Herstellen einer Goldschaufel zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+2% chance to drop 1 gold ingot when crafting a gold shovel.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(8, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+0,5 % Chance 1 Diamand bei Herstellen einer Diamantschaufel zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+0.5% chance to drop 1 diamond when crafting a diamond shovel.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(9, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+2 % Chance 1 Diamand bei Herstellen einer Diamantschaufel zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+2% chance to drop 1 diamond when crafting a diamond shovel.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(10, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+0,5 % Chance 1 Netheritebarren bei Herstellen einer Netheriteschaufel zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+0.5% chance to drop 1 netherite ingot when crafting a netherite shovel.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(11, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+2 % Chance 1 Netheritebarren bei Herstellen einer Netheriteschaufel zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+2% chance to drop 1 netherite ingot when crafting a netherite shovel.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
 				"shovel", new String[] {"Schaufel", "Shovel"},
 				TechnologyType.MULTIPLE, 11, PlayerAssociatedType.SOLO, 1, "", "tools", 
@@ -2660,74 +3262,83 @@ public class YamlManager
 				null, true,
 				new String[] {"&8Tech Schaufel","&8Tech Shovel"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
-						"&7Technologie Schaufel",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Schaufel",
+						"&fHerstellung von Holzschaufel",
+						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
-						"&7Technology Shovel",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
+						"",
 						"&eUnlocks the following:",
-						"&fCrafting of Shovel",
-						"&cRightclick &bfor a more detailed view.",},
-				new String[] {"&dTech Schaufel","&dTech Shovel"},
-				Material.WOODEN_SHOVEL, 1, itemflag, null, new String[] {
-						"&7Technologie Schaufel",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
-						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Schaufel",
-						"&cRechtskick &bfür eine detailiertere Ansicht.",
-						"&7Technology Shovel",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
-						"&eUnlocks the following:",
-						"&fCrafting of Shovel",
-						"&cRightclick &bfor a more detailed view.",},
+						"&fCrafting of woodenshovel",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				new String[] {"&7Tech Schaufel","&7Tech Shovel"},
+				Material.WOODEN_SHOVEL, 1, itemflag, null, canResLore.get(1),
 				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
 				new String[] {"&dTech Schaufel","&dTech Shovel"},
-				Material.WOODEN_SHOVEL, 1, itemflag, null, new String[] {
-						"&7Technologie Schaufel",
-						"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
-						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Schaufel",
-						"&cRechtskick &bfür eine detailiertere Ansicht.",
-						"&7Technology Shovel",
-						"&eResearched Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
-						"&eUnlocks the following:",
-						"&fCrafting of Shovel",
-						"&cRightclick &bfor a more detailed view.",},
+				Material.WOODEN_SHOVEL, 1, itemflag, null, canResLore,
 				new String[] {"&dTech Schaufel","&dTech Shovel"},
-				Material.WOODEN_SHOVEL, 1, itemflag, null, new String[] {
-						"&bTechnologie Schaufel",
+				Material.WOODEN_SHOVEL, 1, itemflag, enchantment, new String[] {
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Schaufel",
+						"&f◦ Herstellung:",
+						"&f◦◦ Holzsschaufel %tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,WOODEN_SHOVEL% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,WOODEN_SHOVEL% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,WOODEN_SHOVEL% Dollar",
+						"&f◦◦ Steinschaufel %tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,STONE_SHOVEL% TTExp | "
+										   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,STONE_SHOVEL% VanillaExp | "
+										   + "%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,STONE_SHOVEL% Dollar",
+						"&f◦◦ Eisenschaufel %tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,IRON_SHOVEL% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,IRON_SHOVEL% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,IRON_SHOVEL% Dollar",
+						"&f◦◦ Goldschaufel %tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,GOLDEN_SHOVEL% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,GOLDEN_SHOVEL% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,GOLDEN_SHOVEL% Dollar",
+						"&f◦◦ Diamandschaufel %tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,DIAMOND_SHOVEL% TTExp | "
+										     + "%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,DIAMOND_SHOVEL% VanillaExp | "
+										     + "%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,DIAMOND_SHOVEL% Dollar",
+						"&f◦ Schmieden:",
+						"&f◦◦ Netheriteschaufel %tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,SMITHING,HAND,NETHERITE_SHOVEL% TTExp | "
+										       + "%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,SMITHING,HAND,NETHERITE_SHOVEL% VanillaExp | "
+										       + "%tt_raw_reward_techtotal_money_mat,SOLO,shovel,SMITHING,HAND,NETHERITE_SHOVEL% Dollar",
+						"&f◦ Drops:",
+						"&f◦◦ Eisenbarren beim herstellen einer Eisenschaufel %tt_reward_techtotal_dropchance_mat,SOLO,shovel,CRAFTING,HAND,IRON_SHOVEL,mat=IRON_INGOT%",
+						"&f◦◦ Goldbarren beim herstellen einer Goldschaufel %tt_reward_techtotal_dropchance_mat,SOLO,shovel,CRAFTING,HAND,GOLDEN_SHOVEL,mat=GOLD_INGOT%",
+						"&f◦◦ Diamant beim herstellen einer Diamantschaufel %tt_reward_techtotal_dropchance_mat,SOLO,shovel,CRAFTING,HAND,DIAMOND_SHOVEL,mat=DIAMOND%",
+						"&f◦◦ Netheritebarren beim herstellen einer Netheriteschaufel %tt_reward_techtotal_dropchance_mat,SOLO,shovel,CRAFTING,HAND,NETHERITE_SHOVEL,mat=NETHERITE_INGOT%",
+						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
-						"&7Technology Shovel",
+						"",
 						"&eUnlocks the following:",
-						"&fCrafting of Shovel",
-						"&cRightclick &bfor a more detailed view.",},
+						"&f◦ Crafting:",
+						"&f◦◦ Woodenshovel %tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,WOODEN_SHOVEL% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,WOODEN_SHOVEL% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,WOODEN_SHOVEL% Dollar",
+						"&f◦◦ Stoneshovel %tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,STONE_SHOVEL% TTExp | "
+										   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,STONE_SHOVEL% VanillaExp | "
+										   + "%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,STONE_SHOVEL% Dollar",
+						"&f◦◦ Ironshovel %tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,IRON_SHOVEL% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,IRON_SHOVEL% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,IRON_SHOVEL% Dollar",
+						"&f◦◦ Goldenshovel %tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,GOLDEN_SHOVEL% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,GOLDEN_SHOVEL% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,GOLDEN_SHOVEL% Dollar",
+						"&f◦◦ Diamondshovel %tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,DIAMOND_SHOVEL% TTExp | "
+										     + "%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,DIAMOND_SHOVEL% VanillaExp | "
+										     + "%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,DIAMOND_SHOVEL% Dollar",
+						"&f◦ Smithing:",
+						"&f◦◦ Netheriteshovel %tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,SMITHING,HAND,NETHERITE_SHOVEL% TTExp | "
+										       + "%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,SMITHING,HAND,NETHERITE_SHOVEL% VanillaExp | "
+										       + "%tt_raw_reward_techtotal_money_mat,SOLO,shovel,SMITHING,HAND,NETHERITE_SHOVEL% Dollar",
+						"&f◦ Drops:",
+						"&f◦◦ Ironingots during the production of an ironshovel %tt_reward_techtotal_dropchance_mat,SOLO,shovel,CRAFTING,HAND,IRON_SHOVEL,mat=IRON_INGOT%",
+						"&f◦◦ Goldingots during the production of an goldenshovel %tt_reward_techtotal_dropchance_mat,SOLO,shovel,CRAFTING,HAND,GOLDEN_SHOVEL,mat=GOLD_INGOT%",
+						"&f◦◦ Diamonds during the production of an diamondshovel %tt_reward_techtotal_dropchance_mat,SOLO,shovel,CRAFTING,HAND,DIAMOND_SHOVEL,mat=DIAMOND%",
+						"&f◦◦ Netheriteingots during the production of an netheriteshovel %tt_reward_techtotal_dropchance_mat,SOLO,shovel,CRAFTING,HAND,NETHERITE_SHOVEL,mat=NETHERITE_INGOT%",
+						"",
+						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
-				);
+				rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
 		toResCondition = new LinkedHashMap<>();
 		toResCostTTExp = new LinkedHashMap<>();
 		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
@@ -2833,6 +3444,302 @@ public class YamlManager
 		rewardItem = new LinkedHashMap<>();
 		rewardModifier = new LinkedHashMap<>();
 		rewardValueEntry = new LinkedHashMap<>();
+		canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Holzhacke",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,hoe,1,CRAFTING,HAND,WOODEN_HOE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,hoe,1,CRAFTING,HAND,WOODEN_HOE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,hoe,1,CRAFTING,HAND,WOODEN_HOE% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of woodenhoe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,hoe,1,CRAFTING,HAND,WOODEN_HOE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,hoe,1,CRAFTING,HAND,WOODEN_HOE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,hoe,1,CRAFTING,HAND,WOODEN_HOE% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(2, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Steinhacke",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,hoe,2,CRAFTING,HAND,STONE_HOE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,hoe,2,CRAFTING,HAND,STONE_HOE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,hoe,2,CRAFTING,HAND,STONE_HOE% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of stonehoe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,hoe,2,CRAFTING,HAND,STONE_HOE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,hoe,2,CRAFTING,HAND,STONE_HOE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,hoe,2,CRAFTING,HAND,STONE_HOE% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(3, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Eisenhacke",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,hoe,3,CRAFTING,HAND,IRON_HOE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,hoe,3,CRAFTING,HAND,IRON_HOE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,hoe,3,CRAFTING,HAND,IRON_HOE% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of ironhoe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,hoe,3,CRAFTING,HAND,IRON_HOE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,hoe,3,CRAFTING,HAND,IRON_HOE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,hoe,3,CRAFTING,HAND,IRON_HOE% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(4, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Goldhacke",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,hoe,4,CRAFTING,HAND,GOLDEN_HOE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,hoe,4,CRAFTING,HAND,GOLDEN_HOE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,hoe,4,CRAFTING,HAND,GOLDEN_HOE% Dollar",
+				"&f+0,5 % Chance 1 Eisenbarren bei Herstellen einer Eisenhacke zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of goldenhoe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,hoe,4,CRAFTING,HAND,GOLDEN_HOE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,hoe,4,CRAFTING,HAND,GOLDEN_HOE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,hoe,4,CRAFTING,HAND,GOLDEN_HOE% Dollar",
+				"&f+0.5% chance to drop 1 iron ingot when crafting a iron hoe.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(5, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Diamanthacke",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,hoe,5,CRAFTING,HAND,DIAMOND_HOE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,hoe,5,CRAFTING,HAND,DIAMOND_HOE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,hoe,5,CRAFTING,HAND,DIAMOND_HOE% Dollar",
+				"&f+2 % Chance 1 Eisenbarren bei Herstellen einer Eisenhacke zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of diamondhoe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,hoe,5,CRAFTING,HAND,DIAMOND_HOE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,hoe,5,CRAFTING,HAND,DIAMOND_HOE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,hoe,5,CRAFTING,HAND,DIAMOND_HOE% Dollar",
+				"&f+2% chance to drop 1 iron ingot when crafting a iron hoe.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(6, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Netheritehacke",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,hoe,6,SMITHING,HAND,NETHERITE_HOE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,hoe,6,SMITHING,HAND,NETHERITE_HOE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,hoe,6,SMITHING,HAND,NETHERITE_HOE% Dollar",
+				"&f+0,5 % Chance 1 Goldbarren bei Herstellen einer Goldhacke zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of netheritehoe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,hoe,6,SMITHING,HAND,NETHERITE_HOE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,hoe,6,SMITHING,HAND,NETHERITE_HOE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,hoe,6,SMITHING,HAND,NETHERITE_HOE% Dollar",
+				"&f+0.5% chance to drop 1 gold ingot when crafting a gold hoe",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(7, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+2 % Chance 1 Goldbarren bei Herstellen einer Goldhacke zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+2% chance to drop 1 gold ingot when crafting a gold hoe.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(8, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+0,5 % Chance 1 Diamand bei Herstellen einer Diamanthacke zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+0.5% chance to drop 1 diamond when crafting a diamond hoe.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(9, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+2 % Chance 1 Diamand bei Herstellen einer Diamanthacke zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+2% chance to drop 1 diamond when crafting a diamond hoe.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(10, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+0,5 % Chance 1 Netheritebarren bei Herstellen einer Netheritehacke zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+0.5% chance to drop 1 netherite ingot when crafting a netherite hoe.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(11, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+2 % Chance 1 Netheritebarren bei Herstellen einer Netheritehacke zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+2% chance to drop 1 netherite ingot when crafting a netherite hoe.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
 				"hoe", new String[] {"Hacke", "Hoe"},
 				TechnologyType.MULTIPLE, 11, PlayerAssociatedType.SOLO, 2, "", "tools", 
@@ -2840,69 +3747,81 @@ public class YamlManager
 				null, true,
 				new String[] {"&8Tech Hacke","&8Tech Shovel"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
-						"&7Technologie Hacke",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Hacke",
+						"&fHerstellung von Holzhacke",
+						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
-						"&7Technology Hoe",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
+						"",
 						"&eUnlocks the following:",
-						"&fCrafting of hoe",
-						"&cRightclick &bfor a more detailed view.",},
+						"&fCrafting of woodenhoe",
+						"",
+						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&dTech Hacke","&dTech Hoe"},
-				Material.WOODEN_HOE, 1, itemflag, null, new String[] {
-						"&7Technologie Hacke",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
-						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Hacke",
-						"&cRechtskick &bfür eine detailiertere Ansicht.",
-						"&7Technology Hoe",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
-						"&eUnlocks the following:",
-						"&fCrafting of hoe",
-						"&cRightclick &bfor a more detailed view.",},
+				Material.WOODEN_HOE, 1, itemflag, null, canResLore.get(1),
 				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
 				new String[] {"&dTech Hacke","&dTech Hoe"},
-				Material.WOODEN_HOE, 1, itemflag, null, new String[] {
-						"&7Technologie Hacke",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
-						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Hacke",
-						"&cRechtskick &bfür eine detailiertere Ansicht.",
-						"&7Technology Hoe",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
-						"&eUnlocks the following:",
-						"&fCrafting of hoe",
-						"&cRightclick &bfor a more detailed view.",},
+				Material.WOODEN_HOE, 1, itemflag, null, canResLore,
 				new String[] {"&dTech Hacke","&dTech Hoe"},
 				Material.WOODEN_HOE, 1, itemflag, null, new String[] {
-						"&7Technologie Hacke",
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Hacke",
+						"&f◦ Herstellung:",
+						"&f◦◦ Holzshacke %tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,WOODEN_HOE% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,WOODEN_HOE% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,WOODEN_HOE% Dollar",
+						"&f◦◦ Steinhacke %tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,STONE_HOE% TTExp | "
+										   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,STONE_HOE% VanillaExp | "
+										   + "%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,STONE_HOE% Dollar",
+						"&f◦◦ Eisenhacke %tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,IRON_HOE% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,IRON_HOE% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,IRON_HOE% Dollar",
+						"&f◦◦ Goldhacke %tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,GOLDEN_HOE% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,GOLDEN_HOE% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,GOLDEN_HOE% Dollar",
+						"&f◦◦ Diamandhacke %tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,DIAMOND_HOE% TTExp | "
+										     + "%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,DIAMOND_HOE% VanillaExp | "
+										     + "%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,DIAMOND_HOE% Dollar",
+						"&f◦ Schmieden:",
+						"&f◦◦ Netheritehacke %tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,SMITHING,HAND,NETHERITE_HOE% TTExp | "
+										       + "%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,SMITHING,HAND,NETHERITE_HOE% VanillaExp | "
+										       + "%tt_raw_reward_techtotal_money_mat,SOLO,hoe,SMITHING,HAND,NETHERITE_HOE% Dollar",
+						"&f◦ Drops:",
+						"&f◦◦ Eisenbarren beim herstellen einer Eisenhacke %tt_reward_techtotal_dropchance_mat,SOLO,hoe,CRAFTING,HAND,IRON_HOE,mat=IRON_INGOT%",
+						"&f◦◦ Goldbarren beim herstellen einer Goldhacke %tt_reward_techtotal_dropchance_mat,SOLO,hoe,CRAFTING,HAND,GOLDEN_HOE,mat=GOLD_INGOT%",
+						"&f◦◦ Diamant beim herstellen einer Diamanthacke %tt_reward_techtotal_dropchance_mat,SOLO,hoe,CRAFTING,HAND,DIAMOND_HOE,mat=DIAMOND%",
+						"&f◦◦ Netheritebarren beim herstellen einer Netheritehacke %tt_reward_techtotal_dropchance_mat,SOLO,hoe,CRAFTING,HAND,NETHERITE_HOE,mat=NETHERITE_INGOT%",
+						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
-						"&7Technology Hoe",
+						"",
 						"&eUnlocks the following:",
-						"&fCrafting of hoe",
-						"&cRightclick &bfor a more detailed view.",},
+						"&f◦ Crafting:",
+						"&f◦◦ Woodenhoe %tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,WOODEN_HOE% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,WOODEN_HOE% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,WOODEN_HOE% Dollar",
+						"&f◦◦ Stonehoe %tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,STONE_HOE% TTExp | "
+										   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,STONE_HOE% VanillaExp | "
+										   + "%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,STONE_HOE% Dollar",
+						"&f◦◦ Ironhoe %tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,IRON_HOE% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,IRON_HOE% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,IRON_HOE% Dollar",
+						"&f◦◦ Goldenhoe %tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,GOLDEN_HOE% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,GOLDEN_HOE% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,GOLDEN_HOE% Dollar",
+						"&f◦◦ Diamondhoe %tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,DIAMOND_HOE% TTExp | "
+										     + "%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,DIAMOND_HOE% VanillaExp | "
+										     + "%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,DIAMOND_HOE% Dollar",
+						"&f◦ Smithing:",
+						"&f◦◦ Netheritehoe %tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,SMITHING,HAND,NETHERITE_HOE% TTExp | "
+										       + "%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,SMITHING,HAND,NETHERITE_HOE% VanillaExp | "
+										       + "%tt_raw_reward_techtotal_money_mat,SOLO,hoe,SMITHING,HAND,NETHERITE_HOE% Dollar",
+						"&f◦ Drops:",
+						"&f◦◦ Ironingots during the production of an ironhoe %tt_reward_techtotal_dropchance_mat,SOLO,hoe,CRAFTING,HAND,IRON_HOE,mat=IRON_INGOT%",
+						"&f◦◦ Goldingots during the production of an goldenhoe %tt_reward_techtotal_dropchance_mat,SOLO,hoe,CRAFTING,HAND,GOLDEN_HOE,mat=GOLD_INGOT%",
+						"&f◦◦ Diamonds during the production of an diamondhoe %tt_reward_techtotal_dropchance_mat,SOLO,hoe,CRAFTING,HAND,DIAMOND_HOE,mat=DIAMOND%",
+						"&f◦◦ Netheriteingots during the production of an netheritehoe %tt_reward_techtotal_dropchance_mat,SOLO,hoe,CRAFTING,HAND,NETHERITE_HOE,mat=NETHERITE_INGOT%",
+						"",
+						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
 				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
@@ -3011,6 +3930,302 @@ public class YamlManager
 		rewardItem = new LinkedHashMap<>();
 		rewardModifier = new LinkedHashMap<>();
 		rewardValueEntry = new LinkedHashMap<>();
+		canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Holzaxt",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,axe,1,CRAFTING,HAND,WOODEN_AXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,axe,1,CRAFTING,HAND,WOODEN_AXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,axe,1,CRAFTING,HAND,WOODEN_AXE% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of woodenaxe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,axe,1,CRAFTING,HAND,WOODEN_AXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,axe,1,CRAFTING,HAND,WOODEN_AXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,axe,1,CRAFTING,HAND,WOODEN_AXE% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(2, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Steinaxt",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,axe,2,CRAFTING,HAND,STONE_AXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,axe,2,CRAFTING,HAND,STONE_AXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,axe,2,CRAFTING,HAND,STONE_AXE% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of stoneaxe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,axe,2,CRAFTING,HAND,STONE_AXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,axe,2,CRAFTING,HAND,STONE_AXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,axe,2,CRAFTING,HAND,STONE_AXE% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(3, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Eisenaxt",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,axe,3,CRAFTING,HAND,IRON_AXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,axe,3,CRAFTING,HAND,IRON_AXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,axe,3,CRAFTING,HAND,IRON_AXE% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of ironaxe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,axe,3,CRAFTING,HAND,IRON_AXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,axe,3,CRAFTING,HAND,IRON_AXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,axe,3,CRAFTING,HAND,IRON_AXE% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(4, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Goldaxt",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,axe,4,CRAFTING,HAND,GOLDEN_AXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,axe,4,CRAFTING,HAND,GOLDEN_AXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,axe,4,CRAFTING,HAND,GOLDEN_AXE% Dollar",
+				"&f+0,5 % Chance 1 Eisenbarren bei Herstellen einer Eisenaxt zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of goldenaxe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,axe,4,CRAFTING,HAND,GOLDEN_AXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,axe,4,CRAFTING,HAND,GOLDEN_AXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,axe,4,CRAFTING,HAND,GOLDEN_AXE% Dollar",
+				"&f+0.5% chance to drop 1 iron ingot when crafting a iron axe.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(5, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Diamantaxt",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,axe,5,CRAFTING,HAND,DIAMOND_AXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,axe,5,CRAFTING,HAND,DIAMOND_AXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,axe,5,CRAFTING,HAND,DIAMOND_AXE% Dollar",
+				"&f+2 % Chance 1 Eisenbarren bei Herstellen einer Eisenaxt zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of diamondaxe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,axe,5,CRAFTING,HAND,DIAMOND_AXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,axe,5,CRAFTING,HAND,DIAMOND_AXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,axe,5,CRAFTING,HAND,DIAMOND_AXE% Dollar",
+				"&f+2% chance to drop 1 iron ingot when crafting a iron axe.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(6, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Netheriteaxt",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,axe,6,SMITHING,HAND,NETHERITE_AXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,axe,6,SMITHING,HAND,NETHERITE_AXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,axe,6,SMITHING,HAND,NETHERITE_AXE% Dollar",
+				"&f+0,5 % Chance 1 Goldbarren bei Herstellen einer Goldaxt zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of netheriteaxe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,axe,6,SMITHING,HAND,NETHERITE_AXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,axe,6,SMITHING,HAND,NETHERITE_AXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,axe,6,SMITHING,HAND,NETHERITE_AXE% Dollar",
+				"&f+0.5% chance to drop 1 gold ingot when crafting a gold axe",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(7, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+2 % Chance 1 Goldbarren bei Herstellen einer Goldaxt zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+2% chance to drop 1 gold ingot when crafting a gold axe.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(8, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+0,5 % Chance 1 Diamand bei Herstellen einer Diamantaxt zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+0.5% chance to drop 1 diamond when crafting a diamond axe.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(9, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+2 % Chance 1 Diamand bei Herstellen einer Diamantaxt zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+2% chance to drop 1 diamond when crafting a diamond axe.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(10, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+0,5 % Chance 1 Netheritebarren bei Herstellen einer Netheriteaxt zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+0.5% chance to drop 1 netherite ingot when crafting a netherite axe.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(11, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+2 % Chance 1 Netheritebarren bei Herstellen einer Netheriteaxt zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+2% chance to drop 1 netherite ingot when crafting a netherite axe.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
 				"axe", new String[] {"Axt", "Axe"},
 				TechnologyType.MULTIPLE, 11, PlayerAssociatedType.SOLO, 3, "", "tools", 
@@ -3018,69 +4233,81 @@ public class YamlManager
 				null, true,
 				new String[] {"&8Tech Axt","&8Tech Axe"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
-						"&7Technologie Axt",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Axt",
+						"&fHerstellung von Holzaxt",
+						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
-						"&7Technology Axe",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
+						"",
 						"&eUnlocks the following:",
-						"&fCrafting of axe",
-						"&cRightclick &bfor a more detailed view.",},
+						"&fCrafting of woodenaxe",
+						"",
+						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&dTech Axt","&dTech Axe"},
-				Material.WOODEN_AXE, 1, itemflag, null, new String[] {
-						"&7Technologie Axt",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
-						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Axt",
-						"&cRechtskick &bfür eine detailiertere Ansicht.",
-						"&7Technology Axe",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
-						"&eUnlocks the following:",
-						"&fCrafting of axe",
-						"&cRightclick &bfor a more detailed view.",},
+				Material.WOODEN_AXE, 1, itemflag, null, canResLore.get(1),
 				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
 				new String[] {"&dTech Axt","&dTech Axe"},
-				Material.WOODEN_AXE, 1, itemflag, null, new String[] {
-						"&7Technologie Axt",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
-						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Axt",
-						"&cRechtskick &bfür eine detailiertere Ansicht.",
-						"&7Technology Axe",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
-						"&eUnlocks the following:",
-						"&fCrafting of axe",
-						"&cRightclick &bfor a more detailed view.",},
+				Material.WOODEN_AXE, 1, itemflag, null, canResLore,
 				new String[] {"&dTech Axt","&dTech Axe"},
-				Material.WOODEN_AXE, 1, itemflag, null, new String[] {
-						"&7Technologie Axt",
+				Material.WOODEN_AXE, 1, itemflag, enchantment, new String[] {
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Axt",
+						"&f◦ Herstellung:",
+						"&f◦◦ Holzaxt %tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,WOODEN_AXE% TTExp | "
+								   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,WOODEN_AXE% VanillaExp | "
+								   + "%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,WOODEN_AXE% Dollar",
+						"&f◦◦ Steinaxt %tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,STONE_AXE% TTExp | "
+								    + "%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,STONE_AXE% VanillaExp | "
+									+ "%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,STONE_AXE% Dollar",
+						"&f◦◦ Eisenaxt %tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,IRON_AXE% TTExp | "
+									+ "%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,IRON_AXE% VanillaExp | "
+									+ "%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,IRON_AXE% Dollar",
+						"&f◦◦ Goldaxt %tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,GOLDEN_AXE% TTExp | "
+								   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,GOLDEN_AXE% VanillaExp | "
+								   + "%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,GOLDEN_AXE% Dollar",
+						"&f◦◦ Diamandaxt %tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,DIAMOND_AXE% TTExp | "
+									  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,DIAMOND_AXE% VanillaExp | "
+									  + "%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,DIAMOND_AXE% Dollar",
+						"&f◦ Schmieden:",
+						"&f◦◦ Netheriteaxt %tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,SMITHING,HAND,NETHERITE_AXE% TTExp | "
+										+ "%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,SMITHING,HAND,NETHERITE_AXE% VanillaExp | "
+										+ "%tt_raw_reward_techtotal_money_mat,SOLO,axe,SMITHING,HAND,NETHERITE_AXE% Dollar",
+						"&f◦ Drops:",
+						"&f◦◦ Eisenbarren beim herstellen einer Eisenspitzhacke %tt_reward_techtotal_dropchance_mat,SOLO,axe,CRAFTING,HAND,IRON_AXE,mat=IRON_INGOT%",
+						"&f◦◦ Goldbarren beim herstellen einer Goldspitzhacke %tt_reward_techtotal_dropchance_mat,SOLO,axe,CRAFTING,HAND,GOLDEN_AXE,mat=GOLD_INGOT%",
+						"&f◦◦ Diamant beim herstellen einer Diamantspitzhacke %tt_reward_techtotal_dropchance_mat,SOLO,axe,CRAFTING,HAND,DIAMOND_AXE,mat=DIAMOND%",
+						"&f◦◦ Netheritebarren beim herstellen einer Netheritespitzhacke %tt_reward_techtotal_dropchance_mat,SOLO,axe,CRAFTING,HAND,NETHERITE_AXE,mat=NETHERITE_INGOT%",
+						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
-						"&7Technology Axe",
+						"",
 						"&eUnlocks the following:",
-						"&fCrafting of axe",
-						"&cRightclick &bfor a more detailed view.",},
+						"&f◦ Crafting:",
+						"&f◦◦ Woodenaxe %tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,WOODEN_AXE% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,WOODEN_AXE% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,WOODEN_AXE% Dollar",
+						"&f◦◦ Stoneaxe %tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,STONE_AXE% TTExp | "
+										   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,STONE_AXE% VanillaExp | "
+										   + "%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,STONE_AXE% Dollar",
+						"&f◦◦ Ironaxe %tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,IRON_AXE% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,IRON_AXE% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,IRON_AXE% Dollar",
+						"&f◦◦ Goldenaxe %tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,GOLDEN_AXE% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,GOLDEN_AXE% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,GOLDEN_AXE% Dollar",
+						"&f◦◦ Diamondaxe %tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,DIAMOND_AXE% TTExp | "
+										     + "%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,DIAMOND_AXE% VanillaExp | "
+										     + "%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,DIAMOND_AXE% Dollar",
+						"&f◦ Smithing:",
+						"&f◦◦ Netheriteaxe %tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,SMITHING,HAND,NETHERITE_AXE% TTExp | "
+										       + "%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,SMITHING,HAND,NETHERITE_AXE% VanillaExp | "
+										       + "%tt_raw_reward_techtotal_money_mat,SOLO,axe,SMITHING,HAND,NETHERITE_AXE% Dollar",
+						"&f◦ Drops:",
+						"&f◦◦ Ironingots during the production of an ironpickaxe %tt_reward_techtotal_dropchance_mat,SOLO,axe,CRAFTING,HAND,IRON_AXE,mat=IRON_INGOT%",
+						"&f◦◦ Goldingots during the production of an goldenpickaxe %tt_reward_techtotal_dropchance_mat,SOLO,axe,CRAFTING,HAND,GOLDEN_AXE,mat=GOLD_INGOT%",
+						"&f◦◦ Diamonds during the production of an diamondpickaxe %tt_reward_techtotal_dropchance_mat,SOLO,axe,CRAFTING,HAND,DIAMOND_AXE,mat=DIAMOND%",
+						"&f◦◦ Netheriteingots during the production of an netheritepickaxe %tt_reward_techtotal_dropchance_mat,SOLO,axe,CRAFTING,HAND,NETHERITE_AXE,mat=NETHERITE_INGOT%",
+						"",
+						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
 				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
@@ -3193,6 +4420,302 @@ public class YamlManager
 		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardValueEntry = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Holzaxt",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,sword,1,CRAFTING,HAND,WOODEN_SWORD% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,sword,1,CRAFTING,HAND,WOODEN_SWORD% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,sword,1,CRAFTING,HAND,WOODEN_SWORD% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of woodenaxe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,sword,1,CRAFTING,HAND,WOODEN_SWORD% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,sword,1,CRAFTING,HAND,WOODEN_SWORD% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,sword,1,CRAFTING,HAND,WOODEN_SWORD% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(2, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Steinaxt",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,sword,2,CRAFTING,HAND,STONE_SWORD% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,sword,2,CRAFTING,HAND,STONE_SWORD% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,sword,2,CRAFTING,HAND,STONE_SWORD% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of stoneaxe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,sword,2,CRAFTING,HAND,STONE_SWORD% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,sword,2,CRAFTING,HAND,STONE_SWORD% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,sword,2,CRAFTING,HAND,STONE_SWORD% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(3, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Eisenaxt",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,sword,3,CRAFTING,HAND,IRON_SWORD% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,sword,3,CRAFTING,HAND,IRON_SWORD% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,sword,3,CRAFTING,HAND,IRON_SWORD% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of ironaxe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,sword,3,CRAFTING,HAND,IRON_SWORD% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,sword,3,CRAFTING,HAND,IRON_SWORD% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,sword,3,CRAFTING,HAND,IRON_SWORD% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(4, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Goldaxt",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,sword,4,CRAFTING,HAND,GOLDEN_SWORD% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,sword,4,CRAFTING,HAND,GOLDEN_SWORD% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,sword,4,CRAFTING,HAND,GOLDEN_SWORD% Dollar",
+				"&f+0,5 % Chance 1 Eisenbarren bei Herstellen einer Eisenschwert zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of goldenaxe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,sword,4,CRAFTING,HAND,GOLDEN_SWORD% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,sword,4,CRAFTING,HAND,GOLDEN_SWORD% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,sword,4,CRAFTING,HAND,GOLDEN_SWORD% Dollar",
+				"&f+0.5% chance to drop 1 iron ingot when crafting a iron sword.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(5, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Diamantaxt",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,sword,5,CRAFTING,HAND,DIAMOND_SWORD% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,sword,5,CRAFTING,HAND,DIAMOND_SWORD% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,sword,5,CRAFTING,HAND,DIAMOND_SWORD% Dollar",
+				"&f+2 % Chance 1 Eisenbarren bei Herstellen einer Eisenschwert zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of diamondaxe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,sword,5,CRAFTING,HAND,DIAMOND_SWORD% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,sword,5,CRAFTING,HAND,DIAMOND_SWORD% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,sword,5,CRAFTING,HAND,DIAMOND_SWORD% Dollar",
+				"&f+2% chance to drop 1 iron ingot when crafting a iron sword.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(6, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Netheriteaxt",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,sword,6,SMITHING,HAND,NETHERITE_SWORD% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,sword,6,SMITHING,HAND,NETHERITE_SWORD% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,sword,6,SMITHING,HAND,NETHERITE_SWORD% Dollar",
+				"&f+0,5 % Chance 1 Goldbarren bei Herstellen einer Goldschwert zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of netheriteaxe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,sword,6,SMITHING,HAND,NETHERITE_SWORD% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,sword,6,SMITHING,HAND,NETHERITE_SWORD% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,sword,6,SMITHING,HAND,NETHERITE_SWORD% Dollar",
+				"&f+0.5% chance to drop 1 gold ingot when crafting a gold axe",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(7, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+2 % Chance 1 Goldbarren bei Herstellen einer Goldschwert zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+2% chance to drop 1 gold ingot when crafting a gold sword.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(8, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+0,5 % Chance 1 Diamand bei Herstellen einer Diamantschwert zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+0.5% chance to drop 1 diamond when crafting a diamond sword.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(9, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+2 % Chance 1 Diamand bei Herstellen einer Diamantschwert zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+2% chance to drop 1 diamond when crafting a diamond sword.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(10, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+0,5 % Chance 1 Netheritebarren bei Herstellen einer Netheriteschwert zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+0.5% chance to drop 1 netherite ingot when crafting a netherite sword.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(11, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+2 % Chance 1 Netheritebarren bei Herstellen einer Netheriteschwert zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+2% chance to drop 1 netherite ingot when crafting a netherite sword.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
 				"sword", new String[] {"Schwert", "Sword"},
 				TechnologyType.MULTIPLE, 11, PlayerAssociatedType.SOLO, 0, "", "weapons_armor", 
@@ -3200,69 +4723,81 @@ public class YamlManager
 				null, true,
 				new String[] {"&8Tech Schwert","&8Tech Sword"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
-						"&7Technologie Schwert",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Schwert",
+						"&fHerstellung von Holzschwert",
+						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
-						"&7Technology Sword",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
+						"",
 						"&eUnlocks the following:",
-						"&fCrafting of sword",
-						"&cRightclick &bfor a more detailed view.",},
+						"&fCrafting of woodensword",
+						"",
+						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Schwert","&7Sword"},
-				Material.WOODEN_SWORD, 1, itemflag, null, new String[] {
-						"&7Technologie Schwert",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
-						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Schwert",
-						"&cRechtskick &bfür eine detailiertere Ansicht.",
-						"&7Technology Sword",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
-						"&eUnlocks the following:",
-						"&fCrafting of sword",
-						"&cRightclick &bfor a more detailed view.",},
+				Material.WOODEN_SWORD, 1, itemflag, null, canResLore.get(1),
 				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
 				new String[] {"&7Schwert","&7Sword"},
-				Material.WOODEN_SWORD, 1, itemflag, null, new String[] {
-						"&7Technologie Schwert",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
-						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Schwert",
-						"&cRechtskick &bfür eine detailiertere Ansicht.",
-						"&7Technology Sword",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
-						"&eUnlocks the following:",
-						"&fCrafting of sword",
-						"&cRightclick &bfor a more detailed view.",},
+				Material.WOODEN_SWORD, 1, itemflag, null, canResLore,
 				new String[] {"&bSchwert","&bSword"},
-				Material.WOODEN_SWORD, 1, itemflag, null, new String[] {
-						"&7Technologie Schwert",
+				Material.WOODEN_SWORD, 1, itemflag, enchantment, new String[] {
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Schwert",
+						"&f◦ Herstellung:",
+						"&f◦◦ Holzschwert %tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,WOODEN_SWORD% TTExp | "
+								   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,WOODEN_SWORD% VanillaExp | "
+								   + "%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,WOODEN_SWORD% Dollar",
+						"&f◦◦ Steinschwert %tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,STONE_SWORD% TTExp | "
+								    + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,STONE_SWORD% VanillaExp | "
+									+ "%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,STONE_SWORD% Dollar",
+						"&f◦◦ Eisenschwert %tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD% TTExp | "
+									+ "%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD% VanillaExp | "
+									+ "%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD% Dollar",
+						"&f◦◦ Goldschwert %tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD% TTExp | "
+								   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD% VanillaExp | "
+								   + "%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD% Dollar",
+						"&f◦◦ Diamandschwert %tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD% TTExp | "
+									  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD% VanillaExp | "
+									  + "%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD% Dollar",
+						"&f◦ Schmieden:",
+						"&f◦◦ Netheriteschwert %tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,SMITHING,HAND,NETHERITE_SWORD% TTExp | "
+										+ "%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,SMITHING,HAND,NETHERITE_SWORD% VanillaExp | "
+										+ "%tt_raw_reward_techtotal_money_mat,SOLO,sword,SMITHING,HAND,NETHERITE_SWORD% Dollar",
+						"&f◦ Drops:",
+						"&f◦◦ Eisenbarren beim herstellen einer Eisenschwert %tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD,mat=IRON_INGOT%",
+						"&f◦◦ Goldbarren beim herstellen einer Goldschwert %tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD,mat=GOLD_INGOT%",
+						"&f◦◦ Diamant beim herstellen einer Diamantschwert %tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD,mat=DIAMOND%",
+						"&f◦◦ Netheritebarren beim herstellen einer Netheriteschwert %tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,NETHERITE_SWORD,mat=NETHERITE_INGOT%",
+						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
-						"&7Technology Sword",
+						"",
 						"&eUnlocks the following:",
-						"&fCrafting of sword",
-						"&cRightclick &bfor a more detailed view.",},
+						"&f◦ Crafting:",
+						"&f◦◦ Woodensword %tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,WOODEN_SWORD% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,WOODEN_SWORD% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,WOODEN_SWORD% Dollar",
+						"&f◦◦ Stonesword %tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,STONE_SWORD% TTExp | "
+										   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,STONE_SWORD% VanillaExp | "
+										   + "%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,STONE_SWORD% Dollar",
+						"&f◦◦ Ironsword %tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD% Dollar",
+						"&f◦◦ Goldensword %tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD% Dollar",
+						"&f◦◦ Diamondsword %tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD% TTExp | "
+										     + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD% VanillaExp | "
+										     + "%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD% Dollar",
+						"&f◦ Smithing:",
+						"&f◦◦ Netheritesword %tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,SMITHING,HAND,NETHERITE_SWORD% TTExp | "
+										       + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,SMITHING,HAND,NETHERITE_SWORD% VanillaExp | "
+										       + "%tt_raw_reward_techtotal_money_mat,SOLO,sword,SMITHING,HAND,NETHERITE_SWORD% Dollar",
+						"&f◦ Drops:",
+						"&f◦◦ Ironingots during the production of an ironsword %tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD,mat=IRON_INGOT%",
+						"&f◦◦ Goldingots during the production of an goldensword %tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD,mat=GOLD_INGOT%",
+						"&f◦◦ Diamonds during the production of an diamondsword %tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD,mat=DIAMOND%",
+						"&f◦◦ Netheriteingots during the production of an netheritesword %tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,NETHERITE_SWORD,mat=NETHERITE_INGOT%",
+						"",
+						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
 				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
@@ -3348,10 +4883,6 @@ public class YamlManager
 		rewardUnlockableRecipe.put(4, new String[] {"SHAPED:diamond_boots",""});
 		rewardUnlockableRecipe.put(5, new String[] {"SMITHING:netherite_boots_smithing",""});
 		rewardDropChance = new LinkedHashMap<>();
-		rewardDropChance.put(2, new String[] {
-				"CRAFTING:HAND:LEATHER_BOOTS:null:mat=LEATHER:1:0.005",""});
-		rewardDropChance.put(3, new String[] {
-				"CRAFTING:HAND:LEATHER_BOOTS:null:mat=LEATHER:1:0.02",""});
 		rewardDropChance.put(4, new String[] {
 				"CRAFTING:HAND:IRON_BOOTS:null:mat=IRON_INGOT:1:0.005",""});
 		rewardDropChance.put(5, new String[] {
@@ -3373,6 +4904,294 @@ public class YamlManager
 		rewardItem = new LinkedHashMap<>();
 		rewardModifier = new LinkedHashMap<>();
 		rewardValueEntry = new LinkedHashMap<>();
+		canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Lederschuhe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,boots,1,CRAFTING,HAND,LEATHER_BOOTS% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,boots,1,CRAFTING,HAND,LEATHER_BOOTS% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,boots,1,CRAFTING,HAND,LEATHER_BOOTS% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of leatherboots",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,boots,1,CRAFTING,HAND,LEATHER_BOOTS% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,boots,1,CRAFTING,HAND,LEATHER_BOOTS% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,boots,1,CRAFTING,HAND,LEATHER_BOOTS% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(2, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Eisenschuhe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,boots,2,CRAFTING,HAND,IRON_BOOTS% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,boots,2,CRAFTING,HAND,IRON_BOOTS% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,boots,2,CRAFTING,HAND,IRON_BOOTS% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of ironboots",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,boots,2,CRAFTING,HAND,IRON_BOOTS% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,boots,2,CRAFTING,HAND,IRON_BOOTS% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,boots,2,CRAFTING,HAND,IRON_BOOTS% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(3, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Goldschuhe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,boots,3,CRAFTING,HAND,GOLDEN_BOOTS% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,boots,3,CRAFTING,HAND,GOLDEN_BOOTS% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,boots,3,CRAFTING,HAND,GOLDEN_BOOTS% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of goldenboots",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,boots,3,CRAFTING,HAND,GOLDEN_BOOTS% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,boots,3,CRAFTING,HAND,GOLDEN_BOOTS% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,boots,3,CRAFTING,HAND,GOLDEN_BOOTS% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(4, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Diamantschuhe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,boots,4,CRAFTING,HAND,DIAMOND_BOOTS% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,boots,4,CRAFTING,HAND,DIAMOND_BOOTS% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,boots,4,CRAFTING,HAND,DIAMOND_BOOTS% Dollar",
+				"&f+0,5 % Chance 1 Eisenbarren bei Herstellen einer Eisenschuhe zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of diamondboots",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,boots,4,CRAFTING,HAND,DIAMOND_BOOTS% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,boots,4,CRAFTING,HAND,DIAMOND_BOOTS% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,boots,4,CRAFTING,HAND,DIAMOND_BOOTS% Dollar",
+				"&f+0.5% chance to drop 1 iron ingot when crafting a iron boots.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(5, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Netheriteschuhe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,boots,5,CRAFTING,HAND,NETHERITE_BOOTS% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,boots,5,CRAFTING,HAND,NETHERITE_BOOTS% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,boots,5,CRAFTING,HAND,NETHERITE_BOOTS% Dollar",
+				"&f+2 % Chance 1 Eisenbarren bei Herstellen einer Eisenschuhe zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of netheriteboots",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,boots,5,CRAFTING,HAND,NETHERITE_BOOTS% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,boots,5,CRAFTING,HAND,NETHERITE_BOOTS% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,boots,5,CRAFTING,HAND,NETHERITE_BOOTS% Dollar",
+				"&f+2% chance to drop 1 iron ingot when crafting a iron boots.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(6, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+0,5 % Chance 1 Goldbarren bei Herstellen einer Goldschuhe zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+0.5% chance to drop 1 gold ingot when crafting a gold boots",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(7, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+2 % Chance 1 Goldbarren bei Herstellen einer Goldschuhe zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+2% chance to drop 1 gold ingot when crafting a gold boots.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(8, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+0,5 % Chance 1 Diamand bei Herstellen einer Diamantschuhe zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+0.5% chance to drop 1 diamond when crafting a diamond boots.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(9, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+2 % Chance 1 Diamand bei Herstellen einer Diamantschuhe zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+2% chance to drop 1 diamond when crafting a diamond boots.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(10, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+0,5 % Chance 1 Netheritebarren bei Herstellen einer Netheriteschuhe zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+0.5% chance to drop 1 netherite ingot when crafting a netherite boots.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(11, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+2 % Chance 1 Netheritebarren bei Herstellen einer Netheriteschuhe zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+2% chance to drop 1 netherite ingot when crafting a netherite boots.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
 				"boots", new String[] {"Schuhe", "Boots"},
 				TechnologyType.MULTIPLE, 11, PlayerAssociatedType.SOLO, 1, "", "weapons_armor", 
@@ -3380,69 +5199,75 @@ public class YamlManager
 				null, true,
 				new String[] {"&8Tech Schuhe","&8Tech Boots"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
-						"&7Technologie Schuhe",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Schuhe",
+						"&fHerstellung von Lederschuhe",
+						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
-						"&7Technology Boots",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
+						"",
 						"&eUnlocks the following:",
-						"&fCrafting of boots",
-						"&cRightclick &bfor a more detailed view.",},
+						"&fCrafting of leatherboots",
+						"",
+						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Schuhe","&7Boots"},
-				Material.LEATHER_BOOTS, 1, itemflag, null, new String[] {
-						"&7Technologie Schuhe",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
-						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Schuhe",
-						"&cRechtskick &bfür eine detailiertere Ansicht.",
-						"&7Technology Boots",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
-						"&eUnlocks the following:",
-						"&fCrafting of boots",
-						"&cRightclick &bfor a more detailed view.",},
+				Material.LEATHER_BOOTS, 1, itemflag, null, canResLore.get(1),
 				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
 				new String[] {"&7Schuhe","&7Boots"},
-				Material.LEATHER_BOOTS, 1, itemflag, null, new String[] {
-						"&7Technologie Schuhe",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
-						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Schuhe",
-						"&cRechtskick &bfür eine detailiertere Ansicht.",
-						"&7Technology Boots",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
-						"&eUnlocks the following:",
-						"&fCrafting of boots",
-						"&cRightclick &bfor a more detailed view.",},
+				Material.LEATHER_BOOTS, 1, itemflag, null, canResLore,
 				new String[] {"&bSchuhe","&bBoots"},
-				Material.LEATHER_BOOTS, 1, itemflag, null, new String[] {
-						"&7Technologie Schuhe",
+				Material.LEATHER_BOOTS, 1, itemflag, enchantment, new String[] {
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Schuhe",
+						"&f◦ Herstellung:",
+						"&f◦◦ Lederschuhe %tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,CRAFTING,HAND,LEATHER_BOOTS% TTExp | "
+								   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,CRAFTING,HAND,LEATHER_BOOTS% VanillaExp | "
+								   + "%tt_raw_reward_techtotal_money_mat,SOLO,boots,CRAFTING,HAND,LEATHER_BOOTS% Dollar",
+						"&f◦◦ Eisenschuhe %tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD% TTExp | "
+									+ "%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD% VanillaExp | "
+									+ "%tt_raw_reward_techtotal_money_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD% Dollar",
+						"&f◦◦ Goldschuhe %tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD% TTExp | "
+								   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD% VanillaExp | "
+								   + "%tt_raw_reward_techtotal_money_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD% Dollar",
+						"&f◦◦ Diamandschuhe %tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD% TTExp | "
+									  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD% VanillaExp | "
+									  + "%tt_raw_reward_techtotal_money_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD% Dollar",
+						"&f◦ Schmieden:",
+						"&f◦◦ Netheriteschuhe %tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,SMITHING,HAND,NETHERITE_SWORD% TTExp | "
+										+ "%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,SMITHING,HAND,NETHERITE_SWORD% VanillaExp | "
+										+ "%tt_raw_reward_techtotal_money_mat,SOLO,boots,SMITHING,HAND,NETHERITE_SWORD% Dollar",
+						"&f◦ Drops:",
+						"&f◦◦ Eisenbarren beim herstellen einer Eisenschuhe %tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD,mat=IRON_INGOT%",
+						"&f◦◦ Goldbarren beim herstellen einer Goldschuhe %tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD,mat=GOLD_INGOT%",
+						"&f◦◦ Diamant beim herstellen einer Diamantschuhe %tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD,mat=DIAMOND%",
+						"&f◦◦ Netheritebarren beim herstellen einer Netheriteschuhe %tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,NETHERITE_SWORD,mat=NETHERITE_INGOT%",
+						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
-						"&7Technology Boots",
+						"",
 						"&eUnlocks the following:",
-						"&fCrafting of boots",
-						"&cRightclick &bfor a more detailed view.",},
+						"&f◦ Crafting:",
+						"&f◦◦ Leatherboots %tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,CRAFTING,HAND,LEATHER_BOOTS% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,CRAFTING,HAND,LEATHER_BOOTS% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,boots,CRAFTING,HAND,LEATHER_BOOTS% Dollar",
+						"&f◦◦ Ironboots %tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD% Dollar",
+						"&f◦◦ Goldenboots %tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD% TTExp | "
+										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD% VanillaExp | "
+										  + "%tt_raw_reward_techtotal_money_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD% Dollar",
+						"&f◦◦ Diamondboots %tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD% TTExp | "
+										     + "%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD% VanillaExp | "
+										     + "%tt_raw_reward_techtotal_money_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD% Dollar",
+						"&f◦ Smithing:",
+						"&f◦◦ Netheriteboots %tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,SMITHING,HAND,NETHERITE_SWORD% TTExp | "
+										       + "%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,SMITHING,HAND,NETHERITE_SWORD% VanillaExp | "
+										       + "%tt_raw_reward_techtotal_money_mat,SOLO,boots,SMITHING,HAND,NETHERITE_SWORD% Dollar",
+						"&f◦ Drops:",
+						"&f◦◦ Ironingots during the production of an ironboots %tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD,mat=IRON_INGOT%",
+						"&f◦◦ Goldingots during the production of an goldenboots %tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD,mat=GOLD_INGOT%",
+						"&f◦◦ Diamonds during the production of an diamondboots %tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD,mat=DIAMOND%",
+						"&f◦◦ Netheriteingots during the production of an netheriteboots %tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,NETHERITE_SWORD,mat=NETHERITE_INGOT%",
+						"",
+						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
 				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
@@ -3450,7 +5275,6 @@ public class YamlManager
 	
 	private void tech_Mining_Soil(String[] itemflag, String[] enchantment) //INFO:Mining_Soil
 	{
-		String[] itemflag = new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()};
 		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
 		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
@@ -3573,6 +5397,11 @@ public class YamlManager
 				"BREAKING:NETHERITE_SHOVEL:GRAVEL:null:mat=GRAVEL:1:0.75",
 				"BREAKING:NETHERITE_SHOVEL:GRAVEL:null:mat=FLINT:1:0.25"});
 		LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance.put(1, new String[] {
+				"BREAKING:HAND:DIRT:null:mat=DIRT:1:1.0",
+				"BREAKING:HAND:GRASS_BLOCK:null:mat=DIRT:1:1.0",
+				"BREAKING:HAND:SAND:null:mat=SAND:1:1.0",
+				"BREAKING:WOODEN_SHOVEL:GRAVEL:null:mat=GRAVEL:1:1.0"});
 		rewardSilkTouchDropChance.put(2, new String[] {
 				"BREAKING:WOODEN_SHOVEL:DIRT:null:mat=DIRT:1:1.0",
 				"BREAKING:WOODEN_SHOVEL:GRASS_BLOCK:null:mat=GRASS_BLOCK:1:1.0",
@@ -3607,6 +5436,211 @@ public class YamlManager
 		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardValueEntry = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fAbbauen von Erde mit der Hand %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,1,BREAKING,HAND,DIRT% TTExp | "
+											  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,1,BREAKING,HAND,DIRT% VanillaExp | "
+											  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,1,BREAKING,HAND,DIRT% Dollar",
+				"&fDropChance von Erde mit der Hand %tt_reward_tech_dropchance_mat,SOLO,soil_I,1,BREAKING,HAND,DIRT,mat=DIRT%",
+				"&fBehutsamkeits DropChance von Erde mit der Hand %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,1,BREAKING,HAND,DIRT,mat=DIRT%",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of woodenpickaxe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,1,CRAFTING,HAND,WOODEN_PICKAXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,1,CRAFTING,HAND,WOODEN_PICKAXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,1,CRAFTING,HAND,WOODEN_PICKAXE% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(2, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Steinspitzhacke",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,2,CRAFTING,HAND,STONE_PICKAXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,2,CRAFTING,HAND,STONE_PICKAXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,2,CRAFTING,HAND,STONE_PICKAXE% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of stonepickaxe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,2,CRAFTING,HAND,STONE_PICKAXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,2,CRAFTING,HAND,STONE_PICKAXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,2,CRAFTING,HAND,STONE_PICKAXE% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(3, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Eisenspitzhacke",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,3,CRAFTING,HAND,IRON_PICKAXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,3,CRAFTING,HAND,IRON_PICKAXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,3,CRAFTING,HAND,IRON_PICKAXE% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of ironpickaxe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,3,CRAFTING,HAND,IRON_PICKAXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,3,CRAFTING,HAND,IRON_PICKAXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,3,CRAFTING,HAND,IRON_PICKAXE% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(4, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Goldspitzhacke",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,4,CRAFTING,HAND,GOLDEN_PICKAXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,4,CRAFTING,HAND,GOLDEN_PICKAXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,4,CRAFTING,HAND,GOLDEN_PICKAXE% Dollar",
+				"&f+0,5 % Chance 1 Eisenbarren bei Herstellen einer Eisenspitzhacke zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of goldenpickaxe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,4,CRAFTING,HAND,GOLDEN_PICKAXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,4,CRAFTING,HAND,GOLDEN_PICKAXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,4,CRAFTING,HAND,GOLDEN_PICKAXE% Dollar",
+				"&f+0.5% chance to drop 1 iron ingot when crafting a iron pickaxe.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(5, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Diamantspitzhacke",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,5,CRAFTING,HAND,DIAMOND_PICKAXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,5,CRAFTING,HAND,DIAMOND_PICKAXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,5,CRAFTING,HAND,DIAMOND_PICKAXE% Dollar",
+				"&f+2 % Chance 1 Eisenbarren bei Herstellen einer Eisenspitzhacke zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of diamondpickaxe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,5,CRAFTING,HAND,DIAMOND_PICKAXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,5,CRAFTING,HAND,DIAMOND_PICKAXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,5,CRAFTING,HAND,DIAMOND_PICKAXE% Dollar",
+				"&f+2% chance to drop 1 iron ingot when crafting a iron pickaxe.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(6, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung von Netheritespitzhacke",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,6,SMITHING,HAND,NETHERITE_PICKAXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,6,SMITHING,HAND,NETHERITE_PICKAXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,6,SMITHING,HAND,NETHERITE_PICKAXE% Dollar",
+				"&f+0,5 % Chance 1 Goldbarren bei Herstellen einer Goldspitzhacke zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of netheritepickaxe",
+				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,6,SMITHING,HAND,NETHERITE_PICKAXE% TTExp | "
+				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,6,SMITHING,HAND,NETHERITE_PICKAXE% VanillaExp | "
+				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,6,SMITHING,HAND,NETHERITE_PICKAXE% Dollar",
+				"&f+0.5% chance to drop 1 gold ingot when crafting a gold pickaxe.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(7, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f+2 % Chance 1 Goldbarren bei Herstellen einer Goldspitzhacke zu droppen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f+2% chance to drop 1 gold ingot when crafting a gold pickaxe.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
 				"soil_I", new String[] {"Böden_I", "Dirt"}, TechnologyType.MULTIPLE, 7, PlayerAssociatedType.SOLO, 0, "", "soil", 
 				0, 0, 0, 0, 0, 0, 0, 0,

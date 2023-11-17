@@ -130,4 +130,19 @@ public class ConfigHandler
 	{
 		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("Do.Gui.FillNotDefineGuiSlots", true);
 	}
+	
+	public boolean accessMainCategory_IfCreative()
+	{
+		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("Do.Access.MainCategory.BypassIfCreative", true);
+	}
+	
+	public boolean accessSubCategory_IfCreative()
+	{
+		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("Do.Access.SubCategory.BypassIfCreative", true);
+	}
+	
+	public boolean accessTechnology_IfCreative()
+	{
+		return BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("Do.Access.Technology.BypassIfCreative", true);
+	}
 }

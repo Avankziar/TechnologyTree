@@ -680,6 +680,14 @@ public class PlayerHandler
 						EntryQueryType.TECHNOLOGY, EntryStatusType.CANNOT_SEE_IT, 1,
 						Long.MAX_VALUE);
 			}
+			if(hNRE.getStatusType() != EntryStatusType.HAVE_RESEARCHED_IT)
+			{
+				if(new ConfigHandler().accessTechnology_IfCreative() && player.getGameMode() == GameMode.CREATIVE)
+				{
+					map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player, hNRE.getResearchLevel()), false);
+					return map;
+				}
+			}
 			if(hNRE.getStatusType() == EntryStatusType.CANNOT_SEE_IT)
 			{
 				for(String s : tech.getSeeRequirementConditionQuery())
@@ -747,6 +755,11 @@ public class PlayerHandler
 				return map;
 			}
 			int researchLvl = hRE.getResearchLevel()+1;
+			if(new ConfigHandler().accessTechnology_IfCreative() && player.getGameMode() == GameMode.CREATIVE)
+			{
+				map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player, researchLvl), false);
+				return map;
+			}
 			ArrayList<String> tsls = new ArrayList<>();
 			for(String s : tech.getResearchRequirementConditionQuery().get(researchLvl))
 			{
@@ -791,6 +804,15 @@ public class PlayerHandler
 				map.put(tech.getResearchRequirementItemIfYouHaveResearchedIt(player), false);
 				return map;
 			}
+			int researchLvl = hNRE.getResearchLevel();
+			if(hNRE.getStatusType() != EntryStatusType.HAVE_RESEARCHED_IT)
+			{
+				if(new ConfigHandler().accessTechnology_IfCreative() && player.getGameMode() == GameMode.CREATIVE)
+				{
+					map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player, researchLvl), false);
+					return map;
+				}
+			}
 			ArrayList<String> tsls = new ArrayList<>();
 			if(hNRE.getStatusType() == EntryStatusType.CANNOT_SEE_IT)
 			{
@@ -817,7 +839,7 @@ public class PlayerHandler
 				}
 				tsls.clear();
 			}
-			for(String s : tech.getResearchRequirementConditionQuery().get(hNRE.getResearchLevel()))
+			for(String s : tech.getResearchRequirementConditionQuery().get(researchLvl))
 			{
 				if(s.startsWith("if") || s.startsWith("else") || s.startsWith("output") || s.startsWith("event"))
 				{
@@ -830,7 +852,7 @@ public class PlayerHandler
 			if(researchOrNot != null &&  researchOrNot.get(0).equalsIgnoreCase("true"))
 			{
 				hNRE.setStatusType(EntryStatusType.CAN_RESEARCH_IT);
-				map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player, hNRE.getResearchLevel()), false);
+				map.put(tech.getResearchRequirementItemIfYouCanResearchIt(player, researchLvl), false);
 			} else if(researchOrNot != null &&  researchOrNot.get(0).equalsIgnoreCase("false"))
 			{
 				hNRE.setStatusType(EntryStatusType.CAN_SEE_IT);
@@ -1634,7 +1656,7 @@ public class PlayerHandler
 			mapI.put(dc.getEventMaterial(), mapII);
 			map0.put(dc.getToolType(), mapI);
 			materialDropMap.put(uuid, map0);
-		} else if(dc.getEventEntity() != null)
+		} else if(dc.getEventEntityType() != null)
 		{
 			LinkedHashMap<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>>>> map0 = new LinkedHashMap<>();
 			if(entityTypeDropMap.containsKey(uuid))
@@ -1647,9 +1669,9 @@ public class PlayerHandler
 				mapI = map0.get(dc.getToolType()); 
 			}
 			LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>> mapII = new LinkedHashMap<>();
-			if(mapI.containsKey(dc.getEventEntity()))
+			if(mapI.containsKey(dc.getEventEntityType()))
 			{
-				mapII = mapI.get(dc.getEventEntity());
+				mapII = mapI.get(dc.getEventEntityType());
 			}
 			LinkedHashMap<String, SimpleDropChance> mapIII = new LinkedHashMap<>();
 			if(mapII.containsKey(dc.getEventType()))
@@ -1672,7 +1694,7 @@ public class PlayerHandler
 			}
 			mapIII.put(sdc.getToDropItem(), sdc);
 			mapII.put(dc.getEventType(), mapIII);
-			mapI.put(dc.getEventEntity(), mapII);
+			mapI.put(dc.getEventEntityType(), mapII);
 			map0.put(dc.getToolType(), mapI);
 			entityTypeDropMap.put(uuid, map0);
 		}
@@ -1722,7 +1744,7 @@ public class PlayerHandler
 			mapI.put(dc.getEventMaterial(), mapII);
 			map0.put(dc.getToolType(), mapI);
 			materialSilkTouchDropMap.put(uuid, map0);
-		} else if(dc.getEventEntity() != null)
+		} else if(dc.getEventEntityType() != null)
 		{
 			LinkedHashMap<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>>>> map0 = new LinkedHashMap<>();
 			if(entityTypeSilkTouchDropMap.containsKey(uuid))
@@ -1735,9 +1757,9 @@ public class PlayerHandler
 				mapI = map0.get(dc.getToolType()); 
 			}
 			LinkedHashMap<EventType, LinkedHashMap<String, SimpleDropChance>> mapII = new LinkedHashMap<>();
-			if(mapI.containsKey(dc.getEventEntity()))
+			if(mapI.containsKey(dc.getEventEntityType()))
 			{
-				mapII = mapI.get(dc.getEventEntity());
+				mapII = mapI.get(dc.getEventEntityType());
 			}
 			LinkedHashMap<String, SimpleDropChance> mapIII = new LinkedHashMap<>();
 			if(mapII.containsKey(dc.getEventType()))
@@ -1760,7 +1782,7 @@ public class PlayerHandler
 			}
 			mapIII.put(sdc.getToDropItem(), sdc);
 			mapII.put(dc.getEventType(), mapIII);
-			mapI.put(dc.getEventEntity(), mapII);
+			mapI.put(dc.getEventEntityType(), mapII);
 			map0.put(dc.getToolType(), mapI);
 			entityTypeSilkTouchDropMap.put(uuid, map0);
 		}

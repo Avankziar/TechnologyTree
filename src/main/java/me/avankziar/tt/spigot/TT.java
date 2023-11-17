@@ -51,6 +51,7 @@ import main.java.me.avankziar.tt.spigot.gui.listener.UpperListener;
 import main.java.me.avankziar.tt.spigot.handler.CatTechHandler;
 import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
+import main.java.me.avankziar.tt.spigot.hook.PAPIHook;
 import main.java.me.avankziar.tt.spigot.listener.BlockFormListener;
 import main.java.me.avankziar.tt.spigot.listener.JoinQuitListener;
 import main.java.me.avankziar.tt.spigot.listener.recipe.PrepareAnvilListener;
@@ -161,6 +162,7 @@ public class TT extends JavaPlugin
 		setupCommandTree();
 		setupListeners();
 		setupIFHConsumer();
+		setupPlaceholderAPI();
 		//RewardHandler.doRewardOfflinePlayerTask(); ADDME
 	}
 	
@@ -478,8 +480,8 @@ public class TT extends JavaPlugin
 			Bukkit.getPluginManager().getPlugin(pluginName).getPluginLoader().disablePlugin(this);
 			return false;
 		}
-		CatTechHandler.reload();
 		RecipeHandler.init();
+		CatTechHandler.reload();
 		return true;
 	}
 	
@@ -491,6 +493,16 @@ public class TT extends JavaPlugin
 		}
 		log.info(pluginName+" hook with "+externPluginName);
 		return true;
+	}
+	
+	private void setupPlaceholderAPI()
+	{
+		if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
+		{
+            new PAPIHook(plugin).register();
+            return;
+		}
+		return;
 	}
 	
 	private void setupIFHAdministration()

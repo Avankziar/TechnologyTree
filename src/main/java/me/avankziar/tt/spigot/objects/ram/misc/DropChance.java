@@ -61,12 +61,12 @@ public class DropChance
 		this.eventMaterial = eventMaterial;
 	}
 
-	public EntityType getEventEntity()
+	public EntityType getEventEntityType()
 	{
 		return eventEntity;
 	}
 
-	public void setEventEntity(EntityType eventEntity)
+	public void setEventEntityType(EntityType eventEntity)
 	{
 		this.eventEntity = eventEntity;
 	}
