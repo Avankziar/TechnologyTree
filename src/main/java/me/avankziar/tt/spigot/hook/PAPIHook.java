@@ -85,6 +85,8 @@ public class PAPIHook extends PlaceholderExpansion
 	 * tt_raw_reward_tech_money_ent,<PAT>,<Tech>,<Lvl>,<Event>,<Tool>,<Entity>,<Currencyname|vault|default|other something other>
 	 * tt_raw_reward_player_money_mat,<Event>,<Tool>,<Material>,<Currencyname|vault|default|other something other>
 	 * tt_raw_reward_player_money_ent,<Event>,<Tool>,<Entity>,<Currencyname|vault|default|other something other>
+	 * tt_raw_reward_techtotal_money_mat,<PAT>,<Tech>,<Event>,<Tool>,<Material>,<Currencyname|vault|default|other something other>
+	 * tt_raw_reward_techtotal_money_ent,<PAT>,<Tech>,<Event>,<Tool>,<Entity>,<Currencyname|vault|default|other something other>
 	 * 
 	 * Return the raw number in percent how much dropchance
 	 * tt_reward_tech_dropchance_mat,<PAT>,<Tech>,<Lvl>,<Event>,<Tool>,<Material>,<DropMaterial>
@@ -393,7 +395,7 @@ public class PAPIHook extends PlaceholderExpansion
 			}
 			EventType evt = EventType.valueOf(sp[1]);
 			ToolType tool = ToolType.valueOf(sp[2]);
-			return idf.startsWith("reward_player_dropchance_mat")
+			return idf.startsWith("reward_player_silktouchdropchance_mat")
 					? reward_player_silktouchdropchance_mat(uuid, sp, evt, tool)
 					: reward_player_silktouchdropchance_ent(uuid, sp, evt, tool);
 		}
