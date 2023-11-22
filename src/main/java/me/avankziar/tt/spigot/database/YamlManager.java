@@ -2112,7 +2112,7 @@ public class YamlManager
 				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
 				"",
 				"&cAnforderungen zum einsehen:",
-				"&cMuss die Technology >Holzbretter< erforscht haben.",
+				"&cMuss die Technology >&#ff8c00Holzbretter&c< erforscht haben.",
 				"",
 				"&eKosten:",
 				"&f%costttexp% | %costvanillaexp%",
@@ -2126,7 +2126,7 @@ public class YamlManager
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
 				"",
 				"&cRequirements to view:",
-				"&cMust have researched the Technology >Planks<.",
+				"&cMust have researched the Technology >&#ff8c00Planks&c<.",
 				"",
 				"&eCosts:",
 				"&f%costttexp% | %costvanillaexp%",
@@ -8916,16 +8916,16 @@ public class YamlManager
 		rewardSilkTouchDropChance.put(1, new String[] {
 				"BREAKING:STONE_PICKAXE:IRON_ORE:null:mat=IRON_ORE:1:1.0",
 				"BREAKING:STONE_PICKAXE:DEEPSLATE_IRON_ORE:null:mat=DEEPSLATE_IRON_ORE:1:1.0"});
-		rewardSilkTouchDropChance.put(1, new String[] {
+		rewardSilkTouchDropChance.put(2, new String[] {
 				"BREAKING:IRON_PICKAXE:IRON_ORE:null:mat=IRON_ORE:1:1.0",
 				"BREAKING:IRON_PICKAXE:DEEPSLATE_IRON_ORE:null:mat=DEEPSLATE_IRON_ORE:1:1.0"});
-		rewardSilkTouchDropChance.put(1, new String[] {
+		rewardSilkTouchDropChance.put(3, new String[] {
 				"BREAKING:GOLDEN_PICKAXE:IRON_ORE:null:mat=IRON_ORE:1:1.0",
 				"BREAKING:GOLDEN_PICKAXE:DEEPSLATE_IRON_ORE:null:mat=DEEPSLATE_IRON_ORE:1:1.0"});
-		rewardSilkTouchDropChance.put(1, new String[] {
+		rewardSilkTouchDropChance.put(4, new String[] {
 				"BREAKING:DIAMOND_PICKAXE:IRON_ORE:null:mat=IRON_ORE:1:1.0",
 				"BREAKING:DIAMOND_PICKAXE:DEEPSLATE_IRON_ORE:null:mat=DEEPSLATE_IRON_ORE:1:1.0"});
-		rewardSilkTouchDropChance.put(1, new String[] {
+		rewardSilkTouchDropChance.put(5, new String[] {
 				"BREAKING:NETHERITE_PICKAXE:IRON_ORE:null:mat=IRON_ORE:1:1.0",
 				"BREAKING:NETHERITE_PICKAXE:DEEPSLATE_IRON_ORE:null:mat=DEEPSLATE_IRON_ORE:1:1.0"});
 		rewardCommand = new LinkedHashMap<>();
@@ -9028,109 +9028,488 @@ public class YamlManager
 	{
 		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 25 * solototaltech");
+		String cTTExp = "100 * techlev + 25 * solototaltech";
+		toResCostTTExp.put(1, cTTExp);
+		toResCostTTExp.put(2, cTTExp);
+		toResCostTTExp.put(3, cTTExp);
+		toResCostTTExp.put(4, cTTExp);
+		toResCostTTExp.put(5, cTTExp);
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * solototaltech");
+		String cVExp = "10 * techlev + 2.5 * solototaltech";
+		toResCostVanillaExp.put(1, cVExp);
+		toResCostVanillaExp.put(2, cVExp);
+		toResCostVanillaExp.put(3, cVExp);
+		toResCostVanillaExp.put(4, cVExp);
+		toResCostVanillaExp.put(5, cVExp);
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.25 * solototaltech");
+		String cM = "1 * techlev + 0.25 * solototaltech";
+		toResCostMoney.put(1, cM);
+		toResCostMoney.put(2, cM);
+		toResCostMoney.put(3, cM);
+		toResCostMoney.put(4, cM);
+		toResCostMoney.put(5, cM);
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
-		rewardUnlockableInteractions.put(1, new String[] {
-				"PLACING:OAK_SAPLING:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:OAK_SAPLING:null:tool=HAND"});
+		String[] rui = new String[] {"PLACING:OAK_SAPLING:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",""};
+		rewardUnlockableInteractions.put(1, rui);
+		rewardUnlockableInteractions.put(2, rui);
+		rewardUnlockableInteractions.put(3, rui);
+		rewardUnlockableInteractions.put(4, rui);
+		rewardUnlockableInteractions.put(5, rui);
 		LinkedHashMap<Integer, String[]> rewardUnlockableRecipe = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardDropChance = new LinkedHashMap<>();
-		rewardDropChance.put(1, new String[] {
-				"BREAKING:HAND:OAK_SAPLING:null:mat=OAK_SAPLING:1:1.0",
-				""});
+		String[] rdc = new String[] {"BREAKING:HAND:OAK_SAPLING:null:mat=OAK_SAPLING:1:1.0",""};
+		rewardDropChance.put(1, rdc);
+		rewardDropChance.put(2, rdc);
+		rewardDropChance.put(3, rdc);
+		rewardDropChance.put(4, rdc);
+		rewardDropChance.put(5, rdc);
 		LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance = new LinkedHashMap<>();
-		rewardSilkTouchDropChance.put(1, new String[] {
-				"BREAKING:HAND:OAK_SAPLING:null:mat=OAK_SAPLING:1:1.0",
-				""});
 		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardValueEntry = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Eichensetzling/Eichensetzling(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaksapling,1,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
+				"&fAbbauen von Eichensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,1,BREAKING,HAND,OAK_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,1,BREAKING,HAND,OAK_SAPLING% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,1,BREAKING,HAND,OAK_SAPLING% Dollar",
+				"&fSetzten von Eichensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,1,PLACING,HAND,OAK_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,1,PLACING,HAND,OAK_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,1,PLACING,HAND,OAK_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Oaksapling/Oaksapling(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaksapling,1,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
+				"&fMining of Oaksapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,1,BREAKING,HAND,OAK_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,1,BREAKING,HAND,OAK_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,1,BREAKING,HAND,OAK_SAPLING% Dollar",
+				"&fPlacing of Oaksapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,1,PLACING,HAND,OAK_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,1,PLACING,HAND,OAK_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,1,PLACING,HAND,OAK_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(2, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Eichensetzling/Eichensetzling(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
+				"&fAbbauen von Eichensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING% Dollar",
+				"&fSetzten von Eichensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,2,PLACING,HAND,OAK_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,2,PLACING,HAND,OAK_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,2,PLACING,HAND,OAK_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Oaksapling/Oaksapling(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
+				"&fMining of Oaksapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING% Dollar",
+				"&fPlacing of Oaksapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,2,PLACING,HAND,OAK_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,2,PLACING,HAND,OAK_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,2,PLACING,HAND,OAK_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(3, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Eichensetzling/Eichensetzling(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
+				"&fAbbauen von Eichensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING% Dollar",
+				"&fSetzten von Eichensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,3,PLACING,HAND,OAK_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,3,PLACING,HAND,OAK_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,3,PLACING,HAND,OAK_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Oaksapling/Oaksapling(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
+				"&fMining of Oaksapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING% Dollar",
+				"&fPlacing of Oaksapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,3,PLACING,HAND,OAK_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,3,PLACING,HAND,OAK_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,3,PLACING,HAND,OAK_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(4, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Eichensetzling/Eichensetzling(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
+				"&fAbbauen von Eichensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING% Dollar",
+				"&fSetzten von Eichensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,4,PLACING,HAND,OAK_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,4,PLACING,HAND,OAK_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,4,PLACING,HAND,OAK_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Oaksapling/Oaksapling(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
+				"&fMining of Oaksapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING% Dollar",
+				"&fPlacing of Oaksapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,4,PLACING,HAND,OAK_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,4,PLACING,HAND,OAK_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,4,PLACING,HAND,OAK_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(5, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Eichensetzling/Eichensetzling(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
+				"&fAbbauen von Eichensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING% Dollar",
+				"&fSetzten von Eichensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,5,PLACING,HAND,OAK_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,5,PLACING,HAND,OAK_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,5,PLACING,HAND,OAK_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Oaksapling/Oaksapling(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
+				"&fMining of Oaksapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING% Dollar",
+				"&fPlacing of Oaksapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,5,PLACING,HAND,OAK_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,5,PLACING,HAND,OAK_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,5,PLACING,HAND,OAK_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
 				"oaksapling", new String[] {"Eichensetzling", "Oaksapling"},
-				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 0, "", "sapling", 
+				TechnologyType.SIMPLE, 5, PlayerAssociatedType.SOLO, 0, "", "sapling", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
 				new String[] {"&8Tech Eichensetzling","&8Tech Oaksapling"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
-						"&7Technologie Eichensetzling",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Geld",
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fSetzten von Eichensetzling",
-						"&7Technology Oaksapling",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
+						"&fAbbau von Eichensetzling.",
+						"&fSetzen von Eichensetzling.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
 						"&eUnlocks the following:",
-						"&fMining of oaksapling"},
+						"&fMining of Oaksapling.",
+						"&fPlacing of Oaksapling.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Eichensetzling","&7Oaksapling"},
-				Material.OAK_SAPLING, 1, itemflag, null, new String[] {
-						"&7Technologie Eichensetzling",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Geld",
-						"&eSchaltet folgendes frei:",
-						"&fSetzten von Eichensetzling",
-						"&7Technology Oaksapling",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&eUnlocks the following:",
-						"&fMining of oaksapling"},
+				Material.OAK_SAPLING, 1, itemflag, null, canResLore.get(1),
 				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
 				new String[] {"&dEichensetzling","&dOaksapling"},
-				Material.OAK_SAPLING, 1, itemflag, null, new String[] {
-						"&7Technologie Eichensetzling",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Geld",
-						"&eSchaltet folgendes frei:",
-						"&fSetzten von Eichensetzling",
-						"&7Technology Oaksapling",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&eUnlocks the following:",
-						"&fMining of oaksapling"},
+				Material.OAK_SAPLING, 1, itemflag, null, canResLore,
 				new String[] {"&5Eichensetzling","&5Oaksapling"},
-				Material.OAK_SAPLING, 1, itemflag, null, new String[] {
-						"&7Technologie Eichensetzling",
+				Material.OAK_SAPLING, 1, itemflag, enchantment, new String[] {
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fSetzten von Eichensetzling",
-						"&7Technology Oaksapling",
+						"&fAbbauen von Eichensetzling %tt_raw_reward_techtotal_ttexp_mat,SOLO,oaksapling,BREAKING,HAND,OAK_SAPLING% TTExp | "
+								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,oaksapling,BREAKING,HAND,OAK_SAPLING% VanillaExp | "
+								  + "%tt_raw_reward_techtotal_money_mat,SOLO,oaksapling,BREAKING,HAND,OAK_SAPLING% Dollar",
+						"&fSetzen von Eichensetzling %tt_raw_reward_techtotal_ttexp_mat,SOLO,oaksapling,PLACING,HAND,OAK_SAPLING% TTExp | "
+								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,oaksapling,PLACING,HAND,OAK_SAPLING% VanillaExp | "
+								  + "%tt_raw_reward_techtotal_money_mat,SOLO,oaksapling,PLACING,HAND,OAK_SAPLING% Dollar",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
 						"&eUnlocks the following:",
-						"&fMining of oaksapling"},
+						"&fMining of Oaksapling %tt_raw_reward_techtotal_ttexp_mat,SOLO,oaksapling,BREAKING,HAND,OAK_SAPLING% TTExp | "
+								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,oaksapling,BREAKING,HAND,OAK_SAPLING% VanillaExp | "
+								  + "%tt_raw_reward_techtotal_money_mat,SOLO,oaksapling,BREAKING,HAND,OAK_SAPLING% Dollar",
+						"&fPlacing of Oaksapling %tt_raw_reward_techtotal_ttexp_mat,SOLO,oaksapling,PLACING,HAND,OAK_SAPLING% TTExp | "
+								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,oaksapling,PLACING,HAND,OAK_SAPLING% VanillaExp | "
+								  + "%tt_raw_reward_techtotal_money_mat,SOLO,oaksapling,PLACING,HAND,OAK_SAPLING% Dollar",
+						"",
+						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
 				rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
 		toResCondition = new LinkedHashMap<>();
 		toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 25 * solototaltech");
+		toResCostTTExp.put(1, cTTExp);
+		toResCostTTExp.put(2, cTTExp);
+		toResCostTTExp.put(3, cTTExp);
+		toResCostTTExp.put(4, cTTExp);
+		toResCostTTExp.put(5, cTTExp);
 		toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * solototaltech");
+		toResCostVanillaExp.put(1, cVExp);
+		toResCostVanillaExp.put(2, cVExp);
+		toResCostVanillaExp.put(3, cVExp);
+		toResCostVanillaExp.put(4, cVExp);
+		toResCostVanillaExp.put(5, cVExp);
 		toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.25 * solototaltech");
+		toResCostMoney.put(1, cM);
+		toResCostMoney.put(2, cM);
+		toResCostMoney.put(3, cM);
+		toResCostMoney.put(4, cM);
+		toResCostMoney.put(5, cM);
 		toResCostMaterial = new LinkedHashMap<>();
 		rewardUnlockableInteractions = new LinkedHashMap<>();
-		rewardUnlockableInteractions.put(1, new String[] {
-				"PLACING:SPRUCE_SAPLING:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",""});
+		rui = new String[] {"PLACING:SPRUCE_SAPLING:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",""};
+		rewardUnlockableInteractions.put(1, rui);
+		rewardUnlockableInteractions.put(2, rui);
+		rewardUnlockableInteractions.put(3, rui);
+		rewardUnlockableInteractions.put(4, rui);
+		rewardUnlockableInteractions.put(5, rui);
 		rewardUnlockableRecipe = new LinkedHashMap<>();
 		rewardDropChance = new LinkedHashMap<>();
-		rewardDropChance.put(1, new String[] {
-				"BREAKING:SPRUCE_SAPLING:null:mat=SPRUCE_SAPLING:1:1.0",""});
+		rdc = new String[] {"BREAKING:SPRUCE_SAPLING:null:mat=SPRUCE_SAPLING:1:1.0",""};
+		rewardDropChance.put(1, rdc);
+		rewardDropChance.put(2, rdc);
+		rewardDropChance.put(3, rdc);
+		rewardDropChance.put(4, rdc);
+		rewardDropChance.put(5, rdc);
 		rewardSilkTouchDropChance = new LinkedHashMap<>();
-		rewardSilkTouchDropChance.put(1, new String[] {
-				"BREAKING:SPRUCE_SAPLING:null:mat=SPRUCE_SAPLING:1:1.0",""});
+		rewardSilkTouchDropChance.put(1, rdc);
 		rewardCommand = new LinkedHashMap<>();
 		rewardItem = new LinkedHashMap<>();
 		rewardModifier = new LinkedHashMap<>();
 		rewardValueEntry = new LinkedHashMap<>();
+		canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Fichtensetzling/Fichtensetzling(Hand) %tt_reward_tech_dropchance_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
+				"&fAbbauen von Fichtensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
+				"&fSetzten von Fichtensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,1,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,1,PLACING,HAND,SPRUCE_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,1,PLACING,HAND,SPRUCE_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Sprucesapling/Sprucesapling(Hand) %tt_reward_tech_dropchance_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
+				"&fMining of Sprucesapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
+				"&fPlacing of Sprucesapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,1,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,1,PLACING,HAND,SPRUCE_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,1,PLACING,HAND,SPRUCE_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(2, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Fichtensetzling/Fichtensetzling(Hand) %tt_reward_tech_dropchance_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
+				"&fAbbauen von Fichtensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
+				"&fSetzten von Fichtensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,2,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,2,PLACING,HAND,SPRUCE_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,2,PLACING,HAND,SPRUCE_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Sprucesapling/Sprucesapling(Hand) %tt_reward_tech_dropchance_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
+				"&fMining of Sprucesapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
+				"&fPlacing of Sprucesapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,2,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,2,PLACING,HAND,SPRUCE_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,2,PLACING,HAND,SPRUCE_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(3, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Fichtensetzling/Fichtensetzling(Hand) %tt_reward_tech_dropchance_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
+				"&fAbbauen von Fichtensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
+				"&fSetzten von Fichtensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,3,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,3,PLACING,HAND,SPRUCE_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,3,PLACING,HAND,SPRUCE_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Sprucesapling/Sprucesapling(Hand) %tt_reward_tech_dropchance_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
+				"&fMining of Sprucesapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
+				"&fPlacing of Sprucesapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,3,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,3,PLACING,HAND,SPRUCE_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,3,PLACING,HAND,SPRUCE_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(4, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Fichtensetzling/Fichtensetzling(Hand) %tt_reward_tech_dropchance_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
+				"&fAbbauen von Fichtensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
+				"&fSetzten von Fichtensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,4,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,4,PLACING,HAND,SPRUCE_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,4,PLACING,HAND,SPRUCE_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Sprucesapling/Sprucesapling(Hand) %tt_reward_tech_dropchance_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
+				"&fMining of Sprucesapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
+				"&fPlacing of Sprucesapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,4,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,4,PLACING,HAND,SPRUCE_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,4,PLACING,HAND,SPRUCE_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(5, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Fichtensetzling/Fichtensetzling(Hand) %tt_reward_tech_dropchance_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
+				"&fAbbauen von Fichtensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
+				"&fSetzten von Fichtensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,5,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,5,PLACING,HAND,SPRUCE_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,5,PLACING,HAND,SPRUCE_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Sprucesapling/Sprucesapling(Hand) %tt_reward_tech_dropchance_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
+				"&fMining of Sprucesapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
+				"&fPlacing of Sprucesapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,5,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,5,PLACING,HAND,SPRUCE_SAPLING% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,5,PLACING,HAND,SPRUCE_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
 				"sprucesapling", new String[] {"Fichtensetzling", "Sprucesapling"},
 				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 1, "", "sapling", 
@@ -9138,83 +9517,80 @@ public class YamlManager
 				null, true,
 				new String[] {"&8Tech Fichtensetzling","&8Tech Sprucesapling"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
-						"&7Technologie Fichtensetzling",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fSetzten von Fichtensetzling",
-						"&7Technology Sprucesapling",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
+						"&fAbbau von Fichtensetzling.",
+						"&fSetzen von Fichtensetzling.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
 						"&eUnlocks the following:",
-						"&fMining of oaksapling"},
+						"&fMining of Sprucesapling.",
+						"&fPlacing of Sprucesapling.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Fichtensetzling","&7Sprucesapling"},
-				Material.SPRUCE_SAPLING, 1, itemflag, null, new String[] {
-						"&7Technologie Fichtensetzling",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&eSchaltet folgendes frei:",
-						"&fSetzten von Fichtensetzling",
-						"&7Technology Sprucesapling",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&eUnlocks the following:",
-						"&fMining of oaksapling"},
+				Material.SPRUCE_SAPLING, 1, itemflag, null, canResLore.get(1),
 				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
 				new String[] {"&dFichtensetzling","&dSprucesapling"},
-				Material.SPRUCE_SAPLING, 1, itemflag, null, new String[] {
-						"&7Technologie Fichtensetzling",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&eSchaltet folgendes frei:",
-						"&fSetzten von Fichtensetzling",
-						"&7Technology Sprucesapling",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&eUnlocks the following:",
-						"&fMining of oaksapling"},
+				Material.SPRUCE_SAPLING, 1, itemflag, null, canResLore,
 				new String[] {"&5Fichtensetzling","&5Sprucesapling"},
-				Material.SPRUCE_SAPLING, 1, itemflag, null, new String[] {
-						"&7Technologie Fichtensetzling",
+				Material.SPRUCE_SAPLING, 1, itemflag, enchantment, new String[] {
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fSetzten von Fichtensetzling",
-						"&7Technology Sprucesapling",
+						"&fAbbauen von Fichtensetzling %tt_raw_reward_techtotal_ttexp_mat,SOLO,sprucesapling,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
+								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sprucesapling,BREAKING,HAND,SPRUCE_SAPLING% VanillaExp | "
+								  + "%tt_raw_reward_techtotal_money_mat,SOLO,sprucesapling,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
+						"&fSetzen von Fichtensetzling %tt_raw_reward_techtotal_ttexp_mat,SOLO,sprucesapling,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
+								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sprucesapling,PLACING,HAND,SPRUCE_SAPLING% VanillaExp | "
+								  + "%tt_raw_reward_techtotal_money_mat,SOLO,sprucesapling,PLACING,HAND,SPRUCE_SAPLING% Dollar",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
 						"&eUnlocks the following:",
-						"&fMining of oaksapling"},
+						"&fMining of Sprucesapling %tt_raw_reward_techtotal_ttexp_mat,SOLO,sprucesapling,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
+								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sprucesapling,BREAKING,HAND,SPRUCE_SAPLING% VanillaExp | "
+								  + "%tt_raw_reward_techtotal_money_mat,SOLO,sprucesapling,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
+						"&fPlacing of Sprucesapling %tt_raw_reward_techtotal_ttexp_mat,SOLO,sprucesapling,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
+								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sprucesapling,PLACING,HAND,SPRUCE_SAPLING% VanillaExp | "
+								  + "%tt_raw_reward_techtotal_money_mat,SOLO,sprucesapling,PLACING,HAND,SPRUCE_SAPLING% Dollar",
+						"",
+						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
 				rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+		//ADDME Alle Setzlinge
 	}
 	
 	private void tech_Woodworking_Wood(String[] itemflag, String[] enchantment) //INFO:Woodworking_Wood
 	{
 		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(7, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		String cTTExp = "100 * techlev + 50 * techacq + 25 * solototaltech";
+		toResCostTTExp.put(1, cTTExp);
+		toResCostTTExp.put(2, cTTExp);
+		toResCostTTExp.put(3, cTTExp);
+		toResCostTTExp.put(4, cTTExp);
+		toResCostTTExp.put(5, cTTExp);
+		toResCostTTExp.put(6, cTTExp);
+		toResCostTTExp.put(7, cTTExp);
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(7, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		String cVExp = "10 * techlev + 5 * techacq + 2.5 * solototaltech";
+		toResCostVanillaExp.put(1, cVExp);
+		toResCostVanillaExp.put(2, cVExp);
+		toResCostVanillaExp.put(3, cVExp);
+		toResCostVanillaExp.put(4, cVExp);
+		toResCostVanillaExp.put(5, cVExp);
+		toResCostVanillaExp.put(6, cVExp);
+		toResCostVanillaExp.put(7, cVExp);
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(7, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		String cM = "1 * techlev + 0.5 * techacq + 0.25 * solototaltech";
+		toResCostMoney.put(1, cM);
+		toResCostMoney.put(2, cM);
+		toResCostMoney.put(3, cM);
+		toResCostMoney.put(4, cM);
+		toResCostMoney.put(5, cM);
+		toResCostMoney.put(6, cM);
+		toResCostMoney.put(7, cM);
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(2, new String[] {
 				"WOODEN_PICKAXE;8",
@@ -9237,270 +9613,357 @@ public class YamlManager
 		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] {
 				"BREAKING:OAK_LOG:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:SPRUCE_LOG:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:BIRCH_LOG:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:JUNGLE_LOG:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:ACACIA_LOG:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:DARK_OAK_LOG:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:MANGROVE_LOG:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:CHERRY_LOG:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1"});
+				"PLACING:OAK_LOG:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1"});
 		rewardUnlockableInteractions.put(2, new String[] {
 				"BREAKING:OAK_LOG:null:tool=WOODEN_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:SPRUCE_LOG:null:tool=WOODEN_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:BIRCH_LOG:null:tool=WOODEN_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:JUNGLE_LOG:null:tool=WOODEN_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:ACACIA_LOG:null:tool=WOODEN_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:DARK_OAK_LOG:null:tool=WOODEN_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:MANGROVE_LOG:null:tool=WOODEN_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:CHERRY_LOG:null:tool=WOODEN_AXE:ttexp=0.01:vault=0.1:default=0.1"});
+				"PLACING:OAK_LOG:null:tool=WOODEN_AXE:ttexp=0.01:vault=0.1:default=0.1"});
 		rewardUnlockableInteractions.put(3, new String[] {
 				"BREAKING:OAK_LOG:null:tool=STONE_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:SPRUCE_LOG:null:tool=STONE_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:BIRCH_LOG:null:tool=STONE_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:JUNGLE_LOG:null:tool=STONE_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:ACACIA_LOG:null:tool=STONE_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:DARK_OAK_LOG:null:tool=STONE_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:MANGROVE_LOG:null:tool=STONE_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:CHERRY_LOG:null:tool=STONE_AXE:ttexp=0.01:vault=0.1:default=0.1"});
+				"PLACING:OAK_LOG:null:tool=STONE_AXE:ttexp=0.01:vault=0.1:default=0.1"});
 		rewardUnlockableInteractions.put(4, new String[] {
 				"BREAKING:OAK_LOG:null:tool=IRON_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:SPRUCE_LOG:null:tool=IRON_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:BIRCH_LOG:null:tool=IRON_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:JUNGLE_LOG:null:tool=IRON_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:ACACIA_LOG:null:tool=IRON_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:DARK_OAK_LOG:null:tool=IRON_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:MANGROVE_LOG:null:tool=IRON_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:CHERRY_LOG:null:tool=IRON_AXE:ttexp=0.01:vault=0.1:default=0.1"});
+				"PLACING:OAK_LOG:null:tool=IRON_AXE:ttexp=0.01:vault=0.1:default=0.1"});
 		rewardUnlockableInteractions.put(5, new String[] {
 				"BREAKING:OAK_LOG:null:tool=GOLDEN_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:SPRUCE_LOG:null:tool=GOLDEN_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:BIRCH_LOG:null:tool=GOLDEN_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:JUNGLE_LOG:null:tool=GOLDEN_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:ACACIA_LOG:null:tool=GOLDEN_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:DARK_OAK_LOG:null:tool=GOLDEN_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:MANGROVE_LOG:null:tool=GOLDEN_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:CHERRY_LOG:null:tool=GOLDEN_AXE:ttexp=0.01:vault=0.1:default=0.1"});
+				"PLACING:OAK_LOG:null:tool=GOLDEN_AXE:ttexp=0.01:vault=0.1:default=0.1"});
 		rewardUnlockableInteractions.put(6, new String[] {
 				"BREAKING:OAK_LOG:null:tool=DIAMOND_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:SPRUCE_LOG:null:tool=DIAMOND_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:BIRCH_LOG:null:tool=DIAMOND_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:JUNGLE_LOG:null:tool=DIAMOND_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:ACACIA_LOG:null:tool=DIAMOND_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:DARK_OAK_LOG:null:tool=DIAMOND_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:MANGROVE_LOG:null:tool=DIAMOND_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:CHERRY_LOG:null:tool=DIAMOND_AXE:ttexp=0.01:vault=0.1:default=0.1"});
+				"PLACING:OAK_LOG:null:tool=DIAMOND_AXE:ttexp=0.01:vault=0.1:default=0.1"});
 		rewardUnlockableInteractions.put(7, new String[] {
 				"BREAKING:OAK_LOG:null:tool=WOODEN_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:SPRUCE_LOG:null:tool=WOODEN_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:BIRCH_LOG:null:tool=WOODEN_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:JUNGLE_LOG:null:tool=WOODEN_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:ACACIA_LOG:null:tool=NETHERITE_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:DARK_OAK_LOG:null:tool=NETHERITE_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:MANGROVE_LOG:null:tool=NETHERITE_AXE:ttexp=0.01:vault=0.1:default=0.1",
-				"BREAKING:CHERRY_LOG:null:tool=NETHERITE_AXE:ttexp=0.01:vault=0.1:default=0.1"});
+				"PLACING:OAK_LOG:null:tool=WOODEN_AXE:ttexp=0.01:vault=0.1:default=0.1"});
 		LinkedHashMap<Integer, String[]> rewardUnlockableRecipe = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardDropChance = new LinkedHashMap<>();
-		rewardDropChance.put(1, new String[] {
+		String[] rdc = new String[] {
 				"BREAKING:HAND:OAK_LOG:null:mat=OAK_LOG:1:1.0",
-				"BREAKING:HAND:SPRUCE_LOG:null:mat=SPRUCE_LOG:1:1.0",
-				"BREAKING:HAND:BIRCH_LOG:null:mat=BIRCH_LOG:1:1.0",
-				"BREAKING:HAND:JUNGLE_LOG:null:mat=JUNGLE_LOG:1:1.0",
-				"BREAKING:HAND:ACACIA_LOG:null:mat=ACACIA_LOG:1:1.0",
-				"BREAKING:HAND:DARK_OAK_LOG:null:mat=DARK_OAK_LOG:1:1.0",
-				"BREAKING:HAND:MANGROVE_LOG:null:mat=MANGROVE_LOG:1:1.0",
-				"BREAKING:HAND:CHERRY_LOG:null:mat=CHERRY_LOG:1:1.0"});
-		rewardDropChance.put(2, new String[] {
-				"BREAKING:WOODEN_AXE:OAK_LOG:null:mat=OAK_LOG:1:1.0",
-				"BREAKING:WOODEN_AXE:SPRUCE_LOG:null:mat=SPRUCE_LOG:1:1.0",
-				"BREAKING:WOODEN_AXE:BIRCH_LOG:null:mat=BIRCH_LOG:1:1.0",
-				"BREAKING:WOODEN_AXE:JUNGLE_LOG:null:mat=JUNGLE_LOG:1:1.0",
-				"BREAKING:WOODEN_AXE:ACACIA_LOG:null:mat=ACACIA_LOG:1:1.0",
-				"BREAKING:WOODEN_AXE:DARK_OAK_LOG:null:mat=DARK_OAK_LOG:1:1.0",
-				"BREAKING:WOODEN_AXE:MANGROVE_LOG:null:mat=MANGROVE_LOG:1:1.0",
-				"BREAKING:WOODEN_AXE:CHERRY_LOG:null:mat=CHERRY_LOG:1:1.0"});
-		rewardDropChance.put(3, new String[] {
-				"BREAKING:STONE_AXE:OAK_LOG:null:mat=OAK_LOG:1:1.0",
-				"BREAKING:STONE_AXE:SPRUCE_LOG:null:mat=SPRUCE_LOG:1:1.0",
-				"BREAKING:STONE_AXE:BIRCH_LOG:null:mat=BIRCH_LOG:1:1.0",
-				"BREAKING:STONE_AXE:JUNGLE_LOG:null:mat=JUNGLE_LOG:1:1.0",
-				"BREAKING:STONE_AXE:ACACIA_LOG:null:mat=ACACIA_LOG:1:1.0",
-				"BREAKING:STONE_AXE:DARK_OAK_LOG:null:mat=DARK_OAK_LOG:1:1.0",
-				"BREAKING:STONE_AXE:MANGROVE_LOG:null:mat=MANGROVE_LOG:1:1.0",
-				"BREAKING:STONE_AXE:CHERRY_LOG:null:mat=CHERRY_LOG:1:1.0"});
-		rewardDropChance.put(4, new String[] {
-				"BREAKING:IRON_AXE:OAK_LOG:null:mat=OAK_LOG:1:1.0",
-				"BREAKING:IRON_AXE:SPRUCE_LOG:null:mat=SPRUCE_LOG:1:1.0",
-				"BREAKING:IRON_AXE:BIRCH_LOG:null:mat=BIRCH_LOG:1:1.0",
-				"BREAKING:IRON_AXE:JUNGLE_LOG:null:mat=JUNGLE_LOG:1:1.0",
-				"BREAKING:IRON_AXE:ACACIA_LOG:null:mat=ACACIA_LOG:1:1.0",
-				"BREAKING:IRON_AXE:DARK_OAK_LOG:null:mat=DARK_OAK_LOG:1:1.0",
-				"BREAKING:IRON_AXE:MANGROVE_LOG:null:mat=MANGROVE_LOG:1:1.0",
-				"BREAKING:IRON_AXE:CHERRY_LOG:null:mat=CHERRY_LOG:1:1.0"});
-		rewardDropChance.put(5, new String[] {
-				"BREAKING:GOLDEN_AXE:OAK_LOG:null:mat=OAK_LOG:1:1.0",
-				"BREAKING:GOLDEN_AXE:SPRUCE_LOG:null:mat=SPRUCE_LOG:1:1.0",
-				"BREAKING:GOLDEN_AXE:BIRCH_LOG:null:mat=BIRCH_LOG:1:1.0",
-				"BREAKING:GOLDEN_AXE:JUNGLE_LOG:null:mat=JUNGLE_LOG:1:1.0",
-				"BREAKING:GOLDEN_AXE:ACACIA_LOG:null:mat=ACACIA_LOG:1:1.0",
-				"BREAKING:GOLDEN_AXE:DARK_OAK_LOG:null:mat=DARK_OAK_LOG:1:1.0",
-				"BREAKING:GOLDEN_AXE:MANGROVE_LOG:null:mat=MANGROVE_LOG:1:1.0",
-				"BREAKING:GOLDEN_AXE:CHERRY_LOG:null:mat=CHERRY_LOG:1:1.0"});
-		rewardDropChance.put(6, new String[] {
-				"BREAKING:DIAMOND_AXE:OAK_LOG:null:mat=OAK_LOG:1:1.0",
-				"BREAKING:DIAMOND_AXE:SPRUCE_LOG:null:mat=SPRUCE_LOG:1:1.0",
-				"BREAKING:DIAMOND_AXE:BIRCH_LOG:null:mat=BIRCH_LOG:1:1.0",
-				"BREAKING:DIAMOND_AXE:JUNGLE_LOG:null:mat=JUNGLE_LOG:1:1.0",
-				"BREAKING:DIAMOND_AXE:ACACIA_LOG:null:mat=ACACIA_LOG:1:1.0",
-				"BREAKING:DIAMOND_AXE:DARK_OAK_LOG:null:mat=DARK_OAK_LOG:1:1.0",
-				"BREAKING:DIAMOND_AXE:MANGROVE_LOG:null:mat=MANGROVE_LOG:1:1.0",
-				"BREAKING:DIAMOND_AXE:CHERRY_LOG:null:mat=CHERRY_LOG:1:1.0"});
-		rewardDropChance.put(7, new String[] {
-				"BREAKING:NETHERITE_AXE:OAK_LOG:null:mat=OAK_LOG:1:1.0",
-				"BREAKING:NETHERITE_AXE:SPRUCE_LOG:null:mat=SPRUCE_LOG:1:1.0",
-				"BREAKING:NETHERITE_AXE:BIRCH_LOG:null:mat=BIRCH_LOG:1:1.0",
-				"BREAKING:NETHERITE_AXE:JUNGLE_LOG:null:mat=JUNGLE_LOG:1:1.0",
-				"BREAKING:NETHERITE_AXE:ACACIA_LOG:null:mat=ACACIA_LOG:1:1.0",
-				"BREAKING:NETHERITE_AXE:DARK_OAK_LOG:null:mat=DARK_OAK_LOG:1:1.0",
-				"BREAKING:NETHERITE_AXE:MANGROVE_LOG:null:mat=MANGROVE_LOG:1:1.0",
-				"BREAKING:NETHERITE_AXE:CHERRY_LOG:null:mat=CHERRY_LOG:1:1.0"});
+				"BREAKING:HAND:OAK_LOG:null:mat=OAK_LOG:1:1.0"};
+		rewardDropChance.put(1, rdc);
+		rewardDropChance.put(2, rdc);
+		rewardDropChance.put(3, rdc);
+		rewardDropChance.put(4, rdc);
+		rewardDropChance.put(5, rdc);
+		rewardDropChance.put(6, rdc);
+		rewardDropChance.put(7, rdc);
 		LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance = new LinkedHashMap<>();
-		rewardSilkTouchDropChance.put(1, new String[] {
-				"BREAKING:HAND:OAK_LOG:null:mat=OAK_LOG:1:1.0",
-				"BREAKING:HAND:SPRUCE_LOG:null:mat=SPRUCE_LOG:1:1.0",
-				"BREAKING:HAND:BIRCH_LOG:null:mat=BIRCH_LOG:1:1.0",
-				"BREAKING:HAND:JUNGLE_LOG:null:mat=JUNGLE_LOG:1:1.0",
-				"BREAKING:HAND:ACACIA_LOG:null:mat=ACACIA_LOG:1:1.0",
-				"BREAKING:HAND:DARK_OAK_LOG:null:mat=DARK_OAK_LOG:1:1.0",
-				"BREAKING:HAND:MANGROVE_LOG:null:mat=MANGROVE_LOG:1:1.0",
-				"BREAKING:HAND:CHERRY_LOG:null:mat=CHERRY_LOG:1:1.0"});
-		rewardSilkTouchDropChance.put(2, new String[] {
-				"BREAKING:WOODEN_AXE:OAK_LOG:null:mat=OAK_LOG:1:1.0",
-				"BREAKING:WOODEN_AXE:SPRUCE_LOG:null:mat=SPRUCE_LOG:1:1.0",
-				"BREAKING:WOODEN_AXE:BIRCH_LOG:null:mat=BIRCH_LOG:1:1.0",
-				"BREAKING:WOODEN_AXE:JUNGLE_LOG:null:mat=JUNGLE_LOG:1:1.0",
-				"BREAKING:WOODEN_AXE:ACACIA_LOG:null:mat=ACACIA_LOG:1:1.0",
-				"BREAKING:WOODEN_AXE:DARK_OAK_LOG:null:mat=DARK_OAK_LOG:1:1.0",
-				"BREAKING:WOODEN_AXE:MANGROVE_LOG:null:mat=MANGROVE_LOG:1:1.0",
-				"BREAKING:WOODEN_AXE:CHERRY_LOG:null:mat=CHERRY_LOG:1:1.0"});
-		rewardSilkTouchDropChance.put(3, new String[] {
-				"BREAKING:WOODEN_AXE:OAK_LOG:null:mat=OAK_LOG:1:1.0",
-				"BREAKING:WOODEN_AXE:SPRUCE_LOG:null:mat=SPRUCE_LOG:1:1.0",
-				"BREAKING:WOODEN_AXE:BIRCH_LOG:null:mat=BIRCH_LOG:1:1.0",
-				"BREAKING:WOODEN_AXE:JUNGLE_LOG:null:mat=JUNGLE_LOG:1:1.0",
-				"BREAKING:WOODEN_AXE:ACACIA_LOG:null:mat=ACACIA_LOG:1:1.0",
-				"BREAKING:WOODEN_AXE:DARK_OAK_LOG:null:mat=DARK_OAK_LOG:1:1.0",
-				"BREAKING:WOODEN_AXE:MANGROVE_LOG:null:mat=MANGROVE_LOG:1:1.0",
-				"BREAKING:WOODEN_AXE:CHERRY_LOG:null:mat=CHERRY_LOG:1:1.0"});
-		rewardSilkTouchDropChance.put(4, new String[] {
-				"BREAKING:IRON_AXE:OAK_LOG:null:mat=OAK_LOG:1:1.0",
-				"BREAKING:IRON_AXE:SPRUCE_LOG:null:mat=SPRUCE_LOG:1:1.0",
-				"BREAKING:IRON_AXE:BIRCH_LOG:null:mat=BIRCH_LOG:1:1.0",
-				"BREAKING:IRON_AXE:JUNGLE_LOG:null:mat=JUNGLE_LOG:1:1.0",
-				"BREAKING:IRON_AXE:ACACIA_LOG:null:mat=ACACIA_LOG:1:1.0",
-				"BREAKING:IRON_AXE:DARK_OAK_LOG:null:mat=DARK_OAK_LOG:1:1.0",
-				"BREAKING:IRON_AXE:MANGROVE_LOG:null:mat=MANGROVE_LOG:1:1.0",
-				"BREAKING:IRON_AXE:CHERRY_LOG:null:mat=CHERRY_LOG:1:1.0"});
-		rewardSilkTouchDropChance.put(5, new String[] {
-				"BREAKING:GOLDEN_AXE:OAK_LOG:null:mat=OAK_LOG:1:1.0",
-				"BREAKING:GOLDEN_AXE:SPRUCE_LOG:null:mat=SPRUCE_LOG:1:1.0",
-				"BREAKING:GOLDEN_AXE:BIRCH_LOG:null:mat=BIRCH_LOG:1:1.0",
-				"BREAKING:GOLDEN_AXE:JUNGLE_LOG:null:mat=JUNGLE_LOG:1:1.0",
-				"BREAKING:GOLDEN_AXE:ACACIA_LOG:null:mat=ACACIA_LOG:1:1.0",
-				"BREAKING:GOLDEN_AXE:DARK_OAK_LOG:null:mat=DARK_OAK_LOG:1:1.0",
-				"BREAKING:GOLDEN_AXE:MANGROVE_LOG:null:mat=MANGROVE_LOG:1:1.0",
-				"BREAKING:GOLDEN_AXE:CHERRY_LOG:null:mat=CHERRY_LOG:1:1.0"});
-		rewardSilkTouchDropChance.put(6, new String[] {
-				"BREAKING:DIAMOND_AXE:OAK_LOG:null:mat=OAK_LOG:1:1.0",
-				"BREAKING:DIAMOND_AXE:SPRUCE_LOG:null:mat=SPRUCE_LOG:1:1.0",
-				"BREAKING:DIAMOND_AXE:BIRCH_LOG:null:mat=BIRCH_LOG:1:1.0",
-				"BREAKING:DIAMOND_AXE:JUNGLE_LOG:null:mat=JUNGLE_LOG:1:1.0",
-				"BREAKING:DIAMOND_AXE:ACACIA_LOG:null:mat=ACACIA_LOG:1:1.0",
-				"BREAKING:DIAMOND_AXE:DARK_OAK_LOG:null:mat=DARK_OAK_LOG:1:1.0",
-				"BREAKING:DIAMOND_AXE:MANGROVE_LOG:null:mat=MANGROVE_LOG:1:1.0",
-				"BREAKING:DIAMOND_AXE:CHERRY_LOG:null:mat=CHERRY_LOG:1:1.0"});
-		rewardSilkTouchDropChance.put(7, new String[] {
-				"BREAKING:NETHERITE_AXE:OAK_LOG:null:mat=OAK_LOG:1:1.0",
-				"BREAKING:NETHERITE_AXE:SPRUCE_LOG:null:mat=SPRUCE_LOG:1:1.0",
-				"BREAKING:NETHERITE_AXE:BIRCH_LOG:null:mat=BIRCH_LOG:1:1.0",
-				"BREAKING:NETHERITE_AXE:JUNGLE_LOG:null:mat=JUNGLE_LOG:1:1.0",
-				"BREAKING:NETHERITE_AXE:ACACIA_LOG:null:mat=ACACIA_LOG:1:1.0",
-				"BREAKING:NETHERITE_AXE:DARK_OAK_LOG:null:mat=DARK_OAK_LOG:1:1.0",
-				"BREAKING:NETHERITE_AXE:MANGROVE_LOG:null:mat=MANGROVE_LOG:1:1.0",
-				"BREAKING:NETHERITE_AXE:CHERRY_LOG:null:mat=CHERRY_LOG:1:1.0"});
+		rewardSilkTouchDropChance.put(1, rdc);
+		rewardSilkTouchDropChance.put(2, rdc);
+		rewardSilkTouchDropChance.put(3, rdc);
+		rewardSilkTouchDropChance.put(4, rdc);
+		rewardSilkTouchDropChance.put(5, rdc);
+		rewardSilkTouchDropChance.put(6, rdc);
+		rewardSilkTouchDropChance.put(7, rdc);
 		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardValueEntry = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Eichenstamm/Eichenstamm(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG,mat=OAK_LOG%",
+				"&fBehutsamkeitsdropChance von Eichenstamm/Eichenstamm(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG,mat=OAK_LOG%",
+				"&fAbbauen von Eichenstamm(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG% Dollar",
+				"&fSetzen von Eichenstamm(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,1,PLACING,HAND,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,1,PLACING,HAND,OAK_LOG% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,1,PLACING,HAND,OAK_LOG% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Oaklog/Oaklog(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG,mat=OAK_LOG%",
+				"&fSilktouchdropChance of Oaklog/Oaklog(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG,mat=OAK_LOG%",
+				"&fMining of Oaklog(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG% Dollar",
+				"&fPlacing of Oaklog(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,1,PLACING,HAND,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,1,PLACING,HAND,OAK_LOG% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,1,PLACING,HAND,OAK_LOG% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(2, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Eichenstamm/Eichenstamm(Holzaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fBehutsamkeitsdropChance von Eichenstamm/Eichenstamm(Holzaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fAbbauen von Eichenstamm(Holzaxt) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG% Dollar",
+				"&fSetzen von Eichenstamm(Holzaxt) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,2,PLACING,WOODEN_AXE,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,2,PLACING,WOODEN_AXE,OAK_LOG% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,2,PLACING,WOODEN_AXE,OAK_LOG% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Oaklog/Oaklog(Woodenaxe) %tt_reward_tech_dropchance_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fSilktouchdropChance of Oaklog/Oaklog(Woodenaxe) %tt_reward_tech_dropchance_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fMining of Oaklog(Woodenaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG% Dollar",
+				"&fPlacing of Oaklog(Woodenaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,2,PLACING,WOODEN_AXE,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,2,PLACING,WOODEN_AXE,OAK_LOG% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,2,PLACING,WOODEN_AXE,OAK_LOG% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(3, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Eichenstamm/Eichenstamm(Steinaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fBehutsamkeitsdropChance von Eichenstamm/Eichenstamm(Steinaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fAbbauen von Eichenstamm(Steinaxt) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG% Dollar",
+				"&fSetzen von Eichenstamm(Steinaxt) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,3,PLACING,STONE_AXE,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,3,PLACING,STONE_AXE,OAK_LOG% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,3,PLACING,STONE_AXE,OAK_LOG% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Oaklog/Oaklog(Stoneaxe) %tt_reward_tech_dropchance_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fSilktouchdropChance of Oaklog/Oaklog(Stoneaxe) %tt_reward_tech_dropchance_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fMining of Oaklog(Stoneaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG% Dollar",
+				"&fPlacing of Oaklog(Stoneaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,3,PLACING,STONE_AXE,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,3,PLACING,STONE_AXE,OAK_LOG% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,3,PLACING,STONE_AXE,OAK_LOG% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(4, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Eichenstamm/Eichenstamm(Eisenaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fBehutsamkeitsdropChance von Eichenstamm/Eichenstamm(Eisenaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fAbbauen von Eichenstamm(Eisenaxt) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG% Dollar",
+				"&fSetzen von Eichenstamm(Eisenaxt) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,4,PLACING,IRON_AXE,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,4,PLACING,IRON_AXE,OAK_LOG% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,4,PLACING,IRON_AXE,OAK_LOG% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Oaklog/Oaklog(Ironaxe) %tt_reward_tech_dropchance_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fSilktouchdropChance of Oaklog/Oaklog(Ironaxe) %tt_reward_tech_dropchance_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fMining of Oaklog(Ironaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG% Dollar",
+				"&fPlacing of Oaklog(Ironaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,4,PLACING,IRON_AXE,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,4,PLACING,IRON_AXE,OAK_LOG% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,4,PLACING,IRON_AXE,OAK_LOG% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(5, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Eichenstamm/Eichenstamm(Goldaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fBehutsamkeitsdropChance von Eichenstamm/Eichenstamm(Goldaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fAbbauen von Eichenstamm(Goldaxt) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG% Dollar",
+				"&fSetzen von Eichenstamm(Goldaxt) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,5,PLACING,GOLDEN_AXE,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,5,PLACING,GOLDEN_AXE,OAK_LOG% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,5,PLACING,GOLDEN_AXE,OAK_LOG% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Oaklog/Oaklog(Goldenaxe) %tt_reward_tech_dropchance_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fSilktouchdropChance of Oaklog/Oaklog(Goldenaxe) %tt_reward_tech_dropchance_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fMining of Oaklog(Goldenaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG% Dollar",
+				"&fPlacing of Oaklog(Goldenaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,5,PLACING,GOLDEN_AXE,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,5,PLACING,GOLDEN_AXE,OAK_LOG% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,5,PLACING,GOLDEN_AXE,OAK_LOG% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(6, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Eichenstamm/Eichenstamm(Diamantaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fBehutsamkeitsdropChance von Eichenstamm/Eichenstamm(Diamantaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fAbbauen von Eichenstamm(Diamantaxt) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG% Dollar",
+				"&fSetzen von Eichenstamm(Diamantaxt) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,6,PLACING,DIAMOND_AXE,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,6,PLACING,DIAMOND_AXE,OAK_LOG% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,6,PLACING,DIAMOND_AXE,OAK_LOG% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Oaklog/Oaklog(Diamondaxe) %tt_reward_tech_dropchance_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fSilktouchdropChance of Oaklog/Oaklog(Diamondaxe) %tt_reward_tech_dropchance_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fMining of Oaklog(Diamondaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG% Dollar",
+				"&fPlacing of Oaklog(Diamondaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,6,PLACING,DIAMOND_AXE,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,6,PLACING,DIAMOND_AXE,OAK_LOG% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,6,PLACING,DIAMOND_AXE,OAK_LOG% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(7, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Eichenstamm/Eichenstamm(Netheriteaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fBehutsamkeitsdropChance von Eichenstamm/Eichenstamm(Netheriteaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fAbbauen von Eichenstamm(Netheriteaxt) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
+				"&fSetzen von Eichenstamm(Netheriteaxt) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,7,PLACING,NETHERITE_AXE,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,7,PLACING,NETHERITE_AXE,OAK_LOG% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,7,PLACING,NETHERITE_AXE,OAK_LOG% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Oaklog/Oaklog(Netheriteaxe) %tt_reward_tech_dropchance_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fSilktouchdropChance of Oaklog/Oaklog(Netheriteaxe) %tt_reward_tech_dropchance_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fMining of Oaklog(Netheriteaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
+				"&fPlacing of Oaklog(Netheriteaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,7,PLACING,NETHERITE_AXE,OAK_LOG% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,7,PLACING,NETHERITE_AXE,OAK_LOG% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,7,PLACING,NETHERITE_AXE,OAK_LOG% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
-				"woodenlog", new String[] {"Holzstamm", "Woodenlog"},
-				TechnologyType.MULTIPLE, 7, PlayerAssociatedType.SOLO, 1, "", "wood", 
+				"oaklog", new String[] {"Eichenstamm", "Oaklog"},
+				TechnologyType.MULTIPLE, 7, PlayerAssociatedType.SOLO, 0, "", "wood", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
 				new String[] {"&8Tech Holzstamm","&8Tech Woodenlog"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
-						"&7Technologie Holzstamm",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fAbbau von allen Holzstämme",
-						"&7Technology Woodenlog",
-						"&eCost:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
+						"&fAbbau von Eichenstamm.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
 						"&eUnlocks the following:",
-						"&fMining of all woodenlog"},
+						"&fMining of Oaklog.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Eichenstamm","&7Oaklog"},
-				Material.OAK_LOG, 1, itemflag, null, new String[] {
-						"&7Technologie Holzstamm",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von allen Holzstämme",
-						"&7Technology Woodenlog",
-						"&eCost:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
-						"&eUnlocks the following:",
-						"&fMining of all woodenlog"},
+				Material.OAK_LOG, 1, itemflag, null, canResLore.get(1),
 				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
 				new String[] {"&dEichenstamm","&dOaklog"},
-				Material.OAK_LOG, 1, itemflag, null, new String[] {
-						"&7Technologie Holzstamm",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
-						"&eSchaltet folgendes frei:",
-						"&fAbbau von allen Holzstämme",
-						"&7Technology Woodenlog",
-						"&eCost:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&f%costmaterial%",
-						"&eUnlocks the following:",
-						"&fMining of all woodenlog"},
+				Material.OAK_LOG, 1, itemflag, null, canResLore,
 				new String[] {"&5Eichenstamm","&5Oaklog"},
-				Material.OAK_LOG, 1, itemflag, null, new String[] {
-						"&7Technologie Holzstamm",
+				Material.OAK_LOG, 1, itemflag, enchantment, new String[] {
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fAbbau von allen Holzstämme",
-						"&7Technology Woodenlog",
+						"&fAbbauen von Eichenstamm %tt_raw_reward_techtotal_ttexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
+								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% VanillaExp | "
+								  + "%tt_raw_reward_techtotal_money_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
+						"&fSetzen von Eichenstamm %tt_raw_reward_techtotal_ttexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
+								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% VanillaExp | "
+								  + "%tt_raw_reward_techtotal_money_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
 						"&eUnlocks the following:",
-						"&fMining of all woodenlog"},
+						"&fMining of Oaklog %tt_raw_reward_techtotal_ttexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
+								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% VanillaExp | "
+								  + "%tt_raw_reward_techtotal_money_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
+						"&fPlacing of Oaklog %tt_raw_reward_techtotal_ttexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
+								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% VanillaExp | "
+								  + "%tt_raw_reward_techtotal_money_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
+						
+						"",
+						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
 				rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
 		toResCondition = new LinkedHashMap<>();
-		toResCondition.put(1,new String[] {
-						"if:(a):o_1", "else:o_2",
-						"output:o_1:true",
-						"output:o_2:false",
-						"a:hasresearchedtech,woodenlog,1:==:true"});
 		toResCostTTExp = new LinkedHashMap<>();
 		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
 		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
@@ -9535,63 +9998,7 @@ public class YamlManager
 				"CRAFTING:ACACIA_PLANKS:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
 				"CRAFTING:DARK_OAK_PLANKS:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
 				"CRAFTING:MANGROVE_PLANKS:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
-				"CRAFTING:CHERRY_PLANKS:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
-				"BREAKING:OAK_PLANKS:null:tool=HAND",
-				"BREAKING:SPRUCE_PLANKS:null:tool=HAND",
-				"BREAKING:BIRCH_PLANKS:null:tool=HAND",
-				"BREAKING:JUNGLE_PLANKS:null:tool=HAND",
-				"BREAKING:ACACIA_PLANKS:null:tool=HAND",
-				"BREAKING:DARK_OAK_PLANKS:null:tool=HAND",
-				"BREAKING:MANGROVE_PLANKS:null:tool=HAND",
-				"BREAKING:CHERRY_PLANKS:null:tool=HAND",
-				"BREAKING:OAK_PLANKS:null:tool=WOODEN_AXE",
-				"BREAKING:SPRUCE_PLANKS:null:tool=WOODEN_AXE",
-				"BREAKING:BIRCH_PLANKS:null:tool=WOODEN_AXE",
-				"BREAKING:JUNGLE_PLANKS:null:tool=WOODEN_AXE",
-				"BREAKING:ACACIA_PLANKS:null:tool=WOODEN_AXE",
-				"BREAKING:DARK_OAK_PLANKS:null:tool=WOODEN_AXE",
-				"BREAKING:MANGROVE_PLANKS:null:tool=WOODEN_AXE",
-				"BREAKING:CHERRY_PLANKS:null:tool=WOODEN_AXE",
-				"BREAKING:OAK_PLANKS:null:tool=STONE_AXE",
-				"BREAKING:SPRUCE_PLANKS:null:tool=STONE_AXE",
-				"BREAKING:BIRCH_PLANKS:null:tool=STONE_AXE",
-				"BREAKING:JUNGLE_PLANKS:null:tool=STONE_AXE",
-				"BREAKING:ACACIA_PLANKS:null:tool=STONE_AXE",
-				"BREAKING:DARK_OAK_PLANKS:null:tool=STONE_AXE",
-				"BREAKING:MANGROVE_PLANKS:null:tool=STONE_AXE",
-				"BREAKING:CHERRY_PLANKS:null:tool=STONE_AXE",
-				"BREAKING:OAK_PLANKS:null:tool=IRON_AXE",
-				"BREAKING:SPRUCE_PLANKS:null:tool=IRON_AXE",
-				"BREAKING:BIRCH_PLANKS:null:tool=IRON_AXE",
-				"BREAKING:JUNGLE_PLANKS:null:tool=IRON_AXE",
-				"BREAKING:ACACIA_PLANKS:null:tool=IRON_AXE",
-				"BREAKING:DARK_OAK_PLANKS:null:tool=IRON_AXE",
-				"BREAKING:MANGROVE_PLANKS:null:tool=IRON_AXE",
-				"BREAKING:CHERRY_PLANKS:null:tool=IRON_AXE",
-				"BREAKING:OAK_PLANKS:null:tool=GOLDEN_AXE",
-				"BREAKING:SPRUCE_PLANKS:null:tool=GOLDEN_AXE",
-				"BREAKING:BIRCH_PLANKS:null:tool=GOLDEN_AXE",
-				"BREAKING:JUNGLE_PLANKS:null:tool=GOLDEN_AXE",
-				"BREAKING:ACACIA_PLANKS:null:tool=GOLDEN_AXE",
-				"BREAKING:DARK_OAK_PLANKS:null:tool=GOLDEN_AXE",
-				"BREAKING:MANGROVE_PLANKS:null:tool=GOLDEN_AXE",
-				"BREAKING:CHERRY_PLANKS:null:tool=GOLDEN_AXE",
-				"BREAKING:OAK_PLANKS:null:tool=DIAMOND_AXE",
-				"BREAKING:SPRUCE_PLANKS:null:tool=DIAMOND_AXE",
-				"BREAKING:BIRCH_PLANKS:null:tool=DIAMOND_AXE",
-				"BREAKING:JUNGLE_PLANKS:null:tool=DIAMOND_AXE",
-				"BREAKING:ACACIA_PLANKS:null:tool=DIAMOND_AXE",
-				"BREAKING:DARK_OAK_PLANKS:null:tool=DIAMOND_AXE",
-				"BREAKING:MANGROVE_PLANKS:null:tool=DIAMOND_AXE",
-				"BREAKING:CHERRY_PLANKS:null:tool=DIAMOND_AXE",
-				"BREAKING:OAK_PLANKS:null:tool=WOODEN_AXE",
-				"BREAKING:SPRUCE_PLANKS:null:tool=WOODEN_AXE",
-				"BREAKING:BIRCH_PLANKS:null:tool=WOODEN_AXE",
-				"BREAKING:JUNGLE_PLANKS:null:tool=WOODEN_AXE",
-				"BREAKING:ACACIA_PLANKS:null:tool=NETHERITE_AXE",
-				"BREAKING:DARK_OAK_PLANKS:null:tool=NETHERITE_AXE",
-				"BREAKING:MANGROVE_PLANKS:null:tool=NETHERITE_AXE",
-				"BREAKING:CHERRY_PLANKS:null:tool=NETHERITE_AXE"});
+				"CRAFTING:CHERRY_PLANKS:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5"});
 		rewardUnlockableRecipe = new LinkedHashMap<>();
 		rewardUnlockableRecipe.put(1, new String[] {
 				"SHAPELESS:oak_planks",
@@ -9611,7 +10018,8 @@ public class YamlManager
 				"BREAKING:HAND:ACACIA_PLANKS:null:mat=ACACIA_PLANKS:1:1.0",
 				"BREAKING:HAND:DARK_OAK_PLANKS:null:mat=DARK_OAK_PLANKS:1:1.0",
 				"BREAKING:HAND:MANGROVE_PLANKS:null:mat=MANGROVE_PLANKS:1:1.0",
-				"BREAKING:HAND:CHERRY_PLANKS:null:mat=CHERRY_PLANKS:1:1.0",
+				"BREAKING:HAND:CHERRY_PLANKS:null:mat=CHERRY_PLANKS:1:1.0"});
+		rewardDropChance.put(2, new String[] {
 				"BREAKING:WOODEN_AXE:OAK_PLANKS:null:mat=OAK_PLANKS:1:1.0",
 				"BREAKING:WOODEN_AXE:SPRUCE_PLANKS:null:mat=SPRUCE_PLANKS:1:1.0",
 				"BREAKING:WOODEN_AXE:BIRCH_PLANKS:null:mat=BIRCH_PLANKS:1:1.0",
@@ -9619,7 +10027,8 @@ public class YamlManager
 				"BREAKING:WOODEN_AXE:ACACIA_PLANKS:null:mat=ACACIA_PLANKS:1:1.0",
 				"BREAKING:WOODEN_AXE:DARK_OAK_PLANKS:null:mat=DARK_OAK_PLANKS:1:1.0",
 				"BREAKING:WOODEN_AXE:MANGROVE_PLANKS:null:mat=MANGROVE_PLANKS:1:1.0",
-				"BREAKING:WOODEN_AXE:CHERRY_PLANKS:null:mat=CHERRY_PLANKS:1:1.0",
+				"BREAKING:WOODEN_AXE:CHERRY_PLANKS:null:mat=CHERRY_PLANKS:1:1.0"});
+		rewardDropChance.put(3, new String[] {
 				"BREAKING:STONE_AXE:OAK_PLANKS:null:mat=OAK_PLANKS:1:1.0",
 				"BREAKING:STONE_AXE:SPRUCE_PLANKS:null:mat=SPRUCE_PLANKS:1:1.0",
 				"BREAKING:STONE_AXE:BIRCH_PLANKS:null:mat=BIRCH_PLANKS:1:1.0",
@@ -9627,7 +10036,8 @@ public class YamlManager
 				"BREAKING:STONE_AXE:ACACIA_PLANKS:null:mat=ACACIA_PLANKS:1:1.0",
 				"BREAKING:STONE_AXE:DARK_OAK_PLANKS:null:mat=DARK_OAK_PLANKS:1:1.0",
 				"BREAKING:STONE_AXE:MANGROVE_PLANKS:null:mat=MANGROVE_PLANKS:1:1.0",
-				"BREAKING:STONE_AXE:CHERRY_PLANKS:null:mat=CHERRY_PLANKS:1:1.0",
+				"BREAKING:STONE_AXE:CHERRY_PLANKS:null:mat=CHERRY_PLANKS:1:1.0"});
+		rewardDropChance.put(4, new String[] {
 				"BREAKING:IRON_AXE:OAK_PLANKS:null:mat=OAK_PLANKS:1:1.0",
 				"BREAKING:IRON_AXE:SPRUCE_PLANKS:null:mat=SPRUCE_PLANKS:1:1.0",
 				"BREAKING:IRON_AXE:BIRCH_PLANKS:null:mat=BIRCH_PLANKS:1:1.0",
@@ -9635,7 +10045,8 @@ public class YamlManager
 				"BREAKING:IRON_AXE:ACACIA_PLANKS:null:mat=ACACIA_PLANKS:1:1.0",
 				"BREAKING:IRON_AXE:DARK_OAK_PLANKS:null:mat=DARK_OAK_PLANKS:1:1.0",
 				"BREAKING:IRON_AXE:MANGROVE_PLANKS:null:mat=MANGROVE_PLANKS:1:1.0",
-				"BREAKING:IRON_AXE:CHERRY_PLANKS:null:mat=CHERRY_PLANKS:1:1.0",
+				"BREAKING:IRON_AXE:CHERRY_PLANKS:null:mat=CHERRY_PLANKS:1:1.0"});
+		rewardDropChance.put(5, new String[] {
 				"BREAKING:GOLDEN_AXE:OAK_PLANKS:null:mat=OAK_PLANKS:1:1.0",
 				"BREAKING:GOLDEN_AXE:SPRUCE_PLANKS:null:mat=SPRUCE_PLANKS:1:1.0",
 				"BREAKING:GOLDEN_AXE:BIRCH_PLANKS:null:mat=BIRCH_PLANKS:1:1.0",
@@ -9643,7 +10054,8 @@ public class YamlManager
 				"BREAKING:GOLDEN_AXE:ACACIA_PLANKS:null:mat=ACACIA_PLANKS:1:1.0",
 				"BREAKING:GOLDEN_AXE:DARK_OAK_PLANKS:null:mat=DARK_OAK_PLANKS:1:1.0",
 				"BREAKING:GOLDEN_AXE:MANGROVE_PLANKS:null:mat=MANGROVE_PLANKS:1:1.0",
-				"BREAKING:GOLDEN_AXE:CHERRY_PLANKS:null:mat=CHERRY_PLANKS:1:1.0",
+				"BREAKING:GOLDEN_AXE:CHERRY_PLANKS:null:mat=CHERRY_PLANKS:1:1.0"});
+		rewardDropChance.put(6, new String[] {
 				"BREAKING:DIAMOND_AXE:OAK_PLANKS:null:mat=OAK_PLANKS:1:1.0",
 				"BREAKING:DIAMOND_AXE:SPRUCE_PLANKS:null:mat=SPRUCE_PLANKS:1:1.0",
 				"BREAKING:DIAMOND_AXE:BIRCH_PLANKS:null:mat=BIRCH_PLANKS:1:1.0",
@@ -9651,7 +10063,8 @@ public class YamlManager
 				"BREAKING:DIAMOND_AXE:ACACIA_PLANKS:null:mat=ACACIA_PLANKS:1:1.0",
 				"BREAKING:DIAMOND_AXE:DARK_OAK_PLANKS:null:mat=DARK_OAK_PLANKS:1:1.0",
 				"BREAKING:DIAMOND_AXE:MANGROVE_PLANKS:null:mat=MANGROVE_PLANKS:1:1.0",
-				"BREAKING:DIAMOND_AXE:CHERRY_PLANKS:null:mat=CHERRY_PLANKS:1:1.0",
+				"BREAKING:DIAMOND_AXE:CHERRY_PLANKS:null:mat=CHERRY_PLANKS:1:1.0"});
+		rewardDropChance.put(7, new String[] {
 				"BREAKING:NETHERITE_AXE:OAK_PLANKS:null:mat=OAK_PLANKS:1:1.0",
 				"BREAKING:NETHERITE_AXE:SPRUCE_PLANKS:null:mat=SPRUCE_PLANKS:1:1.0",
 				"BREAKING:NETHERITE_AXE:BIRCH_PLANKS:null:mat=BIRCH_PLANKS:1:1.0",
@@ -9669,7 +10082,8 @@ public class YamlManager
 				"BREAKING:HAND:ACACIA_PLANKS:null:mat=ACACIA_PLANKS:1:1.0",
 				"BREAKING:HAND:DARK_OAK_PLANKS:null:mat=DARK_OAK_PLANKS:1:1.0",
 				"BREAKING:HAND:MANGROVE_PLANKS:null:mat=MANGROVE_PLANKS:1:1.0",
-				"BREAKING:HAND:CHERRY_PLANKS:null:mat=CHERRY_PLANKS:1:1.0",
+				"BREAKING:HAND:CHERRY_PLANKS:null:mat=CHERRY_PLANKS:1:1.0"});
+		rewardSilkTouchDropChance.put(2, new String[] {
 				"BREAKING:WOODEN_AXE:OAK_PLANKS:null:mat=OAK_PLANKS:1:1.0",
 				"BREAKING:WOODEN_AXE:SPRUCE_PLANKS:null:mat=SPRUCE_PLANKS:1:1.0",
 				"BREAKING:WOODEN_AXE:BIRCH_PLANKS:null:mat=BIRCH_PLANKS:1:1.0",
@@ -9677,7 +10091,8 @@ public class YamlManager
 				"BREAKING:WOODEN_AXE:ACACIA_PLANKS:null:mat=ACACIA_PLANKS:1:1.0",
 				"BREAKING:WOODEN_AXE:DARK_OAK_PLANKS:null:mat=DARK_OAK_PLANKS:1:1.0",
 				"BREAKING:WOODEN_AXE:MANGROVE_PLANKS:null:mat=MANGROVE_PLANKS:1:1.0",
-				"BREAKING:WOODEN_AXE:CHERRY_PLANKS:null:mat=CHERRY_PLANKS:1:1.0",
+				"BREAKING:WOODEN_AXE:CHERRY_PLANKS:null:mat=CHERRY_PLANKS:1:1.0"});
+		rewardSilkTouchDropChance.put(3, new String[] {
 				"BREAKING:STONE_AXE:OAK_PLANKS:null:mat=OAK_PLANKS:1:1.0",
 				"BREAKING:STONE_AXE:SPRUCE_PLANKS:null:mat=SPRUCE_PLANKS:1:1.0",
 				"BREAKING:STONE_AXE:BIRCH_PLANKS:null:mat=BIRCH_PLANKS:1:1.0",
@@ -9685,7 +10100,8 @@ public class YamlManager
 				"BREAKING:STONE_AXE:ACACIA_PLANKS:null:mat=ACACIA_PLANKS:1:1.0",
 				"BREAKING:STONE_AXE:DARK_OAK_PLANKS:null:mat=DARK_OAK_PLANKS:1:1.0",
 				"BREAKING:STONE_AXE:MANGROVE_PLANKS:null:mat=MANGROVE_PLANKS:1:1.0",
-				"BREAKING:STONE_AXE:CHERRY_PLANKS:null:mat=CHERRY_PLANKS:1:1.0",
+				"BREAKING:STONE_AXE:CHERRY_PLANKS:null:mat=CHERRY_PLANKS:1:1.0"});
+		rewardSilkTouchDropChance.put(4, new String[] {
 				"BREAKING:IRON_AXE:OAK_PLANKS:null:mat=OAK_PLANKS:1:1.0",
 				"BREAKING:IRON_AXE:SPRUCE_PLANKS:null:mat=SPRUCE_PLANKS:1:1.0",
 				"BREAKING:IRON_AXE:BIRCH_PLANKS:null:mat=BIRCH_PLANKS:1:1.0",
@@ -9693,7 +10109,8 @@ public class YamlManager
 				"BREAKING:IRON_AXE:ACACIA_PLANKS:null:mat=ACACIA_PLANKS:1:1.0",
 				"BREAKING:IRON_AXE:DARK_OAK_PLANKS:null:mat=DARK_OAK_PLANKS:1:1.0",
 				"BREAKING:IRON_AXE:MANGROVE_PLANKS:null:mat=MANGROVE_PLANKS:1:1.0",
-				"BREAKING:IRON_AXE:CHERRY_PLANKS:null:mat=CHERRY_PLANKS:1:1.0",
+				"BREAKING:IRON_AXE:CHERRY_PLANKS:null:mat=CHERRY_PLANKS:1:1.0"});
+		rewardSilkTouchDropChance.put(5, new String[] {
 				"BREAKING:GOLDEN_AXE:OAK_PLANKS:null:mat=OAK_PLANKS:1:1.0",
 				"BREAKING:GOLDEN_AXE:SPRUCE_PLANKS:null:mat=SPRUCE_PLANKS:1:1.0",
 				"BREAKING:GOLDEN_AXE:BIRCH_PLANKS:null:mat=BIRCH_PLANKS:1:1.0",
@@ -9701,7 +10118,8 @@ public class YamlManager
 				"BREAKING:GOLDEN_AXE:ACACIA_PLANKS:null:mat=ACACIA_PLANKS:1:1.0",
 				"BREAKING:GOLDEN_AXE:DARK_OAK_PLANKS:null:mat=DARK_OAK_PLANKS:1:1.0",
 				"BREAKING:GOLDEN_AXE:MANGROVE_PLANKS:null:mat=MANGROVE_PLANKS:1:1.0",
-				"BREAKING:GOLDEN_AXE:CHERRY_PLANKS:null:mat=CHERRY_PLANKS:1:1.0",
+				"BREAKING:GOLDEN_AXE:CHERRY_PLANKS:null:mat=CHERRY_PLANKS:1:1.0"});
+		rewardSilkTouchDropChance.put(6, new String[] {
 				"BREAKING:DIAMOND_AXE:OAK_PLANKS:null:mat=OAK_PLANKS:1:1.0",
 				"BREAKING:DIAMOND_AXE:SPRUCE_PLANKS:null:mat=SPRUCE_PLANKS:1:1.0",
 				"BREAKING:DIAMOND_AXE:BIRCH_PLANKS:null:mat=BIRCH_PLANKS:1:1.0",
@@ -9709,7 +10127,8 @@ public class YamlManager
 				"BREAKING:DIAMOND_AXE:ACACIA_PLANKS:null:mat=ACACIA_PLANKS:1:1.0",
 				"BREAKING:DIAMOND_AXE:DARK_OAK_PLANKS:null:mat=DARK_OAK_PLANKS:1:1.0",
 				"BREAKING:DIAMOND_AXE:MANGROVE_PLANKS:null:mat=MANGROVE_PLANKS:1:1.0",
-				"BREAKING:DIAMOND_AXE:CHERRY_PLANKS:null:mat=CHERRY_PLANKS:1:1.0",
+				"BREAKING:DIAMOND_AXE:CHERRY_PLANKS:null:mat=CHERRY_PLANKS:1:1.0"});
+		rewardSilkTouchDropChance.put(7, new String[] {
 				"BREAKING:NETHERITE_AXE:OAK_PLANKS:null:mat=OAK_PLANKS:1:1.0",
 				"BREAKING:NETHERITE_AXE:SPRUCE_PLANKS:null:mat=SPRUCE_PLANKS:1:1.0",
 				"BREAKING:NETHERITE_AXE:BIRCH_PLANKS:null:mat=BIRCH_PLANKS:1:1.0",
@@ -9722,78 +10141,251 @@ public class YamlManager
 		rewardItem = new LinkedHashMap<>();
 		rewardModifier = new LinkedHashMap<>();
 		rewardValueEntry = new LinkedHashMap<>();
+		canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Bretter/Bretter(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fBehutsamkeitsdropChance von Bretter/Bretter(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fHerstellen von Brettern %tt_raw_reward_tech_ttexp_mat,SOLO,woodenplanks,1,CRAFTING,HAND,OAK_PLANKS% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,woodenplanks,1,CRAFTING,HAND,OAK_PLANKS% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,woodenplanks,1,CRAFTING,HAND,OAK_PLANKS% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Planks/Planks(Hand) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,1,BREAKING,HAND,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fSilktouchdropChance of Planks/Planks(Hand) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,1,BREAKING,HAND,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fCrafting of Planks(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,woodenplanks,1,CRAFTING,HAND,OAK_PLANKS% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,woodenplanks,1,CRAFTING,HAND,OAK_PLANKS% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,woodenplanks,1,CRAFTING,HAND,OAK_PLANKS% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(2, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Bretter/Bretter(Holzaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fBehutsamkeitsdropChance von Bretter/Bretter(Holzaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Planks/Planks(Woodenaxe) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,2,BREAKING,WOODEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fSilktouchdropChance of Planks/Planks(Woodenaxe) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,2,BREAKING,WOODEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(3, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Bretter/Bretter(Steinaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fBehutsamkeitsdropChance von Bretter/Bretter(Steinaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Planks/Planks(Stoneaxe) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,3,BREAKING,STONE_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fSilktouchdropChance of Planks/Planks(Stoneaxe) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,3,BREAKING,STONE_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(4, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Bretter/Bretter(Eisenaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fBehutsamkeitsdropChance von Bretter/Bretter(Eisenaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Planks/Planks(Ironaxe) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,4,BREAKING,IRON_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fSilktouchdropChance of Planks/Planks(Ironaxe) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,4,BREAKING,IRON_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(5, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Bretter/Bretter(Goldaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fBehutsamkeitsdropChance von Bretter/Bretter(Goldaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Planks/Planks(Goldenaxe) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,5,BREAKING,GOLDEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fSilktouchdropChance of Planks/Planks(Goldenaxe) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,5,BREAKING,GOLDEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(6, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Bretter/Bretter(Diamantaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fBehutsamkeitsdropChance von Bretter/Bretter(Diamantaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Planks/Planks(Diamondaxe) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,6,BREAKING,DIAMOND_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fSilktouchdropChance of Planks/Planks(Diamondaxe) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,6,BREAKING,DIAMOND_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(7, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Bretter/Bretter(Netheriteaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fBehutsamkeitsdropChance von Bretter/Bretter(Netheriteaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Planks/Planks(Netheriteaxe) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,7,BREAKING,NETHERITE_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fSilktouchdropChance of Planks/Planks(Netheriteaxe) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,7,BREAKING,NETHERITE_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"",
+				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
 				"woodenplanks", new String[] {"Holzbretter", "Woodenplanks"},
-				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 2, "", "wood", 
+				TechnologyType.SIMPLE, 7, PlayerAssociatedType.SOLO, 1, "", "wood", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				new String[] { //ConditionToSee
-						"if:(a):o_1", "else:o_2",
+						"if:(a||b||c||d||e||f||g||h):o_1", "else:o_2",
 						"output:o_1:true",
 						"output:o_2:false",
-						"a:hasresearchedtech,woodenlog,1:==:true"}, true,
+						"a:hasresearchedtech,oaklog,1:==:true",
+						"b:hasresearchedtech,sprucelog,1:==:true",
+						"c:hasresearchedtech,birchlog,1:==:true",
+						"d:hasresearchedtech,junglelog,1:==:true",
+						"e:hasresearchedtech,acacialog,1:==:true",
+						"f:hasresearchedtech,darkoaklog,1:==:true",
+						"g:hasresearchedtech,mangrovelog,1:==:true",
+						"h:hasresearchedtech,cherrylog,1:==:true"}, true,
 				new String[] {"&8Tech Holzbretter","&8Tech Woodenplanks"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
-						"&7Technologie Holzbretter",
+						"",
 						"&cAnforderungen zum einsehen:",
-						"&cMuss die Technology >Holzstämme< erforscht haben.",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
+						"&cMuss die Technology >&#ff8c00Eichenstamm&c< oder >&#ff8c00Fichtenstamm&c<",
+						"&coder >&#ff8c00Birkenstamm&c< oder >&#ff8c00Tropenstamm&c<",
+						"&coder >&#ff8c00Akazienstamm&c< oder >&#ff8c00Schwarzeichenstamm&c<",
+						"&coder >&#ff8c00Mangrovenstamm&c< oder >&#ff8c00Kirschstamm&c<",
+						"&cerforscht haben.",
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellen von allen Holzbretter",
-						"&7Technology Woodenplanks",
+						"&fHerstellung von Holzbrettern.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
 						"&cRequirements to view:",
-						"&cMust have researched the Technology >Woodenlog<.",
-						"&eCost:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
+						"&cMust have researched the Technology >&#ff8c00Oaklog<",
+						"&cor >&#ff8c00Sprucelog&c< or >&#ff8c00Birchlog&c<",
+						"&cor >&#ff8c00Junglelog&c< or >&#ff8c00Acacialog&c<",
+						"&cor >&#ff8c00Darkoaklog&c< or >&#ff8c00Mangrovelog&c<",
+						"&cor >&#ff8c00Cherrylog&c<",
+						"",
 						"&eUnlocks the following:",
-						"&fCrafting of all woodenplanks"},
+						"&fCrafting of Planks.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Holzbretter","&7Woodenplanks"},
-				Material.OAK_PLANKS, 1, itemflag, null, new String[] {
-						"&7Technologie Holzbretter",
-						"&cAnforderungen zum einsehen:",
-						"&cMuss die Technology >Holzstämme< erforscht haben.",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&eSchaltet folgendes frei:",
-						"&fHerstellen von allen Holzbretter",
-						"&7Technology Woodenplanks",
-						"&cRequirements to view:",
-						"&cMust have researched the Technology >Woodenlog<.",
-						"&eCost:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&eUnlocks the following:",
-						"&fCrafting of all woodenplanks"},
+				Material.OAK_PLANKS, 1, itemflag, null, canResLore.get(1),
 				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
 				new String[] {"&dHolzbretter","&dWoodenplanks"},
-				Material.OAK_PLANKS, 1, itemflag, null, new String[] {
-						"&7Technologie Holzbretter",
-						"&cAnforderungen zum einsehen:",
-						"&cMuss die Technology >Holzstämme< erforscht haben.",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
+				Material.OAK_PLANKS, 1, itemflag, null, canResLore,
+				new String[] {"&5Holzbretter","&5Woodenplanks"},
+				Material.OAK_PLANKS, 1, itemflag, enchantment, new String[] {
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellen von allen Holzbretter",
-						"&7Technology Woodenplanks",
-						"&cRequirements to view:",
-						"&cMust have researched the Technology >Woodenlog<.",
-						"&eCost:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
+						"&fHerstellen von Holzbretter %tt_raw_reward_techtotal_ttexp_mat,SOLO,woodenplanks,CRAFTING,HAND,OAK_PLANKS% TTExp | "
+								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,woodenplanks,CRAFTING,HAND,OAK_PLANKS% VanillaExp | "
+								  + "%tt_raw_reward_techtotal_money_mat,SOLO,woodenplanks,CRAFTING,HAND,OAK_PLANKS% Dollar",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
 						"&eUnlocks the following:",
-						"&fCrafting of all woodenplanks"},
-				new String[] {"&bHolzbretter","&bWoodenplanks"},
-				Material.OAK_PLANKS, 1, itemflag, null, new String[] {
-						"&7Technologie Holzbretter",
-						"&eSchaltet folgendes frei:",
-						"&fHerstellen von allen Holzbretter",
-						"&7Technology Woodenplanks",
-						"&eUnlocks the following:",
-						"&fCrafting of all woodenplanks"},
+						"&fCrafting of Planks %tt_raw_reward_techtotal_ttexp_mat,SOLO,woodenplanks,CRAFTING,HAND,OAK_PLANKS% TTExp | "
+								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,woodenplanks,CRAFTING,HAND,OAK_PLANKS% VanillaExp | "
+								  + "%tt_raw_reward_techtotal_money_mat,SOLO,woodenplanks,CRAFTING,HAND,OAK_PLANKS% Dollar",						
+						"",
+						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
 				rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
 	}
@@ -9812,36 +10404,8 @@ public class YamlManager
 		toResCostMoney.put(2, "1 * techlev + 0.25 * solototaltech");
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
-		rewardUnlockableInteractions.put(1, new String[] {
-				"PLACING:COBBLESTONE_SLAB:null:tool=HAND",
-				"BREAKING:COBBLESTONE_SLAB:null:tool=HAND",
-				"PLACING:COBBLESTONE_SLAB:null:tool=WOODEN_PICKAXE",
-				"BREAKING:COBBLESTONE_SLAB:null:tool=WOODEN_PICKAXE",
-				"PLACING:COBBLESTONE_SLAB:null:tool=STONE_PICKAXE",
-				"BREAKING:COBBLESTONE_SLAB:null:tool=STONE_PICKAXE",
-				"PLACING:COBBLESTONE_SLAB:null:tool=IRON_PICKAXE",
-				"BREAKING:COBBLESTONE_SLAB:null:tool=IRON_PICKAXE",
-				"PLACING:COBBLESTONE_SLAB:null:tool=GOLDEN_PICKAXE",
-				"BREAKING:COBBLESTONE_SLAB:null:tool=GOLDEN_PICKAXE",
-				"PLACING:COBBLESTONE_SLAB:null:tool=DIAMOND_PICKAXE",
-				"BREAKING:COBBLESTONE_SLAB:null:tool=DIAMOND_PICKAXE",
-				"PLACING:COBBLESTONE_SLAB:null:tool=NETHERITE_PICKAXE",
-				"BREAKING:COBBLESTONE_SLAB:null:tool=NETHERITE_PICKAXE"});
-		rewardUnlockableInteractions.put(2, new String[] {
-				"PLACING:STONE_SLAB:null:tool=HAND",
-				"BREAKING:STONE_SLAB:null:tool=HAND",
-				"PLACING:STONE_SLAB:null:tool=WOODEN_PICKAXE",
-				"BREAKING:STONE_SLAB:null:tool=WOODEN_PICKAXE",
-				"PLACING:STONE_SLAB:null:tool=STONE_PICKAXE",
-				"BREAKING:STONE_SLAB:null:tool=STONE_PICKAXE",
-				"PLACING:STONE_SLAB:null:tool=IRON_PICKAXE",
-				"BREAKING:STONE_SLAB:null:tool=IRON_PICKAXE",
-				"PLACING:STONE_SLAB:null:tool=GOLDEN_PICKAXE",
-				"BREAKING:STONE_SLAB:null:tool=GOLDEN_PICKAXE",
-				"PLACING:STONE_SLAB:null:tool=DIAMOND_PICKAXE",
-				"BREAKING:STONE_SLAB:null:tool=DIAMOND_PICKAXE",
-				"PLACING:STONE_SLAB:null:tool=NETHERITE_PICKAXE",
-				"BREAKING:STONE_SLAB:null:tool=NETHERITE_PICKAXE"});
+		rewardUnlockableInteractions.put(1, new String[] {"CRAFTING:COBBLESTONE_SLAB:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",""});
+		rewardUnlockableInteractions.put(2, new String[] {"CRAFTING:STONE_SLAB:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",""});
 		LinkedHashMap<Integer, String[]> rewardUnlockableRecipe = new LinkedHashMap<>();
 		rewardUnlockableRecipe.put(1, new String[] {
 				"SHAPED:cobblestone_slab",
@@ -9887,70 +10451,123 @@ public class YamlManager
 		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardValueEntry = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Bruchsteinstufe/Bruchsteinstufe %tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,COBBLESTONE_SLAB,mat=COBBLESTONE_SLAB%",
+				"&fBehutsamkeitsdropChance von Bruchsteinstufe/Bruchsteinstufe %tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,COBBLESTONE_SLAB,mat=COBBLESTONE_SLAB%",
+				"&fHerstellen von Bruchsteinstufe %tt_raw_reward_tech_ttexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,COBBLESTONE_SLAB% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,COBBLESTONE_SLAB% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,COBBLESTONE_SLAB% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Cobblestoneslabs/Cobblestoneslabs %tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,COBBLESTONE_SLAB,mat=COBBLESTONE_SLAB%",
+				"&fSilktouchdropChance of Cobblestoneslabs/Cobblestoneslabs %tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,COBBLESTONE_SLAB,mat=COBBLESTONE_SLAB%",
+				"&fCrafting of Cobblestoneslabs %tt_raw_reward_tech_ttexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,COBBLESTONE_SLAB% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,COBBLESTONE_SLAB% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,COBBLESTONE_SLAB% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});		
+		canResLore.put(2, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Steinstufe/Steinstufe %tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,STONE_SLAB,mat=STONE_SLAB%",
+				"&fBehutsamkeitsdropChance von Steinstufe/Steinstufe %tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,STONE_SLAB,mat=STONE_SLAB%",
+				"&fHerstellen von Steinstufe %tt_raw_reward_tech_ttexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,STONE_SLAB% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,STONE_SLAB% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,STONE_SLAB% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Stoneslaps/Stoneslaps %tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,STONE_SLAB,mat=STONE_SLAB%",
+				"&fSilktouchdropChance of Stoneslabs/Stoneslabs %tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,STONE_SLAB,mat=STONE_SLAB%",
+				"&fCrafting of Stoneslaps %tt_raw_reward_tech_ttexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,STONE_SLAB% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,STONE_SLAB% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,STONE_SLAB% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
-				"stoneslap_I", new String[] {"Steinstufen_I", "Stoneslaps_I"},
+				"stoneslab_I", new String[] {"Steinstufen_I", "Stoneslaps_I"},
 				TechnologyType.MULTIPLE, 2, PlayerAssociatedType.SOLO, 0, "", "stoneslaps", 
 				0, 0, 0, 0, 0, 0, 0, 0,
-				null, true,
+				new String[] { //ConditionToSee
+						"if:(a):o_1", "else:o_2",
+						"output:o_1:true",
+						"output:o_2:false",
+						"a:hasresearchedtech,stone_I,1:==:true"}, true,
 				new String[] {"&8Tech Steinstufen I","&8Tech Stoneslaps I"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
-						"&7Technologie Steinstufen I",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
+						"",
+						"&cAnforderungen zum einsehen:",
+						"&cMuss die Technology >&#ff8c00Stein I&c< erforscht haben.",
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellen, Setzten und Abbauen",
-						"&fvon Steinstufen/Bruchsteinstufen",
-						"&7Technology Stoneslaps I",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
+						"&fHerstellung von Bruchsteinstufen.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&cRequirements to view:",
+						"&cMust have researched the Technology >&#ff8c00Stone I<.",
+						"",
 						"&eUnlocks the following:",
-						"&fCrafting, placing and mining",
-						"&fof stoneslabs/cobblestoneslabs"},
+						"&fCrafting of Cobblestoneslabs.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Steinstufen I","&7Stoneslaps I"},
-				Material.STONE_SLAB, 1, itemflag, null, new String[] {
-						"&7Technologie Steinstufen I",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&eSchaltet folgendes frei:",
-						"&fHerstellen, Setzten und Abbauen",
-						"&fvon Steinstufen/Bruchsteinstufen",
-						"&7Technology Stoneslaps I",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&eUnlocks the following:",
-						"&fCrafting, placing and mining",
-						"&fof stoneslabs/cobblestoneslabs"},
+				Material.STONE_SLAB, 1, itemflag, null, canResLore.get(1),
 				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
 				new String[] {"&dSteinstufen I","&dStoneslaps I"},
-				Material.STONE_SLAB, 1, itemflag, null, new String[] {
-						"&7Technologie Steinstufen I",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&eSchaltet folgendes frei:",
-						"&fHerstellen, Setzten und Abbauen",
-						"&fvon Steinstufen/Bruchsteinstufen",
-						"&7Technology Stoneslaps I",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&eUnlocks the following:",
-						"&fCrafting, placing and mining",
-						"&fof stoneslabs/cobblestoneslabs"},
+				Material.STONE_SLAB, 1, itemflag, null, canResLore,
 				new String[] {"&5Steinstufen I","&5Stoneslaps I"},
 				Material.STONE_SLAB, 1, itemflag, enchantment, new String[] {
-						"&7Technologie Steinsstufen I",
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellen, Setzten und Abbauen",
-						"&fvon Steinstufen/Bruchsteinstufen",
-						"&7Technology Stoneslaps I",
+						"&fHerstellen von Bruchsteinstufen %tt_raw_reward_techtotal_ttexp_mat,SOLO,woodenplanks,CRAFTING,HAND,COBBLESTONE_SLAB% TTExp | "
+								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,woodenplanks,CRAFTING,HAND,COBBLESTONE_SLAB% VanillaExp | "
+								  + "%tt_raw_reward_techtotal_money_mat,SOLO,woodenplanks,CRAFTING,HAND,COBBLESTONE_SLAB% Dollar",
+						"&fHerstellen von Steinstufen %tt_raw_reward_techtotal_ttexp_mat,SOLO,woodenplanks,CRAFTING,HAND,STONE_SLAB% TTExp | "
+								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,woodenplanks,CRAFTING,HAND,STONE_SLAB% VanillaExp | "
+								  + "%tt_raw_reward_techtotal_money_mat,SOLO,woodenplanks,CRAFTING,HAND,STONE_SLAB% Dollar",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
 						"&eUnlocks the following:",
-						"&fCrafting, placing and mining",
-						"&fof stoneslabs/cobblestoneslabs"},
+						"&fCrafting of Cobblestoneslab %tt_raw_reward_techtotal_ttexp_mat,SOLO,woodenplanks,CRAFTING,HAND,COBBLESTONE_SLAB% TTExp | "
+								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,woodenplanks,CRAFTING,HAND,COBBLESTONE_SLAB% VanillaExp | "
+								  + "%tt_raw_reward_techtotal_money_mat,SOLO,woodenplanks,CRAFTING,HAND,COBBLESTONE_SLAB% Dollar",
+						"&fCrafting of Stoneslab %tt_raw_reward_techtotal_ttexp_mat,SOLO,woodenplanks,CRAFTING,HAND,STONE_SLAB% TTExp | "
+								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,woodenplanks,CRAFTING,HAND,STONE_SLAB% VanillaExp | "
+								  + "%tt_raw_reward_techtotal_money_mat,SOLO,woodenplanks,CRAFTING,HAND,STONE_SLAB% Dollar",						
+						"",
+						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
 				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
@@ -9970,42 +10587,14 @@ public class YamlManager
 		toResCostMoney.put(2, "1 * techlev + 0.25 * solototaltech");
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
-		rewardUnlockableInteractions.put(1, new String[] {
-				"PLACING:COBBLESTONE_STAIRS:null:tool=HAND",
-				"BREAKING:COBBLESTONE_STAIRS:null:tool=HAND",
-				"PLACING:COBBLESTONE_STAIRS:null:tool=WOODEN_PICKAXE",
-				"BREAKING:COBBLESTONE_STAIRS:null:tool=WOODEN_PICKAXE",
-				"PLACING:COBBLESTONE_STAIRS:null:tool=STONE_PICKAXE",
-				"BREAKING:COBBLESTONE_STAIRS:null:tool=STONE_PICKAXE",
-				"PLACING:COBBLESTONE_STAIRS:null:tool=IRON_PICKAXE",
-				"BREAKING:COBBLESTONE_STAIRS:null:tool=IRON_PICKAXE",
-				"PLACING:COBBLESTONE_STAIRS:null:tool=GOLDEN_PICKAXE",
-				"BREAKING:COBBLESTONE_STAIRS:null:tool=GOLDEN_PICKAXE",
-				"PLACING:COBBLESTONE_STAIRS:null:tool=DIAMOND_PICKAXE",
-				"BREAKING:COBBLESTONE_STAIRS:null:tool=DIAMOND_PICKAXE",
-				"PLACING:COBBLESTONE_STAIRS:null:tool=NETHERITE_PICKAXE",
-				"BREAKING:COBBLESTONE_STAIRS:null:tool=NETHERITE_PICKAXE"});
-		rewardUnlockableInteractions.put(2, new String[] {
-				"PLACING:STONE_STAIRS:null:tool=HAND",
-				"BREAKING:STONE_STAIRS:null:tool=HAND",
-				"PLACING:STONE_STAIRS:null:tool=WOODEN_PICKAXE",
-				"BREAKING:STONE_STAIRS:null:tool=WOODEN_PICKAXE",
-				"PLACING:STONE_STAIRS:null:tool=STONE_PICKAXE",
-				"BREAKING:STONE_STAIRS:null:tool=STONE_PICKAXE",
-				"PLACING:STONE_STAIRS:null:tool=IRON_PICKAXE",
-				"BREAKING:STONE_STAIRS:null:tool=IRON_PICKAXE",
-				"PLACING:STONE_STAIRS:null:tool=GOLDEN_PICKAXE",
-				"BREAKING:STONE_STAIRS:null:tool=GOLDEN_PICKAXE",
-				"PLACING:STONE_STAIRS:null:tool=DIAMOND_PICKAXE",
-				"BREAKING:STONE_STAIRS:null:tool=DIAMOND_PICKAXE",
-				"PLACING:STONE_STAIRS:null:tool=NETHERITE_PICKAXE",
-				"BREAKING:STONE_STAIRS:null:tool=NETHERITE_PICKAXE"});
+		rewardUnlockableInteractions.put(1, new String[] {"CRAFTING:COBBLESTONE_STAIRS:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",""});
+		rewardUnlockableInteractions.put(2, new String[] {"CRAFTING:STONE_STAIRS:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",""});
 		LinkedHashMap<Integer, String[]> rewardUnlockableRecipe = new LinkedHashMap<>();
 		rewardUnlockableRecipe.put(1, new String[] {
 				"SHAPED:cobblestone_stairs",
 				"STONECUTTING:cobblestone_stairs_from_cobblestone_stonecutting"});
 		rewardUnlockableRecipe.put(2, new String[] {
-				"SHAPED:stone_slab",
+				"SHAPED:stone_stairs",
 				"STONECUTTING:stone_stairs_from_stone_stonecutting"});
 		LinkedHashMap<Integer, String[]> rewardDropChance = new LinkedHashMap<>();
 		rewardDropChance.put(1, new String[] {
@@ -10017,13 +10606,13 @@ public class YamlManager
 				"BREAKING:DIAMOND_PICKAXE:COBBLESTONE_STAIRS:null:mat=COBBLESTONE_STAIRS:1:1.0",
 				"BREAKING:NETHERITE_PICKAXE:COBBLESTONE_STAIRS:null:mat=COBBLESTONE_STAIRS:1:1.0"});
 		rewardDropChance.put(2, new String[] {
-				"BREAKING:HAND:COBBLESTONE_STAIRS:null:mat=COBBLESTONE_STAIRS:1:1.0",
-				"BREAKING:WOODEN_PICKAXE:COBBLESTONE_STAIRS:null:mat=COBBLESTONE_STAIRS:1:1.0",
-				"BREAKING:STONE_PICKAXE:COBBLESTONE_STAIRS:null:mat=COBBLESTONE_STAIRS:1:1.0",
-				"BREAKING:IRON_PICKAXE:COBBLESTONE_STAIRS:null:mat=COBBLESTONE_STAIRS:1:1.0",
-				"BREAKING:GOLDEN_PICKAXE:COBBLESTONE_STAIRS:null:mat=COBBLESTONE_STAIRS:1:1.0",
-				"BREAKING:DIAMOND_PICKAXE:COBBLESTONE_STAIRS:null:mat=COBBLESTONE_STAIRS:1:1.0",
-				"BREAKING:NETHERITE_PICKAXE:COBBLESTONE_STAIRS:null:mat=COBBLESTONE_STAIRS:1:1.0"});
+				"BREAKING:HAND:STONE_STAIRS:null:mat=STONE_STAIRS:1:1.0",
+				"BREAKING:WOODEN_PICKAXE:STONE_STAIRS:null:mat=STONE_STAIRS:1:1.0",
+				"BREAKING:STONE_PICKAXE:STONE_STAIRS:null:mat=STONE_STAIRS:1:1.0",
+				"BREAKING:IRON_PICKAXE:STONE_STAIRS:null:mat=STONE_STAIRS:1:1.0",
+				"BREAKING:GOLDEN_PICKAXE:STONE_STAIRS:null:mat=STONE_STAIRS:1:1.0",
+				"BREAKING:DIAMOND_PICKAXE:STONE_STAIRS:null:mat=STONE_STAIRS:1:1.0",
+				"BREAKING:NETHERITE_PICKAXE:STONE_STAIRS:null:mat=STONE_STAIRS:1:1.0"});
 		LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance = new LinkedHashMap<>();
 		rewardSilkTouchDropChance.put(1, new String[] {
 				"BREAKING:HAND:COBBLESTONE_STAIRS:null:mat=COBBLESTONE_STAIRS:1:1.0",
@@ -10034,73 +10623,114 @@ public class YamlManager
 				"BREAKING:DIAMOND_PICKAXE:COBBLESTONE_STAIRS:null:mat=COBBLESTONE_STAIRS:1:1.0",
 				"BREAKING:NETHERITE_PICKAXE:COBBLESTONE_STAIRS:null:mat=COBBLESTONE_STAIRS:1:1.0"});
 		rewardSilkTouchDropChance.put(2, new String[] {
-				"BREAKING:HAND:COBBLESTONE_STAIRS:null:mat=COBBLESTONE_STAIRS:1:1.0",
-				"BREAKING:WOODEN_PICKAXE:COBBLESTONE_STAIRS:null:mat=COBBLESTONE_STAIRS:1:1.0",
-				"BREAKING:STONE_PICKAXE:COBBLESTONE_STAIRS:null:mat=COBBLESTONE_STAIRS:1:1.0",
-				"BREAKING:IRON_PICKAXE:COBBLESTONE_STAIRS:null:mat=COBBLESTONE_STAIRS:1:1.0",
-				"BREAKING:GOLDEN_PICKAXE:COBBLESTONE_STAIRS:null:mat=COBBLESTONE_STAIRS:1:1.0",
-				"BREAKING:DIAMOND_PICKAXE:COBBLESTONE_STAIRS:null:mat=COBBLESTONE_STAIRS:1:1.0",
-				"BREAKING:NETHERITE_PICKAXE:COBBLESTONE_STAIRS:null:mat=COBBLESTONE_STAIRS:1:1.0"});
+				"BREAKING:HAND:STONE_STAIRS:null:mat=STONE_STAIRS:1:1.0",
+				"BREAKING:WOODEN_PICKAXE:STONE_STAIRS:null:mat=STONE_STAIRS:1:1.0",
+				"BREAKING:STONE_PICKAXE:STONE_STAIRS:null:mat=STONE_STAIRS:1:1.0",
+				"BREAKING:IRON_PICKAXE:STONE_STAIRS:null:mat=STONE_STAIRS:1:1.0",
+				"BREAKING:GOLDEN_PICKAXE:STONE_STAIRS:null:mat=STONE_STAIRS:1:1.0",
+				"BREAKING:DIAMOND_PICKAXE:STONE_STAIRS:null:mat=STONE_STAIRS:1:1.0",
+				"BREAKING:NETHERITE_PICKAXE:STONE_STAIRS:null:mat=STONE_STAIRS:1:1.0"});
 		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardValueEntry = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Bruchsteintreppe/Bruchsteintreppe %tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,COBBLESTONE_STAIRS,mat=COBBLESTONE_STAIRS%",
+				"&fBehutsamkeitsdropChance von Bruchsteintreppe/Bruchsteintreppe %tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,COBBLESTONE_STAIRS,mat=COBBLESTONE_STAIRS%",
+				"&fHerstellen von Bruchsteintreppe %tt_raw_reward_tech_ttexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,COBBLESTONE_STAIRS% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,COBBLESTONE_STAIRS% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,COBBLESTONE_STAIRS% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Cobblestonestairs/Cobblestonestairs %tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,COBBLESTONE_STAIRS,mat=COBBLESTONE_STAIRS%",
+				"&fSilktouchdropChance of Cobblestonestairs/Cobblestonestairs %tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,COBBLESTONE_STAIRS,mat=COBBLESTONE_STAIRS%",
+				"&fCrafting of Cobblestonestairs %tt_raw_reward_tech_ttexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,COBBLESTONE_STAIRS% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,COBBLESTONE_STAIRS% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,COBBLESTONE_STAIRS% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});		
+		canResLore.put(2, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fDropChance von Steintreppe/Steintreppe %tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,STONE_STAIRS,mat=STONE_STAIRS%",
+				"&fBehutsamkeitsdropChance von Steintreppe/Steintreppe %tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,STONE_STAIRS,mat=STONE_STAIRS%",
+				"&fHerstellen von Steintreppe %tt_raw_reward_tech_ttexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,STONE_STAIRS% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,STONE_STAIRS% VanillaExp |"
+						  + "%tt_raw_reward_tech_money_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,STONE_STAIRS% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fDropChance of Stonestairs/Stonestairs %tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,STONE_STAIRS,mat=STONE_STAIRS%",
+				"&fSilktouchdropChance of Stonestairs/Stonestairs %tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,STONE_STAIRS,mat=STONE_STAIRS%",
+				"&fCrafting of Stoneslaps %tt_raw_reward_tech_ttexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,STONE_STAIRS% TTExp | "
+						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,STONE_STAIRS% VanillaExp | "
+						  + "%tt_raw_reward_tech_money_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,STONE_STAIRS% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
 				"stonestairs_I", new String[] {"Steintreppen_I", "Stonestairs_I"},
 				TechnologyType.MULTIPLE, 2, PlayerAssociatedType.SOLO, 0, "", "stonestairs", 
 				0, 0, 0, 0, 0, 0, 0, 0,
-				null, true,
+				new String[] { //ConditionToSee
+						"if:(a):o_1", "else:o_2",
+						"output:o_1:true",
+						"output:o_2:false",
+						"a:hasresearchedtech,stone_I,1:==:true"}, true,
 				new String[] {"&8Tech Steintreppen I","&8Tech Stonestairs I"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
-						"&7Technologie Steintreppen I",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
+						"",
+						"&cAnforderungen zum einsehen:",
+						"&cMuss die Technology >&#ff8c00Stein I&c< erforscht haben.",
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellen, Setzten und Abbauen",
-						"&fvon Bruchsteintreppen/Steintreppen",
-						"&7Technology Stonestairs I",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
+						"&fHerstellung von Bruchsteintreppen.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&cRequirements to view:",
+						"&cMust have researched the Technology >&#ff8c00Stone I<.",
+						"",
 						"&eUnlocks the following:",
-						"&fCrafting, placing and mining",
-						"&fof cobblestonestairs/stonestairs"},
+						"&fCrafting of Cobblestonestairs.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Steintreppen I","&7Stonestairs I"},
-				Material.STONE_STAIRS, 1, itemflag, null, new String[] {
-						"&7Technologie Steintreppen I",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&eSchaltet folgendes frei:",
-						"&fHerstellen, Setzten und Abbauen",
-						"&fvon Bruchsteintreppen/Steintreppen",
-						"&7Technology Stonestairs I",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&eUnlocks the following:",
-						"&fCrafting, placing and mining",
-						"&fof cobblestonestairs/stonestairs"},
+				Material.STONE_STAIRS, 1, itemflag, null, canResLore.get(1),
 				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
 				new String[] {"&7Steintreppen I","&7Stonestairs I"},
-				Material.STONE_STAIRS, 1, itemflag, null, new String[] {
-						"&7Technologie Steintreppen I",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&eSchaltet folgendes frei:",
-						"&fHerstellen, Setzten und Abbauen",
-						"&fvon Bruchsteintreppen/Steintreppen",
-						"&7Technology Stonestairs I",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
-						"&eUnlocks the following:",
-						"&fCrafting, placing and mining",
-						"&fof cobblestonestairs/stonestairs"},
-				new String[] {"&bSteintreppen I","&bStonestairs I"},
-				Material.STONE_STAIRS, 1, itemflag, null, new String[] {
+				Material.STONE_STAIRS, 1, itemflag, null, canResLore,
+				new String[] {"&5Steintreppen I","&5Stonestairs I"},
+				Material.STONE_STAIRS, 1, itemflag, enchantment, new String[] {
 						"&7Technologie Steintreppen I",
 						"&eSchaltet folgendes frei:",
 						"&fHerstellen, Setzten und Abbauen",
