@@ -345,7 +345,7 @@ public class YamlManager
 		configSpigotKeys.put("Do.NewPlayer.AutoResearchTechnology"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				"soil_I",
-				"woodenlog"}));
+				"oaklog"}));
 		configSpigotKeys.put("Do.Recipe.LoadThePluginRecipe"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				true}));
@@ -1738,7 +1738,7 @@ public class YamlManager
 		 */
 		addSubCategory("sapling",
 				new String[] {"Setzlinge", "Saplings"},
-				PlayerAssociatedType.SOLO, 1,
+				PlayerAssociatedType.SOLO, 0,
 				null, true, "woodworking",
 				new String[] {"&8Subkategorie Setzlinge","&8Subcategory Saplings"}, Material.BARRIER, 1,
 				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
@@ -1754,7 +1754,7 @@ public class YamlManager
 						"&fAccess for planting seedlings etc."});
 		addSubCategory("wood",
 				new String[] {"Holz", "Wood"},
-				PlayerAssociatedType.SOLO, 2,
+				PlayerAssociatedType.SOLO, 1,
 				null, true, "woodworking",
 				new String[] {"&8Subkategorie Holz","&8Subcategory Wood"}, Material.BARRIER, 1,
 				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
@@ -2080,7 +2080,7 @@ public class YamlManager
 				"if:(a):o_1", "else:o_2",
 				"output:o_1:true",
 				"output:o_2:false",
-				"a:hasresearchedtech,woodenplanks,1:==:true"});
+				"a:hasresearchedtech,woodenplanks_I,1:==:true"});
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
 		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
@@ -2147,7 +2147,7 @@ public class YamlManager
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&cAnforderungen zum einsehen:",
-						"&cMuss die Technology >Holzbretter< erforscht haben.",
+						"&cMuss die Technology >&#ff8c00Holzbretter&c< erforscht haben.",
 						"",
 						"&eSchaltet folgendes frei:",
 						"&fHerstellung & Interaktion mit der Werkbank",
@@ -2155,7 +2155,7 @@ public class YamlManager
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&cRequirements to view:",
-						"&cMust have researched the Technology >Woodenplanks<.",
+						"&cMust have researched the Technology >&#ff8c00Woodenplanks&c<.",
 						"",
 						"&eUnlocks the following:",
 						"&fCrafting & Interaction with Craftingtable",
@@ -2255,9 +2255,6 @@ public class YamlManager
 		canResLore.put(1, new String[] {
 				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
 				"",
-				"&cAnforderungen zum einsehen:",
-				"&cMuss die Technology >Stein I< erforscht haben.",
-				"",
 				"&eKosten:",
 				"&f%costttexp% | %costvanillaexp%",
 				"&f%costmoney%",
@@ -2267,9 +2264,6 @@ public class YamlManager
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
-				"",
-				"&cRequirements to view:",
-				"&cMust have researched the Technology >Stone I<.",
 				"",
 				"&eCosts:",
 				"&f%costttexp% | %costvanillaexp%",
@@ -2483,10 +2477,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Holzspitzhacke",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,1,CRAFTING,HAND,WOODEN_PICKAXE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,1,CRAFTING,HAND,WOODEN_PICKAXE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,1,CRAFTING,HAND,WOODEN_PICKAXE% Dollar",
+				"&fHerstellen von &#c6a664Holzspitzhacke",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,1,CRAFTING,HAND,WOODEN_PICKAXE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,1,CRAFTING,HAND,WOODEN_PICKAXE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,pickaxe,1,CRAFTING,HAND,WOODEN_PICKAXE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -2497,10 +2491,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of woodenpickaxe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,1,CRAFTING,HAND,WOODEN_PICKAXE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,1,CRAFTING,HAND,WOODEN_PICKAXE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,1,CRAFTING,HAND,WOODEN_PICKAXE% Dollar",
+				"&fCrafting of &#c6a664woodenpickaxe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,1,CRAFTING,HAND,WOODEN_PICKAXE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,1,CRAFTING,HAND,WOODEN_PICKAXE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,pickaxe,1,CRAFTING,HAND,WOODEN_PICKAXE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(2, new String[] {
@@ -2512,10 +2506,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Steinspitzhacke",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,2,CRAFTING,HAND,STONE_PICKAXE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,2,CRAFTING,HAND,STONE_PICKAXE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,2,CRAFTING,HAND,STONE_PICKAXE% Dollar",
+				"&fHerstellen von &#c6a664Steinspitzhacke",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,2,CRAFTING,HAND,STONE_PICKAXE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,2,CRAFTING,HAND,STONE_PICKAXE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,pickaxe,2,CRAFTING,HAND,STONE_PICKAXE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -2526,10 +2520,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of stonepickaxe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,2,CRAFTING,HAND,STONE_PICKAXE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,2,CRAFTING,HAND,STONE_PICKAXE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,2,CRAFTING,HAND,STONE_PICKAXE% Dollar",
+				"&fCrafting of &#c6a664stonepickaxe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,2,CRAFTING,HAND,STONE_PICKAXE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,2,CRAFTING,HAND,STONE_PICKAXE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,pickaxe,2,CRAFTING,HAND,STONE_PICKAXE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(3, new String[] {
@@ -2541,10 +2535,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Eisenspitzhacke",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,3,CRAFTING,HAND,IRON_PICKAXE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,3,CRAFTING,HAND,IRON_PICKAXE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,3,CRAFTING,HAND,IRON_PICKAXE% Dollar",
+				"&fHerstellen von &#c6a664Eisenspitzhacke",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,3,CRAFTING,HAND,IRON_PICKAXE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,3,CRAFTING,HAND,IRON_PICKAXE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,pickaxe,3,CRAFTING,HAND,IRON_PICKAXE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -2555,10 +2549,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of ironpickaxe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,3,CRAFTING,HAND,IRON_PICKAXE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,3,CRAFTING,HAND,IRON_PICKAXE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,3,CRAFTING,HAND,IRON_PICKAXE% Dollar",
+				"&fCrafting of &#c6a664ironpickaxe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,3,CRAFTING,HAND,IRON_PICKAXE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,3,CRAFTING,HAND,IRON_PICKAXE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,pickaxe,3,CRAFTING,HAND,IRON_PICKAXE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(4, new String[] {
@@ -2570,10 +2564,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Goldspitzhacke",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,4,CRAFTING,HAND,GOLDEN_PICKAXE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,4,CRAFTING,HAND,GOLDEN_PICKAXE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,4,CRAFTING,HAND,GOLDEN_PICKAXE% Dollar",
+				"&fHerstellen von &#c6a664Goldspitzhacke",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,4,CRAFTING,HAND,GOLDEN_PICKAXE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,4,CRAFTING,HAND,GOLDEN_PICKAXE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,pickaxe,4,CRAFTING,HAND,GOLDEN_PICKAXE% Dollar",
 				"&f+0,5 % Chance 1 Eisenbarren bei Herstellen einer Eisenspitzhacke zu droppen.",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -2585,10 +2579,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of goldenpickaxe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,4,CRAFTING,HAND,GOLDEN_PICKAXE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,4,CRAFTING,HAND,GOLDEN_PICKAXE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,4,CRAFTING,HAND,GOLDEN_PICKAXE% Dollar",
+				"&fCrafting of &#c6a664goldenpickaxe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,4,CRAFTING,HAND,GOLDEN_PICKAXE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,4,CRAFTING,HAND,GOLDEN_PICKAXE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,pickaxe,4,CRAFTING,HAND,GOLDEN_PICKAXE% Dollar",
 				"&f+0.5% chance to drop 1 iron ingot when crafting a iron pickaxe.",
 				"",
 				"&cRightclick &bfor a more detailed view."});
@@ -2601,10 +2595,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Diamantspitzhacke",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,5,CRAFTING,HAND,DIAMOND_PICKAXE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,5,CRAFTING,HAND,DIAMOND_PICKAXE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,5,CRAFTING,HAND,DIAMOND_PICKAXE% Dollar",
+				"&fHerstellen von &#c6a664Diamantspitzhacke",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,5,CRAFTING,HAND,DIAMOND_PICKAXE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,5,CRAFTING,HAND,DIAMOND_PICKAXE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,pickaxe,5,CRAFTING,HAND,DIAMOND_PICKAXE% Dollar",
 				"&f+2 % Chance 1 Eisenbarren bei Herstellen einer Eisenspitzhacke zu droppen.",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -2616,10 +2610,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of diamondpickaxe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,5,CRAFTING,HAND,DIAMOND_PICKAXE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,5,CRAFTING,HAND,DIAMOND_PICKAXE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,5,CRAFTING,HAND,DIAMOND_PICKAXE% Dollar",
+				"&fCrafting of &#c6a664diamondpickaxe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,5,CRAFTING,HAND,DIAMOND_PICKAXE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,5,CRAFTING,HAND,DIAMOND_PICKAXE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,pickaxe,5,CRAFTING,HAND,DIAMOND_PICKAXE% Dollar",
 				"&f+2% chance to drop 1 iron ingot when crafting a iron pickaxe.",
 				"",
 				"&cRightclick &bfor a more detailed view."});
@@ -2632,10 +2626,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Netheritespitzhacke",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,6,SMITHING,HAND,NETHERITE_PICKAXE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,6,SMITHING,HAND,NETHERITE_PICKAXE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,6,SMITHING,HAND,NETHERITE_PICKAXE% Dollar",
+				"&fHerstellen von &#c6a664Netheritespitzhacke",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,6,SMITHING,HAND,NETHERITE_PICKAXE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,6,SMITHING,HAND,NETHERITE_PICKAXE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,pickaxe,6,SMITHING,HAND,NETHERITE_PICKAXE% Dollar",
 				"&f+0,5 % Chance 1 Goldbarren bei Herstellen einer Goldspitzhacke zu droppen.",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -2647,10 +2641,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of netheritepickaxe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,6,SMITHING,HAND,NETHERITE_PICKAXE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,6,SMITHING,HAND,NETHERITE_PICKAXE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,pickaxe,6,SMITHING,HAND,NETHERITE_PICKAXE% Dollar",
+				"&fCrafting of &#c6a664netheritepickaxe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,pickaxe,6,SMITHING,HAND,NETHERITE_PICKAXE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,pickaxe,6,SMITHING,HAND,NETHERITE_PICKAXE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,pickaxe,6,SMITHING,HAND,NETHERITE_PICKAXE% Dollar",
 				"&f+0.5% chance to drop 1 gold ingot when crafting a gold pickaxe.",
 				"",
 				"&cRightclick &bfor a more detailed view."});
@@ -2778,12 +2772,12 @@ public class YamlManager
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Spitzhacke",
+						"&fHerstellen von &#c6a664Spitzhacke",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fCrafting of pickaxe",
+						"&fCrafting of &#c6a664pickaxe",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Tech Spitzhacke","&7Tech Pickaxe"},
@@ -2796,59 +2790,59 @@ public class YamlManager
 						"",
 						"&eSchaltet folgendes frei:",
 						"&f◦ Herstellung:",
-						"&f◦◦ Holzspitzhacke %tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,WOODEN_PICKAXE% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,WOODEN_PICKAXE% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,WOODEN_PICKAXE% Dollar",
-						"&f◦◦ Steinspitzhacke %tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,STONE_PICKAXE% TTExp | "
-										   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,STONE_PICKAXE% VanillaExp | "
-										   + "%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,STONE_PICKAXE% Dollar",
-						"&f◦◦ Eisenspitzhacke %tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,IRON_PICKAXE% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,IRON_PICKAXE% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,IRON_PICKAXE% Dollar",
-						"&f◦◦ Goldspitzhacke %tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,GOLDEN_PICKAXE% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,GOLDEN_PICKAXE% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,GOLDEN_PICKAXE% Dollar",
-						"&f◦◦ Diamandspitzhacke %tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,DIAMOND_PICKAXE% TTExp | "
-										     + "%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,DIAMOND_PICKAXE% VanillaExp | "
-										     + "%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,DIAMOND_PICKAXE% Dollar",
+						"&f◦◦ Holzspitzhacke &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,WOODEN_PICKAXE% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,WOODEN_PICKAXE% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,WOODEN_PICKAXE% Dollar",
+						"&f◦◦ Steinspitzhacke &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,STONE_PICKAXE% TTExp | "
+										   + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,STONE_PICKAXE% VExp | "
+										   + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,STONE_PICKAXE% Dollar",
+						"&f◦◦ Eisenspitzhacke &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,IRON_PICKAXE% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,IRON_PICKAXE% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,IRON_PICKAXE% Dollar",
+						"&f◦◦ Goldspitzhacke &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,GOLDEN_PICKAXE% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,GOLDEN_PICKAXE% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,GOLDEN_PICKAXE% Dollar",
+						"&f◦◦ Diamandspitzhacke &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,DIAMOND_PICKAXE% TTExp | "
+										     + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,DIAMOND_PICKAXE% VExp | "
+										     + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,DIAMOND_PICKAXE% Dollar",
 						"&f◦ Schmieden:",
-						"&f◦◦ Netheritespitzhacke %tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,SMITHING,HAND,NETHERITE_PICKAXE% TTExp | "
-										       + "%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,SMITHING,HAND,NETHERITE_PICKAXE% VanillaExp | "
-										       + "%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,SMITHING,HAND,NETHERITE_PICKAXE% Dollar",
+						"&f◦◦ Netheritespitzhacke &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,SMITHING,HAND,NETHERITE_PICKAXE% TTExp | "
+										       + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,SMITHING,HAND,NETHERITE_PICKAXE% VExp | "
+										       + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,SMITHING,HAND,NETHERITE_PICKAXE% Dollar",
 						"&f◦ Drops:",
-						"&f◦◦ Eisenbarren beim herstellen einer Eisenspitzhacke %tt_reward_techtotal_dropchance_mat,SOLO,pickaxe,CRAFTING,HAND,IRON_PICKAXE,mat=IRON_INGOT%",
-						"&f◦◦ Goldbarren beim herstellen einer Goldspitzhacke %tt_reward_techtotal_dropchance_mat,SOLO,pickaxe,CRAFTING,HAND,GOLDEN_PICKAXE,mat=GOLD_INGOT%",
-						"&f◦◦ Diamant beim herstellen einer Diamantspitzhacke %tt_reward_techtotal_dropchance_mat,SOLO,pickaxe,CRAFTING,HAND,DIAMOND_PICKAXE,mat=DIAMOND%",
-						"&f◦◦ Netheritebarren beim herstellen einer Netheritespitzhacke %tt_reward_techtotal_dropchance_mat,SOLO,pickaxe,CRAFTING,HAND,NETHERITE_PICKAXE,mat=NETHERITE_INGOT%",
+						"&f◦◦ Eisenbarren beim herstellen einer Eisenspitzhacke &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,pickaxe,CRAFTING,HAND,IRON_PICKAXE,mat=IRON_INGOT%",
+						"&f◦◦ Goldbarren beim herstellen einer Goldspitzhacke &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,pickaxe,CRAFTING,HAND,GOLDEN_PICKAXE,mat=GOLD_INGOT%",
+						"&f◦◦ Diamant beim herstellen einer Diamantspitzhacke &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,pickaxe,CRAFTING,HAND,DIAMOND_PICKAXE,mat=DIAMOND%",
+						"&f◦◦ Netheritebarren beim herstellen einer Netheritespitzhacke &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,pickaxe,CRAFTING,HAND,NETHERITE_PICKAXE,mat=NETHERITE_INGOT%",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
 						"&f◦ Crafting:",
-						"&f◦◦ Woodenpickaxe %tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,WOODEN_PICKAXE% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,WOODEN_PICKAXE% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,WOODEN_PICKAXE% Dollar",
-						"&f◦◦ Stonepickaxe %tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,STONE_PICKAXE% TTExp | "
-										   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,STONE_PICKAXE% VanillaExp | "
-										   + "%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,STONE_PICKAXE% Dollar",
-						"&f◦◦ Ironpickaxe %tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,IRON_PICKAXE% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,IRON_PICKAXE% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,IRON_PICKAXE% Dollar",
-						"&f◦◦ Goldenpickaxe %tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,GOLDEN_PICKAXE% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,GOLDEN_PICKAXE% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,GOLDEN_PICKAXE% Dollar",
-						"&f◦◦ Diamondpickaxe %tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,DIAMOND_PICKAXE% TTExp | "
-										     + "%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,DIAMOND_PICKAXE% VanillaExp | "
-										     + "%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,DIAMOND_PICKAXE% Dollar",
+						"&f◦◦ Woodenpickaxe &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,WOODEN_PICKAXE% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,WOODEN_PICKAXE% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,WOODEN_PICKAXE% Dollar",
+						"&f◦◦ Stonepickaxe &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,STONE_PICKAXE% TTExp | "
+										   + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,STONE_PICKAXE% VExp | "
+										   + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,STONE_PICKAXE% Dollar",
+						"&f◦◦ Ironpickaxe &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,IRON_PICKAXE% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,IRON_PICKAXE% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,IRON_PICKAXE% Dollar",
+						"&f◦◦ Goldenpickaxe &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,GOLDEN_PICKAXE% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,GOLDEN_PICKAXE% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,GOLDEN_PICKAXE% Dollar",
+						"&f◦◦ Diamondpickaxe &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,CRAFTING,HAND,DIAMOND_PICKAXE% TTExp | "
+										     + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,CRAFTING,HAND,DIAMOND_PICKAXE% VExp | "
+										     + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,CRAFTING,HAND,DIAMOND_PICKAXE% Dollar",
 						"&f◦ Smithing:",
-						"&f◦◦ Netheritepickaxe %tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,SMITHING,HAND,NETHERITE_PICKAXE% TTExp | "
-										       + "%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,SMITHING,HAND,NETHERITE_PICKAXE% VanillaExp | "
-										       + "%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,SMITHING,HAND,NETHERITE_PICKAXE% Dollar",
+						"&f◦◦ Netheritepickaxe &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,pickaxe,SMITHING,HAND,NETHERITE_PICKAXE% TTExp | "
+										       + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,pickaxe,SMITHING,HAND,NETHERITE_PICKAXE% VExp | "
+										       + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,pickaxe,SMITHING,HAND,NETHERITE_PICKAXE% Dollar",
 						"&f◦ Drops:",
-						"&f◦◦ Ironingots during the production of an ironpickaxe %tt_reward_techtotal_dropchance_mat,SOLO,pickaxe,CRAFTING,HAND,IRON_PICKAXE,mat=IRON_INGOT",
-						"&f◦◦ Goldingots during the production of an goldenpickaxe %tt_reward_techtotal_dropchance_mat,SOLO,pickaxe,CRAFTING,HAND,GOLDEN_PICKAXE,mat=GOLD_INGOT",
-						"&f◦◦ Diamonds during the production of an diamondpickaxe %tt_reward_techtotal_dropchance_mat,SOLO,pickaxe,CRAFTING,HAND,DIAMOND_PICKAXE,mat=DIAMOND_INGOT",
-						"&f◦◦ Netheriteingots during the production of an netheritepickaxe %tt_reward_techtotal_dropchance_mat,SOLO,pickaxe,CRAFTING,HAND,NETHERITE_PICKAXE,mat=NETHERITE_INGOT%",
+						"&f◦◦ Ironingots during the production of an ironpickaxe &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,pickaxe,CRAFTING,HAND,IRON_PICKAXE,mat=IRON_INGOT",
+						"&f◦◦ Goldingots during the production of an goldenpickaxe &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,pickaxe,CRAFTING,HAND,GOLDEN_PICKAXE,mat=GOLD_INGOT",
+						"&f◦◦ Diamonds during the production of an diamondpickaxe &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,pickaxe,CRAFTING,HAND,DIAMOND_PICKAXE,mat=DIAMOND_INGOT",
+						"&f◦◦ Netheriteingots during the production of an netheritepickaxe &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,pickaxe,CRAFTING,HAND,NETHERITE_PICKAXE,mat=NETHERITE_INGOT%",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
@@ -2969,10 +2963,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Holzschaufel",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,shovel,1,CRAFTING,HAND,WOODEN_SHOVEL% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,shovel,1,CRAFTING,HAND,WOODEN_SHOVEL% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,shovel,1,CRAFTING,HAND,WOODEN_SHOVEL% Dollar",
+				"&fHerstellen von &#c6a664Holzschaufel",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,shovel,1,CRAFTING,HAND,WOODEN_SHOVEL% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,shovel,1,CRAFTING,HAND,WOODEN_SHOVEL% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,shovel,1,CRAFTING,HAND,WOODEN_SHOVEL% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -2983,10 +2977,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of woodenshovel",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,shovel,1,CRAFTING,HAND,WOODEN_SHOVEL% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,shovel,1,CRAFTING,HAND,WOODEN_SHOVEL% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,shovel,1,CRAFTING,HAND,WOODEN_SHOVEL% Dollar",
+				"&fCrafting of &#c6a664woodenshovel",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,shovel,1,CRAFTING,HAND,WOODEN_SHOVEL% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,shovel,1,CRAFTING,HAND,WOODEN_SHOVEL% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,shovel,1,CRAFTING,HAND,WOODEN_SHOVEL% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(2, new String[] {
@@ -2998,10 +2992,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Steinschaufel",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,shovel,2,CRAFTING,HAND,STONE_SHOVEL% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,shovel,2,CRAFTING,HAND,STONE_SHOVEL% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,shovel,2,CRAFTING,HAND,STONE_SHOVEL% Dollar",
+				"&fHerstellen von &#c6a664Steinschaufel",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,shovel,2,CRAFTING,HAND,STONE_SHOVEL% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,shovel,2,CRAFTING,HAND,STONE_SHOVEL% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,shovel,2,CRAFTING,HAND,STONE_SHOVEL% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -3012,10 +3006,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of stoneshovel",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,shovel,2,CRAFTING,HAND,STONE_SHOVEL% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,shovel,2,CRAFTING,HAND,STONE_SHOVEL% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,shovel,2,CRAFTING,HAND,STONE_SHOVEL% Dollar",
+				"&fCrafting of &#c6a664stoneshovel",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,shovel,2,CRAFTING,HAND,STONE_SHOVEL% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,shovel,2,CRAFTING,HAND,STONE_SHOVEL% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,shovel,2,CRAFTING,HAND,STONE_SHOVEL% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(3, new String[] {
@@ -3027,10 +3021,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Eisenschaufel",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,shovel,3,CRAFTING,HAND,IRON_SHOVEL% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,shovel,3,CRAFTING,HAND,IRON_SHOVEL% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,shovel,3,CRAFTING,HAND,IRON_SHOVEL% Dollar",
+				"&fHerstellen von &#c6a664Eisenschaufel",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,shovel,3,CRAFTING,HAND,IRON_SHOVEL% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,shovel,3,CRAFTING,HAND,IRON_SHOVEL% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,shovel,3,CRAFTING,HAND,IRON_SHOVEL% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -3041,10 +3035,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of ironshovel",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,shovel,3,CRAFTING,HAND,IRON_SHOVEL% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,shovel,3,CRAFTING,HAND,IRON_SHOVEL% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,shovel,3,CRAFTING,HAND,IRON_SHOVEL% Dollar",
+				"&fCrafting of &#c6a664ironshovel",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,shovel,3,CRAFTING,HAND,IRON_SHOVEL% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,shovel,3,CRAFTING,HAND,IRON_SHOVEL% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,shovel,3,CRAFTING,HAND,IRON_SHOVEL% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(4, new String[] {
@@ -3056,10 +3050,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Goldschaufel",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,shovel,1,CRAFTING,HAND,GOLDEN_SHOVEL% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,shovel,1,CRAFTING,HAND,GOLDEN_SHOVEL% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,shovel,1,CRAFTING,HAND,GOLDEN_SHOVEL% Dollar",
+				"&fHerstellen von &#c6a664Goldschaufel",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,shovel,1,CRAFTING,HAND,GOLDEN_SHOVEL% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,shovel,1,CRAFTING,HAND,GOLDEN_SHOVEL% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,shovel,1,CRAFTING,HAND,GOLDEN_SHOVEL% Dollar",
 				"&f+0,5 % Chance 1 Eisenbarren bei Herstellen einer Eisenschaufel zu droppen.",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -3071,10 +3065,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of goldenshovel",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,shovel,4,CRAFTING,HAND,GOLDEN_SHOVEL% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,shovel,4,CRAFTING,HAND,GOLDEN_SHOVEL% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,shovel,4,CRAFTING,HAND,GOLDEN_SHOVEL% Dollar",
+				"&fCrafting of &#c6a664goldenshovel",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,shovel,4,CRAFTING,HAND,GOLDEN_SHOVEL% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,shovel,4,CRAFTING,HAND,GOLDEN_SHOVEL% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,shovel,4,CRAFTING,HAND,GOLDEN_SHOVEL% Dollar",
 				"&f+0.5% chance to drop 1 iron ingot when crafting a iron shovel.",
 				"",
 				"&cRightclick &bfor a more detailed view."});
@@ -3087,10 +3081,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Diamantschaufel",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,shovel,5,CRAFTING,HAND,DIAMOND_SHOVEL% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,shovel,5,CRAFTING,HAND,DIAMOND_SHOVEL% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,shovel,5,CRAFTING,HAND,DIAMOND_SHOVEL% Dollar",
+				"&fHerstellen von &#c6a664Diamantschaufel",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,shovel,5,CRAFTING,HAND,DIAMOND_SHOVEL% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,shovel,5,CRAFTING,HAND,DIAMOND_SHOVEL% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,shovel,5,CRAFTING,HAND,DIAMOND_SHOVEL% Dollar",
 				"&f+2 % Chance 1 Eisenbarren bei Herstellen einer Eisenschaufel zu droppen.",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -3102,10 +3096,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of diamondshovel",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,shovel,5,CRAFTING,HAND,DIAMOND_SHOVEL% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,shovel,5,CRAFTING,HAND,DIAMOND_SHOVEL% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,shovel,5,CRAFTING,HAND,DIAMOND_SHOVEL% Dollar",
+				"&fCrafting of &#c6a664diamondshovel",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,shovel,5,CRAFTING,HAND,DIAMOND_SHOVEL% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,shovel,5,CRAFTING,HAND,DIAMOND_SHOVEL% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,shovel,5,CRAFTING,HAND,DIAMOND_SHOVEL% Dollar",
 				"&f+2% chance to drop 1 iron ingot when crafting a iron shovel.",
 				"",
 				"&cRightclick &bfor a more detailed view."});
@@ -3118,10 +3112,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Netheriteschaufel",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,shovel,6,SMITHING,HAND,NETHERITE_SHOVEL% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,shovel,6,SMITHING,HAND,NETHERITE_SHOVEL% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,shovel,6,SMITHING,HAND,NETHERITE_SHOVEL% Dollar",
+				"&fHerstellen von &#c6a664Netheriteschaufel",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,shovel,6,SMITHING,HAND,NETHERITE_SHOVEL% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,shovel,6,SMITHING,HAND,NETHERITE_SHOVEL% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,shovel,6,SMITHING,HAND,NETHERITE_SHOVEL% Dollar",
 				"&f+0,5 % Chance 1 Goldbarren bei Herstellen einer Goldschaufel zu droppen.",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -3133,10 +3127,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of netheriteshovel",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,shovel,6,SMITHING,HAND,NETHERITE_SHOVEL% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,shovel,6,SMITHING,HAND,NETHERITE_SHOVEL% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,shovel,6,SMITHING,HAND,NETHERITE_SHOVEL% Dollar",
+				"&fCrafting of &#c6a664netheriteshovel",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,shovel,6,SMITHING,HAND,NETHERITE_SHOVEL% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,shovel,6,SMITHING,HAND,NETHERITE_SHOVEL% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,shovel,6,SMITHING,HAND,NETHERITE_SHOVEL% Dollar",
 				"&f+0.5% chance to drop 1 gold ingot when crafting a gold shovel.",
 				"",
 				"&cRightclick &bfor a more detailed view."});
@@ -3264,12 +3258,12 @@ public class YamlManager
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Holzschaufel",
+						"&fHerstellen von &#c6a664Holzschaufel",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fCrafting of woodenshovel",
+						"&fCrafting of &#c6a664woodenshovel",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Tech Schaufel","&7Tech Shovel"},
@@ -3282,59 +3276,59 @@ public class YamlManager
 						"",
 						"&eSchaltet folgendes frei:",
 						"&f◦ Herstellung:",
-						"&f◦◦ Holzsschaufel %tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,WOODEN_SHOVEL% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,WOODEN_SHOVEL% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,WOODEN_SHOVEL% Dollar",
-						"&f◦◦ Steinschaufel %tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,STONE_SHOVEL% TTExp | "
-										   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,STONE_SHOVEL% VanillaExp | "
-										   + "%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,STONE_SHOVEL% Dollar",
-						"&f◦◦ Eisenschaufel %tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,IRON_SHOVEL% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,IRON_SHOVEL% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,IRON_SHOVEL% Dollar",
-						"&f◦◦ Goldschaufel %tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,GOLDEN_SHOVEL% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,GOLDEN_SHOVEL% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,GOLDEN_SHOVEL% Dollar",
-						"&f◦◦ Diamandschaufel %tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,DIAMOND_SHOVEL% TTExp | "
-										     + "%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,DIAMOND_SHOVEL% VanillaExp | "
-										     + "%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,DIAMOND_SHOVEL% Dollar",
+						"&f◦◦ Holzsschaufel &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,WOODEN_SHOVEL% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,WOODEN_SHOVEL% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,WOODEN_SHOVEL% Dollar",
+						"&f◦◦ Steinschaufel &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,STONE_SHOVEL% TTExp | "
+										   + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,STONE_SHOVEL% VExp | "
+										   + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,STONE_SHOVEL% Dollar",
+						"&f◦◦ Eisenschaufel &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,IRON_SHOVEL% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,IRON_SHOVEL% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,IRON_SHOVEL% Dollar",
+						"&f◦◦ Goldschaufel &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,GOLDEN_SHOVEL% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,GOLDEN_SHOVEL% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,GOLDEN_SHOVEL% Dollar",
+						"&f◦◦ Diamandschaufel &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,DIAMOND_SHOVEL% TTExp | "
+										     + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,DIAMOND_SHOVEL% VExp | "
+										     + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,DIAMOND_SHOVEL% Dollar",
 						"&f◦ Schmieden:",
-						"&f◦◦ Netheriteschaufel %tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,SMITHING,HAND,NETHERITE_SHOVEL% TTExp | "
-										       + "%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,SMITHING,HAND,NETHERITE_SHOVEL% VanillaExp | "
-										       + "%tt_raw_reward_techtotal_money_mat,SOLO,shovel,SMITHING,HAND,NETHERITE_SHOVEL% Dollar",
+						"&f◦◦ Netheriteschaufel &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,SMITHING,HAND,NETHERITE_SHOVEL% TTExp | "
+										       + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,SMITHING,HAND,NETHERITE_SHOVEL% VExp | "
+										       + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,shovel,SMITHING,HAND,NETHERITE_SHOVEL% Dollar",
 						"&f◦ Drops:",
-						"&f◦◦ Eisenbarren beim herstellen einer Eisenschaufel %tt_reward_techtotal_dropchance_mat,SOLO,shovel,CRAFTING,HAND,IRON_SHOVEL,mat=IRON_INGOT%",
-						"&f◦◦ Goldbarren beim herstellen einer Goldschaufel %tt_reward_techtotal_dropchance_mat,SOLO,shovel,CRAFTING,HAND,GOLDEN_SHOVEL,mat=GOLD_INGOT%",
-						"&f◦◦ Diamant beim herstellen einer Diamantschaufel %tt_reward_techtotal_dropchance_mat,SOLO,shovel,CRAFTING,HAND,DIAMOND_SHOVEL,mat=DIAMOND%",
-						"&f◦◦ Netheritebarren beim herstellen einer Netheriteschaufel %tt_reward_techtotal_dropchance_mat,SOLO,shovel,CRAFTING,HAND,NETHERITE_SHOVEL,mat=NETHERITE_INGOT%",
+						"&f◦◦ Eisenbarren beim herstellen einer Eisenschaufel &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,shovel,CRAFTING,HAND,IRON_SHOVEL,mat=IRON_INGOT%",
+						"&f◦◦ Goldbarren beim herstellen einer Goldschaufel &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,shovel,CRAFTING,HAND,GOLDEN_SHOVEL,mat=GOLD_INGOT%",
+						"&f◦◦ Diamant beim herstellen einer Diamantschaufel &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,shovel,CRAFTING,HAND,DIAMOND_SHOVEL,mat=DIAMOND%",
+						"&f◦◦ Netheritebarren beim herstellen einer Netheriteschaufel &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,shovel,CRAFTING,HAND,NETHERITE_SHOVEL,mat=NETHERITE_INGOT%",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
 						"&f◦ Crafting:",
-						"&f◦◦ Woodenshovel %tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,WOODEN_SHOVEL% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,WOODEN_SHOVEL% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,WOODEN_SHOVEL% Dollar",
-						"&f◦◦ Stoneshovel %tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,STONE_SHOVEL% TTExp | "
-										   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,STONE_SHOVEL% VanillaExp | "
-										   + "%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,STONE_SHOVEL% Dollar",
-						"&f◦◦ Ironshovel %tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,IRON_SHOVEL% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,IRON_SHOVEL% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,IRON_SHOVEL% Dollar",
-						"&f◦◦ Goldenshovel %tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,GOLDEN_SHOVEL% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,GOLDEN_SHOVEL% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,GOLDEN_SHOVEL% Dollar",
-						"&f◦◦ Diamondshovel %tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,DIAMOND_SHOVEL% TTExp | "
-										     + "%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,DIAMOND_SHOVEL% VanillaExp | "
-										     + "%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,DIAMOND_SHOVEL% Dollar",
+						"&f◦◦ Woodenshovel &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,WOODEN_SHOVEL% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,WOODEN_SHOVEL% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,WOODEN_SHOVEL% Dollar",
+						"&f◦◦ Stoneshovel &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,STONE_SHOVEL% TTExp | "
+										   + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,STONE_SHOVEL% VExp | "
+										   + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,STONE_SHOVEL% Dollar",
+						"&f◦◦ Ironshovel &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,IRON_SHOVEL% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,IRON_SHOVEL% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,IRON_SHOVEL% Dollar",
+						"&f◦◦ Goldenshovel &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,GOLDEN_SHOVEL% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,GOLDEN_SHOVEL% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,GOLDEN_SHOVEL% Dollar",
+						"&f◦◦ Diamondshovel &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,CRAFTING,HAND,DIAMOND_SHOVEL% TTExp | "
+										     + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,CRAFTING,HAND,DIAMOND_SHOVEL% VExp | "
+										     + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,shovel,CRAFTING,HAND,DIAMOND_SHOVEL% Dollar",
 						"&f◦ Smithing:",
-						"&f◦◦ Netheriteshovel %tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,SMITHING,HAND,NETHERITE_SHOVEL% TTExp | "
-										       + "%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,SMITHING,HAND,NETHERITE_SHOVEL% VanillaExp | "
-										       + "%tt_raw_reward_techtotal_money_mat,SOLO,shovel,SMITHING,HAND,NETHERITE_SHOVEL% Dollar",
+						"&f◦◦ Netheriteshovel &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,shovel,SMITHING,HAND,NETHERITE_SHOVEL% TTExp | "
+										       + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,shovel,SMITHING,HAND,NETHERITE_SHOVEL% VExp | "
+										       + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,shovel,SMITHING,HAND,NETHERITE_SHOVEL% Dollar",
 						"&f◦ Drops:",
-						"&f◦◦ Ironingots during the production of an ironshovel %tt_reward_techtotal_dropchance_mat,SOLO,shovel,CRAFTING,HAND,IRON_SHOVEL,mat=IRON_INGOT%",
-						"&f◦◦ Goldingots during the production of an goldenshovel %tt_reward_techtotal_dropchance_mat,SOLO,shovel,CRAFTING,HAND,GOLDEN_SHOVEL,mat=GOLD_INGOT%",
-						"&f◦◦ Diamonds during the production of an diamondshovel %tt_reward_techtotal_dropchance_mat,SOLO,shovel,CRAFTING,HAND,DIAMOND_SHOVEL,mat=DIAMOND%",
-						"&f◦◦ Netheriteingots during the production of an netheriteshovel %tt_reward_techtotal_dropchance_mat,SOLO,shovel,CRAFTING,HAND,NETHERITE_SHOVEL,mat=NETHERITE_INGOT%",
+						"&f◦◦ Ironingots during the production of an ironshovel &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,shovel,CRAFTING,HAND,IRON_SHOVEL,mat=IRON_INGOT%",
+						"&f◦◦ Goldingots during the production of an goldenshovel &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,shovel,CRAFTING,HAND,GOLDEN_SHOVEL,mat=GOLD_INGOT%",
+						"&f◦◦ Diamonds during the production of an diamondshovel &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,shovel,CRAFTING,HAND,DIAMOND_SHOVEL,mat=DIAMOND%",
+						"&f◦◦ Netheriteingots during the production of an netheriteshovel &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,shovel,CRAFTING,HAND,NETHERITE_SHOVEL,mat=NETHERITE_INGOT%",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
@@ -3454,10 +3448,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Holzhacke",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,hoe,1,CRAFTING,HAND,WOODEN_HOE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,hoe,1,CRAFTING,HAND,WOODEN_HOE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,hoe,1,CRAFTING,HAND,WOODEN_HOE% Dollar",
+				"&fHerstellen von &#c6a664Holzhacke",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,hoe,1,CRAFTING,HAND,WOODEN_HOE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,hoe,1,CRAFTING,HAND,WOODEN_HOE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,hoe,1,CRAFTING,HAND,WOODEN_HOE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -3468,10 +3462,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of woodenhoe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,hoe,1,CRAFTING,HAND,WOODEN_HOE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,hoe,1,CRAFTING,HAND,WOODEN_HOE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,hoe,1,CRAFTING,HAND,WOODEN_HOE% Dollar",
+				"&fCrafting of &#c6a664woodenhoe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,hoe,1,CRAFTING,HAND,WOODEN_HOE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,hoe,1,CRAFTING,HAND,WOODEN_HOE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,hoe,1,CRAFTING,HAND,WOODEN_HOE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(2, new String[] {
@@ -3483,10 +3477,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Steinhacke",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,hoe,2,CRAFTING,HAND,STONE_HOE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,hoe,2,CRAFTING,HAND,STONE_HOE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,hoe,2,CRAFTING,HAND,STONE_HOE% Dollar",
+				"&fHerstellen von &#c6a664Steinhacke",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,hoe,2,CRAFTING,HAND,STONE_HOE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,hoe,2,CRAFTING,HAND,STONE_HOE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,hoe,2,CRAFTING,HAND,STONE_HOE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -3497,10 +3491,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of stonehoe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,hoe,2,CRAFTING,HAND,STONE_HOE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,hoe,2,CRAFTING,HAND,STONE_HOE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,hoe,2,CRAFTING,HAND,STONE_HOE% Dollar",
+				"&fCrafting of &#c6a664stonehoe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,hoe,2,CRAFTING,HAND,STONE_HOE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,hoe,2,CRAFTING,HAND,STONE_HOE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,hoe,2,CRAFTING,HAND,STONE_HOE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(3, new String[] {
@@ -3512,10 +3506,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Eisenhacke",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,hoe,3,CRAFTING,HAND,IRON_HOE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,hoe,3,CRAFTING,HAND,IRON_HOE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,hoe,3,CRAFTING,HAND,IRON_HOE% Dollar",
+				"&fHerstellen von &#c6a664Eisenhacke",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,hoe,3,CRAFTING,HAND,IRON_HOE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,hoe,3,CRAFTING,HAND,IRON_HOE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,hoe,3,CRAFTING,HAND,IRON_HOE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -3526,10 +3520,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of ironhoe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,hoe,3,CRAFTING,HAND,IRON_HOE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,hoe,3,CRAFTING,HAND,IRON_HOE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,hoe,3,CRAFTING,HAND,IRON_HOE% Dollar",
+				"&fCrafting of &#c6a664ironhoe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,hoe,3,CRAFTING,HAND,IRON_HOE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,hoe,3,CRAFTING,HAND,IRON_HOE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,hoe,3,CRAFTING,HAND,IRON_HOE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(4, new String[] {
@@ -3541,10 +3535,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Goldhacke",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,hoe,4,CRAFTING,HAND,GOLDEN_HOE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,hoe,4,CRAFTING,HAND,GOLDEN_HOE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,hoe,4,CRAFTING,HAND,GOLDEN_HOE% Dollar",
+				"&fHerstellen von &#c6a664Goldhacke",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,hoe,4,CRAFTING,HAND,GOLDEN_HOE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,hoe,4,CRAFTING,HAND,GOLDEN_HOE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,hoe,4,CRAFTING,HAND,GOLDEN_HOE% Dollar",
 				"&f+0,5 % Chance 1 Eisenbarren bei Herstellen einer Eisenhacke zu droppen.",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -3556,10 +3550,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of goldenhoe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,hoe,4,CRAFTING,HAND,GOLDEN_HOE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,hoe,4,CRAFTING,HAND,GOLDEN_HOE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,hoe,4,CRAFTING,HAND,GOLDEN_HOE% Dollar",
+				"&fCrafting of &#c6a664goldenhoe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,hoe,4,CRAFTING,HAND,GOLDEN_HOE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,hoe,4,CRAFTING,HAND,GOLDEN_HOE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,hoe,4,CRAFTING,HAND,GOLDEN_HOE% Dollar",
 				"&f+0.5% chance to drop 1 iron ingot when crafting a iron hoe.",
 				"",
 				"&cRightclick &bfor a more detailed view."});
@@ -3572,10 +3566,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Diamanthacke",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,hoe,5,CRAFTING,HAND,DIAMOND_HOE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,hoe,5,CRAFTING,HAND,DIAMOND_HOE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,hoe,5,CRAFTING,HAND,DIAMOND_HOE% Dollar",
+				"&fHerstellen von &#c6a664Diamanthacke",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,hoe,5,CRAFTING,HAND,DIAMOND_HOE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,hoe,5,CRAFTING,HAND,DIAMOND_HOE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,hoe,5,CRAFTING,HAND,DIAMOND_HOE% Dollar",
 				"&f+2 % Chance 1 Eisenbarren bei Herstellen einer Eisenhacke zu droppen.",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -3587,10 +3581,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of diamondhoe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,hoe,5,CRAFTING,HAND,DIAMOND_HOE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,hoe,5,CRAFTING,HAND,DIAMOND_HOE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,hoe,5,CRAFTING,HAND,DIAMOND_HOE% Dollar",
+				"&fCrafting of &#c6a664diamondhoe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,hoe,5,CRAFTING,HAND,DIAMOND_HOE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,hoe,5,CRAFTING,HAND,DIAMOND_HOE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,hoe,5,CRAFTING,HAND,DIAMOND_HOE% Dollar",
 				"&f+2% chance to drop 1 iron ingot when crafting a iron hoe.",
 				"",
 				"&cRightclick &bfor a more detailed view."});
@@ -3603,10 +3597,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Netheritehacke",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,hoe,6,SMITHING,HAND,NETHERITE_HOE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,hoe,6,SMITHING,HAND,NETHERITE_HOE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,hoe,6,SMITHING,HAND,NETHERITE_HOE% Dollar",
+				"&fHerstellen von &#c6a664Netheritehacke",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,hoe,6,SMITHING,HAND,NETHERITE_HOE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,hoe,6,SMITHING,HAND,NETHERITE_HOE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,hoe,6,SMITHING,HAND,NETHERITE_HOE% Dollar",
 				"&f+0,5 % Chance 1 Goldbarren bei Herstellen einer Goldhacke zu droppen.",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -3618,10 +3612,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of netheritehoe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,hoe,6,SMITHING,HAND,NETHERITE_HOE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,hoe,6,SMITHING,HAND,NETHERITE_HOE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,hoe,6,SMITHING,HAND,NETHERITE_HOE% Dollar",
+				"&fCrafting of &#c6a664netheritehoe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,hoe,6,SMITHING,HAND,NETHERITE_HOE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,hoe,6,SMITHING,HAND,NETHERITE_HOE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,hoe,6,SMITHING,HAND,NETHERITE_HOE% Dollar",
 				"&f+0.5% chance to drop 1 gold ingot when crafting a gold hoe",
 				"",
 				"&cRightclick &bfor a more detailed view."});
@@ -3749,12 +3743,12 @@ public class YamlManager
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Holzhacke",
+						"&fHerstellen von &#c6a664Holzhacke",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fCrafting of woodenhoe",
+						"&fCrafting of &#c6a664woodenhoe",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&dTech Hacke","&dTech Hoe"},
@@ -3767,59 +3761,59 @@ public class YamlManager
 						"",
 						"&eSchaltet folgendes frei:",
 						"&f◦ Herstellung:",
-						"&f◦◦ Holzshacke %tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,WOODEN_HOE% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,WOODEN_HOE% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,WOODEN_HOE% Dollar",
-						"&f◦◦ Steinhacke %tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,STONE_HOE% TTExp | "
-										   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,STONE_HOE% VanillaExp | "
-										   + "%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,STONE_HOE% Dollar",
-						"&f◦◦ Eisenhacke %tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,IRON_HOE% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,IRON_HOE% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,IRON_HOE% Dollar",
-						"&f◦◦ Goldhacke %tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,GOLDEN_HOE% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,GOLDEN_HOE% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,GOLDEN_HOE% Dollar",
-						"&f◦◦ Diamandhacke %tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,DIAMOND_HOE% TTExp | "
-										     + "%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,DIAMOND_HOE% VanillaExp | "
-										     + "%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,DIAMOND_HOE% Dollar",
+						"&f◦◦ Holzshacke &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,WOODEN_HOE% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,WOODEN_HOE% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,WOODEN_HOE% Dollar",
+						"&f◦◦ Steinhacke &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,STONE_HOE% TTExp | "
+										   + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,STONE_HOE% VExp | "
+										   + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,STONE_HOE% Dollar",
+						"&f◦◦ Eisenhacke &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,IRON_HOE% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,IRON_HOE% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,IRON_HOE% Dollar",
+						"&f◦◦ Goldhacke &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,GOLDEN_HOE% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,GOLDEN_HOE% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,GOLDEN_HOE% Dollar",
+						"&f◦◦ Diamandhacke &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,DIAMOND_HOE% TTExp | "
+										     + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,DIAMOND_HOE% VExp | "
+										     + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,DIAMOND_HOE% Dollar",
 						"&f◦ Schmieden:",
-						"&f◦◦ Netheritehacke %tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,SMITHING,HAND,NETHERITE_HOE% TTExp | "
-										       + "%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,SMITHING,HAND,NETHERITE_HOE% VanillaExp | "
-										       + "%tt_raw_reward_techtotal_money_mat,SOLO,hoe,SMITHING,HAND,NETHERITE_HOE% Dollar",
+						"&f◦◦ Netheritehacke &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,SMITHING,HAND,NETHERITE_HOE% TTExp | "
+										       + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,SMITHING,HAND,NETHERITE_HOE% VExp | "
+										       + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,hoe,SMITHING,HAND,NETHERITE_HOE% Dollar",
 						"&f◦ Drops:",
-						"&f◦◦ Eisenbarren beim herstellen einer Eisenhacke %tt_reward_techtotal_dropchance_mat,SOLO,hoe,CRAFTING,HAND,IRON_HOE,mat=IRON_INGOT%",
-						"&f◦◦ Goldbarren beim herstellen einer Goldhacke %tt_reward_techtotal_dropchance_mat,SOLO,hoe,CRAFTING,HAND,GOLDEN_HOE,mat=GOLD_INGOT%",
-						"&f◦◦ Diamant beim herstellen einer Diamanthacke %tt_reward_techtotal_dropchance_mat,SOLO,hoe,CRAFTING,HAND,DIAMOND_HOE,mat=DIAMOND%",
-						"&f◦◦ Netheritebarren beim herstellen einer Netheritehacke %tt_reward_techtotal_dropchance_mat,SOLO,hoe,CRAFTING,HAND,NETHERITE_HOE,mat=NETHERITE_INGOT%",
+						"&f◦◦ Eisenbarren beim herstellen einer Eisenhacke &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,hoe,CRAFTING,HAND,IRON_HOE,mat=IRON_INGOT%",
+						"&f◦◦ Goldbarren beim herstellen einer Goldhacke &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,hoe,CRAFTING,HAND,GOLDEN_HOE,mat=GOLD_INGOT%",
+						"&f◦◦ Diamant beim herstellen einer Diamanthacke &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,hoe,CRAFTING,HAND,DIAMOND_HOE,mat=DIAMOND%",
+						"&f◦◦ Netheritebarren beim herstellen einer Netheritehacke &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,hoe,CRAFTING,HAND,NETHERITE_HOE,mat=NETHERITE_INGOT%",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
 						"&f◦ Crafting:",
-						"&f◦◦ Woodenhoe %tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,WOODEN_HOE% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,WOODEN_HOE% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,WOODEN_HOE% Dollar",
-						"&f◦◦ Stonehoe %tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,STONE_HOE% TTExp | "
-										   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,STONE_HOE% VanillaExp | "
-										   + "%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,STONE_HOE% Dollar",
-						"&f◦◦ Ironhoe %tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,IRON_HOE% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,IRON_HOE% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,IRON_HOE% Dollar",
-						"&f◦◦ Goldenhoe %tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,GOLDEN_HOE% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,GOLDEN_HOE% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,GOLDEN_HOE% Dollar",
-						"&f◦◦ Diamondhoe %tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,DIAMOND_HOE% TTExp | "
-										     + "%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,DIAMOND_HOE% VanillaExp | "
-										     + "%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,DIAMOND_HOE% Dollar",
+						"&f◦◦ Woodenhoe &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,WOODEN_HOE% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,WOODEN_HOE% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,WOODEN_HOE% Dollar",
+						"&f◦◦ Stonehoe &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,STONE_HOE% TTExp | "
+										   + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,STONE_HOE% VExp | "
+										   + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,STONE_HOE% Dollar",
+						"&f◦◦ Ironhoe &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,IRON_HOE% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,IRON_HOE% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,IRON_HOE% Dollar",
+						"&f◦◦ Goldenhoe &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,GOLDEN_HOE% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,GOLDEN_HOE% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,GOLDEN_HOE% Dollar",
+						"&f◦◦ Diamondhoe &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,CRAFTING,HAND,DIAMOND_HOE% TTExp | "
+										     + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,CRAFTING,HAND,DIAMOND_HOE% VExp | "
+										     + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,hoe,CRAFTING,HAND,DIAMOND_HOE% Dollar",
 						"&f◦ Smithing:",
-						"&f◦◦ Netheritehoe %tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,SMITHING,HAND,NETHERITE_HOE% TTExp | "
-										       + "%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,SMITHING,HAND,NETHERITE_HOE% VanillaExp | "
-										       + "%tt_raw_reward_techtotal_money_mat,SOLO,hoe,SMITHING,HAND,NETHERITE_HOE% Dollar",
+						"&f◦◦ Netheritehoe &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,hoe,SMITHING,HAND,NETHERITE_HOE% TTExp | "
+										       + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,hoe,SMITHING,HAND,NETHERITE_HOE% VExp | "
+										       + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,hoe,SMITHING,HAND,NETHERITE_HOE% Dollar",
 						"&f◦ Drops:",
-						"&f◦◦ Ironingots during the production of an ironhoe %tt_reward_techtotal_dropchance_mat,SOLO,hoe,CRAFTING,HAND,IRON_HOE,mat=IRON_INGOT%",
-						"&f◦◦ Goldingots during the production of an goldenhoe %tt_reward_techtotal_dropchance_mat,SOLO,hoe,CRAFTING,HAND,GOLDEN_HOE,mat=GOLD_INGOT%",
-						"&f◦◦ Diamonds during the production of an diamondhoe %tt_reward_techtotal_dropchance_mat,SOLO,hoe,CRAFTING,HAND,DIAMOND_HOE,mat=DIAMOND%",
-						"&f◦◦ Netheriteingots during the production of an netheritehoe %tt_reward_techtotal_dropchance_mat,SOLO,hoe,CRAFTING,HAND,NETHERITE_HOE,mat=NETHERITE_INGOT%",
+						"&f◦◦ Ironingots during the production of an ironhoe &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,hoe,CRAFTING,HAND,IRON_HOE,mat=IRON_INGOT%",
+						"&f◦◦ Goldingots during the production of an goldenhoe &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,hoe,CRAFTING,HAND,GOLDEN_HOE,mat=GOLD_INGOT%",
+						"&f◦◦ Diamonds during the production of an diamondhoe &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,hoe,CRAFTING,HAND,DIAMOND_HOE,mat=DIAMOND%",
+						"&f◦◦ Netheriteingots during the production of an netheritehoe &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,hoe,CRAFTING,HAND,NETHERITE_HOE,mat=NETHERITE_INGOT%",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
@@ -3940,10 +3934,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Holzaxt",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,axe,1,CRAFTING,HAND,WOODEN_AXE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,axe,1,CRAFTING,HAND,WOODEN_AXE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,axe,1,CRAFTING,HAND,WOODEN_AXE% Dollar",
+				"&fHerstellen von &#c6a664Holzaxt",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,axe,1,CRAFTING,HAND,WOODEN_AXE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,axe,1,CRAFTING,HAND,WOODEN_AXE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,axe,1,CRAFTING,HAND,WOODEN_AXE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -3954,10 +3948,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of woodenaxe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,axe,1,CRAFTING,HAND,WOODEN_AXE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,axe,1,CRAFTING,HAND,WOODEN_AXE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,axe,1,CRAFTING,HAND,WOODEN_AXE% Dollar",
+				"&fCrafting of &#c6a664woodenaxe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,axe,1,CRAFTING,HAND,WOODEN_AXE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,axe,1,CRAFTING,HAND,WOODEN_AXE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,axe,1,CRAFTING,HAND,WOODEN_AXE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(2, new String[] {
@@ -3969,10 +3963,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Steinaxt",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,axe,2,CRAFTING,HAND,STONE_AXE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,axe,2,CRAFTING,HAND,STONE_AXE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,axe,2,CRAFTING,HAND,STONE_AXE% Dollar",
+				"&fHerstellen von &#c6a664Steinaxt",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,axe,2,CRAFTING,HAND,STONE_AXE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,axe,2,CRAFTING,HAND,STONE_AXE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,axe,2,CRAFTING,HAND,STONE_AXE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -3983,10 +3977,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of stoneaxe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,axe,2,CRAFTING,HAND,STONE_AXE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,axe,2,CRAFTING,HAND,STONE_AXE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,axe,2,CRAFTING,HAND,STONE_AXE% Dollar",
+				"&fCrafting of &#c6a664stoneaxe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,axe,2,CRAFTING,HAND,STONE_AXE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,axe,2,CRAFTING,HAND,STONE_AXE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,axe,2,CRAFTING,HAND,STONE_AXE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(3, new String[] {
@@ -3998,10 +3992,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Eisenaxt",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,axe,3,CRAFTING,HAND,IRON_AXE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,axe,3,CRAFTING,HAND,IRON_AXE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,axe,3,CRAFTING,HAND,IRON_AXE% Dollar",
+				"&fHerstellen von &#c6a664Eisenaxt",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,axe,3,CRAFTING,HAND,IRON_AXE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,axe,3,CRAFTING,HAND,IRON_AXE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,axe,3,CRAFTING,HAND,IRON_AXE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -4012,10 +4006,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of ironaxe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,axe,3,CRAFTING,HAND,IRON_AXE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,axe,3,CRAFTING,HAND,IRON_AXE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,axe,3,CRAFTING,HAND,IRON_AXE% Dollar",
+				"&fCrafting of &#c6a664ironaxe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,axe,3,CRAFTING,HAND,IRON_AXE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,axe,3,CRAFTING,HAND,IRON_AXE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,axe,3,CRAFTING,HAND,IRON_AXE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(4, new String[] {
@@ -4027,10 +4021,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Goldaxt",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,axe,4,CRAFTING,HAND,GOLDEN_AXE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,axe,4,CRAFTING,HAND,GOLDEN_AXE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,axe,4,CRAFTING,HAND,GOLDEN_AXE% Dollar",
+				"&fHerstellen von &#c6a664Goldaxt",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,axe,4,CRAFTING,HAND,GOLDEN_AXE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,axe,4,CRAFTING,HAND,GOLDEN_AXE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,axe,4,CRAFTING,HAND,GOLDEN_AXE% Dollar",
 				"&f+0,5 % Chance 1 Eisenbarren bei Herstellen einer Eisenaxt zu droppen.",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -4042,10 +4036,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of goldenaxe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,axe,4,CRAFTING,HAND,GOLDEN_AXE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,axe,4,CRAFTING,HAND,GOLDEN_AXE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,axe,4,CRAFTING,HAND,GOLDEN_AXE% Dollar",
+				"&fCrafting of &#c6a664goldenaxe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,axe,4,CRAFTING,HAND,GOLDEN_AXE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,axe,4,CRAFTING,HAND,GOLDEN_AXE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,axe,4,CRAFTING,HAND,GOLDEN_AXE% Dollar",
 				"&f+0.5% chance to drop 1 iron ingot when crafting a iron axe.",
 				"",
 				"&cRightclick &bfor a more detailed view."});
@@ -4058,10 +4052,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Diamantaxt",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,axe,5,CRAFTING,HAND,DIAMOND_AXE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,axe,5,CRAFTING,HAND,DIAMOND_AXE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,axe,5,CRAFTING,HAND,DIAMOND_AXE% Dollar",
+				"&fHerstellen von &#c6a664Diamantaxt",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,axe,5,CRAFTING,HAND,DIAMOND_AXE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,axe,5,CRAFTING,HAND,DIAMOND_AXE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,axe,5,CRAFTING,HAND,DIAMOND_AXE% Dollar",
 				"&f+2 % Chance 1 Eisenbarren bei Herstellen einer Eisenaxt zu droppen.",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -4073,10 +4067,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of diamondaxe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,axe,5,CRAFTING,HAND,DIAMOND_AXE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,axe,5,CRAFTING,HAND,DIAMOND_AXE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,axe,5,CRAFTING,HAND,DIAMOND_AXE% Dollar",
+				"&fCrafting of &#c6a664diamondaxe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,axe,5,CRAFTING,HAND,DIAMOND_AXE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,axe,5,CRAFTING,HAND,DIAMOND_AXE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,axe,5,CRAFTING,HAND,DIAMOND_AXE% Dollar",
 				"&f+2% chance to drop 1 iron ingot when crafting a iron axe.",
 				"",
 				"&cRightclick &bfor a more detailed view."});
@@ -4089,10 +4083,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Netheriteaxt",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,axe,6,SMITHING,HAND,NETHERITE_AXE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,axe,6,SMITHING,HAND,NETHERITE_AXE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,axe,6,SMITHING,HAND,NETHERITE_AXE% Dollar",
+				"&fHerstellen von &#c6a664Netheriteaxt",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,axe,6,SMITHING,HAND,NETHERITE_AXE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,axe,6,SMITHING,HAND,NETHERITE_AXE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,axe,6,SMITHING,HAND,NETHERITE_AXE% Dollar",
 				"&f+0,5 % Chance 1 Goldbarren bei Herstellen einer Goldaxt zu droppen.",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -4104,10 +4098,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of netheriteaxe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,axe,6,SMITHING,HAND,NETHERITE_AXE% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,axe,6,SMITHING,HAND,NETHERITE_AXE% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,axe,6,SMITHING,HAND,NETHERITE_AXE% Dollar",
+				"&fCrafting of &#c6a664netheriteaxe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,axe,6,SMITHING,HAND,NETHERITE_AXE% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,axe,6,SMITHING,HAND,NETHERITE_AXE% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,axe,6,SMITHING,HAND,NETHERITE_AXE% Dollar",
 				"&f+0.5% chance to drop 1 gold ingot when crafting a gold axe",
 				"",
 				"&cRightclick &bfor a more detailed view."});
@@ -4235,12 +4229,12 @@ public class YamlManager
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Holzaxt",
+						"&fHerstellen von &#c6a664Holzaxt",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fCrafting of woodenaxe",
+						"&fCrafting of &#c6a664woodenaxe",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&dTech Axt","&dTech Axe"},
@@ -4253,59 +4247,59 @@ public class YamlManager
 						"",
 						"&eSchaltet folgendes frei:",
 						"&f◦ Herstellung:",
-						"&f◦◦ Holzaxt %tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,WOODEN_AXE% TTExp | "
-								   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,WOODEN_AXE% VanillaExp | "
-								   + "%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,WOODEN_AXE% Dollar",
-						"&f◦◦ Steinaxt %tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,STONE_AXE% TTExp | "
-								    + "%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,STONE_AXE% VanillaExp | "
-									+ "%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,STONE_AXE% Dollar",
-						"&f◦◦ Eisenaxt %tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,IRON_AXE% TTExp | "
-									+ "%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,IRON_AXE% VanillaExp | "
-									+ "%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,IRON_AXE% Dollar",
-						"&f◦◦ Goldaxt %tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,GOLDEN_AXE% TTExp | "
-								   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,GOLDEN_AXE% VanillaExp | "
-								   + "%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,GOLDEN_AXE% Dollar",
-						"&f◦◦ Diamandaxt %tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,DIAMOND_AXE% TTExp | "
-									  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,DIAMOND_AXE% VanillaExp | "
-									  + "%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,DIAMOND_AXE% Dollar",
+						"&f◦◦ Holzaxt &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,WOODEN_AXE% TTExp | "
+								   + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,WOODEN_AXE% VExp | "
+								   + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,WOODEN_AXE% Dollar",
+						"&f◦◦ Steinaxt &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,STONE_AXE% TTExp | "
+								    + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,STONE_AXE% VExp | "
+									+ "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,STONE_AXE% Dollar",
+						"&f◦◦ Eisenaxt &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,IRON_AXE% TTExp | "
+									+ "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,IRON_AXE% VExp | "
+									+ "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,IRON_AXE% Dollar",
+						"&f◦◦ Goldaxt &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,GOLDEN_AXE% TTExp | "
+								   + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,GOLDEN_AXE% VExp | "
+								   + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,GOLDEN_AXE% Dollar",
+						"&f◦◦ Diamandaxt &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,DIAMOND_AXE% TTExp | "
+									  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,DIAMOND_AXE% VExp | "
+									  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,DIAMOND_AXE% Dollar",
 						"&f◦ Schmieden:",
-						"&f◦◦ Netheriteaxt %tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,SMITHING,HAND,NETHERITE_AXE% TTExp | "
-										+ "%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,SMITHING,HAND,NETHERITE_AXE% VanillaExp | "
-										+ "%tt_raw_reward_techtotal_money_mat,SOLO,axe,SMITHING,HAND,NETHERITE_AXE% Dollar",
+						"&f◦◦ Netheriteaxt &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,SMITHING,HAND,NETHERITE_AXE% TTExp | "
+										+ "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,SMITHING,HAND,NETHERITE_AXE% VExp | "
+										+ "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,axe,SMITHING,HAND,NETHERITE_AXE% Dollar",
 						"&f◦ Drops:",
-						"&f◦◦ Eisenbarren beim herstellen einer Eisenspitzhacke %tt_reward_techtotal_dropchance_mat,SOLO,axe,CRAFTING,HAND,IRON_AXE,mat=IRON_INGOT%",
-						"&f◦◦ Goldbarren beim herstellen einer Goldspitzhacke %tt_reward_techtotal_dropchance_mat,SOLO,axe,CRAFTING,HAND,GOLDEN_AXE,mat=GOLD_INGOT%",
-						"&f◦◦ Diamant beim herstellen einer Diamantspitzhacke %tt_reward_techtotal_dropchance_mat,SOLO,axe,CRAFTING,HAND,DIAMOND_AXE,mat=DIAMOND%",
-						"&f◦◦ Netheritebarren beim herstellen einer Netheritespitzhacke %tt_reward_techtotal_dropchance_mat,SOLO,axe,CRAFTING,HAND,NETHERITE_AXE,mat=NETHERITE_INGOT%",
+						"&f◦◦ Eisenbarren beim herstellen einer Eisenspitzhacke &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,axe,CRAFTING,HAND,IRON_AXE,mat=IRON_INGOT%",
+						"&f◦◦ Goldbarren beim herstellen einer Goldspitzhacke &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,axe,CRAFTING,HAND,GOLDEN_AXE,mat=GOLD_INGOT%",
+						"&f◦◦ Diamant beim herstellen einer Diamantspitzhacke &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,axe,CRAFTING,HAND,DIAMOND_AXE,mat=DIAMOND%",
+						"&f◦◦ Netheritebarren beim herstellen einer Netheritespitzhacke &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,axe,CRAFTING,HAND,NETHERITE_AXE,mat=NETHERITE_INGOT%",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
 						"&f◦ Crafting:",
-						"&f◦◦ Woodenaxe %tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,WOODEN_AXE% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,WOODEN_AXE% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,WOODEN_AXE% Dollar",
-						"&f◦◦ Stoneaxe %tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,STONE_AXE% TTExp | "
-										   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,STONE_AXE% VanillaExp | "
-										   + "%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,STONE_AXE% Dollar",
-						"&f◦◦ Ironaxe %tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,IRON_AXE% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,IRON_AXE% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,IRON_AXE% Dollar",
-						"&f◦◦ Goldenaxe %tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,GOLDEN_AXE% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,GOLDEN_AXE% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,GOLDEN_AXE% Dollar",
-						"&f◦◦ Diamondaxe %tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,DIAMOND_AXE% TTExp | "
-										     + "%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,DIAMOND_AXE% VanillaExp | "
-										     + "%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,DIAMOND_AXE% Dollar",
+						"&f◦◦ Woodenaxe &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,WOODEN_AXE% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,WOODEN_AXE% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,WOODEN_AXE% Dollar",
+						"&f◦◦ Stoneaxe &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,STONE_AXE% TTExp | "
+										   + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,STONE_AXE% VExp | "
+										   + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,STONE_AXE% Dollar",
+						"&f◦◦ Ironaxe &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,IRON_AXE% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,IRON_AXE% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,IRON_AXE% Dollar",
+						"&f◦◦ Goldenaxe &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,GOLDEN_AXE% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,GOLDEN_AXE% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,GOLDEN_AXE% Dollar",
+						"&f◦◦ Diamondaxe &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,CRAFTING,HAND,DIAMOND_AXE% TTExp | "
+										     + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,CRAFTING,HAND,DIAMOND_AXE% VExp | "
+										     + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,axe,CRAFTING,HAND,DIAMOND_AXE% Dollar",
 						"&f◦ Smithing:",
-						"&f◦◦ Netheriteaxe %tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,SMITHING,HAND,NETHERITE_AXE% TTExp | "
-										       + "%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,SMITHING,HAND,NETHERITE_AXE% VanillaExp | "
-										       + "%tt_raw_reward_techtotal_money_mat,SOLO,axe,SMITHING,HAND,NETHERITE_AXE% Dollar",
+						"&f◦◦ Netheriteaxe &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,axe,SMITHING,HAND,NETHERITE_AXE% TTExp | "
+										       + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,axe,SMITHING,HAND,NETHERITE_AXE% VExp | "
+										       + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,axe,SMITHING,HAND,NETHERITE_AXE% Dollar",
 						"&f◦ Drops:",
-						"&f◦◦ Ironingots during the production of an ironpickaxe %tt_reward_techtotal_dropchance_mat,SOLO,axe,CRAFTING,HAND,IRON_AXE,mat=IRON_INGOT%",
-						"&f◦◦ Goldingots during the production of an goldenpickaxe %tt_reward_techtotal_dropchance_mat,SOLO,axe,CRAFTING,HAND,GOLDEN_AXE,mat=GOLD_INGOT%",
-						"&f◦◦ Diamonds during the production of an diamondpickaxe %tt_reward_techtotal_dropchance_mat,SOLO,axe,CRAFTING,HAND,DIAMOND_AXE,mat=DIAMOND%",
-						"&f◦◦ Netheriteingots during the production of an netheritepickaxe %tt_reward_techtotal_dropchance_mat,SOLO,axe,CRAFTING,HAND,NETHERITE_AXE,mat=NETHERITE_INGOT%",
+						"&f◦◦ Ironingots during the production of an ironpickaxe &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,axe,CRAFTING,HAND,IRON_AXE,mat=IRON_INGOT%",
+						"&f◦◦ Goldingots during the production of an goldenpickaxe &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,axe,CRAFTING,HAND,GOLDEN_AXE,mat=GOLD_INGOT%",
+						"&f◦◦ Diamonds during the production of an diamondpickaxe &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,axe,CRAFTING,HAND,DIAMOND_AXE,mat=DIAMOND%",
+						"&f◦◦ Netheriteingots during the production of an netheritepickaxe &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,axe,CRAFTING,HAND,NETHERITE_AXE,mat=NETHERITE_INGOT%",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
@@ -4430,10 +4424,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Holzaxt",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,sword,1,CRAFTING,HAND,WOODEN_SWORD% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,sword,1,CRAFTING,HAND,WOODEN_SWORD% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,sword,1,CRAFTING,HAND,WOODEN_SWORD% Dollar",
+				"&fHerstellen von &#c6a664Holzaxt",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sword,1,CRAFTING,HAND,WOODEN_SWORD% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sword,1,CRAFTING,HAND,WOODEN_SWORD% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sword,1,CRAFTING,HAND,WOODEN_SWORD% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -4444,10 +4438,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of woodenaxe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,sword,1,CRAFTING,HAND,WOODEN_SWORD% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,sword,1,CRAFTING,HAND,WOODEN_SWORD% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,sword,1,CRAFTING,HAND,WOODEN_SWORD% Dollar",
+				"&fCrafting of &#c6a664woodenaxe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sword,1,CRAFTING,HAND,WOODEN_SWORD% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sword,1,CRAFTING,HAND,WOODEN_SWORD% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sword,1,CRAFTING,HAND,WOODEN_SWORD% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(2, new String[] {
@@ -4459,10 +4453,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Steinaxt",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,sword,2,CRAFTING,HAND,STONE_SWORD% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,sword,2,CRAFTING,HAND,STONE_SWORD% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,sword,2,CRAFTING,HAND,STONE_SWORD% Dollar",
+				"&fHerstellen von &#c6a664Steinaxt",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sword,2,CRAFTING,HAND,STONE_SWORD% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sword,2,CRAFTING,HAND,STONE_SWORD% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sword,2,CRAFTING,HAND,STONE_SWORD% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -4473,10 +4467,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of stoneaxe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,sword,2,CRAFTING,HAND,STONE_SWORD% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,sword,2,CRAFTING,HAND,STONE_SWORD% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,sword,2,CRAFTING,HAND,STONE_SWORD% Dollar",
+				"&fCrafting of &#c6a664stoneaxe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sword,2,CRAFTING,HAND,STONE_SWORD% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sword,2,CRAFTING,HAND,STONE_SWORD% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sword,2,CRAFTING,HAND,STONE_SWORD% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(3, new String[] {
@@ -4488,10 +4482,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Eisenaxt",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,sword,3,CRAFTING,HAND,IRON_SWORD% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,sword,3,CRAFTING,HAND,IRON_SWORD% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,sword,3,CRAFTING,HAND,IRON_SWORD% Dollar",
+				"&fHerstellen von &#c6a664Eisenaxt",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sword,3,CRAFTING,HAND,IRON_SWORD% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sword,3,CRAFTING,HAND,IRON_SWORD% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sword,3,CRAFTING,HAND,IRON_SWORD% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -4502,10 +4496,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of ironaxe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,sword,3,CRAFTING,HAND,IRON_SWORD% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,sword,3,CRAFTING,HAND,IRON_SWORD% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,sword,3,CRAFTING,HAND,IRON_SWORD% Dollar",
+				"&fCrafting of &#c6a664ironaxe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sword,3,CRAFTING,HAND,IRON_SWORD% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sword,3,CRAFTING,HAND,IRON_SWORD% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sword,3,CRAFTING,HAND,IRON_SWORD% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(4, new String[] {
@@ -4517,10 +4511,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Goldaxt",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,sword,4,CRAFTING,HAND,GOLDEN_SWORD% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,sword,4,CRAFTING,HAND,GOLDEN_SWORD% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,sword,4,CRAFTING,HAND,GOLDEN_SWORD% Dollar",
+				"&fHerstellen von &#c6a664Goldaxt",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sword,4,CRAFTING,HAND,GOLDEN_SWORD% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sword,4,CRAFTING,HAND,GOLDEN_SWORD% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sword,4,CRAFTING,HAND,GOLDEN_SWORD% Dollar",
 				"&f+0,5 % Chance 1 Eisenbarren bei Herstellen einer Eisenschwert zu droppen.",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -4532,10 +4526,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of goldenaxe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,sword,4,CRAFTING,HAND,GOLDEN_SWORD% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,sword,4,CRAFTING,HAND,GOLDEN_SWORD% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,sword,4,CRAFTING,HAND,GOLDEN_SWORD% Dollar",
+				"&fCrafting of &#c6a664goldenaxe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sword,4,CRAFTING,HAND,GOLDEN_SWORD% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sword,4,CRAFTING,HAND,GOLDEN_SWORD% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sword,4,CRAFTING,HAND,GOLDEN_SWORD% Dollar",
 				"&f+0.5% chance to drop 1 iron ingot when crafting a iron sword.",
 				"",
 				"&cRightclick &bfor a more detailed view."});
@@ -4548,10 +4542,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Diamantaxt",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,sword,5,CRAFTING,HAND,DIAMOND_SWORD% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,sword,5,CRAFTING,HAND,DIAMOND_SWORD% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,sword,5,CRAFTING,HAND,DIAMOND_SWORD% Dollar",
+				"&fHerstellen von &#c6a664Diamantaxt",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sword,5,CRAFTING,HAND,DIAMOND_SWORD% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sword,5,CRAFTING,HAND,DIAMOND_SWORD% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sword,5,CRAFTING,HAND,DIAMOND_SWORD% Dollar",
 				"&f+2 % Chance 1 Eisenbarren bei Herstellen einer Eisenschwert zu droppen.",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -4563,10 +4557,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of diamondaxe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,sword,5,CRAFTING,HAND,DIAMOND_SWORD% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,sword,5,CRAFTING,HAND,DIAMOND_SWORD% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,sword,5,CRAFTING,HAND,DIAMOND_SWORD% Dollar",
+				"&fCrafting of &#c6a664diamondaxe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sword,5,CRAFTING,HAND,DIAMOND_SWORD% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sword,5,CRAFTING,HAND,DIAMOND_SWORD% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sword,5,CRAFTING,HAND,DIAMOND_SWORD% Dollar",
 				"&f+2% chance to drop 1 iron ingot when crafting a iron sword.",
 				"",
 				"&cRightclick &bfor a more detailed view."});
@@ -4579,10 +4573,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Netheriteaxt",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,sword,6,SMITHING,HAND,NETHERITE_SWORD% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,sword,6,SMITHING,HAND,NETHERITE_SWORD% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,sword,6,SMITHING,HAND,NETHERITE_SWORD% Dollar",
+				"&fHerstellen von &#c6a664Netheriteaxt",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sword,6,SMITHING,HAND,NETHERITE_SWORD% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sword,6,SMITHING,HAND,NETHERITE_SWORD% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sword,6,SMITHING,HAND,NETHERITE_SWORD% Dollar",
 				"&f+0,5 % Chance 1 Goldbarren bei Herstellen einer Goldschwert zu droppen.",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -4594,10 +4588,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of netheriteaxe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,sword,6,SMITHING,HAND,NETHERITE_SWORD% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,sword,6,SMITHING,HAND,NETHERITE_SWORD% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,sword,6,SMITHING,HAND,NETHERITE_SWORD% Dollar",
+				"&fCrafting of &#c6a664netheriteaxe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sword,6,SMITHING,HAND,NETHERITE_SWORD% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sword,6,SMITHING,HAND,NETHERITE_SWORD% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sword,6,SMITHING,HAND,NETHERITE_SWORD% Dollar",
 				"&f+0.5% chance to drop 1 gold ingot when crafting a gold axe",
 				"",
 				"&cRightclick &bfor a more detailed view."});
@@ -4725,12 +4719,12 @@ public class YamlManager
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Holzschwert",
+						"&fHerstellen von &#c6a664Holzschwert",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fCrafting of woodensword",
+						"&fCrafting of &#c6a664woodensword",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Schwert","&7Sword"},
@@ -4743,59 +4737,59 @@ public class YamlManager
 						"",
 						"&eSchaltet folgendes frei:",
 						"&f◦ Herstellung:",
-						"&f◦◦ Holzschwert %tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,WOODEN_SWORD% TTExp | "
-								   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,WOODEN_SWORD% VanillaExp | "
-								   + "%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,WOODEN_SWORD% Dollar",
-						"&f◦◦ Steinschwert %tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,STONE_SWORD% TTExp | "
-								    + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,STONE_SWORD% VanillaExp | "
-									+ "%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,STONE_SWORD% Dollar",
-						"&f◦◦ Eisenschwert %tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD% TTExp | "
-									+ "%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD% VanillaExp | "
-									+ "%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD% Dollar",
-						"&f◦◦ Goldschwert %tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD% TTExp | "
-								   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD% VanillaExp | "
-								   + "%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD% Dollar",
-						"&f◦◦ Diamandschwert %tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD% TTExp | "
-									  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD% VanillaExp | "
-									  + "%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD% Dollar",
+						"&f◦◦ Holzschwert &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,WOODEN_SWORD% TTExp | "
+								   + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,WOODEN_SWORD% VExp | "
+								   + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,WOODEN_SWORD% Dollar",
+						"&f◦◦ Steinschwert &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,STONE_SWORD% TTExp | "
+								    + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,STONE_SWORD% VExp | "
+									+ "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,STONE_SWORD% Dollar",
+						"&f◦◦ Eisenschwert &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD% TTExp | "
+									+ "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD% VExp | "
+									+ "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD% Dollar",
+						"&f◦◦ Goldschwert &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD% TTExp | "
+								   + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD% VExp | "
+								   + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD% Dollar",
+						"&f◦◦ Diamandschwert &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD% TTExp | "
+									  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD% VExp | "
+									  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD% Dollar",
 						"&f◦ Schmieden:",
-						"&f◦◦ Netheriteschwert %tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,SMITHING,HAND,NETHERITE_SWORD% TTExp | "
-										+ "%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,SMITHING,HAND,NETHERITE_SWORD% VanillaExp | "
-										+ "%tt_raw_reward_techtotal_money_mat,SOLO,sword,SMITHING,HAND,NETHERITE_SWORD% Dollar",
+						"&f◦◦ Netheriteschwert &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,SMITHING,HAND,NETHERITE_SWORD% TTExp | "
+										+ "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,SMITHING,HAND,NETHERITE_SWORD% VExp | "
+										+ "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,sword,SMITHING,HAND,NETHERITE_SWORD% Dollar",
 						"&f◦ Drops:",
-						"&f◦◦ Eisenbarren beim herstellen einer Eisenschwert %tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD,mat=IRON_INGOT%",
-						"&f◦◦ Goldbarren beim herstellen einer Goldschwert %tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD,mat=GOLD_INGOT%",
-						"&f◦◦ Diamant beim herstellen einer Diamantschwert %tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD,mat=DIAMOND%",
-						"&f◦◦ Netheritebarren beim herstellen einer Netheriteschwert %tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,NETHERITE_SWORD,mat=NETHERITE_INGOT%",
+						"&f◦◦ Eisenbarren beim herstellen einer Eisenschwert &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD,mat=IRON_INGOT%",
+						"&f◦◦ Goldbarren beim herstellen einer Goldschwert &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD,mat=GOLD_INGOT%",
+						"&f◦◦ Diamant beim herstellen einer Diamantschwert &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD,mat=DIAMOND%",
+						"&f◦◦ Netheritebarren beim herstellen einer Netheriteschwert &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,NETHERITE_SWORD,mat=NETHERITE_INGOT%",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
 						"&f◦ Crafting:",
-						"&f◦◦ Woodensword %tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,WOODEN_SWORD% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,WOODEN_SWORD% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,WOODEN_SWORD% Dollar",
-						"&f◦◦ Stonesword %tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,STONE_SWORD% TTExp | "
-										   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,STONE_SWORD% VanillaExp | "
-										   + "%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,STONE_SWORD% Dollar",
-						"&f◦◦ Ironsword %tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD% Dollar",
-						"&f◦◦ Goldensword %tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD% Dollar",
-						"&f◦◦ Diamondsword %tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD% TTExp | "
-										     + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD% VanillaExp | "
-										     + "%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD% Dollar",
+						"&f◦◦ Woodensword &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,WOODEN_SWORD% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,WOODEN_SWORD% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,WOODEN_SWORD% Dollar",
+						"&f◦◦ Stonesword &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,STONE_SWORD% TTExp | "
+										   + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,STONE_SWORD% VExp | "
+										   + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,STONE_SWORD% Dollar",
+						"&f◦◦ Ironsword &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD% Dollar",
+						"&f◦◦ Goldensword &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD% Dollar",
+						"&f◦◦ Diamondsword &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD% TTExp | "
+										     + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD% VExp | "
+										     + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD% Dollar",
 						"&f◦ Smithing:",
-						"&f◦◦ Netheritesword %tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,SMITHING,HAND,NETHERITE_SWORD% TTExp | "
-										       + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,SMITHING,HAND,NETHERITE_SWORD% VanillaExp | "
-										       + "%tt_raw_reward_techtotal_money_mat,SOLO,sword,SMITHING,HAND,NETHERITE_SWORD% Dollar",
+						"&f◦◦ Netheritesword &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,sword,SMITHING,HAND,NETHERITE_SWORD% TTExp | "
+										       + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,sword,SMITHING,HAND,NETHERITE_SWORD% VExp | "
+										       + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,sword,SMITHING,HAND,NETHERITE_SWORD% Dollar",
 						"&f◦ Drops:",
-						"&f◦◦ Ironingots during the production of an ironsword %tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD,mat=IRON_INGOT%",
-						"&f◦◦ Goldingots during the production of an goldensword %tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD,mat=GOLD_INGOT%",
-						"&f◦◦ Diamonds during the production of an diamondsword %tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD,mat=DIAMOND%",
-						"&f◦◦ Netheriteingots during the production of an netheritesword %tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,NETHERITE_SWORD,mat=NETHERITE_INGOT%",
+						"&f◦◦ Ironingots during the production of an ironsword &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD,mat=IRON_INGOT%",
+						"&f◦◦ Goldingots during the production of an goldensword &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD,mat=GOLD_INGOT%",
+						"&f◦◦ Diamonds during the production of an diamondsword &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD,mat=DIAMOND%",
+						"&f◦◦ Netheriteingots during the production of an netheritesword &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,NETHERITE_SWORD,mat=NETHERITE_INGOT%",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
@@ -4914,10 +4908,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Lederschuhe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,boots,1,CRAFTING,HAND,LEATHER_BOOTS% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,boots,1,CRAFTING,HAND,LEATHER_BOOTS% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,boots,1,CRAFTING,HAND,LEATHER_BOOTS% Dollar",
+				"&fHerstellen von &#c6a664Lederschuhe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,boots,1,CRAFTING,HAND,LEATHER_BOOTS% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,boots,1,CRAFTING,HAND,LEATHER_BOOTS% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,boots,1,CRAFTING,HAND,LEATHER_BOOTS% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -4928,10 +4922,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of leatherboots",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,boots,1,CRAFTING,HAND,LEATHER_BOOTS% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,boots,1,CRAFTING,HAND,LEATHER_BOOTS% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,boots,1,CRAFTING,HAND,LEATHER_BOOTS% Dollar",
+				"&fCrafting of &#c6a664leatherboots",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,boots,1,CRAFTING,HAND,LEATHER_BOOTS% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,boots,1,CRAFTING,HAND,LEATHER_BOOTS% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,boots,1,CRAFTING,HAND,LEATHER_BOOTS% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(2, new String[] {
@@ -4943,10 +4937,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Eisenschuhe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,boots,2,CRAFTING,HAND,IRON_BOOTS% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,boots,2,CRAFTING,HAND,IRON_BOOTS% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,boots,2,CRAFTING,HAND,IRON_BOOTS% Dollar",
+				"&fHerstellen von &#c6a664Eisenschuhe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,boots,2,CRAFTING,HAND,IRON_BOOTS% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,boots,2,CRAFTING,HAND,IRON_BOOTS% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,boots,2,CRAFTING,HAND,IRON_BOOTS% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -4957,10 +4951,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of ironboots",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,boots,2,CRAFTING,HAND,IRON_BOOTS% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,boots,2,CRAFTING,HAND,IRON_BOOTS% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,boots,2,CRAFTING,HAND,IRON_BOOTS% Dollar",
+				"&fCrafting of &#c6a664ironboots",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,boots,2,CRAFTING,HAND,IRON_BOOTS% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,boots,2,CRAFTING,HAND,IRON_BOOTS% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,boots,2,CRAFTING,HAND,IRON_BOOTS% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(3, new String[] {
@@ -4972,10 +4966,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Goldschuhe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,boots,3,CRAFTING,HAND,GOLDEN_BOOTS% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,boots,3,CRAFTING,HAND,GOLDEN_BOOTS% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,boots,3,CRAFTING,HAND,GOLDEN_BOOTS% Dollar",
+				"&fHerstellen von &#c6a664Goldschuhe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,boots,3,CRAFTING,HAND,GOLDEN_BOOTS% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,boots,3,CRAFTING,HAND,GOLDEN_BOOTS% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,boots,3,CRAFTING,HAND,GOLDEN_BOOTS% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -4986,10 +4980,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of goldenboots",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,boots,3,CRAFTING,HAND,GOLDEN_BOOTS% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,boots,3,CRAFTING,HAND,GOLDEN_BOOTS% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,boots,3,CRAFTING,HAND,GOLDEN_BOOTS% Dollar",
+				"&fCrafting of &#c6a664goldenboots",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,boots,3,CRAFTING,HAND,GOLDEN_BOOTS% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,boots,3,CRAFTING,HAND,GOLDEN_BOOTS% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,boots,3,CRAFTING,HAND,GOLDEN_BOOTS% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(4, new String[] {
@@ -5001,10 +4995,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Diamantschuhe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,boots,4,CRAFTING,HAND,DIAMOND_BOOTS% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,boots,4,CRAFTING,HAND,DIAMOND_BOOTS% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,boots,4,CRAFTING,HAND,DIAMOND_BOOTS% Dollar",
+				"&fHerstellen von &#c6a664Diamantschuhe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,boots,4,CRAFTING,HAND,DIAMOND_BOOTS% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,boots,4,CRAFTING,HAND,DIAMOND_BOOTS% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,boots,4,CRAFTING,HAND,DIAMOND_BOOTS% Dollar",
 				"&f+0,5 % Chance 1 Eisenbarren bei Herstellen einer Eisenschuhe zu droppen.",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -5016,10 +5010,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of diamondboots",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,boots,4,CRAFTING,HAND,DIAMOND_BOOTS% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,boots,4,CRAFTING,HAND,DIAMOND_BOOTS% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,boots,4,CRAFTING,HAND,DIAMOND_BOOTS% Dollar",
+				"&fCrafting of &#c6a664diamondboots",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,boots,4,CRAFTING,HAND,DIAMOND_BOOTS% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,boots,4,CRAFTING,HAND,DIAMOND_BOOTS% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,boots,4,CRAFTING,HAND,DIAMOND_BOOTS% Dollar",
 				"&f+0.5% chance to drop 1 iron ingot when crafting a iron boots.",
 				"",
 				"&cRightclick &bfor a more detailed view."});
@@ -5032,10 +5026,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung von Netheriteschuhe",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,boots,5,CRAFTING,HAND,NETHERITE_BOOTS% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,boots,5,CRAFTING,HAND,NETHERITE_BOOTS% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,boots,5,CRAFTING,HAND,NETHERITE_BOOTS% Dollar",
+				"&fHerstellen von &#c6a664Netheriteschuhe",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,boots,5,CRAFTING,HAND,NETHERITE_BOOTS% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,boots,5,CRAFTING,HAND,NETHERITE_BOOTS% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,boots,5,CRAFTING,HAND,NETHERITE_BOOTS% Dollar",
 				"&f+2 % Chance 1 Eisenbarren bei Herstellen einer Eisenschuhe zu droppen.",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -5047,10 +5041,10 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of netheriteboots",
-				"&f◦ %tt_raw_reward_tech_ttexp_mat,SOLO,boots,5,CRAFTING,HAND,NETHERITE_BOOTS% TTExp | "
-				  + "%tt_raw_reward_tech_vexp_mat,SOLO,boots,5,CRAFTING,HAND,NETHERITE_BOOTS% VanillaExp | "
-				  + "%tt_raw_reward_tech_money_mat,SOLO,boots,5,CRAFTING,HAND,NETHERITE_BOOTS% Dollar",
+				"&fCrafting of &#c6a664netheriteboots",
+				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,boots,5,CRAFTING,HAND,NETHERITE_BOOTS% TTExp | "
+				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,boots,5,CRAFTING,HAND,NETHERITE_BOOTS% VExp | "
+				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,boots,5,CRAFTING,HAND,NETHERITE_BOOTS% Dollar",
 				"&f+2% chance to drop 1 iron ingot when crafting a iron boots.",
 				"",
 				"&cRightclick &bfor a more detailed view."});
@@ -5201,12 +5195,12 @@ public class YamlManager
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Lederschuhe",
+						"&fHerstellen von &#c6a664Lederschuhe",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fCrafting of leatherboots",
+						"&fCrafting of &#c6a664leatherboots",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Schuhe","&7Boots"},
@@ -5219,53 +5213,53 @@ public class YamlManager
 						"",
 						"&eSchaltet folgendes frei:",
 						"&f◦ Herstellung:",
-						"&f◦◦ Lederschuhe %tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,CRAFTING,HAND,LEATHER_BOOTS% TTExp | "
-								   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,CRAFTING,HAND,LEATHER_BOOTS% VanillaExp | "
-								   + "%tt_raw_reward_techtotal_money_mat,SOLO,boots,CRAFTING,HAND,LEATHER_BOOTS% Dollar",
-						"&f◦◦ Eisenschuhe %tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD% TTExp | "
-									+ "%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD% VanillaExp | "
-									+ "%tt_raw_reward_techtotal_money_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD% Dollar",
-						"&f◦◦ Goldschuhe %tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD% TTExp | "
-								   + "%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD% VanillaExp | "
-								   + "%tt_raw_reward_techtotal_money_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD% Dollar",
-						"&f◦◦ Diamandschuhe %tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD% TTExp | "
-									  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD% VanillaExp | "
-									  + "%tt_raw_reward_techtotal_money_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD% Dollar",
+						"&f◦◦ Lederschuhe &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,CRAFTING,HAND,LEATHER_BOOTS% TTExp | "
+								   + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,CRAFTING,HAND,LEATHER_BOOTS% VExp | "
+								   + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,boots,CRAFTING,HAND,LEATHER_BOOTS% Dollar",
+						"&f◦◦ Eisenschuhe &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD% TTExp | "
+									+ "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD% VExp | "
+									+ "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD% Dollar",
+						"&f◦◦ Goldschuhe &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD% TTExp | "
+								   + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD% VExp | "
+								   + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD% Dollar",
+						"&f◦◦ Diamandschuhe &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD% TTExp | "
+									  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD% VExp | "
+									  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD% Dollar",
 						"&f◦ Schmieden:",
-						"&f◦◦ Netheriteschuhe %tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,SMITHING,HAND,NETHERITE_SWORD% TTExp | "
-										+ "%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,SMITHING,HAND,NETHERITE_SWORD% VanillaExp | "
-										+ "%tt_raw_reward_techtotal_money_mat,SOLO,boots,SMITHING,HAND,NETHERITE_SWORD% Dollar",
+						"&f◦◦ Netheriteschuhe &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,SMITHING,HAND,NETHERITE_SWORD% TTExp | "
+										+ "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,SMITHING,HAND,NETHERITE_SWORD% VExp | "
+										+ "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,boots,SMITHING,HAND,NETHERITE_SWORD% Dollar",
 						"&f◦ Drops:",
-						"&f◦◦ Eisenbarren beim herstellen einer Eisenschuhe %tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD,mat=IRON_INGOT%",
-						"&f◦◦ Goldbarren beim herstellen einer Goldschuhe %tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD,mat=GOLD_INGOT%",
-						"&f◦◦ Diamant beim herstellen einer Diamantschuhe %tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD,mat=DIAMOND%",
-						"&f◦◦ Netheritebarren beim herstellen einer Netheriteschuhe %tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,NETHERITE_SWORD,mat=NETHERITE_INGOT%",
+						"&f◦◦ Eisenbarren beim herstellen einer Eisenschuhe &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD,mat=IRON_INGOT%",
+						"&f◦◦ Goldbarren beim herstellen einer Goldschuhe &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD,mat=GOLD_INGOT%",
+						"&f◦◦ Diamant beim herstellen einer Diamantschuhe &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD,mat=DIAMOND%",
+						"&f◦◦ Netheritebarren beim herstellen einer Netheriteschuhe &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,NETHERITE_SWORD,mat=NETHERITE_INGOT%",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
 						"&f◦ Crafting:",
-						"&f◦◦ Leatherboots %tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,CRAFTING,HAND,LEATHER_BOOTS% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,CRAFTING,HAND,LEATHER_BOOTS% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,boots,CRAFTING,HAND,LEATHER_BOOTS% Dollar",
-						"&f◦◦ Ironboots %tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD% Dollar",
-						"&f◦◦ Goldenboots %tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD% TTExp | "
-										  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD% VanillaExp | "
-										  + "%tt_raw_reward_techtotal_money_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD% Dollar",
-						"&f◦◦ Diamondboots %tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD% TTExp | "
-										     + "%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD% VanillaExp | "
-										     + "%tt_raw_reward_techtotal_money_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD% Dollar",
+						"&f◦◦ Leatherboots &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,CRAFTING,HAND,LEATHER_BOOTS% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,CRAFTING,HAND,LEATHER_BOOTS% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,boots,CRAFTING,HAND,LEATHER_BOOTS% Dollar",
+						"&f◦◦ Ironboots &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD% Dollar",
+						"&f◦◦ Goldenboots &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD% TTExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD% VExp | "
+										  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD% Dollar",
+						"&f◦◦ Diamondboots &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD% TTExp | "
+										     + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD% VExp | "
+										     + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD% Dollar",
 						"&f◦ Smithing:",
-						"&f◦◦ Netheriteboots %tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,SMITHING,HAND,NETHERITE_SWORD% TTExp | "
-										       + "%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,SMITHING,HAND,NETHERITE_SWORD% VanillaExp | "
-										       + "%tt_raw_reward_techtotal_money_mat,SOLO,boots,SMITHING,HAND,NETHERITE_SWORD% Dollar",
+						"&f◦◦ Netheriteboots &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,boots,SMITHING,HAND,NETHERITE_SWORD% TTExp | "
+										       + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,boots,SMITHING,HAND,NETHERITE_SWORD% VExp | "
+										       + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,boots,SMITHING,HAND,NETHERITE_SWORD% Dollar",
 						"&f◦ Drops:",
-						"&f◦◦ Ironingots during the production of an ironboots %tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD,mat=IRON_INGOT%",
-						"&f◦◦ Goldingots during the production of an goldenboots %tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD,mat=GOLD_INGOT%",
-						"&f◦◦ Diamonds during the production of an diamondboots %tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD,mat=DIAMOND%",
-						"&f◦◦ Netheriteingots during the production of an netheriteboots %tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,NETHERITE_SWORD,mat=NETHERITE_INGOT%",
+						"&f◦◦ Ironingots during the production of an ironboots &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD,mat=IRON_INGOT%",
+						"&f◦◦ Goldingots during the production of an goldenboots &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD,mat=GOLD_INGOT%",
+						"&f◦◦ Diamonds during the production of an diamondboots &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD,mat=DIAMOND%",
+						"&f◦◦ Netheriteingots during the production of an netheriteboots &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,NETHERITE_SWORD,mat=NETHERITE_INGOT%",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
@@ -5318,7 +5312,7 @@ public class YamlManager
 				"STICK;8"});
 		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] {
-				"BREAKING:DIRT:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",
+				"BREAKING:DIRT:null:tool=HAND:ttexp=10.0:vaexp=10:vault=0.1:default=1.0", //TODO Change back
 				"BREAKING:GRASS_BLOCK:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",
 				"BREAKING:SAND:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",
 				"BREAKING:GRAVEL:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1"});
@@ -5401,7 +5395,7 @@ public class YamlManager
 				"BREAKING:HAND:DIRT:null:mat=DIRT:1:1.0",
 				"BREAKING:HAND:GRASS_BLOCK:null:mat=DIRT:1:1.0",
 				"BREAKING:HAND:SAND:null:mat=SAND:1:1.0",
-				"BREAKING:WOODEN_SHOVEL:GRAVEL:null:mat=GRAVEL:1:1.0"});
+				"BREAKING:HAND:GRAVEL:null:mat=GRAVEL:1:1.0"});
 		rewardSilkTouchDropChance.put(2, new String[] {
 				"BREAKING:WOODEN_SHOVEL:DIRT:null:mat=DIRT:1:1.0",
 				"BREAKING:WOODEN_SHOVEL:GRASS_BLOCK:null:mat=GRASS_BLOCK:1:1.0",
@@ -5446,30 +5440,30 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Erde/Erde(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_I,1,BREAKING,HAND,DIRT,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Erde/Erde(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,1,BREAKING,HAND,DIRT,mat=DIRT%",
-				"&fAbbauen von Erde(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,1,BREAKING,HAND,DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,1,BREAKING,HAND,DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,1,BREAKING,HAND,DIRT% Dollar",
+				"&f% von &#c6a664Erde/Erde(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,1,BREAKING,HAND,DIRT,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Erde/Erde(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,1,BREAKING,HAND,DIRT,mat=DIRT%",
+				"&fAbbauen von &#c6a664Erde(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,1,BREAKING,HAND,DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,1,BREAKING,HAND,DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,1,BREAKING,HAND,DIRT% Dollar",
 						  
-				"&fDropChance von Grasblock/Erde(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_I,1,BREAKING,HAND,GRASS_BLOCK,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Grasblock/Grasblock(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,1,BREAKING,HAND,GRASS_BLOCK,mat=GRASS_BLOCK%",
-				"&fAbbauen von Grasblock(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,1,BREAKING,HAND,GRASS_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,1,BREAKING,HAND,GRASS_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,1,BREAKING,HAND,GRASS_BLOCK% Dollar",
+				"&f% von &#c6a664Grasblock/Erde(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,1,BREAKING,HAND,GRASS_BLOCK,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Grasblock/Grasblock(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,1,BREAKING,HAND,GRASS_BLOCK,mat=GRASS_BLOCK%",
+				"&fAbbauen von &#c6a664Grasblock(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,1,BREAKING,HAND,GRASS_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,1,BREAKING,HAND,GRASS_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,1,BREAKING,HAND,GRASS_BLOCK% Dollar",
 						  
-				"&fDropChance von Sand/Sand(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_I,1,BREAKING,HAND,SAND,mat=SAND%",
-				"&fBehutsamkeits DropChance von Sand/Sand(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,1,BREAKING,HAND,SAND,mat=SAND%",
-				"&fAbbauen von Sand(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,1,BREAKING,HAND,SAND% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,1,BREAKING,HAND,SAND% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,1,BREAKING,HAND,SAND% Dollar",
+				"&f% von &#c6a664Sand/Sand(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,1,BREAKING,HAND,SAND,mat=SAND%",
+				"&fBehuts. % von &#c6a664Sand/Sand(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,1,BREAKING,HAND,SAND,mat=SAND%",
+				"&fAbbauen von &#c6a664Sand(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,1,BREAKING,HAND,SAND% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,1,BREAKING,HAND,SAND% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,1,BREAKING,HAND,SAND% Dollar",
 						  
-				"&fDropChance von Kies/Kies(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_I,1,BREAKING,HAND,GRAVEL,mat=GRAVEL%",
-				"&fBehutsamkeits DropChance von Kies/Kies(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,1,BREAKING,HAND,GRAVEL,mat=GRAVEL%",
-				"&fDropChance von Kies/Feuerstein(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_I,1,BREAKING,HAND,GRAVEL,mat=FLINT%",
-				"&fAbbauen von Kies(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,1,BREAKING,HAND,GRAVEL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,1,BREAKING,HAND,GRAVEL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,1,BREAKING,HAND,GRAVEL% Dollar",
+				"&f% von &#c6a664Kies/Kies(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,1,BREAKING,HAND,GRAVEL,mat=GRAVEL%",
+				"&fBehuts. % von &#c6a664Kies/Kies(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,1,BREAKING,HAND,GRAVEL,mat=GRAVEL%",
+				"&f% von &#c6a664Kies/Feuerstein(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,1,BREAKING,HAND,GRAVEL,mat=FLINT%",
+				"&fAbbauen von &#c6a664Kies(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,1,BREAKING,HAND,GRAVEL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,1,BREAKING,HAND,GRAVEL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,1,BREAKING,HAND,GRAVEL% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -5480,30 +5474,30 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Dirt/Dirt(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_I,1,BREAKING,HAND,DIRT,mat=DIRT%",
-				"&fSilktouchDropChance of Dirt/Dirt(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,1,BREAKING,HAND,DIRT,mat=DIRT%",
-				"&fMining of Dirt(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,1,BREAKING,HAND,DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,1,BREAKING,HAND,DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,1,BREAKING,HAND,DIRT% Dollar",
+				"&f% of &#c6a664Dirt/Dirt(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,1,BREAKING,HAND,DIRT,mat=DIRT%",
+				"&fSilkT% of &#c6a664Dirt/Dirt(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,1,BREAKING,HAND,DIRT,mat=DIRT%",
+				"&fMining of &#c6a664Dirt(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,1,BREAKING,HAND,DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,1,BREAKING,HAND,DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,1,BREAKING,HAND,DIRT% Dollar",
 						  
-				"&fDropChance of Grasblock/Dirt(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_I,1,BREAKING,HAND,GRASS_BLOCK,mat=DIRT%",
-				"&fSilktouchDropChance of Grasblock/Grasblock(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,1,BREAKING,HAND,GRASS_BLOCK,mat=GRASS_BLOCK%",
-				"&fMining of Grasblock(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,1,BREAKING,HAND,GRASS_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,1,BREAKING,HAND,GRASS_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,1,BREAKING,HAND,GRASS_BLOCK% Dollar",
+				"&f% of &#c6a664Grasblock/Dirt(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,1,BREAKING,HAND,GRASS_BLOCK,mat=DIRT%",
+				"&fSilkT% of &#c6a664Grasblock/Grasblock(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,1,BREAKING,HAND,GRASS_BLOCK,mat=GRASS_BLOCK%",
+				"&fMining of &#c6a664Grasblock(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,1,BREAKING,HAND,GRASS_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,1,BREAKING,HAND,GRASS_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,1,BREAKING,HAND,GRASS_BLOCK% Dollar",
 						  
-				"&fDropChance of Sand/Sand(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_I,1,BREAKING,HAND,SAND,mat=SAND%",
-				"&fSilktouchDropChance of Sand/Sand(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,1,BREAKING,HAND,SAND,mat=SAND%",
-				"&fMining of Sand(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,1,BREAKING,HAND,SAND% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,1,BREAKING,HAND,SAND% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,1,BREAKING,HAND,SAND% Dollar",
+				"&f% of &#c6a664Sand/Sand(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,1,BREAKING,HAND,SAND,mat=SAND%",
+				"&fSilkT% of &#c6a664Sand/Sand(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,1,BREAKING,HAND,SAND,mat=SAND%",
+				"&fMining of &#c6a664Sand(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,1,BREAKING,HAND,SAND% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,1,BREAKING,HAND,SAND% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,1,BREAKING,HAND,SAND% Dollar",
 						  
-				"&fDropChance of Kies/Kies(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_I,1,BREAKING,HAND,GRAVEL,mat=GRAVEL%",
-				"&fSilktouchDropChance of Kies/Kies(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,1,BREAKING,HAND,GRAVEL,mat=GRAVEL%",
-				"&fDropChance of Kies/Feuerstein(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_I,1,BREAKING,HAND,GRAVEL,mat=FLINT%",
-				"&fMining of Kies(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,1,BREAKING,HAND,GRAVEL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,1,BREAKING,HAND,GRAVEL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,1,BREAKING,HAND,GRAVEL% Dollar",
+				"&f% of &#c6a664Kies/Kies(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,1,BREAKING,HAND,GRAVEL,mat=GRAVEL%",
+				"&fSilkT% of &#c6a664Kies/Kies(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,1,BREAKING,HAND,GRAVEL,mat=GRAVEL%",
+				"&f% of &#c6a664Kies/Feuerstein(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,1,BREAKING,HAND,GRAVEL,mat=FLINT%",
+				"&fMining of &#c6a664Kies(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,1,BREAKING,HAND,GRAVEL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,1,BREAKING,HAND,GRAVEL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,1,BREAKING,HAND,GRAVEL% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(2, new String[] {
@@ -5515,30 +5509,30 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Erde/Erde(Holzschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,DIRT,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Erde/Erde(Holzschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,DIRT,mat=DIRT%",
-				"&fAbbauen von Erde(Holzschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,DIRT% Dollar",
+				"&f% von &#c6a664&#c6a664Erde/Erde(Holzschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,DIRT,mat=DIRT%",
+				"&fBehuts. % von &#c6a664&#c6a664Erde/Erde(Holzschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,DIRT,mat=DIRT%",
+				"&fAbbauen von &#c6a664&#c6a664Erde(Holzschaufel) &#546f42&#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,DIRT% Dollar",
 						  
-				"&fDropChance von Grasblock/Erde(Holzschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRASS_BLOCK,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Grasblock/Grasblock(Holzschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRASS_BLOCK,mat=GRASS_BLOCK%",
-				"&fAbbauen von Grasblock(Holzschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRASS_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRASS_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRASS_BLOCK% Dollar",
+				"&f% von &#c6a664&#c6a664Grasblock/Erde(Holzschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRASS_BLOCK,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Grasblock/Grasblock(Holzschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRASS_BLOCK,mat=GRASS_BLOCK%",
+				"&fAbbauen von &#c6a664Grasblock(Holzschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRASS_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRASS_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRASS_BLOCK% Dollar",
 						  
-				"&fDropChance von Sand/Sand(Holzschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,SAND,mat=SAND%",
-				"&fBehutsamkeits DropChance von Sand/Sand(Holzschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,SAND,mat=SAND%",
-				"&fAbbauen von Sand(Holzschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,SAND% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,SAND% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,SAND% Dollar",
+				"&f% von &#c6a664Sand/Sand(Holzschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,SAND,mat=SAND%",
+				"&fBehuts. % von &#c6a664Sand/Sand(Holzschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,SAND,mat=SAND%",
+				"&fAbbauen von &#c6a664Sand(Holzschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,SAND% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,SAND% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,SAND% Dollar",
 						  
-				"&fDropChance von Kies/Kies(Holzschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRAVEL,mat=GRAVEL%",
-				"&fBehutsamkeits DropChance von Kies/Kies(Holzschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRAVEL,mat=GRAVEL%",
-				"&fDropChance von Kies/Feuerstein(Holzschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRAVEL,mat=FLINT%",
-				"&fAbbauen von Kies(Holzschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRAVEL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRAVEL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRAVEL% Dollar",
+				"&f% von &#c6a664Kies/Kies(Holzschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRAVEL,mat=GRAVEL%",
+				"&fBehuts. % von &#c6a664Kies/Kies(Holzschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRAVEL,mat=GRAVEL%",
+				"&f% von &#c6a664Kies/Feuerstein(Holzschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRAVEL,mat=FLINT%",
+				"&fAbbauen von &#c6a664Kies(Holzschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRAVEL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRAVEL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRAVEL% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -5549,30 +5543,30 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Dirt/Dirt(Woodenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,DIRT,mat=DIRT%",
-				"&fSilktouchDropChance of Dirt/Dirt(Woodenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,DIRT,mat=DIRT%",
-				"&fMining of Dirt(Woodenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,DIRT% Dollar",
+				"&f% of &#c6a664Dirt/Dirt(Woodenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,DIRT,mat=DIRT%",
+				"&fSilkT% of &#c6a664Dirt/Dirt(Woodenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,DIRT,mat=DIRT%",
+				"&fMining of &#c6a664Dirt(Woodenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,DIRT% Dollar",
 						  
-				"&fDropChance of Grasblock/Dirt(Woodenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRASS_BLOCK,mat=DIRT%",
-				"&fSilktouchDropChance of Grasblock/Grasblock(Woodenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRASS_BLOCK,mat=GRASS_BLOCK%",
-				"&fMining of Grasblock(Woodenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRASS_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRASS_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRASS_BLOCK% Dollar",
+				"&f% of &#c6a664Grasblock/Dirt(Woodenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRASS_BLOCK,mat=DIRT%",
+				"&fSilkT% of &#c6a664Grasblock/Grasblock(Woodenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRASS_BLOCK,mat=GRASS_BLOCK%",
+				"&fMining of &#c6a664Grasblock(Woodenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRASS_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRASS_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRASS_BLOCK% Dollar",
 						  
-				"&fDropChance of Sand/Sand(Woodenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,SAND,mat=SAND%",
-				"&fSilktouchDropChance of Sand/Sand(Woodenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,SAND,mat=SAND%",
-				"&fMining of Sand(Woodenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,SAND% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,SAND% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,SAND% Dollar",
+				"&f% of &#c6a664Sand/Sand(Woodenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,SAND,mat=SAND%",
+				"&fSilkT% of &#c6a664Sand/Sand(Woodenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,SAND,mat=SAND%",
+				"&fMining of &#c6a664Sand(Woodenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,SAND% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,SAND% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,SAND% Dollar",
 						  
-				"&fDropChance of Kies/Kies(Woodenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRAVEL,mat=GRAVEL%",
-				"&fSilktouchDropChance of Kies/Kies(Woodenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRAVEL,mat=GRAVEL%",
-				"&fDropChance of Kies/Feuerstein(Woodenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRAVEL,mat=FLINT%",
-				"&fMining of Kies(Woodenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRAVEL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRAVEL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRAVEL% Dollar",
+				"&f% of &#c6a664Kies/Kies(Woodenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRAVEL,mat=GRAVEL%",
+				"&fSilkT% of &#c6a664Kies/Kies(Woodenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRAVEL,mat=GRAVEL%",
+				"&f% of &#c6a664Kies/Feuerstein(Woodenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRAVEL,mat=FLINT%",
+				"&fMining of &#c6a664Kies(Woodenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRAVEL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRAVEL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,2,BREAKING,WOODEN_SHOVEL,GRAVEL% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(3, new String[] {
@@ -5584,30 +5578,30 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Erde/Erde(Steinschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,DIRT,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Erde/Erde(Steinschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,DIRT,mat=DIRT%",
-				"&fAbbauen von Erde(Steinschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,DIRT% Dollar",
+				"&f% von &#c6a664Erde/Erde(Steinschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,DIRT,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Erde/Erde(Steinschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,DIRT,mat=DIRT%",
+				"&fAbbauen von &#c6a664Erde(Steinschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,DIRT% Dollar",
 						  
-				"&fDropChance von Grasblock/Erde(Steinschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRASS_BLOCK,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Grasblock/Grasblock(Steinschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRASS_BLOCK,mat=GRASS_BLOCK%",
-				"&fAbbauen von Grasblock(Steinschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRASS_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRASS_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRASS_BLOCK% Dollar",
+				"&f% von &#c6a664Grasblock/Erde(Steinschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRASS_BLOCK,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Grasblock/Grasblock(Steinschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRASS_BLOCK,mat=GRASS_BLOCK%",
+				"&fAbbauen von &#c6a664Grasblock(Steinschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRASS_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRASS_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRASS_BLOCK% Dollar",
 						  
-				"&fDropChance von Sand/Sand(Steinschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,SAND,mat=SAND%",
-				"&fBehutsamkeits DropChance von Sand/Sand(Steinschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,SAND,mat=SAND%",
-				"&fAbbauen von Sand(Steinschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,SAND% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,SAND% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,SAND% Dollar",
+				"&f% von &#c6a664Sand/Sand(Steinschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,SAND,mat=SAND%",
+				"&fBehuts. % von &#c6a664Sand/Sand(Steinschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,SAND,mat=SAND%",
+				"&fAbbauen von &#c6a664Sand(Steinschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,SAND% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,SAND% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,SAND% Dollar",
 						  
-				"&fDropChance von Kies/Kies(Steinschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRAVEL,mat=GRAVEL%",
-				"&fBehutsamkeits DropChance von Kies/Kies(Steinschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRAVEL,mat=GRAVEL%",
-				"&fDropChance von Kies/Feuerstein(Steinschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRAVEL,mat=FLINT%",
-				"&fAbbauen von Kies(Steinschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRAVEL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRAVEL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRAVEL% Dollar",
+				"&f% von &#c6a664Kies/Kies(Steinschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRAVEL,mat=GRAVEL%",
+				"&fBehuts. % von &#c6a664Kies/Kies(Steinschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRAVEL,mat=GRAVEL%",
+				"&f% von &#c6a664Kies/Feuerstein(Steinschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRAVEL,mat=FLINT%",
+				"&fAbbauen von &#c6a664Kies(Steinschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRAVEL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRAVEL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRAVEL% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -5618,30 +5612,30 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Dirt/Dirt(Stoneshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,DIRT,mat=DIRT%",
-				"&fSilktouchDropChance of Dirt/Dirt(Stoneshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,DIRT,mat=DIRT%",
-				"&fMining of Dirt(Stoneshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,DIRT% Dollar",
+				"&f% of &#c6a664Dirt/Dirt(Stoneshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,DIRT,mat=DIRT%",
+				"&fSilkT% of &#c6a664Dirt/Dirt(Stoneshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,DIRT,mat=DIRT%",
+				"&fMining of &#c6a664Dirt(Stoneshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,DIRT% Dollar",
 						  
-				"&fDropChance of Grasblock/Dirt(Stoneshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRASS_BLOCK,mat=DIRT%",
-				"&fSilktouchDropChance of Grasblock/Grasblock(Stoneshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRASS_BLOCK,mat=GRASS_BLOCK%",
-				"&fMining of Grasblock(Stoneshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRASS_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRASS_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRASS_BLOCK% Dollar",
+				"&f% of &#c6a664Grasblock/Dirt(Stoneshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRASS_BLOCK,mat=DIRT%",
+				"&fSilkT% of &#c6a664Grasblock/Grasblock(Stoneshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRASS_BLOCK,mat=GRASS_BLOCK%",
+				"&fMining of &#c6a664Grasblock(Stoneshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRASS_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRASS_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRASS_BLOCK% Dollar",
 						  
-				"&fDropChance of Sand/Sand(Stoneshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,SAND,mat=SAND%",
-				"&fSilktouchDropChance of Sand/Sand(Stoneshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,SAND,mat=SAND%",
-				"&fMining of Sand(Stoneshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,SAND% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,SAND% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,SAND% Dollar",
+				"&f% of &#c6a664Sand/Sand(Stoneshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,SAND,mat=SAND%",
+				"&fSilkT% of &#c6a664Sand/Sand(Stoneshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,SAND,mat=SAND%",
+				"&fMining of &#c6a664Sand(Stoneshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,SAND% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,SAND% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,SAND% Dollar",
 						  
-				"&fDropChance of Kies/Kies(Stoneshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRAVEL,mat=GRAVEL%",
-				"&fSilktouchDropChance of Kies/Kies(Stoneshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRAVEL,mat=GRAVEL%",
-				"&fDropChance of Kies/Feuerstein(Stoneshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRAVEL,mat=FLINT%",
-				"&fMining of Kies(Stoneshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRAVEL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRAVEL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRAVEL% Dollar",
+				"&f% of &#c6a664Kies/Kies(Stoneshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRAVEL,mat=GRAVEL%",
+				"&fSilkT% of &#c6a664Kies/Kies(Stoneshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRAVEL,mat=GRAVEL%",
+				"&f% of &#c6a664Kies/Feuerstein(Stoneshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRAVEL,mat=FLINT%",
+				"&fMining of &#c6a664Kies(Stoneshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRAVEL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRAVEL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,3,BREAKING,STONE_SHOVEL,GRAVEL% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(4, new String[] {
@@ -5653,30 +5647,30 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Erde/Erde(Eisenschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,DIRT,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Erde/Erde(Eisenschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,DIRT,mat=DIRT%",
-				"&fAbbauen von Erde(Eisenschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,DIRT% Dollar",
+				"&f% von &#c6a664Erde/Erde(Eisenschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,DIRT,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Erde/Erde(Eisenschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,DIRT,mat=DIRT%",
+				"&fAbbauen von &#c6a664Erde(Eisenschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,DIRT% Dollar",
 						  
-				"&fDropChance von Grasblock/Erde(Eisenschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRASS_BLOCK,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Grasblock/Grasblock(Eisenschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRASS_BLOCK,mat=GRASS_BLOCK%",
-				"&fAbbauen von Grasblock(Eisenschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRASS_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRASS_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRASS_BLOCK% Dollar",
+				"&f% von &#c6a664Grasblock/Erde(Eisenschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRASS_BLOCK,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Grasblock/Grasblock(Eisenschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRASS_BLOCK,mat=GRASS_BLOCK%",
+				"&fAbbauen von &#c6a664Grasblock(Eisenschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRASS_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRASS_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRASS_BLOCK% Dollar",
 						  
-				"&fDropChance von Sand/Sand(Eisenschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,SAND,mat=SAND%",
-				"&fBehutsamkeits DropChance von Sand/Sand(Eisenschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,SAND,mat=SAND%",
-				"&fAbbauen von Sand(Eisenschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,SAND% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,SAND% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,SAND% Dollar",
+				"&f% von &#c6a664Sand/Sand(Eisenschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,SAND,mat=SAND%",
+				"&fBehuts. % von &#c6a664Sand/Sand(Eisenschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,SAND,mat=SAND%",
+				"&fAbbauen von &#c6a664Sand(Eisenschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,SAND% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,SAND% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,SAND% Dollar",
 						  
-				"&fDropChance von Kies/Kies(Eisenschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRAVEL,mat=GRAVEL%",
-				"&fBehutsamkeits DropChance von Kies/Kies(Eisenschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRAVEL,mat=GRAVEL%",
-				"&fDropChance von Kies/Feuerstein(Eisenschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRAVEL,mat=FLINT%",
-				"&fAbbauen von Kies(Eisenschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRAVEL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRAVEL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRAVEL% Dollar",
+				"&f% von &#c6a664Kies/Kies(Eisenschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRAVEL,mat=GRAVEL%",
+				"&fBehuts. % von &#c6a664Kies/Kies(Eisenschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRAVEL,mat=GRAVEL%",
+				"&f% von &#c6a664Kies/Feuerstein(Eisenschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRAVEL,mat=FLINT%",
+				"&fAbbauen von &#c6a664Kies(Eisenschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRAVEL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRAVEL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRAVEL% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -5687,30 +5681,30 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Dirt/Dirt(Ironshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,DIRT,mat=DIRT%",
-				"&fSilktouchDropChance of Dirt/Dirt(Ironshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,DIRT,mat=DIRT%",
-				"&fMining of Dirt(Ironshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,DIRT% Dollar",
+				"&f% of &#c6a664Dirt/Dirt(Ironshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,DIRT,mat=DIRT%",
+				"&fSilkT% of &#c6a664Dirt/Dirt(Ironshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,DIRT,mat=DIRT%",
+				"&fMining of &#c6a664Dirt(Ironshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,DIRT% Dollar",
 						  
-				"&fDropChance of Grasblock/Dirt(Ironshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRASS_BLOCK,mat=DIRT%",
-				"&fSilktouchDropChance of Grasblock/Grasblock(Ironshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRASS_BLOCK,mat=GRASS_BLOCK%",
-				"&fMining of Grasblock(Ironshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRASS_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRASS_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRASS_BLOCK% Dollar",
+				"&f% of &#c6a664Grasblock/Dirt(Ironshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRASS_BLOCK,mat=DIRT%",
+				"&fSilkT% of &#c6a664Grasblock/Grasblock(Ironshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRASS_BLOCK,mat=GRASS_BLOCK%",
+				"&fMining of &#c6a664Grasblock(Ironshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRASS_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRASS_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRASS_BLOCK% Dollar",
 						  
-				"&fDropChance of Sand/Sand(Ironshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,SAND,mat=SAND%",
-				"&fSilktouchDropChance of Sand/Sand(Ironshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,SAND,mat=SAND%",
-				"&fMining of Sand(Ironshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,SAND% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,SAND% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,SAND% Dollar",
+				"&f% of &#c6a664Sand/Sand(Ironshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,SAND,mat=SAND%",
+				"&fSilkT% of &#c6a664Sand/Sand(Ironshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,SAND,mat=SAND%",
+				"&fMining of &#c6a664Sand(Ironshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,SAND% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,SAND% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,SAND% Dollar",
 						  
-				"&fDropChance of Kies/Kies(Ironshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRAVEL,mat=GRAVEL%",
-				"&fSilktouchDropChance of Kies/Kies(Ironshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRAVEL,mat=GRAVEL%",
-				"&fDropChance of Kies/Feuerstein(Ironshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRAVEL,mat=FLINT%",
-				"&fMining of Kies(Ironshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRAVEL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRAVEL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRAVEL% Dollar",
+				"&f% of &#c6a664Kies/Kies(Ironshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRAVEL,mat=GRAVEL%",
+				"&fSilkT% of &#c6a664Kies/Kies(Ironshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRAVEL,mat=GRAVEL%",
+				"&f% of &#c6a664Kies/Feuerstein(Ironshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRAVEL,mat=FLINT%",
+				"&fMining of &#c6a664Kies(Ironshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRAVEL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRAVEL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,4,BREAKING,IRON_SHOVEL,GRAVEL% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(5, new String[] {
@@ -5722,30 +5716,30 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Erde/Erde(Goldschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,DIRT,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Erde/Erde(Goldschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,DIRT,mat=DIRT%",
-				"&fAbbauen von Erde(Goldschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,DIRT% Dollar",
+				"&f% von &#c6a664Erde/Erde(Goldschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,DIRT,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Erde/Erde(Goldschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,DIRT,mat=DIRT%",
+				"&fAbbauen von &#c6a664Erde(Goldschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,DIRT% Dollar",
 						  
-				"&fDropChance von Grasblock/Erde(Goldschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRASS_BLOCK,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Grasblock/Grasblock(Goldschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRASS_BLOCK,mat=GRASS_BLOCK%",
-				"&fAbbauen von Grasblock(Goldschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRASS_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRASS_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRASS_BLOCK% Dollar",
+				"&f% von &#c6a664Grasblock/Erde(Goldschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRASS_BLOCK,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Grasblock/Grasblock(Goldschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRASS_BLOCK,mat=GRASS_BLOCK%",
+				"&fAbbauen von &#c6a664Grasblock(Goldschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRASS_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRASS_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRASS_BLOCK% Dollar",
 						  
-				"&fDropChance von Sand/Sand(Goldschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,SAND,mat=SAND%",
-				"&fBehutsamkeits DropChance von Sand/Sand(Goldschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,SAND,mat=SAND%",
-				"&fAbbauen von Sand(Goldschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,SAND% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,SAND% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,SAND% Dollar",
+				"&f% von &#c6a664Sand/Sand(Goldschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,SAND,mat=SAND%",
+				"&fBehuts. % von &#c6a664Sand/Sand(Goldschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,SAND,mat=SAND%",
+				"&fAbbauen von &#c6a664Sand(Goldschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,SAND% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,SAND% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,SAND% Dollar",
 						  
-				"&fDropChance von Kies/Kies(Goldschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRAVEL,mat=GRAVEL%",
-				"&fBehutsamkeits DropChance von Kies/Kies(Goldschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRAVEL,mat=GRAVEL%",
-				"&fDropChance von Kies/Feuerstein(Goldschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRAVEL,mat=FLINT%",
-				"&fAbbauen von Kies(Goldschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRAVEL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRAVEL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRAVEL% Dollar",
+				"&f% von &#c6a664Kies/Kies(Goldschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRAVEL,mat=GRAVEL%",
+				"&fBehuts. % von &#c6a664Kies/Kies(Goldschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRAVEL,mat=GRAVEL%",
+				"&f% von &#c6a664Kies/Feuerstein(Goldschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRAVEL,mat=FLINT%",
+				"&fAbbauen von &#c6a664Kies(Goldschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRAVEL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRAVEL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRAVEL% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -5756,30 +5750,30 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Dirt/Dirt(Goldenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,DIRT,mat=DIRT%",
-				"&fSilktouchDropChance of Dirt/Dirt(Goldenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,DIRT,mat=DIRT%",
-				"&fMining of Dirt(Goldenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,DIRT% Dollar",
+				"&f% of &#c6a664Dirt/Dirt(Goldenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,DIRT,mat=DIRT%",
+				"&fSilkT% of &#c6a664Dirt/Dirt(Goldenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,DIRT,mat=DIRT%",
+				"&fMining of &#c6a664Dirt(Goldenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,DIRT% Dollar",
 						  
-				"&fDropChance of Grasblock/Dirt(Goldenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRASS_BLOCK,mat=DIRT%",
-				"&fSilktouchDropChance of Grasblock/Grasblock(Goldenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRASS_BLOCK,mat=GRASS_BLOCK%",
-				"&fMining of Grasblock(Goldenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRASS_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRASS_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRASS_BLOCK% Dollar",
+				"&f% of &#c6a664Grasblock/Dirt(Goldenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRASS_BLOCK,mat=DIRT%",
+				"&fSilkT% of &#c6a664Grasblock/Grasblock(Goldenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRASS_BLOCK,mat=GRASS_BLOCK%",
+				"&fMining of &#c6a664Grasblock(Goldenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRASS_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRASS_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRASS_BLOCK% Dollar",
 						  
-				"&fDropChance of Sand/Sand(Goldenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,SAND,mat=SAND%",
-				"&fSilktouchDropChance of Sand/Sand(Goldenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,SAND,mat=SAND%",
-				"&fMining of Sand(Goldenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,SAND% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,SAND% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,SAND% Dollar",
+				"&f% of &#c6a664Sand/Sand(Goldenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,SAND,mat=SAND%",
+				"&fSilkT% of &#c6a664Sand/Sand(Goldenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,SAND,mat=SAND%",
+				"&fMining of &#c6a664Sand(Goldenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,SAND% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,SAND% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,SAND% Dollar",
 						  
-				"&fDropChance of Kies/Kies(Goldenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRAVEL,mat=GRAVEL%",
-				"&fSilktouchDropChance of Kies/Kies(Goldenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRAVEL,mat=GRAVEL%",
-				"&fDropChance of Kies/Feuerstein(Goldenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRAVEL,mat=FLINT%",
-				"&fMining of Kies(Goldenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRAVEL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRAVEL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRAVEL% Dollar",
+				"&f% of &#c6a664Kies/Kies(Goldenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRAVEL,mat=GRAVEL%",
+				"&fSilkT% of &#c6a664Kies/Kies(Goldenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRAVEL,mat=GRAVEL%",
+				"&f% of &#c6a664Kies/Feuerstein(Goldenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRAVEL,mat=FLINT%",
+				"&fMining of &#c6a664Kies(Goldenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRAVEL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRAVEL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,5,BREAKING,GOLDEN_SHOVEL,GRAVEL% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(6, new String[] {
@@ -5791,30 +5785,30 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Erde/Erde(Diamandschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,DIRT,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Erde/Erde(Diamandschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,DIRT,mat=DIRT%",
-				"&fAbbauen von Erde(Diamandschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,DIRT% Dollar",
+				"&f% von &#c6a664Erde/Erde(Diamandschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,DIRT,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Erde/Erde(Diamandschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,DIRT,mat=DIRT%",
+				"&fAbbauen von &#c6a664Erde(Diamandschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,DIRT% Dollar",
 						  
-				"&fDropChance von Grasblock/Erde(Diamandschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRASS_BLOCK,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Grasblock/Grasblock(Diamandschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRASS_BLOCK,mat=GRASS_BLOCK%",
-				"&fAbbauen von Grasblock(Diamandschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRASS_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRASS_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRASS_BLOCK% Dollar",
+				"&f% von &#c6a664Grasblock/Erde(Diamandschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRASS_BLOCK,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Grasblock/Grasblock(Diamandschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRASS_BLOCK,mat=GRASS_BLOCK%",
+				"&fAbbauen von &#c6a664Grasblock(Diamandschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRASS_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRASS_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRASS_BLOCK% Dollar",
 						  
-				"&fDropChance von Sand/Sand(Diamandschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,SAND,mat=SAND%",
-				"&fBehutsamkeits DropChance von Sand/Sand(Diamandschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,SAND,mat=SAND%",
-				"&fAbbauen von Sand(Diamandschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,SAND% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,SAND% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,SAND% Dollar",
+				"&f% von &#c6a664Sand/Sand(Diamandschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,SAND,mat=SAND%",
+				"&fBehuts. % von &#c6a664Sand/Sand(Diamandschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,SAND,mat=SAND%",
+				"&fAbbauen von &#c6a664Sand(Diamandschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,SAND% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,SAND% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,SAND% Dollar",
 						  
-				"&fDropChance von Kies/Kies(Diamandschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRAVEL,mat=GRAVEL%",
-				"&fBehutsamkeits DropChance von Kies/Kies(Diamandschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRAVEL,mat=GRAVEL%",
-				"&fDropChance von Kies/Feuerstein(Diamandschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRAVEL,mat=FLINT%",
-				"&fAbbauen von Kies(Diamandschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRAVEL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRAVEL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRAVEL% Dollar",
+				"&f% von &#c6a664Kies/Kies(Diamandschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRAVEL,mat=GRAVEL%",
+				"&fBehuts. % von &#c6a664Kies/Kies(Diamandschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRAVEL,mat=GRAVEL%",
+				"&f% von &#c6a664Kies/Feuerstein(Diamandschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRAVEL,mat=FLINT%",
+				"&fAbbauen von &#c6a664Kies(Diamandschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRAVEL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRAVEL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRAVEL% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -5825,30 +5819,30 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Dirt/Dirt(Diamondshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,DIRT,mat=DIRT%",
-				"&fSilktouchDropChance of Dirt/Dirt(Diamondshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,DIRT,mat=DIRT%",
-				"&fMining of Dirt(Diamondshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,DIRT% Dollar",
+				"&f% of &#c6a664Dirt/Dirt(Diamondshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,DIRT,mat=DIRT%",
+				"&fSilkT% of &#c6a664Dirt/Dirt(Diamondshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,DIRT,mat=DIRT%",
+				"&fMining of &#c6a664Dirt(Diamondshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,DIRT% Dollar",
 						  
-				"&fDropChance of Grasblock/Dirt(Diamondshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRASS_BLOCK,mat=DIRT%",
-				"&fSilktouchDropChance of Grasblock/Grasblock(Diamondshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRASS_BLOCK,mat=GRASS_BLOCK%",
-				"&fMining of Grasblock(Diamondshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRASS_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRASS_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRASS_BLOCK% Dollar",
+				"&f% of &#c6a664Grasblock/Dirt(Diamondshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRASS_BLOCK,mat=DIRT%",
+				"&fSilkT% of &#c6a664Grasblock/Grasblock(Diamondshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRASS_BLOCK,mat=GRASS_BLOCK%",
+				"&fMining of &#c6a664Grasblock(Diamondshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRASS_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRASS_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRASS_BLOCK% Dollar",
 						  
-				"&fDropChance of Sand/Sand(Diamondshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,SAND,mat=SAND%",
-				"&fSilktouchDropChance of Sand/Sand(Diamondshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,SAND,mat=SAND%",
-				"&fMining of Sand(Diamondshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,SAND% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,SAND% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,SAND% Dollar",
+				"&f% of &#c6a664Sand/Sand(Diamondshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,SAND,mat=SAND%",
+				"&fSilkT% of &#c6a664Sand/Sand(Diamondshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,SAND,mat=SAND%",
+				"&fMining of &#c6a664Sand(Diamondshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,SAND% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,SAND% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,SAND% Dollar",
 						  
-				"&fDropChance of Kies/Kies(Diamondshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRAVEL,mat=GRAVEL%",
-				"&fSilktouchDropChance of Kies/Kies(Diamondshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRAVEL,mat=GRAVEL%",
-				"&fDropChance of Kies/Feuerstein(Diamondshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRAVEL,mat=FLINT%",
-				"&fMining of Kies(Diamondshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRAVEL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRAVEL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRAVEL% Dollar",
+				"&f% of &#c6a664Kies/Kies(Diamondshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRAVEL,mat=GRAVEL%",
+				"&fSilkT% of &#c6a664Kies/Kies(Diamondshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRAVEL,mat=GRAVEL%",
+				"&f% of &#c6a664Kies/Feuerstein(Diamondshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRAVEL,mat=FLINT%",
+				"&fMining of &#c6a664Kies(Diamondshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRAVEL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRAVEL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,6,BREAKING,DIAMOND_SHOVEL,GRAVEL% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(7, new String[] {
@@ -5860,30 +5854,30 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Erde/Erde(Netheriteschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,DIRT,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Erde/Erde(Netheriteschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,DIRT,mat=DIRT%",
-				"&fAbbauen von Erde(Netheriteschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,DIRT% Dollar",
+				"&f% von &#c6a664Erde/Erde(Netheriteschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,DIRT,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Erde/Erde(Netheriteschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,DIRT,mat=DIRT%",
+				"&fAbbauen von &#c6a664Erde(Netheriteschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,DIRT% Dollar",
 						  
-				"&fDropChance von Grasblock/Erde(Netheriteschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Grasblock/Grasblock(Netheriteschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK,mat=GRASS_BLOCK%",
-				"&fAbbauen von Grasblock(Netheriteschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK% Dollar",
+				"&f% von &#c6a664Grasblock/Erde(Netheriteschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Grasblock/Grasblock(Netheriteschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK,mat=GRASS_BLOCK%",
+				"&fAbbauen von &#c6a664Grasblock(Netheriteschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK% Dollar",
 						  
-				"&fDropChance von Sand/Sand(Netheriteschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,SAND,mat=SAND%",
-				"&fBehutsamkeits DropChance von Sand/Sand(Netheriteschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,SAND,mat=SAND%",
-				"&fAbbauen von Sand(Netheriteschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,SAND% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,SAND% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,SAND% Dollar",
+				"&f% von &#c6a664Sand/Sand(Netheriteschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,SAND,mat=SAND%",
+				"&fBehuts. % von &#c6a664Sand/Sand(Netheriteschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,SAND,mat=SAND%",
+				"&fAbbauen von &#c6a664Sand(Netheriteschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,SAND% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,SAND% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,SAND% Dollar",
 						  
-				"&fDropChance von Kies/Kies(Netheriteschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRAVEL,mat=GRAVEL%",
-				"&fBehutsamkeits DropChance von Kies/Kies(Netheriteschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRAVEL,mat=GRAVEL%",
-				"&fDropChance von Kies/Feuerstein(Netheriteschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRAVEL,mat=FLINT%",
-				"&fAbbauen von Kies(Netheriteschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRAVEL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRAVEL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRAVEL% Dollar",
+				"&f% von &#c6a664Kies/Kies(Netheriteschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRAVEL,mat=GRAVEL%",
+				"&fBehuts. % von &#c6a664Kies/Kies(Netheriteschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRAVEL,mat=GRAVEL%",
+				"&f% von &#c6a664Kies/Feuerstein(Netheriteschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRAVEL,mat=FLINT%",
+				"&fAbbauen von &#c6a664Kies(Netheriteschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRAVEL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRAVEL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRAVEL% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -5894,30 +5888,30 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Dirt/Dirt(Netheriteshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,DIRT,mat=DIRT%",
-				"&fSilktouchDropChance of Dirt/Dirt(Netheriteshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,DIRT,mat=DIRT%",
-				"&fMining of Dirt(Netheriteshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,DIRT% Dollar",
+				"&f% of &#c6a664Dirt/Dirt(Netheriteshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,DIRT,mat=DIRT%",
+				"&fSilkT% of &#c6a664Dirt/Dirt(Netheriteshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,DIRT,mat=DIRT%",
+				"&fMining of &#c6a664Dirt(Netheriteshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,DIRT% Dollar",
 						  
-				"&fDropChance of Grasblock/Dirt(Netheriteshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK,mat=DIRT%",
-				"&fSilktouchDropChance of Grasblock/Grasblock(Netheriteshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK,mat=GRASS_BLOCK%",
-				"&fMining of Grasblock(Netheriteshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK% Dollar",
+				"&f% of &#c6a664Grasblock/Dirt(Netheriteshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK,mat=DIRT%",
+				"&fSilkT% of &#c6a664Grasblock/Grasblock(Netheriteshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK,mat=GRASS_BLOCK%",
+				"&fMining of &#c6a664Grasblock(Netheriteshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK% Dollar",
 						  
-				"&fDropChance of Sand/Sand(Netheriteshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,SAND,mat=SAND%",
-				"&fSilktouchDropChance of Sand/Sand(Netheriteshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,SAND,mat=SAND%",
-				"&fMining of Sand(Netheriteshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,SAND% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,SAND% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,SAND% Dollar",
+				"&f% of &#c6a664Sand/Sand(Netheriteshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,SAND,mat=SAND%",
+				"&fSilkT% of &#c6a664Sand/Sand(Netheriteshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,SAND,mat=SAND%",
+				"&fMining of &#c6a664Sand(Netheriteshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,SAND% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,SAND% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,SAND% Dollar",
 						  
-				"&fDropChance of Kies/Kies(Netheriteshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRAVEL,mat=GRAVEL%",
-				"&fSilktouchDropChance of Kies/Kies(Netheriteshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRAVEL,mat=GRAVEL%",
-				"&fDropChance of Kies/Feuerstein(Netheriteshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRAVEL,mat=FLINT%",
-				"&fMining of Kies(Netheriteshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRAVEL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRAVEL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRAVEL% Dollar",
+				"&f% of &#c6a664Kies/Kies(Netheriteshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRAVEL,mat=GRAVEL%",
+				"&fSilkT% of &#c6a664Kies/Kies(Netheriteshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRAVEL,mat=GRAVEL%",
+				"&f% of &#c6a664Kies/Feuerstein(Netheriteshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRAVEL,mat=FLINT%",
+				"&fMining of &#c6a664Kies(Netheriteshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRAVEL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRAVEL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_I,7,BREAKING,NETHERITE_SHOVEL,GRAVEL% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
@@ -5933,7 +5927,7 @@ public class YamlManager
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fMining of Dirt, Grassblock, Sand & Gravel.",
+						"&fMining of &#c6a664Dirt, Grassblock, Sand & Gravel.",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Böden I","&7Soil I"},
@@ -5945,34 +5939,34 @@ public class YamlManager
 				Material.DIRT, 1, itemflag, enchantment, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fAbbauen von Erde %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,DIRT% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,DIRT% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,DIRT% Dollar",
-						"&fAbbauen von Grasblock %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK% Dollar",
-						"&fAbbauen von Sand %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,SAND% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,SAND% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,SAND% Dollar",
-						"&fAbbauen von Kies %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,GRAVEL% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,GRAVEL% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,GRAVEL% Dollar",
+						"&fAbbauen von &#c6a664Erde &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,DIRT% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,DIRT% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,DIRT% Dollar",
+						"&fAbbauen von &#c6a664Grasblock &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK% Dollar",
+						"&fAbbauen von &#c6a664Sand &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,SAND% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,SAND% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,SAND% Dollar",
+						"&fAbbauen von &#c6a664Kies &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,GRAVEL% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,GRAVEL% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,GRAVEL% Dollar",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fMining of Dirt %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,DIRT% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,DIRT% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,DIRT% Dollar",
-						"&fMining of Grasblock %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK% Dollar",
-						"&fMining of Sand %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,SAND% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,SAND% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,SAND% Dollar",
-						"&fMining of Kies %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,GRAVEL% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,GRAVEL% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,GRAVEL% Dollar",
+						"&fMining of &#c6a664Dirt &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,DIRT% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,DIRT% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,DIRT% Dollar",
+						"&fMining of &#c6a664Grasblock &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,GRASS_BLOCK% Dollar",
+						"&fMining of &#c6a664Sand &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,SAND% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,SAND% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,SAND% Dollar",
+						"&fMining of &#c6a664Kies &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,GRAVEL% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,GRAVEL% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_I,BREAKING,NETHERITE_SHOVEL,GRAVEL% Dollar",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
@@ -6100,6 +6094,11 @@ public class YamlManager
 				"BREAKING:NETHERITE_SHOVEL:DIRT_PATH:null:mat=DIRT:1:1.0",
 				"BREAKING:NETHERITE_SHOVEL:PODZOL:null:mat=DIRT:1:1.0"});
 		rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance.put(1, new String[] {
+				"BREAKING:HAND:COARSE_DIRT:null:mat=COARSE_DIRT:1:1.0",
+				"BREAKING:HAND:ROOTED_DIRT:null:mat=ROOTED_DIRT:1:1.0",
+				"BREAKING:HAND:DIRT_PATH:null:mat=DIRT:1:1.0",
+				"BREAKING:HAND:PODZOL:null:mat=PODZOL:1:1.0"});
 		rewardSilkTouchDropChance.put(2, new String[] {
 				"BREAKING:WOODEN_SHOVEL:COARSE_DIRT:null:mat=COARSE_DIRT:1:1.0",
 				"BREAKING:WOODEN_SHOVEL:ROOTED_DIRT:null:mat=ROOTED_DIRT:1:1.0",
@@ -6144,29 +6143,29 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Grobe Erde/Grobe Erde(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_II,1,BREAKING,HAND,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fBehutsamkeits DropChance von Grobe Erde/Grobe Erde(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,1,BREAKING,HAND,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fAbbauen von Grobe Erde(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,1,BREAKING,HAND,COARSE_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,1,BREAKING,HAND,COARSE_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,1,BREAKING,HAND,COARSE_DIRT% Dollar",
+				"&f% von &#c6a664Grobe Erde/Grobe Erde(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,1,BREAKING,HAND,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fBehuts. % von &#c6a664Grobe Erde/Grobe Erde(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,1,BREAKING,HAND,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fAbbauen von &#c6a664Grobe Erde(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,1,BREAKING,HAND,COARSE_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,1,BREAKING,HAND,COARSE_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,1,BREAKING,HAND,COARSE_DIRT% Dollar",
 						  
-				"&fDropChance von Wurzelerde/Wurzelerde(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_II,1,BREAKING,HAND,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fBehutsamkeits DropChance von Wurzelerde/Wurzelerde(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,1,BREAKING,HAND,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fAbbauen von Wurzelerde(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,1,BREAKING,HAND,ROOTED_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,1,BREAKING,HAND,ROOTED_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,1,BREAKING,HAND,ROOTED_DIRT% Dollar",
+				"&f% von &#c6a664Wurzelerde/Wurzelerde(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,1,BREAKING,HAND,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fBehuts. % von &#c6a664Wurzelerde/Wurzelerde(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,1,BREAKING,HAND,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fAbbauen von &#c6a664Wurzelerde(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,1,BREAKING,HAND,ROOTED_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,1,BREAKING,HAND,ROOTED_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,1,BREAKING,HAND,ROOTED_DIRT% Dollar",
 						  
-				"&fDropChance von Trampelpfad/Erde(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_II,1,BREAKING,HAND,DIRT_PATH,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Trampelpfad/Erde(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,1,BREAKING,HAND,DIRT_PATH,mat=DIRT%",
-				"&fAbbauen von Trampelpfad(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,1,BREAKING,HAND,DIRT_PATH% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,1,BREAKING,HAND,DIRT_PATH% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,1,BREAKING,HAND,DIRT_PATH% Dollar",
+				"&f% von &#c6a664Trampelpfad/Erde(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,1,BREAKING,HAND,DIRT_PATH,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Trampelpfad/Erde(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,1,BREAKING,HAND,DIRT_PATH,mat=DIRT%",
+				"&fAbbauen von &#c6a664Trampelpfad(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,1,BREAKING,HAND,DIRT_PATH% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,1,BREAKING,HAND,DIRT_PATH% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,1,BREAKING,HAND,DIRT_PATH% Dollar",
 						  
-				"&fDropChance von Podsol/Erde(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_II,1,BREAKING,HAND,PODZOL,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Podsol/Erde(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,1,BREAKING,HAND,PODZOL,mat=PODZOL%",
-				"&fAbbauen von Podsol(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,1,BREAKING,HAND,PODZOL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,1,BREAKING,HAND,PODZOL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,1,BREAKING,HAND,PODZOL% Dollar",
+				"&f% von &#c6a664Podsol/Erde(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,1,BREAKING,HAND,PODZOL,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Podsol/Erde(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,1,BREAKING,HAND,PODZOL,mat=PODZOL%",
+				"&fAbbauen von &#c6a664Podsol(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,1,BREAKING,HAND,PODZOL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,1,BREAKING,HAND,PODZOL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,1,BREAKING,HAND,PODZOL% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -6177,29 +6176,29 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Coarsedirt/Coarsedirt(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_II,1,BREAKING,HAND,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fSilktouchDropChance of Coarsedirt/Coarsedirt(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,1,BREAKING,HAND,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fMining of Coarsedirt(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,1,BREAKING,HAND,COARSE_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,1,BREAKING,HAND,COARSE_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,1,BREAKING,HAND,COARSE_DIRT% Dollar",
+				"&f% of &#c6a664Coarsedirt/Coarsedirt(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,1,BREAKING,HAND,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fSilkT% of &#c6a664Coarsedirt/Coarsedirt(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,1,BREAKING,HAND,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fMining of &#c6a664Coarsedirt(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,1,BREAKING,HAND,COARSE_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,1,BREAKING,HAND,COARSE_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,1,BREAKING,HAND,COARSE_DIRT% Dollar",
 						  
-				"&fDropChance of Rooteddirt/Rooteddirt(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_II,1,BREAKING,HAND,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fSilktouchDropChance of Rooteddirt/Rooteddirt(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,1,BREAKING,HAND,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fMining of Rooteddirt(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,1,BREAKING,HAND,ROOTED_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,1,BREAKING,HAND,ROOTED_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,1,BREAKING,HAND,ROOTED_DIRT% Dollar",
+				"&f% of &#c6a664Rooteddirt/Rooteddirt(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,1,BREAKING,HAND,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fSilkT% of &#c6a664Rooteddirt/Rooteddirt(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,1,BREAKING,HAND,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fMining of &#c6a664Rooteddirt(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,1,BREAKING,HAND,ROOTED_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,1,BREAKING,HAND,ROOTED_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,1,BREAKING,HAND,ROOTED_DIRT% Dollar",
 						  
-				"&fDropChance of Dirtpath/Dirt(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_II,1,BREAKING,HAND,DIRT_PATH,mat=DIRT%",
-				"&fSilktouchDropChance of Sand/Sand(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,1,BREAKING,HAND,DIRT_PATH,mat=DIRT_PATH%",
-				"&fMining of Dirtpath(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,1,BREAKING,HAND,DIRT_PATH% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,1,BREAKING,HAND,DIRT_PATH% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,1,BREAKING,HAND,DIRT_PATH% Dollar",
+				"&f% of &#c6a664Dirtpath/Dirt(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,1,BREAKING,HAND,DIRT_PATH,mat=DIRT%",
+				"&fSilkT% of &#c6a664Sand/Sand(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,1,BREAKING,HAND,DIRT_PATH,mat=DIRT_PATH%",
+				"&fMining of &#c6a664Dirtpath(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,1,BREAKING,HAND,DIRT_PATH% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,1,BREAKING,HAND,DIRT_PATH% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,1,BREAKING,HAND,DIRT_PATH% Dollar",
 						  
-				"&fDropChance of Podzol/Podzol(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_II,1,BREAKING,HAND,PODZOL,mat=PODZOL%",
-				"&fSilktouchDropChance of Podzol/Podzol(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,1,BREAKING,HAND,PODZOL,mat=DIRT%",
-				"&fMining of Kies(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,1,BREAKING,HAND,PODZOL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,1,BREAKING,HAND,PODZOL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,1,BREAKING,HAND,PODZOL% Dollar",
+				"&f% of &#c6a664Podzol/Podzol(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,1,BREAKING,HAND,PODZOL,mat=PODZOL%",
+				"&fSilkT% of &#c6a664Podzol/Podzol(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,1,BREAKING,HAND,PODZOL,mat=DIRT%",
+				"&fMining of &#c6a664Kies(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,1,BREAKING,HAND,PODZOL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,1,BREAKING,HAND,PODZOL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,1,BREAKING,HAND,PODZOL% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(2, new String[] {
@@ -6211,29 +6210,29 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Grobe Erde/Grobe Erde(Holzschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fBehutsamkeits DropChance von Grobe Erde/Grobe Erde(Holzschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fAbbauen von Grobe Erde(Holzschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,COARSE_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,COARSE_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,COARSE_DIRT% Dollar",
+				"&f% von &#c6a664Grobe Erde/Grobe Erde(Holzschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fBehuts. % von &#c6a664Grobe Erde/Grobe Erde(Holzschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fAbbauen von &#c6a664Grobe Erde(Holzschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,COARSE_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,COARSE_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,COARSE_DIRT% Dollar",
 						  
-				"&fDropChance von Wurzelerde/Wurzelerde(Holzschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fBehutsamkeits DropChance von Wurzelerde/Wurzelerde(Holzschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fAbbauen von Wurzelerde(Holzschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,ROOTED_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,ROOTED_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,ROOTED_DIRT% Dollar",
+				"&f% von &#c6a664Wurzelerde/Wurzelerde(Holzschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fBehuts. % von &#c6a664Wurzelerde/Wurzelerde(Holzschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fAbbauen von &#c6a664Wurzelerde(Holzschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,ROOTED_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,ROOTED_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,ROOTED_DIRT% Dollar",
 						  
-				"&fDropChance von Trampelpfad/Erde(Holzschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,DIRT_PATH,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Trampelpfad/Erde(Holzschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,DIRT_PATH,mat=DIRT%",
-				"&fAbbauen von Trampelpfad(Holzschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,DIRT_PATH% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,DIRT_PATH% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,DIRT_PATH% Dollar",
+				"&f% von &#c6a664Trampelpfad/Erde(Holzschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,DIRT_PATH,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Trampelpfad/Erde(Holzschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,DIRT_PATH,mat=DIRT%",
+				"&fAbbauen von &#c6a664Trampelpfad(Holzschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,DIRT_PATH% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,DIRT_PATH% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,DIRT_PATH% Dollar",
 						  
-				"&fDropChance von Podsol/Erde(Holzschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,PODZOL,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Podsol/Erde(Holzschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,PODZOL,mat=PODZOL%",
-				"&fAbbauen von Podsol(Holzschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,PODZOL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,PODZOL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,PODZOL% Dollar",
+				"&f% von &#c6a664Podsol/Erde(Holzschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,PODZOL,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Podsol/Erde(Holzschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,PODZOL,mat=PODZOL%",
+				"&fAbbauen von &#c6a664Podsol(Holzschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,PODZOL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,PODZOL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,PODZOL% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -6244,29 +6243,29 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Coarsedirt/Coarsedirt(Woodenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fSilktouchDropChance of Coarsedirt/Coarsedirt(Woodenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fMining of Coarsedirt(Woodenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,COARSE_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,COARSE_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,COARSE_DIRT% Dollar",
+				"&f% of &#c6a664Coarsedirt/Coarsedirt(Woodenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fSilkT% of &#c6a664Coarsedirt/Coarsedirt(Woodenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fMining of &#c6a664Coarsedirt(Woodenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,COARSE_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,COARSE_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,COARSE_DIRT% Dollar",
 						  
-				"&fDropChance of Rooteddirt/Rooteddirt(Woodenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fSilktouchDropChance of Rooteddirt/Rooteddirt(Woodenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fMining of Rooteddirt(Woodenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,ROOTED_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,ROOTED_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,ROOTED_DIRT% Dollar",
+				"&f% of &#c6a664Rooteddirt/Rooteddirt(Woodenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fSilkT% of &#c6a664Rooteddirt/Rooteddirt(Woodenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fMining of &#c6a664Rooteddirt(Woodenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,ROOTED_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,ROOTED_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,ROOTED_DIRT% Dollar",
 						  
-				"&fDropChance of Dirtpath/Dirt(Woodenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,DIRT_PATH,mat=DIRT%",
-				"&fSilktouchDropChance of Sand/Sand(Woodenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,DIRT_PATH,mat=DIRT_PATH%",
-				"&fMining of Dirtpath(Woodenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,DIRT_PATH% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,DIRT_PATH% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,DIRT_PATH% Dollar",
+				"&f% of &#c6a664Dirtpath/Dirt(Woodenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,DIRT_PATH,mat=DIRT%",
+				"&fSilkT% of &#c6a664Sand/Sand(Woodenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,DIRT_PATH,mat=DIRT_PATH%",
+				"&fMining of &#c6a664Dirtpath(Woodenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,DIRT_PATH% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,DIRT_PATH% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,DIRT_PATH% Dollar",
 						  
-				"&fDropChance of Podzol/Podzol(Woodenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,PODZOL,mat=PODZOL%",
-				"&fSilktouchDropChance of Podzol/Podzol(Woodenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,PODZOL,mat=DIRT%",
-				"&fMining of Kies(Woodenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,PODZOL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,PODZOL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,PODZOL% Dollar",
+				"&f% of &#c6a664Podzol/Podzol(Woodenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,PODZOL,mat=PODZOL%",
+				"&fSilkT% of &#c6a664Podzol/Podzol(Woodenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,PODZOL,mat=DIRT%",
+				"&fMining of &#c6a664Kies(Woodenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,PODZOL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,PODZOL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,2,BREAKING,WOODEN_SHOVEL,PODZOL% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(3, new String[] {
@@ -6278,29 +6277,29 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Grobe Erde/Grobe Erde(Steinschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fBehutsamkeits DropChance von Grobe Erde/Grobe Erde(Steinschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fAbbauen von Grobe Erde(Steinschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,COARSE_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,COARSE_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,COARSE_DIRT% Dollar",
+				"&f% von &#c6a664Grobe Erde/Grobe Erde(Steinschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fBehuts. % von &#c6a664Grobe Erde/Grobe Erde(Steinschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fAbbauen von &#c6a664Grobe Erde(Steinschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,COARSE_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,COARSE_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,COARSE_DIRT% Dollar",
 						  
-				"&fDropChance von Wurzelerde/Wurzelerde(Steinschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fBehutsamkeits DropChance von Wurzelerde/Wurzelerde(Steinschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fAbbauen von Wurzelerde(Steinschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,ROOTED_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,ROOTED_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,ROOTED_DIRT% Dollar",
+				"&f% von &#c6a664Wurzelerde/Wurzelerde(Steinschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fBehuts. % von &#c6a664Wurzelerde/Wurzelerde(Steinschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fAbbauen von &#c6a664Wurzelerde(Steinschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,ROOTED_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,ROOTED_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,ROOTED_DIRT% Dollar",
 						  
-				"&fDropChance von Trampelpfad/Erde(Steinschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,DIRT_PATH,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Trampelpfad/Erde(Steinschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,DIRT_PATH,mat=DIRT%",
-				"&fAbbauen von Trampelpfad(Steinschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,DIRT_PATH% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,DIRT_PATH% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,DIRT_PATH% Dollar",
+				"&f% von &#c6a664Trampelpfad/Erde(Steinschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,DIRT_PATH,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Trampelpfad/Erde(Steinschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,DIRT_PATH,mat=DIRT%",
+				"&fAbbauen von &#c6a664Trampelpfad(Steinschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,DIRT_PATH% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,DIRT_PATH% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,DIRT_PATH% Dollar",
 						  
-				"&fDropChance von Podsol/Erde(Steinschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,PODZOL,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Podsol/Erde(Steinschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,PODZOL,mat=PODZOL%",
-				"&fAbbauen von Podsol(Steinschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,PODZOL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,PODZOL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,PODZOL% Dollar",
+				"&f% von &#c6a664Podsol/Erde(Steinschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,PODZOL,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Podsol/Erde(Steinschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,PODZOL,mat=PODZOL%",
+				"&fAbbauen von &#c6a664Podsol(Steinschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,PODZOL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,PODZOL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,PODZOL% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -6311,29 +6310,29 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Coarsedirt/Coarsedirt(Stoneshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fSilktouchDropChance of Coarsedirt/Coarsedirt(Stoneshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fMining of Coarsedirt(Stoneshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,COARSE_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,COARSE_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,COARSE_DIRT% Dollar",
+				"&f% of &#c6a664Coarsedirt/Coarsedirt(Stoneshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fSilkT% of &#c6a664Coarsedirt/Coarsedirt(Stoneshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fMining of &#c6a664Coarsedirt(Stoneshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,COARSE_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,COARSE_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,COARSE_DIRT% Dollar",
 						  
-				"&fDropChance of Rooteddirt/Rooteddirt(Stoneshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fSilktouchDropChance of Rooteddirt/Rooteddirt(Stoneshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fMining of Rooteddirt(Stoneshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,ROOTED_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,ROOTED_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,ROOTED_DIRT% Dollar",
+				"&f% of &#c6a664Rooteddirt/Rooteddirt(Stoneshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fSilkT% of &#c6a664Rooteddirt/Rooteddirt(Stoneshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fMining of &#c6a664Rooteddirt(Stoneshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,ROOTED_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,ROOTED_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,ROOTED_DIRT% Dollar",
 						  
-				"&fDropChance of Dirtpath/Dirt(Stoneshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,DIRT_PATH,mat=DIRT%",
-				"&fSilktouchDropChance of Sand/Sand(Stoneshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,DIRT_PATH,mat=DIRT_PATH%",
-				"&fMining of Dirtpath(Stoneshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,DIRT_PATH% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,DIRT_PATH% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,DIRT_PATH% Dollar",
+				"&f% of &#c6a664Dirtpath/Dirt(Stoneshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,DIRT_PATH,mat=DIRT%",
+				"&fSilkT% of &#c6a664Sand/Sand(Stoneshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,DIRT_PATH,mat=DIRT_PATH%",
+				"&fMining of &#c6a664Dirtpath(Stoneshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,DIRT_PATH% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,DIRT_PATH% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,DIRT_PATH% Dollar",
 						  
-				"&fDropChance of Podzol/Podzol(Stoneshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,PODZOL,mat=PODZOL%",
-				"&fSilktouchDropChance of Podzol/Podzol(Stoneshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,PODZOL,mat=DIRT%",
-				"&fMining of Kies(Stoneshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,PODZOL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,PODZOL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,PODZOL% Dollar",
+				"&f% of &#c6a664Podzol/Podzol(Stoneshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,PODZOL,mat=PODZOL%",
+				"&fSilkT% of &#c6a664Podzol/Podzol(Stoneshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,PODZOL,mat=DIRT%",
+				"&fMining of &#c6a664Kies(Stoneshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,PODZOL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,PODZOL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,3,BREAKING,STONE_SHOVEL,PODZOL% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(4, new String[] {
@@ -6345,29 +6344,29 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Grobe Erde/Grobe Erde(Eisenschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fBehutsamkeits DropChance von Grobe Erde/Grobe Erde(Eisenschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fAbbauen von Grobe Erde(Eisenschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,COARSE_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,COARSE_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,COARSE_DIRT% Dollar",
+				"&f% von &#c6a664Grobe Erde/Grobe Erde(Eisenschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fBehuts. % von &#c6a664Grobe Erde/Grobe Erde(Eisenschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fAbbauen von &#c6a664Grobe Erde(Eisenschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,COARSE_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,COARSE_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,COARSE_DIRT% Dollar",
 						  
-				"&fDropChance von Wurzelerde/Wurzelerde(Eisenschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fBehutsamkeits DropChance von Wurzelerde/Wurzelerde(Eisenschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fAbbauen von Wurzelerde(Eisenschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,ROOTED_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,ROOTED_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,ROOTED_DIRT% Dollar",
+				"&f% von &#c6a664Wurzelerde/Wurzelerde(Eisenschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fBehuts. % von &#c6a664Wurzelerde/Wurzelerde(Eisenschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fAbbauen von &#c6a664Wurzelerde(Eisenschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,ROOTED_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,ROOTED_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,ROOTED_DIRT% Dollar",
 						  
-				"&fDropChance von Trampelpfad/Erde(Eisenschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,DIRT_PATH,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Trampelpfad/Erde(Eisenschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,DIRT_PATH,mat=DIRT%",
-				"&fAbbauen von Trampelpfad(Eisenschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,DIRT_PATH% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,DIRT_PATH% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,DIRT_PATH% Dollar",
+				"&f% von &#c6a664Trampelpfad/Erde(Eisenschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,DIRT_PATH,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Trampelpfad/Erde(Eisenschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,DIRT_PATH,mat=DIRT%",
+				"&fAbbauen von &#c6a664Trampelpfad(Eisenschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,DIRT_PATH% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,DIRT_PATH% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,DIRT_PATH% Dollar",
 						  
-				"&fDropChance von Podsol/Erde(Eisenschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,PODZOL,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Podsol/Erde(Eisenschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,PODZOL,mat=PODZOL%",
-				"&fAbbauen von Podsol(Eisenschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,PODZOL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,PODZOL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,PODZOL% Dollar",
+				"&f% von &#c6a664Podsol/Erde(Eisenschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,PODZOL,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Podsol/Erde(Eisenschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,PODZOL,mat=PODZOL%",
+				"&fAbbauen von &#c6a664Podsol(Eisenschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,PODZOL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,PODZOL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,PODZOL% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -6378,29 +6377,29 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Coarsedirt/Coarsedirt(Ironshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fSilktouchDropChance of Coarsedirt/Coarsedirt(Ironshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fMining of Coarsedirt(Ironshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,COARSE_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,COARSE_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,COARSE_DIRT% Dollar",
+				"&f% of &#c6a664Coarsedirt/Coarsedirt(Ironshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fSilkT% of &#c6a664Coarsedirt/Coarsedirt(Ironshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fMining of &#c6a664Coarsedirt(Ironshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,COARSE_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,COARSE_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,COARSE_DIRT% Dollar",
 						  
-				"&fDropChance of Rooteddirt/Rooteddirt(Ironshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fSilktouchDropChance of Rooteddirt/Rooteddirt(Ironshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fMining of Rooteddirt(Ironshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,ROOTED_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,ROOTED_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,ROOTED_DIRT% Dollar",
+				"&f% of &#c6a664Rooteddirt/Rooteddirt(Ironshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fSilkT% of &#c6a664Rooteddirt/Rooteddirt(Ironshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fMining of &#c6a664Rooteddirt(Ironshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,ROOTED_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,ROOTED_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,ROOTED_DIRT% Dollar",
 						  
-				"&fDropChance of Dirtpath/Dirt(Ironshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,DIRT_PATH,mat=DIRT%",
-				"&fSilktouchDropChance of Sand/Sand(Ironshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,DIRT_PATH,mat=DIRT_PATH%",
-				"&fMining of Dirtpath(Ironshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,DIRT_PATH% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,DIRT_PATH% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,DIRT_PATH% Dollar",
+				"&f% of &#c6a664Dirtpath/Dirt(Ironshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,DIRT_PATH,mat=DIRT%",
+				"&fSilkT% of &#c6a664Sand/Sand(Ironshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,DIRT_PATH,mat=DIRT_PATH%",
+				"&fMining of &#c6a664Dirtpath(Ironshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,DIRT_PATH% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,DIRT_PATH% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,DIRT_PATH% Dollar",
 						  
-				"&fDropChance of Podzol/Podzol(Ironshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,PODZOL,mat=PODZOL%",
-				"&fSilktouchDropChance of Podzol/Podzol(Ironshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,PODZOL,mat=DIRT%",
-				"&fMining of Kies(Ironshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,PODZOL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,PODZOL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,PODZOL% Dollar",
+				"&f% of &#c6a664Podzol/Podzol(Ironshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,PODZOL,mat=PODZOL%",
+				"&fSilkT% of &#c6a664Podzol/Podzol(Ironshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,PODZOL,mat=DIRT%",
+				"&fMining of &#c6a664Kies(Ironshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,PODZOL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,PODZOL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,4,BREAKING,IRON_SHOVEL,PODZOL% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(5, new String[] {
@@ -6412,29 +6411,29 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Grobe Erde/Grobe Erde(Goldschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fBehutsamkeits DropChance von Grobe Erde/Grobe Erde(Goldschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fAbbauen von Grobe Erde(Goldschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,COARSE_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,COARSE_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,COARSE_DIRT% Dollar",
+				"&f% von &#c6a664Grobe Erde/Grobe Erde(Goldschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fBehuts. % von &#c6a664Grobe Erde/Grobe Erde(Goldschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fAbbauen von &#c6a664Grobe Erde(Goldschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,COARSE_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,COARSE_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,COARSE_DIRT% Dollar",
 						  
-				"&fDropChance von Wurzelerde/Wurzelerde(Goldschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fBehutsamkeits DropChance von Wurzelerde/Wurzelerde(Goldschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fAbbauen von Wurzelerde(Goldschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,ROOTED_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,ROOTED_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,ROOTED_DIRT% Dollar",
+				"&f% von &#c6a664Wurzelerde/Wurzelerde(Goldschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fBehuts. % von &#c6a664Wurzelerde/Wurzelerde(Goldschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fAbbauen von &#c6a664Wurzelerde(Goldschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,ROOTED_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,ROOTED_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,ROOTED_DIRT% Dollar",
 						  
-				"&fDropChance von Trampelpfad/Erde(Goldschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,DIRT_PATH,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Trampelpfad/Erde(Goldschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,DIRT_PATH,mat=DIRT%",
-				"&fAbbauen von Trampelpfad(Goldschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,DIRT_PATH% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,DIRT_PATH% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,DIRT_PATH% Dollar",
+				"&f% von &#c6a664Trampelpfad/Erde(Goldschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,DIRT_PATH,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Trampelpfad/Erde(Goldschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,DIRT_PATH,mat=DIRT%",
+				"&fAbbauen von &#c6a664Trampelpfad(Goldschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,DIRT_PATH% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,DIRT_PATH% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,DIRT_PATH% Dollar",
 						  
-				"&fDropChance von Podsol/Erde(Goldschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,PODZOL,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Podsol/Erde(Goldschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,PODZOL,mat=PODZOL%",
-				"&fAbbauen von Podsol(Goldschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,PODZOL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,PODZOL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,PODZOL% Dollar",
+				"&f% von &#c6a664Podsol/Erde(Goldschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,PODZOL,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Podsol/Erde(Goldschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,PODZOL,mat=PODZOL%",
+				"&fAbbauen von &#c6a664Podsol(Goldschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,PODZOL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,PODZOL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,PODZOL% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -6445,29 +6444,29 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Coarsedirt/Coarsedirt(Goldenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fSilktouchDropChance of Coarsedirt/Coarsedirt(Goldenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fMining of Coarsedirt(Goldenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,COARSE_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,COARSE_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,COARSE_DIRT% Dollar",
+				"&f% of &#c6a664Coarsedirt/Coarsedirt(Goldenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fSilkT% of &#c6a664Coarsedirt/Coarsedirt(Goldenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fMining of &#c6a664Coarsedirt(Goldenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,COARSE_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,COARSE_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,COARSE_DIRT% Dollar",
 						  
-				"&fDropChance of Rooteddirt/Rooteddirt(Goldenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fSilktouchDropChance of Rooteddirt/Rooteddirt(Goldenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fMining of Rooteddirt(Goldenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,ROOTED_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,ROOTED_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,ROOTED_DIRT% Dollar",
+				"&f% of &#c6a664Rooteddirt/Rooteddirt(Goldenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fSilkT% of &#c6a664Rooteddirt/Rooteddirt(Goldenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fMining of &#c6a664Rooteddirt(Goldenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,ROOTED_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,ROOTED_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,ROOTED_DIRT% Dollar",
 						  
-				"&fDropChance of Dirtpath/Dirt(Goldenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,DIRT_PATH,mat=DIRT%",
-				"&fSilktouchDropChance of Sand/Sand(Goldenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,DIRT_PATH,mat=DIRT_PATH%",
-				"&fMining of Dirtpath(Goldenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,DIRT_PATH% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,DIRT_PATH% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,DIRT_PATH% Dollar",
+				"&f% of &#c6a664Dirtpath/Dirt(Goldenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,DIRT_PATH,mat=DIRT%",
+				"&fSilkT% of &#c6a664Sand/Sand(Goldenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,DIRT_PATH,mat=DIRT_PATH%",
+				"&fMining of &#c6a664Dirtpath(Goldenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,DIRT_PATH% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,DIRT_PATH% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,DIRT_PATH% Dollar",
 						  
-				"&fDropChance of Podzol/Podzol(Goldenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,PODZOL,mat=PODZOL%",
-				"&fSilktouchDropChance of Podzol/Podzol(Goldenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,PODZOL,mat=DIRT%",
-				"&fMining of Kies(Goldenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,PODZOL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,PODZOL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,PODZOL% Dollar",
+				"&f% of &#c6a664Podzol/Podzol(Goldenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,PODZOL,mat=PODZOL%",
+				"&fSilkT% of &#c6a664Podzol/Podzol(Goldenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,PODZOL,mat=DIRT%",
+				"&fMining of &#c6a664Kies(Goldenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,PODZOL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,PODZOL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,5,BREAKING,GOLDEN_SHOVEL,PODZOL% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(6, new String[] {
@@ -6479,29 +6478,29 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Grobe Erde/Grobe Erde(Diamandschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fBehutsamkeits DropChance von Grobe Erde/Grobe Erde(Diamandschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fAbbauen von Grobe Erde(Diamandschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,COARSE_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,COARSE_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,COARSE_DIRT% Dollar",
+				"&f% von &#c6a664Grobe Erde/Grobe Erde(Diamandschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fBehuts. % von &#c6a664Grobe Erde/Grobe Erde(Diamandschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fAbbauen von &#c6a664Grobe Erde(Diamandschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,COARSE_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,COARSE_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,COARSE_DIRT% Dollar",
 						  
-				"&fDropChance von Wurzelerde/Wurzelerde(Diamandschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fBehutsamkeits DropChance von Wurzelerde/Wurzelerde(Diamandschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fAbbauen von Wurzelerde(Diamandschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,ROOTED_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,ROOTED_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,ROOTED_DIRT% Dollar",
+				"&f% von &#c6a664Wurzelerde/Wurzelerde(Diamandschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fBehuts. % von &#c6a664Wurzelerde/Wurzelerde(Diamandschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fAbbauen von &#c6a664Wurzelerde(Diamandschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,ROOTED_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,ROOTED_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,ROOTED_DIRT% Dollar",
 						  
-				"&fDropChance von Trampelpfad/Erde(Diamandschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,DIRT_PATH,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Trampelpfad/Erde(Diamandschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,DIRT_PATH,mat=DIRT%",
-				"&fAbbauen von Trampelpfad(Diamandschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,DIRT_PATH% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,DIRT_PATH% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,DIRT_PATH% Dollar",
+				"&f% von &#c6a664Trampelpfad/Erde(Diamandschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,DIRT_PATH,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Trampelpfad/Erde(Diamandschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,DIRT_PATH,mat=DIRT%",
+				"&fAbbauen von &#c6a664Trampelpfad(Diamandschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,DIRT_PATH% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,DIRT_PATH% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,DIRT_PATH% Dollar",
 						  
-				"&fDropChance von Podsol/Erde(Diamandschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,PODZOL,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Podsol/Erde(Diamandschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,PODZOL,mat=PODZOL%",
-				"&fAbbauen von Podsol(Diamandschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,PODZOL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,PODZOL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,PODZOL% Dollar",
+				"&f% von &#c6a664Podsol/Erde(Diamandschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,PODZOL,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Podsol/Erde(Diamandschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,PODZOL,mat=PODZOL%",
+				"&fAbbauen von &#c6a664Podsol(Diamandschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,PODZOL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,PODZOL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,PODZOL% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -6512,29 +6511,29 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Coarsedirt/Coarsedirt(Diamondshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fSilktouchDropChance of Coarsedirt/Coarsedirt(Diamondshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fMining of Coarsedirt(Diamondshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,COARSE_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,COARSE_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,COARSE_DIRT% Dollar",
+				"&f% of &#c6a664Coarsedirt/Coarsedirt(Diamondshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fSilkT% of &#c6a664Coarsedirt/Coarsedirt(Diamondshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fMining of &#c6a664Coarsedirt(Diamondshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,COARSE_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,COARSE_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,COARSE_DIRT% Dollar",
 						  
-				"&fDropChance of Rooteddirt/Rooteddirt(Diamondshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fSilktouchDropChance of Rooteddirt/Rooteddirt(Diamondshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fMining of Rooteddirt(Diamondshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,ROOTED_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,ROOTED_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,ROOTED_DIRT% Dollar",
+				"&f% of &#c6a664Rooteddirt/Rooteddirt(Diamondshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fSilkT% of &#c6a664Rooteddirt/Rooteddirt(Diamondshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fMining of &#c6a664Rooteddirt(Diamondshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,ROOTED_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,ROOTED_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,ROOTED_DIRT% Dollar",
 						  
-				"&fDropChance of Dirtpath/Dirt(Diamondshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,DIRT_PATH,mat=DIRT%",
-				"&fSilktouchDropChance of Sand/Sand(Diamondshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,DIRT_PATH,mat=DIRT_PATH%",
-				"&fMining of Dirtpath(Diamondshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,DIRT_PATH% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,DIRT_PATH% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,DIRT_PATH% Dollar",
+				"&f% of &#c6a664Dirtpath/Dirt(Diamondshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,DIRT_PATH,mat=DIRT%",
+				"&fSilkT% of &#c6a664Sand/Sand(Diamondshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,DIRT_PATH,mat=DIRT_PATH%",
+				"&fMining of &#c6a664Dirtpath(Diamondshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,DIRT_PATH% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,DIRT_PATH% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,DIRT_PATH% Dollar",
 						  
-				"&fDropChance of Podzol/Podzol(Diamondshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,PODZOL,mat=PODZOL%",
-				"&fSilktouchDropChance of Podzol/Podzol(Diamondshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,PODZOL,mat=DIRT%",
-				"&fMining of Kies(Diamondshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,PODZOL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,PODZOL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,PODZOL% Dollar",
+				"&f% of &#c6a664Podzol/Podzol(Diamondshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,PODZOL,mat=PODZOL%",
+				"&fSilkT% of &#c6a664Podzol/Podzol(Diamondshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,PODZOL,mat=DIRT%",
+				"&fMining of &#c6a664Kies(Diamondshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,PODZOL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,PODZOL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,6,BREAKING,DIAMOND_SHOVEL,PODZOL% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(7, new String[] {
@@ -6546,29 +6545,29 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Grobe Erde/Grobe Erde(Netheriteschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fBehutsamkeits DropChance von Grobe Erde/Grobe Erde(Netheriteschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fAbbauen von Grobe Erde(Netheriteschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT% Dollar",
+				"&f% von &#c6a664Grobe Erde/Grobe Erde(Netheriteschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fBehuts. % von &#c6a664Grobe Erde/Grobe Erde(Netheriteschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fAbbauen von &#c6a664Grobe Erde(Netheriteschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT% Dollar",
 						  
-				"&fDropChance von Wurzelerde/Wurzelerde(Netheriteschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fBehutsamkeits DropChance von Wurzelerde/Wurzelerde(Netheriteschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fAbbauen von Wurzelerde(Netheriteschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT% Dollar",
+				"&f% von &#c6a664Wurzelerde/Wurzelerde(Netheriteschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fBehuts. % von &#c6a664Wurzelerde/Wurzelerde(Netheriteschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fAbbauen von &#c6a664Wurzelerde(Netheriteschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT% Dollar",
 						  
-				"&fDropChance von Trampelpfad/Erde(Netheriteschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,DIRT_PATH,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Trampelpfad/Erde(Netheriteschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,DIRT_PATH,mat=DIRT%",
-				"&fAbbauen von Trampelpfad(Netheriteschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,DIRT_PATH% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,DIRT_PATH% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,DIRT_PATH% Dollar",
+				"&f% von &#c6a664Trampelpfad/Erde(Netheriteschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,DIRT_PATH,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Trampelpfad/Erde(Netheriteschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,DIRT_PATH,mat=DIRT%",
+				"&fAbbauen von &#c6a664Trampelpfad(Netheriteschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,DIRT_PATH% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,DIRT_PATH% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,DIRT_PATH% Dollar",
 						  
-				"&fDropChance von Podsol/Erde(Netheriteschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,PODZOL,mat=DIRT%",
-				"&fBehutsamkeits DropChance von Podsol/Erde(Netheriteschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,PODZOL,mat=PODZOL%",
-				"&fAbbauen von Podsol(Netheriteschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,PODZOL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,PODZOL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,PODZOL% Dollar",
+				"&f% von &#c6a664Podsol/Erde(Netheriteschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,PODZOL,mat=DIRT%",
+				"&fBehuts. % von &#c6a664Podsol/Erde(Netheriteschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,PODZOL,mat=PODZOL%",
+				"&fAbbauen von &#c6a664Podsol(Netheriteschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,PODZOL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,PODZOL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,PODZOL% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -6579,29 +6578,29 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Coarsedirt/Coarsedirt(Netheriteshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fSilktouchDropChance of Coarsedirt/Coarsedirt(Netheriteshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
-				"&fMining of Coarsedirt(Netheriteshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT% Dollar",
+				"&f% of &#c6a664Coarsedirt/Coarsedirt(Netheriteshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fSilkT% of &#c6a664Coarsedirt/Coarsedirt(Netheriteshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT,mat=COARSE_DIRT%",
+				"&fMining of &#c6a664Coarsedirt(Netheriteshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT% Dollar",
 						  
-				"&fDropChance of Rooteddirt/Rooteddirt(Netheriteshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fSilktouchDropChance of Rooteddirt/Rooteddirt(Netheriteshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
-				"&fMining of Rooteddirt(Netheriteshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT% Dollar",
+				"&f% of &#c6a664Rooteddirt/Rooteddirt(Netheriteshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fSilkT% of &#c6a664Rooteddirt/Rooteddirt(Netheriteshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT,mat=ROOTED_DIRT%",
+				"&fMining of &#c6a664Rooteddirt(Netheriteshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT% Dollar",
 						  
-				"&fDropChance of Dirtpath/Dirt(Netheriteshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,DIRT_PATH,mat=DIRT%",
-				"&fSilktouchDropChance of Sand/Sand(Netheriteshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,DIRT_PATH,mat=DIRT_PATH%",
-				"&fMining of Dirtpath(Netheriteshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,DIRT_PATH% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,DIRT_PATH% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,DIRT_PATH% Dollar",
+				"&f% of &#c6a664Dirtpath/Dirt(Netheriteshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,DIRT_PATH,mat=DIRT%",
+				"&fSilkT% of &#c6a664Sand/Sand(Netheriteshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,DIRT_PATH,mat=DIRT_PATH%",
+				"&fMining of &#c6a664Dirtpath(Netheriteshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,DIRT_PATH% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,DIRT_PATH% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,DIRT_PATH% Dollar",
 						  
-				"&fDropChance of Podzol/Podzol(Netheriteshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,PODZOL,mat=PODZOL%",
-				"&fSilktouchDropChance of Podzol/Podzol(Netheriteshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,PODZOL,mat=DIRT%",
-				"&fMining of Kies(Netheriteshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,PODZOL% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,PODZOL% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,PODZOL% Dollar",
+				"&f% of &#c6a664Podzol/Podzol(Netheriteshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,PODZOL,mat=PODZOL%",
+				"&fSilkT% of &#c6a664Podzol/Podzol(Netheriteshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,PODZOL,mat=DIRT%",
+				"&fMining of &#c6a664Kies(Netheriteshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,PODZOL% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,PODZOL% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_II,7,BREAKING,NETHERITE_SHOVEL,PODZOL% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
@@ -6617,7 +6616,7 @@ public class YamlManager
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fMining of Coarsedirt, Rooteddirt, Dirtpath & Podzol.",
+						"&fMining of &#c6a664Coarsedirt, Rooteddirt, Dirtpath & Podzol.",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Böden II","&7Soil II"},
@@ -6629,34 +6628,34 @@ public class YamlManager
 				Material.ROOTED_DIRT, 1, itemflag, enchantment, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fAbbauen von Erde %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT% Dollar",
-						"&fAbbauen von Grasblock %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT% Dollar",
-						"&fAbbauen von Sand %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,DIRT_PATH% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,DIRT_PATH% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,DIRT_PATH% Dollar",
-						"&fAbbauen von Kies %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,PODZOL% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,PODZOL% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,PODZOL% Dollar",
+						"&fAbbauen von &#c6a664Erde &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT% Dollar",
+						"&fAbbauen von &#c6a664Grasblock &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT% Dollar",
+						"&fAbbauen von &#c6a664Sand &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,DIRT_PATH% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,DIRT_PATH% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,DIRT_PATH% Dollar",
+						"&fAbbauen von &#c6a664Kies &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,PODZOL% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,PODZOL% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,PODZOL% Dollar",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fMining of Dirt %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT% Dollar",
-						"&fMining of Grasblock %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT% Dollar",
-						"&fMining of Sand %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,DIRT_PATH% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,DIRT_PATH% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,DIRT_PATH% Dollar",
-						"&fMining of Kies %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,PODZOL% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,PODZOL% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,PODZOL% Dollar",
+						"&fMining of &#c6a664Dirt &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,COARSE_DIRT% Dollar",
+						"&fMining of &#c6a664Grasblock &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,ROOTED_DIRT% Dollar",
+						"&fMining of &#c6a664Sand &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,DIRT_PATH% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,DIRT_PATH% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,DIRT_PATH% Dollar",
+						"&fMining of &#c6a664Kies &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,PODZOL% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,PODZOL% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_II,BREAKING,NETHERITE_SHOVEL,PODZOL% Dollar",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
@@ -6844,35 +6843,35 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Ton/Tonklumpen(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_III,1,BREAKING,HAND,CLAY,mat=CLAY_BALL%",
-				"&fBehutsamkeits DropChance von Ton/Ton(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,1,BREAKING,HAND,CLAY,mat=CLAY%",
-				"&fAbbauen von Ton(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,1,BREAKING,HAND,CLAY% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,1,BREAKING,HAND,CLAY% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,1,BREAKING,HAND,CLAY% Dollar",
+				"&f% von &#c6a664Ton/Tonklumpen(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,1,BREAKING,HAND,CLAY,mat=CLAY_BALL%",
+				"&fBehuts. % von &#c6a664Ton/Ton(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,1,BREAKING,HAND,CLAY,mat=CLAY%",
+				"&fAbbauen von &#c6a664Ton(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,1,BREAKING,HAND,CLAY% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,1,BREAKING,HAND,CLAY% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,1,BREAKING,HAND,CLAY% Dollar",
 						  
-				"&fDropChance von Schlamm/Schlamm(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_III,1,BREAKING,HAND,MUD,mat=MUD%",
-				"&fBehutsamkeits DropChance von Schlamm/Schlamm(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,1,BREAKING,HAND,MUD,mat=MUD%",
-				"&fAbbauen von Schlamm(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,1,BREAKING,HAND,MUD% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,1,BREAKING,HAND,MUD% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,1,BREAKING,HAND,MUD% Dollar",	  
+				"&f% von &#c6a664Schlamm/Schlamm(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,1,BREAKING,HAND,MUD,mat=MUD%",
+				"&fBehuts. % von &#c6a664Schlamm/Schlamm(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,1,BREAKING,HAND,MUD,mat=MUD%",
+				"&fAbbauen von &#c6a664Schlamm(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,1,BREAKING,HAND,MUD% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,1,BREAKING,HAND,MUD% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,1,BREAKING,HAND,MUD% Dollar",	  
 						  
-				"&fDropChance von Myzel/Myzel(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_III,1,BREAKING,HAND,MYCELIUM,mat=MYCELIUM%",
-				"&fBehutsamkeits DropChance von Myzel/Myzel(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,1,BREAKING,HAND,MYCELIUM,mat=MYCELIUM%",
-				"&fAbbauen von Myzel(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,1,BREAKING,HAND,MYCELIUM% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,1,BREAKING,HAND,MYCELIUM% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,1,BREAKING,HAND,MYCELIUM% Dollar",
+				"&f% von &#c6a664Myzel/Myzel(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,1,BREAKING,HAND,MYCELIUM,mat=MYCELIUM%",
+				"&fBehuts. % von &#c6a664Myzel/Myzel(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,1,BREAKING,HAND,MYCELIUM,mat=MYCELIUM%",
+				"&fAbbauen von &#c6a664Myzel(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,1,BREAKING,HAND,MYCELIUM% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,1,BREAKING,HAND,MYCELIUM% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,1,BREAKING,HAND,MYCELIUM% Dollar",
 						  
-				"&fDropChance von Schnee/Schneeball(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW,mat=SNOW_BALL%",
-				"&fBehutsamkeits DropChance von Schnee/Schnee(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW,mat=SNOW%",
-				"&fAbbauen von Podsol(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW% Dollar",
+				"&f% von &#c6a664Schnee/Schneeball(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW,mat=SNOW_BALL%",
+				"&fBehuts. % von &#c6a664Schnee/Schnee(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW,mat=SNOW%",
+				"&fAbbauen von &#c6a664Podsol(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW% Dollar",
 						  
-			    "&fDropChance von Schneeblock/Schneeball(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW_BLOCK,mat=SNOW_BALL%",
-				"&fBehutsamkeits DropChance von Schneeblock/Schneeblock(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW_BLOCK,mat=SNOW_BLOCK%",
-				"&fAbbauen von Schneeblock(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW_BLOCK% Dollar",
+			    "&f% von &#c6a664Schneeblock/Schneeball(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW_BLOCK,mat=SNOW_BALL%",
+				"&fBehuts. % von &#c6a664Schneeblock/Schneeblock(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW_BLOCK,mat=SNOW_BLOCK%",
+				"&fAbbauen von &#c6a664Schneeblock(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW_BLOCK% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -6883,35 +6882,35 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Clay/Clayball(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_III,1,BREAKING,HAND,CLAY,mat=CLAY_BALL%",
-				"&fSilktouchDropChance of Clay/Clay(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,1,BREAKING,HAND,CLAY,mat=CLAY%",
-				"&fMining of Clay(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,1,BREAKING,HAND,CLAY% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,1,BREAKING,HAND,CLAY% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,1,BREAKING,HAND,CLAY% Dollar",
+				"&f% of &#c6a664Clay/Clayball(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,1,BREAKING,HAND,CLAY,mat=CLAY_BALL%",
+				"&fSilkT% of &#c6a664Clay/Clay(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,1,BREAKING,HAND,CLAY,mat=CLAY%",
+				"&fMining of &#c6a664Clay(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,1,BREAKING,HAND,CLAY% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,1,BREAKING,HAND,CLAY% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,1,BREAKING,HAND,CLAY% Dollar",
 						  
-				"&fDropChance of Mud/Mud(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_III,1,BREAKING,HAND,MUD,mat=MUD%",
-				"&fSilktouchDropChance of Mud/Mud(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,1,BREAKING,HAND,MUD,mat=MUD%",
-				"&fMining of Mud(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,1,BREAKING,HAND,MUD% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,1,BREAKING,HAND,MUD% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,1,BREAKING,HAND,MUD% Dollar",
+				"&f% of &#c6a664Mud/Mud(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,1,BREAKING,HAND,MUD,mat=MUD%",
+				"&fSilkT% of &#c6a664Mud/Mud(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,1,BREAKING,HAND,MUD,mat=MUD%",
+				"&fMining of &#c6a664Mud(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,1,BREAKING,HAND,MUD% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,1,BREAKING,HAND,MUD% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,1,BREAKING,HAND,MUD% Dollar",
 						  
-				"&fDropChance of Mycelium/Mycelium(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_III,1,BREAKING,HAND,MYCELIUM,mat=MYCELIUM%",
-				"&fSilktouchDropChance of Mycelium/Mycelium(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,1,BREAKING,HAND,MYCELIUM,mat=MYCELIUM%",
-				"&fMining of Mycelium(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,1,BREAKING,HAND,MYCELIUM% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,1,BREAKING,HAND,MYCELIUM% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,1,BREAKING,HAND,MYCELIUM% Dollar",
+				"&f% of &#c6a664Mycelium/Mycelium(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,1,BREAKING,HAND,MYCELIUM,mat=MYCELIUM%",
+				"&fSilkT% of &#c6a664Mycelium/Mycelium(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,1,BREAKING,HAND,MYCELIUM,mat=MYCELIUM%",
+				"&fMining of &#c6a664Mycelium(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,1,BREAKING,HAND,MYCELIUM% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,1,BREAKING,HAND,MYCELIUM% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,1,BREAKING,HAND,MYCELIUM% Dollar",
 						  
-				"&fDropChance of Snow/Snowball(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW_BLOCK,mat=SNOW_BALL%",
-				"&fSilktouchDropChance of Snow/Snow(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW_BLOCK,mat=SNOW_BLOCK%",
-				"&fMining of Snow(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW% Dollar",
+				"&f% of &#c6a664Snow/Snowball(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW_BLOCK,mat=SNOW_BALL%",
+				"&fSilkT% of &#c6a664Snow/Snow(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW_BLOCK,mat=SNOW_BLOCK%",
+				"&fMining of &#c6a664Snow(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW% Dollar",
 						  
-			    "&fDropChance of Snowblock/Snowball(Hand) %tt_reward_tech_dropchance_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW_BLOCK,mat=SNOW_BALL%",
-				"&fSilktouchDropChance of Snowblock/Snowblock(Hand) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW_BLOCK,mat=SNOW_BLOCK%",
-				"&fMining of Snow(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW_BLOCK% Dollar",
+			    "&f% of &#c6a664Snowblock/Snowball(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW_BLOCK,mat=SNOW_BALL%",
+				"&fSilkT% of &#c6a664Snowblock/Snowblock(Hand) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW_BLOCK,mat=SNOW_BLOCK%",
+				"&fMining of &#c6a664Snow(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,1,BREAKING,HAND,SNOW_BLOCK% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(2, new String[] {
@@ -6923,35 +6922,35 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Ton/Tonklumpen(Holzschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,CLAY,mat=CLAY_BALL%",
-				"&fBehutsamkeits DropChance von Ton/Ton(Holzschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,CLAY,mat=CLAY%",
-				"&fAbbauen von Ton(Holzschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,CLAY% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,CLAY% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,CLAY% Dollar",
+				"&f% von &#c6a664Ton/Tonklumpen(Holzschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,CLAY,mat=CLAY_BALL%",
+				"&fBehuts. % von &#c6a664Ton/Ton(Holzschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,CLAY,mat=CLAY%",
+				"&fAbbauen von &#c6a664Ton(Holzschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,CLAY% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,CLAY% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,CLAY% Dollar",
 						  
-				"&fDropChance von Schlamm/Schlamm(Holzschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MUD,mat=MUD%",
-				"&fBehutsamkeits DropChance von Schlamm/Schlamm(Holzschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MUD,mat=MUD%",
-				"&fAbbauen von Schlamm(Holzschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MUD% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MUD% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MUD% Dollar",	  
+				"&f% von &#c6a664Schlamm/Schlamm(Holzschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MUD,mat=MUD%",
+				"&fBehuts. % von &#c6a664Schlamm/Schlamm(Holzschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MUD,mat=MUD%",
+				"&fAbbauen von &#c6a664Schlamm(Holzschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MUD% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MUD% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MUD% Dollar",	  
 						  
-				"&fDropChance von Myzel/Myzel(Holzschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MYCELIUM,mat=MYCELIUM%",
-				"&fBehutsamkeits DropChance von Myzel/Myzel(Holzschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MYCELIUM,mat=MYCELIUM%",
-				"&fAbbauen von Myzel(Holzschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MYCELIUM% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MYCELIUM% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MYCELIUM% Dollar",
+				"&f% von &#c6a664Myzel/Myzel(Holzschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MYCELIUM,mat=MYCELIUM%",
+				"&fBehuts. % von &#c6a664Myzel/Myzel(Holzschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MYCELIUM,mat=MYCELIUM%",
+				"&fAbbauen von &#c6a664Myzel(Holzschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MYCELIUM% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MYCELIUM% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MYCELIUM% Dollar",
 						  
-				"&fDropChance von Schnee/Schneeball(Holzschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW,mat=SNOW_BALL%",
-				"&fBehutsamkeits DropChance von Schnee/Schnee(Holzschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW,mat=SNOW%",
-				"&fAbbauen von Podsol(Holzschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW% Dollar",
+				"&f% von &#c6a664Schnee/Schneeball(Holzschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW,mat=SNOW_BALL%",
+				"&fBehuts. % von &#c6a664Schnee/Schnee(Holzschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW,mat=SNOW%",
+				"&fAbbauen von &#c6a664Podsol(Holzschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW% Dollar",
 						  
-			    "&fDropChance von Schneeblock/Schneeball(Holzschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
-				"&fBehutsamkeits DropChance von Schneeblock/Schneeblock(Holzschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
-				"&fAbbauen von Schneeblock(Holzschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW_BLOCK% Dollar",
+			    "&f% von &#c6a664Schneeblock/Schneeball(Holzschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
+				"&fBehuts. % von &#c6a664Schneeblock/Schneeblock(Holzschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
+				"&fAbbauen von &#c6a664Schneeblock(Holzschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW_BLOCK% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -6962,35 +6961,35 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Clay/Clayball(Woodenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,CLAY,mat=CLAY_BALL%",
-				"&fSilktouchDropChance of Clay/Clay(Woodenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,CLAY,mat=CLAY%",
-				"&fMining of Clay(Woodenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,CLAY% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,CLAY% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,CLAY% Dollar",
+				"&f% of &#c6a664Clay/Clayball(Woodenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,CLAY,mat=CLAY_BALL%",
+				"&fSilkT% of &#c6a664Clay/Clay(Woodenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,CLAY,mat=CLAY%",
+				"&fMining of &#c6a664Clay(Woodenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,CLAY% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,CLAY% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,CLAY% Dollar",
 						  
-				"&fDropChance of Mud/Mud(Woodenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MUD,mat=MUD%",
-				"&fSilktouchDropChance of Mud/Mud(Woodenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MUD,mat=MUD%",
-				"&fMining of Mud(Woodenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MUD% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MUD% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MUD% Dollar",
+				"&f% of &#c6a664Mud/Mud(Woodenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MUD,mat=MUD%",
+				"&fSilkT% of &#c6a664Mud/Mud(Woodenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MUD,mat=MUD%",
+				"&fMining of &#c6a664Mud(Woodenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MUD% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MUD% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MUD% Dollar",
 						  
-				"&fDropChance of Mycelium/Mycelium(Woodenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MYCELIUM,mat=MYCELIUM%",
-				"&fSilktouchDropChance of Mycelium/Mycelium(Woodenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MYCELIUM,mat=MYCELIUM%",
-				"&fMining of Mycelium(Woodenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MYCELIUM% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MYCELIUM% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MYCELIUM% Dollar",
+				"&f% of &#c6a664Mycelium/Mycelium(Woodenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MYCELIUM,mat=MYCELIUM%",
+				"&fSilkT% of &#c6a664Mycelium/Mycelium(Woodenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MYCELIUM,mat=MYCELIUM%",
+				"&fMining of &#c6a664Mycelium(Woodenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MYCELIUM% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MYCELIUM% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,MYCELIUM% Dollar",
 						  
-				"&fDropChance of Snow/Snowball(Woodenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
-				"&fSilktouchDropChance of Snow/Snow(Woodenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
-				"&fMining of Snow(Woodenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW% Dollar",
+				"&f% of &#c6a664Snow/Snowball(Woodenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
+				"&fSilkT% of &#c6a664Snow/Snow(Woodenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
+				"&fMining of &#c6a664Snow(Woodenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW% Dollar",
 						  
-			    "&fDropChance of Snowblock/Snowball(Woodenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
-				"&fSilktouchDropChance of Snowblock/Snowblock(Woodenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
-				"&fMining of Snow(Woodenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW_BLOCK% Dollar",
+			    "&f% of &#c6a664Snowblock/Snowball(Woodenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
+				"&fSilkT% of &#c6a664Snowblock/Snowblock(Woodenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
+				"&fMining of &#c6a664Snow(Woodenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,2,BREAKING,WOODEN_SHOVEL,SNOW_BLOCK% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(3, new String[] {
@@ -7002,35 +7001,35 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Ton/Tonklumpen(Steinschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,CLAY,mat=CLAY_BALL%",
-				"&fBehutsamkeits DropChance von Ton/Ton(Steinschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,CLAY,mat=CLAY%",
-				"&fAbbauen von Ton(Steinschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,CLAY% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,CLAY% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,CLAY% Dollar",
+				"&f% von &#c6a664Ton/Tonklumpen(Steinschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,CLAY,mat=CLAY_BALL%",
+				"&fBehuts. % von &#c6a664Ton/Ton(Steinschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,CLAY,mat=CLAY%",
+				"&fAbbauen von &#c6a664Ton(Steinschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,CLAY% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,CLAY% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,CLAY% Dollar",
 						  
-				"&fDropChance von Schlamm/Schlamm(Steinschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MUD,mat=MUD%",
-				"&fBehutsamkeits DropChance von Schlamm/Schlamm(Steinschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MUD,mat=MUD%",
-				"&fAbbauen von Schlamm(Steinschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MUD% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MUD% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MUD% Dollar",	  
+				"&f% von &#c6a664Schlamm/Schlamm(Steinschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MUD,mat=MUD%",
+				"&fBehuts. % von &#c6a664Schlamm/Schlamm(Steinschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MUD,mat=MUD%",
+				"&fAbbauen von &#c6a664Schlamm(Steinschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MUD% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MUD% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MUD% Dollar",	  
 						  
-				"&fDropChance von Myzel/Myzel(Steinschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MYCELIUM,mat=MYCELIUM%",
-				"&fBehutsamkeits DropChance von Myzel/Myzel(Steinschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MYCELIUM,mat=MYCELIUM%",
-				"&fAbbauen von Myzel(Steinschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MYCELIUM% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MYCELIUM% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MYCELIUM% Dollar",
+				"&f% von &#c6a664Myzel/Myzel(Steinschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MYCELIUM,mat=MYCELIUM%",
+				"&fBehuts. % von &#c6a664Myzel/Myzel(Steinschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MYCELIUM,mat=MYCELIUM%",
+				"&fAbbauen von &#c6a664Myzel(Steinschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MYCELIUM% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MYCELIUM% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MYCELIUM% Dollar",
 						  
-				"&fDropChance von Schnee/Schneeball(Steinschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW,mat=SNOW_BALL%",
-				"&fBehutsamkeits DropChance von Schnee/Schnee(Steinschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW,mat=SNOW%",
-				"&fAbbauen von Podsol(Steinschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW% Dollar",
+				"&f% von &#c6a664Schnee/Schneeball(Steinschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW,mat=SNOW_BALL%",
+				"&fBehuts. % von &#c6a664Schnee/Schnee(Steinschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW,mat=SNOW%",
+				"&fAbbauen von &#c6a664Podsol(Steinschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW% Dollar",
 						  
-			    "&fDropChance von Schneeblock/Schneeball(Steinschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
-				"&fBehutsamkeits DropChance von Schneeblock/Schneeblock(Steinschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
-				"&fAbbauen von Schneeblock(Steinschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW_BLOCK% Dollar",
+			    "&f% von &#c6a664Schneeblock/Schneeball(Steinschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
+				"&fBehuts. % von &#c6a664Schneeblock/Schneeblock(Steinschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
+				"&fAbbauen von &#c6a664Schneeblock(Steinschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW_BLOCK% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -7041,35 +7040,35 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Clay/Clayball(Stoneshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,CLAY,mat=CLAY_BALL%",
-				"&fSilktouchDropChance of Clay/Clay(Stoneshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,CLAY,mat=CLAY%",
-				"&fMining of Clay(Stoneshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,CLAY% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,CLAY% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,CLAY% Dollar",
+				"&f% of &#c6a664Clay/Clayball(Stoneshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,CLAY,mat=CLAY_BALL%",
+				"&fSilkT% of &#c6a664Clay/Clay(Stoneshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,CLAY,mat=CLAY%",
+				"&fMining of &#c6a664Clay(Stoneshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,CLAY% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,CLAY% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,CLAY% Dollar",
 						  
-				"&fDropChance of Mud/Mud(Stoneshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MUD,mat=MUD%",
-				"&fSilktouchDropChance of Mud/Mud(Stoneshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MUD,mat=MUD%",
-				"&fMining of Mud(Stoneshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MUD% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MUD% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MUD% Dollar",
+				"&f% of &#c6a664Mud/Mud(Stoneshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MUD,mat=MUD%",
+				"&fSilkT% of &#c6a664Mud/Mud(Stoneshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MUD,mat=MUD%",
+				"&fMining of &#c6a664Mud(Stoneshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MUD% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MUD% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MUD% Dollar",
 						  
-				"&fDropChance of Mycelium/Mycelium(Stoneshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MYCELIUM,mat=MYCELIUM%",
-				"&fSilktouchDropChance of Mycelium/Mycelium(Stoneshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MYCELIUM,mat=MYCELIUM%",
-				"&fMining of Mycelium(Stoneshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MYCELIUM% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MYCELIUM% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MYCELIUM% Dollar",
+				"&f% of &#c6a664Mycelium/Mycelium(Stoneshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MYCELIUM,mat=MYCELIUM%",
+				"&fSilkT% of &#c6a664Mycelium/Mycelium(Stoneshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MYCELIUM,mat=MYCELIUM%",
+				"&fMining of &#c6a664Mycelium(Stoneshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MYCELIUM% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MYCELIUM% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,MYCELIUM% Dollar",
 						  
-				"&fDropChance of Snow/Snowball(Stoneshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
-				"&fSilktouchDropChance of Snow/Snow(Stoneshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
-				"&fMining of Snow(Stoneshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW% Dollar",
+				"&f% of &#c6a664Snow/Snowball(Stoneshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
+				"&fSilkT% of &#c6a664Snow/Snow(Stoneshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
+				"&fMining of &#c6a664Snow(Stoneshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW% Dollar",
 						  
-			    "&fDropChance of Snowblock/Snowball(Stoneshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
-				"&fSilktouchDropChance of Snowblock/Snowblock(Stoneshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
-				"&fMining of Snow(Stoneshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW_BLOCK% Dollar",
+			    "&f% of &#c6a664Snowblock/Snowball(Stoneshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
+				"&fSilkT% of &#c6a664Snowblock/Snowblock(Stoneshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
+				"&fMining of &#c6a664Snow(Stoneshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,3,BREAKING,STONE_SHOVEL,SNOW_BLOCK% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(4, new String[] {
@@ -7081,35 +7080,35 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Ton/Tonklumpen(Eisenschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,CLAY,mat=CLAY_BALL%",
-				"&fBehutsamkeits DropChance von Ton/Ton(Eisenschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,CLAY,mat=CLAY%",
-				"&fAbbauen von Ton(Eisenschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,CLAY% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,CLAY% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,CLAY% Dollar",
+				"&f% von &#c6a664Ton/Tonklumpen(Eisenschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,CLAY,mat=CLAY_BALL%",
+				"&fBehuts. % von &#c6a664Ton/Ton(Eisenschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,CLAY,mat=CLAY%",
+				"&fAbbauen von &#c6a664Ton(Eisenschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,CLAY% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,CLAY% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,CLAY% Dollar",
 						  
-				"&fDropChance von Schlamm/Schlamm(Eisenschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MUD,mat=MUD%",
-				"&fBehutsamkeits DropChance von Schlamm/Schlamm(Eisenschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MUD,mat=MUD%",
-				"&fAbbauen von Schlamm(Eisenschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MUD% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MUD% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MUD% Dollar",	  
+				"&f% von &#c6a664Schlamm/Schlamm(Eisenschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MUD,mat=MUD%",
+				"&fBehuts. % von &#c6a664Schlamm/Schlamm(Eisenschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MUD,mat=MUD%",
+				"&fAbbauen von &#c6a664Schlamm(Eisenschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MUD% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MUD% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MUD% Dollar",	  
 						  
-				"&fDropChance von Myzel/Myzel(Eisenschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MYCELIUM,mat=MYCELIUM%",
-				"&fBehutsamkeits DropChance von Myzel/Myzel(Eisenschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MYCELIUM,mat=MYCELIUM%",
-				"&fAbbauen von Myzel(Eisenschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MYCELIUM% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MYCELIUM% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MYCELIUM% Dollar",
+				"&f% von &#c6a664Myzel/Myzel(Eisenschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MYCELIUM,mat=MYCELIUM%",
+				"&fBehuts. % von &#c6a664Myzel/Myzel(Eisenschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MYCELIUM,mat=MYCELIUM%",
+				"&fAbbauen von &#c6a664Myzel(Eisenschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MYCELIUM% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MYCELIUM% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MYCELIUM% Dollar",
 						  
-				"&fDropChance von Schnee/Schneeball(Eisenschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW,mat=SNOW_BALL%",
-				"&fBehutsamkeits DropChance von Schnee/Schnee(Eisenschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW,mat=SNOW%",
-				"&fAbbauen von Podsol(Eisenschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW% Dollar",
+				"&f% von &#c6a664Schnee/Schneeball(Eisenschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW,mat=SNOW_BALL%",
+				"&fBehuts. % von &#c6a664Schnee/Schnee(Eisenschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW,mat=SNOW%",
+				"&fAbbauen von &#c6a664Podsol(Eisenschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW% Dollar",
 						  
-			    "&fDropChance von Schneeblock/Schneeball(Eisenschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
-				"&fBehutsamkeits DropChance von Schneeblock/Schneeblock(Eisenschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
-				"&fAbbauen von Schneeblock(Eisenschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW_BLOCK% Dollar",
+			    "&f% von &#c6a664Schneeblock/Schneeball(Eisenschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
+				"&fBehuts. % von &#c6a664Schneeblock/Schneeblock(Eisenschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
+				"&fAbbauen von &#c6a664Schneeblock(Eisenschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW_BLOCK% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -7120,35 +7119,35 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Clay/Clayball(Ironshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,CLAY,mat=CLAY_BALL%",
-				"&fSilktouchDropChance of Clay/Clay(Ironshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,CLAY,mat=CLAY%",
-				"&fMining of Clay(Ironshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,CLAY% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,CLAY% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,CLAY% Dollar",
+				"&f% of &#c6a664Clay/Clayball(Ironshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,CLAY,mat=CLAY_BALL%",
+				"&fSilkT% of &#c6a664Clay/Clay(Ironshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,CLAY,mat=CLAY%",
+				"&fMining of &#c6a664Clay(Ironshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,CLAY% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,CLAY% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,CLAY% Dollar",
 						  
-				"&fDropChance of Mud/Mud(Ironshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MUD,mat=MUD%",
-				"&fSilktouchDropChance of Mud/Mud(Ironshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MUD,mat=MUD%",
-				"&fMining of Mud(Ironshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MUD% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MUD% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MUD% Dollar",
+				"&f% of &#c6a664Mud/Mud(Ironshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MUD,mat=MUD%",
+				"&fSilkT% of &#c6a664Mud/Mud(Ironshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MUD,mat=MUD%",
+				"&fMining of &#c6a664Mud(Ironshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MUD% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MUD% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MUD% Dollar",
 						  
-				"&fDropChance of Mycelium/Mycelium(Ironshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MYCELIUM,mat=MYCELIUM%",
-				"&fSilktouchDropChance of Mycelium/Mycelium(Ironshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MYCELIUM,mat=MYCELIUM%",
-				"&fMining of Mycelium(Ironshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MYCELIUM% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MYCELIUM% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MYCELIUM% Dollar",
+				"&f% of &#c6a664Mycelium/Mycelium(Ironshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MYCELIUM,mat=MYCELIUM%",
+				"&fSilkT% of &#c6a664Mycelium/Mycelium(Ironshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MYCELIUM,mat=MYCELIUM%",
+				"&fMining of &#c6a664Mycelium(Ironshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MYCELIUM% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MYCELIUM% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,MYCELIUM% Dollar",
 						  
-				"&fDropChance of Snow/Snowball(Ironshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
-				"&fSilktouchDropChance of Snow/Snow(Ironshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
-				"&fMining of Snow(Ironshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW% Dollar",
+				"&f% of &#c6a664Snow/Snowball(Ironshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
+				"&fSilkT% of &#c6a664Snow/Snow(Ironshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
+				"&fMining of &#c6a664Snow(Ironshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW% Dollar",
 						  
-			    "&fDropChance of Snowblock/Snowball(Ironshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
-				"&fSilktouchDropChance of Snowblock/Snowblock(Ironshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
-				"&fMining of Snow(Ironshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW_BLOCK% Dollar",
+			    "&f% of &#c6a664Snowblock/Snowball(Ironshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
+				"&fSilkT% of &#c6a664Snowblock/Snowblock(Ironshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
+				"&fMining of &#c6a664Snow(Ironshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,4,BREAKING,IRON_SHOVEL,SNOW_BLOCK% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(5, new String[] {
@@ -7160,35 +7159,35 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Ton/Tonklumpen(Goldschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,CLAY,mat=CLAY_BALL%",
-				"&fBehutsamkeits DropChance von Ton/Ton(Goldschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,CLAY,mat=CLAY%",
-				"&fAbbauen von Ton(Goldschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,CLAY% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,CLAY% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,CLAY% Dollar",
+				"&f% von &#c6a664Ton/Tonklumpen(Goldschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,CLAY,mat=CLAY_BALL%",
+				"&fBehuts. % von &#c6a664Ton/Ton(Goldschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,CLAY,mat=CLAY%",
+				"&fAbbauen von &#c6a664Ton(Goldschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,CLAY% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,CLAY% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,CLAY% Dollar",
 						  
-				"&fDropChance von Schlamm/Schlamm(Goldschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MUD,mat=MUD%",
-				"&fBehutsamkeits DropChance von Schlamm/Schlamm(Goldschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MUD,mat=MUD%",
-				"&fAbbauen von Schlamm(Goldschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MUD% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MUD% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MUD% Dollar",	  
+				"&f% von &#c6a664Schlamm/Schlamm(Goldschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MUD,mat=MUD%",
+				"&fBehuts. % von &#c6a664Schlamm/Schlamm(Goldschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MUD,mat=MUD%",
+				"&fAbbauen von &#c6a664Schlamm(Goldschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MUD% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MUD% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MUD% Dollar",	  
 						  
-				"&fDropChance von Myzel/Myzel(Goldschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MYCELIUM,mat=MYCELIUM%",
-				"&fBehutsamkeits DropChance von Myzel/Myzel(Goldschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MYCELIUM,mat=MYCELIUM%",
-				"&fAbbauen von Myzel(Goldschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MYCELIUM% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MYCELIUM% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MYCELIUM% Dollar",
+				"&f% von &#c6a664Myzel/Myzel(Goldschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MYCELIUM,mat=MYCELIUM%",
+				"&fBehuts. % von &#c6a664Myzel/Myzel(Goldschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MYCELIUM,mat=MYCELIUM%",
+				"&fAbbauen von &#c6a664Myzel(Goldschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MYCELIUM% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MYCELIUM% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MYCELIUM% Dollar",
 						  
-				"&fDropChance von Schnee/Schneeball(Goldschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW,mat=SNOW_BALL%",
-				"&fBehutsamkeits DropChance von Schnee/Schnee(Goldschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW,mat=SNOW%",
-				"&fAbbauen von Podsol(Goldschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW% Dollar",
+				"&f% von &#c6a664Schnee/Schneeball(Goldschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW,mat=SNOW_BALL%",
+				"&fBehuts. % von &#c6a664Schnee/Schnee(Goldschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW,mat=SNOW%",
+				"&fAbbauen von &#c6a664Podsol(Goldschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW% Dollar",
 						  
-			    "&fDropChance von Schneeblock/Schneeball(Goldschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
-				"&fBehutsamkeits DropChance von Schneeblock/Schneeblock(Goldschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
-				"&fAbbauen von Schneeblock(Goldschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW_BLOCK% Dollar",
+			    "&f% von &#c6a664Schneeblock/Schneeball(Goldschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
+				"&fBehuts. % von &#c6a664Schneeblock/Schneeblock(Goldschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
+				"&fAbbauen von &#c6a664Schneeblock(Goldschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW_BLOCK% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -7199,35 +7198,35 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Clay/Clayball(Goldenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,CLAY,mat=CLAY_BALL%",
-				"&fSilktouchDropChance of Clay/Clay(Goldenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,CLAY,mat=CLAY%",
-				"&fMining of Clay(Goldenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,CLAY% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,CLAY% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,CLAY% Dollar",
+				"&f% of &#c6a664Clay/Clayball(Goldenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,CLAY,mat=CLAY_BALL%",
+				"&fSilkT% of &#c6a664Clay/Clay(Goldenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,CLAY,mat=CLAY%",
+				"&fMining of &#c6a664Clay(Goldenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,CLAY% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,CLAY% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,CLAY% Dollar",
 						  
-				"&fDropChance of Mud/Mud(Goldenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MUD,mat=MUD%",
-				"&fSilktouchDropChance of Mud/Mud(Goldenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MUD,mat=MUD%",
-				"&fMining of Mud(Goldenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MUD% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MUD% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MUD% Dollar",
+				"&f% of &#c6a664Mud/Mud(Goldenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MUD,mat=MUD%",
+				"&fSilkT% of &#c6a664Mud/Mud(Goldenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MUD,mat=MUD%",
+				"&fMining of &#c6a664Mud(Goldenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MUD% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MUD% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MUD% Dollar",
 						  
-				"&fDropChance of Mycelium/Mycelium(Goldenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MYCELIUM,mat=MYCELIUM%",
-				"&fSilktouchDropChance of Mycelium/Mycelium(Goldenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MYCELIUM,mat=MYCELIUM%",
-				"&fMining of Mycelium(Goldenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MYCELIUM% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MYCELIUM% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MYCELIUM% Dollar",
+				"&f% of &#c6a664Mycelium/Mycelium(Goldenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MYCELIUM,mat=MYCELIUM%",
+				"&fSilkT% of &#c6a664Mycelium/Mycelium(Goldenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MYCELIUM,mat=MYCELIUM%",
+				"&fMining of &#c6a664Mycelium(Goldenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MYCELIUM% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MYCELIUM% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,MYCELIUM% Dollar",
 						  
-				"&fDropChance of Snow/Snowball(Goldenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
-				"&fSilktouchDropChance of Snow/Snow(Goldenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
-				"&fMining of Snow(Goldenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW% Dollar",
+				"&f% of &#c6a664Snow/Snowball(Goldenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
+				"&fSilkT% of &#c6a664Snow/Snow(Goldenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
+				"&fMining of &#c6a664Snow(Goldenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW% Dollar",
 						  
-			    "&fDropChance of Snowblock/Snowball(Goldenshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
-				"&fSilktouchDropChance of Snowblock/Snowblock(Goldenshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
-				"&fMining of Snow(Goldenshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW_BLOCK% Dollar",
+			    "&f% of &#c6a664Snowblock/Snowball(Goldenshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
+				"&fSilkT% of &#c6a664Snowblock/Snowblock(Goldenshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
+				"&fMining of &#c6a664Snow(Goldenshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,5,BREAKING,GOLDEN_SHOVEL,SNOW_BLOCK% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(6, new String[] {
@@ -7239,35 +7238,35 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Ton/Tonklumpen(Diamantschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,CLAY,mat=CLAY_BALL%",
-				"&fBehutsamkeits DropChance von Ton/Ton(Diamantschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,CLAY,mat=CLAY%",
-				"&fAbbauen von Ton(Diamantschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,CLAY% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,CLAY% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,CLAY% Dollar",
+				"&f% von &#c6a664Ton/Tonklumpen(Diamantschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,CLAY,mat=CLAY_BALL%",
+				"&fBehuts. % von &#c6a664Ton/Ton(Diamantschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,CLAY,mat=CLAY%",
+				"&fAbbauen von &#c6a664Ton(Diamantschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,CLAY% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,CLAY% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,CLAY% Dollar",
 						  
-				"&fDropChance von Schlamm/Schlamm(Diamantschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MUD,mat=MUD%",
-				"&fBehutsamkeits DropChance von Schlamm/Schlamm(Diamantschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MUD,mat=MUD%",
-				"&fAbbauen von Schlamm(Diamantschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MUD% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MUD% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MUD% Dollar",	  
+				"&f% von &#c6a664Schlamm/Schlamm(Diamantschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MUD,mat=MUD%",
+				"&fBehuts. % von &#c6a664Schlamm/Schlamm(Diamantschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MUD,mat=MUD%",
+				"&fAbbauen von &#c6a664Schlamm(Diamantschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MUD% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MUD% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MUD% Dollar",	  
 						  
-				"&fDropChance von Myzel/Myzel(Diamantschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MYCELIUM,mat=MYCELIUM%",
-				"&fBehutsamkeits DropChance von Myzel/Myzel(Diamantschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MYCELIUM,mat=MYCELIUM%",
-				"&fAbbauen von Myzel(Diamantschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MYCELIUM% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MYCELIUM% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MYCELIUM% Dollar",
+				"&f% von &#c6a664Myzel/Myzel(Diamantschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MYCELIUM,mat=MYCELIUM%",
+				"&fBehuts. % von &#c6a664Myzel/Myzel(Diamantschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MYCELIUM,mat=MYCELIUM%",
+				"&fAbbauen von &#c6a664Myzel(Diamantschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MYCELIUM% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MYCELIUM% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MYCELIUM% Dollar",
 						  
-				"&fDropChance von Schnee/Schneeball(Diamantschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW,mat=SNOW_BALL%",
-				"&fBehutsamkeits DropChance von Schnee/Schnee(Diamantschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW,mat=SNOW%",
-				"&fAbbauen von Podsol(Diamantschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW% Dollar",
+				"&f% von &#c6a664Schnee/Schneeball(Diamantschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW,mat=SNOW_BALL%",
+				"&fBehuts. % von &#c6a664Schnee/Schnee(Diamantschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW,mat=SNOW%",
+				"&fAbbauen von &#c6a664Podsol(Diamantschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW% Dollar",
 						  
-			    "&fDropChance von Schneeblock/Schneeball(Diamantschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
-				"&fBehutsamkeits DropChance von Schneeblock/Schneeblock(Diamantschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
-				"&fAbbauen von Schneeblock(Diamantschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW_BLOCK% Dollar",
+			    "&f% von &#c6a664Schneeblock/Schneeball(Diamantschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
+				"&fBehuts. % von &#c6a664Schneeblock/Schneeblock(Diamantschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
+				"&fAbbauen von &#c6a664Schneeblock(Diamantschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW_BLOCK% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -7278,35 +7277,35 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Clay/Clayball(Diamondshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,CLAY,mat=CLAY_BALL%",
-				"&fSilktouchDropChance of Clay/Clay(Diamondshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,CLAY,mat=CLAY%",
-				"&fMining of Clay(Diamondshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,CLAY% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,CLAY% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,CLAY% Dollar",
+				"&f% of &#c6a664Clay/Clayball(Diamondshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,CLAY,mat=CLAY_BALL%",
+				"&fSilkT% of &#c6a664Clay/Clay(Diamondshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,CLAY,mat=CLAY%",
+				"&fMining of &#c6a664Clay(Diamondshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,CLAY% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,CLAY% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,CLAY% Dollar",
 						  
-				"&fDropChance of Mud/Mud(Diamondshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MUD,mat=MUD%",
-				"&fSilktouchDropChance of Mud/Mud(Diamondshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MUD,mat=MUD%",
-				"&fMining of Mud(Diamondshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MUD% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MUD% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MUD% Dollar",
+				"&f% of &#c6a664Mud/Mud(Diamondshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MUD,mat=MUD%",
+				"&fSilkT% of &#c6a664Mud/Mud(Diamondshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MUD,mat=MUD%",
+				"&fMining of &#c6a664Mud(Diamondshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MUD% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MUD% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MUD% Dollar",
 						  
-				"&fDropChance of Mycelium/Mycelium(Diamondshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MYCELIUM,mat=MYCELIUM%",
-				"&fSilktouchDropChance of Mycelium/Mycelium(Diamondshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MYCELIUM,mat=MYCELIUM%",
-				"&fMining of Mycelium(Diamondshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MYCELIUM% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MYCELIUM% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MYCELIUM% Dollar",
+				"&f% of &#c6a664Mycelium/Mycelium(Diamondshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MYCELIUM,mat=MYCELIUM%",
+				"&fSilkT% of &#c6a664Mycelium/Mycelium(Diamondshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MYCELIUM,mat=MYCELIUM%",
+				"&fMining of &#c6a664Mycelium(Diamondshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MYCELIUM% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MYCELIUM% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,MYCELIUM% Dollar",
 						  
-				"&fDropChance of Snow/Snowball(Diamondshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
-				"&fSilktouchDropChance of Snow/Snow(Diamondshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
-				"&fMining of Snow(Diamondshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW% Dollar",
+				"&f% of &#c6a664Snow/Snowball(Diamondshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
+				"&fSilkT% of &#c6a664Snow/Snow(Diamondshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
+				"&fMining of &#c6a664Snow(Diamondshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW% Dollar",
 						  
-			    "&fDropChance of Snowblock/Snowball(Diamondshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
-				"&fSilktouchDropChance of Snowblock/Snowblock(Diamondshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
-				"&fMining of Snow(Diamondshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW_BLOCK% Dollar",
+			    "&f% of &#c6a664Snowblock/Snowball(Diamondshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
+				"&fSilkT% of &#c6a664Snowblock/Snowblock(Diamondshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
+				"&fMining of &#c6a664Snow(Diamondshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,6,BREAKING,DIAMOND_SHOVEL,SNOW_BLOCK% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(7, new String[] {
@@ -7318,35 +7317,35 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Ton/Tonklumpen(Netheriteschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,CLAY,mat=CLAY_BALL%",
-				"&fBehutsamkeits DropChance von Ton/Ton(Netheriteschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,CLAY,mat=CLAY%",
-				"&fAbbauen von Ton(Netheriteschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,CLAY% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,CLAY% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,CLAY% Dollar",
+				"&f% von &#c6a664Ton/Tonklumpen(Netheriteschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,CLAY,mat=CLAY_BALL%",
+				"&fBehuts. % von &#c6a664Ton/Ton(Netheriteschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,CLAY,mat=CLAY%",
+				"&fAbbauen von &#c6a664Ton(Netheriteschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,CLAY% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,CLAY% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,CLAY% Dollar",
 						  
-				"&fDropChance von Schlamm/Schlamm(Netheriteschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MUD,mat=MUD%",
-				"&fBehutsamkeits DropChance von Schlamm/Schlamm(Netheriteschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MUD,mat=MUD%",
-				"&fAbbauen von Schlamm(Netheriteschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MUD% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MUD% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MUD% Dollar",	  
+				"&f% von &#c6a664Schlamm/Schlamm(Netheriteschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MUD,mat=MUD%",
+				"&fBehuts. % von &#c6a664Schlamm/Schlamm(Netheriteschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MUD,mat=MUD%",
+				"&fAbbauen von &#c6a664Schlamm(Netheriteschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MUD% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MUD% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MUD% Dollar",	  
 						  
-				"&fDropChance von Myzel/Myzel(Netheriteschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MYCELIUM,mat=MYCELIUM%",
-				"&fBehutsamkeits DropChance von Myzel/Myzel(Netheriteschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MYCELIUM,mat=MYCELIUM%",
-				"&fAbbauen von Myzel(Netheriteschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MYCELIUM% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MYCELIUM% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MYCELIUM% Dollar",
+				"&f% von &#c6a664Myzel/Myzel(Netheriteschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MYCELIUM,mat=MYCELIUM%",
+				"&fBehuts. % von &#c6a664Myzel/Myzel(Netheriteschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MYCELIUM,mat=MYCELIUM%",
+				"&fAbbauen von &#c6a664Myzel(Netheriteschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MYCELIUM% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MYCELIUM% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MYCELIUM% Dollar",
 						  
-				"&fDropChance von Schnee/Schneeball(Netheriteschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW,mat=SNOW_BALL%",
-				"&fBehutsamkeits DropChance von Schnee/Schnee(Netheriteschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW,mat=SNOW%",
-				"&fAbbauen von Podsol(Netheriteschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW% Dollar",
+				"&f% von &#c6a664Schnee/Schneeball(Netheriteschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW,mat=SNOW_BALL%",
+				"&fBehuts. % von &#c6a664Schnee/Schnee(Netheriteschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW,mat=SNOW%",
+				"&fAbbauen von &#c6a664Podsol(Netheriteschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW% Dollar",
 						  
-			    "&fDropChance von Schneeblock/Schneeball(Netheriteschaufel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
-				"&fBehutsamkeits DropChance von Schneeblock/Schneeblock(Netheriteschaufel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
-				"&fAbbauen von Schneeblock(Netheriteschaufel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK% Dollar",
+			    "&f% von &#c6a664Schneeblock/Schneeball(Netheriteschaufel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
+				"&fBehuts. % von &#c6a664Schneeblock/Schneeblock(Netheriteschaufel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
+				"&fAbbauen von &#c6a664Schneeblock(Netheriteschaufel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -7357,35 +7356,35 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Clay/Clayball(Netheriteshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,CLAY,mat=CLAY_BALL%",
-				"&fSilktouchDropChance of Clay/Clay(Netheriteshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,CLAY,mat=CLAY%",
-				"&fMining of Clay(Netheriteshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,CLAY% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,CLAY% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,CLAY% Dollar",
+				"&f% of &#c6a664Clay/Clayball(Netheriteshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,CLAY,mat=CLAY_BALL%",
+				"&fSilkT% of &#c6a664Clay/Clay(Netheriteshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,CLAY,mat=CLAY%",
+				"&fMining of &#c6a664Clay(Netheriteshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,CLAY% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,CLAY% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,CLAY% Dollar",
 						  
-				"&fDropChance of Mud/Mud(Netheriteshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MUD,mat=MUD%",
-				"&fSilktouchDropChance of Mud/Mud(Netheriteshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MUD,mat=MUD%",
-				"&fMining of Mud(Netheriteshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MUD% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MUD% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MUD% Dollar",
+				"&f% of &#c6a664Mud/Mud(Netheriteshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MUD,mat=MUD%",
+				"&fSilkT% of &#c6a664Mud/Mud(Netheriteshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MUD,mat=MUD%",
+				"&fMining of &#c6a664Mud(Netheriteshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MUD% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MUD% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MUD% Dollar",
 						  
-				"&fDropChance of Mycelium/Mycelium(Netheriteshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MYCELIUM,mat=MYCELIUM%",
-				"&fSilktouchDropChance of Mycelium/Mycelium(Netheriteshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MYCELIUM,mat=MYCELIUM%",
-				"&fMining of Mycelium(Netheriteshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MYCELIUM% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MYCELIUM% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MYCELIUM% Dollar",
+				"&f% of &#c6a664Mycelium/Mycelium(Netheriteshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MYCELIUM,mat=MYCELIUM%",
+				"&fSilkT% of &#c6a664Mycelium/Mycelium(Netheriteshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MYCELIUM,mat=MYCELIUM%",
+				"&fMining of &#c6a664Mycelium(Netheriteshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MYCELIUM% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MYCELIUM% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,MYCELIUM% Dollar",
 						  
-				"&fDropChance of Snow/Snowball(Netheriteshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
-				"&fSilktouchDropChance of Snow/Snow(Netheriteshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
-				"&fMining of Snow(Netheriteshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW% Dollar",
+				"&f% of &#c6a664Snow/Snowball(Netheriteshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
+				"&fSilkT% of &#c6a664Snow/Snow(Netheriteshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
+				"&fMining of &#c6a664Snow(Netheriteshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW% Dollar",
 						  
-			    "&fDropChance of Snowblock/Snowball(Netheriteshovel) %tt_reward_tech_dropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
-				"&fSilktouchDropChance of Snowblock/Snowblock(Netheriteshovel) %tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
-				"&fMining of Snow(Netheriteshovel) %tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK% Dollar",
+			    "&f% of &#c6a664Snowblock/Snowball(Netheriteshovel) &#546f42%tt_reward_tech_dropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK,mat=SNOW_BALL%",
+				"&fSilkT% of &#c6a664Snowblock/Snowblock(Netheriteshovel) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK,mat=SNOW_BLOCK%",
+				"&fMining of &#c6a664Snow(Netheriteshovel) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,soil_III,7,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
@@ -7401,7 +7400,7 @@ public class YamlManager
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fMining of Clay, Mud, Mycelium, Snow & Snowblock.",
+						"&fMining of &#c6a664Clay, Mud, Mycelium, Snow & Snowblock.",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Böden III","&7Soil III"},
@@ -7413,40 +7412,40 @@ public class YamlManager
 				Material.CLAY, 1, itemflag, enchantment, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fAbbauen von Ton %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,CLAY% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,CLAY% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,CLAY% Dollar",
-						"&fAbbauen von Schlamm %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,MUD% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,MUD% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,MUD% Dollar",
-						"&fAbbauen von Myzel %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,MYCELIUM% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,MYCELIUM% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,MYCELIUM% Dollar",
-						"&fAbbauen von Schnee %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,SNOW% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,SNOW% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,SNOW% Dollar",
-						"&fAbbauen von Schneeblock %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK% Dollar",
+						"&fAbbauen von &#c6a664Ton &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,CLAY% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,CLAY% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,CLAY% Dollar",
+						"&fAbbauen von &#c6a664Schlamm &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,MUD% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,MUD% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,MUD% Dollar",
+						"&fAbbauen von &#c6a664Myzel &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,MYCELIUM% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,MYCELIUM% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,MYCELIUM% Dollar",
+						"&fAbbauen von &#c6a664Schnee &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,SNOW% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,SNOW% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,SNOW% Dollar",
+						"&fAbbauen von &#c6a664Schneeblock &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK% Dollar",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fMining of Clay %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,CLAY% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,CLAY% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,CLAY% Dollar",
-						"&fMining of Mud %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,MUD% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,MUD% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,MUD% Dollar",
-						"&fMining of Myzel %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,MYCELIUM% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,MYCELIUM% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,MYCELIUM% Dollar",
-						"&fMining of Snow %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,SNOW% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,SNOW% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,SNOW% Dollar",
-						"&fMining of Snowblock %tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK% Dollar",
+						"&fMining of &#c6a664Clay &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,CLAY% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,CLAY% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,CLAY% Dollar",
+						"&fMining of &#c6a664Mud &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,MUD% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,MUD% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,MUD% Dollar",
+						"&fMining of &#c6a664Myzel &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,MYCELIUM% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,MYCELIUM% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,MYCELIUM% Dollar",
+						"&fMining of &#c6a664Snow &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,SNOW% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,SNOW% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,SNOW% Dollar",
+						"&fMining of &#c6a664Snowblock &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,soil_III,BREAKING,NETHERITE_SHOVEL,SNOW_BLOCK% Dollar",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
@@ -7569,17 +7568,17 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Stein/Bruchstein(Holzspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,STONE,mat=COBBLESTONE%",
-				"&fBehutsamkeits DropChance von Stein/Stein(Holzspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,STONE,mat=STONE%",
-				"&fAbbauen von Stein(Holzspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,STONE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,STONE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,STONE% Dollar",
+				"&f% von &#c6a664Stein/Bruchstein(Holzspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,STONE,mat=COBBLESTONE%",
+				"&fBehuts. % von &#c6a664Stein/Stein(Holzspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,STONE,mat=STONE%",
+				"&fAbbauen von &#c6a664Stein(Holzspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,STONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,STONE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,STONE% Dollar",
 						  
-				"&fDropChance von Bruchstein/Bruchstein(Holzspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
-				"&fBehutsamkeits DropChance von Schlamm/Schlamm(Holzspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
-				"&fAbbauen von Schlamm(Holzspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,COBBLESTONE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,COBBLESTONE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,COBBLESTONE% Dollar",
+				"&f% von &#c6a664Bruchstein/Bruchstein(Holzspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
+				"&fBehuts. % von &#c6a664Schlamm/Schlamm(Holzspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
+				"&fAbbauen von &#c6a664Schlamm(Holzspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,COBBLESTONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,COBBLESTONE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,COBBLESTONE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -7590,17 +7589,17 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Stone/Cobblestone(Woodenpickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,STONE,mat=COBBLESTONE%",
-				"&fSilktouchDropChance of Stone/Stone(Woodenpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,STONE,mat=STONE%",
-				"&fMining of Stone(Woodenpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,STONE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,STONE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,STONE% Dollar",
+				"&f% of &#c6a664Stone/Cobblestone(Woodenpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,STONE,mat=COBBLESTONE%",
+				"&fSilkT% of &#c6a664Stone/Stone(Woodenpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,STONE,mat=STONE%",
+				"&fMining of &#c6a664Stone(Woodenpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,STONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,STONE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,STONE% Dollar",
 						  
-				"&fDropChance of Cobblestone/Cobblestone(Woodenpickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
-				"&fSilktouchDropChance of Cobblestone/Cobblestone(Woodenpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
-				"&fMining of Cobblestone(Woodenpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,COBBLESTONE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,COBBLESTONE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,COBBLESTONE% Dollar",
+				"&f% of &#c6a664Cobblestone/Cobblestone(Woodenpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
+				"&fSilkT% of &#c6a664Cobblestone/Cobblestone(Woodenpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
+				"&fMining of &#c6a664Cobblestone(Woodenpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,COBBLESTONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,COBBLESTONE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_I,1,BREAKING,WOODEN_PICKAXE,COBBLESTONE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(2, new String[] {
@@ -7612,17 +7611,17 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Stein/Bruchstein(Steinspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,STONE,mat=COBBLESTONE%",
-				"&fBehutsamkeits DropChance von Stein/Stein(Steinspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,STONE,mat=STONE%",
-				"&fAbbauen von Stein(Steinspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,STONE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,STONE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,STONE% Dollar",
+				"&f% von &#c6a664Stein/Bruchstein(Steinspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,STONE,mat=COBBLESTONE%",
+				"&fBehuts. % von &#c6a664Stein/Stein(Steinspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,STONE,mat=STONE%",
+				"&fAbbauen von &#c6a664Stein(Steinspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,STONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,STONE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,STONE% Dollar",
 						  
-				"&fDropChance von Bruchstein/Bruchstein(Steinspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
-				"&fBehutsamkeits DropChance von Schlamm/Schlamm(Steinspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
-				"&fAbbauen von Schlamm(Steinspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,COBBLESTONE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,COBBLESTONE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,COBBLESTONE% Dollar",
+				"&f% von &#c6a664Bruchstein/Bruchstein(Steinspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
+				"&fBehuts. % von &#c6a664Schlamm/Schlamm(Steinspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
+				"&fAbbauen von &#c6a664Schlamm(Steinspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,COBBLESTONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,COBBLESTONE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,COBBLESTONE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -7633,17 +7632,17 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Stone/Cobblestone(Stonepickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,STONE,mat=COBBLESTONE%",
-				"&fSilktouchDropChance of Stone/Stone(Stonepickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,STONE,mat=STONE%",
-				"&fMining of Stone(Stonepickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,STONE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,STONE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,STONE% Dollar",
+				"&f% of &#c6a664Stone/Cobblestone(Stonepickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,STONE,mat=COBBLESTONE%",
+				"&fSilkT% of &#c6a664Stone/Stone(Stonepickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,STONE,mat=STONE%",
+				"&fMining of &#c6a664Stone(Stonepickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,STONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,STONE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,STONE% Dollar",
 						  
-				"&fDropChance of Cobblestone/Cobblestone(Stonepickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
-				"&fSilktouchDropChance of Cobblestone/Cobblestone(Stonepickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
-				"&fMining of Cobblestone(Stonepickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,COBBLESTONE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,COBBLESTONE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,COBBLESTONE% Dollar",
+				"&f% of &#c6a664Cobblestone/Cobblestone(Stonepickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
+				"&fSilkT% of &#c6a664Cobblestone/Cobblestone(Stonepickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
+				"&fMining of &#c6a664Cobblestone(Stonepickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,COBBLESTONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,COBBLESTONE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_I,2,BREAKING,STONE_PICKAXE,COBBLESTONE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(3, new String[] {
@@ -7655,17 +7654,17 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Stein/Bruchstein(Eisenspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,STONE,mat=COBBLESTONE%",
-				"&fBehutsamkeits DropChance von Stein/Stein(Eisenspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,STONE,mat=STONE%",
-				"&fAbbauen von Stein(Eisenspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,STONE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,STONE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,STONE% Dollar",
+				"&f% von &#c6a664Stein/Bruchstein(Eisenspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,STONE,mat=COBBLESTONE%",
+				"&fBehuts. % von &#c6a664Stein/Stein(Eisenspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,STONE,mat=STONE%",
+				"&fAbbauen von &#c6a664Stein(Eisenspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,STONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,STONE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,STONE% Dollar",
 						  
-				"&fDropChance von Bruchstein/Bruchstein(Eisenspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
-				"&fBehutsamkeits DropChance von Schlamm/Schlamm(Eisenspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
-				"&fAbbauen von Schlamm(Eisenspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,COBBLESTONE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,COBBLESTONE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,COBBLESTONE% Dollar",
+				"&f% von &#c6a664Bruchstein/Bruchstein(Eisenspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
+				"&fBehuts. % von &#c6a664Schlamm/Schlamm(Eisenspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
+				"&fAbbauen von &#c6a664Schlamm(Eisenspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,COBBLESTONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,COBBLESTONE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,COBBLESTONE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -7676,17 +7675,17 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Stone/Cobblestone(Ironpickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,STONE,mat=COBBLESTONE%",
-				"&fSilktouchDropChance of Stone/Stone(Ironpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,STONE,mat=STONE%",
-				"&fMining of Stone(Ironpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,STONE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,STONE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,STONE% Dollar",
+				"&f% of &#c6a664Stone/Cobblestone(Ironpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,STONE,mat=COBBLESTONE%",
+				"&fSilkT% of &#c6a664Stone/Stone(Ironpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,STONE,mat=STONE%",
+				"&fMining of &#c6a664Stone(Ironpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,STONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,STONE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,STONE% Dollar",
 						  
-				"&fDropChance of Cobblestone/Cobblestone(Ironpickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
-				"&fSilktouchDropChance of Cobblestone/Cobblestone(Ironpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
-				"&fMining of Cobblestone(Ironpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,COBBLESTONE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,COBBLESTONE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,COBBLESTONE% Dollar",
+				"&f% of &#c6a664Cobblestone/Cobblestone(Ironpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
+				"&fSilkT% of &#c6a664Cobblestone/Cobblestone(Ironpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
+				"&fMining of &#c6a664Cobblestone(Ironpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,COBBLESTONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,COBBLESTONE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_I,3,BREAKING,IRON_PICKAXE,COBBLESTONE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(4, new String[] {
@@ -7698,17 +7697,17 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Stein/Bruchstein(Goldspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,STONE,mat=COBBLESTONE%",
-				"&fBehutsamkeits DropChance von Stein/Stein(Goldspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,STONE,mat=STONE%",
-				"&fAbbauen von Stein(Goldspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,STONE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,STONE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,STONE% Dollar",
+				"&f% von &#c6a664Stein/Bruchstein(Goldspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,STONE,mat=COBBLESTONE%",
+				"&fBehuts. % von &#c6a664Stein/Stein(Goldspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,STONE,mat=STONE%",
+				"&fAbbauen von &#c6a664Stein(Goldspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,STONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,STONE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,STONE% Dollar",
 						  
-				"&fDropChance von Bruchstein/Bruchstein(Goldspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
-				"&fBehutsamkeits DropChance von Schlamm/Schlamm(Goldspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
-				"&fAbbauen von Schlamm(Goldspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,COBBLESTONE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,COBBLESTONE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,COBBLESTONE% Dollar",
+				"&f% von &#c6a664Bruchstein/Bruchstein(Goldspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
+				"&fBehuts. % von &#c6a664Schlamm/Schlamm(Goldspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
+				"&fAbbauen von &#c6a664Schlamm(Goldspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,COBBLESTONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,COBBLESTONE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,COBBLESTONE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -7719,17 +7718,17 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Stone/Cobblestone(Goldenpickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,STONE,mat=COBBLESTONE%",
-				"&fSilktouchDropChance of Stone/Stone(Goldenpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,STONE,mat=STONE%",
-				"&fMining of Stone(Goldenpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,STONE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,STONE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,STONE% Dollar",
+				"&f% of &#c6a664Stone/Cobblestone(Goldenpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,STONE,mat=COBBLESTONE%",
+				"&fSilkT% of &#c6a664Stone/Stone(Goldenpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,STONE,mat=STONE%",
+				"&fMining of &#c6a664Stone(Goldenpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,STONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,STONE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,STONE% Dollar",
 						  
-				"&fDropChance of Cobblestone/Cobblestone(Goldenpickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
-				"&fSilktouchDropChance of Cobblestone/Cobblestone(Goldenpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
-				"&fMining of Cobblestone(Goldenpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,COBBLESTONE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,COBBLESTONE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,COBBLESTONE% Dollar",
+				"&f% of &#c6a664Cobblestone/Cobblestone(Goldenpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
+				"&fSilkT% of &#c6a664Cobblestone/Cobblestone(Goldenpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
+				"&fMining of &#c6a664Cobblestone(Goldenpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,COBBLESTONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,COBBLESTONE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_I,4,BREAKING,GOLDEN_PICKAXE,COBBLESTONE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(5, new String[] {
@@ -7741,17 +7740,17 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Stein/Bruchstein(Diamantspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,STONE,mat=COBBLESTONE%",
-				"&fBehutsamkeits DropChance von Stein/Stein(Diamantspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,STONE,mat=STONE%",
-				"&fAbbauen von Stein(Diamantspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,STONE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,STONE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,STONE% Dollar",
+				"&f% von &#c6a664Stein/Bruchstein(Diamantspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,STONE,mat=COBBLESTONE%",
+				"&fBehuts. % von &#c6a664Stein/Stein(Diamantspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,STONE,mat=STONE%",
+				"&fAbbauen von &#c6a664Stein(Diamantspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,STONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,STONE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,STONE% Dollar",
 						  
-				"&fDropChance von Bruchstein/Bruchstein(Diamantspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
-				"&fBehutsamkeits DropChance von Schlamm/Schlamm(Diamantspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
-				"&fAbbauen von Schlamm(Diamantspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,COBBLESTONE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,COBBLESTONE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,COBBLESTONE% Dollar",
+				"&f% von &#c6a664Bruchstein/Bruchstein(Diamantspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
+				"&fBehuts. % von &#c6a664Schlamm/Schlamm(Diamantspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
+				"&fAbbauen von &#c6a664Schlamm(Diamantspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,COBBLESTONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,COBBLESTONE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,COBBLESTONE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -7762,17 +7761,17 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Stone/Cobblestone(Diamondpickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,STONE,mat=COBBLESTONE%",
-				"&fSilktouchDropChance of Stone/Stone(Diamondpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,STONE,mat=STONE%",
-				"&fMining of Stone(Diamondpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,STONE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,STONE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,STONE% Dollar",
+				"&f% of &#c6a664Stone/Cobblestone(Diamondpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,STONE,mat=COBBLESTONE%",
+				"&fSilkT% of &#c6a664Stone/Stone(Diamondpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,STONE,mat=STONE%",
+				"&fMining of &#c6a664Stone(Diamondpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,STONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,STONE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,STONE% Dollar",
 						  
-				"&fDropChance of Cobblestone/Cobblestone(Diamondpickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
-				"&fSilktouchDropChance of Cobblestone/Cobblestone(Diamondpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
-				"&fMining of Cobblestone(Diamondpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,COBBLESTONE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,COBBLESTONE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,COBBLESTONE% Dollar",
+				"&f% of &#c6a664Cobblestone/Cobblestone(Diamondpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
+				"&fSilkT% of &#c6a664Cobblestone/Cobblestone(Diamondpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
+				"&fMining of &#c6a664Cobblestone(Diamondpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,COBBLESTONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,COBBLESTONE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_I,5,BREAKING,DIAMOND_PICKAXE,COBBLESTONE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(6, new String[] {
@@ -7784,17 +7783,17 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Stein/Bruchstein(Netheritespitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,STONE,mat=COBBLESTONE%",
-				"&fBehutsamkeits DropChance von Stein/Stein(Netheritespitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,STONE,mat=STONE%",
-				"&fAbbauen von Stein(Netheritespitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,STONE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,STONE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,STONE% Dollar",
+				"&f% von &#c6a664Stein/Bruchstein(Netheritespitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,STONE,mat=COBBLESTONE%",
+				"&fBehuts. % von &#c6a664Stein/Stein(Netheritespitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,STONE,mat=STONE%",
+				"&fAbbauen von &#c6a664Stein(Netheritespitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,STONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,STONE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,STONE% Dollar",
 						  
-				"&fDropChance von Bruchstein/Bruchstein(Netheritespitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
-				"&fBehutsamkeits DropChance von Schlamm/Schlamm(Netheritespitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
-				"&fAbbauen von Schlamm(Netheritespitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,COBBLESTONE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,COBBLESTONE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,COBBLESTONE% Dollar",
+				"&f% von &#c6a664Bruchstein/Bruchstein(Netheritespitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
+				"&fBehuts. % von &#c6a664Schlamm/Schlamm(Netheritespitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
+				"&fAbbauen von &#c6a664Schlamm(Netheritespitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,COBBLESTONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,COBBLESTONE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,COBBLESTONE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -7805,17 +7804,17 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Stone/Cobblestone(Netheritepickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,STONE,mat=COBBLESTONE%",
-				"&fSilktouchDropChance of Stone/Stone(Netheritepickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,STONE,mat=STONE%",
-				"&fMining of Stone(Netheritepickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,STONE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,STONE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,STONE% Dollar",
+				"&f% of &#c6a664Stone/Cobblestone(Netheritepickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,STONE,mat=COBBLESTONE%",
+				"&fSilkT% of &#c6a664Stone/Stone(Netheritepickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,STONE,mat=STONE%",
+				"&fMining of &#c6a664Stone(Netheritepickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,STONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,STONE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,STONE% Dollar",
 						  
-				"&fDropChance of Cobblestone/Cobblestone(Netheritepickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
-				"&fSilktouchDropChance of Cobblestone/Cobblestone(Netheritepickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
-				"&fMining of Cobblestone(Netheritepickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,COBBLESTONE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,COBBLESTONE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,COBBLESTONE% Dollar",
+				"&f% of &#c6a664Cobblestone/Cobblestone(Netheritepickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
+				"&fSilkT% of &#c6a664Cobblestone/Cobblestone(Netheritepickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,COBBLESTONE,mat=COBBLESTONE%",
+				"&fMining of &#c6a664Cobblestone(Netheritepickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,COBBLESTONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,COBBLESTONE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_I,6,BREAKING,NETHERITE_PICKAXE,COBBLESTONE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
@@ -7831,7 +7830,7 @@ public class YamlManager
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fMining of Stone & Cobblestone.",
+						"&fMining of &#c6a664Stone & Cobblestone.",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Stein I","&7Stone I"},
@@ -7843,22 +7842,22 @@ public class YamlManager
 				Material.STONE, 1, itemflag, enchantment, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fAbbauen von Stein %tt_raw_reward_techtotal_ttexp_mat,SOLO,stone_I,BREAKING,NETHERITE_PICKAXE,STONE% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,stone_I,BREAKING,NETHERITE_PICKAXE,STONE% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,stone_I,BREAKING,NETHERITE_PICKAXE,STONE% Dollar",
-						"&fAbbauen von Bruchstein %tt_raw_reward_techtotal_ttexp_mat,SOLO,stone_I,BREAKING,NETHERITE_PICKAXE,COBBLESTONE% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,stone_I,BREAKING,NETHERITE_PICKAXE,COBBLESTONE% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,stone_I,BREAKING,NETHERITE_PICKAXE,COBBLESTONE% Dollar",
+						"&fAbbauen von &#c6a664Stein &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,stone_I,BREAKING,NETHERITE_PICKAXE,STONE% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,stone_I,BREAKING,NETHERITE_PICKAXE,STONE% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,stone_I,BREAKING,NETHERITE_PICKAXE,STONE% Dollar",
+						"&fAbbauen von &#c6a664Bruchstein &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,stone_I,BREAKING,NETHERITE_PICKAXE,COBBLESTONE% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,stone_I,BREAKING,NETHERITE_PICKAXE,COBBLESTONE% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,stone_I,BREAKING,NETHERITE_PICKAXE,COBBLESTONE% Dollar",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fMining of Stone %tt_raw_reward_techtotal_ttexp_mat,SOLO,stone_I,BREAKING,NETHERITE_PICKAXE,STONE% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,stone_I,BREAKING,NETHERITE_PICKAXE,STONE% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,stone_I,BREAKING,NETHERITE_PICKAXE,STONE% Dollar",
-						"&fMining of Cobblestone %tt_raw_reward_techtotal_ttexp_mat,SOLO,stone_I,BREAKING,NETHERITE_PICKAXE,COBBLESTONE% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,stone_I,BREAKING,NETHERITE_PICKAXE,COBBLESTONE% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,stone_I,BREAKING,NETHERITE_PICKAXE,COBBLESTONE% Dollar",
+						"&fMining of &#c6a664Stone &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,stone_I,BREAKING,NETHERITE_PICKAXE,STONE% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,stone_I,BREAKING,NETHERITE_PICKAXE,STONE% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,stone_I,BREAKING,NETHERITE_PICKAXE,STONE% Dollar",
+						"&fMining of &#c6a664Cobblestone &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,stone_I,BREAKING,NETHERITE_PICKAXE,COBBLESTONE% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,stone_I,BREAKING,NETHERITE_PICKAXE,COBBLESTONE% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,stone_I,BREAKING,NETHERITE_PICKAXE,COBBLESTONE% Dollar",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
@@ -7994,23 +7993,23 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Granit/Granit(Holzspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,GRANITE,mat=GRANITE%",
-				"&fBehutsamkeits DropChance von Granit/Granit(Holzspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,GRANITE,mat=GRANITE%",
-				"&fAbbauen von Granit(Holzspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,GRANITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,GRANITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,GRANITE% Dollar",
+				"&f% von &#c6a664Granit/Granit(Holzspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,GRANITE,mat=GRANITE%",
+				"&fBehuts. % von &#c6a664Granit/Granit(Holzspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,GRANITE,mat=GRANITE%",
+				"&fAbbauen von &#c6a664Granit(Holzspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,GRANITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,GRANITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,GRANITE% Dollar",
 						  
-				"&fDropChance von Andesit/Andesit(Holzspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,ANDESITE,mat=ANDESITE%",
-				"&fBehutsamkeits DropChance von Andesit/Andesit(Holzspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,ANDESITE,mat=ANDESITE%",
-				"&fAbbauen von Andesit(Holzspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,ANDESITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,ANDESITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,ANDESITE% Dollar",
+				"&f% von &#c6a664Andesit/Andesit(Holzspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,ANDESITE,mat=ANDESITE%",
+				"&fBehuts. % von &#c6a664Andesit/Andesit(Holzspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,ANDESITE,mat=ANDESITE%",
+				"&fAbbauen von &#c6a664Andesit(Holzspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,ANDESITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,ANDESITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,ANDESITE% Dollar",
 						  
-				"&fDropChance von Diorit/Diorit(Holzspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,DIORITE,mat=DIORITE%",
-				"&fBehutsamkeits DropChance von Diorit/Diorit(Holzspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,DIORITE,mat=DIORITE%",
-				"&fAbbauen von Diorit(Holzspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,DIORITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,DIORITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,DIORITE% Dollar",
+				"&f% von &#c6a664Diorit/Diorit(Holzspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,DIORITE,mat=DIORITE%",
+				"&fBehuts. % von &#c6a664Diorit/Diorit(Holzspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,DIORITE,mat=DIORITE%",
+				"&fAbbauen von &#c6a664Diorit(Holzspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,DIORITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,DIORITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,DIORITE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -8021,23 +8020,23 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Granite/Granite(Woodenpickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,GRANITE,mat=GRANITE%",
-				"&fSilktouchDropChance of Granite/Granite(Woodenpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,GRANITE,mat=GRANITE%",
-				"&fMining of Granite(Woodenpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,GRANITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,GRANITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,GRANITE% Dollar",
+				"&f% of &#c6a664Granite/Granite(Woodenpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,GRANITE,mat=GRANITE%",
+				"&fSilkT% of &#c6a664Granite/Granite(Woodenpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,GRANITE,mat=GRANITE%",
+				"&fMining of &#c6a664Granite(Woodenpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,GRANITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,GRANITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,GRANITE% Dollar",
 						  
-				"&fDropChance of Andesite/Andesite(Woodenpickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,ANDESITE,mat=ANDESITE%",
-				"&fSilktouchDropChance of Andesite/Andesite(Woodenpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,ANDESITE,mat=ANDESITE%",
-				"&fMining of Andesite(Woodenpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,ANDESITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,ANDESITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,ANDESITE% Dollar",
+				"&f% of &#c6a664Andesite/Andesite(Woodenpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,ANDESITE,mat=ANDESITE%",
+				"&fSilkT% of &#c6a664Andesite/Andesite(Woodenpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,ANDESITE,mat=ANDESITE%",
+				"&fMining of &#c6a664Andesite(Woodenpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,ANDESITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,ANDESITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,ANDESITE% Dollar",
 						  
-				"&fDropChance of Diorite/Diorite(Woodenpickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,DIORITE,mat=DIORITE%",
-				"&fSilktouchDropChance of Diorite/Diorite(Woodenpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,DIORITE,mat=DIORITE%",
-				"&fMining of Diorite(Woodenpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,DIORITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,DIORITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,DIORITE% Dollar",
+				"&f% of &#c6a664Diorite/Diorite(Woodenpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,DIORITE,mat=DIORITE%",
+				"&fSilkT% of &#c6a664Diorite/Diorite(Woodenpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,DIORITE,mat=DIORITE%",
+				"&fMining of &#c6a664Diorite(Woodenpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,DIORITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,DIORITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,1,BREAKING,WOODEN_PICKAXE,DIORITE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(2, new String[] {
@@ -8049,23 +8048,23 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Granit/Granit(Steinspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,GRANITE,mat=GRANITE%",
-				"&fBehutsamkeits DropChance von Granit/Granit(Steinspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,GRANITE,mat=GRANITE%",
-				"&fAbbauen von Granit(Steinspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,GRANITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,GRANITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,GRANITE% Dollar",
+				"&f% von &#c6a664Granit/Granit(Steinspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,GRANITE,mat=GRANITE%",
+				"&fBehuts. % von &#c6a664Granit/Granit(Steinspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,GRANITE,mat=GRANITE%",
+				"&fAbbauen von &#c6a664Granit(Steinspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,GRANITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,GRANITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,GRANITE% Dollar",
 						  
-				"&fDropChance von Andesit/Andesit(Steinspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,ANDESITE,mat=ANDESITE%",
-				"&fBehutsamkeits DropChance von Andesit/Andesit(Steinspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,ANDESITE,mat=ANDESITE%",
-				"&fAbbauen von Andesit(Steinspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,ANDESITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,ANDESITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,ANDESITE% Dollar",
+				"&f% von &#c6a664Andesit/Andesit(Steinspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,ANDESITE,mat=ANDESITE%",
+				"&fBehuts. % von &#c6a664Andesit/Andesit(Steinspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,ANDESITE,mat=ANDESITE%",
+				"&fAbbauen von &#c6a664Andesit(Steinspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,ANDESITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,ANDESITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,ANDESITE% Dollar",
 						  
-				"&fDropChance von Diorit/Diorit(Steinspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,DIORITE,mat=DIORITE%",
-				"&fBehutsamkeits DropChance von Diorit/Diorit(Steinspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,DIORITE,mat=DIORITE%",
-				"&fAbbauen von Diorit(Steinspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,DIORITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,DIORITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,DIORITE% Dollar",
+				"&f% von &#c6a664Diorit/Diorit(Steinspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,DIORITE,mat=DIORITE%",
+				"&fBehuts. % von &#c6a664Diorit/Diorit(Steinspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,DIORITE,mat=DIORITE%",
+				"&fAbbauen von &#c6a664Diorit(Steinspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,DIORITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,DIORITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,DIORITE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -8076,23 +8075,23 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Granite/Granite(Stonepickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,GRANITE,mat=GRANITE%",
-				"&fSilktouchDropChance of Granite/Granite(Stonepickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,GRANITE,mat=GRANITE%",
-				"&fMining of Granite(Stonepickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,GRANITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,GRANITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,GRANITE% Dollar",
+				"&f% of &#c6a664Granite/Granite(Stonepickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,GRANITE,mat=GRANITE%",
+				"&fSilkT% of &#c6a664Granite/Granite(Stonepickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,GRANITE,mat=GRANITE%",
+				"&fMining of &#c6a664Granite(Stonepickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,GRANITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,GRANITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,GRANITE% Dollar",
 						  
-				"&fDropChance of Andesite/Andesite(Stonepickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,ANDESITE,mat=ANDESITE%",
-				"&fSilktouchDropChance of Andesite/Andesite(Stonepickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,ANDESITE,mat=ANDESITE%",
-				"&fMining of Andesite(Stonepickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,ANDESITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,ANDESITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,ANDESITE% Dollar",
+				"&f% of &#c6a664Andesite/Andesite(Stonepickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,ANDESITE,mat=ANDESITE%",
+				"&fSilkT% of &#c6a664Andesite/Andesite(Stonepickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,ANDESITE,mat=ANDESITE%",
+				"&fMining of &#c6a664Andesite(Stonepickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,ANDESITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,ANDESITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,ANDESITE% Dollar",
 						  
-				"&fDropChance of Diorite/Diorite(Stonepickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,DIORITE,mat=DIORITE%",
-				"&fSilktouchDropChance of Diorite/Diorite(Stonepickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,DIORITE,mat=DIORITE%",
-				"&fMining of Diorite(Stonepickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,DIORITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,DIORITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,DIORITE% Dollar",
+				"&f% of &#c6a664Diorite/Diorite(Stonepickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,DIORITE,mat=DIORITE%",
+				"&fSilkT% of &#c6a664Diorite/Diorite(Stonepickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,DIORITE,mat=DIORITE%",
+				"&fMining of &#c6a664Diorite(Stonepickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,DIORITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,DIORITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,2,BREAKING,STONE_PICKAXE,DIORITE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(3, new String[] {
@@ -8104,23 +8103,23 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Granit/Granit(Eisenspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,GRANITE,mat=GRANITE%",
-				"&fBehutsamkeits DropChance von Granit/Granit(Eisenspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,GRANITE,mat=GRANITE%",
-				"&fAbbauen von Granit(Eisenspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,GRANITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,GRANITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,GRANITE% Dollar",
+				"&f% von &#c6a664Granit/Granit(Eisenspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,GRANITE,mat=GRANITE%",
+				"&fBehuts. % von &#c6a664Granit/Granit(Eisenspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,GRANITE,mat=GRANITE%",
+				"&fAbbauen von &#c6a664Granit(Eisenspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,GRANITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,GRANITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,GRANITE% Dollar",
 						  
-				"&fDropChance von Andesit/Andesit(Eisenspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,ANDESITE,mat=ANDESITE%",
-				"&fBehutsamkeits DropChance von Andesit/Andesit(Eisenspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,ANDESITE,mat=ANDESITE%",
-				"&fAbbauen von Andesit(Eisenspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,ANDESITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,ANDESITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,ANDESITE% Dollar",
+				"&f% von &#c6a664Andesit/Andesit(Eisenspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,ANDESITE,mat=ANDESITE%",
+				"&fBehuts. % von &#c6a664Andesit/Andesit(Eisenspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,ANDESITE,mat=ANDESITE%",
+				"&fAbbauen von &#c6a664Andesit(Eisenspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,ANDESITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,ANDESITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,ANDESITE% Dollar",
 						  
-				"&fDropChance von Diorit/Diorit(Eisenspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,DIORITE,mat=DIORITE%",
-				"&fBehutsamkeits DropChance von Diorit/Diorit(Eisenspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,DIORITE,mat=DIORITE%",
-				"&fAbbauen von Diorit(Eisenspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,DIORITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,DIORITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,DIORITE% Dollar",
+				"&f% von &#c6a664Diorit/Diorit(Eisenspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,DIORITE,mat=DIORITE%",
+				"&fBehuts. % von &#c6a664Diorit/Diorit(Eisenspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,DIORITE,mat=DIORITE%",
+				"&fAbbauen von &#c6a664Diorit(Eisenspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,DIORITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,DIORITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,DIORITE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -8131,23 +8130,23 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Granite/Granite(Ironpickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,GRANITE,mat=GRANITE%",
-				"&fSilktouchDropChance of Granite/Granite(Ironpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,GRANITE,mat=GRANITE%",
-				"&fMining of Granite(Ironpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,GRANITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,GRANITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,GRANITE% Dollar",
+				"&f% of &#c6a664Granite/Granite(Ironpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,GRANITE,mat=GRANITE%",
+				"&fSilkT% of &#c6a664Granite/Granite(Ironpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,GRANITE,mat=GRANITE%",
+				"&fMining of &#c6a664Granite(Ironpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,GRANITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,GRANITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,GRANITE% Dollar",
 						  
-				"&fDropChance of Andesite/Andesite(Ironpickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,ANDESITE,mat=ANDESITE%",
-				"&fSilktouchDropChance of Andesite/Andesite(Ironpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,ANDESITE,mat=ANDESITE%",
-				"&fMining of Andesite(Ironpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,ANDESITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,ANDESITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,ANDESITE% Dollar",
+				"&f% of &#c6a664Andesite/Andesite(Ironpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,ANDESITE,mat=ANDESITE%",
+				"&fSilkT% of &#c6a664Andesite/Andesite(Ironpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,ANDESITE,mat=ANDESITE%",
+				"&fMining of &#c6a664Andesite(Ironpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,ANDESITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,ANDESITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,ANDESITE% Dollar",
 						  
-				"&fDropChance of Diorite/Diorite(Ironpickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,DIORITE,mat=DIORITE%",
-				"&fSilktouchDropChance of Diorite/Diorite(Ironpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,DIORITE,mat=DIORITE%",
-				"&fMining of Diorite(Ironpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,DIORITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,DIORITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,DIORITE% Dollar",
+				"&f% of &#c6a664Diorite/Diorite(Ironpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,DIORITE,mat=DIORITE%",
+				"&fSilkT% of &#c6a664Diorite/Diorite(Ironpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,DIORITE,mat=DIORITE%",
+				"&fMining of &#c6a664Diorite(Ironpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,DIORITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,DIORITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,3,BREAKING,IRON_PICKAXE,DIORITE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(4, new String[] {
@@ -8159,23 +8158,23 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Granit/Granit(Goldspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,GRANITE,mat=GRANITE%",
-				"&fBehutsamkeits DropChance von Granit/Granit(Goldspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,GRANITE,mat=GRANITE%",
-				"&fAbbauen von Granit(Goldspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,GRANITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,GRANITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,GRANITE% Dollar",
+				"&f% von &#c6a664Granit/Granit(Goldspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,GRANITE,mat=GRANITE%",
+				"&fBehuts. % von &#c6a664Granit/Granit(Goldspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,GRANITE,mat=GRANITE%",
+				"&fAbbauen von &#c6a664Granit(Goldspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,GRANITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,GRANITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,GRANITE% Dollar",
 						  
-				"&fDropChance von Andesit/Andesit(Goldspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,ANDESITE,mat=ANDESITE%",
-				"&fBehutsamkeits DropChance von Andesit/Andesit(Goldspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,ANDESITE,mat=ANDESITE%",
-				"&fAbbauen von Andesit(Goldspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,ANDESITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,ANDESITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,ANDESITE% Dollar",
+				"&f% von &#c6a664Andesit/Andesit(Goldspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,ANDESITE,mat=ANDESITE%",
+				"&fBehuts. % von &#c6a664Andesit/Andesit(Goldspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,ANDESITE,mat=ANDESITE%",
+				"&fAbbauen von &#c6a664Andesit(Goldspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,ANDESITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,ANDESITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,ANDESITE% Dollar",
 						  
-				"&fDropChance von Diorit/Diorit(Goldspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,DIORITE,mat=DIORITE%",
-				"&fBehutsamkeits DropChance von Diorit/Diorit(Goldspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,DIORITE,mat=DIORITE%",
-				"&fAbbauen von Diorit(Goldspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,DIORITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,DIORITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,DIORITE% Dollar",
+				"&f% von &#c6a664Diorit/Diorit(Goldspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,DIORITE,mat=DIORITE%",
+				"&fBehuts. % von &#c6a664Diorit/Diorit(Goldspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,DIORITE,mat=DIORITE%",
+				"&fAbbauen von &#c6a664Diorit(Goldspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,DIORITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,DIORITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,DIORITE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -8186,23 +8185,23 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Granite/Granite(Goldenpickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,GRANITE,mat=GRANITE%",
-				"&fSilktouchDropChance of Granite/Granite(Goldenpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,GRANITE,mat=GRANITE%",
-				"&fMining of Granite(Goldenpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,GRANITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,GRANITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,GRANITE% Dollar",
+				"&f% of &#c6a664Granite/Granite(Goldenpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,GRANITE,mat=GRANITE%",
+				"&fSilkT% of &#c6a664Granite/Granite(Goldenpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,GRANITE,mat=GRANITE%",
+				"&fMining of &#c6a664Granite(Goldenpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,GRANITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,GRANITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,GRANITE% Dollar",
 						  
-				"&fDropChance of Andesite/Andesite(Goldenpickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,ANDESITE,mat=ANDESITE%",
-				"&fSilktouchDropChance of Andesite/Andesite(Goldenpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,ANDESITE,mat=ANDESITE%",
-				"&fMining of Andesite(Goldenpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,ANDESITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,ANDESITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,ANDESITE% Dollar",
+				"&f% of &#c6a664Andesite/Andesite(Goldenpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,ANDESITE,mat=ANDESITE%",
+				"&fSilkT% of &#c6a664Andesite/Andesite(Goldenpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,ANDESITE,mat=ANDESITE%",
+				"&fMining of &#c6a664Andesite(Goldenpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,ANDESITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,ANDESITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,ANDESITE% Dollar",
 						  
-				"&fDropChance of Diorite/Diorite(Goldenpickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,DIORITE,mat=DIORITE%",
-				"&fSilktouchDropChance of Diorite/Diorite(Goldenpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,DIORITE,mat=DIORITE%",
-				"&fMining of Diorite(Goldenpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,DIORITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,DIORITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,DIORITE% Dollar",
+				"&f% of &#c6a664Diorite/Diorite(Goldenpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,DIORITE,mat=DIORITE%",
+				"&fSilkT% of &#c6a664Diorite/Diorite(Goldenpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,DIORITE,mat=DIORITE%",
+				"&fMining of &#c6a664Diorite(Goldenpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,DIORITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,DIORITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,4,BREAKING,GOLDEN_PICKAXE,DIORITE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(5, new String[] {
@@ -8214,23 +8213,23 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Granit/Granit(Diamandspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,GRANITE,mat=GRANITE%",
-				"&fBehutsamkeits DropChance von Granit/Granit(Diamandspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,GRANITE,mat=GRANITE%",
-				"&fAbbauen von Granit(Diamandspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,GRANITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,GRANITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,GRANITE% Dollar",
+				"&f% von &#c6a664Granit/Granit(Diamandspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,GRANITE,mat=GRANITE%",
+				"&fBehuts. % von &#c6a664Granit/Granit(Diamandspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,GRANITE,mat=GRANITE%",
+				"&fAbbauen von &#c6a664Granit(Diamandspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,GRANITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,GRANITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,GRANITE% Dollar",
 						  
-				"&fDropChance von Andesit/Andesit(Diamandspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,ANDESITE,mat=ANDESITE%",
-				"&fBehutsamkeits DropChance von Andesit/Andesit(Diamandspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,ANDESITE,mat=ANDESITE%",
-				"&fAbbauen von Andesit(Diamandspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,ANDESITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,ANDESITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,ANDESITE% Dollar",
+				"&f% von &#c6a664Andesit/Andesit(Diamandspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,ANDESITE,mat=ANDESITE%",
+				"&fBehuts. % von &#c6a664Andesit/Andesit(Diamandspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,ANDESITE,mat=ANDESITE%",
+				"&fAbbauen von &#c6a664Andesit(Diamandspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,ANDESITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,ANDESITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,ANDESITE% Dollar",
 						  
-				"&fDropChance von Diorit/Diorit(Diamandspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,DIORITE,mat=DIORITE%",
-				"&fBehutsamkeits DropChance von Diorit/Diorit(Diamandspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,DIORITE,mat=DIORITE%",
-				"&fAbbauen von Diorit(Diamandspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,DIORITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,DIORITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,DIORITE% Dollar",
+				"&f% von &#c6a664Diorit/Diorit(Diamandspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,DIORITE,mat=DIORITE%",
+				"&fBehuts. % von &#c6a664Diorit/Diorit(Diamandspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,DIORITE,mat=DIORITE%",
+				"&fAbbauen von &#c6a664Diorit(Diamandspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,DIORITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,DIORITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,DIORITE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -8241,23 +8240,23 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Granite/Granite(Diamondpickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,GRANITE,mat=GRANITE%",
-				"&fSilktouchDropChance of Granite/Granite(Diamondpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,GRANITE,mat=GRANITE%",
-				"&fMining of Granite(Diamondpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,GRANITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,GRANITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,GRANITE% Dollar",
+				"&f% of &#c6a664Granite/Granite(Diamondpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,GRANITE,mat=GRANITE%",
+				"&fSilkT% of &#c6a664Granite/Granite(Diamondpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,GRANITE,mat=GRANITE%",
+				"&fMining of &#c6a664Granite(Diamondpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,GRANITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,GRANITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,GRANITE% Dollar",
 						  
-				"&fDropChance of Andesite/Andesite(Diamondpickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,ANDESITE,mat=ANDESITE%",
-				"&fSilktouchDropChance of Andesite/Andesite(Diamondpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,ANDESITE,mat=ANDESITE%",
-				"&fMining of Andesite(Diamondpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,ANDESITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,ANDESITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,ANDESITE% Dollar",
+				"&f% of &#c6a664Andesite/Andesite(Diamondpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,ANDESITE,mat=ANDESITE%",
+				"&fSilkT% of &#c6a664Andesite/Andesite(Diamondpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,ANDESITE,mat=ANDESITE%",
+				"&fMining of &#c6a664Andesite(Diamondpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,ANDESITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,ANDESITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,ANDESITE% Dollar",
 						  
-				"&fDropChance of Diorite/Diorite(Diamondpickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,DIORITE,mat=DIORITE%",
-				"&fSilktouchDropChance of Diorite/Diorite(Diamondpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,DIORITE,mat=DIORITE%",
-				"&fMining of Diorite(Diamondpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,DIORITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,DIORITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,DIORITE% Dollar",
+				"&f% of &#c6a664Diorite/Diorite(Diamondpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,DIORITE,mat=DIORITE%",
+				"&fSilkT% of &#c6a664Diorite/Diorite(Diamondpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,DIORITE,mat=DIORITE%",
+				"&fMining of &#c6a664Diorite(Diamondpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,DIORITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,DIORITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,5,BREAKING,DIAMOND_PICKAXE,DIORITE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(6, new String[] {
@@ -8269,23 +8268,23 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Granit/Granit(Netheritespitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,GRANITE,mat=GRANITE%",
-				"&fBehutsamkeits DropChance von Granit/Granit(Netheritespitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,GRANITE,mat=GRANITE%",
-				"&fAbbauen von Granit(Netheritespitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,GRANITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,GRANITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,GRANITE% Dollar",
+				"&f% von &#c6a664Granit/Granit(Netheritespitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,GRANITE,mat=GRANITE%",
+				"&fBehuts. % von &#c6a664Granit/Granit(Netheritespitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,GRANITE,mat=GRANITE%",
+				"&fAbbauen von &#c6a664Granit(Netheritespitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,GRANITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,GRANITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,GRANITE% Dollar",
 						  
-				"&fDropChance von Andesit/Andesit(Netheritespitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,ANDESITE,mat=ANDESITE%",
-				"&fBehutsamkeits DropChance von Andesit/Andesit(Netheritespitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,ANDESITE,mat=ANDESITE%",
-				"&fAbbauen von Andesit(Netheritespitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,ANDESITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,ANDESITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,ANDESITE% Dollar",
+				"&f% von &#c6a664Andesit/Andesit(Netheritespitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,ANDESITE,mat=ANDESITE%",
+				"&fBehuts. % von &#c6a664Andesit/Andesit(Netheritespitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,ANDESITE,mat=ANDESITE%",
+				"&fAbbauen von &#c6a664Andesit(Netheritespitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,ANDESITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,ANDESITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,ANDESITE% Dollar",
 						  
-				"&fDropChance von Diorit/Diorit(Netheritespitzhacke) %tt_reward_tech_dropchance_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,DIORITE,mat=DIORITE%",
-				"&fBehutsamkeits DropChance von Diorit/Diorit(Netheritespitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,DIORITE,mat=DIORITE%",
-				"&fAbbauen von Diorit(Netheritespitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,DIORITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,DIORITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,DIORITE% Dollar",
+				"&f% von &#c6a664Diorit/Diorit(Netheritespitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,DIORITE,mat=DIORITE%",
+				"&fBehuts. % von &#c6a664Diorit/Diorit(Netheritespitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,DIORITE,mat=DIORITE%",
+				"&fAbbauen von &#c6a664Diorit(Netheritespitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,DIORITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,DIORITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,DIORITE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -8296,23 +8295,23 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Granite/Granite(Netheritepickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,GRANITE,mat=GRANITE%",
-				"&fSilktouchDropChance of Granite/Granite(Netheritepickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,GRANITE,mat=GRANITE%",
-				"&fMining of Granite(Netheritepickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,GRANITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,GRANITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,GRANITE% Dollar",
+				"&f% of &#c6a664Granite/Granite(Netheritepickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,GRANITE,mat=GRANITE%",
+				"&fSilkT% of &#c6a664Granite/Granite(Netheritepickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,GRANITE,mat=GRANITE%",
+				"&fMining of &#c6a664Granite(Netheritepickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,GRANITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,GRANITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,GRANITE% Dollar",
 						  
-				"&fDropChance of Andesite/Andesite(Netheritepickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,ANDESITE,mat=ANDESITE%",
-				"&fSilktouchDropChance of Andesite/Andesite(Netheritepickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,ANDESITE,mat=ANDESITE%",
-				"&fMining of Andesite(Netheritepickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,ANDESITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,ANDESITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,ANDESITE% Dollar",
+				"&f% of &#c6a664Andesite/Andesite(Netheritepickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,ANDESITE,mat=ANDESITE%",
+				"&fSilkT% of &#c6a664Andesite/Andesite(Netheritepickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,ANDESITE,mat=ANDESITE%",
+				"&fMining of &#c6a664Andesite(Netheritepickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,ANDESITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,ANDESITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,ANDESITE% Dollar",
 						  
-				"&fDropChance of Diorite/Diorite(Netheritepickaxe) %tt_reward_tech_dropchance_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,DIORITE,mat=DIORITE%",
-				"&fSilktouchDropChance of Diorite/Diorite(Netheritepickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,DIORITE,mat=DIORITE%",
-				"&fMining of Diorite(Netheritepickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,DIORITE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,DIORITE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,DIORITE% Dollar",
+				"&f% of &#c6a664Diorite/Diorite(Netheritepickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,DIORITE,mat=DIORITE%",
+				"&fSilkT% of &#c6a664Diorite/Diorite(Netheritepickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,DIORITE,mat=DIORITE%",
+				"&fMining of &#c6a664Diorite(Netheritepickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,DIORITE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,DIORITE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stone_II,6,BREAKING,NETHERITE_PICKAXE,DIORITE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
@@ -8328,7 +8327,7 @@ public class YamlManager
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fMining of Granite, Andesite & Diorite.",
+						"&fMining of &#c6a664Granite, Andesite & Diorite.",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Stein_II","&7Stone_II"},
@@ -8340,28 +8339,28 @@ public class YamlManager
 				Material.GRANITE, 1, itemflag, enchantment, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fAbbauen von Granit %tt_raw_reward_techtotal_ttexp_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,GRANITE% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,GRANITE% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,GRANITE% Dollar",
-						"&fAbbauen von Andesit %tt_raw_reward_techtotal_ttexp_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,ANDESITE% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,ANDESITE% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,ANDESITE% Dollar",
-						"&fAbbauen von Diorit %tt_raw_reward_techtotal_ttexp_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,DIORITE% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,DIORITE% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,DIORITE% Dollar",
+						"&fAbbauen von &#c6a664Granit &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,GRANITE% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,GRANITE% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,GRANITE% Dollar",
+						"&fAbbauen von &#c6a664Andesit &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,ANDESITE% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,ANDESITE% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,ANDESITE% Dollar",
+						"&fAbbauen von &#c6a664Diorit &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,DIORITE% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,DIORITE% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,DIORITE% Dollar",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fMining of Granite %tt_raw_reward_techtotal_ttexp_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,GRANITE% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,GRANITE% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,GRANITE% Dollar",
-						"&fMining of Andesite %tt_raw_reward_techtotal_ttexp_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,ANDESITE% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,ANDESITE% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,ANDESITE% Dollar",
-						"&fMining of Diorite %tt_raw_reward_techtotal_ttexp_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,DIORITE% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,DIORITE% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,DIORITE% Dollar",
+						"&fMining of &#c6a664Granite &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,GRANITE% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,GRANITE% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,GRANITE% Dollar",
+						"&fMining of &#c6a664Andesite &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,ANDESITE% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,ANDESITE% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,ANDESITE% Dollar",
+						"&fMining of &#c6a664Diorite &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,DIORITE% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,DIORITE% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,stone_II,BREAKING,NETHERITE_PICKAXE,DIORITE% Dollar",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
@@ -8520,17 +8519,17 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Kohleerz/Kohle(Holzspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE,mat=COAL%",
-				"&fBehutsamkeits DropChance von Kohleerz/Kohleerz(Holzspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE,mat=COAL_ORE%",
-				"&fAbbauen von Kohleerz(Holzspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE% Dollar",
+				"&f% von &#c6a664Kohleerz/Kohle(Holzspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE,mat=COAL%",
+				"&fBehuts. % von &#c6a664Kohleerz/Kohleerz(Holzspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE,mat=COAL_ORE%",
+				"&fAbbauen von &#c6a664Kohleerz(Holzspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE% Dollar",
 						  
-				"&fDropChance von Tiefenschieferkohleerz/Kohle(Holzspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
-				"&fBehutsamkeits DropChance von Tiefenschieferkohleerz/Tiefenschieferkohleerz(Holzspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
-				"&fAbbauen von Tiefenschieferkohleerz(Holzspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
+				"&f% von &#c6a664Tiefenschieferkohleerz/Kohle(Holzspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
+				"&fBehuts. % von &#c6a664Tiefenschieferkohleerz/Tiefenschieferkohleerz(Holzspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
+				"&fAbbauen von &#c6a664Tiefenschieferkohleerz(Holzspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -8541,17 +8540,17 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Coalore/Coal(Woodenpickaxe) %tt_reward_tech_dropchance_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE,mat=COAL%",
-				"&fSilktouchDropChance of Coalore/Coalore(Woodenpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE,mat=COAL_ORE%",
-				"&fMining of Coalore(Woodenpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE% Dollar",
+				"&f% of &#c6a664Coalore/Coal(Woodenpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE,mat=COAL%",
+				"&fSilkT% of &#c6a664Coalore/Coalore(Woodenpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE,mat=COAL_ORE%",
+				"&fMining of &#c6a664Coalore(Woodenpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE% Dollar",
 						  
-				"&fDropChance of Deepslatecoalore/Coal(Woodenpickaxe) %tt_reward_tech_dropchance_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
-				"&fSilktouchDropChance of Deepslatecoalore/Deepslatecoalore(Woodenpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
-				"&fMining of Deepslatecoalore(Woodenpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
+				"&f% of &#c6a664Deepslatecoalore/Coal(Woodenpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
+				"&fSilkT% of &#c6a664Deepslatecoalore/Deepslatecoalore(Woodenpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
+				"&fMining of &#c6a664Deepslatecoalore(Woodenpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(2, new String[] {
@@ -8563,17 +8562,17 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Kohleerz/Kohle(Steinspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,COAL_ORE,mat=COAL%",
-				"&fBehutsamkeits DropChance von Kohleerz/Kohleerz(Steinspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,COAL_ORE,mat=COAL_ORE%",
-				"&fAbbauen von Kohleerz(Steinspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,COAL_ORE% Dollar",
+				"&f% von &#c6a664Kohleerz/Kohle(Steinspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,COAL_ORE,mat=COAL%",
+				"&fBehuts. % von &#c6a664Kohleerz/Kohleerz(Steinspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,COAL_ORE,mat=COAL_ORE%",
+				"&fAbbauen von &#c6a664Kohleerz(Steinspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,COAL_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,COAL_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,COAL_ORE% Dollar",
 						  
-				"&fDropChance von Tiefenschieferkohleerz/Kohle(Steinspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
-				"&fBehutsamkeits DropChance von Tiefenschieferkohleerz/Tiefenschieferkohleerz(Steinspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
-				"&fAbbauen von Tiefenschieferkohleerz(Steinspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,DEEPSLATE_COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
+				"&f% von &#c6a664Tiefenschieferkohleerz/Kohle(Steinspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
+				"&fBehuts. % von &#c6a664Tiefenschieferkohleerz/Tiefenschieferkohleerz(Steinspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
+				"&fAbbauen von &#c6a664Tiefenschieferkohleerz(Steinspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,DEEPSLATE_COAL_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -8584,17 +8583,17 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Coalore/Coal(Stonepickaxe) %tt_reward_tech_dropchance_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,COAL_ORE,mat=COAL%",
-				"&fSilktouchDropChance of Coalore/Coalore(Stonepickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,COAL_ORE,mat=COAL_ORE%",
-				"&fMining of Coalore(Stonepickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,COAL_ORE% Dollar",
+				"&f% of &#c6a664Coalore/Coal(Stonepickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,COAL_ORE,mat=COAL%",
+				"&fSilkT% of &#c6a664Coalore/Coalore(Stonepickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,COAL_ORE,mat=COAL_ORE%",
+				"&fMining of &#c6a664Coalore(Stonepickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,COAL_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,COAL_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,COAL_ORE% Dollar",
 						  
-				"&fDropChance of Deepslatecoalore/Coal(Stonepickaxe) %tt_reward_tech_dropchance_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
-				"&fSilktouchDropChance of Deepslatecoalore/Deepslatecoalore(Stonepickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
-				"&fMining of Deepslatecoalore(Stonepickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,DEEPSLATE_COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
+				"&f% of &#c6a664Deepslatecoalore/Coal(Stonepickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
+				"&fSilkT% of &#c6a664Deepslatecoalore/Deepslatecoalore(Stonepickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
+				"&fMining of &#c6a664Deepslatecoalore(Stonepickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,DEEPSLATE_COAL_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,coalore,2,BREAKING,STONE_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(3, new String[] {
@@ -8606,17 +8605,17 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Kohleerz/Kohle(Eisenspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,COAL_ORE,mat=COAL%",
-				"&fBehutsamkeits DropChance von Kohleerz/Kohleerz(Eisenspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,COAL_ORE,mat=COAL_ORE%",
-				"&fAbbauen von Kohleerz(Eisenspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,COAL_ORE% Dollar",
+				"&f% von &#c6a664Kohleerz/Kohle(Eisenspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,COAL_ORE,mat=COAL%",
+				"&fBehuts. % von &#c6a664Kohleerz/Kohleerz(Eisenspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,COAL_ORE,mat=COAL_ORE%",
+				"&fAbbauen von &#c6a664Kohleerz(Eisenspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,COAL_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,COAL_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,COAL_ORE% Dollar",
 						  
-				"&fDropChance von Tiefenschieferkohleerz/Kohle(Eisenspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
-				"&fBehutsamkeits DropChance von Tiefenschieferkohleerz/Tiefenschieferkohleerz(Eisenspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
-				"&fAbbauen von Tiefenschieferkohleerz(Eisenspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,DEEPSLATE_COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
+				"&f% von &#c6a664Tiefenschieferkohleerz/Kohle(Eisenspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
+				"&fBehuts. % von &#c6a664Tiefenschieferkohleerz/Tiefenschieferkohleerz(Eisenspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
+				"&fAbbauen von &#c6a664Tiefenschieferkohleerz(Eisenspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,DEEPSLATE_COAL_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -8627,17 +8626,17 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Coalore/Coal(Ironpickaxe) %tt_reward_tech_dropchance_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,COAL_ORE,mat=COAL%",
-				"&fSilktouchDropChance of Coalore/Coalore(Ironpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,COAL_ORE,mat=COAL_ORE%",
-				"&fMining of Coalore(Ironpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,COAL_ORE% Dollar",
+				"&f% of &#c6a664Coalore/Coal(Ironpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,COAL_ORE,mat=COAL%",
+				"&fSilkT% of &#c6a664Coalore/Coalore(Ironpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,COAL_ORE,mat=COAL_ORE%",
+				"&fMining of &#c6a664Coalore(Ironpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,COAL_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,COAL_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,COAL_ORE% Dollar",
 						  
-				"&fDropChance of Deepslatecoalore/Coal(Ironpickaxe) %tt_reward_tech_dropchance_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
-				"&fSilktouchDropChance of Deepslatecoalore/Deepslatecoalore(Ironpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
-				"&fMining of Deepslatecoalore(Ironpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,DEEPSLATE_COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
+				"&f% of &#c6a664Deepslatecoalore/Coal(Ironpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
+				"&fSilkT% of &#c6a664Deepslatecoalore/Deepslatecoalore(Ironpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
+				"&fMining of &#c6a664Deepslatecoalore(Ironpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,DEEPSLATE_COAL_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,coalore,3,BREAKING,IRON_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(4, new String[] {
@@ -8649,17 +8648,17 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Kohleerz/Kohle(Goldspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,COAL_ORE,mat=COAL%",
-				"&fBehutsamkeits DropChance von Kohleerz/Kohleerz(Goldspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,COAL_ORE,mat=COAL_ORE%",
-				"&fAbbauen von Kohleerz(Goldspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,COAL_ORE% Dollar",
+				"&f% von &#c6a664Kohleerz/Kohle(Goldspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,COAL_ORE,mat=COAL%",
+				"&fBehuts. % von &#c6a664Kohleerz/Kohleerz(Goldspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,COAL_ORE,mat=COAL_ORE%",
+				"&fAbbauen von &#c6a664Kohleerz(Goldspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,COAL_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,COAL_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,COAL_ORE% Dollar",
 						  
-				"&fDropChance von Tiefenschieferkohleerz/Kohle(Goldspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
-				"&fBehutsamkeits DropChance von Tiefenschieferkohleerz/Tiefenschieferkohleerz(Goldspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
-				"&fAbbauen von Tiefenschieferkohleerz(Goldspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
+				"&f% von &#c6a664Tiefenschieferkohleerz/Kohle(Goldspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
+				"&fBehuts. % von &#c6a664Tiefenschieferkohleerz/Tiefenschieferkohleerz(Goldspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
+				"&fAbbauen von &#c6a664Tiefenschieferkohleerz(Goldspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_COAL_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -8670,17 +8669,17 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Coalore/Coal(Goldenpickaxe) %tt_reward_tech_dropchance_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,COAL_ORE,mat=COAL%",
-				"&fSilktouchDropChance of Coalore/Coalore(Goldenpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,COAL_ORE,mat=COAL_ORE%",
-				"&fMining of Coalore(Goldenpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,COAL_ORE% Dollar",
+				"&f% of &#c6a664Coalore/Coal(Goldenpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,COAL_ORE,mat=COAL%",
+				"&fSilkT% of &#c6a664Coalore/Coalore(Goldenpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,COAL_ORE,mat=COAL_ORE%",
+				"&fMining of &#c6a664Coalore(Goldenpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,COAL_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,COAL_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,COAL_ORE% Dollar",
 						  
-				"&fDropChance of Deepslatecoalore/Coal(Goldenpickaxe) %tt_reward_tech_dropchance_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
-				"&fSilktouchDropChance of Deepslatecoalore/Deepslatecoalore(Goldenpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
-				"&fMining of Deepslatecoalore(Goldenpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
+				"&f% of &#c6a664Deepslatecoalore/Coal(Goldenpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
+				"&fSilkT% of &#c6a664Deepslatecoalore/Deepslatecoalore(Goldenpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
+				"&fMining of &#c6a664Deepslatecoalore(Goldenpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_COAL_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,coalore,4,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(5, new String[] {
@@ -8692,17 +8691,17 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Kohleerz/Kohle(Diamantspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,COAL_ORE,mat=COAL%",
-				"&fBehutsamkeits DropChance von Kohleerz/Kohleerz(Diamantspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,COAL_ORE,mat=COAL_ORE%",
-				"&fAbbauen von Kohleerz(Diamantspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,COAL_ORE% Dollar",
+				"&f% von &#c6a664Kohleerz/Kohle(Diamantspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,COAL_ORE,mat=COAL%",
+				"&fBehuts. % von &#c6a664Kohleerz/Kohleerz(Diamantspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,COAL_ORE,mat=COAL_ORE%",
+				"&fAbbauen von &#c6a664Kohleerz(Diamantspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,COAL_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,COAL_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,COAL_ORE% Dollar",
 						  
-				"&fDropChance von Tiefenschieferkohleerz/Kohle(Diamantspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
-				"&fBehutsamkeits DropChance von Tiefenschieferkohleerz/Tiefenschieferkohleerz(Diamantspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
-				"&fAbbauen von Tiefenschieferkohleerz(Diamantspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
+				"&f% von &#c6a664Tiefenschieferkohleerz/Kohle(Diamantspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
+				"&fBehuts. % von &#c6a664Tiefenschieferkohleerz/Tiefenschieferkohleerz(Diamantspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
+				"&fAbbauen von &#c6a664Tiefenschieferkohleerz(Diamantspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_COAL_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -8713,17 +8712,17 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Coalore/Coal(Diamondpickaxe) %tt_reward_tech_dropchance_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,COAL_ORE,mat=COAL%",
-				"&fSilktouchDropChance of Coalore/Coalore(Diamondpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,COAL_ORE,mat=COAL_ORE%",
-				"&fMining of Coalore(Diamondpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,COAL_ORE% Dollar",
+				"&f% of &#c6a664Coalore/Coal(Diamondpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,COAL_ORE,mat=COAL%",
+				"&fSilkT% of &#c6a664Coalore/Coalore(Diamondpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,COAL_ORE,mat=COAL_ORE%",
+				"&fMining of &#c6a664Coalore(Diamondpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,COAL_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,COAL_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,COAL_ORE% Dollar",
 						  
-				"&fDropChance of Deepslatecoalore/Coal(Diamondpickaxe) %tt_reward_tech_dropchance_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
-				"&fSilktouchDropChance of Deepslatecoalore/Deepslatecoalore(Diamondpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
-				"&fMining of Deepslatecoalore(Diamondpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
+				"&f% of &#c6a664Deepslatecoalore/Coal(Diamondpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
+				"&fSilkT% of &#c6a664Deepslatecoalore/Deepslatecoalore(Diamondpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
+				"&fMining of &#c6a664Deepslatecoalore(Diamondpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_COAL_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,coalore,5,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(6, new String[] {
@@ -8735,17 +8734,17 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Kohleerz/Kohle(Netheritespitzhacke) %tt_reward_tech_dropchance_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,COAL_ORE,mat=COAL%",
-				"&fBehutsamkeits DropChance von Kohleerz/Kohleerz(Netheritespitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,COAL_ORE,mat=COAL_ORE%",
-				"&fAbbauen von Kohleerz(Netheritespitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,COAL_ORE% Dollar",
+				"&f% von &#c6a664Kohleerz/Kohle(Netheritespitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,COAL_ORE,mat=COAL%",
+				"&fBehuts. % von &#c6a664Kohleerz/Kohleerz(Netheritespitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,COAL_ORE,mat=COAL_ORE%",
+				"&fAbbauen von &#c6a664Kohleerz(Netheritespitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,COAL_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,COAL_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,COAL_ORE% Dollar",
 						  
-				"&fDropChance von Tiefenschieferkohleerz/Tiefenschieferkohleerz(Netheritespitzhacke) %tt_reward_tech_dropchance_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
-				"&fBehutsamkeits DropChance von Tiefenschieferkohleerz/Tiefenschieferkohleerz(Netheritespitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
-				"&fAbbauen von Tiefenschieferkohleerz(Netheritespitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
+				"&f% von &#c6a664Tiefenschieferkohleerz/Tiefenschieferkohleerz(Netheritespitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
+				"&fBehuts. % von &#c6a664Tiefenschieferkohleerz/Tiefenschieferkohleerz(Netheritespitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
+				"&fAbbauen von &#c6a664Tiefenschieferkohleerz(Netheritespitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -8756,17 +8755,17 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Coalore/(Netheritepickaxe) %tt_reward_tech_dropchance_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,COAL_ORE,mat=COAL%",
-				"&fSilktouchDropChance of Coalore/Coalore(Netheritepickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,COAL_ORE,mat=COAL_ORE%",
-				"&fMining of Coalore(Netheritepickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,COAL_ORE% Dollar",
+				"&f% of &#c6a664Coalore/(Netheritepickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,COAL_ORE,mat=COAL%",
+				"&fSilkT% of &#c6a664Coalore/Coalore(Netheritepickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,COAL_ORE,mat=COAL_ORE%",
+				"&fMining of &#c6a664Coalore(Netheritepickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,COAL_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,COAL_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,COAL_ORE% Dollar",
 						  
-				"&fDropChance of Deepslatecoalore/Coal(Netheritepickaxe) %tt_reward_tech_dropchance_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
-				"&fSilktouchDropChance of Deepslatecoalore/Deepslatecoalore(Netheritepickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
-				"&fMining of Deepslatecoalore(Netheritepickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
+				"&f% of &#c6a664Deepslatecoalore/Coal(Netheritepickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
+				"&fSilkT% of &#c6a664Deepslatecoalore/Deepslatecoalore(Netheritepickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
+				"&fMining of &#c6a664Deepslatecoalore(Netheritepickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,coalore,6,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
@@ -8782,7 +8781,7 @@ public class YamlManager
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fMining of Coalore & Deepslatecoalore.",
+						"&fMining of &#c6a664Coalore & Deepslatecoalore.",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Kohleerz","&7Coalore"},
@@ -8794,22 +8793,22 @@ public class YamlManager
 				Material.COAL_ORE, 1, itemflag, enchantment, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fAbbauen von Kohleerz %tt_raw_reward_techtotal_ttexp_mat,SOLO,coalore,BREAKING,NETHERITE_PICKAXE,COAL_ORE% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,coalore,BREAKING,NETHERITE_PICKAXE,COAL_ORE% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,coalore,BREAKING,NETHERITE_PICKAXE,COAL_ORE% Dollar",
-						"&fAbbauen von Tiefenschieferkohleerz %tt_raw_reward_techtotal_ttexp_mat,SOLO,coalore,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,coalore,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,coalore,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
+						"&fAbbauen von &#c6a664Kohleerz &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,coalore,BREAKING,NETHERITE_PICKAXE,COAL_ORE% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,coalore,BREAKING,NETHERITE_PICKAXE,COAL_ORE% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,coalore,BREAKING,NETHERITE_PICKAXE,COAL_ORE% Dollar",
+						"&fAbbauen von &#c6a664Tiefenschieferkohleerz &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,coalore,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,coalore,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,coalore,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fMining of Coalore %tt_raw_reward_techtotal_ttexp_mat,SOLO,coalore,BREAKING,NETHERITE_PICKAXE,COAL_ORE% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,coalore,BREAKING,NETHERITE_PICKAXE,COAL_ORE% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,coalore,BREAKING,NETHERITE_PICKAXE,COAL_ORE% Dollar",
-						"&fMining of Deepslatecoalore %tt_raw_reward_techtotal_ttexp_mat,SOLO,coalore,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,coalore,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,coalore,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
+						"&fMining of &#c6a664Coalore &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,coalore,BREAKING,NETHERITE_PICKAXE,COAL_ORE% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,coalore,BREAKING,NETHERITE_PICKAXE,COAL_ORE% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,coalore,BREAKING,NETHERITE_PICKAXE,COAL_ORE% Dollar",
+						"&fMining of &#c6a664Deepslatecoalore &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,coalore,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,coalore,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,coalore,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
@@ -8870,7 +8869,7 @@ public class YamlManager
 		rewardDropChance.put(1, new String[] {
 				"BREAKING:STONE_PICKAXE:IRON_ORE:null:mat=RAW_IRON:1:1.0",
 				"BREAKING:STONE_PICKAXE:IRON_ORE:null:mat=RAW_IRON:2:0.5",
-				"BREAKING:STONE_PICKAXE:IRONL_ORE:null:mat=RAW_IRON:3:0.25",
+				"BREAKING:STONE_PICKAXE:IRON_ORE:null:mat=RAW_IRON:3:0.25",
 				"BREAKING:STONE_PICKAXE:IRON_ORE:null:mat=RAW_IRON:4:0.125",
 				"BREAKING:STONE_PICKAXE:DEEPSLATE_IRON_ORE:null:mat=RAW_IRON:1:1.0",
 				"BREAKING:STONE_PICKAXE:DEEPSLATE_IRON_ORE:null:mat=RAW_IRON:2:0.5",
@@ -8879,7 +8878,7 @@ public class YamlManager
 		rewardDropChance.put(2, new String[] {
 				"BREAKING:IRON_PICKAXE:IRON_ORE:null:mat=RAW_IRON:1:1.0",
 				"BREAKING:IRON_PICKAXE:IRON_ORE:null:mat=RAW_IRON:2:0.5",
-				"BREAKING:IRON_PICKAXE:IRONL_ORE:null:mat=RAW_IRON:3:0.25",
+				"BREAKING:IRON_PICKAXE:IRON_ORE:null:mat=RAW_IRON:3:0.25",
 				"BREAKING:IRON_PICKAXE:IRON_ORE:null:mat=RAW_IRON:4:0.125",
 				"BREAKING:IRON_PICKAXE:DEEPSLATE_IRON_ORE:null:mat=RAW_IRON:1:1.0",
 				"BREAKING:IRON_PICKAXE:DEEPSLATE_IRON_ORE:null:mat=RAW_IRON:2:0.5",
@@ -8888,7 +8887,7 @@ public class YamlManager
 		rewardDropChance.put(3, new String[] {
 				"BREAKING:GOLDEN_PICKAXE:IRON_ORE:null:mat=RAW_IRON:1:1.0",
 				"BREAKING:GOLDEN_PICKAXE:IRON_ORE:null:mat=RAW_IRON:2:0.5",
-				"BREAKING:GOLDEN_PICKAXE:IRONL_ORE:null:mat=RAW_IRON:3:0.25",
+				"BREAKING:GOLDEN_PICKAXE:IRON_ORE:null:mat=RAW_IRON:3:0.25",
 				"BREAKING:GOLDEN_PICKAXE:IRON_ORE:null:mat=RAW_IRON:4:0.125",
 				"BREAKING:GOLDEN_PICKAXE:DEEPSLATE_IRON_ORE:null:mat=RAW_IRON:1:1.0",
 				"BREAKING:GOLDEN_PICKAXE:DEEPSLATE_IRON_ORE:null:mat=RAW_IRON:2:0.5",
@@ -8897,7 +8896,7 @@ public class YamlManager
 		rewardDropChance.put(4, new String[] {
 				"BREAKING:DIAMOND_PICKAXE:IRON_ORE:null:mat=RAW_IRON:1:1.0",
 				"BREAKING:DIAMOND_PICKAXE:IRON_ORE:null:mat=RAW_IRON:2:0.5",
-				"BREAKING:DIAMOND_PICKAXE:IRONL_ORE:null:mat=RAW_IRON:3:0.25",
+				"BREAKING:DIAMOND_PICKAXE:IRON_ORE:null:mat=RAW_IRON:3:0.25",
 				"BREAKING:DIAMOND_PICKAXE:IRON_ORE:null:mat=RAW_IRON:4:0.125",
 				"BREAKING:DIAMOND_PICKAXE:DEEPSLATE_IRON_ORE:null:mat=RAW_IRON:1:1.0",
 				"BREAKING:DIAMOND_PICKAXE:DEEPSLATE_IRON_ORE:null:mat=RAW_IRON:2:0.5",
@@ -8906,7 +8905,7 @@ public class YamlManager
 		rewardDropChance.put(5, new String[] {
 				"BREAKING:NETHERITE_PICKAXE:IRON_ORE:null:mat=RAW_IRON:1:1.0",
 				"BREAKING:NETHERITE_PICKAXE:IRON_ORE:null:mat=RAW_IRON:2:0.5",
-				"BREAKING:NETHERITE_PICKAXE:IRONL_ORE:null:mat=RAW_IRON:3:0.25",
+				"BREAKING:NETHERITE_PICKAXE:IRON_ORE:null:mat=RAW_IRON:3:0.25",
 				"BREAKING:NETHERITE_PICKAXE:IRON_ORE:null:mat=RAW_IRON:4:0.125",
 				"BREAKING:NETHERITE_PICKAXE:DEEPSLATE_IRON_ORE:null:mat=RAW_IRON:1:1.0",
 				"BREAKING:NETHERITE_PICKAXE:DEEPSLATE_IRON_ORE:null:mat=RAW_IRON:2:0.5",
@@ -8942,17 +8941,17 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Eisenerz/Roheisen(Holzspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE,mat=COAL%",
-				"&fBehutsamkeits DropChance von Eisenerz/Eisenerz(Holzspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE,mat=COAL_ORE%",
-				"&fAbbauen von Eisenerz(Holzspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE% Dollar",
+				"&f% von &#c6a664Eisenerz/Roheisen(Steinspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,ironore,1,BREAKING,STONE_PICKAXE,IRON_ORE,mat=RAW_IRON%",
+				"&fBehuts. % von &#c6a664Eisenerz/Eisenerz(Steinspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,ironore,1,BREAKING,STONE_PICKAXE,IRON_ORE,mat=IRON_ORE%",
+				"&fAbbauen von &#c6a664Eisenerz(Steinspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,ironore,1,BREAKING,STONE_PICKAXE,IRON_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,ironore,1,BREAKING,STONE_PICKAXE,IRON_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,ironore,1,BREAKING,STONE_PICKAXE,IRON_ORE% Dollar",
 						  
-				"&fDropChance von Tiefenschieferkohleerz/Roheisen(Holzspitzhacke) %tt_reward_tech_dropchance_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
-				"&fBehutsamkeits DropChance von Tiefenschieferkohleerz/Tiefenschieferkohleerz(Holzspitzhacke) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
-				"&fAbbauen von Tiefenschieferkohleerz(Holzspitzhacke) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
+				"&f% von &#c6a664Tiefenschieferkohleerz/Roheisen(Steinspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,ironore,1,BREAKING,STONE_PICKAXE,DEEPSLATE_IRON_ORE,mat=RAW_IRON%",
+				"&fBehuts. % von &#c6a664Tiefenschieferkohleerz/Tiefenschieferkohleerz(Steinspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,ironore,1,BREAKING,STONE_PICKAXE,DEEPSLATE_IRON_ORE,mat=DEEPSLATE_IRON_ORE%",
+				"&fAbbauen von &#c6a664Tiefenschieferkohleerz(Steinspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,ironore,1,BREAKING,STONE_PICKAXE,DEEPSLATE_IRON_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,ironore,1,BREAKING,STONE_PICKAXE,DEEPSLATE_IRON_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,ironore,1,BREAKING,STONE_PICKAXE,DEEPSLATE_IRON_ORE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -8963,21 +8962,194 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Ironore/Rawiron(Woodenpickaxe) %tt_reward_tech_dropchance_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE,mat=COAL%",
-				"&fSilktouchDropChance of Ironore/Ironore(Woodenpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE,mat=COAL_ORE%",
-				"&fMining of Coalore(Woodenpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,COAL_ORE% Dollar",
+				"&f% of &#c6a664Ironore/Rawiron(Stonepickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,ironore,1,BREAKING,STONE_PICKAXE,IRON_ORE,mat=RAW_IRON%",
+				"&fSilkT% of &#c6a664Ironore/Ironore(Stonepickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,ironore,1,BREAKING,STONE_PICKAXE,IRON_ORE,mat=IRON_ORE%",
+				"&fMining of &#c6a664Coalore(Stonepickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,ironore,1,BREAKING,STONE_PICKAXE,IRON_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,ironore,1,BREAKING,STONE_PICKAXE,IRON_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,ironore,1,BREAKING,STONE_PICKAXE,IRON_ORE% Dollar",
 						  
-				"&fDropChance of Deepslatecoalore/Rawiron(Woodenpickaxe) %tt_reward_tech_dropchance_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE,mat=COAL%",
-				"&fSilktouchDropChance of Deepslatecoalore/Deepslatecoalore(Woodenpickaxe) %tt_reward_tech_silktouchdropchance_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE,mat=DEEPSLATE_COAL_ORE%",
-				"&fMining of Deepslatecoalore(Woodenpickaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,coalore,1,BREAKING,WOODEN_PICKAXE,DEEPSLATE_COAL_ORE% Dollar",
+				"&f% of &#c6a664Deepslatecoalore/Rawiron(Stonepickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,ironore,1,BREAKING,STONE_PICKAXE,DEEPSLATE_IRON_ORE,mat=RAW_IRON%",
+				"&fSilkT% of &#c6a664Deepslatecoalore/Deepslatecoalore(Stonepickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,ironore,1,BREAKING,STONE_PICKAXE,DEEPSLATE_IRON_ORE,mat=DEEPSLATE_IRON_ORE%",
+				"&fMining of &#c6a664Deepslatecoalore(Stonepickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,ironore,1,BREAKING,STONE_PICKAXE,DEEPSLATE_IRON_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,ironore,1,BREAKING,STONE_PICKAXE,DEEPSLATE_IRON_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,ironore,1,BREAKING,STONE_PICKAXE,DEEPSLATE_IRON_ORE% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(2, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Eisenerz/Roheisen(Eisenspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,ironore,2,BREAKING,IRON_PICKAXE,IRON_ORE,mat=RAW_IRON%",
+				"&fBehuts. % von &#c6a664Eisenerz/Eisenerz(Eisenspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,ironore,2,BREAKING,IRON_PICKAXE,IRON_ORE,mat=IRON_ORE%",
+				"&fAbbauen von &#c6a664Eisenerz(Eisenspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,ironore,2,BREAKING,IRON_PICKAXE,IRON_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,ironore,2,BREAKING,IRON_PICKAXE,IRON_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,ironore,2,BREAKING,IRON_PICKAXE,IRON_ORE% Dollar",
+						  
+				"&f% von &#c6a664Tiefenschieferkohleerz/Roheisen(Eisenspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,ironore,2,BREAKING,IRON_PICKAXE,DEEPSLATE_IRON_ORE,mat=RAW_IRON%",
+				"&fBehuts. % von &#c6a664Tiefenschieferkohleerz/Tiefenschieferkohleerz(Eisenspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,ironore,2,BREAKING,IRON_PICKAXE,DEEPSLATE_IRON_ORE,mat=DEEPSLATE_IRON_ORE%",
+				"&fAbbauen von &#c6a664Tiefenschieferkohleerz(Eisenspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,ironore,2,BREAKING,IRON_PICKAXE,DEEPSLATE_IRON_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,ironore,2,BREAKING,IRON_PICKAXE,DEEPSLATE_IRON_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,ironore,2,BREAKING,IRON_PICKAXE,DEEPSLATE_IRON_ORE% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Ironore/Rawiron(Ironpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,ironore,2,BREAKING,IRON_PICKAXE,IRON_ORE,mat=RAW_IRON%",
+				"&fSilkT% of &#c6a664Ironore/Ironore(Ironpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,ironore,2,BREAKING,IRON_PICKAXE,IRON_ORE,mat=IRON_ORE%",
+				"&fMining of &#c6a664Coalore(Ironpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,ironore,2,BREAKING,IRON_PICKAXE,IRON_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,ironore,2,BREAKING,IRON_PICKAXE,IRON_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,ironore,2,BREAKING,IRON_PICKAXE,IRON_ORE% Dollar",
+						  
+				"&f% of &#c6a664Deepslatecoalore/Rawiron(Ironpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,ironore,2,BREAKING,IRON_PICKAXE,DEEPSLATE_IRON_ORE,mat=RAW_IRON%",
+				"&fSilkT% of &#c6a664Deepslatecoalore/Deepslatecoalore(Ironpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,ironore,2,BREAKING,IRON_PICKAXE,DEEPSLATE_IRON_ORE,mat=DEEPSLATE_IRON_ORE%",
+				"&fMining of &#c6a664Deepslatecoalore(Ironpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,ironore,2,BREAKING,IRON_PICKAXE,DEEPSLATE_IRON_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,ironore,2,BREAKING,IRON_PICKAXE,DEEPSLATE_IRON_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,ironore,2,BREAKING,IRON_PICKAXE,DEEPSLATE_IRON_ORE% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(3, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Eisenerz/Roheisen(Goldspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,ironore,3,BREAKING,GOLDEN_PICKAXE,IRON_ORE,mat=RAW_IRON%",
+				"&fBehuts. % von &#c6a664Eisenerz/Eisenerz(Goldspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,ironore,3,BREAKING,GOLDEN_PICKAXE,IRON_ORE,mat=IRON_ORE%",
+				"&fAbbauen von &#c6a664Eisenerz(Goldspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,ironore,3,BREAKING,GOLDEN_PICKAXE,IRON_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,ironore,3,BREAKING,GOLDEN_PICKAXE,IRON_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,ironore,3,BREAKING,GOLDEN_PICKAXE,IRON_ORE% Dollar",
+						  
+				"&f% von &#c6a664Tiefenschieferkohleerz/Roheisen(Goldspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,ironore,3,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_IRON_ORE,mat=RAW_IRON%",
+				"&fBehuts. % von &#c6a664Tiefenschieferkohleerz/Tiefenschieferkohleerz(Goldspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,ironore,3,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_IRON_ORE,mat=DEEPSLATE_IRON_ORE%",
+				"&fAbbauen von &#c6a664Tiefenschieferkohleerz(Goldspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,ironore,3,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_IRON_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,ironore,3,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_IRON_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,ironore,3,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_IRON_ORE% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Ironore/Rawiron(Woodenpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,ironore,3,BREAKING,GOLDEN_PICKAXE,IRON_ORE,mat=RAW_IRON%",
+				"&fSilkT% of &#c6a664Ironore/Ironore(Woodenpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,ironore,3,BREAKING,GOLDEN_PICKAXE,IRON_ORE,mat=IRON_ORE%",
+				"&fMining of &#c6a664Coalore(Woodenpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,ironore,3,BREAKING,GOLDEN_PICKAXE,IRON_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,ironore,3,BREAKING,GOLDEN_PICKAXE,IRON_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,ironore,3,BREAKING,GOLDEN_PICKAXE,IRON_ORE% Dollar",
+						  
+				"&f% of &#c6a664Deepslatecoalore/Rawiron(Woodenpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,ironore,3,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_IRON_ORE,mat=RAW_IRON%",
+				"&fSilkT% of &#c6a664Deepslatecoalore/Deepslatecoalore(Woodenpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,ironore,3,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_IRON_ORE,mat=DEEPSLATE_IRON_ORE%",
+				"&fMining of &#c6a664Deepslatecoalore(Woodenpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,ironore,3,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_IRON_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,ironore,3,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_IRON_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,ironore,3,BREAKING,GOLDEN_PICKAXE,DEEPSLATE_IRON_ORE% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(4, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Eisenerz/Roheisen(Diamantspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,ironore,4,BREAKING,DIAMOND_PICKAXE,IRON_ORE,mat=RAW_IRON%",
+				"&fBehuts. % von &#c6a664Eisenerz/Eisenerz(Diamantspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,ironore,4,BREAKING,DIAMOND_PICKAXE,IRON_ORE,mat=IRON_ORE%",
+				"&fAbbauen von &#c6a664Eisenerz(Diamantspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,ironore,4,BREAKING,DIAMOND_PICKAXE,IRON_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,ironore,4,BREAKING,DIAMOND_PICKAXE,IRON_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,ironore,4,BREAKING,DIAMOND_PICKAXE,IRON_ORE% Dollar",
+						  
+				"&f% von &#c6a664Tiefenschieferkohleerz/Roheisen(Diamantspitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,ironore,4,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_IRON_ORE,mat=RAW_IRON%",
+				"&fBehuts. % von &#c6a664Tiefenschieferkohleerz/Tiefenschieferkohleerz(Diamantspitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,ironore,4,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_IRON_ORE,mat=DEEPSLATE_IRON_ORE%",
+				"&fAbbauen von &#c6a664Tiefenschieferkohleerz(Diamantspitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,ironore,4,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_IRON_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,ironore,4,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_IRON_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,ironore,4,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_IRON_ORE% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Ironore/Rawiron(Diamondpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,ironore,4,BREAKING,DIAMOND_PICKAXE,IRON_ORE,mat=RAW_IRON%",
+				"&fSilkT% of &#c6a664Ironore/Ironore(Diamondpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,ironore,4,BREAKING,DIAMOND_PICKAXE,IRON_ORE,mat=IRON_ORE%",
+				"&fMining of &#c6a664Coalore(Diamondpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,ironore,4,BREAKING,DIAMOND_PICKAXE,IRON_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,ironore,4,BREAKING,DIAMOND_PICKAXE,IRON_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,ironore,4,BREAKING,DIAMOND_PICKAXE,IRON_ORE% Dollar",
+						  
+				"&f% of &#c6a664Deepslatecoalore/Rawiron(Diamondpickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,ironore,4,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_IRON_ORE,mat=RAW_IRON%",
+				"&fSilkT% of &#c6a664Deepslatecoalore/Deepslatecoalore(Diamondpickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,ironore,4,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_IRON_ORE,mat=DEEPSLATE_IRON_ORE%",
+				"&fMining of &#c6a664Deepslatecoalore(Diamondpickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,ironore,4,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_IRON_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,ironore,4,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_IRON_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,ironore,4,BREAKING,DIAMOND_PICKAXE,DEEPSLATE_IRON_ORE% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(5, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Eisenerz/Roheisen(Netheritespitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,ironore,5,BREAKING,NETHERITE_PICKAXE,IRON_ORE,mat=RAW_IRON%",
+				"&fBehuts. % von &#c6a664Eisenerz/Eisenerz(Netheritespitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,ironore,5,BREAKING,NETHERITE_PICKAXE,IRON_ORE,mat=IRON_ORE%",
+				"&fAbbauen von &#c6a664Eisenerz(Netheritespitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,ironore,5,BREAKING,NETHERITE_PICKAXE,IRON_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,ironore,5,BREAKING,NETHERITE_PICKAXE,IRON_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,ironore,5,BREAKING,NETHERITE_PICKAXE,IRON_ORE% Dollar",
+						  
+				"&f% von &#c6a664Tiefenschieferkohleerz/Roheisen(Netheritespitzhacke) &#546f42%tt_reward_tech_dropchance_mat,SOLO,ironore,5,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_IRON_ORE,mat=RAW_IRON%",
+				"&fBehuts. % von &#c6a664Tiefenschieferkohleerz/Tiefenschieferkohleerz(Netheritespitzhacke) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,ironore,5,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_IRON_ORE,mat=DEEPSLATE_IRON_ORE%",
+				"&fAbbauen von &#c6a664Tiefenschieferkohleerz(Netheritespitzhacke) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,ironore,5,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_IRON_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,ironore,5,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_IRON_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,ironore,5,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_IRON_ORE% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Ironore/Rawiron(Netheritepickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,ironore,5,BREAKING,NETHERITE_PICKAXE,IRON_ORE,mat=RAW_IRON%",
+				"&fSilkT% of &#c6a664Ironore/Ironore(Netheritepickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,ironore,5,BREAKING,NETHERITE_PICKAXE,IRON_ORE,mat=IRON_ORE%",
+				"&fMining of &#c6a664Coalore(Netheritepickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,ironore,5,BREAKING,NETHERITE_PICKAXE,IRON_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,ironore,5,BREAKING,NETHERITE_PICKAXE,IRON_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,ironore,5,BREAKING,NETHERITE_PICKAXE,IRON_ORE% Dollar",
+						  
+				"&f% of &#c6a664Deepslatecoalore/Rawiron(Netheritepickaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,ironore,5,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_IRON_ORE,mat=RAW_IRON%",
+				"&fSilkT% of &#c6a664Deepslatecoalore/Deepslatecoalore(Netheritepickaxe) &#546f42%tt_reward_tech_silktouchdropchance_mat,SOLO,ironore,5,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_IRON_ORE,mat=DEEPSLATE_IRON_ORE%",
+				"&fMining of &#c6a664Deepslatecoalore(Netheritepickaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,ironore,5,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_IRON_ORE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,ironore,5,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_IRON_ORE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,ironore,5,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_IRON_ORE% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
-				"ironore", new String[] {"Eisenerz", "Ironore"}, TechnologyType.MULTIPLE, 5, PlayerAssociatedType.SOLO, 1, "", "ore", 
+				"ironore", new String[] {"Eisenerz", "Ironore"},
+				TechnologyType.MULTIPLE, 5, PlayerAssociatedType.SOLO, 1, "", "ore", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
 				new String[] {"&8Tech Eisenerz","&8Tech Ironore"}, 
@@ -8989,7 +9161,7 @@ public class YamlManager
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fMining of Ironore & Deepslateironore.",
+						"&fMining of &#c6a664Ironore & Deepslateironore.",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Eisenerz","&7Ironore"},
@@ -9001,22 +9173,22 @@ public class YamlManager
 				Material.IRON_ORE, 1, itemflag, enchantment, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fAbbauen von Eisenerz %tt_raw_reward_techtotal_ttexp_mat,SOLO,ironore,BREAKING,NETHERITE_PICKAXE,IRON_ORE% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,ironore,BREAKING,NETHERITE_PICKAXE,IRON_ORE% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,ironore,BREAKING,NETHERITE_PICKAXE,IRON_ORE% Dollar",
-						"&fAbbauen von Tiefenschiefereisenerz %tt_raw_reward_techtotal_ttexp_mat,SOLO,ironore,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_IRON_ORE% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,ironore,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_IRON_ORE% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,ironore,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_IRON_ORE% Dollar",
+						"&fAbbauen von &#c6a664Eisenerz &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,ironore,BREAKING,NETHERITE_PICKAXE,IRON_ORE% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,ironore,BREAKING,NETHERITE_PICKAXE,IRON_ORE% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,ironore,BREAKING,NETHERITE_PICKAXE,IRON_ORE% Dollar",
+						"&fAbbauen von &#c6a664Tiefenschiefereisenerz &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,ironore,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_IRON_ORE% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,ironore,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_IRON_ORE% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,ironore,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_IRON_ORE% Dollar",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fMining of Ironore %tt_raw_reward_techtotal_ttexp_mat,SOLO,ironore,BREAKING,NETHERITE_PICKAXE,IRON_ORE% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,ironore,BREAKING,NETHERITE_PICKAXE,IRON_ORE% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,ironore,BREAKING,NETHERITE_PICKAXE,IRON_ORE% Dollar",
-						"&fMining of Deepslateironore %tt_raw_reward_techtotal_ttexp_mat,SOLO,ironore,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_IRON_ORE% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,ironore,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_IRON_ORE% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,ironore,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_IRON_ORE% Dollar",
+						"&fMining of &#c6a664Ironore &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,ironore,BREAKING,NETHERITE_PICKAXE,IRON_ORE% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,ironore,BREAKING,NETHERITE_PICKAXE,IRON_ORE% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,ironore,BREAKING,NETHERITE_PICKAXE,IRON_ORE% Dollar",
+						"&fMining of &#c6a664Deepslateironore &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,ironore,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_IRON_ORE% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,ironore,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_IRON_ORE% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,ironore,BREAKING,NETHERITE_PICKAXE,DEEPSLATE_IRON_ORE% Dollar",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
@@ -9050,7 +9222,8 @@ public class YamlManager
 		toResCostMoney.put(5, cM);
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
-		String[] rui = new String[] {"PLACING:OAK_SAPLING:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",""};
+		String[] rui = new String[] {"PLACING:OAK_SAPLING:null:tool=HAND:ttexp=10.0:vaexp=10:vault=10.0:default=10.0",
+									 "BREAKING:OAK_SAPLING:null:tool=HAND"};
 		rewardUnlockableInteractions.put(1, rui);
 		rewardUnlockableInteractions.put(2, rui);
 		rewardUnlockableInteractions.put(3, rui);
@@ -9079,13 +9252,13 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Eichensetzling/Eichensetzling(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaksapling,1,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
-				"&fAbbauen von Eichensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,1,BREAKING,HAND,OAK_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,1,BREAKING,HAND,OAK_SAPLING% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,1,BREAKING,HAND,OAK_SAPLING% Dollar",
-				"&fSetzten von Eichensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,1,PLACING,HAND,OAK_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,1,PLACING,HAND,OAK_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,1,PLACING,HAND,OAK_SAPLING% Dollar",
+				"&f% von &#c6a664Eichensetzling/Eichensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaksapling,1,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
+				"&fAbbauen von &#c6a664Eichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,1,BREAKING,HAND,OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,1,BREAKING,HAND,OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,1,BREAKING,HAND,OAK_SAPLING% Dollar",
+				"&fSetzten von Eichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,1,PLACING,HAND,OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,1,PLACING,HAND,OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,1,PLACING,HAND,OAK_SAPLING% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -9096,13 +9269,13 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Oaksapling/Oaksapling(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaksapling,1,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
-				"&fMining of Oaksapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,1,BREAKING,HAND,OAK_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,1,BREAKING,HAND,OAK_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,1,BREAKING,HAND,OAK_SAPLING% Dollar",
-				"&fPlacing of Oaksapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,1,PLACING,HAND,OAK_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,1,PLACING,HAND,OAK_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,1,PLACING,HAND,OAK_SAPLING% Dollar",
+				"&f% of &#c6a664Oaksapling/Oaksapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaksapling,1,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
+				"&fMining of &#c6a664Oaksapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,1,BREAKING,HAND,OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,1,BREAKING,HAND,OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,1,BREAKING,HAND,OAK_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Oaksapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,1,PLACING,HAND,OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,1,PLACING,HAND,OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,1,PLACING,HAND,OAK_SAPLING% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(2, new String[] {
@@ -9114,13 +9287,13 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Eichensetzling/Eichensetzling(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
-				"&fAbbauen von Eichensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING% Dollar",
-				"&fSetzten von Eichensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,2,PLACING,HAND,OAK_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,2,PLACING,HAND,OAK_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,2,PLACING,HAND,OAK_SAPLING% Dollar",
+				"&f% von &#c6a664Eichensetzling/Eichensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
+				"&fAbbauen von &#c6a664Eichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING% Dollar",
+				"&fSetzten von Eichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,2,PLACING,HAND,OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,2,PLACING,HAND,OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,2,PLACING,HAND,OAK_SAPLING% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -9131,13 +9304,13 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Oaksapling/Oaksapling(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
-				"&fMining of Oaksapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING% Dollar",
-				"&fPlacing of Oaksapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,2,PLACING,HAND,OAK_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,2,PLACING,HAND,OAK_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,2,PLACING,HAND,OAK_SAPLING% Dollar",
+				"&f% of &#c6a664Oaksapling/Oaksapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
+				"&fMining of &#c6a664Oaksapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Oaksapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,2,PLACING,HAND,OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,2,PLACING,HAND,OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,2,PLACING,HAND,OAK_SAPLING% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(3, new String[] {
@@ -9149,13 +9322,13 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Eichensetzling/Eichensetzling(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
-				"&fAbbauen von Eichensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING% Dollar",
-				"&fSetzten von Eichensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,3,PLACING,HAND,OAK_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,3,PLACING,HAND,OAK_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,3,PLACING,HAND,OAK_SAPLING% Dollar",
+				"&f% von &#c6a664Eichensetzling/Eichensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
+				"&fAbbauen von &#c6a664Eichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING% Dollar",
+				"&fSetzten von Eichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,3,PLACING,HAND,OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,3,PLACING,HAND,OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,3,PLACING,HAND,OAK_SAPLING% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -9166,13 +9339,13 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Oaksapling/Oaksapling(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
-				"&fMining of Oaksapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING% Dollar",
-				"&fPlacing of Oaksapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,3,PLACING,HAND,OAK_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,3,PLACING,HAND,OAK_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,3,PLACING,HAND,OAK_SAPLING% Dollar",
+				"&f% of &#c6a664Oaksapling/Oaksapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
+				"&fMining of &#c6a664Oaksapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Oaksapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,3,PLACING,HAND,OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,3,PLACING,HAND,OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,3,PLACING,HAND,OAK_SAPLING% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(4, new String[] {
@@ -9184,13 +9357,13 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Eichensetzling/Eichensetzling(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
-				"&fAbbauen von Eichensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING% Dollar",
-				"&fSetzten von Eichensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,4,PLACING,HAND,OAK_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,4,PLACING,HAND,OAK_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,4,PLACING,HAND,OAK_SAPLING% Dollar",
+				"&f% von &#c6a664Eichensetzling/Eichensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
+				"&fAbbauen von &#c6a664Eichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING% Dollar",
+				"&fSetzten von Eichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,4,PLACING,HAND,OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,4,PLACING,HAND,OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,4,PLACING,HAND,OAK_SAPLING% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -9201,13 +9374,13 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Oaksapling/Oaksapling(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
-				"&fMining of Oaksapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING% Dollar",
-				"&fPlacing of Oaksapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,4,PLACING,HAND,OAK_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,4,PLACING,HAND,OAK_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,4,PLACING,HAND,OAK_SAPLING% Dollar",
+				"&f% of &#c6a664Oaksapling/Oaksapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
+				"&fMining of &#c6a664Oaksapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Oaksapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,4,PLACING,HAND,OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,4,PLACING,HAND,OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,4,PLACING,HAND,OAK_SAPLING% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(5, new String[] {
@@ -9219,13 +9392,13 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Eichensetzling/Eichensetzling(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
-				"&fAbbauen von Eichensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING% Dollar",
-				"&fSetzten von Eichensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,5,PLACING,HAND,OAK_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,5,PLACING,HAND,OAK_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,5,PLACING,HAND,OAK_SAPLING% Dollar",
+				"&f% von &#c6a664Eichensetzling/Eichensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
+				"&fAbbauen von &#c6a664Eichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING% Dollar",
+				"&fSetzten von Eichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,5,PLACING,HAND,OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,5,PLACING,HAND,OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,5,PLACING,HAND,OAK_SAPLING% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -9236,18 +9409,18 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Oaksapling/Oaksapling(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
-				"&fMining of Oaksapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING% Dollar",
-				"&fPlacing of Oaksapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,5,PLACING,HAND,OAK_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,5,PLACING,HAND,OAK_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaksapling,5,PLACING,HAND,OAK_SAPLING% Dollar",
+				"&f% of &#c6a664Oaksapling/Oaksapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING,mat=OAK_SAPLING%",
+				"&fMining of &#c6a664Oaksapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Oaksapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,5,PLACING,HAND,OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,5,PLACING,HAND,OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,5,PLACING,HAND,OAK_SAPLING% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
 				"oaksapling", new String[] {"Eichensetzling", "Oaksapling"},
-				TechnologyType.SIMPLE, 5, PlayerAssociatedType.SOLO, 0, "", "sapling", 
+				TechnologyType.MULTIPLE, 5, PlayerAssociatedType.SOLO, 0, "", "sapling", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
 				new String[] {"&8Tech Eichensetzling","&8Tech Oaksapling"},
@@ -9255,13 +9428,13 @@ public class YamlManager
 						"",
 						"&eSchaltet folgendes frei:",
 						"&fAbbau von Eichensetzling.",
-						"&fSetzen von Eichensetzling.",
+						"&fSetzen von &#c6a664Eichensetzling.",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fMining of Oaksapling.",
-						"&fPlacing of Oaksapling.",
+						"&fMining of &#c6a664Oaksapling.",
+						"&fPlacing of &#c6a664Oaksapling.",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Eichensetzling","&7Oaksapling"},
@@ -9273,22 +9446,22 @@ public class YamlManager
 				Material.OAK_SAPLING, 1, itemflag, enchantment, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fAbbauen von Eichensetzling %tt_raw_reward_techtotal_ttexp_mat,SOLO,oaksapling,BREAKING,HAND,OAK_SAPLING% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,oaksapling,BREAKING,HAND,OAK_SAPLING% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,oaksapling,BREAKING,HAND,OAK_SAPLING% Dollar",
-						"&fSetzen von Eichensetzling %tt_raw_reward_techtotal_ttexp_mat,SOLO,oaksapling,PLACING,HAND,OAK_SAPLING% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,oaksapling,PLACING,HAND,OAK_SAPLING% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,oaksapling,PLACING,HAND,OAK_SAPLING% Dollar",
+						"&fAbbauen von &#c6a664Eichensetzling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,oaksapling,BREAKING,HAND,OAK_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,oaksapling,BREAKING,HAND,OAK_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,oaksapling,BREAKING,HAND,OAK_SAPLING% Dollar",
+						"&fSetzen von &#c6a664Eichensetzling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,oaksapling,PLACING,HAND,OAK_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,oaksapling,PLACING,HAND,OAK_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,oaksapling,PLACING,HAND,OAK_SAPLING% Dollar",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fMining of Oaksapling %tt_raw_reward_techtotal_ttexp_mat,SOLO,oaksapling,BREAKING,HAND,OAK_SAPLING% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,oaksapling,BREAKING,HAND,OAK_SAPLING% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,oaksapling,BREAKING,HAND,OAK_SAPLING% Dollar",
-						"&fPlacing of Oaksapling %tt_raw_reward_techtotal_ttexp_mat,SOLO,oaksapling,PLACING,HAND,OAK_SAPLING% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,oaksapling,PLACING,HAND,OAK_SAPLING% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,oaksapling,PLACING,HAND,OAK_SAPLING% Dollar",
+						"&fMining of &#c6a664Oaksapling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,oaksapling,BREAKING,HAND,OAK_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,oaksapling,BREAKING,HAND,OAK_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,oaksapling,BREAKING,HAND,OAK_SAPLING% Dollar",
+						"&fPlacing of &#c6a664Oaksapling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,oaksapling,PLACING,HAND,OAK_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,oaksapling,PLACING,HAND,OAK_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,oaksapling,PLACING,HAND,OAK_SAPLING% Dollar",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
@@ -9344,13 +9517,13 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Fichtensetzling/Fichtensetzling(Hand) %tt_reward_tech_dropchance_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
-				"&fAbbauen von Fichtensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
-				"&fSetzten von Fichtensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,1,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,1,PLACING,HAND,SPRUCE_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,1,PLACING,HAND,SPRUCE_SAPLING% Dollar",
+				"&f% von &#c6a664Fichtensetzling/Fichtensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
+				"&fAbbauen von &#c6a664Fichtensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
+				"&fSetzten von Fichtensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,1,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,1,PLACING,HAND,SPRUCE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,1,PLACING,HAND,SPRUCE_SAPLING% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -9361,13 +9534,13 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Sprucesapling/Sprucesapling(Hand) %tt_reward_tech_dropchance_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
-				"&fMining of Sprucesapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
-				"&fPlacing of Sprucesapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,1,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,1,PLACING,HAND,SPRUCE_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,1,PLACING,HAND,SPRUCE_SAPLING% Dollar",
+				"&f% of &#c6a664Sprucesapling/Sprucesapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
+				"&fMining of &#c6a664Sprucesapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Sprucesapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,1,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,1,PLACING,HAND,SPRUCE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,1,PLACING,HAND,SPRUCE_SAPLING% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(2, new String[] {
@@ -9379,13 +9552,13 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Fichtensetzling/Fichtensetzling(Hand) %tt_reward_tech_dropchance_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
-				"&fAbbauen von Fichtensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
-				"&fSetzten von Fichtensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,2,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,2,PLACING,HAND,SPRUCE_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,2,PLACING,HAND,SPRUCE_SAPLING% Dollar",
+				"&f% von &#c6a664Fichtensetzling/Fichtensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
+				"&fAbbauen von &#c6a664Fichtensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
+				"&fSetzten von Fichtensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,2,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,2,PLACING,HAND,SPRUCE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,2,PLACING,HAND,SPRUCE_SAPLING% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -9396,13 +9569,13 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Sprucesapling/Sprucesapling(Hand) %tt_reward_tech_dropchance_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
-				"&fMining of Sprucesapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
-				"&fPlacing of Sprucesapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,2,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,2,PLACING,HAND,SPRUCE_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,2,PLACING,HAND,SPRUCE_SAPLING% Dollar",
+				"&f% of &#c6a664Sprucesapling/Sprucesapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
+				"&fMining of &#c6a664Sprucesapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Sprucesapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,2,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,2,PLACING,HAND,SPRUCE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,2,PLACING,HAND,SPRUCE_SAPLING% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(3, new String[] {
@@ -9414,13 +9587,13 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Fichtensetzling/Fichtensetzling(Hand) %tt_reward_tech_dropchance_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
-				"&fAbbauen von Fichtensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
-				"&fSetzten von Fichtensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,3,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,3,PLACING,HAND,SPRUCE_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,3,PLACING,HAND,SPRUCE_SAPLING% Dollar",
+				"&f% von &#c6a664Fichtensetzling/Fichtensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
+				"&fAbbauen von &#c6a664Fichtensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
+				"&fSetzten von Fichtensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,3,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,3,PLACING,HAND,SPRUCE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,3,PLACING,HAND,SPRUCE_SAPLING% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -9431,13 +9604,13 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Sprucesapling/Sprucesapling(Hand) %tt_reward_tech_dropchance_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
-				"&fMining of Sprucesapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
-				"&fPlacing of Sprucesapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,3,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,3,PLACING,HAND,SPRUCE_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,3,PLACING,HAND,SPRUCE_SAPLING% Dollar",
+				"&f% of &#c6a664Sprucesapling/Sprucesapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
+				"&fMining of &#c6a664Sprucesapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Sprucesapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,3,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,3,PLACING,HAND,SPRUCE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,3,PLACING,HAND,SPRUCE_SAPLING% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(4, new String[] {
@@ -9449,13 +9622,13 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Fichtensetzling/Fichtensetzling(Hand) %tt_reward_tech_dropchance_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
-				"&fAbbauen von Fichtensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
-				"&fSetzten von Fichtensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,4,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,4,PLACING,HAND,SPRUCE_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,4,PLACING,HAND,SPRUCE_SAPLING% Dollar",
+				"&f% von &#c6a664Fichtensetzling/Fichtensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
+				"&fAbbauen von &#c6a664Fichtensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
+				"&fSetzten von Fichtensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,4,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,4,PLACING,HAND,SPRUCE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,4,PLACING,HAND,SPRUCE_SAPLING% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -9466,13 +9639,13 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Sprucesapling/Sprucesapling(Hand) %tt_reward_tech_dropchance_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
-				"&fMining of Sprucesapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
-				"&fPlacing of Sprucesapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,4,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,4,PLACING,HAND,SPRUCE_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,4,PLACING,HAND,SPRUCE_SAPLING% Dollar",
+				"&f% of &#c6a664Sprucesapling/Sprucesapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
+				"&fMining of &#c6a664Sprucesapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Sprucesapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,4,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,4,PLACING,HAND,SPRUCE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,4,PLACING,HAND,SPRUCE_SAPLING% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(5, new String[] {
@@ -9484,13 +9657,13 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Fichtensetzling/Fichtensetzling(Hand) %tt_reward_tech_dropchance_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
-				"&fAbbauen von Fichtensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
-				"&fSetzten von Fichtensetzling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,5,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,5,PLACING,HAND,SPRUCE_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,5,PLACING,HAND,SPRUCE_SAPLING% Dollar",
+				"&f% von &#c6a664Fichtensetzling/Fichtensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
+				"&fAbbauen von &#c6a664Fichtensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
+				"&fSetzten von Fichtensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,5,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,5,PLACING,HAND,SPRUCE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,5,PLACING,HAND,SPRUCE_SAPLING% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -9501,13 +9674,13 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Sprucesapling/Sprucesapling(Hand) %tt_reward_tech_dropchance_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
-				"&fMining of Sprucesapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
-				"&fPlacing of Sprucesapling(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,5,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,5,PLACING,HAND,SPRUCE_SAPLING% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,5,PLACING,HAND,SPRUCE_SAPLING% Dollar",
+				"&f% of &#c6a664Sprucesapling/Sprucesapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
+				"&fMining of &#c6a664Sprucesapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Sprucesapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,5,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,5,PLACING,HAND,SPRUCE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,5,PLACING,HAND,SPRUCE_SAPLING% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
@@ -9520,13 +9693,13 @@ public class YamlManager
 						"",
 						"&eSchaltet folgendes frei:",
 						"&fAbbau von Fichtensetzling.",
-						"&fSetzen von Fichtensetzling.",
+						"&fSetzen von &#c6a664Fichtensetzling.",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fMining of Sprucesapling.",
-						"&fPlacing of Sprucesapling.",
+						"&fMining of &#c6a664Sprucesapling.",
+						"&fPlacing of &#c6a664Sprucesapling.",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Fichtensetzling","&7Sprucesapling"},
@@ -9538,22 +9711,22 @@ public class YamlManager
 				Material.SPRUCE_SAPLING, 1, itemflag, enchantment, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fAbbauen von Fichtensetzling %tt_raw_reward_techtotal_ttexp_mat,SOLO,sprucesapling,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sprucesapling,BREAKING,HAND,SPRUCE_SAPLING% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,sprucesapling,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
-						"&fSetzen von Fichtensetzling %tt_raw_reward_techtotal_ttexp_mat,SOLO,sprucesapling,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sprucesapling,PLACING,HAND,SPRUCE_SAPLING% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,sprucesapling,PLACING,HAND,SPRUCE_SAPLING% Dollar",
+						"&fAbbauen von &#c6a664Fichtensetzling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,sprucesapling,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,sprucesapling,BREAKING,HAND,SPRUCE_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,sprucesapling,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
+						"&fSetzen von &#c6a664Fichtensetzling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,sprucesapling,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,sprucesapling,PLACING,HAND,SPRUCE_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,sprucesapling,PLACING,HAND,SPRUCE_SAPLING% Dollar",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fMining of Sprucesapling %tt_raw_reward_techtotal_ttexp_mat,SOLO,sprucesapling,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sprucesapling,BREAKING,HAND,SPRUCE_SAPLING% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,sprucesapling,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
-						"&fPlacing of Sprucesapling %tt_raw_reward_techtotal_ttexp_mat,SOLO,sprucesapling,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,sprucesapling,PLACING,HAND,SPRUCE_SAPLING% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,sprucesapling,PLACING,HAND,SPRUCE_SAPLING% Dollar",
+						"&fMining of &#c6a664Sprucesapling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,sprucesapling,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,sprucesapling,BREAKING,HAND,SPRUCE_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,sprucesapling,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
+						"&fPlacing of &#c6a664Sprucesapling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,sprucesapling,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,sprucesapling,PLACING,HAND,SPRUCE_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,sprucesapling,PLACING,HAND,SPRUCE_SAPLING% Dollar",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
@@ -9666,14 +9839,14 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Eichenstamm/Eichenstamm(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG,mat=OAK_LOG%",
-				"&fBehutsamkeitsdropChance von Eichenstamm/Eichenstamm(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG,mat=OAK_LOG%",
-				"&fAbbauen von Eichenstamm(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG% Dollar",
-				"&fSetzen von Eichenstamm(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,1,PLACING,HAND,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,1,PLACING,HAND,OAK_LOG% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,1,PLACING,HAND,OAK_LOG% Dollar",
+				"&f% von &#c6a664Eichenstamm/Eichenstamm(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG,mat=OAK_LOG%",
+				"&fBehuts. % von &#c6a664Eichenstamm/Eichenstamm(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG,mat=OAK_LOG%",
+				"&fAbbauen von &#c6a664Eichenstamm(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG% Dollar",
+				"&fSetzen von &#c6a664Eichenstamm(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,1,PLACING,HAND,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,1,PLACING,HAND,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,1,PLACING,HAND,OAK_LOG% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -9684,14 +9857,14 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Oaklog/Oaklog(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG,mat=OAK_LOG%",
-				"&fSilktouchdropChance of Oaklog/Oaklog(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG,mat=OAK_LOG%",
-				"&fMining of Oaklog(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG% Dollar",
-				"&fPlacing of Oaklog(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,1,PLACING,HAND,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,1,PLACING,HAND,OAK_LOG% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,1,PLACING,HAND,OAK_LOG% Dollar",
+				"&f% of &#c6a664Oaklog/Oaklog(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG,mat=OAK_LOG%",
+				"&fSilkT% of &#c6a664Oaklog/Oaklog(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG,mat=OAK_LOG%",
+				"&fMining of &#c6a664Oaklog(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG% Dollar",
+				"&fPlacing of &#c6a664Oaklog(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,1,PLACING,HAND,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,1,PLACING,HAND,OAK_LOG% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,1,PLACING,HAND,OAK_LOG% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(2, new String[] {
@@ -9703,14 +9876,14 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Eichenstamm/Eichenstamm(Holzaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG,mat=OAK_LOG%",
-				"&fBehutsamkeitsdropChance von Eichenstamm/Eichenstamm(Holzaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG,mat=OAK_LOG%",
-				"&fAbbauen von Eichenstamm(Holzaxt) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG% Dollar",
-				"&fSetzen von Eichenstamm(Holzaxt) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,2,PLACING,WOODEN_AXE,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,2,PLACING,WOODEN_AXE,OAK_LOG% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,2,PLACING,WOODEN_AXE,OAK_LOG% Dollar",
+				"&f% von &#c6a664Eichenstamm/Eichenstamm(Holzaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fBehuts. % von &#c6a664Eichenstamm/Eichenstamm(Holzaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fAbbauen von &#c6a664Eichenstamm(Holzaxt) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG% Dollar",
+				"&fSetzen von &#c6a664Eichenstamm(Holzaxt) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,2,PLACING,WOODEN_AXE,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,2,PLACING,WOODEN_AXE,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,2,PLACING,WOODEN_AXE,OAK_LOG% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -9721,14 +9894,14 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Oaklog/Oaklog(Woodenaxe) %tt_reward_tech_dropchance_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG,mat=OAK_LOG%",
-				"&fSilktouchdropChance of Oaklog/Oaklog(Woodenaxe) %tt_reward_tech_dropchance_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG,mat=OAK_LOG%",
-				"&fMining of Oaklog(Woodenaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG% Dollar",
-				"&fPlacing of Oaklog(Woodenaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,2,PLACING,WOODEN_AXE,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,2,PLACING,WOODEN_AXE,OAK_LOG% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,2,PLACING,WOODEN_AXE,OAK_LOG% Dollar",
+				"&f% of &#c6a664Oaklog/Oaklog(Woodenaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fSilkT% of &#c6a664Oaklog/Oaklog(Woodenaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fMining of &#c6a664Oaklog(Woodenaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG% Dollar",
+				"&fPlacing of &#c6a664Oaklog(Woodenaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,2,PLACING,WOODEN_AXE,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,2,PLACING,WOODEN_AXE,OAK_LOG% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,2,PLACING,WOODEN_AXE,OAK_LOG% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(3, new String[] {
@@ -9740,14 +9913,14 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Eichenstamm/Eichenstamm(Steinaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG,mat=OAK_LOG%",
-				"&fBehutsamkeitsdropChance von Eichenstamm/Eichenstamm(Steinaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG,mat=OAK_LOG%",
-				"&fAbbauen von Eichenstamm(Steinaxt) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG% Dollar",
-				"&fSetzen von Eichenstamm(Steinaxt) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,3,PLACING,STONE_AXE,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,3,PLACING,STONE_AXE,OAK_LOG% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,3,PLACING,STONE_AXE,OAK_LOG% Dollar",
+				"&f% von &#c6a664Eichenstamm/Eichenstamm(Steinaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fBehuts. % von &#c6a664Eichenstamm/Eichenstamm(Steinaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fAbbauen von &#c6a664Eichenstamm(Steinaxt) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG% Dollar",
+				"&fSetzen von &#c6a664Eichenstamm(Steinaxt) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,3,PLACING,STONE_AXE,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,3,PLACING,STONE_AXE,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,3,PLACING,STONE_AXE,OAK_LOG% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -9758,14 +9931,14 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Oaklog/Oaklog(Stoneaxe) %tt_reward_tech_dropchance_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG,mat=OAK_LOG%",
-				"&fSilktouchdropChance of Oaklog/Oaklog(Stoneaxe) %tt_reward_tech_dropchance_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG,mat=OAK_LOG%",
-				"&fMining of Oaklog(Stoneaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG% Dollar",
-				"&fPlacing of Oaklog(Stoneaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,3,PLACING,STONE_AXE,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,3,PLACING,STONE_AXE,OAK_LOG% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,3,PLACING,STONE_AXE,OAK_LOG% Dollar",
+				"&f% of &#c6a664Oaklog/Oaklog(Stoneaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fSilkT% of &#c6a664Oaklog/Oaklog(Stoneaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fMining of &#c6a664Oaklog(Stoneaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG% Dollar",
+				"&fPlacing of &#c6a664Oaklog(Stoneaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,3,PLACING,STONE_AXE,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,3,PLACING,STONE_AXE,OAK_LOG% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,3,PLACING,STONE_AXE,OAK_LOG% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(4, new String[] {
@@ -9777,14 +9950,14 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Eichenstamm/Eichenstamm(Eisenaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG,mat=OAK_LOG%",
-				"&fBehutsamkeitsdropChance von Eichenstamm/Eichenstamm(Eisenaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG,mat=OAK_LOG%",
-				"&fAbbauen von Eichenstamm(Eisenaxt) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG% Dollar",
-				"&fSetzen von Eichenstamm(Eisenaxt) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,4,PLACING,IRON_AXE,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,4,PLACING,IRON_AXE,OAK_LOG% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,4,PLACING,IRON_AXE,OAK_LOG% Dollar",
+				"&f% von &#c6a664Eichenstamm/Eichenstamm(Eisenaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fBehuts. % von &#c6a664Eichenstamm/Eichenstamm(Eisenaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fAbbauen von &#c6a664Eichenstamm(Eisenaxt) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG% Dollar",
+				"&fSetzen von &#c6a664Eichenstamm(Eisenaxt) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,4,PLACING,IRON_AXE,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,4,PLACING,IRON_AXE,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,4,PLACING,IRON_AXE,OAK_LOG% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -9795,14 +9968,14 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Oaklog/Oaklog(Ironaxe) %tt_reward_tech_dropchance_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG,mat=OAK_LOG%",
-				"&fSilktouchdropChance of Oaklog/Oaklog(Ironaxe) %tt_reward_tech_dropchance_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG,mat=OAK_LOG%",
-				"&fMining of Oaklog(Ironaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG% Dollar",
-				"&fPlacing of Oaklog(Ironaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,4,PLACING,IRON_AXE,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,4,PLACING,IRON_AXE,OAK_LOG% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,4,PLACING,IRON_AXE,OAK_LOG% Dollar",
+				"&f% of &#c6a664Oaklog/Oaklog(Ironaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fSilkT% of &#c6a664Oaklog/Oaklog(Ironaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fMining of &#c6a664Oaklog(Ironaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG% Dollar",
+				"&fPlacing of &#c6a664Oaklog(Ironaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,4,PLACING,IRON_AXE,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,4,PLACING,IRON_AXE,OAK_LOG% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,4,PLACING,IRON_AXE,OAK_LOG% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(5, new String[] {
@@ -9814,14 +9987,14 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Eichenstamm/Eichenstamm(Goldaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG,mat=OAK_LOG%",
-				"&fBehutsamkeitsdropChance von Eichenstamm/Eichenstamm(Goldaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG,mat=OAK_LOG%",
-				"&fAbbauen von Eichenstamm(Goldaxt) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG% Dollar",
-				"&fSetzen von Eichenstamm(Goldaxt) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,5,PLACING,GOLDEN_AXE,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,5,PLACING,GOLDEN_AXE,OAK_LOG% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,5,PLACING,GOLDEN_AXE,OAK_LOG% Dollar",
+				"&f% von &#c6a664Eichenstamm/Eichenstamm(Goldaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fBehuts. % von &#c6a664Eichenstamm/Eichenstamm(Goldaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fAbbauen von &#c6a664Eichenstamm(Goldaxt) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG% Dollar",
+				"&fSetzen von &#c6a664Eichenstamm(Goldaxt) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,5,PLACING,GOLDEN_AXE,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,5,PLACING,GOLDEN_AXE,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,5,PLACING,GOLDEN_AXE,OAK_LOG% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -9832,14 +10005,14 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Oaklog/Oaklog(Goldenaxe) %tt_reward_tech_dropchance_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG,mat=OAK_LOG%",
-				"&fSilktouchdropChance of Oaklog/Oaklog(Goldenaxe) %tt_reward_tech_dropchance_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG,mat=OAK_LOG%",
-				"&fMining of Oaklog(Goldenaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG% Dollar",
-				"&fPlacing of Oaklog(Goldenaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,5,PLACING,GOLDEN_AXE,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,5,PLACING,GOLDEN_AXE,OAK_LOG% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,5,PLACING,GOLDEN_AXE,OAK_LOG% Dollar",
+				"&f% of &#c6a664Oaklog/Oaklog(Goldenaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fSilkT% of &#c6a664Oaklog/Oaklog(Goldenaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fMining of &#c6a664Oaklog(Goldenaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG% Dollar",
+				"&fPlacing of &#c6a664Oaklog(Goldenaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,5,PLACING,GOLDEN_AXE,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,5,PLACING,GOLDEN_AXE,OAK_LOG% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,5,PLACING,GOLDEN_AXE,OAK_LOG% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(6, new String[] {
@@ -9851,14 +10024,14 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Eichenstamm/Eichenstamm(Diamantaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG,mat=OAK_LOG%",
-				"&fBehutsamkeitsdropChance von Eichenstamm/Eichenstamm(Diamantaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG,mat=OAK_LOG%",
-				"&fAbbauen von Eichenstamm(Diamantaxt) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG% Dollar",
-				"&fSetzen von Eichenstamm(Diamantaxt) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,6,PLACING,DIAMOND_AXE,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,6,PLACING,DIAMOND_AXE,OAK_LOG% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,6,PLACING,DIAMOND_AXE,OAK_LOG% Dollar",
+				"&f% von &#c6a664Eichenstamm/Eichenstamm(Diamantaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fBehuts. % von &#c6a664Eichenstamm/Eichenstamm(Diamantaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fAbbauen von &#c6a664Eichenstamm(Diamantaxt) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG% Dollar",
+				"&fSetzen von &#c6a664Eichenstamm(Diamantaxt) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,6,PLACING,DIAMOND_AXE,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,6,PLACING,DIAMOND_AXE,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,6,PLACING,DIAMOND_AXE,OAK_LOG% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -9869,14 +10042,14 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Oaklog/Oaklog(Diamondaxe) %tt_reward_tech_dropchance_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG,mat=OAK_LOG%",
-				"&fSilktouchdropChance of Oaklog/Oaklog(Diamondaxe) %tt_reward_tech_dropchance_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG,mat=OAK_LOG%",
-				"&fMining of Oaklog(Diamondaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG% Dollar",
-				"&fPlacing of Oaklog(Diamondaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,6,PLACING,DIAMOND_AXE,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,6,PLACING,DIAMOND_AXE,OAK_LOG% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,6,PLACING,DIAMOND_AXE,OAK_LOG% Dollar",
+				"&f% of &#c6a664Oaklog/Oaklog(Diamondaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fSilkT% of &#c6a664Oaklog/Oaklog(Diamondaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fMining of &#c6a664Oaklog(Diamondaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG% Dollar",
+				"&fPlacing of &#c6a664Oaklog(Diamondaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,6,PLACING,DIAMOND_AXE,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,6,PLACING,DIAMOND_AXE,OAK_LOG% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,6,PLACING,DIAMOND_AXE,OAK_LOG% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(7, new String[] {
@@ -9888,14 +10061,14 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Eichenstamm/Eichenstamm(Netheriteaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG,mat=OAK_LOG%",
-				"&fBehutsamkeitsdropChance von Eichenstamm/Eichenstamm(Netheriteaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG,mat=OAK_LOG%",
-				"&fAbbauen von Eichenstamm(Netheriteaxt) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
-				"&fSetzen von Eichenstamm(Netheriteaxt) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,7,PLACING,NETHERITE_AXE,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,7,PLACING,NETHERITE_AXE,OAK_LOG% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,7,PLACING,NETHERITE_AXE,OAK_LOG% Dollar",
+				"&f% von &#c6a664Eichenstamm/Eichenstamm(Netheriteaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fBehuts. % von &#c6a664Eichenstamm/Eichenstamm(Netheriteaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fAbbauen von &#c6a664Eichenstamm(Netheriteaxt) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
+				"&fSetzen von &#c6a664Eichenstamm(Netheriteaxt) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,7,PLACING,NETHERITE_AXE,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,7,PLACING,NETHERITE_AXE,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,7,PLACING,NETHERITE_AXE,OAK_LOG% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -9906,14 +10079,14 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Oaklog/Oaklog(Netheriteaxe) %tt_reward_tech_dropchance_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG,mat=OAK_LOG%",
-				"&fSilktouchdropChance of Oaklog/Oaklog(Netheriteaxe) %tt_reward_tech_dropchance_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG,mat=OAK_LOG%",
-				"&fMining of Oaklog(Netheriteaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
-				"&fPlacing of Oaklog(Netheriteaxe) %tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,7,PLACING,NETHERITE_AXE,OAK_LOG% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,7,PLACING,NETHERITE_AXE,OAK_LOG% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,oaklog,7,PLACING,NETHERITE_AXE,OAK_LOG% Dollar",
+				"&f% of &#c6a664Oaklog/Oaklog(Netheriteaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fSilkT% of &#c6a664Oaklog/Oaklog(Netheriteaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG,mat=OAK_LOG%",
+				"&fMining of &#c6a664Oaklog(Netheriteaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
+				"&fPlacing of &#c6a664Oaklog(Netheriteaxe) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,7,PLACING,NETHERITE_AXE,OAK_LOG% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,7,PLACING,NETHERITE_AXE,OAK_LOG% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,7,PLACING,NETHERITE_AXE,OAK_LOG% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
@@ -9930,7 +10103,7 @@ public class YamlManager
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fMining of Oaklog.",
+						"&fMining of &#c6a664Oaklog.",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Eichenstamm","&7Oaklog"},
@@ -9942,22 +10115,22 @@ public class YamlManager
 				Material.OAK_LOG, 1, itemflag, enchantment, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fAbbauen von Eichenstamm %tt_raw_reward_techtotal_ttexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
-						"&fSetzen von Eichenstamm %tt_raw_reward_techtotal_ttexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
+						"&fAbbauen von &#c6a664Eichenstamm &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
+						"&fSetzen von &#c6a664Eichenstamm &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fMining of Oaklog %tt_raw_reward_techtotal_ttexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
-						"&fPlacing of Oaklog %tt_raw_reward_techtotal_ttexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
+						"&fMining of &#c6a664Oaklog &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
+						"&fPlacing of &#c6a664Oaklog &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
 						
 						"",
 						"&cRightclick &bfor a more detailed view."},
@@ -10151,11 +10324,11 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Bretter/Bretter(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_PLANKS,mat=OAK_PLANKS%",
-				"&fBehutsamkeitsdropChance von Bretter/Bretter(Hand) %tt_reward_tech_dropchance_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_PLANKS,mat=OAK_PLANKS%",
-				"&fHerstellen von Brettern %tt_raw_reward_tech_ttexp_mat,SOLO,woodenplanks,1,CRAFTING,HAND,OAK_PLANKS% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,woodenplanks,1,CRAFTING,HAND,OAK_PLANKS% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,woodenplanks,1,CRAFTING,HAND,OAK_PLANKS% Dollar",
+				"&f% von &#c6a664Bretter/Bretter(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fBehuts. % von &#c6a664Bretter/Bretter(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fHerstellen von &#c6a664Brettern &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,woodenplanks_I,1,CRAFTING,HAND,OAK_PLANKS% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,woodenplanks_I,1,CRAFTING,HAND,OAK_PLANKS% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,woodenplanks_I,1,CRAFTING,HAND,OAK_PLANKS% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -10166,11 +10339,11 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Planks/Planks(Hand) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,1,BREAKING,HAND,OAK_PLANKS,mat=OAK_PLANKS%",
-				"&fSilktouchdropChance of Planks/Planks(Hand) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,1,BREAKING,HAND,OAK_PLANKS,mat=OAK_PLANKS%",
-				"&fCrafting of Planks(Hand) %tt_raw_reward_tech_ttexp_mat,SOLO,woodenplanks,1,CRAFTING,HAND,OAK_PLANKS% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,woodenplanks,1,CRAFTING,HAND,OAK_PLANKS% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,woodenplanks,1,CRAFTING,HAND,OAK_PLANKS% Dollar",
+				"&f% of &#c6a664Planks/Planks(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,woodenplanks_I,1,BREAKING,HAND,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fSilkT% of &#c6a664Planks/Planks(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,woodenplanks_I,1,BREAKING,HAND,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fCrafting of &#c6a664Planks(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,woodenplanks_I,1,CRAFTING,HAND,OAK_PLANKS% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,woodenplanks_I,1,CRAFTING,HAND,OAK_PLANKS% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,woodenplanks_I,1,CRAFTING,HAND,OAK_PLANKS% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(2, new String[] {
@@ -10182,8 +10355,8 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Bretter/Bretter(Holzaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
-				"&fBehutsamkeitsdropChance von Bretter/Bretter(Holzaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&f% von &#c6a664Bretter/Bretter(Holzaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fBehuts. % von &#c6a664Bretter/Bretter(Holzaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -10194,8 +10367,8 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Planks/Planks(Woodenaxe) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,2,BREAKING,WOODEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
-				"&fSilktouchdropChance of Planks/Planks(Woodenaxe) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,2,BREAKING,WOODEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&f% of &#c6a664Planks/Planks(Woodenaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,woodenplanks_I,2,BREAKING,WOODEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fSilkT% of &#c6a664Planks/Planks(Woodenaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,woodenplanks_I,2,BREAKING,WOODEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(3, new String[] {
@@ -10207,8 +10380,8 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Bretter/Bretter(Steinaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
-				"&fBehutsamkeitsdropChance von Bretter/Bretter(Steinaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&f% von &#c6a664Bretter/Bretter(Steinaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fBehuts. % von &#c6a664Bretter/Bretter(Steinaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -10219,8 +10392,8 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Planks/Planks(Stoneaxe) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,3,BREAKING,STONE_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
-				"&fSilktouchdropChance of Planks/Planks(Stoneaxe) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,3,BREAKING,STONE_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&f% of &#c6a664Planks/Planks(Stoneaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,woodenplanks_I,3,BREAKING,STONE_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fSilkT% of &#c6a664Planks/Planks(Stoneaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,woodenplanks_I,3,BREAKING,STONE_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(4, new String[] {
@@ -10232,8 +10405,8 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Bretter/Bretter(Eisenaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
-				"&fBehutsamkeitsdropChance von Bretter/Bretter(Eisenaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&f% von &#c6a664Bretter/Bretter(Eisenaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fBehuts. % von &#c6a664Bretter/Bretter(Eisenaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -10244,8 +10417,8 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Planks/Planks(Ironaxe) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,4,BREAKING,IRON_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
-				"&fSilktouchdropChance of Planks/Planks(Ironaxe) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,4,BREAKING,IRON_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&f% of &#c6a664Planks/Planks(Ironaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,woodenplanks_I,4,BREAKING,IRON_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fSilkT% of &#c6a664Planks/Planks(Ironaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,woodenplanks_I,4,BREAKING,IRON_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(5, new String[] {
@@ -10257,8 +10430,8 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Bretter/Bretter(Goldaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
-				"&fBehutsamkeitsdropChance von Bretter/Bretter(Goldaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&f% von &#c6a664Bretter/Bretter(Goldaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fBehuts. % von &#c6a664Bretter/Bretter(Goldaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -10269,8 +10442,8 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Planks/Planks(Goldenaxe) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,5,BREAKING,GOLDEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
-				"&fSilktouchdropChance of Planks/Planks(Goldenaxe) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,5,BREAKING,GOLDEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&f% of &#c6a664Planks/Planks(Goldenaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,woodenplanks_I,5,BREAKING,GOLDEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fSilkT% of &#c6a664Planks/Planks(Goldenaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,woodenplanks_I,5,BREAKING,GOLDEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(6, new String[] {
@@ -10282,8 +10455,8 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Bretter/Bretter(Diamantaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
-				"&fBehutsamkeitsdropChance von Bretter/Bretter(Diamantaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&f% von &#c6a664Bretter/Bretter(Diamantaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fBehuts. % von &#c6a664Bretter/Bretter(Diamantaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -10294,8 +10467,8 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Planks/Planks(Diamondaxe) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,6,BREAKING,DIAMOND_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
-				"&fSilktouchdropChance of Planks/Planks(Diamondaxe) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,6,BREAKING,DIAMOND_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&f% of &#c6a664Planks/Planks(Diamondaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,woodenplanks_I,6,BREAKING,DIAMOND_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fSilkT% of &#c6a664Planks/Planks(Diamondaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,woodenplanks_I,6,BREAKING,DIAMOND_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		canResLore.put(7, new String[] {
@@ -10307,8 +10480,8 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Bretter/Bretter(Netheriteaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
-				"&fBehutsamkeitsdropChance von Bretter/Bretter(Netheriteaxt) %tt_reward_tech_dropchance_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&f% von &#c6a664Bretter/Bretter(Netheriteaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fBehuts. % von &#c6a664Bretter/Bretter(Netheriteaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -10319,12 +10492,12 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Planks/Planks(Netheriteaxe) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,7,BREAKING,NETHERITE_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
-				"&fSilktouchdropChance of Planks/Planks(Netheriteaxe) %tt_reward_tech_dropchance_mat,SOLO,woodenplanks,7,BREAKING,NETHERITE_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&f% of &#c6a664Planks/Planks(Netheriteaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,woodenplanks_I,7,BREAKING,NETHERITE_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fSilkT% of &#c6a664Planks/Planks(Netheriteaxe) &#546f42%tt_reward_tech_dropchance_mat,SOLO,woodenplanks_I,7,BREAKING,NETHERITE_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
-				"woodenplanks", new String[] {"Holzbretter", "Woodenplanks"},
+				"woodenplanks_I", new String[] {"Holzbretter_I", "Woodenplanks_I"},
 				TechnologyType.SIMPLE, 7, PlayerAssociatedType.SOLO, 1, "", "wood", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				new String[] { //ConditionToSee
@@ -10339,7 +10512,7 @@ public class YamlManager
 						"f:hasresearchedtech,darkoaklog,1:==:true",
 						"g:hasresearchedtech,mangrovelog,1:==:true",
 						"h:hasresearchedtech,cherrylog,1:==:true"}, true,
-				new String[] {"&8Tech Holzbretter","&8Tech Woodenplanks"},
+				new String[] {"&8Tech Holzbretter I","&8Tech Woodenplanks I"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&cAnforderungen zum einsehen:",
@@ -10350,7 +10523,7 @@ public class YamlManager
 						"&cerforscht haben.",
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Holzbrettern.",
+						"&fHerstellen von &#c6a664Holzbrettern.",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
@@ -10362,28 +10535,28 @@ public class YamlManager
 						"&cor >&#ff8c00Cherrylog&c<",
 						"",
 						"&eUnlocks the following:",
-						"&fCrafting of Planks.",
+						"&fCrafting of &#c6a664Planks.",
 						"",
 						"&cRightclick &bfor a more detailed view."},
-				new String[] {"&7Holzbretter","&7Woodenplanks"},
+				new String[] {"&7Holzbretter I","&7Woodenplanks I"},
 				Material.OAK_PLANKS, 1, itemflag, null, canResLore.get(1),
 				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
-				new String[] {"&dHolzbretter","&dWoodenplanks"},
+				new String[] {"&dHolzbretter I","&dWoodenplanks I"},
 				Material.OAK_PLANKS, 1, itemflag, null, canResLore,
-				new String[] {"&5Holzbretter","&5Woodenplanks"},
+				new String[] {"&5Holzbretter I","&5Woodenplanks I"},
 				Material.OAK_PLANKS, 1, itemflag, enchantment, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellen von Holzbretter %tt_raw_reward_techtotal_ttexp_mat,SOLO,woodenplanks,CRAFTING,HAND,OAK_PLANKS% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,woodenplanks,CRAFTING,HAND,OAK_PLANKS% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,woodenplanks,CRAFTING,HAND,OAK_PLANKS% Dollar",
+						"&fHerstellen von &#c6a664Holzbretter &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,woodenplanks_I,CRAFTING,HAND,OAK_PLANKS% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,woodenplanks_I,CRAFTING,HAND,OAK_PLANKS% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,woodenplanks_I,CRAFTING,HAND,OAK_PLANKS% Dollar",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fCrafting of Planks %tt_raw_reward_techtotal_ttexp_mat,SOLO,woodenplanks,CRAFTING,HAND,OAK_PLANKS% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,woodenplanks,CRAFTING,HAND,OAK_PLANKS% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,woodenplanks,CRAFTING,HAND,OAK_PLANKS% Dollar",						
+						"&fCrafting of &#c6a664Planks &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,woodenplanks_I,CRAFTING,HAND,OAK_PLANKS% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,woodenplanks_I,CRAFTING,HAND,OAK_PLANKS% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,woodenplanks_I,CRAFTING,HAND,OAK_PLANKS% Dollar",						
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
@@ -10461,11 +10634,11 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Bruchsteinstufe/Bruchsteinstufe %tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,COBBLESTONE_SLAB,mat=COBBLESTONE_SLAB%",
-				"&fBehutsamkeitsdropChance von Bruchsteinstufe/Bruchsteinstufe %tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,COBBLESTONE_SLAB,mat=COBBLESTONE_SLAB%",
-				"&fHerstellen von Bruchsteinstufe %tt_raw_reward_tech_ttexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,COBBLESTONE_SLAB% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,COBBLESTONE_SLAB% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,COBBLESTONE_SLAB% Dollar",
+				"&f% von &#c6a664Bruchsteinstufe/Bruchsteinstufe &#546f42%tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,COBBLESTONE_SLAB,mat=COBBLESTONE_SLAB%",
+				"&fBehuts. % von &#c6a664Bruchsteinstufe/Bruchsteinstufe &#546f42%tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,COBBLESTONE_SLAB,mat=COBBLESTONE_SLAB%",
+				"&fHerstellen von &#c6a664Bruchsteinstufe &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,COBBLESTONE_SLAB% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,COBBLESTONE_SLAB% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,COBBLESTONE_SLAB% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -10476,11 +10649,11 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Cobblestoneslabs/Cobblestoneslabs %tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,COBBLESTONE_SLAB,mat=COBBLESTONE_SLAB%",
-				"&fSilktouchdropChance of Cobblestoneslabs/Cobblestoneslabs %tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,COBBLESTONE_SLAB,mat=COBBLESTONE_SLAB%",
-				"&fCrafting of Cobblestoneslabs %tt_raw_reward_tech_ttexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,COBBLESTONE_SLAB% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,COBBLESTONE_SLAB% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,COBBLESTONE_SLAB% Dollar",
+				"&f% of &#c6a664Cobblestoneslabs/Cobblestoneslabs &#546f42%tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,COBBLESTONE_SLAB,mat=COBBLESTONE_SLAB%",
+				"&fSilkT% of &#c6a664Cobblestoneslabs/Cobblestoneslabs &#546f42%tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,COBBLESTONE_SLAB,mat=COBBLESTONE_SLAB%",
+				"&fCrafting of &#c6a664Cobblestoneslabs &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,COBBLESTONE_SLAB% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,COBBLESTONE_SLAB% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,COBBLESTONE_SLAB% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});		
 		canResLore.put(2, new String[] {
@@ -10492,11 +10665,11 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Steinstufe/Steinstufe %tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,STONE_SLAB,mat=STONE_SLAB%",
-				"&fBehutsamkeitsdropChance von Steinstufe/Steinstufe %tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,STONE_SLAB,mat=STONE_SLAB%",
-				"&fHerstellen von Steinstufe %tt_raw_reward_tech_ttexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,STONE_SLAB% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,STONE_SLAB% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,STONE_SLAB% Dollar",
+				"&f% von &#c6a664Steinstufe/Steinstufe &#546f42%tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,STONE_SLAB,mat=STONE_SLAB%",
+				"&fBehuts. % von &#c6a664Steinstufe/Steinstufe &#546f42%tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,STONE_SLAB,mat=STONE_SLAB%",
+				"&fHerstellen von &#c6a664Steinstufe &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,STONE_SLAB% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,STONE_SLAB% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,STONE_SLAB% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -10507,11 +10680,11 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Stoneslaps/Stoneslaps %tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,STONE_SLAB,mat=STONE_SLAB%",
-				"&fSilktouchdropChance of Stoneslabs/Stoneslabs %tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,STONE_SLAB,mat=STONE_SLAB%",
-				"&fCrafting of Stoneslaps %tt_raw_reward_tech_ttexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,STONE_SLAB% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,STONE_SLAB% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,STONE_SLAB% Dollar",
+				"&f% of &#c6a664Stoneslaps/Stoneslaps &#546f42%tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,STONE_SLAB,mat=STONE_SLAB%",
+				"&fSilkT% of &#c6a664Stoneslabs/Stoneslabs &#546f42%tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,STONE_SLAB,mat=STONE_SLAB%",
+				"&fCrafting of &#c6a664Stoneslaps &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,STONE_SLAB% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,STONE_SLAB% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,STONE_SLAB% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
@@ -10530,7 +10703,7 @@ public class YamlManager
 						"&cMuss die Technology >&#ff8c00Stein I&c< erforscht haben.",
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Bruchsteinstufen.",
+						"&fHerstellen von &#c6a664Bruchsteinstufen.",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
@@ -10538,7 +10711,7 @@ public class YamlManager
 						"&cMust have researched the Technology >&#ff8c00Stone I<.",
 						"",
 						"&eUnlocks the following:",
-						"&fCrafting of Cobblestoneslabs.",
+						"&fCrafting of &#c6a664Cobblestoneslabs.",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Steinstufen I","&7Stoneslaps I"},
@@ -10550,22 +10723,22 @@ public class YamlManager
 				Material.STONE_SLAB, 1, itemflag, enchantment, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellen von Bruchsteinstufen %tt_raw_reward_techtotal_ttexp_mat,SOLO,woodenplanks,CRAFTING,HAND,COBBLESTONE_SLAB% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,woodenplanks,CRAFTING,HAND,COBBLESTONE_SLAB% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,woodenplanks,CRAFTING,HAND,COBBLESTONE_SLAB% Dollar",
-						"&fHerstellen von Steinstufen %tt_raw_reward_techtotal_ttexp_mat,SOLO,woodenplanks,CRAFTING,HAND,STONE_SLAB% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,woodenplanks,CRAFTING,HAND,STONE_SLAB% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,woodenplanks,CRAFTING,HAND,STONE_SLAB% Dollar",
+						"&fHerstellen von &#c6a664Bruchsteinstufen &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,stoneslab_I,CRAFTING,HAND,COBBLESTONE_SLAB% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,stoneslab_I,CRAFTING,HAND,COBBLESTONE_SLAB% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,stoneslab_I,CRAFTING,HAND,COBBLESTONE_SLAB% Dollar",
+						"&fHerstellen von &#c6a664Steinstufen &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,stoneslab_I,CRAFTING,HAND,STONE_SLAB% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,stoneslab_I,CRAFTING,HAND,STONE_SLAB% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,stoneslab_I,CRAFTING,HAND,STONE_SLAB% Dollar",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fCrafting of Cobblestoneslab %tt_raw_reward_techtotal_ttexp_mat,SOLO,woodenplanks,CRAFTING,HAND,COBBLESTONE_SLAB% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,woodenplanks,CRAFTING,HAND,COBBLESTONE_SLAB% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,woodenplanks,CRAFTING,HAND,COBBLESTONE_SLAB% Dollar",
-						"&fCrafting of Stoneslab %tt_raw_reward_techtotal_ttexp_mat,SOLO,woodenplanks,CRAFTING,HAND,STONE_SLAB% TTExp | "
-								  + "%tt_raw_reward_techtotal_vexp_mat,SOLO,woodenplanks,CRAFTING,HAND,STONE_SLAB% VanillaExp | "
-								  + "%tt_raw_reward_techtotal_money_mat,SOLO,woodenplanks,CRAFTING,HAND,STONE_SLAB% Dollar",						
+						"&fCrafting of &#c6a664Cobblestoneslab &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,stoneslab_I,CRAFTING,HAND,COBBLESTONE_SLAB% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,stoneslab_I,CRAFTING,HAND,COBBLESTONE_SLAB% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,stoneslab_I,CRAFTING,HAND,COBBLESTONE_SLAB% Dollar",
+						"&fCrafting of &#c6a664Stoneslab &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,stoneslab_I,CRAFTING,HAND,STONE_SLAB% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,stoneslab_I,CRAFTING,HAND,STONE_SLAB% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,stoneslab_I,CRAFTING,HAND,STONE_SLAB% Dollar",						
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
@@ -10644,11 +10817,11 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Bruchsteintreppe/Bruchsteintreppe %tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,COBBLESTONE_STAIRS,mat=COBBLESTONE_STAIRS%",
-				"&fBehutsamkeitsdropChance von Bruchsteintreppe/Bruchsteintreppe %tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,COBBLESTONE_STAIRS,mat=COBBLESTONE_STAIRS%",
-				"&fHerstellen von Bruchsteintreppe %tt_raw_reward_tech_ttexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,COBBLESTONE_STAIRS% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,COBBLESTONE_STAIRS% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,COBBLESTONE_STAIRS% Dollar",
+				"&f% von &#c6a664Bruchsteintreppe/Bruchsteintreppe &#546f42%tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,COBBLESTONE_STAIRS,mat=COBBLESTONE_STAIRS%",
+				"&fBehuts. % von &#c6a664Bruchsteintreppe/Bruchsteintreppe &#546f42%tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,COBBLESTONE_STAIRS,mat=COBBLESTONE_STAIRS%",
+				"&fHerstellen von &#c6a664Bruchsteintreppe &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,COBBLESTONE_STAIRS% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,COBBLESTONE_STAIRS% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,COBBLESTONE_STAIRS% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -10659,11 +10832,11 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Cobblestonestairs/Cobblestonestairs %tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,COBBLESTONE_STAIRS,mat=COBBLESTONE_STAIRS%",
-				"&fSilktouchdropChance of Cobblestonestairs/Cobblestonestairs %tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,COBBLESTONE_STAIRS,mat=COBBLESTONE_STAIRS%",
-				"&fCrafting of Cobblestonestairs %tt_raw_reward_tech_ttexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,COBBLESTONE_STAIRS% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,COBBLESTONE_STAIRS% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,COBBLESTONE_STAIRS% Dollar",
+				"&f% of &#c6a664Cobblestonestairs/Cobblestonestairs &#546f42%tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,COBBLESTONE_STAIRS,mat=COBBLESTONE_STAIRS%",
+				"&fSilkT% of &#c6a664Cobblestonestairs/Cobblestonestairs &#546f42%tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,COBBLESTONE_STAIRS,mat=COBBLESTONE_STAIRS%",
+				"&fCrafting of &#c6a664Cobblestonestairs &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,COBBLESTONE_STAIRS% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,COBBLESTONE_STAIRS% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,COBBLESTONE_STAIRS% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});		
 		canResLore.put(2, new String[] {
@@ -10675,11 +10848,11 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fDropChance von Steintreppe/Steintreppe %tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,STONE_STAIRS,mat=STONE_STAIRS%",
-				"&fBehutsamkeitsdropChance von Steintreppe/Steintreppe %tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,STONE_STAIRS,mat=STONE_STAIRS%",
-				"&fHerstellen von Steintreppe %tt_raw_reward_tech_ttexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,STONE_STAIRS% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,STONE_STAIRS% VanillaExp |"
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,STONE_STAIRS% Dollar",
+				"&f% von &#c6a664Steintreppe/Steintreppe &#546f42%tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,STONE_STAIRS,mat=STONE_STAIRS%",
+				"&fBehuts. % von &#c6a664Steintreppe/Steintreppe &#546f42%tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,STONE_STAIRS,mat=STONE_STAIRS%",
+				"&fHerstellen von &#c6a664Steintreppe &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,STONE_STAIRS% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,STONE_STAIRS% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,STONE_STAIRS% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -10690,11 +10863,11 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fDropChance of Stonestairs/Stonestairs %tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,STONE_STAIRS,mat=STONE_STAIRS%",
-				"&fSilktouchdropChance of Stonestairs/Stonestairs %tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,STONE_STAIRS,mat=STONE_STAIRS%",
-				"&fCrafting of Stoneslaps %tt_raw_reward_tech_ttexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,STONE_STAIRS% TTExp | "
-						  + "%tt_raw_reward_tech_vexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,STONE_STAIRS% VanillaExp | "
-						  + "%tt_raw_reward_tech_money_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,STONE_STAIRS% Dollar",
+				"&f% of &#c6a664Stonestairs/Stonestairs &#546f42%tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,STONE_STAIRS,mat=STONE_STAIRS%",
+				"&fSilkT% of &#c6a664Stonestairs/Stonestairs &#546f42%tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,STONE_STAIRS,mat=STONE_STAIRS%",
+				"&fCrafting of &#c6a664Stoneslaps &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,STONE_STAIRS% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,STONE_STAIRS% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,STONE_STAIRS% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
@@ -10713,7 +10886,7 @@ public class YamlManager
 						"&cMuss die Technology >&#ff8c00Stein I&c< erforscht haben.",
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellung von Bruchsteintreppen.",
+						"&fHerstellen von &#c6a664Bruchsteintreppen.",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
@@ -10721,7 +10894,7 @@ public class YamlManager
 						"&cMust have researched the Technology >&#ff8c00Stone I<.",
 						"",
 						"&eUnlocks the following:",
-						"&fCrafting of Cobblestonestairs.",
+						"&fCrafting of &#c6a664Cobblestonestairs.",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Steintreppen I","&7Stonestairs I"},
@@ -10731,14 +10904,26 @@ public class YamlManager
 				Material.STONE_STAIRS, 1, itemflag, null, canResLore,
 				new String[] {"&5Steintreppen I","&5Stonestairs I"},
 				Material.STONE_STAIRS, 1, itemflag, enchantment, new String[] {
-						"&7Technologie Steintreppen I",
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellen, Setzten und Abbauen",
-						"&fvon Bruchsteintreppen/Steintreppen",
-						"&7Technology Stonestairs I",
+						"&fHerstellen von &#c6a664Bruchsteintreppen &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,stonestairs_I,CRAFTING,HAND,COBBLESTONE_STAIRS% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,stonestairs_I,CRAFTING,HAND,COBBLESTONE_STAIRS% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,stonestairs_I,CRAFTING,HAND,COBBLESTONE_STAIRS% Dollar",
+						"&fHerstellen von &#c6a664Steintreppen &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,stonestairs_I,CRAFTING,HAND,STONE_STAIRS% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,stonestairs_I,CRAFTING,HAND,STONE_STAIRS% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,stonestairs_I,CRAFTING,HAND,STONE_STAIRS% Dollar",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
 						"&eUnlocks the following:",
-						"&fCrafting, placing and mining",
-						"&fof cobblestonestairs/stonestairs"},
+						"&fCrafting of &#c6a664Cobblestonestairs &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,stonestairs_I,CRAFTING,HAND,COBBLESTONE_STAIRS% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,stonestairs_I,CRAFTING,HAND,COBBLESTONE_STAIRS% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,stonestairs_I,CRAFTING,HAND,COBBLESTONE_STAIRS% Dollar",
+						"&fCrafting of &#c6a664Stonestairs &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,stonestairs_I,CRAFTING,HAND,STONE_STAIRS% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,stonestairs_I,CRAFTING,HAND,STONE_STAIRS% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,stonestairs_I,CRAFTING,HAND,STONE_STAIRS% Dollar",						
+						"",
+						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
 				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
@@ -10760,8 +10945,7 @@ public class YamlManager
 		toResCostMoney.put(1, "1 * techlev + 0.25 * solototaltech");
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
-		rewardUnlockableInteractions.put(1, new String[] 
-				{"MELTING:STONE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",""});
+		rewardUnlockableInteractions.put(1, new String[]{"MELTING:STONE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",""});
 		LinkedHashMap<Integer, String[]> rewardUnlockableRecipe = new LinkedHashMap<>();
 		rewardUnlockableRecipe.put(1, new String[] {"FURNACE:stone",""});
 		LinkedHashMap<Integer, String[]> rewardDropChance = new LinkedHashMap<>();
@@ -10770,6 +10954,34 @@ public class YamlManager
 		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardValueEntry = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fBrennen von &#c6a664Bruchstein &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,melting_cobblestone,1,CRAFTING,HAND,STONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,melting_cobblestone,1,CRAFTING,HAND,STONE% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,melting_cobblestone,1,CRAFTING,HAND,STONE% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fMelting of &#c6a664Cobblestone &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,melting_cobblestone,1,CRAFTING,HAND,STONE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,melting_cobblestone,1,CRAFTING,HAND,STONE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,melting_cobblestone,1,CRAFTING,HAND,STONE% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});	
 		addTechnology(
 				"melting_cobblestone", new String[] {"Ofenrezept_Stein", "Furnacerecipe_Stone"},
 				TechnologyType.MULTIPLE, 2, PlayerAssociatedType.SOLO, 0, "", "furnancerecipe", 
@@ -10777,55 +10989,43 @@ public class YamlManager
 				null, true,
 				new String[] {"&8Tech Ofenrezept Stein","&8Tech Furnacerecipe Stone"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
-						"&7Technologie Ofenrezept Stein",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
+						"",
+						"&cAnforderungen zum einsehen:",
+						"&cMuss die Technology >&#ff8c00Ofen&c< erforscht haben.",
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fSchmelzen von Bruchstein in Stein",
-						"&7Technology Furnacerecipe Stone",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
+						"&fOfenrezept Stein.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&cRequirements to view:",
+						"&cMust have researched the Technology >&#ff8c00Furnace<.",
+						"",
 						"&eUnlocks the following:",
-						"&fMelting of Cobblestone in Stone"},
+						"&fFurnacerecipe Stone.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Ofenrezept Stein","&7Furnacerecipe Stone"},
-				Material.STONE_STAIRS, 1, itemflag, null, new String[] {
-						"&7Technologie Ofenrezept Stein",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&eSchaltet folgendes frei:",
-						"&fSchmelzen von Bruchstein in Stein",
-						"&7Technology Furnacerecipe Stone",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&eUnlocks the following:",
-						"&fMelting of Cobblestone in Stone"},
+				Material.STONE, 1, itemflag, null, canResLore.get(1),
 				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
-				new String[] {"&7Ofenrezept Stein","&7Furnacerecipe Stone"},
-				Material.STONE_STAIRS, 1, itemflag, null, new String[] {
-						"&7Technologie Ofenrezept Stein",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&eSchaltet folgendes frei:",
-						"&fSchmelzen von Bruchstein in Stein",
-						"&7Technology Furnacerecipe Stone",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&eUnlocks the following:",
-						"&fMelting of Cobblestone in Stone"},
 				new String[] {"&bOfenrezept Stein","&bFurnacerecipe Stone"},
-				Material.STONE_STAIRS, 1, itemflag, null, new String[] {
-						"&7Technologie Ofenrezept Stein",
+				Material.STONE, 1, itemflag, null, canResLore,
+				new String[] {"&5Ofenrezept Stein","&5Furnacerecipe Stone"},
+				Material.STONE, 1, itemflag, enchantment, new String[] {
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fSchmelzen von Bruchstein in Stein",
-						"&7Technology Furnacerecipe Stone",
+						"&fBrennen von &#c6a664Bruchstein &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,melting_cobblestone,CRAFTING,HAND,STONE% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,melting_cobblestone,CRAFTING,HAND,STONE% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,melting_cobblestone,CRAFTING,HAND,STONE% Dollar",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
 						"&eUnlocks the following:",
-						"&fMelting of Cobblestone in Stone"},
+						"&fMelting of &#c6a664Cobblestone &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,melting_cobblestone,CRAFTING,HAND,STONE% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,melting_cobblestone,CRAFTING,HAND,STONE% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,melting_cobblestone,CRAFTING,HAND,STONE% Dollar",			
+						"",
+						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
 				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
@@ -10846,69 +11046,85 @@ public class YamlManager
 		rewardUnlockableInteractions.put(1, new String[] 
 				{"MELTING:IRON_INGOT:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",""});
 		rewardUnlockableRecipe = new LinkedHashMap<>();
-		rewardUnlockableRecipe.put(1, new String[] {"FURNACE:stone",""});
+		rewardUnlockableRecipe.put(1, new String[] {"FURNACE:iron_ingot_from_smelting_raw_iron",""});
 		rewardDropChance = new LinkedHashMap<>();
 		rewardSilkTouchDropChance = new LinkedHashMap<>();
 		rewardCommand = new LinkedHashMap<>();
 		rewardItem = new LinkedHashMap<>();
 		rewardModifier = new LinkedHashMap<>();
 		rewardValueEntry = new LinkedHashMap<>();
+		canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fBrennen von &#c6a664Roheisen &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,melting_rawiron,1,CRAFTING,HAND,IRON_INGOT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,melting_rawiron,1,CRAFTING,HAND,IRON_INGOT% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,melting_rawiron,1,CRAFTING,HAND,IRON_INGOT% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fMelting of &#c6a664Rawiron &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,melting_rawiron,1,CRAFTING,HAND,IRON_INGOT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,melting_rawiron,1,CRAFTING,HAND,IRON_INGOT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,melting_rawiron,1,CRAFTING,HAND,IRON_INGOT% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
-				"melting_raw_iron", new String[] {"Ofenrezept_Eisenbarren", "Furnacerecipe_Ironingot"},
+				"melting_iron", new String[] {"Ofenrezept_Eisenbarren", "Furnacerecipe_Ironingot"},
 				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 1, "", "furnancerecipe", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
 				new String[] {"&8Tech Ofenrezept Eisenbarren","&8Tech Furnacerecipe Ironingot"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
-						"&7Technologie Ofenrezept Eisenbarren",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
+						"",
+						"&cAnforderungen zum einsehen:",
+						"&cMuss die Technology >&#ff8c00Ofen&c< erforscht haben.",
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fSchmelzen von Roheisen in Eisenbarren",
-						"&7Technology Furnacerecipe Ironingot",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
+						"&fOfenrezept Eisenbarren.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&cRequirements to view:",
+						"&cMust have researched the Technology >&#ff8c00Furnace<.",
+						"",
 						"&eUnlocks the following:",
-						"&fMelting of Rawiron in Ironingot"},
+						"&fFurnacerecipe Ironingot.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Ofenrezept Eisenbarren","&7Furnacerecipe Ironingot"},
-				Material.STONE_STAIRS, 1, itemflag, null, new String[] {
-						"&7Technologie Ofenrezept Eisenbarren",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&eSchaltet folgendes frei:",
-						"&fSchmelzen von Roheisen in Eisenbarren",
-						"&7Technology Furnacerecipe Ironingot",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&eUnlocks the following:",
-						"&fMelting of Rawiron in Ironingot"},
+				Material.IRON_INGOT, 1, itemflag, null, canResLore.get(1),
 				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
 				new String[] {"&7Ofenrezept Eisenbarren","&7Furnacerecipe Ironingot"},
-				Material.STONE_STAIRS, 1, itemflag, null, new String[] {
-						"&7Technologie Ofenrezept Eisenbarren",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&eSchaltet folgendes frei:",
-						"&fSchmelzen von Roheisen in Eisenbarren",
-						"&7Technology Furnacerecipe Ironingot",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
-						"&eUnlocks the following:",
-						"&fMelting of Rawiron in Ironingot"},
+				Material.IRON_INGOT, 1, itemflag, null, canResLore,
 				new String[] {"&bOfenrezept Eisenbarren","&bFurnacerecipe Ironingot"},
-				Material.STONE_STAIRS, 1, itemflag, null, new String[] {
-						"&7Technologie Ofenrezept Eisenbarren",
+				Material.IRON_INGOT, 1, itemflag, enchantment, new String[] {
+						"",
 						"&eSchaltet folgendes frei:",
-						"&fSchmelzen von Roheisen in Eisenbarren",
-						"&7Technology Furnacerecipe Ironingot",
+						"&fBrennen von &#c6a664Roheisen &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,melting_rawiron,CRAFTING,HAND,IRON_INGOT% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,melting_rawiron,CRAFTING,HAND,IRON_INGOT% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,melting_rawiron,CRAFTING,HAND,IRON_INGOT% Dollar",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
 						"&eUnlocks the following:",
-						"&fMelting of Rawiron in Ironingot"},
+						"&fMelting of &#c6a664Rawiron &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,melting_rawiron,CRAFTING,HAND,IRON_INGOT% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,melting_rawiron,CRAFTING,HAND,IRON_INGOT% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,melting_rawiron,CRAFTING,HAND,IRON_INGOT% Dollar",			
+						"",
+						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
 				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
@@ -11023,10 +11239,16 @@ public class YamlManager
 						notSeeMat.toString()}));
 		one.put("RequirementToSee.ItemIfYouCannotSee.Amount", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 						notSeeAmount}));
-		one.put("RequirementToSee.ItemIfYouCannotSee.ItemFlag", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-						notSeeItemFlag));
-		one.put("RequirementToSee.ItemIfYouCannotSee.Enchantment", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-						notSeeEnchantments));
+		if(notSeeItemFlag != null)
+		{
+			one.put("RequirementToSee.ItemIfYouCannotSee.ItemFlag", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
+					notSeeItemFlag));
+		}
+		if(notSeeEnchantments != null)
+		{
+			one.put("RequirementToSee.ItemIfYouCannotSee.Enchantment", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
+					notSeeEnchantments));
+		}
 		one.put("RequirementToSee.ItemIfYouCannotSee.Lore", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, 
 						notSeeLore));
 		//--- ToSee - ItemIfYouCanSee ---
@@ -11036,116 +11258,165 @@ public class YamlManager
 						canSeeMat.toString()}));
 		one.put("RequirementToSee.ItemIfYouCanSee.Amount", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 						canSeeAmount}));
-		one.put("RequirementToSee.ItemIfYouCanSee.ItemFlag", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-						canSeeItemFlag));
-		one.put("RequirementToSee.ItemIfYouCanSee.Enchantment", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-						canSeeEnchantments));
+		if(canSeeItemFlag != null)
+		{
+			one.put("RequirementToSee.ItemIfYouCanSee.ItemFlag", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
+					canSeeItemFlag));
+		}
+		if(canSeeEnchantments != null)
+		{
+			one.put("RequirementToSee.ItemIfYouCanSee.Enchantment", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
+					canSeeEnchantments));
+		}
 		one.put("RequirementToSee.ItemIfYouCanSee.Lore", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, 
 						canSeeLore));
 		
 		for(Entry<Integer, String[]> e : toResConditionQuery.entrySet())
 		{
-			one.put("RequirementToResearch.ConditionQuery."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-					e.getValue()));
+			if(e.getValue() != null)
+			{
+				one.put("RequirementToResearch.ConditionQuery."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER}, 
+						e.getValue()));
+			}
 		}
 		
 		for(Entry<Integer, String> e : toResCostTTExp.entrySet())
 		{
-			one.put("RequirementToResearch.Costs.TTExp."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-					e.getValue()}));
+			if(e.getValue() != null)
+			{
+				one.put("RequirementToResearch.Costs.TTExp."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						e.getValue()}));
+			}
 		}
 		for(Entry<Integer, String> e : toResCostVanillaExp.entrySet())
 		{
-			one.put("RequirementToResearch.Costs.VanillaExp."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-					e.getValue()}));
+			if(e.getValue() != null)
+			{
+				one.put("RequirementToResearch.Costs.VanillaExp."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						e.getValue()}));
+			}
 		}
 		for(Entry<Integer, String> e : toResCostMoney.entrySet())
 		{
-			one.put("RequirementToResearch.Costs.Money."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-					e.getValue()}));
+			if(e.getValue() != null)
+			{
+				one.put("RequirementToResearch.Costs.Money."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						e.getValue()}));
+			}
 		}
 		for(Entry<Integer, String[]> e : toResCostMaterial.entrySet())
 		{
-			one.put("RequirementToResearch.Costs.Material."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-					e.getValue()));
+			if(e.getValue() != null)
+			{
+				one.put("RequirementToResearch.Costs.Material."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER}, 
+						e.getValue()));
+			}
 		}
 		//--- ToResearch - IfYouCanResearchIt ---
 		for(int i = 1; i < maxTechLevToResearch; i++)
 		{
-			one.put("RequirementToResearch.IfYouCanResearchIt.Displayname."+i,
-					new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, 
-							canResDisplayname));
-			one.put("RequirementToResearch.IfYouCanResearchIt.Material", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+			one.put("RequirementToResearch.IfYouCanResearchIt."+i+".Displayname", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, 
+					canResDisplayname));
+			one.put("RequirementToResearch.IfYouCanResearchIt."+i+".Material", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 					canResMat.toString()}));
-			one.put("RequirementToResearch.IfYouCanResearchIt.Amount", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-							canResAmount}));
+			one.put("RequirementToResearch.IfYouCanResearchIt."+i+".Amount", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+					canResAmount}));
 			if(canResItemFlag != null)
 			{
-				one.put("RequirementToResearch.IfYouCanResearchIt.ItemFlag", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
+				one.put("RequirementToResearch.IfYouCanResearchIt."+i+".ItemFlag", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
 						canResItemFlag));
 			}
 			if(canResEnchantments != null)
 			{
-				one.put("RequirementToResearch.IfYouCanResearchIt.Enchantment", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
+				one.put("RequirementToResearch.IfYouCanResearchIt."+i+".Enchantment", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
 						canResEnchantments));
 			}			
-			one.put("RequirementToResearch.IfYouCanResearchIt.Lore", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, 
+			one.put("RequirementToResearch.IfYouCanResearchIt."+i+".Lore", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, 
 							canResLore.get(i)));
 		}
 		//--- ToResearch - ItemIfYouHaveResearchedIt ---
-		one.put("RequirementToResearch.ItemIfYouHaveResearchedIt.Displayname",
-				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, 
+		one.put("RequirementToResearch.ItemIfYouHaveResearchedIt.Displayname", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, 
 						hadResDisplayname));
 		one.put("RequirementToResearch.ItemIfYouHaveResearchedIt.Material", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 						hadResMat.toString()}));
 		one.put("RequirementToResearch.ItemIfYouHaveResearchedIt.Amount", new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 						hadResAmount}));
-		one.put("RequirementToResearch.ItemIfYouHaveResearchedIt.ItemFlag", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-						hadResItemFlag));
-		one.put("RequirementToResearch.ItemIfYouHaveResearchedIt.Enchantment", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
-						hadResEnchantments));
+		if(hadResItemFlag != null)
+		{
+			one.put("RequirementToResearch.ItemIfYouHaveResearchedIt.ItemFlag", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
+					hadResItemFlag));
+		}
+		if(hadResEnchantments != null)
+		{
+			one.put("RequirementToResearch.ItemIfYouHaveResearchedIt.Enchantment", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
+					hadResEnchantments));
+		}
 		one.put("RequirementToResearch.ItemIfYouHaveResearchedIt.Lore", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, 
 						hadResLore));
 		
 		for(Entry<Integer, String[]> e : rewardUnlockableInteractions.entrySet())
 		{
-			one.put("Rewards.UnlockableInteractions."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
-					e.getValue()));
+			if(e.getValue() != null)
+			{
+				one.put("Rewards.UnlockableInteractions."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
+						e.getValue()));
+			}
 		}
 		for(Entry<Integer, String[]> e : rewardUnlockableRecipe.entrySet())
 		{
-			one.put("Rewards.UnlockableRecipe."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
-					e.getValue()));
+			if(e.getValue() != null)
+			{
+				one.put("Rewards.UnlockableRecipe."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
+						e.getValue()));
+			}			
 		}
 		for(Entry<Integer, String[]> e : rewardDropChance.entrySet())
 		{
-			one.put("Rewards.DropChance."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
-					e.getValue()));
+			if(e.getValue() != null)
+			{
+				one.put("Rewards.DropChance."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
+						e.getValue()));
+			}
 		}
 		for(Entry<Integer, String[]> e : rewardSilkTouchDropChance.entrySet())
 		{
-			one.put("Rewards.SilkTouchDropChance."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
-					e.getValue()));
+			if(e.getValue() != null)
+			{
+				one.put("Rewards.SilkTouchDropChance."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
+						e.getValue()));
+			}			
 		}
 		for(Entry<Integer, String[]> e : rewardCommand.entrySet())
 		{
-			one.put("Rewards.Command."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
-					e.getValue()));
+			if(e.getValue() != null)
+			{
+				one.put("Rewards.Command."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
+						e.getValue()));
+			}
 		}
 		for(Entry<Integer, String[]> e : rewardItem.entrySet())
 		{
-			one.put("Rewards.Item."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
-					e.getValue()));
+			if(e.getValue() != null)
+			{
+				one.put("Rewards.Item."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
+						e.getValue()));
+			}
 		}
 		for(Entry<Integer, String[]> e : rewardModifier.entrySet())
 		{
-			one.put("Rewards.Modifier."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
-					e.getValue()));
+			if(e.getValue() != null)
+			{
+				one.put("Rewards.Modifier."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
+						e.getValue()));
+			}
 		}
 		for(Entry<Integer, String[]> e : rewardValueEntry.entrySet())
 		{
-			one.put("Rewards.ValueEntry."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
-					e.getValue()));
+			if(e.getValue() != null)
+			{
+				one.put("Rewards.ValueEntry."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
+						e.getValue()));
+			}
 		}
 		LinkedHashMap<String, LinkedHashMap<String, Language>> map = new LinkedHashMap<>();
 		if(technologyKeys.containsKey(pat))

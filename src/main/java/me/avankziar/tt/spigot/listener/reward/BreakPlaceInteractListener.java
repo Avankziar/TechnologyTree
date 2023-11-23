@@ -62,13 +62,19 @@ public class BreakPlaceInteractListener implements Listener
 	@EventHandler
 	public void onBreak(BlockBreakEvent event)
 	{
+		TT.log.info("BlockBreakEvent Start"); //REMOVEME
 		if(event.isCancelled()
 				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
 				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
 				|| !EnumHandler.isEventActive(BR))
 		{
+			TT.log.info("BlockBreakEvent Return"); //REMOVEME
+			TT.log.info("BlockBreakEvent event.isCancelled(): "+event.isCancelled()); //REMOVEME
+			TT.log.info("BlockBreakEvent event.getPlayer().getGameMode(): "+event.getPlayer().getGameMode()); //REMOVEME
+			TT.log.info("BlockBreakEvent !EnumHandler.isEventActive(BR): "+!EnumHandler.isEventActive(BR)); //REMOVEME
 			return;
 		}
+		//TODO Configwert einbauen um Vanilla Drops zu ermöglichen.
 		event.setExpToDrop(0);
 		event.setDropItems(false);
 		final Player player = event.getPlayer();
@@ -84,12 +90,27 @@ public class BreakPlaceInteractListener implements Listener
 				if(!RewardHandler.canAccessInteraction(player,
 						ToolType.getToolType(player.getInventory().getItemInMainHand().getType()), BR, blockType, null))
 				{
+					TT.log.info("BlockBreakEvent Cant Access"); //REMOVEME
 					return;
 				}
 				if(TRACK_PLACED_BLOCKS)
 				{
 					if(PlacedBlock.wasPlaced(loc) && !REWARD_IF_MANUALLY_PLACED_BEFORE)
 					{
+						TT.log.info("BlockBreakEvent Was placed"); //REMOVEME
+						//Do drop Items
+						for(ItemStack is : RewardHandler.getDrops(player, BR, tool, blockType, null))
+						{
+							new BukkitRunnable()
+							{
+								@Override
+								public void run()
+								{
+									Item it = event.getPlayer().getWorld().dropItem(loc, is);
+									ItemHandler.addItemToTask(it, uuid);
+								}
+							}.runTask(TT.getPlugin());
+						}
 						return;
 					}
 				}
@@ -113,12 +134,14 @@ public class BreakPlaceInteractListener implements Listener
 	@EventHandler
 	public void onPlace(BlockPlaceEvent event)
 	{
+		TT.log.info("BlockPlaceEvent Start"); //REMOVEME
 		if(event.isCancelled()
 				|| !event.canBuild()
 				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
 				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
 				|| !EnumHandler.isEventActive(PL))
 		{
+			TT.log.info("BlockBreakEvent Return"); //REMOVEME
 			return;
 		}
 		final Player player = event.getPlayer();

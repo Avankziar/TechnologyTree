@@ -50,6 +50,7 @@ import main.java.me.avankziar.tt.spigot.gui.listener.GuiPreListener;
 import main.java.me.avankziar.tt.spigot.gui.listener.UpperListener;
 import main.java.me.avankziar.tt.spigot.handler.CatTechHandler;
 import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
+import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
 import main.java.me.avankziar.tt.spigot.hook.PAPIHook;
 import main.java.me.avankziar.tt.spigot.listener.BlockFormListener;
@@ -154,6 +155,7 @@ public class TT extends JavaPlugin
 		utility = new Utility(plugin);
 		backgroundTask = new BackgroundTask(this);
 		
+		EnumHandler.init();
 		RecipeHandler.init();
 		CatTechHandler.reload();
 		

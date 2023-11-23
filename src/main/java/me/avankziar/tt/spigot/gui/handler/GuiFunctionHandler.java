@@ -28,13 +28,13 @@ public class GuiFunctionHandler
 			Inventory openInv, SettingsLevel settingsLevel,
 			String mcat, String scat, String tech, PlayerAssociatedType pat)
 	{
-		TT.log.info("=========================="); //REMOVEME
+		/*TT.log.info("=========================="); //REMOVEME
 		TT.log.info("guitype : "+guiType.toString());
 		TT.log.info("cft : "+cft.toString());
 		TT.log.info("pat != null : "+(pat != null ? pat.toString(): "/"));
 		TT.log.info("mcat != null : "+(mcat != null ? mcat : "/"));
 		TT.log.info("scat != null : "+(scat != null ? scat : "/"));
-		TT.log.info("tech != null : "+(tech != null ? tech : "/"));
+		TT.log.info("tech != null : "+(tech != null ? tech : "/"));*/
 		switch(cft)
 		{
 		default: 
@@ -204,12 +204,37 @@ public class GuiFunctionHandler
 					.replace("%tech%", t.getDisplayName())));
 			break;
 		case CAN_BE_RESEARCHED:
-			PlayerHandler.payTechnology(player, t, 100);
-			int rlvl = PlayerHandler.researchSoloTechnology(player, t, false);
-			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.TechnologyResearched")
-					.replace("%level%", String.valueOf(rlvl))
-					.replace("%tech%", t.getDisplayName())));
-			fromSubCatToTechs(player, inv, settingsLevel, t.getOverlyingSubCategory(), pat);
+			AcquireRespond arII = PlayerHandler.payTechnology(player, t, 1.0);
+			switch(arII)
+			{
+			case NOT_ENOUGH_TT_EXP:
+				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.NotEnoughTTExp")));
+				break;
+			case NOT_ENOUGH_VANILLA_EXP:
+				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.NotEnoughVanillaExp")));
+				break;
+			case NOT_ENOUGH_MONEY:
+				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.NotEnoughMoney")));
+				break;
+			case NOT_ENOUGH_MATERIAL:
+				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.NotEnoughMaterial")));
+				break;
+			case TECH_IS_SIMPLE_AND_ALREADY_RESEARCHED:
+				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.IsSimpleAndAlreadyResearched")
+						.replace("%tech%", t.getDisplayName())));
+				break;
+			case TECH_MAX_LEVEL_IS_REACHED:
+				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.MaxResearchLevelAlreadyReached")
+						.replace("%tech%", t.getDisplayName())));
+				break;
+			case CAN_BE_RESEARCHED:
+				int rlvl = PlayerHandler.researchSoloTechnology(player, t, true);
+				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.TechnologyResearched")
+						.replace("%level%", String.valueOf(rlvl))
+						.replace("%tech%", t.getDisplayName())));
+				fromSubCatToTechs(player, inv, settingsLevel, t.getOverlyingSubCategory(), pat);
+				break;
+			}
 			break;
 		}
 	}

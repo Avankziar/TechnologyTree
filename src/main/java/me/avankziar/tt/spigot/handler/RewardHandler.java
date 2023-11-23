@@ -1,7 +1,6 @@
 package main.java.me.avankziar.tt.spigot.handler;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -20,11 +19,12 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.ifh.general.economy.account.AccountCategory;
+import main.java.me.avankziar.ifh.general.economy.action.EconomyAction;
 import main.java.me.avankziar.ifh.general.economy.currency.CurrencyType;
-import main.java.me.avankziar.ifh.general.math.MathFormulaParser;
 import main.java.me.avankziar.ifh.spigot.economy.account.Account;
 import main.java.me.avankziar.ifh.spigot.economy.currency.EconomyCurrency;
 import main.java.me.avankziar.tt.spigot.TT;
+import main.java.me.avankziar.tt.spigot.assistance.Experience;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.tt.spigot.event.PostRewardEvent;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
@@ -51,12 +51,18 @@ public class RewardHandler
 			@Override
 			public void run()
 			{
+				if(player != null)
+				{
+					TT.log.info("PayOutTask "+uuid.toString()+": start"); //REMOVEME
+				}
 				if(Bukkit.getPlayer(uuid) == null)
 				{
+					TT.log.info("PayOutTask Player == null"); //REMOVEME
 					cancel();
 					return;
 				}
 				doRewardTask(uuid);
+				TT.log.info("PayOutTask "+uuid.toString()+": end"); //REMOVEME
 			}
 		}.runTaskTimerAsynchronously(plugin, 0, period);
 	}
@@ -105,21 +111,22 @@ public class RewardHandler
 		double toGiveVanillaExp = 0;
 		LinkedHashMap<String, Double> toGiveMoneyMap = new LinkedHashMap<>();
 		LinkedHashMap<String, Double> toGiveCommandMap = new LinkedHashMap<>();
-		final LinkedHashMap<UUID, LinkedHashMap<ToolType, LinkedHashMap<Material, LinkedHashMap<EventType, Double>>>> matMap = rewardMaterialMap;
+		final LinkedHashMap<ToolType, LinkedHashMap<Material, LinkedHashMap<EventType, Double>>> matMap = rewardMaterialMap.get(uuid);
 		rewardMaterialMap.remove(uuid);
-		final LinkedHashMap<UUID, LinkedHashMap<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>>>> entityMap = rewardEntityTypeMap;
+		final LinkedHashMap<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>>> entityMap = rewardEntityTypeMap.get(uuid);
 		rewardEntityTypeMap.remove(uuid);
 		ArrayList<RewardSummary> rewardSummaryList = new ArrayList<>();
-		if(!matMap.containsKey(uuid) && !entityMap.containsKey(uuid))
+		if(matMap == null && entityMap == null)
 		{
+			TT.log.info("PayOutTask "+uuid.toString()+": map didnt contain uuid"); //REMOVEME
 			return;
 		}
-		if(matMap.containsKey(uuid))
+		if(matMap != null)
 		{
-			for(Entry<ToolType, LinkedHashMap<Material, LinkedHashMap<EventType, Double>>> entry0 : matMap.get(uuid).entrySet())
+			for(Entry<ToolType, LinkedHashMap<Material, LinkedHashMap<EventType, Double>>> entry0 : matMap.entrySet())
 			{
 				ToolType tool = entry0.getKey();
-				for(Entry<Material, LinkedHashMap<EventType, Double>> entry : matMap.get(uuid).get(tool).entrySet())
+				for(Entry<Material, LinkedHashMap<EventType, Double>> entry : matMap.get(tool).entrySet())
 				{
 					Material mat = entry.getKey();
 					for(Entry<EventType, Double> entryII : entry.getValue().entrySet())
@@ -166,12 +173,12 @@ public class RewardHandler
 				}
 			}
 		}
-		if(entityMap.containsKey(uuid))
+		if(entityMap != null)
 		{
-			for(Entry<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>>> entry0 : entityMap.get(uuid).entrySet())
+			for(Entry<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>>> entry0 : entityMap.entrySet())
 			{
 				ToolType tool = entry0.getKey();
-				for(Entry<EntityType, LinkedHashMap<EventType, Double>> entry : entityMap.get(uuid).get(tool).entrySet())
+				for(Entry<EntityType, LinkedHashMap<EventType, Double>> entry : entityMap.get(tool).entrySet())
 				{
 					EntityType ent = entry.getKey();
 					for(Entry<EventType, Double> entryII : entry.getValue().entrySet())
@@ -220,12 +227,21 @@ public class RewardHandler
 		}
 		PlayerData pd = PlayerHandler.getPlayer(uuid);
 		String playername = pd.getName();
+		TT.log.info("PayOutTask "+uuid.toString()+": TTExp "+toGiveTTExp); //REMOVEME
+		TT.log.info("PayOutTask "+uuid.toString()+": VaExp "+toGiveVanillaExp); //REMOVEME
 		pd.setActualTTExp(pd.getActualTTExp() + toGiveTTExp);
 		pd.setTotalReceivedTTExp(pd.getTotalReceivedTTExp() + toGiveTTExp);
-		pd.setVanillaExpStillToBeObtained(pd.getVanillaExpStillToBeObtained() + (int) toGiveVanillaExp);
+		if(Bukkit.getPlayer(uuid) != null)
+		{
+			Experience.changeExp(Bukkit.getPlayer(uuid), (int) toGiveVanillaExp, false);
+		} else
+		{
+			pd.setVanillaExpStillToBeObtained(pd.getVanillaExpStillToBeObtained() + (int) toGiveVanillaExp);
+		}
 		PlayerHandler.updatePlayer(pd);
 		for(Entry<String, Double> e : toGiveMoneyMap.entrySet())
 		{
+			TT.log.info("PayOutTask "+uuid.toString()+": toGiveMoneyMap: "+e.getKey()+" | "+e.getValue()); //REMOVEME
 			if(e.getKey().equalsIgnoreCase("vault") && plugin.getVaultEco() != null)
 			{
 				plugin.getVaultEco().depositPlayer(Bukkit.getOfflinePlayer(uuid), e.getValue());
@@ -234,10 +250,15 @@ public class RewardHandler
 			EconomyCurrency ec = null;
 			if(e.getKey().equalsIgnoreCase("default"))
 			{
-				plugin.getIFHEco().getDefaultCurrency(CurrencyType.DIGITAL);
+				ec = plugin.getIFHEco().getDefaultCurrency(CurrencyType.DIGITAL);
 			} else
 			{
 				ec = plugin.getIFHEco().getCurrency(e.getKey());
+			}
+			if(ec == null)
+			{
+				TT.log.info("PayOutTask "+uuid.toString()+": ec == null: "+e.getKey()); //REMOVEME
+				continue;
 			}
 			Account ac = plugin.getIFHEco().getDefaultAccount(uuid, AccountCategory.JOB, ec);
 			if(ac == null)
@@ -245,12 +266,14 @@ public class RewardHandler
 				ac = plugin.getIFHEco().getDefaultAccount(uuid, AccountCategory.MAIN, ec);
 				if(ac == null)
 				{
+					TT.log.info("PayOutTask "+uuid.toString()+": ac == null"); //REMOVEME
 					continue;
 				}
 			}
 			Account tax = plugin.getIFHEco().getDefaultAccount(uuid, AccountCategory.TAX, ec);
 			double taxation = new ConfigHandler().rewardPayoutTaxInPercent();
-			plugin.getIFHEco().deposit(ac,e.getValue(), taxation, true, tax);
+			EconomyAction ea = plugin.getIFHEco().deposit(ac, e.getValue(), taxation, true, tax);
+			TT.log.info("PayOutTask "+uuid.toString()+": ea: "+ea.getErrorMessageType().toString()); //REMOVEME
 		}
 		for(Entry<String, Double> e : toGiveCommandMap.entrySet())
 		{
@@ -347,9 +370,9 @@ public class RewardHandler
 					&& PlayerHandler.materialInteractionMap.get(uuid).get(toolType).get(material).containsKey(eventType))
 			{
 				boolean b = PlayerHandler.materialInteractionMap.get(uuid).get(toolType).get(material).get(eventType).isCanAccess();
-				return b ? b : plugin.getValueEntry().getBooleanValueEntry(uuid, 
+				return b; /*? b : plugin.getValueEntry().getBooleanValueEntry(uuid, 
 							CatTechHandler.getValueEntry(RewardType.ACCESS, eventType, material, entityType),
-							plugin.getServername(), player.getWorld().getName());
+							plugin.getServername(), player.getWorld().getName());*/ //TODO Checken, warum das null gibt
 			}
 		} else if(entityType != null)
 		{
@@ -510,6 +533,7 @@ public class RewardHandler
 			EventType eventType, Material material, EntityType entityType)
 	{
 		int i = 0;
+		//int j = 0;
 		Map<Integer, Double> sortedMap = 
 	    	     sdc.getAmountToDropChance().entrySet().stream()
 	    	    .sorted(Entry.comparingByKey())
@@ -517,8 +541,10 @@ public class RewardHandler
 	    	                              (e1, e2) -> e1, LinkedHashMap::new));
 		for(Entry<Integer, Double> e : sortedMap.entrySet())
 		{
-			double chance = getChance(e.getValue(), fortunelootlevel, potionlucklevel);
-			if(chance >= 1.0 || new Random().nextDouble() < chance)
+			double chance = getChance(e.getValue(), fortunelootlevel, potionlucklevel);//-j*0.125;
+			double r = new Random().nextDouble();
+			//j++;
+			if(r < chance)
 			{
 				i = e.getKey();
 			} else
@@ -526,12 +552,12 @@ public class RewardHandler
 				break;
 			}
 		}
-		if(plugin.getModifier() != null)
+		/*if(plugin.getModifier() != null)
 		{
 			i = (int) plugin.getModifier().getResult(player.getUniqueId(), (double) i,
 					CatTechHandler.getModifier(RewardType.DROPS, eventType, material, entityType),
 					plugin.getServername(), player.getWorld().getName());
-		}
+		}*/ //TODO schauen ob es funktioniert.
 		ItemStack is = sdc.getItem(player, i);
 		if(!breakingThroughVanillaDropBarrier)
 		{
@@ -568,16 +594,16 @@ public class RewardHandler
 	
 	public static void main(String[] args) //TestVersuch (in Eclipse) einer Rechnung um ein Stetigs Dropwachstum zu berechnen
     {
-		HashMap<String, Double> map = new HashMap<>();
+		/*HashMap<String, Double> map = new HashMap<>();
 		map.put("techlev", (double) 0);
 		map.put("techacq", (double) 0);
 		map.put("solototaltech", (double) 0);
 		map.put("globaltotaltech", (double) 0);
 		
 		double ttexp = new MathFormulaParser().parse("100 * techlev + 50 * techacq + 25 * solototaltech", map);
-		System.out.println("ttexp : "+ttexp);
+		System.out.println("ttexp : "+ttexp);*/
 		
-		/*boolean breakingThroughVanillaDropBarrier = true;
+		boolean breakingThroughVanillaDropBarrier = false;
 		int fortunelootlevel = 3;
 		int potionlucklevel = 1;
 		/*double lostExtraPercent = 0.25;
@@ -594,7 +620,7 @@ public class RewardHandler
 			lostExtraPercent = 0.25 * (1.0/((double)potionlucklevel+2.0)+((double)potionlucklevel*2)/2.0);
 		}
 		System.out.println("lostExtraPercent = " + lostExtraPercent);*/
-		/*int i = 0;
+		int i = 0;
 		LinkedHashMap<Integer, Double> map = new LinkedHashMap<>();
 		map.put(2, 0.7);
 		map.put(1, 0.9);
@@ -642,7 +668,7 @@ public class RewardHandler
 					}
 				}
 			}
-		}*/
+		}
     }
 	
 	private static int getVanillaDropBarrier(Material material, int i)

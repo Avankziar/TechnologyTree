@@ -37,17 +37,14 @@ public class GuiPreListener implements Listener
 	{
 		if(event.isCancelled())
 		{
-			TT.log.info("GuiPreListener 0"); //REMOVEME
 			return;
 		}
 		if(event.getResult() == Result.DENY)
 		{
-			TT.log.info("GuiPreListener 1"); //REMOVEME
 			return;
 		}
 		if(event.getClickedInventory() == null)
 		{
-			TT.log.info("GuiPreListener 3"); //REMOVEME
 			return;
 		}
 		if(event.getClickedInventory().getType() == InventoryType.CHEST)
@@ -91,13 +88,11 @@ public class GuiPreListener implements Listener
 	{
 		if(event.getCurrentItem() == null)
 		{
-			TT.log.info("GuiPreListener 4"); //REMOVEME
 			return;
 		}
 		ItemStack i = event.getCurrentItem().clone();
 		if(!i.hasItemMeta())
 		{
-			TT.log.info("GuiPreListener 5"); //REMOVEME
 			return;
 		}
 		NamespacedKey npluginName = new NamespacedKey(plugin, GUIApi.PLUGINNAME);

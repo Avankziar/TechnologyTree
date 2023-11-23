@@ -243,7 +243,7 @@ public class ARGTechInfo extends ArgumentModule
 				albc.add(ChatApi.tctl("◦ "+ui.getEventType().toString()+":"+
 						(ui.getEventMaterial() != null ? ui.getEventMaterial().toString() : "/")+":"+
 						(ui.getEventEntityType() != null ? ui.getEventEntityType().toString() : "/")));
-				albc.add(ChatApi.tctl("  "+ui.getToolType().toString()+" | CanAccess="+ui.isCanAccess()));
+				albc.add(ChatApi.tctl("  "+ui.getToolType().toString()+" | "+(ui.isCanAccess() ? "CanAccess="+ui.isCanAccess() : "")));
 				albc.add(ChatApi.tctl("  "+ui.getTechnologyExperience()+" TTExp | "+ui.getVanillaExperience()+" VanillaExp"));
 				for(Entry<String, Double> e : ui.getMoneyMap().entrySet())
 				{
@@ -272,10 +272,13 @@ public class ARGTechInfo extends ArgumentModule
 			albc.add(ChatApi.tctl(y.getString(path+"Lvl.RewardDropChance")));
 			for(DropChance s : t.getRewardDropChances().get(techLevel))
 			{
-				albc.add(ChatApi.tctl("◦ "+s.getEventType().toString()+":"+s.getToolType().toString()
-						+":"+s.getEventMaterial() != null ? s.getEventMaterial().toString() : "/"
-						+":"+s.getEventEntityType() != null ? s.getEventEntityType().toString() : "/"
-						+":"+s.getToDropItem()+":"+s.getToDropItemAmount()+":"+(s.getDropChance()*100)+" %"));
+				albc.add(ChatApi.tctl("◦ "+s.getEventType().toString()
+						+"&f:"+s.getToolType().toString()
+						+"&f:"+(s.getEventMaterial() != null ? s.getEventMaterial().toString() : "X")
+						+"&f:"+(s.getEventEntityType() != null ? s.getEventEntityType().toString() : "X")
+						+"&f:"+s.getToDropItem()
+						+"&f:"+s.getToDropItemAmount()
+						+"&f:"+(s.getDropChance()*100)+" %"));
 			}
 		}
 		if(t.getRewardSilkTouchDropChances().containsKey(techLevel))
@@ -283,10 +286,13 @@ public class ARGTechInfo extends ArgumentModule
 			albc.add(ChatApi.tctl(y.getString(path+"Lvl.RewardSilkTouchDropChance")));
 			for(DropChance s : t.getRewardSilkTouchDropChances().get(techLevel))
 			{
-				albc.add(ChatApi.tctl("◦ "+s.getEventType().toString()+":"+s.getToolType().toString()
-						+":"+s.getEventMaterial() != null ? s.getEventMaterial().toString() : "/"
-						+":"+s.getEventEntityType() != null ? s.getEventEntityType().toString() : "/"
-						+":"+s.getToDropItem()+":"+s.getToDropItemAmount()+":"+(s.getDropChance()*100)+" %"));
+				albc.add(ChatApi.tctl("◦ "+s.getEventType().toString()
+						+"&f:"+s.getToolType().toString()
+						+"&f:"+(s.getEventMaterial() != null ? s.getEventMaterial().toString() : "X")
+						+"&f:"+(s.getEventEntityType() != null ? s.getEventEntityType().toString() : "X")
+						+"&f:"+s.getToDropItem()
+						+"&f:"+s.getToDropItemAmount()
+						+"&f:"+(s.getDropChance()*100)+" %"));
 			}
 		}
 		if(t.getRewardCommandList().containsKey(techLevel))

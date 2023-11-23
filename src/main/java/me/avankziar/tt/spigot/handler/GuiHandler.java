@@ -134,32 +134,7 @@ public class GuiHandler
 		openGui(null, scat, scat.getPlayerAssociatedType(), player, gt, gui, settingsLevel, closeInv);
 	}
 	
-	/*public static void openAdministration(SignShop ssh, Player player, SettingsLevel settingsLevel, Inventory inv, boolean closeInv)
-	{
-		GuiType gt = GuiType.ADMINISTRATION;
-		GUIApi gui = new GUIApi(plugin.pluginName, inv, gt.toString(), 
-				settingsLevel == null ? SettingsLevel.BASE : settingsLevel);
-		SignShop ssh2 = (SignShop) plugin.getMysqlHandler().getData(MysqlHandler.Type.SIGNSHOP, "`id` = ?", ssh.getId());
-		openGui(ssh2, player, gt, gui, settingsLevel, closeInv);
-	}
-	
-	public static void openShop(SignShop ssh, Player player, SettingsLevel settingsLevel, boolean closeInv)
-	{
-		GuiType gt = GuiType.SHOP;
-		GUIApi gui = new GUIApi(plugin.pluginName, gt.toString(), null, 6, "Shop "+ssh.getSignShopName(), settingsLevel);
-		SignShop ssh2 = (SignShop) plugin.getMysqlHandler().getData(MysqlHandler.Type.SIGNSHOP, "`id` = ?", ssh.getId());
-		openGui(ssh2, player, gt, gui, settingsLevel, closeInv);
-	}
-	
-	public static void openShop(SignShop ssh, Player player, SettingsLevel settingsLevel, Inventory inv, boolean closeInv)
-	{
-		GuiType gt = GuiType.SHOP;
-		GUIApi gui = new GUIApi(plugin.pluginName, inv, gt.toString(), settingsLevel);
-		SignShop ssh2 = (SignShop) plugin.getMysqlHandler().getData(MysqlHandler.Type.SIGNSHOP, "`id` = ?", ssh.getId());
-		openGui(ssh2, player, gt, gui, settingsLevel, closeInv);
-	}
-	
-	public static void openInputInfo(SignShop ssh, Player player, SettingsLevel settingsLevel, boolean closeInv)
+	/*public static void openInputInfo(SignShop ssh, Player player, SettingsLevel settingsLevel, boolean closeInv)
 	{
 		GuiType gt = GuiType.ITEM_INPUT;
 		GUIApi gui = new GUIApi(plugin.pluginName, gt.toString(), null, 6, "Shop:"+String.valueOf(ssh.getId()), settingsLevel);
@@ -594,6 +569,9 @@ public class GuiHandler
 					if(eee.getValue() != null && eee.getValue() == true)
 					{
 						ctar.add(new ClickFunction(ClickType.LEFT, cft));
+						ctar.add(new ClickFunction(ClickType.RIGHT, ClickFunctionType.INFO_TECHNOLOGY));
+					} else if(eee.getValue() != null && eee.getValue() == false)
+					{
 						ctar.add(new ClickFunction(ClickType.RIGHT, ClickFunctionType.INFO_TECHNOLOGY));
 					}
 					gui.add(ii, iss, settingsLevel, true, true, map, ctar.toArray(new ClickFunction[ctar.size()]));
@@ -1101,21 +1079,23 @@ public class GuiHandler
 				int acquiredTech = 0;
 				if(t.getPlayerAssociatedType() == PlayerAssociatedType.SOLO)
 				{
-					ArrayList<SoloEntryQueryStatus> eeqsList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLOENTRYQUERYSTATUS,
+					ArrayList<SoloEntryQueryStatus> highestEntryResearchedList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLOENTRYQUERYSTATUS,
 							"`research_level` DESC", 0, 1,
 							"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 							player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString()));
-					SoloEntryQueryStatus eqs = eeqsList.size() == 0 ? null : eeqsList.get(0);
-					techLevel = eqs == null ? 1 : eqs.getResearchLevel() + 1; //Tech which may to acquire
+					SoloEntryQueryStatus eqs = highestEntryResearchedList.size() == 0 ? null : highestEntryResearchedList.get(0);
+					techLevel = eqs == null ? 1 
+							: (eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT ? eqs.getResearchLevel() + 1 : eqs.getResearchLevel()); //Tech which may to acquire
 					acquiredTech = eqs == null ? 0 : techLevel - 1; //Tech which was already acquire
 				} else
 				{
-					ArrayList<GlobalEntryQueryStatus> eeqsList = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBALENTRYQUERYSTATUS,
+					ArrayList<GlobalEntryQueryStatus> highestEntryResearchedList = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBALENTRYQUERYSTATUS,
 							"`research_level` DESC", 0, 1,
 							"`intern_name` = ? AND `entry_query_type` = ?",
 							t.getInternName(), EntryQueryType.TECHNOLOGY.toString()));
-					GlobalEntryQueryStatus eqs = eeqsList.size() == 0 ? null : eeqsList.get(0);
-					techLevel = eqs == null ? 1 : eqs.getResearchLevel() + 1; //Tech which may to acquire
+					GlobalEntryQueryStatus eqs = highestEntryResearchedList.size() == 0 ? null : highestEntryResearchedList.get(0);
+					techLevel = eqs == null ? 1 
+							: (eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT ? eqs.getResearchLevel() + 1 : eqs.getResearchLevel()); //Tech which may to acquire
 					acquiredTech = eqs == null ? 0 : techLevel - 1; //Tech which was already acquire
 				}
 				if(text.contains("%acquiredtechlev%"))
@@ -1137,6 +1117,7 @@ public class GuiHandler
 					if(pd != null && !t.getCostTTExp().isEmpty())
 					{
 						ttexp =  new MathFormulaParser().parse(t.getCostTTExp().get(techLevel), map);
+						TT.log.info("costTTExp: | "+ttexp+" | "+t.getCostTTExp().get(techLevel));
 					}
 					s = s.replace("%rawcostttexp%", String.valueOf(ttexp));
 				}
@@ -1149,8 +1130,8 @@ public class GuiHandler
 					double ttexp = 0;
 					if(pd != null && !t.getCostTTExp().isEmpty())
 					{
-						TT.log.info("costTTExp : "+t.getCostTTExp().get(techLevel));
 						ttexp = new MathFormulaParser().parse(t.getCostTTExp().get(techLevel), map);
+						TT.log.info("costTTExp: | "+ttexp+" | "+t.getCostTTExp().get(techLevel));
 					}
 					s = s.replace("%costttexp%", String.valueOf(ttexp)+" TTExp");
 				}
@@ -1200,17 +1181,14 @@ public class GuiHandler
 						return null;
 					}
 					StringBuilder sb = new StringBuilder();
-					int i = 0;
-					int j = t.getCostMaterial().entrySet().size();
 					for(Entry<Material, String> e : t.getCostMaterial().get(techLevel).entrySet())
 					{
-						int material = (int) Math.floor(new MathFormulaParser().parse(e.getValue(), map));
-						sb.append(material+"x "+ e.getKey().toString());
-						if(i < j)
+						if(!sb.isEmpty())
 						{
 							sb.append(", ");
 						}
-						i++;
+						int material = Integer.parseInt(e.getValue());
+						sb.append(material+"x "+ e.getKey().toString());
 					}
 					s = s.replace("%rawcostmaterial%", sb.toString());
 				}
@@ -1221,19 +1199,16 @@ public class GuiHandler
 						return null;
 					}
 					StringBuilder sb = new StringBuilder();
-					int i = 0;
-					int j = t.getCostMaterial().entrySet().size();
 					for(Entry<Material, String> e : t.getCostMaterial().get(techLevel).entrySet())
 					{
-						int material = (int) Math.floor(new MathFormulaParser().parse(e.getValue(), map));
-						sb.append(material+"x "+ TT.getPlugin().getEnumTl() != null
-								  				? TT.getPlugin().getEnumTl().getLocalization(e.getKey())
-								  				: e.getKey().toString());
-						if(i < j)
+						if(!sb.isEmpty())
 						{
 							sb.append(", ");
 						}
-						i++;
+						int material = Integer.parseInt(e.getValue());
+						sb.append(material+"x "+ (TT.getPlugin().getEnumTl() != null
+								  				? TT.getPlugin().getEnumTl().getLocalization(e.getKey())
+								  				: e.getKey().toString()));
 					}
 					s = s.replace("%costmaterial%", sb.toString());
 				}

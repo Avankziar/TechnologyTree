@@ -5,6 +5,7 @@ import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.logging.Level;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -387,7 +388,7 @@ public class CatTechHandler
 						for(String s : y.getStringList("Rewards.DropChance."+i))
 						{							
 							String[] split  = s.split(":");
-							if(split.length != 6)
+							if(s.isBlank() || s.isEmpty() || split.length != 7)
 							{
 								continue;
 							}
@@ -407,10 +408,11 @@ public class CatTechHandler
 								}
 								String item = split[4];
 								int amount = Integer.parseInt(split[5]);
-								DropChance dc = new DropChance(eventType, tool, material, entityType, item, amount, Double.parseDouble(split[5]));
+								DropChance dc = new DropChance(eventType, tool, material, entityType, item, amount, Double.parseDouble(split[6]));
 								adc.add(dc);
 							} catch(Exception e)
 							{
+								TT.log.log(Level.WARNING ,"Tech "+internName+" Error by DropChance, Lvl: "+i);
 								continue;
 							}
 						}
@@ -430,7 +432,7 @@ public class CatTechHandler
 						for(String s : y.getStringList("Rewards.SilkTouchDropChance."+i))
 						{
 							String[] split  = s.split(":");
-							if(split.length != 6)
+							if(s.isBlank() || s.isEmpty() || split.length != 7)
 							{
 								continue;
 							}
@@ -450,10 +452,11 @@ public class CatTechHandler
 								}
 								String item = split[4];
 								int amount = Integer.parseInt(split[5]);
-								DropChance dc = new DropChance(eventType, tool, material, entityType, item, amount, Double.parseDouble(split[5]));
+								DropChance dc = new DropChance(eventType, tool, material, entityType, item, amount, Double.parseDouble(split[6]));
 								adc.add(dc);								
 							} catch(Exception e)
 							{
+								TT.log.log(Level.WARNING ,"Tech "+internName+" Error by SilkTouchDropChance, Lvl: "+i);
 								continue;
 							}
 						}

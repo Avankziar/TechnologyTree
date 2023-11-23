@@ -123,283 +123,78 @@ public class PAPIHook extends PlaceholderExpansion
 			
 		} else if(idf.startsWith("raw_reward_tech_ttexp_mat") || idf.startsWith("raw_reward_tech_ttexp_ent"))
 		{
-			String[] sp = idf.split(",");
-			if(sp.length != 7)
-			{
-				return "Error split.length isnt 7!";
-			}
-			PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
-			Technology t = null;
-			switch(pat)
-			{
-			case SOLO: t = CatTechHandler.technologyMapSolo.get(sp[2]); break;
-			case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
-			case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
-			}
-			int lvl = Integer.parseInt(sp[3]);
-			EventType evt = EventType.valueOf(sp[4]);
-			ToolType tool = ToolType.valueOf(sp[5]);
-			if(!t.getRewardUnlockableInteractions().containsKey(lvl))
-			{
-				return "Error Tech dont contains in that Lvl TTExp Reward for that input!";
-			}
-			return idf.startsWith("raw_reward_tech_ttexp_mat")
-					? reward_tech_ttexp_mat(sp, pat, t, lvl, evt, tool)
-					: reward_tech_ttexp_ent(sp, pat, t, lvl, evt, tool);
+			return reward_tech_ttexp(idf);
 		} else if(idf.startsWith("raw_reward_techtotal_ttexp_mat") || idf.startsWith("raw_reward_techtotal_ttexp_ent"))
 		{
-			String[] sp = idf.split(",");
-			if(sp.length != 6)
-			{
-				return "Error split.length isnt 6!";
-			}
-			PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
-			Technology t = null;
-			switch(pat)
-			{
-			case SOLO: t = CatTechHandler.technologyMapSolo.get(sp[2]); break;
-			case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
-			case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
-			}
-			EventType evt = EventType.valueOf(sp[3]);
-			ToolType tool = ToolType.valueOf(sp[4]);
-			return idf.startsWith("raw_reward_techtotal_ttexp_mat")
-					? reward_techtotal_ttexp_mat(sp, pat, t, evt, tool)
-					: reward_techtotal_ttexp_ent(sp, pat, t, evt, tool);
+			return reward_techtotal_ttexp(idf);
 		} else if(idf.startsWith("raw_reward_player_ttexp_mat") || idf.startsWith("raw_reward_player_ttexp_ent"))
 		{
-			String[] sp = idf.split(",");
-			if(sp.length != 4)
-			{
-				return "Error split.length isnt 4!";
-			}
-			EventType evt = EventType.valueOf(sp[1]);
-			ToolType tool = ToolType.valueOf(sp[2]);
-			return idf.startsWith("raw_reward_player_ttexp_mat")
-					? reward_player_ttexp_mat(uuid, sp, evt, tool)
-					: reward_player_ttexp_ent(uuid, sp, evt, tool);
+			return reward_player_ttexp(uuid, idf);
 		} else if(idf.startsWith("raw_reward_tech_vexp_mat") || idf.startsWith("raw_reward_tech_vexp_ent"))
 		{
-			String[] sp = idf.split(",");
-			if(sp.length != 7)
-			{
-				return "Error split.length isnt 7!";
-			}
-			PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
-			Technology t = null;
-			switch(pat)
-			{
-			case SOLO: t = CatTechHandler.technologyMapSolo.get(sp[2]); break;
-			case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
-			case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
-			}
-			int lvl = Integer.parseInt(sp[3]);
-			EventType evt = EventType.valueOf(sp[4]);
-			ToolType tool = ToolType.valueOf(sp[5]);
-			if(!t.getRewardUnlockableInteractions().containsKey(lvl))
-			{
-				return "Error Tech dont contains in that Lvl TTExp Reward for that input!";
-			}
-			return idf.startsWith("raw_reward_tech_vexp_mat")
-					? reward_tech_vexp_mat(sp, pat, t, lvl, evt, tool)
-					: reward_tech_vexp_ent(sp, pat, t, lvl, evt, tool);
+			return reward_tech_vexp(idf);
 		} else if(idf.startsWith("raw_reward_techtotal_vexp_mat") || idf.startsWith("raw_reward_techtotal_vexp_ent"))
 		{
-			String[] sp = idf.split(",");
-			if(sp.length != 6)
-			{
-				return "Error split.length isnt 6!";
-			}
-			PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
-			Technology t = null;
-			switch(pat)
-			{
-			case SOLO: t = CatTechHandler.technologyMapSolo.get(sp[2]); break;
-			case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
-			case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
-			}
-			EventType evt = EventType.valueOf(sp[3]);
-			ToolType tool = ToolType.valueOf(sp[4]);
-			return idf.startsWith("raw_reward_techtotal_vexp_mat")
-					? reward_techtotal_vexp_mat(sp, pat, t, evt, tool)
-					: reward_techtotal_vexp_ent(sp, pat, t, evt, tool);
+			return reward_techtotal_vexp(idf);
 		} else if(idf.startsWith("raw_reward_player_vexp_mat") || idf.startsWith("raw_reward_player_vexp_ent"))
 		{
-			String[] sp = idf.split(",");
-			if(sp.length != 4)
-			{
-				return "Error split.length isnt 4!";
-			}
-			EventType evt = EventType.valueOf(sp[1]);
-			ToolType tool = ToolType.valueOf(sp[2]);
-			return idf.startsWith("raw_reward_player_vexp_mat")
-					? reward_player_vexp_mat(uuid, sp, evt, tool)
-					: reward_player_vexp_ent(uuid, sp, evt, tool);
+			return reward_player_vexp(uuid, idf);
 		} else if(idf.startsWith("raw_reward_tech_money_mat") || idf.startsWith("raw_reward_tech_money_ent"))
 		{
-			String[] sp = idf.split(",");
-			if(sp.length != 8)
-			{
-				return "Error split.length isnt 8!";
-			}
-			PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
-			Technology t = null;
-			switch(pat)
-			{
-			case SOLO: t = CatTechHandler.technologyMapSolo.get(sp[2]); break;
-			case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
-			case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
-			}
-			int lvl = Integer.parseInt(sp[3]);
-			EventType evt = EventType.valueOf(sp[4]);
-			ToolType tool = ToolType.valueOf(sp[5]);
-			if(!t.getRewardUnlockableInteractions().containsKey(lvl))
-			{
-				return "Error Tech dont contains in that Lvl TTExp Reward for that input!";
-			}
-			return idf.startsWith("raw_reward_tech_money_mat")
-					? reward_tech_money_mat(sp, pat, t, lvl, evt, tool)
-					: reward_tech_money_ent(sp, pat, t, lvl, evt, tool);
+			return reward_tech_money(idf);
 		} else if(idf.startsWith("raw_reward_techtotal_money_mat") || idf.startsWith("raw_reward_techtotal_money_ent"))
 		{
-			String[] sp = idf.split(",");
-			if(sp.length != 7)
-			{
-				return "Error split.length isnt 8!";
-			}
-			PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
-			Technology t = null;
-			switch(pat)
-			{
-			case SOLO: t = CatTechHandler.technologyMapSolo.get(sp[2]); break;
-			case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
-			case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
-			}
-			EventType evt = EventType.valueOf(sp[4]);
-			ToolType tool = ToolType.valueOf(sp[3]);
-			return idf.startsWith("raw_reward_techtotal_money_mat")
-					? reward_techtotal_money_mat(sp, pat, t, evt, tool)
-					: reward_techtotal_money_ent(sp, pat, t, evt, tool);
+			return reward_techtotal_money(idf);
 		} else if(idf.startsWith("raw_reward_player_money_mat") || idf.startsWith("raw_reward_player_money_ent"))
 		{
-			String[] sp = idf.split(",");
-			if(sp.length != 5)
-			{
-				return "Error split.length isnt 5!";
-			}
-			EventType evt = EventType.valueOf(sp[1]);
-			ToolType tool = ToolType.valueOf(sp[2]);
-			return idf.startsWith("raw_reward_player_money_mat")
-					? reward_player_money_mat(uuid, sp, evt, tool)
-					: reward_player_money_ent(uuid, sp, evt, tool);
+			return reward_player_money(uuid, idf);
 		} else if(idf.startsWith("reward_tech_dropchance_mat") || idf.startsWith("reward_tech_dropchance_ent"))
 		{
-			String[] sp = idf.split(",");
-			if(sp.length != 8)
-			{
-				return "Error split.length isnt 8!";
-			}
-			PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
-			Technology t = null;
-			switch(pat)
-			{
-			case SOLO: t = CatTechHandler.technologyMapSolo.get(sp[2]); break;
-			case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
-			case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
-			}
-			int lvl = Integer.parseInt(sp[3]);
-			EventType evt = EventType.valueOf(sp[4]);
-			ToolType tool = ToolType.valueOf(sp[5]);
-			return idf.startsWith("reward_tech_dropchance_mat")
-					? reward_tech_dropchance_mat(sp, pat, t, lvl, evt, tool)
-					: reward_tech_dropchance_ent(sp, pat, t, lvl, evt, tool);
+			return reward_tech_dropchance(idf);
 		} else if(idf.startsWith("reward_techtotal_dropchance_mat") || idf.startsWith("reward_techtotal_dropchance_ent"))
 		{
-			String[] sp = idf.split(",");
-			if(sp.length != 7)
-			{
-				return "Error split.length isnt 7!";
-			}
-			PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
-			Technology t = null;
-			switch(pat)
-			{
-			case SOLO: t = CatTechHandler.technologyMapSolo.get(sp[2]); break;
-			case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
-			case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
-			}
-			EventType evt = EventType.valueOf(sp[3]);
-			ToolType tool = ToolType.valueOf(sp[4]);
-			return idf.startsWith("reward_techtotal_dropchance_mat")
-					? reward_techtotal_dropchance_mat(sp, pat, t, evt, tool)
-					: reward_techtotal_dropchance_ent(sp, pat, t, evt, tool);
+			return reward_techtotal_dropchance(idf);
 		} else if(idf.startsWith("reward_player_dropchance_mat") || idf.startsWith("reward_player_dropchance_ent"))
 		{
-			String[] sp = idf.split(",");
-			if(sp.length != 5)
-			{
-				return "Error split.length isnt 5!";
-			}
-			EventType evt = EventType.valueOf(sp[1]);
-			ToolType tool = ToolType.valueOf(sp[2]);
-			return idf.startsWith("reward_player_dropchance_mat")
-					? reward_player_dropchance_mat(uuid, sp, evt, tool)
-					: reward_player_dropchance_ent(uuid, sp, evt, tool);
+			return reward_player_dropchance(uuid, idf);
 		} else if(idf.startsWith("reward_tech_silktouchdropchance_mat") || idf.startsWith("reward_tech_silktouchdropchance_ent"))
 		{
-			String[] sp = idf.split(",");
-			if(sp.length != 8)
-			{
-				return "Error split.length isnt 8!";
-			}
-			PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
-			Technology t = null;
-			switch(pat)
-			{
-			case SOLO: t = CatTechHandler.technologyMapSolo.get(sp[2]); break;
-			case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
-			case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
-			}
-			int lvl = Integer.parseInt(sp[3]);
-			EventType evt = EventType.valueOf(sp[4]);
-			ToolType tool = ToolType.valueOf(sp[5]);
-			return idf.startsWith("reward_tech_silktouchdropchance_mat")
-					? reward_tech_silktouchdropchance_mat(sp, pat, t, lvl, evt, tool)
-					: reward_tech_silktouchdropchance_ent(sp, pat, t, lvl, evt, tool);
+			return reward_tech_silktouchdropchance(idf);
 		} else if(idf.startsWith("reward_techtotal_silktouchdropchance_mat") || idf.startsWith("reward_techtotal_silktouchdropchance_ent"))
 		{
-			String[] sp = idf.split(",");
-			if(sp.length != 7)
-			{
-				return "Error split.length isnt 7!";
-			}
-			PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
-			Technology t = null;
-			switch(pat)
-			{
-			case SOLO: t = CatTechHandler.technologyMapSolo.get(sp[2]); break;
-			case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
-			case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
-			}
-			EventType evt = EventType.valueOf(sp[3]);
-			ToolType tool = ToolType.valueOf(sp[4]);
-			return idf.startsWith("reward_techtotal_silktouchdropchance_mat")
-					? reward_techtotal_silktouchdropchance_mat(sp, pat, t, evt, tool)
-					: reward_techtotal_silktouchdropchance_ent(sp, pat, t, evt, tool);
+			return reward_techtotal_silktouchdropchance(idf);
 		} else if(idf.startsWith("reward_player_silktouchdropchance_mat") || idf.startsWith("reward_player_silktouchdropchance_ent"))
 		{
-			String[] sp = idf.split(",");
-			if(sp.length != 5)
-			{
-				return "Error split.length isnt 5!";
-			}
-			EventType evt = EventType.valueOf(sp[1]);
-			ToolType tool = ToolType.valueOf(sp[2]);
-			return idf.startsWith("reward_player_silktouchdropchance_mat")
-					? reward_player_silktouchdropchance_mat(uuid, sp, evt, tool)
-					: reward_player_silktouchdropchance_ent(uuid, sp, evt, tool);
+			return reward_player_silktouchdropchance(uuid, idf);
 		}
 		return null;
+	}
+	
+	private String reward_tech_ttexp(String idf)
+	{
+		String[] sp = idf.split(",");
+		if(sp.length != 7)
+		{
+			return "Error split.length isnt 7!";
+		}
+		PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
+		Technology t = null;
+		switch(pat)
+		{
+		case SOLO: t = CatTechHandler.technologyMapSolo.get(sp[2]); break;
+		case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
+		case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
+		}
+		int lvl = Integer.parseInt(sp[3]);
+		EventType evt = EventType.valueOf(sp[4]);
+		ToolType tool = ToolType.valueOf(sp[5]);
+		if(!t.getRewardUnlockableInteractions().containsKey(lvl))
+		{
+			return "Error Tech dont contains in that Lvl TTExp Reward for that input!";
+		}
+		return idf.startsWith("raw_reward_tech_ttexp_mat")
+				? reward_tech_ttexp_mat(sp, pat, t, lvl, evt, tool)
+				: reward_tech_ttexp_ent(sp, pat, t, lvl, evt, tool);
 	}
 	
 	private String reward_tech_ttexp_mat(String[] sp,
@@ -430,6 +225,28 @@ public class PAPIHook extends PlaceholderExpansion
 			}
 		}
 		return "/";
+	}
+	
+	private String reward_techtotal_ttexp(String idf)
+	{
+		String[] sp = idf.split(",");
+		if(sp.length != 6)
+		{
+			return "Error split.length isnt 6!";
+		}
+		PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
+		Technology t = null;
+		switch(pat)
+		{
+		case SOLO: t = CatTechHandler.technologyMapSolo.get(sp[2]); break;
+		case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
+		case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
+		}
+		EventType evt = EventType.valueOf(sp[3]);
+		ToolType tool = ToolType.valueOf(sp[4]);
+		return idf.startsWith("raw_reward_techtotal_ttexp_mat")
+				? reward_techtotal_ttexp_mat(sp, pat, t, evt, tool)
+				: reward_techtotal_ttexp_ent(sp, pat, t, evt, tool);
 	}
 	
 	private String reward_techtotal_ttexp_mat(String[] sp,
@@ -470,6 +287,20 @@ public class PAPIHook extends PlaceholderExpansion
 		return String.valueOf(d);
 	}
 	
+	private String reward_player_ttexp(UUID uuid, String idf)
+	{
+		String[] sp = idf.split(",");
+		if(sp.length != 4)
+		{
+			return "Error split.length isnt 4!";
+		}
+		EventType evt = EventType.valueOf(sp[1]);
+		ToolType tool = ToolType.valueOf(sp[2]);
+		return idf.startsWith("raw_reward_player_ttexp_mat")
+				? reward_player_ttexp_mat(uuid, sp, evt, tool)
+				: reward_player_ttexp_ent(uuid, sp, evt, tool);
+	}
+	
 	private String reward_player_ttexp_mat(UUID uuid, String[] sp, EventType evt, ToolType tool)
 	{
 		Material mat = Material.valueOf(sp[3]);
@@ -494,6 +325,33 @@ public class PAPIHook extends PlaceholderExpansion
 			return String.valueOf(PlayerHandler.entityTypeInteractionMap.get(uuid).get(tool).get(ent).get(evt).getTechnologyExperience());
 		}
 		return "/";
+	}
+	
+	private String reward_tech_vexp(String idf)
+	{
+		String[] sp = idf.split(",");
+		if(sp.length != 7)
+		{
+			return "Error split.length isnt 7!";
+		}
+		PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
+		Technology t = null;
+		switch(pat)
+		{
+		case SOLO: t = CatTechHandler.technologyMapSolo.get(sp[2]); break;
+		case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
+		case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
+		}
+		int lvl = Integer.parseInt(sp[3]);
+		EventType evt = EventType.valueOf(sp[4]);
+		ToolType tool = ToolType.valueOf(sp[5]);
+		if(!t.getRewardUnlockableInteractions().containsKey(lvl))
+		{
+			return "Error Tech dont contains in that Lvl TTExp Reward for that input!";
+		}
+		return idf.startsWith("raw_reward_tech_vexp_mat")
+				? reward_tech_vexp_mat(sp, pat, t, lvl, evt, tool)
+				: reward_tech_vexp_ent(sp, pat, t, lvl, evt, tool);
 	}
 	
 	private String reward_tech_vexp_mat(String[] sp,
@@ -524,6 +382,28 @@ public class PAPIHook extends PlaceholderExpansion
 			}
 		}
 		return "/";
+	}
+	
+	private String reward_techtotal_vexp(String idf)
+	{
+		String[] sp = idf.split(",");
+		if(sp.length != 6)
+		{
+			return "Error split.length isnt 6!";
+		}
+		PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
+		Technology t = null;
+		switch(pat)
+		{
+		case SOLO: t = CatTechHandler.technologyMapSolo.get(sp[2]); break;
+		case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
+		case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
+		}
+		EventType evt = EventType.valueOf(sp[3]);
+		ToolType tool = ToolType.valueOf(sp[4]);
+		return idf.startsWith("raw_reward_techtotal_vexp_mat")
+				? reward_techtotal_vexp_mat(sp, pat, t, evt, tool)
+				: reward_techtotal_vexp_ent(sp, pat, t, evt, tool);
 	}
 	
 	private String reward_techtotal_vexp_mat(String[] sp,
@@ -564,6 +444,20 @@ public class PAPIHook extends PlaceholderExpansion
 		return String.valueOf(d);
 	}
 	
+	private String reward_player_vexp(UUID uuid, String idf)
+	{
+		String[] sp = idf.split(",");
+		if(sp.length != 4)
+		{
+			return "Error split.length isnt 4!";
+		}
+		EventType evt = EventType.valueOf(sp[1]);
+		ToolType tool = ToolType.valueOf(sp[2]);
+		return idf.startsWith("raw_reward_player_vexp_mat")
+				? reward_player_vexp_mat(uuid, sp, evt, tool)
+				: reward_player_vexp_ent(uuid, sp, evt, tool);
+	}
+	
 	private String reward_player_vexp_mat(UUID uuid, String[] sp, EventType evt, ToolType tool)
 	{
 		Material mat = Material.valueOf(sp[3]);
@@ -590,11 +484,51 @@ public class PAPIHook extends PlaceholderExpansion
 		return "/";
 	}
 	
+	private String reward_tech_money(String idf)
+	{
+		String[] sp = idf.split(",");
+		if(sp.length != 7 && sp.length != 8)
+		{
+			return "Error split.length isnt 7!";
+		}
+		PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
+		Technology t = null;
+		switch(pat)
+		{
+		case SOLO: t = CatTechHandler.technologyMapSolo.get(sp[2]); break;
+		case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
+		case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
+		}
+		int lvl = Integer.parseInt(sp[3]);
+		EventType evt = EventType.valueOf(sp[4]);
+		ToolType tool = ToolType.valueOf(sp[5]);
+		if(!t.getRewardUnlockableInteractions().containsKey(lvl))
+		{
+			return "Error Tech dont contains in that Lvl TTExp Reward for that input!";
+		}
+		return idf.startsWith("raw_reward_tech_money_mat")
+				? reward_tech_money_mat(sp, pat, t, lvl, evt, tool)
+				: reward_tech_money_ent(sp, pat, t, lvl, evt, tool);
+	}
+	
 	private String reward_tech_money_mat(String[] sp,
 			PlayerAssociatedType pat, Technology t, int lvl, EventType evt, ToolType tool)
 	{
 		Material mat = Material.valueOf(sp[6]);
-		String cun = sp[7];
+		String cun = "";
+		if(sp.length == 7)
+		{
+			if(plugin.getIFHEco() != null)
+			{
+				cun = "default";
+			} else
+			{ 
+				cun = "vault";
+			}
+		} else
+		{
+			cun = sp[7];
+		}
 		for(UnlockableInteraction ui : t.getRewardUnlockableInteractions().get(lvl))
 		{
 			if(evt == ui.getEventType() && tool == ui.getToolType()
@@ -611,7 +545,20 @@ public class PAPIHook extends PlaceholderExpansion
 			PlayerAssociatedType pat, Technology t, int lvl, EventType evt, ToolType tool)
 	{
 		EntityType ent = EntityType.valueOf(sp[6]);
-		String cun = sp[7];
+		String cun = "";
+		if(sp.length == 7)
+		{
+			if(plugin.getIFHEco() != null)
+			{
+				cun = "default";
+			} else
+			{ 
+				cun = "vault";
+			}
+		} else
+		{
+			cun = sp[7];
+		}
 		for(UnlockableInteraction ui : t.getRewardUnlockableInteractions().get(lvl))
 		{
 			if(evt == ui.getEventType() && tool == ui.getToolType()
@@ -624,11 +571,46 @@ public class PAPIHook extends PlaceholderExpansion
 		return "/";
 	}
 	
+	private String reward_techtotal_money(String idf)
+	{
+		String[] sp = idf.split(",");
+		if(sp.length != 7 && sp.length != 8)
+		{
+			return "Error split.length isnt 7!";
+		}
+		PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
+		Technology t = null;
+		switch(pat)
+		{
+		case SOLO: t = CatTechHandler.technologyMapSolo.get(sp[2]); break;
+		case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
+		case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
+		}
+		EventType evt = EventType.valueOf(sp[4]);
+		ToolType tool = ToolType.valueOf(sp[3]);
+		return idf.startsWith("raw_reward_techtotal_money_mat")
+				? reward_techtotal_money_mat(sp, pat, t, evt, tool)
+				: reward_techtotal_money_ent(sp, pat, t, evt, tool);
+	}
+	
 	private String reward_techtotal_money_mat(String[] sp,
 			PlayerAssociatedType pat, Technology t, EventType evt, ToolType tool)
 	{
 		Material mat = Material.valueOf(sp[6]);
-		String cun = sp[7];
+		String cun = "";
+		if(sp.length == 7)
+		{
+			if(plugin.getIFHEco() != null)
+			{
+				cun = "default";
+			} else
+			{ 
+				cun = "vault";
+			}
+		} else
+		{
+			cun = sp[7];
+		}
 		double d = 0.0;
 		for(Entry<Integer, ArrayList<UnlockableInteraction>> e : t.getRewardUnlockableInteractions().entrySet())
 		{
@@ -649,7 +631,20 @@ public class PAPIHook extends PlaceholderExpansion
 			PlayerAssociatedType pat, Technology t, EventType evt, ToolType tool)
 	{
 		EntityType ent = EntityType.valueOf(sp[6]);
-		String cun = sp[7];
+		String cun = "";
+		if(sp.length == 7)
+		{
+			if(plugin.getIFHEco() != null)
+			{
+				cun = "default";
+			} else
+			{ 
+				cun = "vault";
+			}
+		} else
+		{
+			cun = sp[7];
+		}
 		double d = 0.0;
 		for(Entry<Integer, ArrayList<UnlockableInteraction>> e : t.getRewardUnlockableInteractions().entrySet())
 		{
@@ -666,10 +661,37 @@ public class PAPIHook extends PlaceholderExpansion
 		return String.valueOf(d);
 	}
 	
+	private String reward_player_money(UUID uuid, String idf)
+	{
+		String[] sp = idf.split(",");
+		if(sp.length != 4 && sp.length != 5)
+		{
+			return "Error split.length isnt 4!";
+		}
+		EventType evt = EventType.valueOf(sp[1]);
+		ToolType tool = ToolType.valueOf(sp[2]);
+		return idf.startsWith("raw_reward_player_money_mat")
+				? reward_player_money_mat(uuid, sp, evt, tool)
+				: reward_player_money_ent(uuid, sp, evt, tool);
+	}
+	
 	private String reward_player_money_mat(UUID uuid, String[] sp, EventType evt, ToolType tool)
 	{
 		Material mat = Material.valueOf(sp[3]);
-		String cun = sp[4];
+		String cun = "";
+		if(sp.length == 4)
+		{
+			if(plugin.getIFHEco() != null)
+			{
+				cun = "default";
+			} else
+			{ 
+				cun = "vault";
+			}
+		} else
+		{
+			cun = sp[4];
+		}
 		if(PlayerHandler.materialInteractionMap.containsKey(uuid)
 				&& PlayerHandler.materialInteractionMap.get(uuid).containsKey(tool)
 				&& PlayerHandler.materialInteractionMap.get(uuid).get(tool).containsKey(mat)
@@ -684,7 +706,20 @@ public class PAPIHook extends PlaceholderExpansion
 	private String reward_player_money_ent(UUID uuid, String[] sp, EventType evt, ToolType tool)
 	{
 		EntityType ent = EntityType.valueOf(sp[3]);
-		String cun = sp[4];
+		String cun = "";
+		if(sp.length == 4)
+		{
+			if(plugin.getIFHEco() != null)
+			{
+				cun = "default";
+			} else
+			{ 
+				cun = "vault";
+			}
+		} else
+		{
+			cun = sp[4];
+		}
 		if(PlayerHandler.entityTypeInteractionMap.containsKey(uuid)
 				&& PlayerHandler.entityTypeInteractionMap.get(uuid).containsKey(tool)
 				&& PlayerHandler.entityTypeInteractionMap.get(uuid).get(tool).containsKey(ent)
@@ -696,9 +731,33 @@ public class PAPIHook extends PlaceholderExpansion
 		return "/";
 	}
 	
+	private String reward_tech_dropchance(String idf)
+	{
+		String[] sp = idf.split(",");
+		if(sp.length != 8)
+		{
+			return "Error split.length isnt 8!";
+		}
+		PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
+		Technology t = null;
+		switch(pat)
+		{
+		case SOLO: t = CatTechHandler.technologyMapSolo.get(sp[2]); break;
+		case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
+		case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
+		}
+		int lvl = Integer.parseInt(sp[3]);
+		EventType evt = EventType.valueOf(sp[4]);
+		ToolType tool = ToolType.valueOf(sp[5]);
+		return idf.startsWith("reward_tech_dropchance_mat")
+				? reward_tech_dropchance_mat(sp, pat, t, lvl, evt, tool)
+				: reward_tech_dropchance_ent(sp, pat, t, lvl, evt, tool);
+	}
+	
 	private String reward_tech_dropchance_mat(String[] sp,
 			PlayerAssociatedType pat, Technology t, int lvl, EventType evt, ToolType tool)
 	{
+		
 		Material mat = Material.valueOf(sp[6]);
 		String dropmat = sp[7];
 		StringBuilder sb = new StringBuilder();
@@ -719,9 +778,10 @@ public class PAPIHook extends PlaceholderExpansion
 			}
 		}
 		map = map.entrySet().stream()
-			    .sorted(Entry.comparingByValue())
+			    .sorted(Entry.comparingByKey())
 			    .collect(Collectors.toMap(Entry::getKey, Entry::getValue,
 			                              (e1, e2) -> e1, LinkedHashMap::new));
+		
 		for(Entry<Integer, Double> e : map.entrySet())
 		{
 			if(sb.length() > 0)
@@ -756,7 +816,7 @@ public class PAPIHook extends PlaceholderExpansion
 			}
 		}
 		map = map.entrySet().stream()
-			    .sorted(Entry.comparingByValue())
+			    .sorted(Entry.comparingByKey())
 			    .collect(Collectors.toMap(Entry::getKey, Entry::getValue,
 			                              (e1, e2) -> e1, LinkedHashMap::new));
 		for(Entry<Integer, Double> e : map.entrySet())
@@ -768,6 +828,28 @@ public class PAPIHook extends PlaceholderExpansion
 			sb.append(e.getKey()+":"+(e.getValue() >= 100 ? 100 : e.getValue()*100)+" %");
 		}
 		return sb.toString();
+	}
+	
+	private String reward_techtotal_dropchance(String idf)
+	{
+		String[] sp = idf.split(",");
+		if(sp.length != 7)
+		{
+			return "Error split.length isnt 7!";
+		}
+		PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
+		Technology t = null;
+		switch(pat)
+		{
+		case SOLO: t = CatTechHandler.technologyMapSolo.get(sp[2]); break;
+		case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
+		case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
+		}
+		EventType evt = EventType.valueOf(sp[3]);
+		ToolType tool = ToolType.valueOf(sp[4]);
+		return idf.startsWith("reward_techtotal_dropchance_mat")
+				? reward_techtotal_dropchance_mat(sp, pat, t, evt, tool)
+				: reward_techtotal_dropchance_ent(sp, pat, t, evt, tool);
 	}
 	
 	private String reward_techtotal_dropchance_mat(String[] sp,
@@ -796,7 +878,7 @@ public class PAPIHook extends PlaceholderExpansion
 			}
 		}
 		map = map.entrySet().stream()
-			    .sorted(Entry.comparingByValue())
+			    .sorted(Entry.comparingByKey())
 			    .collect(Collectors.toMap(Entry::getKey, Entry::getValue,
 			                              (e1, e2) -> e1, LinkedHashMap::new));
 		for(Entry<Integer, Double> e : map.entrySet())
@@ -836,7 +918,7 @@ public class PAPIHook extends PlaceholderExpansion
 			}
 		}
 		map = map.entrySet().stream()
-			    .sorted(Entry.comparingByValue())
+			    .sorted(Entry.comparingByKey())
 			    .collect(Collectors.toMap(Entry::getKey, Entry::getValue,
 			                              (e1, e2) -> e1, LinkedHashMap::new));
 		for(Entry<Integer, Double> e : map.entrySet())
@@ -848,6 +930,20 @@ public class PAPIHook extends PlaceholderExpansion
 			sb.append(e.getKey()+":"+(e.getValue() >= 100 ? 100 : e.getValue()*100)+" %");
 		}
 		return sb.toString();
+	}
+	
+	private String reward_player_dropchance(UUID uuid, String idf)
+	{
+		String[] sp = idf.split(",");
+		if(sp.length != 5)
+		{
+			return "Error split.length isnt 5!";
+		}
+		EventType evt = EventType.valueOf(sp[1]);
+		ToolType tool = ToolType.valueOf(sp[2]);
+		return idf.startsWith("reward_player_dropchance_mat")
+				? reward_player_dropchance_mat(uuid, sp, evt, tool)
+				: reward_player_dropchance_ent(uuid, sp, evt, tool);
 	}
 	
 	private String reward_player_dropchance_mat(UUID uuid, String[] sp, EventType evt, ToolType tool)
@@ -880,7 +976,7 @@ public class PAPIHook extends PlaceholderExpansion
 			}
 		}
 		map = map.entrySet().stream()
-			    .sorted(Entry.comparingByValue())
+			    .sorted(Entry.comparingByKey())
 			    .collect(Collectors.toMap(Entry::getKey, Entry::getValue,
 			                              (e1, e2) -> e1, LinkedHashMap::new));
 		for(Entry<Integer, Double> e : map.entrySet())
@@ -924,7 +1020,7 @@ public class PAPIHook extends PlaceholderExpansion
 			}
 		}
 		map = map.entrySet().stream()
-			    .sorted(Entry.comparingByValue())
+			    .sorted(Entry.comparingByKey())
 			    .collect(Collectors.toMap(Entry::getKey, Entry::getValue,
 			                              (e1, e2) -> e1, LinkedHashMap::new));
 		for(Entry<Integer, Double> e : map.entrySet())
@@ -938,6 +1034,29 @@ public class PAPIHook extends PlaceholderExpansion
 		return "/";
 	}
 	
+	private String reward_tech_silktouchdropchance(String idf)
+	{
+		String[] sp = idf.split(",");
+		if(sp.length != 8)
+		{
+			return "Error split.length isnt 8!";
+		}
+		PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
+		Technology t = null;
+		switch(pat)
+		{
+		case SOLO: t = CatTechHandler.technologyMapSolo.get(sp[2]); break;
+		case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
+		case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
+		}
+		int lvl = Integer.parseInt(sp[3]);
+		EventType evt = EventType.valueOf(sp[4]);
+		ToolType tool = ToolType.valueOf(sp[5]);
+		return idf.startsWith("reward_tech_silktouchdropchance_mat")
+				? reward_tech_silktouchdropchance_mat(sp, pat, t, lvl, evt, tool)
+				: reward_tech_silktouchdropchance_ent(sp, pat, t, lvl, evt, tool);
+	}
+	
 	private String reward_tech_silktouchdropchance_mat(String[] sp,
 			PlayerAssociatedType pat, Technology t, int lvl, EventType evt, ToolType tool)
 	{
@@ -945,7 +1064,11 @@ public class PAPIHook extends PlaceholderExpansion
 		String dropmat = sp[7];
 		StringBuilder sb = new StringBuilder();
 		LinkedHashMap<Integer, Double> map = new LinkedHashMap<>(); //Amount to drop, Dropchance
-		for(DropChance dc : t.getRewardDropChances().get(lvl))
+		if(t.getRewardSilkTouchDropChances().get(lvl) == null)
+		{
+			return "";
+		}
+		for(DropChance dc : t.getRewardSilkTouchDropChances().get(lvl))
 		{
 			if(evt == dc.getEventType() && tool == dc.getToolType()
 					&& dc.getEventMaterial() != null && mat == dc.getEventMaterial()
@@ -961,7 +1084,7 @@ public class PAPIHook extends PlaceholderExpansion
 			}
 		}
 		map = map.entrySet().stream()
-			    .sorted(Entry.comparingByValue())
+			    .sorted(Entry.comparingByKey())
 			    .collect(Collectors.toMap(Entry::getKey, Entry::getValue,
 			                              (e1, e2) -> e1, LinkedHashMap::new));
 		for(Entry<Integer, Double> e : map.entrySet())
@@ -982,7 +1105,11 @@ public class PAPIHook extends PlaceholderExpansion
 		String dropmat = sp[7];
 		StringBuilder sb = new StringBuilder();
 		LinkedHashMap<Integer, Double> map = new LinkedHashMap<>(); //Amount to drop, Dropchance
-		for(DropChance dc : t.getRewardDropChances().get(lvl))
+		if(t.getRewardSilkTouchDropChances().get(lvl) == null)
+		{
+			return "";
+		}
+		for(DropChance dc : t.getRewardSilkTouchDropChances().get(lvl))
 		{
 			if(evt == dc.getEventType() && tool == dc.getToolType()
 					&& dc.getEventEntityType() != null && ent == dc.getEventEntityType()
@@ -998,7 +1125,7 @@ public class PAPIHook extends PlaceholderExpansion
 			}
 		}
 		map = map.entrySet().stream()
-			    .sorted(Entry.comparingByValue())
+			    .sorted(Entry.comparingByKey())
 			    .collect(Collectors.toMap(Entry::getKey, Entry::getValue,
 			                              (e1, e2) -> e1, LinkedHashMap::new));
 		for(Entry<Integer, Double> e : map.entrySet())
@@ -1012,6 +1139,28 @@ public class PAPIHook extends PlaceholderExpansion
 		return sb.toString();
 	}
 	
+	private String reward_techtotal_silktouchdropchance(String idf)
+	{
+		String[] sp = idf.split(",");
+		if(sp.length != 7)
+		{
+			return "Error split.length isnt 7!";
+		}
+		PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
+		Technology t = null;
+		switch(pat)
+		{
+		case SOLO: t = CatTechHandler.technologyMapSolo.get(sp[2]); break;
+		case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
+		case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
+		}
+		EventType evt = EventType.valueOf(sp[3]);
+		ToolType tool = ToolType.valueOf(sp[4]);
+		return idf.startsWith("reward_techtotal_silktouchdropchance_mat")
+				? reward_techtotal_silktouchdropchance_mat(sp, pat, t, evt, tool)
+				: reward_techtotal_silktouchdropchance_ent(sp, pat, t, evt, tool);
+	}
+	
 	private String reward_techtotal_silktouchdropchance_mat(String[] sp,
 			PlayerAssociatedType pat, Technology t, EventType evt, ToolType tool)
 	{
@@ -1019,7 +1168,7 @@ public class PAPIHook extends PlaceholderExpansion
 		String dropmat = sp[6];
 		StringBuilder sb = new StringBuilder();
 		LinkedHashMap<Integer, Double> map = new LinkedHashMap<>(); //Amount to drop, Dropchance
-		for(Entry<Integer, ArrayList<DropChance>> e : t.getRewardDropChances().entrySet())
+		for(Entry<Integer, ArrayList<DropChance>> e : t.getRewardSilkTouchDropChances().entrySet())
 		{
 			for(DropChance dc : e.getValue())
 			{
@@ -1038,7 +1187,7 @@ public class PAPIHook extends PlaceholderExpansion
 			}
 		}
 		map = map.entrySet().stream()
-			    .sorted(Entry.comparingByValue())
+			    .sorted(Entry.comparingByKey())
 			    .collect(Collectors.toMap(Entry::getKey, Entry::getValue,
 			                              (e1, e2) -> e1, LinkedHashMap::new));
 		for(Entry<Integer, Double> e : map.entrySet())
@@ -1059,7 +1208,7 @@ public class PAPIHook extends PlaceholderExpansion
 		String dropmat = sp[6];
 		StringBuilder sb = new StringBuilder();
 		LinkedHashMap<Integer, Double> map = new LinkedHashMap<>(); //Amount to drop, Dropchance
-		for(Entry<Integer, ArrayList<DropChance>> e : t.getRewardDropChances().entrySet())
+		for(Entry<Integer, ArrayList<DropChance>> e : t.getRewardSilkTouchDropChances().entrySet())
 		{
 			for(DropChance dc : e.getValue())
 			{
@@ -1078,7 +1227,7 @@ public class PAPIHook extends PlaceholderExpansion
 			}
 		}
 		map = map.entrySet().stream()
-			    .sorted(Entry.comparingByValue())
+			    .sorted(Entry.comparingByKey())
 			    .collect(Collectors.toMap(Entry::getKey, Entry::getValue,
 			                              (e1, e2) -> e1, LinkedHashMap::new));
 		for(Entry<Integer, Double> e : map.entrySet())
@@ -1090,6 +1239,20 @@ public class PAPIHook extends PlaceholderExpansion
 			sb.append(e.getKey()+":"+(e.getValue() >= 100 ? 100 : e.getValue()*100)+" %");
 		}
 		return sb.toString();
+	}
+	
+	private String reward_player_silktouchdropchance(UUID uuid, String idf)
+	{
+		String[] sp = idf.split(",");
+		if(sp.length != 5)
+		{
+			return "Error split.length isnt 5!";
+		}
+		EventType evt = EventType.valueOf(sp[1]);
+		ToolType tool = ToolType.valueOf(sp[2]);
+		return idf.startsWith("reward_player_silktouchdropchance_mat")
+				? reward_player_silktouchdropchance_mat(uuid, sp, evt, tool)
+				: reward_player_silktouchdropchance_ent(uuid, sp, evt, tool);
 	}
 	
 	private String reward_player_silktouchdropchance_mat(UUID uuid, String[] sp, EventType evt, ToolType tool)
@@ -1122,7 +1285,7 @@ public class PAPIHook extends PlaceholderExpansion
 			}
 		}
 		map = map.entrySet().stream()
-			    .sorted(Entry.comparingByValue())
+			    .sorted(Entry.comparingByKey())
 			    .collect(Collectors.toMap(Entry::getKey, Entry::getValue,
 			                              (e1, e2) -> e1, LinkedHashMap::new));
 		for(Entry<Integer, Double> e : map.entrySet())
@@ -1166,7 +1329,7 @@ public class PAPIHook extends PlaceholderExpansion
 			}
 		}
 		map = map.entrySet().stream()
-			    .sorted(Entry.comparingByValue())
+			    .sorted(Entry.comparingByKey())
 			    .collect(Collectors.toMap(Entry::getKey, Entry::getValue,
 			                              (e1, e2) -> e1, LinkedHashMap::new));
 		for(Entry<Integer, Double> e : map.entrySet())

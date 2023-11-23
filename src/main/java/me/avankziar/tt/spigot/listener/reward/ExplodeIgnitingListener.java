@@ -35,6 +35,7 @@ public class ExplodeIgnitingListener implements Listener
 	public void onBlockIgnite(BlockIgniteEvent event)
 	{
 		if(event.isCancelled()
+				|| event.getPlayer() == null
 				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
 				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
 				|| !EnumHandler.isEventActive(IG)

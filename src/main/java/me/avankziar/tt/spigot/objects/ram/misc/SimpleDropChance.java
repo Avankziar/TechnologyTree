@@ -12,7 +12,7 @@ import main.java.me.avankziar.tt.spigot.ifh.ItemGenerator;
 public class SimpleDropChance
 {
 	private String toDropItem;
-	private LinkedHashMap<Integer, Double> amountToDropChance;
+	private LinkedHashMap<Integer, Double> amountToDropChance = new LinkedHashMap<>();
 	
 	public SimpleDropChance(String toDropItem, LinkedHashMap<Integer, Double> amountToDropChance)
 	{

@@ -30,12 +30,10 @@ public class UpperListener implements Listener
 	{
 		if(!event.getPluginName().equals(plugin.pluginName))
 		{
-			TT.log.info("UpperListener 0"); //REMOVEME
 			return;
 		}
 		if(!(event.getEvent().getWhoClicked() instanceof Player))
 		{
-			TT.log.info("UpperListener 1"); //REMOVEME
 			return;
 		}
 		final Player player = (Player) event.getEvent().getWhoClicked();
@@ -45,14 +43,12 @@ public class UpperListener implements Listener
 			guit = GuiType.valueOf(event.getInventoryIdentifier());
 		} catch(Exception e)
 		{
-			TT.log.info("UpperListener 2 : "+event.getInventoryIdentifier()); //REMOVEME
 			return;
 		}
 		final GuiType gt = guit;
 		ClickType ct = getClickFunctionType(event.getEvent().getClick(), event.getEvent().getHotbarButton());
 		if(ct == null)
 		{
-			TT.log.info("UpperListener 3 : "+event.getEvent().getClick().toString()+" | "+event.getEvent().getHotbarButton()); //REMOVEME
 			return;
 		}
 		ClickFunctionType clft = null;
@@ -61,12 +57,10 @@ public class UpperListener implements Listener
 			clft = ClickFunctionType.valueOf(event.getFunction(ct));
 		} catch(Exception e)
 		{
-			TT.log.info("UpperListener 4 : "+event.getFunction(ct)); //REMOVEME
 			return;
 		}
 		if(clft == null)
 		{
-			TT.log.info("UpperListener 5"); //REMOVEME
 			return;
 		}
 		PlayerAssociatedType paty = null;
