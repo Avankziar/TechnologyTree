@@ -908,6 +908,11 @@ public class GuiHandler
 			s = s.replace("%syncmsg%", pd.isShowSyncMessage() 
 					? plugin.getYamlHandler().getLang().getString("IsTrue") : plugin.getYamlHandler().getLang().getString("IsFalse"));
 		}
+		if(text.contains("%rewardmsg%"))
+		{
+			s = s.replace("%rewardmsg%", pd.isShowRewardMessage() 
+					? plugin.getYamlHandler().getLang().getString("IsTrue") : plugin.getYamlHandler().getLang().getString("IsFalse"));
+		}
 		if(text.contains("%freettexp%"))
 		{
 			s = s.replace("%freettexp%", String.valueOf(pd.getActualTTExp()));

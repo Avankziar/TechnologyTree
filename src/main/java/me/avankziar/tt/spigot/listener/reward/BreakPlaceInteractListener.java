@@ -91,6 +91,13 @@ public class BreakPlaceInteractListener implements Listener
 						ToolType.getToolType(player.getInventory().getItemInMainHand().getType()), BR, blockType, null))
 				{
 					TT.log.info("BlockBreakEvent Cant Access"); //REMOVEME
+					if(TRACK_PLACED_BLOCKS)
+					{
+						if(PlacedBlock.wasPlaced(loc) && !REWARD_IF_MANUALLY_PLACED_BEFORE)
+						{
+							PlacedBlock.delete(loc);
+						}
+					}
 					return;
 				}
 				if(TRACK_PLACED_BLOCKS)
@@ -98,6 +105,7 @@ public class BreakPlaceInteractListener implements Listener
 					if(PlacedBlock.wasPlaced(loc) && !REWARD_IF_MANUALLY_PLACED_BEFORE)
 					{
 						TT.log.info("BlockBreakEvent Was placed"); //REMOVEME
+						PlacedBlock.delete(loc);
 						//Do drop Items
 						for(ItemStack is : RewardHandler.getDrops(player, BR, tool, blockType, null))
 						{
@@ -165,8 +173,7 @@ public class BreakPlaceInteractListener implements Listener
 				for(ItemStack is : RewardHandler.getDrops(player, PL, tool, blockType, null))
 				{
 					new BukkitRunnable()
-					{
-						
+					{						
 						@Override
 						public void run()
 						{

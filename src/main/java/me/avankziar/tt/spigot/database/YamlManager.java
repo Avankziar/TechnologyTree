@@ -342,6 +342,9 @@ public class YamlManager
 		configSpigotKeys.put("Do.NewPlayer.ShowSyncMessage"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				true}));
+		configSpigotKeys.put("Do.NewPlayer.ShowRewardMessage"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				true}));
 		configSpigotKeys.put("Do.NewPlayer.AutoResearchTechnology"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				"soil_I",
@@ -422,6 +425,14 @@ public class YamlManager
 				"&bCommandright for &f/tt techinfo",
 				"&eEin InfoBefehl für Technologien. Bei keiner Angabe eines Level, wird nach dem Spieler geschaut, welche Level er nun zu erforschen hätte.",
 				"&eAn info command for technologies. If no level is specified, the system looks for the player to see which levels they should research..");
+		argumentInput("tt_checkplacedblocks", "checkplacedblocks", basePermission,
+				"/tt checkplacedblocks", "/tt checkplacedblocks ", false,
+				"&c/tt checkplacedblocks &f| Checkt den angeschauten block ob er plaziert wurde. (Und somit für Belohnungen nicht mehr zählt)",
+				"&c/tt checkplacedblocks &f| Checks the viewed block to see if it has been placed. (And therefore no longer counts for rewards)",
+				"&bBefehlsrecht für &f/tt checkplacedblocks",
+				"&bCommandright for &f/tt checkplacedblocks",
+				"&eCheckt den angeschauten block ob er plaziert wurde. (Und somit für Belohnungen nicht mehr zählt)",
+				"&eChecks the viewed block to see if it has been placed. (And therefore no longer counts for rewards)");
 		commandsInput("techgui", "techgui", "techgui.command.techgui", 
 				"/techgui", "/techgui ", false,
 				"&c/techgui &f| Infoseite für alle Befehle.",
@@ -579,15 +590,32 @@ public class YamlManager
 		initPlayerHandlerLang();
 		initBlockHandlerLang();
 		initGuiHandlerLang();
+		initRewardHandlerLang();
 	}
 	
 	public void initCommandsLang() //INFO:CommandsLang
 	{
 		String path = "Commands.";
+		languageKeys.put(path+"PlayerNotExist", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDer Spieler %player% existiert nicht!",
+						"&cThe player %player% does not exist!"}));
 		languageKeys.put(path+"TechInfo.TechNotFound", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cDie Technologie %tech% existiert nicht!",
 						"&cThe %tech% technology does not exist!"}));
+		languageKeys.put(path+"CheckPlacedBlocks.NoBlockInSight", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu schaust nur in die Luft! Und Luft kann man nicht setzten.",
+						"&cYou are just looking at the air! And you cant place air."}));
+		languageKeys.put(path+"CheckPlacedBlocks.WasPlaced", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Block &cwurde schon mal von einem anderen Spieler gesetzt!",
+						"&eThe block &chas already been set by another player!"}));
+		languageKeys.put(path+"CheckPlacedBlocks.WasNotPlaced", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Block &aist natürlich entstanden und nicht von einem Spieler gesetzt worden!",
+						"&eThe block &awas created naturally and was not placed by a player!"}));
 	}
 	
 	private void initPlayerHandlerLang() //INFO:PlayerHandlerLang
@@ -595,12 +623,12 @@ public class YamlManager
 		String path = "PlayerHandler.";
 		languageKeys.put(path+"SyncStart", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&7[&eTT&7] &bSync ist gestartet...",
-						"&7[&eTT&7] &bSync started..."}));
+						"&7[&#ff8c00TT&7] &#c6a664Sync ist gestartet...",
+						"&7[&#ff8c00TT&7] &#c6a664Sync started..."}));
 		languageKeys.put(path+"SyncEnd", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&7[&eTT&7] &bSync ist komplett!",
-						"&7[&eTT&7] &bSync is complete!"}));
+						"&7[&#ff8c00TT&7] &#c6a664Sync ist komplett!",
+						"&7[&#ff8c00TT&7] &#c6a664Sync is complete!"}));
 		languageKeys.put(path+"PayTechnology.Category", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&6Technologiekauf",
@@ -819,6 +847,15 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cValueEntrybelohnung:",
 						"&cValueEntry reward:"}));
+	}
+	
+	public void initRewardHandlerLang() //INFO:RewardHandlerLang
+	{
+		String path = "Reward.";
+		languageKeys.put(path+"TaskMsg", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[%times%] &#c6a664Belohnung verdient: &f%money%&#c6a664, &f%ttexp% &#c6a664TTExp, &f%vaexp% &#c6a664VanillaExp",
+						"&7[%times%] &#c6a664Reward earned: &f%money%&#c6a664, &f%ttexp% &#c6a664TTExp, &f%vaexp% &#c6a664VanillaExp"}));
 	}
 	
 	public void initModifierValueEntryLanguage() //INFO:ModifierValueEntryLanguages
@@ -1101,7 +1138,7 @@ public class YamlManager
 						"&cBlastfurnace: &a%blast_furnacehas%&7/&b%blast_furnacemax%",
 						"&cSmoker: &a%smokerhas%&7/&b%smokermax%"
 						}));
-		path = "16"; //ShowSyncMsg Button
+		path = "7"; //ShowSyncMsg Button
 		start.put(path+".SettingLevel",
 				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 						SettingsLevel.EXPERT.toString()}));
@@ -1128,6 +1165,32 @@ public class YamlManager
 		start.put(path+".ClickFunction."+ClickType.RIGHT.toString(),
 				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 						ClickFunctionType.START_SYNCMESSAGE.toString()}));
+		path = "8"; //ShowRewardMsg Button
+		start.put(path+".SettingLevel",
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						SettingsLevel.ADVANCED.toString()}));
+		start.put(path+".Material",
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						Material.PAPER.toString()}));
+		start.put(path+".Displayname",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cBelohungsnachrichten aus/an",
+						"&cReward Message on/off"}));
+		start.put(path+".Lore",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&dStatus: %rewardmsg%",
+						"&bToggelt, ob man, nach der Verarbeitung der Belohnungen",
+						"&bdie Informationsnachricht vom TT Plugin bekommt.",
+						
+						"&bStatus: %syncmsg%",
+						"&bToggles whether you receive the information message",
+						"&bfrom the TT plugin after processing the rewards."}));
+		start.put(path+".ClickFunction."+ClickType.LEFT.toString(),
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						ClickFunctionType.START_REWARDMESSAGE.toString()}));
+		start.put(path+".ClickFunction."+ClickType.RIGHT.toString(),
+				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+						ClickFunctionType.START_REWARDMESSAGE.toString()}));
 		path = "38"; //SOLO MainCat Zugang
 		start.put(path+".SettingLevel",
 				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
@@ -1830,12 +1893,12 @@ public class YamlManager
 				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"",
 						"&cAnforderungen zum einsehen:",
-						"&cTechnologie >Ofen< erforscht haben.",
+						"&cTechnologie >&#ff8c00Ofen&c< erforscht haben.",
 						"",
 						"&fZugang zu allerlei Ofenrezepten.",
 						"",
 						"&cRequirements to view:",
-						"&cTechnology >Furnace< researched.",
+						"&cTechnology >&#ff8c00Furnace&c< researched.",
 						"",
 						"&fAccess to all kinds of oven recipes."},
 				new String[] {"&5Subkategorie Ofenrezepte","&5Subcategory Furnacerecipe"}, Material.FURNACE, 1,
@@ -2354,6 +2417,125 @@ public class YamlManager
 						"&eUnlocks the following:",
 						"&fCrafting & Interaction with",
 						"&fFurnace, Blastfurnace and Furnaceminecart",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+		//REMOVEME TestTech
+		toResCondition = new LinkedHashMap<>();
+		toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, "1 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostMoney = new LinkedHashMap<>();
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMaterial = new LinkedHashMap<>();
+		rewardUnlockableInteractions = new LinkedHashMap<>();
+		rewardUnlockableInteractions.put(1, new String[] {
+				"BREEDING:null:COW",
+				"BREWING::null",
+				"BUCKET_EMPTYING::null",
+				"BUCKET_FILLING::null",
+				"COLD_FORGING::null",
+				"COOKING::null",
+				"CRAFTING::null",
+				"CREATE_PATH::null",
+				"DEBARKING::null",
+				"DRYING::null",
+				"DYING::",
+				"ENCHANTING::null",
+				"EXPLODING::",
+				"INTERACT:CRAFTING_TABLE:null",
+				""});
+		rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardUnlockableRecipe.put(1, new String[] {
+				"BLASTING:emerald_from_blasting_emerald_ore",
+				"CAMPFIRE:baked_potato_from_campfire_cooking",
+				"FURNACE:baked_potato",
+				"SHAPED:bow",
+				"SHAPELESS:bone_meal",
+				"SMITHING:netherite_hoe_smithing",
+				"SMOKING:baked_potato_from_smoking",
+				"STONECUTTING:quartz_stairs_from_quartz_block_stonecutting",
+				"ANVIL:NETHERITE_HOE",
+				"BREWING:NETHER_WART",
+				"ENCHANTING:NETHERITE_HOE",
+				"GRINDING:NETHERITE_HOE"});
+		rewardDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardCommand = new LinkedHashMap<>();
+		rewardItem = new LinkedHashMap<>();
+		rewardModifier = new LinkedHashMap<>();
+		rewardValueEntry = new LinkedHashMap<>();
+		canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&cAnforderungen zum einsehen:",
+				"&cMuss die Technology >&#ff8c00Holzbretter&c< erforscht haben.",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney% Geld",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung & Interaktion mit der Werkbank",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&cRequirements to view:",
+				"&cMust have researched the Technology >&#ff8c00Planks&c<.",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney% Money",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting & Interaction with Craftingtable",
+				"",
+				"&cRightclick &bfor a more detailed view."
+				});
+		addTechnology(
+				"crafting_table", new String[] {"Werkbank", "Craftingtable"},
+				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 0, "", "interactionblocks", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				null, true,
+				new String[] {"&8Tech Werkbank","&8Tech Craftingtable"},
+				Material.BARRIER, 1, itemflag, null, new String[] {
+						"",
+						"&cAnforderungen zum einsehen:",
+						"&cMuss die Technology >&#ff8c00Holzbretter&c< erforscht haben.",
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fHerstellung & Interaktion mit der Werkbank",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&cRequirements to view:",
+						"&cMust have researched the Technology >&#ff8c00Woodenplanks&c<.",
+						"",
+						"&eUnlocks the following:",
+						"&fCrafting & Interaction with Craftingtable",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				new String[] {"&7Tech Werkbank","&7Tech Craftingtable"},
+				Material.CRAFTING_TABLE, 1, itemflag, null, canResLore.get(1),
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&dTech Werkbank","&dTech Craftingtable"},
+				Material.CRAFTING_TABLE, 1, itemflag, null, canResLore,
+				new String[] {"&5Tech Werkbank","&5Tech Craftingtable"},
+				Material.CRAFTING_TABLE, 1, itemflag, enchantment, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fHerstellung & Interaktion mit der Werkbank",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fCrafting & Interaction with Craftingtable",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 

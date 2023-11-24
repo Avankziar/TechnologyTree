@@ -18,6 +18,7 @@ public class PlayerData implements MysqlHandable
 	private UUID uuid;
 	private String name;
 	private boolean showSyncMessage; //Nachricht, welche beim Login angezeigt wird, wenn die Tech etc. synchronisiert werden.
+	private boolean showRewardMessage; //Nachricht, welche bei der Bearbeitung der Belohnung angezeigt wird.
 	private double actualTTExp; //TTExp die man gerade hat.
 	private double totalReceivedTTExp; //TTExp die man insgesamt gehabt hat.
 	private int vanillaExpStillToBeObtained; //Wenn man nicht online ist und doch Vanilla Exp bekommt.
@@ -25,7 +26,7 @@ public class PlayerData implements MysqlHandable
 	
 	public PlayerData(){}
 	
-	public PlayerData(int id, UUID uuid, String name, boolean showSyncMessage,
+	public PlayerData(int id, UUID uuid, String name, boolean showSyncMessage, boolean showRewardMessage,
 			double actualTTExp, double totalReceivedTTExp,
 			int vanillaExpStillToBeObtained, SettingsLevel lastSettingLevel)
 			
@@ -34,6 +35,7 @@ public class PlayerData implements MysqlHandable
 		setUUID(uuid);
 		setName(name);
 		setShowSyncMessage(showSyncMessage);
+		setShowRewardMessage(showRewardMessage);
 		setActualTTExp(actualTTExp);
 		setTotalReceivedTTExp(totalReceivedTTExp);
 		setVanillaExpStillToBeObtained(vanillaExpStillToBeObtained);
@@ -78,6 +80,16 @@ public class PlayerData implements MysqlHandable
 	public void setShowSyncMessage(boolean showSyncMessage)
 	{
 		this.showSyncMessage = showSyncMessage;
+	}
+
+	public boolean isShowRewardMessage()
+	{
+		return showRewardMessage;
+	}
+
+	public void setShowRewardMessage(boolean showRewardMessage)
+	{
+		this.showRewardMessage = showRewardMessage;
 	}
 
 	public double getActualTTExp()
@@ -126,17 +138,18 @@ public class PlayerData implements MysqlHandable
 		try
 		{
 			String sql = "INSERT INTO `" + tablename
-					+ "`(`player_uuid`, `player_name`, `show_sync_msg`,"
+					+ "`(`player_uuid`, `player_name`, `show_sync_msg`, `show_reward_msg`,"
 					+ " `ttexp_actual`, `ttexp_total_received`, `vanilla_exp_still_to_be_obtained`, `lastSettingLevel`) " 
-					+ "VALUES(?, ?, ?, ?, ?, ?, ?)";
+					+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 	        ps.setString(1, getUUID().toString());
 	        ps.setString(2, getName());
 	        ps.setBoolean(3, isShowSyncMessage());
-	        ps.setDouble(4, getActualTTExp());
-	        ps.setDouble(5, getTotalReceivedTTExp());
-	        ps.setInt(6, getVanillaExpStillToBeObtained());
-	        ps.setString(7, getLastSettingLevel().toString());
+	        ps.setBoolean(4, isShowRewardMessage());
+	        ps.setDouble(5, getActualTTExp());
+	        ps.setDouble(6, getTotalReceivedTTExp());
+	        ps.setInt(7, getVanillaExpStillToBeObtained());
+	        ps.setString(8, getLastSettingLevel().toString());
 	        int i = ps.executeUpdate();
 	        MysqlHandler.addRows(MysqlHandler.QueryType.INSERT, i);
 	        return true;
@@ -153,18 +166,19 @@ public class PlayerData implements MysqlHandable
 		try
 		{
 			String sql = "UPDATE `" + tablename
-				+ "` SET `player_uuid` = ?, `player_name` = ?, `show_sync_msg` = ?,"
+				+ "` SET `player_uuid` = ?, `player_name` = ?, `show_sync_msg` = ?, `show_reward_msg` = ?,"
 				+ " `ttexp_actual` = ?, `ttexp_total_received` = ?, `vanilla_exp_still_to_be_obtained` = ?, `lastSettingLevel` = ?"
 				+ " WHERE "+whereColumn;
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, getUUID().toString());
 		    ps.setString(2, getName());
 		    ps.setBoolean(3, isShowSyncMessage());
-		    ps.setDouble(4, getActualTTExp());
-		    ps.setDouble(5, getTotalReceivedTTExp());
-		    ps.setInt(6, getVanillaExpStillToBeObtained());
-		    ps.setString(7, getLastSettingLevel().toString());
-			int i = 8;
+		    ps.setBoolean(4, isShowRewardMessage());
+	        ps.setDouble(5, getActualTTExp());
+	        ps.setDouble(6, getTotalReceivedTTExp());
+	        ps.setInt(7, getVanillaExpStillToBeObtained());
+	        ps.setString(8, getLastSettingLevel().toString());
+			int i = 9;
 			for(Object o : whereObject)
 			{
 				ps.setObject(i, o);
@@ -204,6 +218,7 @@ public class PlayerData implements MysqlHandable
 						UUID.fromString(rs.getString("player_uuid")),
 						rs.getString("player_name"),
 						rs.getBoolean("show_sync_msg"),
+						rs.getBoolean("show_reward_msg"),
 						rs.getDouble("ttexp_actual"),
 						rs.getDouble("ttexp_total_received"),
 						rs.getInt("vanilla_exp_still_to_be_obtained"),

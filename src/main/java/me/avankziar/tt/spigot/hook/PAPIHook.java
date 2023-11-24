@@ -16,6 +16,7 @@ import main.java.me.avankziar.tt.spigot.handler.PlayerHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
 import main.java.me.avankziar.tt.spigot.objects.ToolType;
+import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.DropChance;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.SimpleDropChance;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.Technology;
@@ -63,6 +64,13 @@ public class PAPIHook extends PlaceholderExpansion
 	
 	/*
 	 * tt_hastech,<PAT>,<Tech>
+	 * 
+	 * Return the free TTExp of the Player
+	 * tt_player_ttexp_free
+	 * Return the total TTExp alltimes earned of the player
+	 * tt_player_ttexp_total
+	 * Return the vanillaexp still to be optained
+	 * tt_player_vaexp_stilltobeobtained
 	 * 
 	 * Return the raw number of what ttexp reward per tech and lvl or per player.
 	 * tt_raw_reward_tech_ttexp_mat,<PAT>,<Tech>,<Lvl>,<Event>,<Tool>,<Material>
@@ -112,10 +120,20 @@ public class PAPIHook extends PlaceholderExpansion
 			return "";
 		}
 		final UUID uuid = player.getUniqueId();
+		PlayerData pd = null;
 		switch(idf) //Für simple Placeholders
 		{
 		default:
 			break;
+		case "player_ttexp_free":
+			pd = PlayerHandler.getPlayer(uuid);
+			return String.valueOf(pd.getActualTTExp());
+		case "player_ttexp_total":
+			pd = PlayerHandler.getPlayer(uuid);
+			return String.valueOf(pd.getTotalReceivedTTExp());
+		case "player_vaexp_stilltobeobtained":
+			pd = PlayerHandler.getPlayer(uuid);
+			return String.valueOf(pd.getVanillaExpStillToBeObtained());
 		}
 		if(idf.startsWith("hastech") && idf.split(",").length == 2)
 		{

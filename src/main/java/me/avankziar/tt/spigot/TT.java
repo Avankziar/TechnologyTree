@@ -34,6 +34,7 @@ import main.java.me.avankziar.tt.spigot.assistance.Utility;
 import main.java.me.avankziar.tt.spigot.cmd.TTCommandExecutor;
 import main.java.me.avankziar.tt.spigot.cmd.TabCompletion;
 import main.java.me.avankziar.tt.spigot.cmd.TechGuiCommandExecutor;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckPlacedBlocks;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGTechInfo;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
@@ -83,6 +84,7 @@ import main.java.me.avankziar.tt.spigot.listener.reward.SheepDyeListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.SmithingListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.TameListener;
 import main.java.me.avankziar.tt.spigot.modifiervalueentry.Bypass;
+import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
 
 public class TT extends JavaPlugin
 {
@@ -101,7 +103,6 @@ public class TT extends JavaPlugin
 	private ArrayList<BaseConstructor> helpList = new ArrayList<>();
 	private ArrayList<CommandConstructor> commandTree = new ArrayList<>();
 	private LinkedHashMap<String, ArgumentModule> argumentMap = new LinkedHashMap<>();
-	private ArrayList<String> players = new ArrayList<>();
 	
 	public static String infoCommandPath = "CmdTT";
 	public static String infoCommand = "/";
@@ -237,6 +238,16 @@ public class TT extends JavaPlugin
 		
 		TabCompletion tab = new TabCompletion(plugin);
 		
+		ArrayList<String> players = new ArrayList<>();
+		for(PlayerData pd : PlayerData.convert(plugin.getMysqlHandler().getFullList(
+				MysqlHandler.Type.PLAYERDATA, "`player_name` ASC", "`id` > ?", 0)))
+		{
+			players.add(pd.getName());
+		}
+		
+		LinkedHashMap<Integer, ArrayList<String>> playerMapI = new LinkedHashMap<>();
+		playerMapI.put(1, players);
+		
 		LinkedHashMap<Integer, ArrayList<String>> techMapI = new LinkedHashMap<>();
 		ArrayList<String> techList = new ArrayList<>();
 		for(String ts : CatTechHandler.technologyMapSolo.keySet())
@@ -253,10 +264,14 @@ public class TT extends JavaPlugin
 		}
 		techMapI.put(1, techList);
 		
+		ArgumentConstructor checksplacedblocks = new ArgumentConstructor(CommandExecuteType.TT_CHECKPLACEDBLOCKS,
+													"tt_checksplacedblocks", 0, 1, 2, false, null);
+		new ARGCheckPlacedBlocks(checksplacedblocks);
 		ArgumentConstructor techinfo = new ArgumentConstructor(CommandExecuteType.TT_TECHINFO, "tt_techinfo", 0, 1, 2, false, techMapI);
 		new ARGTechInfo(techinfo);
+		
 		CommandConstructor tt = new CommandConstructor(CommandExecuteType.TT, "tt", false,
-				techinfo);
+				checksplacedblocks, techinfo);
 		registerCommand(tt.getPath(), tt.getName());
 		getCommand(tt.getName()).setExecutor(new TTCommandExecutor(plugin, tt));
 		getCommand(tt.getName()).setTabCompleter(tab);
@@ -405,16 +420,6 @@ public class TT extends JavaPlugin
 	public LinkedHashMap<String, ArgumentModule> getArgumentMap()
 	{
 		return argumentMap;
-	}
-	
-	public ArrayList<String> getMysqlPlayers()
-	{
-		return players;
-	}
-
-	public void setMysqlPlayers(ArrayList<String> players)
-	{
-		this.players = players;
 	}
 	
 	public void setupListeners()

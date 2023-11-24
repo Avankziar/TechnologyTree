@@ -145,6 +145,7 @@ public class MysqlSetup
 		+ " player_uuid char(36) NOT NULL UNIQUE,"
 		+ " player_name varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,"
 		+ " show_sync_msg boolean,"
+		+ " show_reward_msg boolean,"
 		+ " ttexp_actual double,"
 		+ " ttexp_total_received double,"
 		+ " vanilla_exp_still_to_be_obtained int,"

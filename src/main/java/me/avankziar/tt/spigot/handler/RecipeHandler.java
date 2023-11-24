@@ -782,6 +782,12 @@ public class RecipeHandler
 			rt = RecipeType.FURNACE; break;
 		case SMOKER:
 			rt = RecipeType.SMOKING; break;
+		case BREWING_STAND:
+			rt = RecipeType.BREWING; break;
+		/*case CRAFTING_TABLE:
+			rt = RecipeType. Not needed*/
+		case ENCHANTING_TABLE:
+			rt = RecipeType.ENCHANTING; break;
 		default:
 		case UNKNOW:
 			return false;

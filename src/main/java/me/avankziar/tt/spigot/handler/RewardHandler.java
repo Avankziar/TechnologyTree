@@ -1,5 +1,9 @@
 package main.java.me.avankziar.tt.spigot.handler;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -23,6 +27,7 @@ import main.java.me.avankziar.ifh.general.economy.action.EconomyAction;
 import main.java.me.avankziar.ifh.general.economy.currency.CurrencyType;
 import main.java.me.avankziar.ifh.spigot.economy.account.Account;
 import main.java.me.avankziar.ifh.spigot.economy.currency.EconomyCurrency;
+import main.java.me.avankziar.tt.general.ChatApi;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.assistance.Experience;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
@@ -51,18 +56,12 @@ public class RewardHandler
 			@Override
 			public void run()
 			{
-				if(player != null)
-				{
-					TT.log.info("PayOutTask "+uuid.toString()+": start"); //REMOVEME
-				}
 				if(Bukkit.getPlayer(uuid) == null)
 				{
-					TT.log.info("PayOutTask Player == null"); //REMOVEME
 					cancel();
 					return;
 				}
 				doRewardTask(uuid);
-				TT.log.info("PayOutTask "+uuid.toString()+": end"); //REMOVEME
 			}
 		}.runTaskTimerAsynchronously(plugin, 0, period);
 	}
@@ -118,7 +117,7 @@ public class RewardHandler
 		ArrayList<RewardSummary> rewardSummaryList = new ArrayList<>();
 		if(matMap == null && entityMap == null)
 		{
-			TT.log.info("PayOutTask "+uuid.toString()+": map didnt contain uuid"); //REMOVEME
+			TT.log.info("RewardHandler matMap == null && entityMap == null"); //REMOVEME
 			return;
 		}
 		if(matMap != null)
@@ -142,12 +141,14 @@ public class RewardHandler
 							SimpleUnlockedInteraction sui = PlayerHandler.materialInteractionMap.get(uuid).get(tool).get(mat).get(et);
 							if(sui == null)
 							{
+								TT.log.info("RewardHandler sui == null"); //REMOVEME
 								continue;
 							}
 							toGiveTTExp = toGiveTTExp + sui.getTechnologyExperience() * amount;
 							toGiveVanillaExp = toGiveVanillaExp + sui.getVanillaExperience() * amount;
 							for(Entry<String, Double> s : sui.getMoneyMap().entrySet())
 							{
+								TT.log.info("RewardHandler sui.MoneyMap: "+s.getKey()); //REMOVEME
 								double moneyAmount = 0;
 								if(toGiveMoneyMap.containsKey(s.getKey()))
 								{
@@ -194,6 +195,7 @@ public class RewardHandler
 							SimpleUnlockedInteraction sui = PlayerHandler.entityTypeInteractionMap.get(uuid).get(tool).get(ent).get(et);
 							if(sui == null)
 							{
+								TT.log.info("RewardHandler sui == null"); //REMOVEME
 								continue;
 							}
 							toGiveTTExp = toGiveTTExp + sui.getTechnologyExperience() * amount;
@@ -227,8 +229,6 @@ public class RewardHandler
 		}
 		PlayerData pd = PlayerHandler.getPlayer(uuid);
 		String playername = pd.getName();
-		TT.log.info("PayOutTask "+uuid.toString()+": TTExp "+toGiveTTExp); //REMOVEME
-		TT.log.info("PayOutTask "+uuid.toString()+": VaExp "+toGiveVanillaExp); //REMOVEME
 		pd.setActualTTExp(pd.getActualTTExp() + toGiveTTExp);
 		pd.setTotalReceivedTTExp(pd.getTotalReceivedTTExp() + toGiveTTExp);
 		if(Bukkit.getPlayer(uuid) != null)
@@ -239,12 +239,17 @@ public class RewardHandler
 			pd.setVanillaExpStillToBeObtained(pd.getVanillaExpStillToBeObtained() + (int) toGiveVanillaExp);
 		}
 		PlayerHandler.updatePlayer(pd);
+		String toGiveMoney = "";
 		for(Entry<String, Double> e : toGiveMoneyMap.entrySet())
 		{
-			TT.log.info("PayOutTask "+uuid.toString()+": toGiveMoneyMap: "+e.getKey()+" | "+e.getValue()); //REMOVEME
+			TT.log.info("RewardHandler toGiveMoneyMap: "+e.getKey()); //REMOVEME
 			if(e.getKey().equalsIgnoreCase("vault") && plugin.getVaultEco() != null)
 			{
 				plugin.getVaultEco().depositPlayer(Bukkit.getOfflinePlayer(uuid), e.getValue());
+				toGiveMoney = e.getValue()+" "+plugin.getVaultEco().currencyNamePlural();
+				continue;
+			} else if(e.getKey().equalsIgnoreCase("vault") && plugin.getVaultEco() == null)
+			{
 				continue;
 			}
 			EconomyCurrency ec = null;
@@ -257,7 +262,7 @@ public class RewardHandler
 			}
 			if(ec == null)
 			{
-				TT.log.info("PayOutTask "+uuid.toString()+": ec == null: "+e.getKey()); //REMOVEME
+				TT.log.info("RewardHandler ec == null : >"+e.getKey()+"<"); //REMOVEME
 				continue;
 			}
 			Account ac = plugin.getIFHEco().getDefaultAccount(uuid, AccountCategory.JOB, ec);
@@ -266,20 +271,21 @@ public class RewardHandler
 				ac = plugin.getIFHEco().getDefaultAccount(uuid, AccountCategory.MAIN, ec);
 				if(ac == null)
 				{
-					TT.log.info("PayOutTask "+uuid.toString()+": ac == null"); //REMOVEME
+					TT.log.info("RewardHandler ac == null"); //REMOVEME
 					continue;
 				}
 			}
 			Account tax = plugin.getIFHEco().getDefaultAccount(uuid, AccountCategory.TAX, ec);
 			double taxation = new ConfigHandler().rewardPayoutTaxInPercent();
 			EconomyAction ea = plugin.getIFHEco().deposit(ac, e.getValue(), taxation, true, tax);
-			TT.log.info("PayOutTask "+uuid.toString()+": ea: "+ea.getErrorMessageType().toString()); //REMOVEME
+			toGiveMoney = plugin.getIFHEco().format(ea.getDepositAmount(), ec);
 		}
 		for(Entry<String, Double> e : toGiveCommandMap.entrySet())
 		{
 			String[] split = e.getKey().split(":");
 			if(split.length != 2)
 			{
+				TT.log.info("RewardHandler split.length != 2"); //REMOVEME
 				continue;
 			}
 			if("spigot".equalsIgnoreCase(split[0]))
@@ -293,6 +299,15 @@ public class RewardHandler
 						.replace("%player%", playername)
 						.replace("%value%", String.valueOf(e.getValue())));
 			}
+		}
+		if(Bukkit.getPlayer(uuid) != null && pd.isShowRewardMessage())
+		{
+			Bukkit.getPlayer(uuid).sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Reward.TaskMsg")
+					.replace("%ttexp%", String.valueOf(toGiveTTExp))
+					.replace("%vaexp%", String.valueOf(toGiveVanillaExp))
+					.replace("%money%", toGiveMoney)
+					.replace("%times%", LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis()), ZoneId.systemDefault())
+									   .format(DateTimeFormatter.ofPattern("HH:mm:ss")))));
 		}
 		PostRewardEvent postRewardEvent = new PostRewardEvent(uuid, playername, rewardSummaryList);
 		Bukkit.getPluginManager().callEvent(postRewardEvent);

@@ -253,17 +253,14 @@ public class PlayerHandler
 	
 	public static boolean hasAccount(Player player)
 	{
-		if(plugin.getMysqlHandler().exist(Type.PLAYERDATA, "`player_uuid` = ?", player.getUniqueId().toString()))
-		{
-			return true;
-		}
-		return false;
+		return plugin.getMysqlHandler().exist(Type.PLAYERDATA, "`player_uuid` = ?", player.getUniqueId().toString());
 	}
 	
 	public static void createAccount(Player player)
 	{
 		PlayerData pd = new PlayerData(0, player.getUniqueId(), player.getName(), 
 				plugin.getYamlHandler().getConfig().getBoolean("Do.NewPlayer.ShowSyncMessage", true),
+				plugin.getYamlHandler().getConfig().getBoolean("Do.NewPlayer.ShowRewardMessage", true),
 				0, 0, 0, SettingsLevel.BASE);
 		plugin.getMysqlHandler().create(Type.PLAYERDATA, pd);
 	}

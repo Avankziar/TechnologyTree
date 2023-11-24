@@ -44,6 +44,7 @@ public class GuiFunctionHandler
 		case ADMINISTRATION_SETTINGSLEVEL_SETTO_EXPERT: switchSettingsLevel(player, openInv, SettingsLevel.EXPERT); break;
 		case ADMINISTRATION_SETTINGSLEVEL_SETTO_MASTER: switchSettingsLevel(player, openInv, SettingsLevel.MASTER); break;
 		case START_SYNCMESSAGE: syncMessage(player, openInv, settingsLevel); break;
+		case START_REWARDMESSAGE: rewardMessage(player, openInv, settingsLevel); break;
 		case RETURN_TOSTART: returnToStart(player, openInv, settingsLevel); break;
 		case RETURN_TOMAINCATEGORY: returnToMainCategory(player, openInv, settingsLevel, pat); break;
 		case RETURN_TOSUBCATEGORY: returnToSubCategory(player, openInv, settingsLevel, mcat, pat); break;
@@ -75,6 +76,15 @@ public class GuiFunctionHandler
 		PlayerData pd = (PlayerData) plugin.getMysqlHandler().getData(MysqlHandler.Type.PLAYERDATA,
 				"`player_uuid` = ?", player.getUniqueId().toString());
 		pd.setShowSyncMessage(!pd.isShowSyncMessage());
+		plugin.getMysqlHandler().updateData(MysqlHandler.Type.PLAYERDATA, pd, "`player_uuid` = ?", player.getUniqueId().toString());
+		GuiHandler.openStart(player, settingsLevel, inv, false);
+	}
+	
+	private static void rewardMessage(Player player, Inventory inv, SettingsLevel settingsLevel)
+	{
+		PlayerData pd = (PlayerData) plugin.getMysqlHandler().getData(MysqlHandler.Type.PLAYERDATA,
+				"`player_uuid` = ?", player.getUniqueId().toString());
+		pd.setShowRewardMessage(!pd.isShowRewardMessage());
 		plugin.getMysqlHandler().updateData(MysqlHandler.Type.PLAYERDATA, pd, "`player_uuid` = ?", player.getUniqueId().toString());
 		GuiHandler.openStart(player, settingsLevel, inv, false);
 	}
