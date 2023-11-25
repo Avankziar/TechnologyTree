@@ -547,14 +547,16 @@ public class GuiHandler
 			{
 				if(tj >= 53)
 				{
+					TT.log.info("GuiHandler tj >= 53"); //REMOVEME
 					break;
 				}
 				int ii = ee.getKey();
 				LinkedHashMap<ItemStack, Boolean> isb = PlayerHandler.canSeeOrResearch_ForGUI(
 						player, player.getUniqueId(), pat, null, null, ee.getValue());
-				if(isb == null)
+				if((ii < 0 && ii > 53) || isb == null)
 				{
 					tj++;
+					TT.log.info("GuiHandler (ii < 0 && ii > 53) || isb == null"); //REMOVEME
 					continue;
 				}
 				for(Entry<ItemStack, Boolean> eee : isb.entrySet())
@@ -575,6 +577,7 @@ public class GuiHandler
 						ctar.add(new ClickFunction(ClickType.RIGHT, ClickFunctionType.INFO_TECHNOLOGY));
 					}
 					gui.add(ii, iss, settingsLevel, true, true, map, ctar.toArray(new ClickFunction[ctar.size()]));
+					TT.log.info("GuiHandler gui.add: ii:"+ii+" | iss.getType:"+iss.getType().toString()); //REMOVEME
 				}
 				tj++;
 			}

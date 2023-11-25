@@ -1,17 +1,12 @@
-Cmd SettingsLevel wechseln.
-Cmd für den SynMsg des Plugins
-Cmd zum erreichen der StartGui
-Cmd für detailreiche Infos einer Techs pro researchlevel
-Cmd für Infos, wieviele Techs man im gesamten hat und wieviele man sehen kann.
-Cmd für Infos, wieviele Techs man in der Gruppe SOLO hat von wieviel die man Sehen kann, sowie dadrunter wieviele man nichts sieht.
-Cmd für Infos, wieviele techs man in der Gruppe GROUP hat, ...
-Cmd für Infos, wieviele Techs man in der Gruppe GLOBAL hat, ...
-Cmd zum sehen, wieviele Regestierte Blöcke von welchem Typ habt.
 Cmd zum sehen, zu welchen Blöcken zugang hat.
 Cmd zum löschen welten bezogener PlacedBlock
 Cmd für das externe Zuweisen von Booster, welche aber keine Technologien sind.
-Event für das Interagieren mit Blöcken noch rein machen.
+Event hinzufügen:
+  für das Interagieren mit Blöcken noch rein machen.
   (Bspw. wenn man Holz entrindet oder Erdblock zum Acker oder Pfad zu machen. Grobe Erde mit Hacke zu erde
+  PlayerBucketEntityEvent
+Alle Events durchgehen, was wann eventuell doch gecancelt werden soll. Eventuell Configbasiert?
+EventType hinzufügen?
 
 Wiki Themen
 - Dropmechanik mit Verzauberungen, Glücktrankeffekt und BonusMalus. Sowie der VanillaGrenzen, Silktouch etc.

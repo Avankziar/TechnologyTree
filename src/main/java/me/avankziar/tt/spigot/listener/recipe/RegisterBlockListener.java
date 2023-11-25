@@ -25,23 +25,23 @@ public class RegisterBlockListener implements Listener
 	private TT plugin = BaseConstructor.getPlugin();
 	
 	//Here no active Event check. It muss be active always!
-	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onInteractBlockToCheckRegister(PlayerInteractEvent event)
 	{
 		if(event.useInteractedBlock() == Result.DENY
 				|| event.useItemInHand() == Result.DENY
-				|| event.isCancelled()
 				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
 				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
 				|| event.getClickedBlock() == null)
 		{
 			return;
 		}
+		TT.log.info("InteractBlockToCheckRegister Start"); //REMOVEME
 		Location loc = event.getClickedBlock().getLocation();
 		BlockType bt = BlockHandler.getBlockType(event.getClickedBlock().getType());
 		if(bt == BlockType.UNKNOW)
 		{
+			TT.log.info("InteractBlockToCheckRegister BlockType Unknow Type:"+event.getClickedBlock().getType()); //REMOVEME
 			return;
 		}
 		if(!RewardHandler.canAccessInteraction(event.getPlayer(),

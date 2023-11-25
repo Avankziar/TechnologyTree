@@ -32,8 +32,6 @@ public class DryingListener implements Listener
 	public void onSponePlace(BlockPlaceEvent event)
 	{
 		if(event.isCancelled()
-				|| event.getPlayer() == null
-				|| event.getBlock() == null
 				|| event.getBlock().getType() != Material.SPONGE
 				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
 				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
@@ -48,7 +46,6 @@ public class DryingListener implements Listener
 	public void onSponeAbsorb(SpongeAbsorbEvent event)
 	{
 		if(event.isCancelled()
-				|| event.getBlock() == null
 				|| event.getBlock().getType() != Material.WET_SPONGE
 				|| !EnumHandler.isEventActive(DR))
 		{

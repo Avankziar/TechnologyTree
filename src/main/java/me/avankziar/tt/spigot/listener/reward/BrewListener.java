@@ -13,6 +13,7 @@ import org.bukkit.event.block.BrewingStartEvent;
 import org.bukkit.event.inventory.BrewEvent;
 import org.bukkit.inventory.ItemStack;
 
+import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler.BlockType;
 import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
@@ -35,6 +36,7 @@ public class BrewListener implements Listener
 		{
 			return;
 		}
+		TT.log.info("BrewingStart Start"); //REMOVEME
 		BrewingStand bs = (BrewingStand) event.getBlock();
 		BlockHandler.startBrew(event.getBlock().getLocation(), bs.getInventory().getIngredient().getType());
 	}
@@ -47,6 +49,7 @@ public class BrewListener implements Listener
 		{
 			return;
 		}
+		TT.log.info("Brew Start"); //REMOVEME
 		String recipeKey = BlockHandler.getBrewRecipe(event.getBlock().getLocation());
 		if(recipeKey == null)
 		{

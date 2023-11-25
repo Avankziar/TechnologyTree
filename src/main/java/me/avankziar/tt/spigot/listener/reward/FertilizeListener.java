@@ -16,8 +16,9 @@ import main.java.me.avankziar.tt.spigot.objects.ToolType;
 public class FertilizeListener implements Listener
 {
 	final private static EventType FE = EventType.FERTILIZING;
+	
 	@EventHandler
-	public void onStructurGrow(BlockFertilizeEvent event)
+	public void onFertilize(BlockFertilizeEvent event)
 	{
 		if(event.isCancelled()
 				|| event.getPlayer() == null

@@ -11,6 +11,7 @@ import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.ItemStack;
 
+import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
@@ -36,6 +37,7 @@ public class Cold_ForgingRenameListener implements Listener
 		{
 			return;
 		}
+		TT.log.info("InventoryClickAnvil Start"); //REMOVEME
 		Player player = (Player) event.getWhoClicked();
 		AnvilInventory ai = (AnvilInventory) event.getClickedInventory();
 		ItemStack base = ai.getContents()[0];

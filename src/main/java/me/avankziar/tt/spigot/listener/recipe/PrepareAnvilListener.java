@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
 
+import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
@@ -22,6 +23,7 @@ public class PrepareAnvilListener implements Listener
 		{
 			return;
 		}
+		TT.log.info("PrepareAnvil Start"); //REMOVEME
 		boolean returning = false;
 		for(HumanEntity he : event.getViewers())
 		{

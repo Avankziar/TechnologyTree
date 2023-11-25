@@ -27,11 +27,16 @@ public class BreedListener implements Listener
 				|| !(event.getBreeder() instanceof Player)
 				|| ((HumanEntity) event.getBreeder()).getGameMode() == GameMode.CREATIVE
 				|| ((HumanEntity) event.getBreeder()).getGameMode() == GameMode.SPECTATOR
-				|| !EnumHandler.isEventActive(BR)
-				|| !RewardHandler.canAccessInteraction((Player) event.getBreeder(),
+				|| !EnumHandler.isEventActive(BR))
+		{
+			return;
+		}
+		TT.log.info("EntityBreed Start"); //REMOVEME
+		if(!RewardHandler.canAccessInteraction((Player) event.getBreeder(),
 						ToolType.getToolType(((Player) event.getBreeder()).getInventory().getItemInMainHand().getType()),
 						BR, null, event.getEntityType()))
 		{
+			event.setCancelled(true);
 			return;
 		}
 		Player player = (Player) event.getBreeder();

@@ -7,6 +7,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
 
+import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
@@ -21,6 +22,7 @@ public class PrepareSmithingListener implements Listener
 		{
 			return;
 		}
+		TT.log.info("PrepareSmithing Start"); //REMOVEME
 		for(HumanEntity h : event.getViewers())
 		{
 			if(!(h instanceof Player))

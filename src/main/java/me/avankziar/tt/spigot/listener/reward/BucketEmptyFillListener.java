@@ -36,6 +36,7 @@ public class BucketEmptyFillListener implements Listener
 		{
 			return;
 		}
+		TT.log.info("PlayerBucketEmpty Start"); //REMOVEME
 		if(!RewardHandler.canAccessInteraction(event.getPlayer(),
 				ToolType.getToolType(event.getPlayer().getInventory().getItemInMainHand().getType()), BF, event.getBucket(), null))
 		{
@@ -80,6 +81,7 @@ public class BucketEmptyFillListener implements Listener
 		{
 			return;
 		}
+		TT.log.info("PlayerBucketFill Start"); //REMOVEME
 		if(!RewardHandler.canAccessInteraction(event.getPlayer(),
 				ToolType.getToolType(event.getPlayer().getInventory().getItemInMainHand().getType()), BF, event.getBucket(), null))
 		{

@@ -79,7 +79,7 @@ public class YamlManager
 		initConfig();
 		initCommands();
 		initLanguage();
-		//initModifierValueEntryLanguage(); TODO
+		initModifierValueEntryLanguage(); //TODO
 		initGuiStart();
 		initGuiMainCat();
 		initGuiSubCat();
@@ -425,6 +425,14 @@ public class YamlManager
 				"&bCommandright for &f/tt techinfo",
 				"&eEin InfoBefehl für Technologien. Bei keiner Angabe eines Level, wird nach dem Spieler geschaut, welche Level er nun zu erforschen hätte.",
 				"&eAn info command for technologies. If no level is specified, the system looks for the player to see which levels they should research..");
+		argumentInput("tt_checkeventaction", "checkeventaction", basePermission,
+				"/tt checkeventaction", "/tt checkeventaction ", false,
+				"&c/tt checkeventaction &f| Toggelt eine Infonachricht, die über ausgeführete Aktion und bestimmte involvierte Dinge berichtet.",
+				"&c/tt checkeventaction &f| Checks the viewed block to see if it has been placed. (And therefore no longer counts for rewards)",
+				"&bBefehlsrecht für &f/tt checkeventaction",
+				"&bCommandright for &f/tt checkeventaction",
+				"&eToggelt eine Infonachricht, die über ausgeführete Aktion und bestimmte involvierte Dinge berichtet.",
+				"&eToggles an info message that reports on the action performed and certain things involved.");
 		argumentInput("tt_checkplacedblocks", "checkplacedblocks", basePermission,
 				"/tt checkplacedblocks", "/tt checkplacedblocks ", false,
 				"&c/tt checkplacedblocks &f| Checkt den angeschauten block ob er plaziert wurde. (Und somit für Belohnungen nicht mehr zählt)",
@@ -616,6 +624,42 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&eDer Block &aist natürlich entstanden und nicht von einem Spieler gesetzt worden!",
 						"&eThe block &awas created naturally and was not placed by a player!"}));
+		languageKeys.put(path+"CheckEventAction.Added", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDu bekommst nun eine Infonachricht, bei einer ausgeführten Aktion, welche Aktion dies war und welche Dinge involviert sind.",
+						"&eYou will now receive an information message when an action is carried out, which action it was and which things are involved."}));
+		languageKeys.put(path+"CheckEventAction.Removed", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDu bekommst nun keine Infonachricht über die ausgeführte Aktion mehr.",
+						"&eYou will no longer receive an info message about the action performed."}));
+		languageKeys.put(path+"CheckEventAction.BREAKING.Return", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[CheckEventAction] &cAktionsabbruch! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%",
+						"&7[CheckEventAction] &cCancel action! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%"}));
+		languageKeys.put(path+"CheckEventAction.BREAKING.CantAccess", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[CheckEventAction] &cZugriff zur Aktion wurde verweigert! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%",
+						"&7[CheckEventAction] &cAccess to the action was denied! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%"}));
+		languageKeys.put(path+"CheckEventAction.BREAKING.PlacedBlock", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[CheckEventAction] &cBlock war von Spieler platziert! Nur Items droppen! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%",
+						"&7[CheckEventAction] &cBlock was placed by player! Only items drop! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%"}));
+		languageKeys.put(path+"CheckEventAction.BREAKING.Reward", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[CheckEventAction] &cAktion erfolgreich! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%",
+						"&7[CheckEventAction] &cAction successful! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%"}));
+		languageKeys.put(path+"CheckEventAction.INTERACT.Return", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[CheckEventAction] &cAktionsabbruch! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%",
+						"&7[CheckEventAction] &cCancel action! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%"}));
+		languageKeys.put(path+"CheckEventAction.PLACING.Return", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[CheckEventAction] &cAktionsabbruch! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%",
+						"&7[CheckEventAction] &cCancel action! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%"}));
+		languageKeys.put(path+"CheckEventAction.PLACING.Reward", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[CheckEventAction] &cAktion erfolgreich! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%",
+						"&7[CheckEventAction] &cAction successful! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%"}));
 	}
 	
 	private void initPlayerHandlerLang() //INFO:PlayerHandlerLang
@@ -2370,7 +2414,7 @@ public class YamlManager
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&cAnforderungen zum einsehen:",
-						"&cMuss die Technology >&#ff8c00Stein I&c< erforscht haben.",
+						"&cMuss die Technology >&#ff8c00Stein I:1&c< erforscht haben.",
 						"",
 						"&eSchaltet folgendes frei:",
 						"&fHerstellung & Interaktion mit dem",
@@ -2395,7 +2439,7 @@ public class YamlManager
 				Material.FURNACE, 1, itemflag, enchantment, new String[] {
 						"",
 						"&cAnforderungen zum einsehen:",
-						"&cMuss die Technology >Stein I< erforscht haben.",
+						"&cMuss die Technology >&#ff8c00Stein I:1< erforscht haben.",
 						"",
 						"&eKosten:",
 						"&f%costttexp% | %costvanillaexp%",
@@ -2423,7 +2467,6 @@ public class YamlManager
 				rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
 		//REMOVEME TestTech
 		toResCondition = new LinkedHashMap<>();
-		toResCostTTExp = new LinkedHashMap<>();
 		toResCostTTExp.put(1, "1 * techlev + 5 * techacq + 2.5 * solototaltech");
 		toResCostVanillaExp = new LinkedHashMap<>();
 		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
@@ -2432,21 +2475,55 @@ public class YamlManager
 		toResCostMaterial = new LinkedHashMap<>();
 		rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] {
-				"BREEDING:null:COW",
-				"BREWING::null",
-				"BUCKET_EMPTYING::null",
-				"BUCKET_FILLING::null",
-				"COLD_FORGING::null",
-				"COOKING::null",
-				"CRAFTING::null",
-				"CREATE_PATH::null",
-				"DEBARKING::null",
-				"DRYING::null",
-				"DYING::",
-				"ENCHANTING::null",
-				"EXPLODING::",
-				"INTERACT:CRAFTING_TABLE:null",
-				""});
+				"BREEDING:null:COW:ttexp=1.01:vaexp=1:default=1.0",
+				"BREWING:NETHER_WART:null:ttexp=1.02:vaexp=1:default=1.0",
+				"BUCKET_EMPTYING:WATER_BUCKET:null:ttexp=1.03:vaexp=1:default=1.0",
+				"BUCKET_FILLING:WATER_BUCKET:null:ttexp=1.04:vaexp=1:default=1.0",
+				"COLD_FORGING:NETHERITE_HOE:null:ttexp=1.05:vaexp=1:default=1.0",
+				"COMPOSTING:OAK_SAPLING:null:ttexp=0.99:vaexp=1:default=1.0",
+				"COOKING:BAKED_POTATO:null:ttexp=1.06:vaexp=1:default=1.0",
+				"CRAFTING:STICK:null:ttexp=1.07:vaexp=1:default=1.0",
+				"CREATE_PATH:GRASS_BLOCK:null:ttexp=1.08:vaexp=1:default=1.0",
+				"DEBARKING:OAK_LOG:null:ttexp=1.09:vaexp=1:default=1.0",
+				"DRYING:SPONGE:null:ttexp=1.10:vaexp=1:default=1.0",
+				"DYING:null:PLAYER:ttexp=1.11:vaexp=1:default=1.0",
+				"ENCHANTING:NETHERITE_HOE:null:ttexp=1.12:vaexp=1:default=1.0",
+				"EXPLODING:TNT:null:ttexp=1.13:vaexp=1:default=1.0",
+				"FERTILIZING:OAK_SAPLING:null:ttexp=1.14:vaexp=1:default=1.0",
+				"FISHING:COD:null:tool=FISHING_ROD:ttexp=1.15:vaexp=1:default=1.0",
+				"GRINDING:NETHERITE_HOE:null:ttexp=1.16:vaexp=1:default=1.0",
+				"HARMING:null:COW:ttexp=1.17:vaexp=1:default=1.0",
+				"HARVEST:SWEET_BERRY_BUSH:null:ttexp=1.18:vaexp=1:default=1.0",
+				"IGNITING:TNT:null:ttexp=1.19:vaexp=1:default=1.0",
+				"ITEM_BREAKING:WOODEN_SHOVEL:null:ttexp=1.20:vaexp=1:default=1.0",
+				"ITEM_CONSUME:BAKED_POTATO:null:ttexp=1.21:vaexp=1:default=1.0",
+				"INTERACT:BLAST_FURNACE:null:ttexp=0.42",
+				"INTERACT:FURNACE:null:ttexp=0.42",
+				"INTERACT:SMOKER:null",
+				"INTERACT:ENCHANTING_TABLE:null:ttexp=0.42",
+				"INTERACT:BREWING_STAND:null:ttexp=0.42",
+				"INTERACT:GRINDSTONE:null:ttexp=0.42",
+				"INTERACT:ANVIL:null:ttexp=0.42",
+				"INTERACT:GRINDSTONE:null:ttexp=0.42",
+				"INTERACT:STONECUTTER:null:ttexp=0.42",
+				"INTERACT:CARTOGRAPHY_TABLE:null:ttexp=0.42",
+				"INTERACT:STONECUTTER:null:ttexp=0.42",
+				"INTERACT:FLETCHING_TABLE:null:ttexp=0.42",
+				"INTERACT:SMITHING_TABLE:null:ttexp=0.42",
+				"INTERACT:CAMPFIRE:null:ttexp=0.42",
+				"INTERACT:SOUL_CAMPFIRE:null:ttexp=0.42",
+				"INTERACT:CRAFTING_TABLE:null:ttexp=1.22:vaexp=1:default=1.0",
+				"KILLING:null:COW:ttexp=1.23:vaexp=1:default=1.0",
+				"MELTING:BAKED_POTATO:null:ttexp=1.24:vaexp=1:default=1.0",
+				"MILKING:null:MUSHROOM_COW:ttexp=1.25:vaexp=1:default=1.0",
+				"PLACING:DIRT:null:ttexp=1.26:vaexp=1:default=1.0",
+				"RENAMING:NETHERITE_HOE:null:ttexp=1.27:vaexp=1:default=1.0",
+				"SHEARING:null:SHEEP:ttexp=1.28:vaexp=1:default=1.0",
+				"SHEEP_DYE:null:SHEEP:ttexp=1.29:vaexp=1:default=1.0",
+				"SMELTING:EMERALD:null:ttexp=1.30:vaexp=1:default=1.0",
+				"SMITHING:NETHERITE_HOE:null:ttexp=1.31:vaexp=1:default=1.0",
+				"SMOKING:BAKED_POTATO:null:ttexp=1.32:vaexp=1:default=1.0",
+				"TAMING:null:WOLF:ttexp=1.33:vaexp=1:default=1.0"});
 		rewardUnlockableRecipe = new LinkedHashMap<>();
 		rewardUnlockableRecipe.put(1, new String[] {
 				"BLASTING:emerald_from_blasting_emerald_ore",
@@ -2471,8 +2548,7 @@ public class YamlManager
 		canResLore.put(1, new String[] {
 				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
 				"",
-				"&cAnforderungen zum einsehen:",
-				"&cMuss die Technology >&#ff8c00Holzbretter&c< erforscht haben.",
+				"&bDas ist eine Test Technologie!",
 				"",
 				"&eKosten:",
 				"&f%costttexp% | %costvanillaexp%",
@@ -2480,13 +2556,13 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellung & Interaktion mit der Werkbank",
+				"&fVon allen Events eine Sache frei.",
+				"&fSowie von allen Rezepttypen eines frei.",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
 				"",
-				"&cRequirements to view:",
-				"&cMust have researched the Technology >&#ff8c00Planks&c<.",
+				"&bThat is a test technology!",
 				"",
 				"&eCosts:",
 				"&f%costttexp% | %costvanillaexp%",
@@ -2494,48 +2570,56 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting & Interaction with Craftingtable",
+				"&fVon allen Events eine Sache frei.",
+				"&fSowie von allen Rezepttypen eines frei.",
 				"",
-				"&cRightclick &bfor a more detailed view."
-				});
+				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
-				"crafting_table", new String[] {"Werkbank", "Craftingtable"},
-				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 0, "", "interactionblocks", 
+				"testing", new String[] {"Testen", "Testing"},
+				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 42, "", "interactionblocks", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Tech Werkbank","&8Tech Craftingtable"},
+				new String[] {"&8Tech Testen","&8Tech Testing"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
+						"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
 						"",
-						"&cAnforderungen zum einsehen:",
-						"&cMuss die Technology >&#ff8c00Holzbretter&c< erforscht haben.",
+						"&bDas ist eine Test Technologie!",
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellung & Interaktion mit der Werkbank",
+						"&fVon allen Events eine Sache frei.",
+						"&fSowie von allen Rezepttypen eines frei.",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
 						"",
-						"&cRequirements to view:",
-						"&cMust have researched the Technology >&#ff8c00Woodenplanks&c<.",
+						"&bThat is a test technology!",
 						"",
 						"&eUnlocks the following:",
-						"&fCrafting & Interaction with Craftingtable",
+						"&fVon allen Events eine Sache frei.",
+						"&fSowie von allen Rezepttypen eines frei.",
 						"",
 						"&cRightclick &bfor a more detailed view."},
-				new String[] {"&7Tech Werkbank","&7Tech Craftingtable"},
-				Material.CRAFTING_TABLE, 1, itemflag, null, canResLore.get(1),
+				new String[] {"&7Tech Testen","&7Tech Testing"},
+				Material.BEACON, 1, itemflag, null, canResLore.get(1),
 				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
-				new String[] {"&dTech Werkbank","&dTech Craftingtable"},
-				Material.CRAFTING_TABLE, 1, itemflag, null, canResLore,
-				new String[] {"&5Tech Werkbank","&5Tech Craftingtable"},
-				Material.CRAFTING_TABLE, 1, itemflag, enchantment, new String[] {
+				new String[] {"&dTech Testen","&dTech Testing"},
+				Material.BEACON, 1, itemflag, null, canResLore,
+				new String[] {"&5Tech Testen","&5Tech Testing"},
+				Material.BEACON, 1, itemflag, enchantment, new String[] {
+						"",
+						"&bDas ist eine Test Technologie!",
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fHerstellung & Interaktion mit der Werkbank",
+						"&fVon allen Events eine Sache frei.",
+						"&fSowie von allen Rezepttypen eines frei.",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
+						"&bThat is a test technology!",
+						"",
 						"&eUnlocks the following:",
-						"&fCrafting & Interaction with Craftingtable",
+						"&fVon allen Events eine Sache frei.",
+						"&fSowie von allen Rezepttypen eines frei.",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
@@ -11166,7 +11250,7 @@ public class YamlManager
 				"&cRightclick &bfor a more detailed view."});	
 		addTechnology(
 				"melting_cobblestone", new String[] {"Ofenrezept_Stein", "Furnacerecipe_Stone"},
-				TechnologyType.MULTIPLE, 2, PlayerAssociatedType.SOLO, 0, "", "furnancerecipe", 
+				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 0, "", "furnancerecipe", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
 				new String[] {"&8Tech Ofenrezept Stein","&8Tech Furnacerecipe Stone"},
@@ -11495,7 +11579,7 @@ public class YamlManager
 			}
 		}
 		//--- ToResearch - IfYouCanResearchIt ---
-		for(int i = 1; i < maxTechLevToResearch; i++)
+		for(int i = 1; i <= maxTechLevToResearch; i++)
 		{
 			one.put("RequirementToResearch.IfYouCanResearchIt."+i+".Displayname", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, 
 					canResDisplayname));
@@ -11512,9 +11596,12 @@ public class YamlManager
 			{
 				one.put("RequirementToResearch.IfYouCanResearchIt."+i+".Enchantment", new Language(new ISO639_2B[] {ISO639_2B.GER}, 
 						canResEnchantments));
-			}			
-			one.put("RequirementToResearch.IfYouCanResearchIt."+i+".Lore", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, 
-							canResLore.get(i)));
+			}
+			if(canResLore.get(i) != null)
+			{
+				one.put("RequirementToResearch.IfYouCanResearchIt."+i+".Lore", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, 
+						canResLore.get(i)));
+			}
 		}
 		//--- ToResearch - ItemIfYouHaveResearchedIt ---
 		one.put("RequirementToResearch.ItemIfYouHaveResearchedIt.Displayname", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, 

@@ -8,6 +8,7 @@ public enum EventType
 	BUCKET_EMPTYING,
 	BUCKET_FILLING,
 	COLD_FORGING,
+	COMPOSTING, //Use the composter
 	COOKING,
 	CRAFTING,
 	CREATE_PATH, //Dirtpath
@@ -41,6 +42,7 @@ public enum EventType
 	
 	//ADDME Possible new EventTypes
 	/*
+	 * HOOKING > PlayerFishEvent > event.getCaught() !instanceof Item, aka Player Hook a seeable Entity
 	 * EQUIP_ARMOR > PlayerInteractEvent > Possible New RewardType = Reward.UnlockableEquipment
 	 * EQUIP_WEAPON > PlayerItemHeldEvent > Possible New RewardType = Reward.UnlockableEquipment
 	 * EQUIP_TOOLS > PlayerItemHeldEvent > Possible New RewardType = Reward.UnlockableEquipment

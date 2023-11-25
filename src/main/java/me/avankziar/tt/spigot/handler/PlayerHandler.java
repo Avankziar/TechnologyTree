@@ -590,7 +590,6 @@ public class PlayerHandler
 			} else
 			{
 				map.put(tech.getSeeRequirementItemIfYouCannotSeeIt(player), false); //Result: Cannot See it
-				return map;
 			}
 			if(exist)
 			{
@@ -1259,25 +1258,24 @@ public class PlayerHandler
 	{
 		ArrayList<SoloEntryQueryStatus> sEQSList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLOENTRYQUERYSTATUS,
 				"`research_level` DESC", 0, 1,
-				"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ? AND `status_type` != ?",
-				player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString(),
-				EntryStatusType.HAVE_RESEARCHED_IT.toString()));
+				"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+				player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString()));
 		SoloEntryQueryStatus sEQS = sEQSList.size() == 0 ? null : sEQSList.get(0);
 		int researchLevel = 0;
 		if(sEQS == null)
 		{
 			//Nie etwas erforscht
+			researchLevel = 1;
 			sEQS = new SoloEntryQueryStatus(0, t.getInternName(), player.getUniqueId(),
-					EntryQueryType.TECHNOLOGY, EntryStatusType.HAVE_RESEARCHED_IT, 1,
+					EntryQueryType.TECHNOLOGY, EntryStatusType.HAVE_RESEARCHED_IT, researchLevel,
 					t.getTechnologyType() == TechnologyType.BOOSTER ?
 							System.currentTimeMillis()+t.getIfBoosterDurationUntilExpiration() : Long.MAX_VALUE);
-			researchLevel = 1;
 			plugin.getMysqlHandler().create(Type.SOLOENTRYQUERYSTATUS, sEQS);
 		} else if(t.getTechnologyType() == TechnologyType.SIMPLE)
 		{
 			//Sollte nicht passieren, da der Spieler diese Technology schon komplett erforscht hat.
 			if(sEQS.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT
-					|| sEQS.getResearchLevel() >= 1)
+					&& sEQS.getResearchLevel() >= 1)
 			{
 				return 0; //Error
 			}
@@ -1294,23 +1292,29 @@ public class PlayerHandler
 			if(sEQS.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT
 					&& t.getMaximalTechnologyLevelToResearch() < sEQS.getResearchLevel()+1)
 			{
-				return sEQS.getResearchLevel(); //Error
+				return 0; //Error
 			} else if(sEQS.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT
 					&& t.getMaximalTechnologyLevelToResearch() == sEQS.getResearchLevel())
 			{
-				return sEQS.getResearchLevel(); //Error
+				return 0; //Error
 			}
 			researchLevel = sEQS.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT ? sEQS.getResearchLevel()+1 : sEQS.getResearchLevel();
-			sEQS.setResearchLevel(researchLevel);
-			sEQS.setStatusType(EntryStatusType.HAVE_RESEARCHED_IT);
-			sEQS.setDurationUntilExpiration(t.getTechnologyType() == TechnologyType.BOOSTER 
-											? System.currentTimeMillis() + t.getIfBoosterDurationUntilExpiration() 
-											: Long.MAX_VALUE);
-			plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, sEQS, "`id` = ?", sEQS.getId());
-		} else if(t.getTechnologyType() == TechnologyType.MULTIPLE && sEQS.getResearchLevel() >= t.getMaximalTechnologyLevelToResearch())
-		{
-			//Spieler hat schon das maxlevel erreischt.
-			return 0; //Error
+			if(sEQS.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT)
+			{
+				sEQS = new SoloEntryQueryStatus(0, t.getInternName(), player.getUniqueId(),
+						EntryQueryType.TECHNOLOGY, EntryStatusType.HAVE_RESEARCHED_IT, researchLevel,
+						t.getTechnologyType() == TechnologyType.BOOSTER ?
+								System.currentTimeMillis()+t.getIfBoosterDurationUntilExpiration() : Long.MAX_VALUE);
+				plugin.getMysqlHandler().create(Type.SOLOENTRYQUERYSTATUS, sEQS);
+			} else
+			{
+				sEQS.setResearchLevel(researchLevel);
+				sEQS.setStatusType(EntryStatusType.HAVE_RESEARCHED_IT);
+				sEQS.setDurationUntilExpiration(t.getTechnologyType() == TechnologyType.BOOSTER 
+												? System.currentTimeMillis() + t.getIfBoosterDurationUntilExpiration() 
+												: Long.MAX_VALUE);
+				plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, sEQS, "`id` = ?", sEQS.getId());
+			}
 		}
 		if(doUpdate)
 		{

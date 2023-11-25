@@ -13,6 +13,7 @@ import org.bukkit.event.block.CampfireStartEvent;
 import org.bukkit.event.inventory.FurnaceStartSmeltEvent;
 import org.bukkit.inventory.ItemStack;
 
+import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler.BlockType;
 import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
@@ -33,6 +34,7 @@ public class CookMeltSmeltSmokeListener implements Listener
 		{
 			return;
 		}
+		TT.log.info("FurnaceStartSmelt Start"); //REMOVEME
 		BlockType bt = BlockHandler.getBlockType(event.getBlock().getType());
 		BlockHandler.startSmelt(event.getBlock().getLocation(), bt, event.getRecipe().getKey().getKey());
 	}
@@ -45,6 +47,7 @@ public class CookMeltSmeltSmokeListener implements Listener
 		{
 			return;
 		}
+		TT.log.info("CampfireStart Start"); //REMOVEME
 		BlockType bt = BlockHandler.getBlockType(event.getBlock().getType());
 		BlockHandler.startSmelt(event.getBlock().getLocation(), bt, event.getRecipe().getKey().getKey());
 	}
@@ -60,6 +63,7 @@ public class CookMeltSmeltSmokeListener implements Listener
 	public void onFurnaceSmelt(BlockCookEvent event)
 	{
 		EventType et = BlockHandler.getEventType(event.getBlock().getType());
+		TT.log.info("BlockCook Start"); //REMOVEME
 		if(event.isCancelled() || event.getBlock() == null || event.getResult() == null
 				|| !EnumHandler.isEventActive(et))
 		{

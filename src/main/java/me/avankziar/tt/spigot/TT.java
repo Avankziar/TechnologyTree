@@ -34,6 +34,7 @@ import main.java.me.avankziar.tt.spigot.assistance.Utility;
 import main.java.me.avankziar.tt.spigot.cmd.TTCommandExecutor;
 import main.java.me.avankziar.tt.spigot.cmd.TabCompletion;
 import main.java.me.avankziar.tt.spigot.cmd.TechGuiCommandExecutor;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckPlacedBlocks;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGTechInfo;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
@@ -160,7 +161,6 @@ public class TT extends JavaPlugin
 		RecipeHandler.init();
 		CatTechHandler.reload();
 		
-		
 		setupBypassPerm();
 		setupCommandTree();
 		setupListeners();
@@ -264,14 +264,17 @@ public class TT extends JavaPlugin
 		}
 		techMapI.put(1, techList);
 		
-		ArgumentConstructor checksplacedblocks = new ArgumentConstructor(CommandExecuteType.TT_CHECKPLACEDBLOCKS,
-													"tt_checksplacedblocks", 0, 1, 2, false, null);
-		new ARGCheckPlacedBlocks(checksplacedblocks);
+		ArgumentConstructor checkeventaction = new ArgumentConstructor(CommandExecuteType.TT_CHECKEVENTACTION,
+													"tt_checkeventaction", 0, 0, 0, false, null);
+		new ARGCheckEventAction(checkeventaction);
+		ArgumentConstructor checkplacedblocks = new ArgumentConstructor(CommandExecuteType.TT_CHECKPLACEDBLOCKS,
+													"tt_checkplacedblocks", 0, 0, 0, false, null);
+		new ARGCheckPlacedBlocks(checkplacedblocks);
 		ArgumentConstructor techinfo = new ArgumentConstructor(CommandExecuteType.TT_TECHINFO, "tt_techinfo", 0, 1, 2, false, techMapI);
 		new ARGTechInfo(techinfo);
 		
 		CommandConstructor tt = new CommandConstructor(CommandExecuteType.TT, "tt", false,
-				checksplacedblocks, techinfo);
+				checkeventaction, checkplacedblocks, techinfo);
 		registerCommand(tt.getPath(), tt.getName());
 		getCommand(tt.getName()).setExecutor(new TTCommandExecutor(plugin, tt));
 		getCommand(tt.getName()).setTabCompleter(tab);

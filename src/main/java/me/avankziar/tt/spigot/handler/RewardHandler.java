@@ -132,6 +132,7 @@ public class RewardHandler
 					{
 						EventType et = entryII.getKey();
 						double amount = entryII.getValue();
+						TT.log.info("RewardHandler et:"+et.toString()+" | mat:"+mat.toString()+" | tool: "+tool.toString()); //REMOVEME
 						if(PlayerHandler.materialInteractionMap.containsKey(uuid)
 								&& PlayerHandler.materialInteractionMap.get(uuid).containsKey(tool)
 								&& PlayerHandler.materialInteractionMap.get(uuid).get(tool).containsKey(mat)
@@ -186,6 +187,7 @@ public class RewardHandler
 					{
 						EventType et = entryII.getKey();
 						double amount = entryII.getValue();
+						TT.log.info("RewardHandler et:"+et.toString()+" | ent:"+ent.toString()+" | tool: "+tool.toString()); //REMOVEME
 						if(PlayerHandler.entityTypeInteractionMap.containsKey(uuid)
 								&& PlayerHandler.entityTypeInteractionMap.get(uuid).containsKey(tool)
 								&& PlayerHandler.entityTypeInteractionMap.get(uuid).get(tool).containsKey(ent)
@@ -233,13 +235,15 @@ public class RewardHandler
 		pd.setTotalReceivedTTExp(pd.getTotalReceivedTTExp() + toGiveTTExp);
 		if(Bukkit.getPlayer(uuid) != null)
 		{
-			Experience.changeExp(Bukkit.getPlayer(uuid), (int) toGiveVanillaExp, false);
+			Experience.changeExp(Bukkit.getPlayer(uuid), (int) toGiveVanillaExp, true);
 		} else
 		{
 			pd.setVanillaExpStillToBeObtained(pd.getVanillaExpStillToBeObtained() + (int) toGiveVanillaExp);
 		}
 		PlayerHandler.updatePlayer(pd);
-		String toGiveMoney = "";
+		String toGiveMoney = ""+(plugin.getIFHEco() != null 
+				? plugin.getIFHEco().format(0, plugin.getIFHEco().getDefaultCurrency(CurrencyType.DIGITAL))
+				: "0.0 "+plugin.getVaultEco().currencyNamePlural());
 		for(Entry<String, Double> e : toGiveMoneyMap.entrySet())
 		{
 			TT.log.info("RewardHandler toGiveMoneyMap: "+e.getKey()); //REMOVEME

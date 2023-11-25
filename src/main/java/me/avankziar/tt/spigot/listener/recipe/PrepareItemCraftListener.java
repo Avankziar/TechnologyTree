@@ -8,6 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
 
+import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
@@ -22,6 +23,7 @@ public class PrepareItemCraftListener implements Listener
 		{
 			return;
 		}
+		TT.log.info("CraftItem Start"); //REMOVEME
 		for(HumanEntity h : event.getViewers())
 		{
 			if(!(h instanceof Player))

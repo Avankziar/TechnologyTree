@@ -5,6 +5,8 @@ import java.util.UUID;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.tt.spigot.TT;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
 import main.java.me.avankziar.tt.spigot.database.SQLiteHandler;
 import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
@@ -62,16 +65,13 @@ public class BreakPlaceInteractListener implements Listener
 	@EventHandler
 	public void onBreak(BlockBreakEvent event)
 	{
-		TT.log.info("BlockBreakEvent Start"); //REMOVEME
 		if(event.isCancelled()
 				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
 				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
 				|| !EnumHandler.isEventActive(BR))
 		{
-			TT.log.info("BlockBreakEvent Return"); //REMOVEME
-			TT.log.info("BlockBreakEvent event.isCancelled(): "+event.isCancelled()); //REMOVEME
-			TT.log.info("BlockBreakEvent event.getPlayer().getGameMode(): "+event.getPlayer().getGameMode()); //REMOVEME
-			TT.log.info("BlockBreakEvent !EnumHandler.isEventActive(BR): "+!EnumHandler.isEventActive(BR)); //REMOVEME
+			ARGCheckEventAction.checkEventAction(event.getPlayer(), "BREAKING:RETURN",
+					BR, ToolType.getHandToolType(event.getPlayer()), event.getBlock().getType(), null, null);
 			return;
 		}
 		//TODO Configwert einbauen um Vanilla Drops zu ermöglichen.
@@ -90,7 +90,8 @@ public class BreakPlaceInteractListener implements Listener
 				if(!RewardHandler.canAccessInteraction(player,
 						ToolType.getToolType(player.getInventory().getItemInMainHand().getType()), BR, blockType, null))
 				{
-					TT.log.info("BlockBreakEvent Cant Access"); //REMOVEME
+					ARGCheckEventAction.checkEventAction(event.getPlayer(), "BREAKING:CANNOTACCESS",
+							BR, ToolType.getHandToolType(event.getPlayer()), event.getBlock().getType(), null, null);
 					if(TRACK_PLACED_BLOCKS)
 					{
 						if(PlacedBlock.wasPlaced(loc) && !REWARD_IF_MANUALLY_PLACED_BEFORE)
@@ -104,7 +105,8 @@ public class BreakPlaceInteractListener implements Listener
 				{
 					if(PlacedBlock.wasPlaced(loc) && !REWARD_IF_MANUALLY_PLACED_BEFORE)
 					{
-						TT.log.info("BlockBreakEvent Was placed"); //REMOVEME
+						ARGCheckEventAction.checkEventAction(event.getPlayer(), "BREAKING:PLACEDBLOCK",
+								BR, ToolType.getHandToolType(event.getPlayer()), event.getBlock().getType(), null, null);
 						PlacedBlock.delete(loc);
 						//Do drop Items
 						for(ItemStack is : RewardHandler.getDrops(player, BR, tool, blockType, null))
@@ -122,6 +124,8 @@ public class BreakPlaceInteractListener implements Listener
 						return;
 					}
 				}
+				ARGCheckEventAction.checkEventAction(event.getPlayer(), "BREAKING:REWARD",
+						BR, ToolType.getHandToolType(event.getPlayer()), event.getBlock().getType(), null, null);
 				for(ItemStack is : RewardHandler.getDrops(player, BR, tool, blockType, null))
 				{
 					new BukkitRunnable()
@@ -142,20 +146,20 @@ public class BreakPlaceInteractListener implements Listener
 	@EventHandler
 	public void onPlace(BlockPlaceEvent event)
 	{
-		TT.log.info("BlockPlaceEvent Start"); //REMOVEME
 		if(event.isCancelled()
 				|| !event.canBuild()
 				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
 				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
 				|| !EnumHandler.isEventActive(PL))
 		{
-			TT.log.info("BlockBreakEvent Return"); //REMOVEME
+			ARGCheckEventAction.checkEventAction(event.getPlayer(), "PLACING:RETURN",
+					PL, ToolType.HAND, event.getBlock().getType(), null, null);
 			return;
 		}
 		final Player player = event.getPlayer();
 		final UUID uuid = player.getUniqueId();
 		final Material blockType = event.getBlock().getType();
-		final ToolType tool = ToolType.getHandToolType(player);
+		final ToolType tool = ToolType.HAND;
 		final Location loc = event.getBlock().getLocation();
 		new BukkitRunnable()
 		{
@@ -170,6 +174,8 @@ public class BreakPlaceInteractListener implements Listener
 									loc.getBlockX(), loc.getBlockY(), loc.getBlockZ(),
 									System.currentTimeMillis()+EXPIRATION_DATE));
 				}
+				ARGCheckEventAction.checkEventAction(event.getPlayer(), "PLACING:REWARD",
+						PL, ToolType.getHandToolType(event.getPlayer()), event.getBlock().getType(), null, null);
 				for(ItemStack is : RewardHandler.getDrops(player, PL, tool, blockType, null))
 				{
 					new BukkitRunnable()
@@ -207,10 +213,16 @@ public class BreakPlaceInteractListener implements Listener
 	{
 		if(event.getAction() == Action.LEFT_CLICK_AIR
 				|| event.getAction() == Action.RIGHT_CLICK_AIR
-				|| event.getAction() == Action.PHYSICAL
 				|| event.getClickedBlock() == null
 				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
 				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR)
+		{
+			ARGCheckEventAction.checkEventAction(event.getPlayer(), "INTERACT:RETURN",
+				PL, ToolType.HAND, event.getClickedBlock() != null ? event.getClickedBlock().getType() : Material.AIR, null,
+				event.getPlayer().getInventory().getItemInMainHand() != null ? event.getPlayer().getInventory().getItemInMainHand().getType() : Material.AIR);
+			return;
+		}
+		if(byPassInteraction(event.getClickedBlock()))
 		{
 			return;
 		}
@@ -223,6 +235,7 @@ public class BreakPlaceInteractListener implements Listener
 					: Material.AIR);
 		if(et == null)
 		{
+			event.setCancelled(true);
 			return;
 		}
 		final Player player = event.getPlayer();
@@ -252,12 +265,168 @@ public class BreakPlaceInteractListener implements Listener
 		}.runTaskAsynchronously(TT.getPlugin());
 	}
 	
+	public boolean byPassInteraction(Block block)
+	{
+		if(block.getState() instanceof Sign)
+		{
+			return true;
+		}
+		switch(block.getType())
+		{
+		default:
+			return false;
+		case NOTE_BLOCK:
+		case JUKEBOX:
+		case CHISELED_BOOKSHELF:
+		case LECTERN:
+		case TRIPWIRE:
+		case TARGET:
+			return true;
+		}
+	}
+	
 	public EventType isAppropiateTool(Material toolmat, Material blockmat)
 	{
 		switch(blockmat)
 		{
 		default:
-			return null;
+			switch(toolmat)
+			{
+			default:
+				return null;
+			case AXOLOTL_BUCKET:
+			case COD_BUCKET:
+			case PUFFERFISH_BUCKET:
+			case SALMON_BUCKET:
+			case TADPOLE_BUCKET:
+			case TROPICAL_FISH_BUCKET:
+			case LAVA_BUCKET:
+			case WATER_BUCKET:
+			case MILK_BUCKET:
+				return EventType.BUCKET_EMPTYING;
+			}
+		case COMPOSTER:
+			switch(toolmat)
+			{
+			default:
+				return null;
+			case OAK_SAPLING:
+			case ACACIA_SAPLING:
+			case BAMBOO_SAPLING:
+			case BIRCH_SAPLING:
+			case CHERRY_SAPLING:
+			case DARK_OAK_SAPLING:
+			case JUNGLE_SAPLING:
+			case SPRUCE_SAPLING:
+			case BEETROOT_SEEDS:
+			case MELON_SEEDS:
+			case PUMPKIN_SEEDS:
+			case TORCHFLOWER_SEEDS:
+			case WHEAT_SEEDS:
+			case GRASS:
+			case HANGING_ROOTS:
+			case CAVE_VINES_PLANT:
+			case CHORUS_PLANT:
+			case KELP_PLANT:
+			case PITCHER_PLANT:
+			case TWISTING_VINES_PLANT:
+			case WEEPING_VINES_PLANT:
+			case ACACIA_LEAVES:
+			case AZALEA_LEAVES:
+			case BIRCH_LEAVES:
+			case CHERRY_LEAVES:
+			case DARK_OAK_LEAVES:
+			case FLOWERING_AZALEA_LEAVES:
+			case JUNGLE_LEAVES:
+			case ACACIA_BOAT:
+			case MANGROVE_LEAVES:
+			case OAK_LEAVES:
+			case SPRUCE_LEAVES:
+			case MOSS_BLOCK:
+			case MOSS_CARPET:
+			case SMALL_DRIPLEAF:
+			case BIG_DRIPLEAF:
+			case PITCHER_POD:
+			case SWEET_BERRIES:
+			case GLOW_BERRIES:
+			case PINK_PETALS:
+			case SEAGRASS:
+			case TALL_SEAGRASS:
+			case KELP:
+			case DRIED_KELP:
+			case DRIED_KELP_BLOCK:
+			case CACTUS:
+			case MELON:
+			case MELON_SLICE:
+			case NETHER_SPROUTS:
+			case VINE:
+			case CAVE_VINES:
+			case TWISTING_VINES:
+			case WEEPING_VINES:
+			case SUGAR_CANE:
+			case APPLE:
+			case AZALEA:
+			case FLOWERING_AZALEA:
+			case FERN:
+			case LARGE_FERN:
+			case DANDELION:
+			case POPPY:
+			case BLUE_ORCHID:
+			case AZURE_BLUET:
+			case ORANGE_TULIP:
+			case PINK_TULIP:
+			case RED_TULIP:
+			case WHITE_TULIP:
+			case OXEYE_DAISY:
+			case CORNFLOWER:
+			case LILY_OF_THE_VALLEY:
+			case WITHER_ROSE:
+			case TORCHFLOWER:
+			case SUNFLOWER:
+			case LILAC:
+			case ROSE_BUSH:
+			case PEONY:
+			case COCOA_BEANS:
+			case CARROT:
+			case POTATO:
+			case CRIMSON_FUNGUS:
+			case WARPED_FUNGUS:
+			case BEETROOT:
+			case CRIMSON_ROOTS:
+			case WARPED_ROOTS:
+			case PUMPKIN:
+			case CARVED_PUMPKIN:
+			case SEA_PICKLE:
+			case BROWN_MUSHROOM:
+			case RED_MUSHROOM:
+			case SHROOMLIGHT:
+			case LILY_PAD:
+			case SPORE_BLOSSOM:
+			case BREAD:
+			case COOKIE:
+			case NETHER_WART:
+			case NETHER_WART_BLOCK:
+			case BAKED_POTATO:
+			case MUSHROOM_STEM:
+			case BROWN_MUSHROOM_BLOCK:
+			case RED_MUSHROOM_BLOCK:
+			case WHEAT:
+			case HAY_BLOCK:
+			case WARPED_WART_BLOCK:
+			case CAKE:
+			case PUMPKIN_PIE:
+				return EventType.COMPOSTING;
+			}
+		case POWDER_SNOW_CAULDRON:
+		case LAVA_CAULDRON:
+		case WATER_CAULDRON:
+			switch(toolmat)
+			{
+			default:
+				return null;
+			case BUCKET:
+				return EventType.BUCKET_FILLING;
+			}
 		case DIRT:
 		case GRASS_BLOCK:
 			switch(toolmat)
@@ -302,6 +471,9 @@ public class BreakPlaceInteractListener implements Listener
 			case WOODEN_AXE:
 				return EventType.DEBARKING;
 			}
+		case CAULDRON:
+			
 		}
+		return null;
 	}
 }

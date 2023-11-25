@@ -58,7 +58,7 @@ public class GuiFunctionHandler
 		case SUBCATEGORYS_TECHNOLOGYS_GROUP: break; //TODO
 		case SUBCATEGORYS_TECHNOLOGYS_GLOBAL: fromSubCatToTechs(player, openInv, settingsLevel, scat, PlayerAssociatedType.GLOBAL); break;
 		case INFO_TECHNOLOGY: infoTechnology(player, tech, pat); break;
-		case RESEARCH_TECHNOLOGY_SOLO: researchTechnologySolo(player, openInv, settingsLevel, tech, pat);
+		case RESEARCH_TECHNOLOGY_SOLO: researchTechnologySolo(player, openInv, settingsLevel, tech, pat); break;
 		}	
 	}
 	

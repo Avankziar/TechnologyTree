@@ -27,7 +27,7 @@ public class CraftItemListener implements Listener
 {
 	final private static EventType CR = EventType.CRAFTING;
 	@EventHandler
-	public void onSmithItem(InventoryClickEvent event) //TODO Checken ob es nicht besser CraftItemEvent sein soll (Unwahrscheinlich)
+	public void onCrafItem(InventoryClickEvent event) //TODO Checken ob es nicht besser CraftItemEvent sein soll (Unwahrscheinlich)
 	{
 		if(event.isCancelled()
 				|| !(event.getWhoClicked() instanceof Player)
@@ -41,6 +41,7 @@ public class CraftItemListener implements Listener
 		{
 			return;
 		}
+		TT.log.info("InventoryClickItemCraft Start"); //REMOVEME
 		final ItemStack result = event.getCurrentItem().clone();
 		if(result == null) //If the result item is null, deny all and return.
 		{

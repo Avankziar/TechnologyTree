@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.PrepareGrindstoneEvent;
 
+import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
@@ -21,6 +22,7 @@ public class PrepareGrindstoneListener implements Listener
 		{
 			return;
 		}
+		TT.log.info("PrepareGrindstone Start"); //REMOVEME
 		boolean returning = false;
 		for(HumanEntity he : event.getViewers())
 		{
