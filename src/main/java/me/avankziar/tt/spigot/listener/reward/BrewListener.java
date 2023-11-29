@@ -1,5 +1,6 @@
 package main.java.me.avankziar.tt.spigot.listener.reward;
 
+import java.util.HashSet;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -12,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BrewingStartEvent;
 import org.bukkit.event.inventory.BrewEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler;
@@ -32,11 +34,11 @@ public class BrewListener implements Listener
 	public void onBrewingStart(BrewingStartEvent event)
 	{
 		if(event.getBlock() == null
-				|| !EnumHandler.isEventActive(BR))
+				|| !EnumHandler.isEventActive(BR)
+				|| ConfigHandler.GAMERULE_UseVanillaAccessToBrewingStand)
 		{
 			return;
 		}
-		TT.log.info("BrewingStart Start"); //REMOVEME
 		BrewingStand bs = (BrewingStand) event.getBlock();
 		BlockHandler.startBrew(event.getBlock().getLocation(), bs.getInventory().getIngredient().getType());
 	}
@@ -49,7 +51,6 @@ public class BrewListener implements Listener
 		{
 			return;
 		}
-		TT.log.info("Brew Start"); //REMOVEME
 		String recipeKey = BlockHandler.getBrewRecipe(event.getBlock().getLocation());
 		if(recipeKey == null)
 		{
@@ -61,7 +62,7 @@ public class BrewListener implements Listener
 		{
 			return;
 		}
-		if(!RecipeHandler.hasAccessToRecipe(uuid, bt, recipeKey))
+		if(!ConfigHandler.GAMERULE_UseVanillaAccessToBrewingStand && !RecipeHandler.hasAccessToRecipe(uuid, bt, recipeKey))
 		{
 			if(!FINISHBREW_IFPLAYERHASNOTTHERECIPEUNLOCKED)
 			{
@@ -70,9 +71,9 @@ public class BrewListener implements Listener
 			event.setCancelled(true);
 			return;
 		}
-		//ADDME Async!
 		int i = 0;
-		Player player = Bukkit.getPlayer(uuid);
+		final Player player = Bukkit.getPlayer(uuid);
+		HashSet<ItemStack> set = new HashSet<>();
 		for(ItemStack is : event.getContents().getContents())
 		{
 			if(is != null)
@@ -80,14 +81,34 @@ public class BrewListener implements Listener
 				i++;
 				if(player != null)
 				{
-					for(ItemStack iss : RewardHandler.getDrops(player, BR, ToolType.HAND, is.getType(), null))
-					{
-						Item it = event.getBlock().getWorld().dropItem(event.getBlock().getLocation(), iss);
-						ItemHandler.addItemToTask(it, uuid);
-					}
+					set.add(is);
 				}
 			}
 		}
-		RewardHandler.rewardPlayer(uuid, BR, ToolType.HAND, Material.valueOf(recipeKey), null, i);
+		final int ii = i;
+		new BukkitRunnable()
+		{
+			@Override
+			public void run()
+			{
+				for(ItemStack is : event.getContents().getContents())
+				{
+					for(ItemStack iss : RewardHandler.getDrops(player, BR, ToolType.HAND, is.getType(), null))
+					{
+						new BukkitRunnable()
+						{
+							@Override
+							public void run()
+							{
+								Item it = event.getBlock().getWorld().dropItem(event.getBlock().getLocation(), iss);
+								ItemHandler.addItemToTask(it, uuid);
+							}
+						}.runTask(TT.getPlugin());
+					}
+				}
+				RewardHandler.rewardPlayer(uuid, BR, ToolType.HAND, Material.valueOf(recipeKey), null, ii);
+			}
+		}.runTaskAsynchronously(TT.getPlugin());
+		
 	}
 }

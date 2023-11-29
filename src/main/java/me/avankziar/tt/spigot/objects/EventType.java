@@ -30,8 +30,8 @@ public enum EventType
 	MELTING,
 	MILKING, //Cows
 	PLACING,
-	PREPARE_ITEMCRAFT, //Do not can be used to reward a player, only used in permit the player access to the event
-	PREPARE_SMITHING, //Do not can be used to reward a player, only used in permit the player access to the event
+	//PREPARE_ITEMCRAFT, //Not Needed? //Do not can be used to reward a player, only used in permit the player access to the event
+	//PREPARE_SMITHING, //Not Needed? //Do not can be used to reward a player, only used in permit the player access to the event
 	RENAMING,
 	SHEARING,
 	SHEEP_DYE,

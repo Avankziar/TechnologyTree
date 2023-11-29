@@ -1,7 +1,6 @@
 package main.java.me.avankziar.tt.spigot.listener.reward;
 
 import org.bukkit.GameMode;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,6 +9,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
@@ -37,7 +37,6 @@ public class Cold_ForgingRenameListener implements Listener
 		{
 			return;
 		}
-		TT.log.info("InventoryClickAnvil Start"); //REMOVEME
 		Player player = (Player) event.getWhoClicked();
 		AnvilInventory ai = (AnvilInventory) event.getClickedInventory();
 		ItemStack base = ai.getContents()[0];
@@ -55,24 +54,37 @@ public class Cold_ForgingRenameListener implements Listener
 			{
 				return;
 			}
-			for(ItemStack is : RewardHandler.getDrops(player, RN, ToolType.HAND, result.getType(), null))
+			new BukkitRunnable()
 			{
-				Item it = player.getWorld().dropItem(player.getLocation(), is);
-				ItemHandler.addItemToTask(it, player.getUniqueId());
-			}
-			RewardHandler.rewardPlayer(player.getUniqueId(), RN, ToolType.HAND, result.getType(), null, 1);
+				@Override
+				public void run()
+				{
+					for(ItemStack is : RewardHandler.getDrops(player, RN, ToolType.HAND, result.getType(), null))
+					{
+						ItemHandler.dropItem(is, player, null);
+					}
+					RewardHandler.rewardPlayer(player.getUniqueId(), RN, ToolType.HAND, result.getType(), null, 1);
+				}
+			}.runTaskAsynchronously(TT.getPlugin());
 		} else
 		{
 			if(!EnumHandler.isEventActive(CF))
 			{
 				return;
 			}
-			for(ItemStack is : RewardHandler.getDrops(player, CF, ToolType.HAND, result.getType(), null))
+			new BukkitRunnable()
 			{
-				Item it = player.getWorld().dropItem(player.getLocation(), is);
-				ItemHandler.addItemToTask(it, player.getUniqueId());
-			}
-			RewardHandler.rewardPlayer(player.getUniqueId(), CF, ToolType.HAND, result.getType(), null, 1);
+				@Override
+				public void run()
+				{
+					for(ItemStack is : RewardHandler.getDrops(player, CF, ToolType.HAND, result.getType(), null))
+					{
+						ItemHandler.dropItem(is, player, null);
+					}
+					RewardHandler.rewardPlayer(player.getUniqueId(), CF, ToolType.HAND, result.getType(), null, 1);
+				}
+			}.runTaskAsynchronously(TT.getPlugin());
+			
 		}
 	}
 }

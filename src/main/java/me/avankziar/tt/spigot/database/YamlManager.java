@@ -302,6 +302,12 @@ public class YamlManager
 		configSpigotKeys.put("ValueEntry.OverrulePermission"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				false}));
+		configSpigotKeys.put("Gamerule.UseVanilla.ExpDrops"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				false}));
+		configSpigotKeys.put("Gamerule.UseVanilla.ItemDrops"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				false}));
 		configSpigotKeys.put("Do.Access.MainCategory.BypassIfCreative"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				true}));
@@ -634,32 +640,88 @@ public class YamlManager
 						"&eYou will no longer receive an info message about the action performed."}));
 		languageKeys.put(path+"CheckEventAction.BREAKING.Return", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&7[CheckEventAction] &cAktionsabbruch! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%",
-						"&7[CheckEventAction] &cCancel action! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%"}));
+						"&7[CheckEventAction] &cAktionsabbruch! &eEventType: &#ff8c00%eventtype%&e, Werkzeug: &#ff8c00%tool%&e, Block: &#ff8c00%block%",
+						"&7[CheckEventAction] &cCancel action! &eEventType: &#ff8c00%eventtype%&e, Tool: &#ff8c00%tool%&e, Block: &#ff8c00%block%"}));
 		languageKeys.put(path+"CheckEventAction.BREAKING.CantAccess", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&7[CheckEventAction] &cZugriff zur Aktion wurde verweigert! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%",
-						"&7[CheckEventAction] &cAccess to the action was denied! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%"}));
+						"&7[CheckEventAction] &cZugriff zur Aktion wurde verweigert! &eEventType: &#ff8c00%eventtype%&e, Werkzeug: &#ff8c00%tool%&e, Block: &#ff8c00%block%",
+						"&7[CheckEventAction] &cAccess to the action was denied! &eEventType: &#ff8c00%eventtype%&e, Tool: &#ff8c00%tool%&e, Block: &#ff8c00%block%"}));
 		languageKeys.put(path+"CheckEventAction.BREAKING.PlacedBlock", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&7[CheckEventAction] &cBlock war von Spieler platziert! Nur Items droppen! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%",
-						"&7[CheckEventAction] &cBlock was placed by player! Only items drop! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%"}));
+						"&7[CheckEventAction] &cBlock war von Spieler platziert! Nur Items droppen! &eEventType: &#ff8c00%eventtype%&e, Werkzeug: &#ff8c00%tool%&e, Block: &#ff8c00%block%",
+						"&7[CheckEventAction] &cBlock was placed by player! Only items drop! &eEventType: &#ff8c00%eventtype%&e, Tool: &#ff8c00%tool%&e, Block: &#ff8c00%block%"}));
 		languageKeys.put(path+"CheckEventAction.BREAKING.Reward", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&7[CheckEventAction] &cAktion erfolgreich! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%",
-						"&7[CheckEventAction] &cAction successful! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%"}));
+						"&7[CheckEventAction] &cAktion erfolgreich! &eEventType: &#ff8c00%eventtype%&e, Werkzeug: &#ff8c00%tool%&e, Block: &#ff8c00%block%",
+						"&7[CheckEventAction] &cAction successful! &eEventType: &#ff8c00%eventtype%&e, Tool: &#ff8c00%tool%&e, Block: &#ff8c00%block%"}));
+		languageKeys.put(path+"CheckEventAction.BREEDING.Return", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[CheckEventAction] &cAktionsabbruch! &eEventType: &#ff8c00%eventtype%&e, EntityType: &#ff8c00%entitytype%&e, Material: &#ff8c00%material%",
+						"&7[CheckEventAction] &cCancel action! &eEventType: &#ff8c00%eventtype%&e, EntityType: &#ff8c00%entitytype%&e, Material: &#ff8c00%material%"}));
+		languageKeys.put(path+"CheckEventAction.BREEDING.CantAccess", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[CheckEventAction] &cZugriff zur Aktion wurde verweigert! &eEventType: &#ff8c00%eventtype%&e, EntityType: &#ff8c00%entitytype%&e, Material: &#ff8c00%material%",
+						"&7[CheckEventAction] &cAccess to the action was denied! &eEventType: &#ff8c00%eventtype%&e, EntityType: &#ff8c00%entitytype%&e, Material: &#ff8c00%material%"}));
+		languageKeys.put(path+"CheckEventAction.BREEDING.Reward", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[CheckEventAction] &cAktion erfolgreich! &eEventType: &#ff8c00%eventtype%&e, EntityType: &#ff8c00%entitytype%&e, Material: &#ff8c00%material%",
+						"&7[CheckEventAction] &cAction successful! &eEventType: &#ff8c00%eventtype%&e, EntityType: &#ff8c00%entitytype%&e, Material: &#ff8c00%material%"}));
+		languageKeys.put(path+"CheckEventAction.COLD_FORGING.Return", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[CheckEventAction] &cAktionsabbruch! &eEventType: &#ff8c00%eventtype%&e, Rezept: &#ff8c00%r%&e",
+						"&7[CheckEventAction] &cCancel action! &eEventType: &#ff8c00%eventtype%&e, Recipe: &#ff8c00%r%&e"}));
+		languageKeys.put(path+"CheckEventAction.COLD_FORGING.CantAccess", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[CheckEventAction] &cZugriff zur Aktion wurde verweigert! &eEventType: &#ff8c00%eventtype%&e, Rezept: &#ff8c00%r%&e",
+						"&7[CheckEventAction] &cAccess to the action was denied! &eEventType: &#ff8c00%eventtype%&e, Recipe: &#ff8c00%r%&e"}));
+		languageKeys.put(path+"CheckEventAction.CRAFTING.Return", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[CheckEventAction] &cAktionsabbruch! &eEventType: &#ff8c00%eventtype%&e, Rezept: &#ff8c00%r%&e",
+						"&7[CheckEventAction] &cCancel action! &eEventType: &#ff8c00%eventtype%&e, Recipe: &#ff8c00%r%&e"}));
+		languageKeys.put(path+"CheckEventAction.CRAFTING.CantAccess", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[CheckEventAction] &cZugriff zur Aktion wurde verweigert! &eEventType: &#ff8c00%eventtype%&e, Rezept: &#ff8c00%r%&e",
+						"&7[CheckEventAction] &cAccess to the action was denied! &eEventType: &#ff8c00%eventtype%&e, Recipe: &#ff8c00%r%&e"}));
+		languageKeys.put(path+"CheckEventAction.GRINDING.Return", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[CheckEventAction] &cAktionsabbruch! &eEventType: &#ff8c00%eventtype%&e, Rezept: &#ff8c00%r%&e",
+						"&7[CheckEventAction] &cCancel action! &eEventType: &#ff8c00%eventtype%&e, Recipe: &#ff8c00%r%&e"}));
+		languageKeys.put(path+"CheckEventAction.GRINDING.CantAccess", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[CheckEventAction] &cZugriff zur Aktion wurde verweigert! &eEventType: &#ff8c00%eventtype%&e, Rezept: &#ff8c00%r%&e",
+						"&7[CheckEventAction] &cAccess to the action was denied! &eEventType: &#ff8c00%eventtype%&e, Recipe: &#ff8c00%r%&e"}));
 		languageKeys.put(path+"CheckEventAction.INTERACT.Return", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&7[CheckEventAction] &cAktionsabbruch! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%",
-						"&7[CheckEventAction] &cCancel action! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%"}));
+						"&7[CheckEventAction] &cAktionsabbruch! &eEventType: &#ff8c00%eventtype%&e, Werkzeug: &#ff8c00%tool%&e, Block: &#ff8c00%block%",
+						"&7[CheckEventAction] &cCancel action! &eEventType: &#ff8c00%eventtype%&e, Tool: &#ff8c00%tool%&e, Block: &#ff8c00%block%"}));
+		languageKeys.put(path+"CheckEventAction.INTERACT.BypassInteraction", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[CheckEventAction] &eInteraktion Bypass! &eEventType: &#ff8c00%eventtype%&e, Werkzeug: &#ff8c00%tool%&e, Block: &#ff8c00%block%",
+						"&7[CheckEventAction] &eInteraction bypass! &eEventType: &#ff8c00%eventtype%&e, Tool: &#ff8c00%tool%&e, Block: &#ff8c00%block%"}));
+		languageKeys.put(path+"CheckEventAction.INTERACT.EventNotFound", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[CheckEventAction] &cEvent beim Interagier nicht gefunden! &eWerkzeug: &#ff8c00%tool%&e, Block: &#ff8c00%block%",
+						"&7[CheckEventAction] &cEvent not found when interacting! &eTool: &#ff8c00%tool%&e, Block: &#ff8c00%block%"}));
+		languageKeys.put(path+"CheckEventAction.INTERACT.Reward",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[CheckEventAction] &aAktion erfolgreich! &eEventType: &#ff8c00%eventtype%&e, Werkzeug: &#ff8c00%tool%&e, Block: &#ff8c00%block%",
+						"&7[CheckEventAction] &aAction successful! &eEventType: &#ff8c00%eventtype%&e, Tool: &#ff8c00%tool%&e, Block: &#ff8c00%block%"}));
 		languageKeys.put(path+"CheckEventAction.PLACING.Return", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&7[CheckEventAction] &cAktionsabbruch! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%",
-						"&7[CheckEventAction] &cCancel action! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%"}));
+						"&7[CheckEventAction] &cAktionsabbruch! &eEventType: &#ff8c00%eventtype%&e, Werkzeug: &#ff8c00%tool%&e, Block: &#ff8c00%block%",
+						"&7[CheckEventAction] &cCancel action! &eEventType: &#ff8c00%eventtype%&e, Tool: &#ff8c00%tool%&e, Block: &#ff8c00%block%"}));
 		languageKeys.put(path+"CheckEventAction.PLACING.Reward", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&7[CheckEventAction] &cAktion erfolgreich! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%",
-						"&7[CheckEventAction] &cAction successful! &eEventType: &#546f42%eventtype%&e, Werkzeug: &#546f42%tool%&e, Block: &#546f42%block%"}));
+						"&7[CheckEventAction] &aAktion erfolgreich! &eEventType: &#ff8c00%eventtype%&e, Werkzeug: &#ff8c00%tool%&e, Block: &#ff8c00%block%",
+						"&7[CheckEventAction] &aAction successful! &eEventType: &#ff8c00%eventtype%&e, Tool: &#ff8c00%tool%&e, Block: &#ff8c00%block%"}));
+		languageKeys.put(path+"CheckEventAction.SMITHING.Return", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[CheckEventAction] &cAktionsabbruch! &eEventType: &#ff8c00%eventtype%&e, Rezept: &#ff8c00%r%&e",
+						"&7[CheckEventAction] &cCancel action! &eEventType: &#ff8c00%eventtype%&e, Recipe: &#ff8c00%r%&e"}));
+		languageKeys.put(path+"CheckEventAction.SMITHING.CantAccess", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[CheckEventAction] &cZugriff zur Aktion wurde verweigert! &eEventType: &#ff8c00%eventtype%&e, Rezept: &#ff8c00%r%&e",
+						"&7[CheckEventAction] &cAccess to the action was denied! &eEventType: &#ff8c00%eventtype%&e, Recipe: &#ff8c00%r%&e"}));
 	}
 	
 	private void initPlayerHandlerLang() //INFO:PlayerHandlerLang
@@ -1524,11 +1586,7 @@ public class YamlManager
 		addMainCategory("woodworking",
 				new String[] {"Holzarbeiten", "Woodworking"},
 				PlayerAssociatedType.SOLO, 2, 
-				new String[] {
-						"if:(a):o_1", "else:o_2",
-						"output:o_1:true",
-						"output:o_2:false",
-						"a:true"}, true,
+				null, true,
 				new String[] {"&8Hauptkategorie Holzarbeiten","&8Maincategory Woodworking"}, Material.BARRIER, 1,
 				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"",
@@ -1549,13 +1607,13 @@ public class YamlManager
 				new String[] {"Steinmetz", "Stonemason"},
 				PlayerAssociatedType.SOLO, 3,
 				new String[] {
+						"a:hasresearchedtech,stone_I,1:==:true",
+						"b:var1=perm=here.your.first.permission:==:true",
+						"c:var1=perm=here.your.other.permission:==:true",
 						"if:(a&&b&&c):o_1",
 						"else:o_2",
 						"output:o_1:true",
-						"output:o_2:false",
-						"a:hasresearchedtech,stone_I,1:==:true",
-						"b:var1=perm=here.your.first.permission:==:true",
-						"c:var1=perm=here.your.other.permission:==:true"}, true,
+						"output:o_2:false"}, true,
 				new String[] {"&8Hauptkategorie Steinmetz","&8Maincategory Stonemason"}, Material.BARRIER, 1,
 				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"",
@@ -1586,11 +1644,11 @@ public class YamlManager
 				new String[] {"Tischrezepte", "Tablerecipe"},
 				PlayerAssociatedType.SOLO, 4,
 				new String[] {
+						"a:hasresearchedtech,stone_I,1:==:true",
+						"b:hasresearchedtech,ironore,1:==:true",
 						"if:(a||b):o_1", "else:o_2",
 						"output:o_1:true",
-						"output:o_2:false",
-						"a:hasresearchedtech,stone_I,1:==:true",
-						"b:hasresearchedtech,ironore,1:==:true"}, true,
+						"output:o_2:false"}, true,
 				new String[] {"&8Hauptkategorie Tischrezepte","&8Maincategory Tablerecipe"}, Material.BARRIER, 1,
 				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"",
@@ -1726,10 +1784,10 @@ public class YamlManager
 				new String[] {"Werkzeuge", "Tools"},
 				PlayerAssociatedType.SOLO, 1,
 				new String[] {
+						"a:hasresearchedtech,crafting_table,1:==:true",
 						"if:(a):o_1", "else:o_2",
 						"output:o_1:true",
-						"output:o_2:false",
-						"a:hasresearchedtech,crafting_table,1:==:true"}, true, "miscellaneous",
+						"output:o_2:false"}, true, "miscellaneous",
 				new String[] {"&8Subkategorie Werkzeuge","&8Subcategory Tools"},
 				Material.BARRIER, 1,
 				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {

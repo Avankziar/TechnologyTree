@@ -47,12 +47,13 @@ public class BlockHandler
 		case BREWING_STAND:
 			bt = BlockType.BREWING_STAND;
 			break;
-		case CRAFTING_TABLE:
+		/*Not Needed
+		 * case CRAFTING_TABLE:
 			bt = BlockType.CRAFTING_TABLE;
 			break;
 		case ENCHANTING_TABLE:
 			bt = BlockType.ENCHANTING_TABLE;
-			break;
+			break;*/
 		case FURNACE:
 		case FURNACE_MINECART:
 			bt = BlockType.FURNACE;

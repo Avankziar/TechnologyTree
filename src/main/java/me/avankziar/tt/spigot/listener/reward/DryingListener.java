@@ -5,17 +5,18 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.SpongeAbsorbEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
@@ -51,38 +52,32 @@ public class DryingListener implements Listener
 		{
 			return;
 		}
-		UUID uuid = placedSponge.get(BlockHandler.getLocationText(event.getBlock().getLocation()));
-		if(uuid == null)
+		final Location loc = event.getBlock().getLocation();
+		final int size = event.getBlocks().size();
+		new BukkitRunnable()
 		{
-			return;
-		}
-		Player player = Bukkit.getPlayer(uuid);
-		if(player != null
-				&& player.getGameMode() != GameMode.CREATIVE
-				&& player.getGameMode() != GameMode.SPECTATOR)
-		{
-			for(ItemStack is : RewardHandler.getDrops(player, DR, ToolType.HAND, Material.SPONGE, null))
+			@Override
+			public void run()
 			{
-				Item it = player.getWorld().dropItem(player.getLocation(), is);
-				ItemHandler.addItemToTask(it, uuid);
+				UUID uuid = placedSponge.get(BlockHandler.getLocationText(loc));
+				if(uuid == null)
+				{
+					return;
+				}
+				Player player = Bukkit.getPlayer(uuid);
+				if(player != null
+						&& player.getGameMode() != GameMode.CREATIVE
+						&& player.getGameMode() != GameMode.SPECTATOR)
+				{
+					return;
+				}
+				for(ItemStack is : RewardHandler.getDrops(player, DR, ToolType.HAND, Material.SPONGE, null))
+				{
+					ItemHandler.dropItem(is, player, loc);
+				}
+				RewardHandler.rewardPlayer(uuid, DR, ToolType.HAND, Material.SPONGE, null, size);
+				placedSponge.remove(BlockHandler.getLocationText(loc));
 			}
-		}
-		RewardHandler.rewardPlayer(uuid, DR, ToolType.HAND, Material.SPONGE, null, event.getBlocks().size());
-	}
-	
-	@EventHandler(priority = EventPriority.LOW)
-	public void onSponeBreak(BlockBreakEvent event)
-	{
-		if(event.isCancelled()
-				|| event.getPlayer() == null
-				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
-				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
-				|| event.getBlock() == null
-				|| event.getBlock().getType() != Material.WET_SPONGE
-				|| !EnumHandler.isEventActive(DR))
-		{
-			return;
-		}
-		placedSponge.remove(BlockHandler.getLocationText(event.getBlock().getLocation()));
+		}.runTaskAsynchronously(TT.getPlugin());
 	}
 }

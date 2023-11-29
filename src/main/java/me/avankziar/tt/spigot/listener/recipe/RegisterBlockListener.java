@@ -36,12 +36,10 @@ public class RegisterBlockListener implements Listener
 		{
 			return;
 		}
-		TT.log.info("InteractBlockToCheckRegister Start"); //REMOVEME
 		Location loc = event.getClickedBlock().getLocation();
 		BlockType bt = BlockHandler.getBlockType(event.getClickedBlock().getType());
 		if(bt == BlockType.UNKNOW)
 		{
-			TT.log.info("InteractBlockToCheckRegister BlockType Unknow Type:"+event.getClickedBlock().getType()); //REMOVEME
 			return;
 		}
 		if(!RewardHandler.canAccessInteraction(event.getPlayer(),

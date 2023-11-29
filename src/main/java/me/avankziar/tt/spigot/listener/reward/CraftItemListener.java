@@ -2,7 +2,6 @@ package main.java.me.avankziar.tt.spigot.listener.reward;
 
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
@@ -41,7 +40,6 @@ public class CraftItemListener implements Listener
 		{
 			return;
 		}
-		TT.log.info("InventoryClickItemCraft Start"); //REMOVEME
 		final ItemStack result = event.getCurrentItem().clone();
 		if(result == null) //If the result item is null, deny all and return.
 		{
@@ -58,12 +56,18 @@ public class CraftItemListener implements Listener
 			schedulePostDetectionAll(player, result, result.getType(), result.getItemMeta());
 		} else
 		{
-			for(ItemStack is : RewardHandler.getDrops(player, CR, ToolType.HAND, result.getType(), null))
+			new BukkitRunnable()
 			{
-				Item it = player.getWorld().dropItem(player.getLocation(), is);
-				ItemHandler.addItemToTask(it, player.getUniqueId());
-			}
-			RewardHandler.rewardPlayer(player.getUniqueId(), CR, ToolType.HAND, result.getType(), null, 1);
+				@Override
+				public void run()
+				{
+					for(ItemStack is : RewardHandler.getDrops(player, CR, ToolType.HAND, result.getType(), null))
+					{
+						ItemHandler.dropItem(is, player, null);
+					}
+					RewardHandler.rewardPlayer(player.getUniqueId(), CR, ToolType.HAND, result.getType(), null, 1);
+				}
+			}.runTaskAsynchronously(TT.getPlugin());
 		}
 	}
 	
@@ -76,9 +80,7 @@ public class CraftItemListener implements Listener
 		{
 			preInv[i] = preInv[i] != null ? preInv[i].clone() : null;
 		}
-		
 		int preInvcount = 0;
-
 		for(ItemStack is : preInv)
 		{
 			if(isSameItem(premat, premeta, is))
@@ -86,33 +88,42 @@ public class CraftItemListener implements Listener
 				preInvcount++;
 			}
 		}
-		
 		final int preCount = preInvcount;
-
 		new BukkitRunnable()
 		{
-
 			@Override
 			public void run()
 			{
 				final ItemStack[] postInv = player.getInventory().getContents();
-				int newItemsCount = 0;
+				int newCount = 0;
 				
 				for (ItemStack post : postInv)
 				{
 					if(isSameItem(premat, premeta, post))
 					{
-						newItemsCount++;
+						newCount++;
 					}
 				}
-				
-				newItemsCount = newItemsCount-preCount;
-				
+				int newItemsCount = newCount-preCount;
 				if (newItemsCount > 0)
 				{
-					
 			        return;
 				}
+				new BukkitRunnable()
+				{
+					@Override
+					public void run()
+					{
+						for(int i = 0; i <= newItemsCount; i++)
+						{
+							for(ItemStack is : RewardHandler.getDrops(player, CR, ToolType.HAND, premat, null))
+							{
+								ItemHandler.dropItem(is, player, null);
+							}
+						}
+						RewardHandler.rewardPlayer(player.getUniqueId(), CR, ToolType.HAND, premat, null, newItemsCount);
+					}
+				}.runTaskAsynchronously(TT.getPlugin());
 			}
 		}.runTaskLater(TT.getPlugin(), 1L);
 	}

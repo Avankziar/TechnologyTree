@@ -7,7 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
-import org.bukkit.entity.Item;
+import org.bukkit.block.data.type.Bed;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -74,9 +74,14 @@ public class BreakPlaceInteractListener implements Listener
 					BR, ToolType.getHandToolType(event.getPlayer()), event.getBlock().getType(), null, null);
 			return;
 		}
-		//TODO Configwert einbauen um Vanilla Drops zu ermöglichen.
-		event.setExpToDrop(0);
-		event.setDropItems(false);
+		if(ConfigHandler.GAMERULE_UseVanillaExpDrops)
+		{
+			event.setExpToDrop(0);
+		}
+		if(ConfigHandler.GAMERULE_UseVanillaItemDrops)
+		{
+			event.setDropItems(false);
+		}
 		final Player player = event.getPlayer();
 		final UUID uuid = player.getUniqueId();
 		final Material blockType = event.getBlock().getType();
@@ -108,18 +113,9 @@ public class BreakPlaceInteractListener implements Listener
 						ARGCheckEventAction.checkEventAction(event.getPlayer(), "BREAKING:PLACEDBLOCK",
 								BR, ToolType.getHandToolType(event.getPlayer()), event.getBlock().getType(), null, null);
 						PlacedBlock.delete(loc);
-						//Do drop Items
 						for(ItemStack is : RewardHandler.getDrops(player, BR, tool, blockType, null))
 						{
-							new BukkitRunnable()
-							{
-								@Override
-								public void run()
-								{
-									Item it = event.getPlayer().getWorld().dropItem(loc, is);
-									ItemHandler.addItemToTask(it, uuid);
-								}
-							}.runTask(TT.getPlugin());
+							ItemHandler.dropItem(is, player, loc);
 						}
 						return;
 					}
@@ -128,15 +124,7 @@ public class BreakPlaceInteractListener implements Listener
 						BR, ToolType.getHandToolType(event.getPlayer()), event.getBlock().getType(), null, null);
 				for(ItemStack is : RewardHandler.getDrops(player, BR, tool, blockType, null))
 				{
-					new BukkitRunnable()
-					{
-						@Override
-						public void run()
-						{
-							Item it = event.getPlayer().getWorld().dropItem(loc, is);
-							ItemHandler.addItemToTask(it, uuid);
-						}
-					}.runTask(TT.getPlugin());
+					ItemHandler.dropItem(is, player, loc);
 				}
 				RewardHandler.rewardPlayer(uuid, BR, tool, blockType, null, 1);
 			}
@@ -178,15 +166,7 @@ public class BreakPlaceInteractListener implements Listener
 						PL, ToolType.getHandToolType(event.getPlayer()), event.getBlock().getType(), null, null);
 				for(ItemStack is : RewardHandler.getDrops(player, PL, tool, blockType, null))
 				{
-					new BukkitRunnable()
-					{						
-						@Override
-						public void run()
-						{
-							Item it = event.getPlayer().getWorld().dropItem(loc, is);
-							ItemHandler.addItemToTask(it, uuid);
-						}
-					}.runTask(TT.getPlugin());
+					ItemHandler.dropItem(is, player, loc);
 				}
 				RewardHandler.rewardPlayer(uuid, PL, tool, blockType, null, 1);
 			}
@@ -209,21 +189,24 @@ public class BreakPlaceInteractListener implements Listener
 	}*/
 	
 	@EventHandler
-	public void onInteract(PlayerInteractEvent event)
+	public void onInteractWithBlocks(PlayerInteractEvent event)
 	{
-		if(event.getAction() == Action.LEFT_CLICK_AIR
+		if(event.getClickedBlock() == null
+				|| event.getAction() == Action.LEFT_CLICK_AIR
 				|| event.getAction() == Action.RIGHT_CLICK_AIR
-				|| event.getClickedBlock() == null
 				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
 				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR)
 		{
 			ARGCheckEventAction.checkEventAction(event.getPlayer(), "INTERACT:RETURN",
-				PL, ToolType.HAND, event.getClickedBlock() != null ? event.getClickedBlock().getType() : Material.AIR, null,
+				EventType.INTERACT, ToolType.HAND, event.getClickedBlock() != null ? event.getClickedBlock().getType() : Material.AIR, null,
 				event.getPlayer().getInventory().getItemInMainHand() != null ? event.getPlayer().getInventory().getItemInMainHand().getType() : Material.AIR);
 			return;
 		}
 		if(byPassInteraction(event.getClickedBlock()))
 		{
+			ARGCheckEventAction.checkEventAction(event.getPlayer(), "INTERACT:BYPASSINTERACT",
+					EventType.INTERACT, ToolType.HAND, event.getClickedBlock() != null ? event.getClickedBlock().getType() : Material.AIR, null,
+					event.getPlayer().getInventory().getItemInMainHand() != null ? event.getPlayer().getInventory().getItemInMainHand().getType() : Material.AIR);
 			return;
 		}
 		final EventType et = isAppropiateTool(
@@ -235,7 +218,9 @@ public class BreakPlaceInteractListener implements Listener
 					: Material.AIR);
 		if(et == null)
 		{
-			event.setCancelled(true);
+			/*ARGCheckEventAction.checkEventAction(event.getPlayer(), "INTERACT:EVENTNOTFOUND",
+					null, ToolType.HAND, event.getClickedBlock() != null ? event.getClickedBlock().getType() : Material.AIR, null,
+					event.getPlayer().getInventory().getItemInMainHand() != null ? event.getPlayer().getInventory().getItemInMainHand().getType() : Material.AIR);*/
 			return;
 		}
 		final Player player = event.getPlayer();
@@ -248,17 +233,12 @@ public class BreakPlaceInteractListener implements Listener
 			@Override
 			public void run()
 			{
+				ARGCheckEventAction.checkEventAction(event.getPlayer(), "INTERACT:REWARD",
+						et, ToolType.HAND, event.getClickedBlock() != null ? event.getClickedBlock().getType() : Material.AIR, null,
+						event.getPlayer().getInventory().getItemInMainHand() != null ? event.getPlayer().getInventory().getItemInMainHand().getType() : Material.AIR);
 				for(ItemStack is : RewardHandler.getDrops(player, et, tool, blockType, null))
 				{
-					new BukkitRunnable()
-					{
-						@Override
-						public void run()
-						{
-							Item it = event.getPlayer().getWorld().dropItem(loc, is);
-							ItemHandler.addItemToTask(it, uuid);
-						}
-					}.runTask(TT.getPlugin());
+					ItemHandler.dropItem(is, player, loc);
 				}
 				RewardHandler.rewardPlayer(uuid, et, tool, blockType, null, 1);
 			}
@@ -267,7 +247,8 @@ public class BreakPlaceInteractListener implements Listener
 	
 	public boolean byPassInteraction(Block block)
 	{
-		if(block.getState() instanceof Sign)
+		if(block.getState() instanceof Sign
+				|| block.getState() instanceof Bed)
 		{
 			return true;
 		}
@@ -281,6 +262,7 @@ public class BreakPlaceInteractListener implements Listener
 		case LECTERN:
 		case TRIPWIRE:
 		case TARGET:
+		case LODESTONE:
 			return true;
 		}
 	}
@@ -302,7 +284,7 @@ public class BreakPlaceInteractListener implements Listener
 			case TROPICAL_FISH_BUCKET:
 			case LAVA_BUCKET:
 			case WATER_BUCKET:
-			case MILK_BUCKET:
+			case POWDER_SNOW_BUCKET:
 				return EventType.BUCKET_EMPTYING;
 			}
 		case COMPOSTER:
@@ -471,9 +453,6 @@ public class BreakPlaceInteractListener implements Listener
 			case WOODEN_AXE:
 				return EventType.DEBARKING;
 			}
-		case CAULDRON:
-			
 		}
-		return null;
 	}
 }

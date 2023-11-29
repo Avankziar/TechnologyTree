@@ -11,6 +11,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.tt.spigot.TT;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
+import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
@@ -24,29 +26,41 @@ public class BreedListener implements Listener
 	public void onBreed(EntityBreedEvent event)
 	{
 		if(event.isCancelled()
+				|| event.getBreeder() == null
+				|| event.getBredWith() == null
 				|| !(event.getBreeder() instanceof Player)
 				|| ((HumanEntity) event.getBreeder()).getGameMode() == GameMode.CREATIVE
 				|| ((HumanEntity) event.getBreeder()).getGameMode() == GameMode.SPECTATOR
 				|| !EnumHandler.isEventActive(BR))
 		{
+			if(event.getBreeder() != null && event.getBreeder() instanceof Player)
+			{
+				ARGCheckEventAction.checkEventAction((Player) event.getBreeder(), "BREEDING:RETURN",
+						EventType.BREEDING, ToolType.HAND, null, event.getEntityType(), event.getBredWith() != null ? event.getBredWith().getType() : null);
+			}
 			return;
 		}
-		TT.log.info("EntityBreed Start"); //REMOVEME
 		if(!RewardHandler.canAccessInteraction((Player) event.getBreeder(),
-						ToolType.getToolType(((Player) event.getBreeder()).getInventory().getItemInMainHand().getType()),
-						BR, null, event.getEntityType()))
+						ToolType.HAND, BR, null, event.getEntityType()))
 		{
 			event.setCancelled(true);
+			ARGCheckEventAction.checkEventAction((Player) event.getBreeder(), "BREEDING:CANNOTACCESS",
+					EventType.BREEDING, ToolType.HAND, null, event.getEntityType(), event.getBredWith().getType());
 			return;
 		}
-		Player player = (Player) event.getBreeder();
-		final ToolType tool = ToolType.getHandToolType(player);
-		event.setExperience(0);
+		final Player player = (Player) event.getBreeder();
+		final ToolType tool = ToolType.HAND;
+		if(ConfigHandler.GAMERULE_UseVanillaExpDrops)
+		{
+			event.setExperience(0);
+		}
 		new BukkitRunnable()
 		{
 			@Override
 			public void run()
 			{
+				ARGCheckEventAction.checkEventAction((Player) event.getBreeder(), "BREEDING:REWARD",
+						EventType.BREEDING, ToolType.HAND, null, event.getEntityType(), event.getBredWith().getType());
 				for(ItemStack is : RewardHandler.getDrops(player, BR, tool, null, event.getEntityType()))
 				{
 					new BukkitRunnable()

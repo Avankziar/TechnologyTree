@@ -7,11 +7,31 @@ import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 
 public class ConfigHandler
 {	
+	public static boolean 
+			GAMERULE_UseVanillaExpDrops = false,
+			GAMERULE_UseVanillaItemDrops = false,
+			GAMERULE_UseVanillaAccessToAnvil = false,
+			GAMERULE_UseVanillaAccessToBrewingStand = false,
+			GAMERULE_UseVanillaAccessToCartographyTable = false,
+			GAMERULE_UseVanillaAccessToComposter= false,
+			GAMERULE_UseVanillaAccessToCrafingTable = false,
+			GAMERULE_UseVanillaAccessToGrindstone = false,
+			GAMERULE_UseVanillaAccessToEnchantingTable = false,
+			GAMERULE_UseVanillaAccessToFurnace = false,
+			GAMERULE_UseVanillaAccessToSmithingTable = false,
+			GAMERULE_UseVanillaAccessToStoneCutter = false
+			;
 	public ConfigHandler(){}
 	
 	public enum CountType
 	{
 		HIGHEST, ADDUP;
+	}
+	
+	public static void init()
+	{
+		GAMERULE_UseVanillaExpDrops = BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("Gamerule.UseVanilla.ExpDrops", false);
+		GAMERULE_UseVanillaItemDrops = BaseConstructor.getPlugin().getYamlHandler().getConfig().getBoolean("Gamerule.UseVanilla.ItemDrops", false);
 	}
 	
 	public CountType getCountPermType()

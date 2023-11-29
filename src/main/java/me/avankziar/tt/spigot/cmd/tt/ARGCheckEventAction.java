@@ -1,7 +1,7 @@
 package main.java.me.avankziar.tt.spigot.cmd.tt;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.UUID;
 
 import org.bukkit.Material;
@@ -21,7 +21,7 @@ import main.java.me.avankziar.tt.spigot.objects.ToolType;
 public class ARGCheckEventAction extends ArgumentModule
 {
 	private static TT plugin = BaseConstructor.getPlugin();
-	public static ArrayList<UUID> checkEventType = new ArrayList<>();
+	public static HashSet<UUID> checkEventAction = new HashSet<>();
 	
 	public ARGCheckEventAction(ArgumentConstructor argumentConstructor)
 	{
@@ -38,13 +38,13 @@ public class ARGCheckEventAction extends ArgumentModule
 			@Override
 			public void run()
 			{
-				if(checkEventType.contains(player.getUniqueId()))
+				if(checkEventAction.contains(player.getUniqueId()))
 				{
-					checkEventType.remove(player.getUniqueId());
+					checkEventAction.remove(player.getUniqueId());
 					player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.CheckEventAction.Removed")));
 				} else
 				{
-					checkEventType.add(player.getUniqueId());
+					checkEventAction.add(player.getUniqueId());
 					player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.CheckEventAction.Added")));
 				}
 			}
@@ -52,8 +52,8 @@ public class ARGCheckEventAction extends ArgumentModule
 	}
 	
 	public static void checkEventAction(Player player, String value, EventType et, ToolType tool, Material mat, EntityType ent, Material mat2)
-	{
-		if(checkEventType.contains(player.getUniqueId()))
+	{//TODO Die anderen Events hinzufügen
+		if(checkEventAction.contains(player.getUniqueId()))
 		{
 			switch(value)
 			{
@@ -83,8 +83,73 @@ public class ARGCheckEventAction extends ArgumentModule
 						.replace("%tool%", tool.toString())
 						.replace("%block%", mat.toString())));
 				break;
+			case "BREEDING:RETURN":
+				player.sendMessage(ChatApi.tl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.BREEDING.Return")
+						.replace("%eventtype%", et.toString())
+						.replace("%material%", mat2.toString())
+						.replace("%entitytype%", ent.toString())));
+				break;
+			case "BREEDING:CANNOTACCESS":
+				player.sendMessage(ChatApi.tl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.BREEDING.CantAccess")
+						.replace("%eventtype%", et.toString())
+						.replace("%material%", mat2.toString())
+						.replace("%entitytype%", ent.toString())));
+				break;
+			case "BREEDING:REWARD":
+				player.sendMessage(ChatApi.tl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.BREEDING.CantAccess")
+						.replace("%eventtype%", et.toString())
+						.replace("%material%", mat2.toString())
+						.replace("%entitytype%", ent.toString())));
+				break;
+			case "COLD_FORGING:RETURN":
+				player.sendMessage(ChatApi.tl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.COLD_FORGING.Return")
+						.replace("%eventtype%", et.toString())
+						.replace("%r%", mat2.toString())));
+				break;
+			case "COLD_FORGING:CANNOTACCESS":
+				player.sendMessage(ChatApi.tl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.COLD_FORGING.CantAccess")
+						.replace("%eventtype%", et.toString())
+						.replace("%r%", mat2.toString())));
+				break;
+			case "CRAFTING:RETURN":
+				player.sendMessage(ChatApi.tl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.CRAFTING.Return")
+						.replace("%eventtype%", et.toString())
+						.replace("%r%", mat2.toString())));
+				break;
+			case "CRAFTING:CANNOTACCESS":
+				player.sendMessage(ChatApi.tl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.CRAFTING.CantAccess")
+						.replace("%eventtype%", et.toString())
+						.replace("%r%", mat2.toString())));
+				break;
+			case "GRINDING:RETURN":
+				player.sendMessage(ChatApi.tl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.GRINDING.Return")
+						.replace("%eventtype%", et.toString())
+						.replace("%r%", mat2.toString())));
+				break;
+			case "GRINDING:CANNOTACCESS":
+				player.sendMessage(ChatApi.tl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.GRINDING.CantAccess")
+						.replace("%eventtype%", et.toString())
+						.replace("%r%", mat2.toString())));
+				break;
 			case "INTERACT:RETURN":
 				player.sendMessage(ChatApi.tl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.INTERACT.Return")
+						.replace("%eventtype%", et.toString())
+						.replace("%tool%", mat2.toString())
+						.replace("%block%", mat.toString())));
+				break;
+			case "INTERACT:BYPASSINTERACT":
+				player.sendMessage(ChatApi.tl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.INTERACT.BypassInteraction")
+						.replace("%eventtype%", et.toString())
+						.replace("%tool%", mat2.toString())
+						.replace("%block%", mat.toString())));
+				break;
+			case "INTERACT:EVENTNOTFOUND":
+				player.sendMessage(ChatApi.tl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.INTERACT.EventNotFound")
+						.replace("%tool%", mat2.toString())
+						.replace("%block%", mat.toString())));
+				break;
+			case "INTERACT:REWARD":
+				player.sendMessage(ChatApi.tl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.INTERACT.Reward")
 						.replace("%eventtype%", et.toString())
 						.replace("%tool%", mat2.toString())
 						.replace("%block%", mat.toString())));
@@ -100,6 +165,16 @@ public class ARGCheckEventAction extends ArgumentModule
 						.replace("%eventtype%", et.toString())
 						.replace("%tool%", tool.toString())
 						.replace("%block%", mat.toString())));
+				break;
+			case "SMITHING:RETURN":
+				player.sendMessage(ChatApi.tl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.SMITHING.Return")
+						.replace("%eventtype%", et.toString())
+						.replace("%r%", mat2.toString())));
+				break;
+			case "SMITHING:CANNOTACCESS":
+				player.sendMessage(ChatApi.tl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.SMITHING.CantAccess")
+						.replace("%eventtype%", et.toString())
+						.replace("%r%", mat2.toString())));
 				break;
 			}
 		}
