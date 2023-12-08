@@ -7,9 +7,9 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,7 +17,9 @@ import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
@@ -45,12 +47,21 @@ public class ExplodeIgnitingListener implements Listener
 			return;
 		}
 		ignitingMap.put(event.getPlayer().getUniqueId(), BlockHandler.getLocationText(event.getBlock().getLocation()));
-		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), IG, ToolType.HAND, event.getBlock().getType(), null))
+		final Player player = event.getPlayer();
+		final Location loc = event.getBlock().getLocation();
+		final Material mat = event.getBlock().getType();
+		new BukkitRunnable()
 		{
-			Item it = event.getBlock().getLocation().getWorld().dropItem(event.getBlock().getLocation(), is);
-			ItemHandler.addItemToTask(it, event.getPlayer().getUniqueId());
-		}
-		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), IG, ToolType.HAND, event.getBlock().getType(), null, 1);
+			@Override
+			public void run()
+			{
+				for(ItemStack is : RewardHandler.getDrops(player, IG, ToolType.HAND, mat, null))
+				{
+					ItemHandler.dropItem(is, player, loc);
+				}
+				RewardHandler.rewardPlayer(player.getUniqueId(), IG, ToolType.HAND, mat, null, 1);
+			}
+		}.runTaskAsynchronously(TT.getPlugin());
 	}
 	
 	@EventHandler
@@ -77,16 +88,21 @@ public class ExplodeIgnitingListener implements Listener
 			return;
 		}
 		ignitingMap.remove(uuid);
-		Player player = Bukkit.getPlayer(uuid);
-		if(player != null)
+		final Player player = Bukkit.getPlayer(uuid);
+		final Location loc = event.getBlock().getLocation();
+		final Material mat = event.getBlock().getType();
+		new BukkitRunnable()
 		{
-			for(ItemStack is : RewardHandler.getDrops(player, EX, ToolType.HAND, event.getBlock().getType(), null))
+			@Override
+			public void run()
 			{
-				Item it = player.getWorld().dropItem(event.getBlock().getLocation(), is);
-				ItemHandler.addItemToTask(it, player.getUniqueId());
+				for(ItemStack is : RewardHandler.getDrops(player, EX, ToolType.HAND, mat, null))
+				{
+					ItemHandler.dropItem(is, player, loc);
+				}
+				RewardHandler.rewardPlayer(player.getUniqueId(), EX, ToolType.HAND, mat, null, 1);
 			}
-		}
-		RewardHandler.rewardPlayer(uuid, EX, ToolType.HAND, event.getBlock().getType(), null, 1);
+		}.runTaskAsynchronously(TT.getPlugin());
 	}
 		
 	
@@ -122,18 +138,23 @@ public class ExplodeIgnitingListener implements Listener
 			return;
 		}
 		ignitingMap.remove(uuid);
-		Player player = Bukkit.getPlayer(uuid);
+		final Player player = Bukkit.getPlayer(uuid);
 		for(Block b : event.blockList())
 		{
-			if(player != null)
+			final Material mat = b.getType();
+			final Location loc = b.getLocation();
+			new BukkitRunnable()
 			{
-				for(ItemStack is : RewardHandler.getDrops(player, EX, ToolType.HAND, b.getType(), null))
+				@Override
+				public void run()
 				{
-					Item it = player.getWorld().dropItem(b.getLocation(), is);
-					ItemHandler.addItemToTask(it, player.getUniqueId());
+					for(ItemStack is : RewardHandler.getDrops(player, EX, ToolType.HAND, mat, null))
+					{
+						ItemHandler.dropItem(is, player, loc);
+					}			
+					RewardHandler.rewardPlayer(player.getUniqueId(), EX, ToolType.HAND, mat, null, 1);
 				}
-			}			
-			RewardHandler.rewardPlayer(uuid, EX, ToolType.HAND, b.getType(), null, 1);
+			}.runTaskAsynchronously(TT.getPlugin());
 		}
 	}
 }

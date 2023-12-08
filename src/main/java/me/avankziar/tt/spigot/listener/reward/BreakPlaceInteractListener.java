@@ -275,7 +275,7 @@ public class BreakPlaceInteractListener implements Listener
 			switch(toolmat)
 			{
 			default:
-				return null;
+				return EventType.INTERACT;
 			case AXOLOTL_BUCKET:
 			case COD_BUCKET:
 			case PUFFERFISH_BUCKET:

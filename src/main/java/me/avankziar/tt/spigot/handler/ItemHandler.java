@@ -30,7 +30,7 @@ public class ItemHandler
 		}.runTask(plugin);
 	}
 	
-	public static void addItemToTask(Item item, UUID owner)
+	private static void addItemToTask(Item item, UUID owner)
 	{
 		item.setOwner(owner);
 		final UUID uuid = item.getUniqueId();

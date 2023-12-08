@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -115,6 +114,7 @@ public class CookMeltSmeltSmokeListener implements Listener
 			return;
 		}
 		final Player player = Bukkit.getPlayer(uuid);
+		final Location loc = event.getBlock().getLocation();
 		new BukkitRunnable()
 		{
 			@Override
@@ -124,15 +124,7 @@ public class CookMeltSmeltSmokeListener implements Listener
 				{
 					for(ItemStack is : RewardHandler.getDrops(player, et, ToolType.HAND, event.getResult().getType(), null))
 					{
-						new BukkitRunnable()
-						{
-							@Override
-							public void run()
-							{
-								Item it = event.getBlock().getWorld().dropItem(event.getBlock().getLocation(), is);
-								ItemHandler.addItemToTask(it, uuid);
-							}
-						}.runTask(TT.getPlugin());
+						ItemHandler.dropItem(is, player, loc);
 					}
 				}
 				RewardHandler.rewardPlayer(uuid, et, ToolType.HAND, event.getResult().getType(), null, event.getResult().getAmount());

@@ -1,12 +1,16 @@
 package main.java.me.avankziar.tt.spigot.listener.reward;
 
 import org.bukkit.GameMode;
-import org.bukkit.entity.Item;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFertilizeEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
@@ -30,12 +34,21 @@ public class FertilizeListener implements Listener
 		{
 			return;
 		}
-		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), FE, ToolType.HAND, event.getBlock().getType(), null))
+		final Player player = event.getPlayer();
+		final Location loc = event.getBlock().getLocation();
+		final Material mat = event.getBlock().getType();
+		new BukkitRunnable()
 		{
-			Item it = event.getPlayer().getWorld().dropItem(event.getBlock().getLocation(), is);
-			ItemHandler.addItemToTask(it, event.getPlayer().getUniqueId());
-		}
-		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), FE, ToolType.HAND, event.getBlock().getType(), null, 1);
+			@Override
+			public void run()
+			{
+				for(ItemStack is : RewardHandler.getDrops(player, FE, ToolType.HAND, mat, null))
+				{
+					ItemHandler.dropItem(is, player, loc);
+				}
+				RewardHandler.rewardPlayer(player.getUniqueId(), FE, ToolType.HAND, mat, null, 1);
+			}
+		}.runTaskAsynchronously(TT.getPlugin());
 	}
 	
 	//Do not needed

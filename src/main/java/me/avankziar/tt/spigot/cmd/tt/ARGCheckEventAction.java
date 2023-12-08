@@ -101,6 +101,43 @@ public class ARGCheckEventAction extends ArgumentModule
 						.replace("%material%", mat2.toString())
 						.replace("%entitytype%", ent.toString())));
 				break;
+			case "BREWING:RETURN":
+				player.sendMessage(ChatApi.tl("BREWING:RETURN"//TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.BREEDING.Return")
+						.replace("%eventtype%", et.toString())
+						.replace("%material%", mat2.toString())));
+				break;
+			case "BREWING:REWARD":
+				player.sendMessage(ChatApi.tl("BREWING:REWARD"//TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.BREEDING.CantAccess")
+						.replace("%eventtype%", et.toString())
+						.replace("%material%", mat2.toString())));
+				break;
+			case "BUCKET_EMPTYING:RETURN":
+				player.sendMessage(ChatApi.tl("BUCKET_EMPTYING:RETURN"//TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.BREEDING.Return")
+						.replace("%eventtype%", et.toString())));
+				break;
+			case "BUCKET_EMPTYING:CANNOTACCESS":
+				player.sendMessage(ChatApi.tl("BUCKET_EMPTYING:CANNOTACCESS"//TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.BREEDING.CantAccess")
+						.replace("%eventtype%", et.toString())));
+				break;
+			case "BUCKET_EMPTYING:REWARD":
+				player.sendMessage(ChatApi.tl("BUCKET_EMPTYING:REWARD"//TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.BREEDING.CantAccess")
+						.replace("%eventtype%", et.toString())));
+				break;
+			case "BUCKET_FILLING:RETURN":
+				player.sendMessage(ChatApi.tl("BUCKET_FILLING:RETURN"//TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.BREEDING.Return")
+						.replace("%eventtype%", et.toString())
+						.replace("%material%", mat.toString())));
+				break;
+			case "BUCKET_FILLING:CANNOTACCESS":
+				player.sendMessage(ChatApi.tl("BUCKET_FILLING:CANNOTACCESS"//TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.BREEDING.Return")
+						.replace("%eventtype%", et.toString())
+						.replace("%material%", mat.toString())));
+				break;
+			case "BUCKET_FILLING:REWARD":
+				player.sendMessage(ChatApi.tl("BUCKET_FILLING:REWARD"//TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.BREEDING.Return")
+						.replace("%eventtype%", et.toString())
+						.replace("%material%", mat.toString())));
+				break;
 			case "COLD_FORGING:RETURN":
 				player.sendMessage(ChatApi.tl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.COLD_FORGING.Return")
 						.replace("%eventtype%", et.toString())
@@ -153,6 +190,24 @@ public class ARGCheckEventAction extends ArgumentModule
 						.replace("%eventtype%", et.toString())
 						.replace("%tool%", mat2.toString())
 						.replace("%block%", mat.toString())));
+				break;
+			case "INTERACTENTITY:RETURN":
+				player.sendMessage(ChatApi.tl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.INTERACTENTITY.Return")
+						.replace("%eventtype%", et != null ? et.toString() : "null")
+						.replace("%tool%", mat2.toString())
+						.replace("%entitytype%", ent.toString())));
+				break;
+			case "INTERACTENTITY:CANNOTACCESS":
+				player.sendMessage(ChatApi.tl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.INTERACTENTITY.CantAccess")
+						.replace("%eventtype%", et.toString())
+						.replace("%tool%", mat2.toString())
+						.replace("%entitytype%", ent.toString())));
+				break;
+			case "INTERACTENTITY:REWARD":
+				player.sendMessage(ChatApi.tl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.INTERACTENTITY.Reward")
+						.replace("%eventtype%", et.toString())
+						.replace("%tool%", mat2.toString())
+						.replace("%entitytype%", ent.toString())));
 				break;
 			case "PLACING:RETURN":
 				player.sendMessage(ChatApi.tl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.PLACING.Return")

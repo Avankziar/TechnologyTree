@@ -30,11 +30,11 @@ import main.java.me.avankziar.ifh.spigot.economy.currency.EconomyCurrency;
 import main.java.me.avankziar.tt.general.ChatApi;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.assistance.Experience;
+import main.java.me.avankziar.tt.spigot.assistance.Numbers;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.tt.spigot.event.PostRewardEvent;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
-import main.java.me.avankziar.tt.spigot.objects.RewardType;
 import main.java.me.avankziar.tt.spigot.objects.ToolType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.RewardSummary;
@@ -229,6 +229,12 @@ public class RewardHandler
 				}
 			}				
 		}
+		if(toGiveTTExp == 0 && toGiveVanillaExp == 0
+				&& toGiveMoneyMap.isEmpty() && toGiveCommandMap.isEmpty())
+		{
+			TT.log.info("RewardHandler all toGive are 0 or empty"); //REMOVEME
+			return;
+		}
 		PlayerData pd = PlayerHandler.getPlayer(uuid);
 		String playername = pd.getName();
 		pd.setActualTTExp(pd.getActualTTExp() + toGiveTTExp);
@@ -241,6 +247,7 @@ public class RewardHandler
 			pd.setVanillaExpStillToBeObtained(pd.getVanillaExpStillToBeObtained() + (int) toGiveVanillaExp);
 		}
 		PlayerHandler.updatePlayer(pd);
+		double toGiveMoneyD = 0;
 		String toGiveMoney = ""+(plugin.getIFHEco() != null 
 				? plugin.getIFHEco().format(0, plugin.getIFHEco().getDefaultCurrency(CurrencyType.DIGITAL))
 				: "0.0 "+plugin.getVaultEco().currencyNamePlural());
@@ -250,6 +257,7 @@ public class RewardHandler
 			if(e.getKey().equalsIgnoreCase("vault") && plugin.getVaultEco() != null)
 			{
 				plugin.getVaultEco().depositPlayer(Bukkit.getOfflinePlayer(uuid), e.getValue());
+				toGiveMoneyD = e.getValue();
 				toGiveMoney = e.getValue()+" "+plugin.getVaultEco().currencyNamePlural();
 				continue;
 			} else if(e.getKey().equalsIgnoreCase("vault") && plugin.getVaultEco() == null)
@@ -282,7 +290,11 @@ public class RewardHandler
 			Account tax = plugin.getIFHEco().getDefaultAccount(uuid, AccountCategory.TAX, ec);
 			double taxation = new ConfigHandler().rewardPayoutTaxInPercent();
 			EconomyAction ea = plugin.getIFHEco().deposit(ac, e.getValue(), taxation, true, tax);
-			toGiveMoney = plugin.getIFHEco().format(ea.getDepositAmount(), ec);
+			toGiveMoneyD = ea.getDepositAmount();
+			toGiveMoney = plugin.getIFHEco().format(ea.getDepositAmount(), ec,
+					plugin.getIFHEco().getDefaultGradationQuantity(ac.getCurrency()), 3,
+					plugin.getIFHEco().getDefaultUseSIPrefix(ac.getCurrency()), plugin.getIFHEco().getDefaultUseSymbol(ac.getCurrency()),
+					plugin.getIFHEco().getDefaultThousandSeperator(ac.getCurrency()), plugin.getIFHEco().getDefaultDecimalSeperator(ac.getCurrency()));
 		}
 		for(Entry<String, Double> e : toGiveCommandMap.entrySet())
 		{
@@ -306,12 +318,29 @@ public class RewardHandler
 		}
 		if(Bukkit.getPlayer(uuid) != null && pd.isShowRewardMessage())
 		{
-			Bukkit.getPlayer(uuid).sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Reward.TaskMsg")
-					.replace("%ttexp%", String.valueOf(toGiveTTExp))
-					.replace("%vaexp%", String.valueOf(toGiveVanillaExp))
-					.replace("%money%", toGiveMoney)
-					.replace("%times%", LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis()), ZoneId.systemDefault())
-									   .format(DateTimeFormatter.ofPattern("HH:mm:ss")))));
+			if(toGiveTTExp > 0 && toGiveVanillaExp > 0 && toGiveMoneyD > 0)
+			{
+				Bukkit.getPlayer(uuid).sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Reward.TaskMsg.AllThree")
+						.replace("%ttexp%", Numbers.format(toGiveTTExp))
+						.replace("%vaexp%", String.valueOf((int) toGiveVanillaExp))
+						.replace("%money%", toGiveMoney)
+						.replace("%times%", LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis()), ZoneId.systemDefault())
+										   .format(DateTimeFormatter.ofPattern("HH:mm:ss")))));
+			} else if(toGiveTTExp > 0 && toGiveVanillaExp > 0 && toGiveMoneyD <= 0)
+			{
+				Bukkit.getPlayer(uuid).sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Reward.TaskMsg.TTAndVaExp")
+						.replace("%ttexp%", Numbers.format(toGiveTTExp))
+						.replace("%vaexp%", String.valueOf((int) toGiveVanillaExp))
+						.replace("%times%", LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis()), ZoneId.systemDefault())
+								   .format(DateTimeFormatter.ofPattern("HH:mm:ss")))));
+			} else if(toGiveTTExp > 0 && toGiveVanillaExp <= 0 && toGiveMoneyD <= 0)
+			{
+				Bukkit.getPlayer(uuid).sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Reward.TaskMsg.TTExp")
+						.replace("%ttexp%", Numbers.format(toGiveTTExp))
+						.replace("%times%", LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis()), ZoneId.systemDefault())
+								   .format(DateTimeFormatter.ofPattern("HH:mm:ss")))));
+			}
+			
 		}
 		PostRewardEvent postRewardEvent = new PostRewardEvent(uuid, playername, rewardSummaryList);
 		Bukkit.getPluginManager().callEvent(postRewardEvent);
@@ -401,9 +430,9 @@ public class RewardHandler
 					&& PlayerHandler.entityTypeInteractionMap.get(uuid).get(toolType).get(entityType).containsKey(eventType))
 			{
 				boolean b = PlayerHandler.entityTypeInteractionMap.get(uuid).get(toolType).get(entityType).get(eventType).isCanAccess();
-				return b ? b : plugin.getValueEntry().getBooleanValueEntry(uuid, 
+				return b;/* ? b : plugin.getValueEntry().getBooleanValueEntry(uuid, 
 						CatTechHandler.getValueEntry(RewardType.ACCESS, eventType, material, entityType),
-						plugin.getServername(), player.getWorld().getName());
+						plugin.getServername(), player.getWorld().getName());*/
 			}
 		}
 		return false;
@@ -613,6 +642,16 @@ public class RewardHandler
 	
 	public static void main(String[] args) //TestVersuch (in Eclipse) einer Rechnung um ein Stetigs Dropwachstum zu berechnen
     {
+		int deletedays = 365;
+		if(deletedays < 0)
+		{
+			return;
+		}
+		long time = System.currentTimeMillis()-(1000L*60*60*24*deletedays);
+		String ldt = LocalDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneId.systemDefault()) //1700129713226L
+				.format(DateTimeFormatter.ofPattern("dd.MM.yyyy-HH:mm:ss"));
+		System.out.println(time);
+		System.out.println(ldt);
 		/*HashMap<String, Double> map = new HashMap<>();
 		map.put("techlev", (double) 0);
 		map.put("techacq", (double) 0);
@@ -620,12 +659,12 @@ public class RewardHandler
 		map.put("globaltotaltech", (double) 0);
 		
 		double ttexp = new MathFormulaParser().parse("100 * techlev + 50 * techacq + 25 * solototaltech", map);
-		System.out.println("ttexp : "+ttexp);*/
+		System.out.println("ttexp : "+ttexp);
 		
 		boolean breakingThroughVanillaDropBarrier = false;
 		int fortunelootlevel = 3;
 		int potionlucklevel = 1;
-		/*double lostExtraPercent = 0.25;
+		double lostExtraPercent = 0.25;
 		if(fortunelootlevel > 0 && potionlucklevel > 0)
 		{
 			lostExtraPercent = 0.25
@@ -638,7 +677,7 @@ public class RewardHandler
 		{
 			lostExtraPercent = 0.25 * (1.0/((double)potionlucklevel+2.0)+((double)potionlucklevel*2)/2.0);
 		}
-		System.out.println("lostExtraPercent = " + lostExtraPercent);*/
+		System.out.println("lostExtraPercent = " + lostExtraPercent);
 		int i = 0;
 		LinkedHashMap<Integer, Double> map = new LinkedHashMap<>();
 		map.put(2, 0.7);
@@ -687,7 +726,7 @@ public class RewardHandler
 					}
 				}
 			}
-		}
+		}*/
     }
 	
 	private static int getVanillaDropBarrier(Material material, int i)

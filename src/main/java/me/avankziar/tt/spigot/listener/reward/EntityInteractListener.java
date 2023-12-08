@@ -3,6 +3,7 @@ package main.java.me.avankziar.tt.spigot.listener.reward;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Breedable;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,80 +21,72 @@ import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.objects.ToolType;
 
 public class EntityInteractListener implements Listener
-{
-	final private static EventType MI = EventType.MILKING;
-	
-	@EventHandler
-	public void onMilking(PlayerInteractEntityEvent event)
-	{
-		if(event.isCancelled()
-				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
-				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
-				|| !EnumHandler.isEventActive(MI))
-		{
-			return;
-		}
-		if(isNotMilkable(event.getRightClicked().getType()))
-		{
-			return;
-		}
-		final Player player = event.getPlayer();
-		final Location loc = event.getRightClicked().getLocation();
-		new BukkitRunnable()
-		{
-			@Override
-			public void run()
-			{
-				for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), MI, ToolType.HAND, null, event.getRightClicked().getType()))
-				{
-					ItemHandler.dropItem(is, player, loc);
-				}
-				RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), MI, ToolType.HAND, null, event.getRightClicked().getType(), 1);
-			}
-		}.runTaskAsynchronously(TT.getPlugin());
-	}
-	
+{	
 	@EventHandler
 	public void onInteractWithEntity(PlayerInteractEntityEvent event)
 	{
 		final EventType et = getEventPerEntity(event.getPlayer().getInventory().getItemInMainHand() != null
 				? event.getPlayer().getInventory().getItemInMainHand().getType()
 				: null, event.getRightClicked().getType());
-		if(et == null)
+		if(et == null 
+				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
+				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
+				|| !EnumHandler.isEventActive(et))
 		{
-			return;
-		}
-		if(!RewardHandler.canAccessInteraction(event.getPlayer(),
-				ToolType.HAND, et, null, event.getRightClicked().getType()))
-		{
-			event.setCancelled(true);
-			ARGCheckEventAction.checkEventAction(event.getPlayer(), "BREEDING:CANNOTACCESS",
-					EventType.BREEDING, ToolType.HAND, null, event.getRightClicked().getType(),
+			ARGCheckEventAction.checkEventAction(event.getPlayer(), "INTERACTENTITY:RETURN",
+					et, ToolType.HAND, null, event.getRightClicked().getType(),
 					event.getPlayer().getInventory().getItemInMainHand() != null
 					? event.getPlayer().getInventory().getItemInMainHand().getType()
 					: null);
 			return;
 		}
-	}
-	
-	private boolean isNotMilkable(EntityType ent)
-	{
-		switch(ent)
+		if(event.getRightClicked() instanceof Breedable)
 		{
-		default:
-			return true;
-		case COW:
-		case MUSHROOM_COW:
-		case GOAT:
-			return false;
+			Breedable br = (Breedable) event.getRightClicked();
+			if(et == EventType.BREEDING && !br.canBreed())
+			{
+				event.setCancelled(true);
+				return;
+			}
 		}
+		if(!RewardHandler.canAccessInteraction(event.getPlayer(),
+				ToolType.HAND, et, null, event.getRightClicked().getType()))
+		{
+			event.setCancelled(true);
+			ARGCheckEventAction.checkEventAction(event.getPlayer(), "INTERACTENTITY:CANNOTACCESS",
+					et, ToolType.HAND, null, event.getRightClicked().getType(),
+					event.getPlayer().getInventory().getItemInMainHand() != null
+					? event.getPlayer().getInventory().getItemInMainHand().getType()
+					: null);
+			return;
+		}
+		final Player player = event.getPlayer();
+		final Location loc = event.getRightClicked().getLocation();
+		final EntityType ent = event.getRightClicked().getType();
+		new BukkitRunnable()
+		{
+			@Override
+			public void run()
+			{
+				ARGCheckEventAction.checkEventAction(event.getPlayer(), "INTERACTENTITY:REWARD",
+						EventType.BREEDING, ToolType.HAND, null, event.getRightClicked().getType(),
+						event.getPlayer().getInventory().getItemInMainHand() != null
+						? event.getPlayer().getInventory().getItemInMainHand().getType()
+						: null);
+				for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), et, ToolType.HAND, null, ent))
+				{
+					ItemHandler.dropItem(is, player, loc);
+				}
+				RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), et, ToolType.HAND, null, ent, 1);
+			}
+		}.runTaskAsynchronously(TT.getPlugin());
 	}
 	
 	public EventType getEventPerEntity(Material toolmat, EntityType ent)
 	{
 		if(toolmat == null)
 		{
-			return null;
+			return EventType.INTERACT;
 		}
 		switch(ent)
 		{

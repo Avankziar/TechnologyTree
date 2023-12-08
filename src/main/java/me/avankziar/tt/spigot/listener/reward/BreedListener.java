@@ -1,8 +1,10 @@
 package main.java.me.avankziar.tt.spigot.listener.reward;
 
 import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -50,6 +52,9 @@ public class BreedListener implements Listener
 		}
 		final Player player = (Player) event.getBreeder();
 		final ToolType tool = ToolType.HAND;
+		final Location loc = event.getEntity().getLocation();
+		final EntityType ent = event.getEntityType();
+		final Material mat = event.getBredWith().getType();
 		if(ConfigHandler.GAMERULE_UseVanillaExpDrops)
 		{
 			event.setExperience(0);
@@ -59,21 +64,13 @@ public class BreedListener implements Listener
 			@Override
 			public void run()
 			{
-				ARGCheckEventAction.checkEventAction((Player) event.getBreeder(), "BREEDING:REWARD",
-						EventType.BREEDING, ToolType.HAND, null, event.getEntityType(), event.getBredWith().getType());
-				for(ItemStack is : RewardHandler.getDrops(player, BR, tool, null, event.getEntityType()))
+				ARGCheckEventAction.checkEventAction(player, "BREEDING:REWARD",
+						EventType.BREEDING, ToolType.HAND, null, ent, mat);
+				for(ItemStack is : RewardHandler.getDrops(player, BR, tool, null, ent))
 				{
-					new BukkitRunnable()
-					{
-						@Override
-						public void run()
-						{
-							Item it = player.getWorld().dropItem(event.getEntity().getLocation(), is);
-							ItemHandler.addItemToTask(it, player.getUniqueId());
-						}
-					}.runTask(TT.getPlugin());
+					ItemHandler.dropItem(is, player, loc);
 				}
-				RewardHandler.rewardPlayer(player.getUniqueId(), BR, tool, null, event.getEntityType(), 1);
+				RewardHandler.rewardPlayer(player.getUniqueId(), BR, tool, null, ent, 1);
 			}
 		}.runTaskAsynchronously(TT.getPlugin());
 	}

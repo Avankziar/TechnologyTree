@@ -1597,8 +1597,7 @@ public class PlayerHandler
 			{
 				for(ItemStack is : addMap.values())
 				{
-					Item it = player.getLocation().getWorld().dropItem(player.getLocation(), is);
-					ItemHandler.addItemToTask(it, player.getUniqueId());
+					ItemHandler.dropItem(is, player, null);
 				}
 			}
 		}
@@ -1721,7 +1720,7 @@ public class PlayerHandler
 		LinkedHashMap<RecipeType, ArrayList<String>> mapI = new LinkedHashMap<>();
 		if(recipeMap.containsKey(uuid))
 		{
-			recipeMap.get(uuid);
+			mapI = recipeMap.get(uuid);
 		}
 		ArrayList<String> listI = new ArrayList<>();
 		if(mapI.containsKey(rt))
@@ -1732,7 +1731,7 @@ public class PlayerHandler
 		{
 			if(rrip <= 0 || k.isBlank() || k.isEmpty())
 			{
-				break;
+				continue;
 			}
 			if(!listI.contains(k))
 			{

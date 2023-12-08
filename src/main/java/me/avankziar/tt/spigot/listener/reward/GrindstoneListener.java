@@ -1,7 +1,7 @@
 package main.java.me.avankziar.tt.spigot.listener.reward;
 
 import org.bukkit.GameMode;
-import org.bukkit.entity.Item;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,7 +10,9 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.inventory.GrindstoneInventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
@@ -35,14 +37,21 @@ public class GrindstoneListener implements Listener
 		{
 			return;
 		}
-		Player player = (Player) event.getWhoClicked();
+		final Player player = (Player) event.getWhoClicked();
 		GrindstoneInventory ai = (GrindstoneInventory) event.getClickedInventory();
 		ItemStack result = ai.getContents()[2];
-		for(ItemStack is : RewardHandler.getDrops(player, GR, ToolType.HAND, result.getType(), null))
+		final Material mat = result.getType();
+		new BukkitRunnable()
 		{
-			Item it = player.getWorld().dropItem(player.getLocation(), is);
-			ItemHandler.addItemToTask(it, player.getUniqueId());
-		}
-		RewardHandler.rewardPlayer(player.getUniqueId(), GR, ToolType.HAND, result.getType(), null, 1);
+			@Override
+			public void run()
+			{
+				for(ItemStack is : RewardHandler.getDrops(player, GR, ToolType.HAND, mat, null))
+				{
+					ItemHandler.dropItem(is, player, null);
+				}
+				RewardHandler.rewardPlayer(player.getUniqueId(), GR, ToolType.HAND, mat, null, 1);
+			}
+		}.runTaskAsynchronously(TT.getPlugin());	
 	}
 }

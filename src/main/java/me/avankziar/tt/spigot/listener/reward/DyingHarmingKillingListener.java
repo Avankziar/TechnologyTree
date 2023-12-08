@@ -4,10 +4,10 @@ import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -87,27 +87,44 @@ public class DyingHarmingKillingListener implements Listener
 				{
 					totaldamage = totaldamage + d;
 				}
+				final double td = totaldamage;
+				final UUID uuid = event.getEntity().getUniqueId();
 				final Player killer = event.getEntity().getKiller();
 				final ToolType tool = ToolType.getHandToolType(killer);
-				for(Entry<UUID, Double> entry : damageMap.get(event.getEntity().getUniqueId()).entrySet())
+				new BukkitRunnable()
 				{
-					double percent = entry.getValue()/totaldamage;
-					for(ItemStack is : RewardHandler.getDrops(event.getEntity().getKiller(), KI, tool, null, EntityType.PLAYER))
+					@Override
+					public void run()
 					{
-						Item it = event.getEntity().getWorld().dropItem(event.getEntity().getKiller().getLocation(), is);
-						ItemHandler.addItemToTask(it, entry.getKey());
+						for(Entry<UUID, Double> entry : damageMap.get(uuid).entrySet())
+						{
+							double percent = entry.getValue()/td;
+							for(ItemStack is : RewardHandler.getDrops(event.getEntity().getKiller(), KI, tool, null, EntityType.PLAYER))
+							{
+								Player player = Bukkit.getPlayer(entry.getKey());
+								ItemHandler.dropItem(is, player, null);
+							}
+							RewardHandler.rewardPlayer(entry.getKey(), KI, tool, null, EntityType.PLAYER, percent);
+						}
 					}
-					RewardHandler.rewardPlayer(entry.getKey(), KI, tool, null, EntityType.PLAYER, percent);
-				}
+				}.runTaskAsynchronously(TT.getPlugin());
 			} else
 			{
 				final ToolType tool = ToolType.getHandToolType(event.getEntity().getKiller());
-				for(ItemStack is : RewardHandler.getDrops(event.getEntity().getKiller(), KI, tool, null, EntityType.PLAYER))
+				final Player player = event.getEntity().getKiller();
+				final Location loc = event.getEntity().getLastDeathLocation();
+				new BukkitRunnable()
 				{
-					Item it = event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), is);
-					ItemHandler.addItemToTask(it, event.getEntity().getKiller().getUniqueId());
-				}
-				RewardHandler.rewardPlayer(event.getEntity().getKiller().getUniqueId(), KI, tool, null, EntityType.PLAYER, 1);
+					@Override
+					public void run()
+					{
+						for(ItemStack is : RewardHandler.getDrops(event.getEntity().getKiller(), KI, tool, null, EntityType.PLAYER))
+						{
+							ItemHandler.dropItem(is, player, loc);
+						}
+						RewardHandler.rewardPlayer(event.getEntity().getKiller().getUniqueId(), KI, tool, null, EntityType.PLAYER, 1);
+					}
+				}.runTaskAsynchronously(TT.getPlugin());
 			}			
 		}
 		if(event.getEntity().getGameMode() == GameMode.CREATIVE
@@ -116,10 +133,10 @@ public class DyingHarmingKillingListener implements Listener
 		{
 			return;
 		}
+		Player player = event.getEntity();
 		for(ItemStack is : RewardHandler.getDrops(event.getEntity(), DY, ToolType.HAND, null, EntityType.PLAYER))
 		{
-			Item it = event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), is);
-			ItemHandler.addItemToTask(it, event.getEntity().getUniqueId());
+			ItemHandler.dropItem(is, player, null);
 		}
 		RewardHandler.rewardPlayer(event.getEntity().getUniqueId(), DY, ToolType.HAND, null, EntityType.PLAYER, 1);
 	}
@@ -135,11 +152,19 @@ public class DyingHarmingKillingListener implements Listener
 			return;
 		}
 		final ToolType tool = ToolType.getHandToolType(event.getEntity().getKiller());
-		for(ItemStack is : RewardHandler.getDrops(event.getEntity().getKiller(), KI, tool, null, event.getEntityType()))
+		final Player player = event.getEntity().getKiller();
+		final Location loc = event.getEntity().getLocation();
+		new BukkitRunnable()
 		{
-			Item it = event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), is);
-			ItemHandler.addItemToTask(it, event.getEntity().getKiller().getUniqueId());
-		}
-		RewardHandler.rewardPlayer(event.getEntity().getKiller().getUniqueId(), KI, tool, null, event.getEntityType(), 1);
+			@Override
+			public void run()
+			{
+				for(ItemStack is : RewardHandler.getDrops(event.getEntity().getKiller(), KI, tool, null, event.getEntityType()))
+				{
+					ItemHandler.dropItem(is, player, loc);
+				}
+				RewardHandler.rewardPlayer(event.getEntity().getKiller().getUniqueId(), KI, tool, null, event.getEntityType(), 1);
+			}
+		}.runTaskAsynchronously(TT.getPlugin());
 	}
 }

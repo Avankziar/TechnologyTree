@@ -706,6 +706,18 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&7[CheckEventAction] &aAktion erfolgreich! &eEventType: &#ff8c00%eventtype%&e, Werkzeug: &#ff8c00%tool%&e, Block: &#ff8c00%block%",
 						"&7[CheckEventAction] &aAction successful! &eEventType: &#ff8c00%eventtype%&e, Tool: &#ff8c00%tool%&e, Block: &#ff8c00%block%"}));
+		languageKeys.put(path+"CheckEventAction.INTERACTENTITY.Return", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[CheckEventAction] &cAktionsabbruch oder Event konnte nicht gefunden werden! &eEventType: &#ff8c00%eventtype%&e, Werkzeug: &#ff8c00%tool%&e, EntityType: &#ff8c00%entitytype%",
+						"&7[CheckEventAction] &cCancel action or event couldnt found! &eEventType: &#ff8c00%eventtype%&e, Tool: &#ff8c00%tool%&e, EntityType: &#ff8c00%entitytype%"}));
+		languageKeys.put(path+"CheckEventAction.INTERACTENTITY.CantAccess", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[CheckEventAction] &cZugriff zur Aktion wurde verweigert! &eEventType: &#ff8c00%eventtype%&e, Werkzeug: &#ff8c00%tool%&e, EntityType: &#ff8c00%entitytype%",
+						"&7[CheckEventAction] &cAccess to the action was denied! &eEventType: &#ff8c00%eventtype%&e, Tool: &#ff8c00%tool%&e, EntityType: &#ff8c00%entitytype%"}));
+		languageKeys.put(path+"CheckEventAction.INTERACTENTITY.Reward", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[CheckEventAction] &aAktion erfolgreich! &eEventType: &#ff8c00%eventtype%&e, Werkzeug: &#ff8c00%tool%&e, EntityType: &#ff8c00%entitytype%",
+						"&7[CheckEventAction] &aAction successful! &eEventType: &#ff8c00%eventtype%&e, Tool: &#ff8c00%tool%&e, EntityType: &#ff8c00%entitytype%"}));
 		languageKeys.put(path+"CheckEventAction.PLACING.Return", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&7[CheckEventAction] &cAktionsabbruch! &eEventType: &#ff8c00%eventtype%&e, Werkzeug: &#ff8c00%tool%&e, Block: &#ff8c00%block%",
@@ -958,10 +970,18 @@ public class YamlManager
 	public void initRewardHandlerLang() //INFO:RewardHandlerLang
 	{
 		String path = "Reward.";
-		languageKeys.put(path+"TaskMsg", 
+		languageKeys.put(path+"TaskMsg.AllThree", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&7[%times%] &#c6a664Belohnung verdient: &f%money%&#c6a664, &f%ttexp% &#c6a664TTExp, &f%vaexp% &#c6a664VanillaExp",
 						"&7[%times%] &#c6a664Reward earned: &f%money%&#c6a664, &f%ttexp% &#c6a664TTExp, &f%vaexp% &#c6a664VanillaExp"}));
+		languageKeys.put(path+"TaskMsg.TTAndVaExp", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[%times%] &#c6a664Belohnung verdient: &f%ttexp% &#c6a664TTExp, &f%vaexp% &#c6a664VanillaExp",
+						"&7[%times%] &#c6a664Reward earned: &f%ttexp% &#c6a664TTExp, &f%vaexp% &#c6a664VanillaExp"}));
+		languageKeys.put(path+"TaskMsg.TTExp", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[%times%] &#c6a664Belohnung verdient: &f%ttexp% &#c6a664TTExp",
+						"&7[%times%] &#c6a664Reward earned: &f%ttexp% &#c6a664TTExp"}));
 	}
 	
 	public void initModifierValueEntryLanguage() //INFO:ModifierValueEntryLanguages

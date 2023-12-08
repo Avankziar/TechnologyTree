@@ -29,6 +29,7 @@ public class UnlockableInteraction //per Technology
 		setEventType(eventType);
 		setToolType(toolType);
 		setEventMaterial(eventMaterial);
+		setEventEntityType(eventEntityType);
 		setCanAccess(canAccess);
 		setTechnologyExperience(technologyExperience);
 		setMoneyMap(moneyMap);
@@ -42,6 +43,7 @@ public class UnlockableInteraction //per Technology
 		setEventType(eventType);
 		setToolType(toolType);
 		setEventMaterial(eventMaterial);
+		setEventEntityType(eventEntityType);
 		setCanAccess(canAccess);
 		setTechnologyExperience(technologyExperience);
 		setVanillaExperience(vanillaExperience);

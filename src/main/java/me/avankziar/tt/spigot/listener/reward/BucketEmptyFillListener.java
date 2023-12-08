@@ -2,6 +2,7 @@ package main.java.me.avankziar.tt.spigot.listener.reward;
 
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -15,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.tt.spigot.TT;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
@@ -34,11 +36,15 @@ public class BucketEmptyFillListener implements Listener
 				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
 				|| !EnumHandler.isEventActive(BE))
 		{
+			ARGCheckEventAction.checkEventAction(event.getPlayer(), "BUCKET_EMPTYING:RETURN",
+					BE, ToolType.HAND, null, null, Material.AIR);
 			return;
 		}
 		if(!RewardHandler.canAccessInteraction(event.getPlayer(),
-				ToolType.getToolType(event.getPlayer().getInventory().getItemInMainHand().getType()), BF, event.getBucket(), null))
+				ToolType.HAND, BE, event.getBucket(), null))
 		{
+			ARGCheckEventAction.checkEventAction(event.getPlayer(), "BUCKET_EMPTYING:CANNOTACCESS",
+					BE, ToolType.HAND, null, null, Material.AIR);
 			event.setCancelled(true);
 			return;
 		}
@@ -52,17 +58,11 @@ public class BucketEmptyFillListener implements Listener
 			@Override
 			public void run()
 			{
+				ARGCheckEventAction.checkEventAction(player, "BUCKET_EMPTYING:REWARD",
+						BE, ToolType.HAND, null, null, Material.AIR);
 				for(ItemStack is : RewardHandler.getDrops(player, BE, tool, bucket, null))
 				{
-					new BukkitRunnable()
-					{
-						@Override
-						public void run()
-						{
-							Item it = event.getPlayer().getWorld().dropItem(loc, is);
-							ItemHandler.addItemToTask(it, uuid);
-						}
-					}.runTask(TT.getPlugin());
+					ItemHandler.dropItem(is, player, loc);
 				}
 				RewardHandler.rewardPlayer(uuid, BE, tool, bucket, null, 1);
 			}
@@ -73,37 +73,38 @@ public class BucketEmptyFillListener implements Listener
 	public void onBucketFill(PlayerBucketFillEvent event)
 	{
 		if(event.isCancelled()
-				|| event.getPlayer() == null
 				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
 				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
 				|| !EnumHandler.isEventActive(BF))
 		{
+			ARGCheckEventAction.checkEventAction(event.getPlayer(), "BUCKET_FILLING:RETURN",
+					BF, ToolType.HAND, event.getBucket(), null, Material.AIR);
 			return;
 		}
 		if(!RewardHandler.canAccessInteraction(event.getPlayer(),
-				ToolType.getToolType(event.getPlayer().getInventory().getItemInMainHand().getType()), BF, event.getBucket(), null))
+				ToolType.HAND, BF, event.getBucket(), null))
 		{
+			ARGCheckEventAction.checkEventAction(event.getPlayer(), "BUCKET_FILLING:CANNOTACCESS",
+					BF, ToolType.HAND, event.getBucket(), null, Material.AIR);
 			event.setCancelled(true);
 			return;
 		}
+		final Player player = event.getPlayer();
+		final Location loc = event.getBlockClicked().getLocation();
+		final Material mat = event.getBlockClicked().getType();
+		final Material bucket = event.getBucket();
 		new BukkitRunnable()
 		{
 			@Override
 			public void run()
 			{
-				for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), BF, null, event.getBlockClicked().getType(), null))
+				ARGCheckEventAction.checkEventAction(player, "BUCKET_FILLING:REWARD",
+						BF, ToolType.HAND, bucket, null, Material.AIR);
+				for(ItemStack is : RewardHandler.getDrops(player, BF, null, mat, null))
 				{
-					new BukkitRunnable()
-					{
-						@Override
-						public void run()
-						{
-							Item it = event.getPlayer().getWorld().dropItem(event.getPlayer().getLocation(), is);
-							ItemHandler.addItemToTask(it, event.getPlayer().getUniqueId());
-						}
-					}.runTask(TT.getPlugin());
+					ItemHandler.dropItem(is, player, loc);
 				}
-				RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), BF, ToolType.HAND, event.getBlockClicked().getType(), null, 1);
+				RewardHandler.rewardPlayer(player.getUniqueId(), BF, ToolType.HAND, mat, null, 1);
 			}
 		}.runTaskAsynchronously(TT.getPlugin());	
 	}

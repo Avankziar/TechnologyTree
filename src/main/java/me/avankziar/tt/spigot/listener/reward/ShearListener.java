@@ -1,12 +1,15 @@
 package main.java.me.avankziar.tt.spigot.listener.reward;
 
 import org.bukkit.GameMode;
-import org.bukkit.entity.Item;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
@@ -33,11 +36,19 @@ public class ShearListener implements Listener
 			event.setCancelled(true);
 			return;
 		}
-		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), SH, ToolType.SHEARS, null, event.getEntity().getType()))
+		final Player player = event.getPlayer();
+		final EntityType ent = event.getEntity().getType();
+		new BukkitRunnable()
 		{
-			Item it = event.getPlayer().getWorld().dropItem(event.getPlayer().getLocation(), is);
-			ItemHandler.addItemToTask(it, event.getPlayer().getUniqueId());
-		}
-		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), SH,	ToolType.SHEARS, null, event.getEntity().getType(), 1);
+			@Override
+			public void run()
+			{
+				for(ItemStack is : RewardHandler.getDrops(player, SH, ToolType.SHEARS, null, ent))
+				{
+					ItemHandler.dropItem(is, player, null);
+				}
+				RewardHandler.rewardPlayer(player.getUniqueId(), SH, ToolType.SHEARS, null, ent, 1);
+			}
+		}.runTaskAsynchronously(TT.getPlugin());
 	}
 }

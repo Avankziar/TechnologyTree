@@ -2,12 +2,14 @@ package main.java.me.avankziar.tt.spigot.listener.reward;
 
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
@@ -29,12 +31,19 @@ public class ItemConsumeListener implements Listener
 		{
 			return;
 		}
+		final Player player = event.getPlayer();
 		final Material mat = event.getItem().getType();
-		for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), IC, ToolType.HAND, mat, null))
+		new BukkitRunnable()
 		{
-			Item it = event.getPlayer().getWorld().dropItem(event.getPlayer().getLocation(), is);
-			ItemHandler.addItemToTask(it, event.getPlayer().getUniqueId());
-		}
-		RewardHandler.rewardPlayer(event.getPlayer().getUniqueId(), IC, ToolType.HAND, mat, null, 1);
+			@Override
+			public void run()
+			{
+				for(ItemStack is : RewardHandler.getDrops(player, IC, ToolType.HAND, mat, null))
+				{
+					ItemHandler.dropItem(is, player, null);
+				}
+				RewardHandler.rewardPlayer(player.getUniqueId(), IC, ToolType.HAND, mat, null, 1);
+			}
+		}.runTaskAsynchronously(TT.getPlugin());
 	}
 }

@@ -1,17 +1,21 @@
 package main.java.me.avankziar.tt.spigot.listener.reward;
 
 import org.bukkit.GameMode;
-import org.bukkit.entity.Item;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
-import main.java.me.avankziar.tt.spigot.handler.BlockHandler.BlockType;
+import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
+import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.objects.ToolType;
@@ -30,7 +34,7 @@ public class EnchantListener implements Listener
 		{
 			return;
 		}
-		if(!RecipeHandler.hasAccessToRecipe(event.getEnchanter().getUniqueId(), BlockType.ENCHANTING_TABLE, event.getItem().getType().toString()))
+		if(!RecipeHandler.hasAccessToRecipe(event.getEnchanter().getUniqueId(), RecipeType.ENCHANTING, event.getItem().getType().toString()))
 		{
 			event.setCancelled(true);
 			event.getEnchanter().updateInventory();
@@ -49,11 +53,20 @@ public class EnchantListener implements Listener
 		{
 			return;
 		}
-		for(ItemStack is : RewardHandler.getDrops(event.getEnchanter(), EN, ToolType.HAND, event.getItem().getType(), null))
-		{
-			Item it = event.getEnchantBlock().getWorld().dropItem(event.getEnchantBlock().getLocation(), is);
-			ItemHandler.addItemToTask(it, event.getEnchanter().getUniqueId());
-		}
-		RewardHandler.rewardPlayer(event.getEnchanter().getUniqueId(), EN, ToolType.HAND, event.getItem().getType(), null, 1);
+		final Player player = event.getEnchanter();
+		final Location loc = event.getEnchantBlock().getLocation();
+		final Material mat = event.getItem().getType();
+		new BukkitRunnable()
+		{		
+			@Override
+			public void run()
+			{
+				for(ItemStack is : RewardHandler.getDrops(player, EN, ToolType.HAND, mat, null))
+				{
+					ItemHandler.dropItem(is, player, loc);
+				}
+				RewardHandler.rewardPlayer(player.getUniqueId(), EN, ToolType.HAND, mat, null, 1);
+			}
+		}.runTaskAsynchronously(TT.getPlugin());
 	}
 }
