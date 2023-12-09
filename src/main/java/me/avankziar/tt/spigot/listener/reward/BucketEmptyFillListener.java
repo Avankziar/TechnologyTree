@@ -2,11 +2,9 @@ package main.java.me.avankziar.tt.spigot.listener.reward;
 
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -51,7 +49,6 @@ public class BucketEmptyFillListener implements Listener
 		final Player player = event.getPlayer();
 		final UUID uuid = player.getUniqueId();
 		final Material bucket = event.getBucket();
-		final ToolType tool = ToolType.getToolType(bucket);
 		final Location loc = player.getLocation();
 		new BukkitRunnable()
 		{
@@ -60,11 +57,11 @@ public class BucketEmptyFillListener implements Listener
 			{
 				ARGCheckEventAction.checkEventAction(player, "BUCKET_EMPTYING:REWARD",
 						BE, ToolType.HAND, null, null, Material.AIR);
-				for(ItemStack is : RewardHandler.getDrops(player, BE, tool, bucket, null))
+				for(ItemStack is : RewardHandler.getDrops(player, BE, ToolType.HAND, bucket, null))
 				{
 					ItemHandler.dropItem(is, player, loc);
 				}
-				RewardHandler.rewardPlayer(uuid, BE, tool, bucket, null, 1);
+				RewardHandler.rewardPlayer(uuid, BE, ToolType.HAND, bucket, null, 1);
 			}
 		}.runTaskAsynchronously(TT.getPlugin());
 	}
@@ -91,7 +88,6 @@ public class BucketEmptyFillListener implements Listener
 		}
 		final Player player = event.getPlayer();
 		final Location loc = event.getBlockClicked().getLocation();
-		final Material mat = event.getBlockClicked().getType();
 		final Material bucket = event.getBucket();
 		new BukkitRunnable()
 		{
@@ -100,11 +96,11 @@ public class BucketEmptyFillListener implements Listener
 			{
 				ARGCheckEventAction.checkEventAction(player, "BUCKET_FILLING:REWARD",
 						BF, ToolType.HAND, bucket, null, Material.AIR);
-				for(ItemStack is : RewardHandler.getDrops(player, BF, null, mat, null))
+				for(ItemStack is : RewardHandler.getDrops(player, BF, null, bucket, null))
 				{
 					ItemHandler.dropItem(is, player, loc);
 				}
-				RewardHandler.rewardPlayer(player.getUniqueId(), BF, ToolType.HAND, mat, null, 1);
+				RewardHandler.rewardPlayer(player.getUniqueId(), BF, ToolType.HAND, bucket, null, 1);
 			}
 		}.runTaskAsynchronously(TT.getPlugin());	
 	}

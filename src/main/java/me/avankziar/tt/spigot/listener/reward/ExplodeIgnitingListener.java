@@ -20,6 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.tt.spigot.TT;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
@@ -33,6 +34,7 @@ public class ExplodeIgnitingListener implements Listener
 	final private static EventType IG = EventType.IGNITING;
 	final private static EventType EX = EventType.EXPLODING;
 	
+	//Do not tracks TNT
 	@EventHandler
 	public void onBlockIgnite(BlockIgniteEvent event)
 	{
@@ -40,10 +42,18 @@ public class ExplodeIgnitingListener implements Listener
 				|| event.getPlayer() == null
 				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
 				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
-				|| !EnumHandler.isEventActive(IG)
-				|| !RewardHandler.canAccessInteraction(event.getPlayer(),
-						ToolType.getToolType(event.getPlayer().getInventory().getItemInMainHand().getType()), IG, event.getBlock().getType(), null))
+				|| !EnumHandler.isEventActive(IG))
 		{
+			ARGCheckEventAction.checkEventAction(event.getPlayer(), "IGNITING:RETURN",
+					IG, ToolType.HAND, null, null, Material.AIR);
+			return;
+		}
+		if(!RewardHandler.canAccessInteraction(event.getPlayer(),
+				ToolType.getToolType(event.getPlayer().getInventory().getItemInMainHand().getType()), IG, event.getBlock().getType(), null))
+		{
+			ARGCheckEventAction.checkEventAction(event.getPlayer(), "IGNITING:CANNOTACCESS",
+					IG, ToolType.HAND, null, null, Material.AIR);
+			event.setCancelled(true);
 			return;
 		}
 		ignitingMap.put(event.getPlayer().getUniqueId(), BlockHandler.getLocationText(event.getBlock().getLocation()));
@@ -55,6 +65,8 @@ public class ExplodeIgnitingListener implements Listener
 			@Override
 			public void run()
 			{
+				ARGCheckEventAction.checkEventAction(player, "IGNITING:REWARD",
+						IG, ToolType.HAND, null, null, Material.AIR);
 				for(ItemStack is : RewardHandler.getDrops(player, IG, ToolType.HAND, mat, null))
 				{
 					ItemHandler.dropItem(is, player, loc);
@@ -96,6 +108,12 @@ public class ExplodeIgnitingListener implements Listener
 			@Override
 			public void run()
 			{
+				if(player == null)
+				{
+					return;
+				}
+				ARGCheckEventAction.checkEventAction(player, "EXPLODING:REWARD",
+						EX, ToolType.HAND, null, null, Material.AIR);
 				for(ItemStack is : RewardHandler.getDrops(player, EX, ToolType.HAND, mat, null))
 				{
 					ItemHandler.dropItem(is, player, loc);
@@ -148,6 +166,12 @@ public class ExplodeIgnitingListener implements Listener
 				@Override
 				public void run()
 				{
+					if(player == null)
+					{
+						return;
+					}
+					ARGCheckEventAction.checkEventAction(player, "EXPLODING:REWARD",
+							EX, ToolType.HAND, null, null, Material.AIR);
 					for(ItemStack is : RewardHandler.getDrops(player, EX, ToolType.HAND, mat, null))
 					{
 						ItemHandler.dropItem(is, player, loc);

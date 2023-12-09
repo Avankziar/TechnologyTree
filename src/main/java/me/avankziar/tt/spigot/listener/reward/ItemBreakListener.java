@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.tt.spigot.TT;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
@@ -22,11 +23,12 @@ public class ItemBreakListener implements Listener
 	@EventHandler
 	public void onItemBreak(PlayerItemBreakEvent event)
 	{
-		if(event.getPlayer() == null
-				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
+		if(event.getPlayer().getGameMode() == GameMode.CREATIVE
 				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
 				|| !EnumHandler.isEventActive(IB))
 		{
+			ARGCheckEventAction.checkEventAction(event.getPlayer(), "ITEM_BREAKING:RETURN",
+					IB, ToolType.HAND, null, null, Material.AIR);
 			return;
 		}
 		final Player player = event.getPlayer();
@@ -37,6 +39,8 @@ public class ItemBreakListener implements Listener
 			@Override
 			public void run()
 			{
+				ARGCheckEventAction.checkEventAction(player, "ITEM_BREAKING:REWARD",
+						IB, ToolType.HAND, null, null, Material.AIR);
 				for(ItemStack is : RewardHandler.getDrops(player, IB, tool, mat, null))
 				{
 					ItemHandler.dropItem(is, player, null);

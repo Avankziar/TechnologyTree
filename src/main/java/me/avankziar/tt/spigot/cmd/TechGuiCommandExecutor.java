@@ -9,7 +9,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmdtree.CommandConstructor;
 import main.java.me.avankziar.tt.spigot.gui.objects.GuiType;
-import main.java.me.avankziar.tt.spigot.gui.objects.SettingsLevel;
 import main.java.me.avankziar.tt.spigot.handler.GuiHandler;
 import main.java.me.avankziar.tt.spigot.handler.PlayerHandler;
 import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;

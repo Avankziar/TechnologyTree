@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.tt.spigot.TT;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
@@ -26,12 +27,13 @@ public class FishingListener implements Listener
 	public void onFishing(PlayerFishEvent event)
 	{
 		if(event.isCancelled()
-				|| event.getPlayer() == null
 				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
 				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
 				|| event.getState() != State.CAUGHT_FISH
 				|| !EnumHandler.isEventActive(FI))
 		{
+			ARGCheckEventAction.checkEventAction(event.getPlayer(), "FISHING:RETURN",
+					FI, ToolType.HAND, null, null, Material.AIR);
 			return;
 		}
 		event.setExpToDrop(0);
@@ -53,6 +55,8 @@ public class FishingListener implements Listener
 			@Override
 			public void run()
 			{
+				ARGCheckEventAction.checkEventAction(player, "FISHING:REWARD",
+						FI, ToolType.HAND, null, null, Material.AIR);
 				for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), FI, ToolType.FISHING_ROD, mat, null))
 				{
 					ItemHandler.dropItem(is, player, null);

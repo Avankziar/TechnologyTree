@@ -9,10 +9,10 @@ import java.util.logging.Level;
 
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalEntryQueryStatus;
+import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalTechnologyPoll;
 import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
 import main.java.me.avankziar.tt.spigot.objects.mysql.RegisteredBlock;
 import main.java.me.avankziar.tt.spigot.objects.mysql.SoloEntryQueryStatus;
-import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalTechnologyPoll;
 
 public class MysqlHandler
 {

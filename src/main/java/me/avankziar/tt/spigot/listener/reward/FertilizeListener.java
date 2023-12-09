@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.tt.spigot.TT;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
@@ -32,6 +33,8 @@ public class FertilizeListener implements Listener
 				|| !RewardHandler.canAccessInteraction(event.getPlayer(),
 						ToolType.getToolType(event.getPlayer().getInventory().getItemInMainHand().getType()), FE, event.getBlock().getType(), null))
 		{
+			ARGCheckEventAction.checkEventAction(event.getPlayer(), "FERTILIZING:RETURN",
+					FE, ToolType.HAND, null, null, Material.AIR);
 			return;
 		}
 		final Player player = event.getPlayer();
@@ -42,6 +45,8 @@ public class FertilizeListener implements Listener
 			@Override
 			public void run()
 			{
+				ARGCheckEventAction.checkEventAction(player, "FERTILIZING:REWARD",
+						FE, ToolType.HAND, null, null, Material.AIR);
 				for(ItemStack is : RewardHandler.getDrops(player, FE, ToolType.HAND, mat, null))
 				{
 					ItemHandler.dropItem(is, player, loc);

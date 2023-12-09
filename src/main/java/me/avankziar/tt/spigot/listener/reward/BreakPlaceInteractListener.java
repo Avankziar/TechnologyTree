@@ -74,11 +74,11 @@ public class BreakPlaceInteractListener implements Listener
 					BR, ToolType.getHandToolType(event.getPlayer()), event.getBlock().getType(), null, null);
 			return;
 		}
-		if(ConfigHandler.GAMERULE_UseVanillaExpDrops)
+		if(!ConfigHandler.GAMERULE_UseVanillaExpDrops)
 		{
 			event.setExpToDrop(0);
 		}
-		if(ConfigHandler.GAMERULE_UseVanillaItemDrops)
+		if(!ConfigHandler.GAMERULE_UseVanillaItemDrops)
 		{
 			event.setDropItems(false);
 		}
@@ -194,6 +194,7 @@ public class BreakPlaceInteractListener implements Listener
 		if(event.getClickedBlock() == null
 				|| event.getAction() == Action.LEFT_CLICK_AIR
 				|| event.getAction() == Action.RIGHT_CLICK_AIR
+				|| event.getAction() == Action.LEFT_CLICK_BLOCK
 				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
 				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR)
 		{
@@ -225,7 +226,13 @@ public class BreakPlaceInteractListener implements Listener
 		}
 		final Player player = event.getPlayer();
 		final UUID uuid = player.getUniqueId();
-		final Material blockType = event.getClickedBlock().getType();
+		final Material mat = getAppropiateTool(
+				event.getPlayer().getInventory().getItemInMainHand() != null 
+					? event.getPlayer().getInventory().getItemInMainHand().getType() 
+					: Material.AIR,
+				event.getClickedBlock() != null
+					? event.getClickedBlock().getType()
+					: Material.AIR);
 		final ToolType tool = ToolType.getHandToolType(player);
 		final Location loc = event.getClickedBlock().getLocation();
 		new BukkitRunnable()
@@ -236,11 +243,11 @@ public class BreakPlaceInteractListener implements Listener
 				ARGCheckEventAction.checkEventAction(event.getPlayer(), "INTERACT:REWARD",
 						et, ToolType.HAND, event.getClickedBlock() != null ? event.getClickedBlock().getType() : Material.AIR, null,
 						event.getPlayer().getInventory().getItemInMainHand() != null ? event.getPlayer().getInventory().getItemInMainHand().getType() : Material.AIR);
-				for(ItemStack is : RewardHandler.getDrops(player, et, tool, blockType, null))
+				for(ItemStack is : RewardHandler.getDrops(player, et, tool, mat, null))
 				{
 					ItemHandler.dropItem(is, player, loc);
 				}
-				RewardHandler.rewardPlayer(uuid, et, tool, blockType, null, 1);
+				RewardHandler.rewardPlayer(uuid, et, tool, mat, null, 1);
 			}
 		}.runTaskAsynchronously(TT.getPlugin());
 	}
@@ -286,6 +293,253 @@ public class BreakPlaceInteractListener implements Listener
 			case WATER_BUCKET:
 			case POWDER_SNOW_BUCKET:
 				return EventType.BUCKET_EMPTYING;
+			}
+		case COMPOSTER:
+			switch(toolmat)
+			{
+			default:
+				return EventType.INTERACT;
+			case OAK_SAPLING:
+			case ACACIA_SAPLING:
+			case BAMBOO_SAPLING:
+			case BIRCH_SAPLING:
+			case CHERRY_SAPLING:
+			case DARK_OAK_SAPLING:
+			case JUNGLE_SAPLING:
+			case SPRUCE_SAPLING:
+			case BEETROOT_SEEDS:
+			case MELON_SEEDS:
+			case PUMPKIN_SEEDS:
+			case TORCHFLOWER_SEEDS:
+			case WHEAT_SEEDS:
+			case GRASS:
+			case HANGING_ROOTS:
+			case CAVE_VINES_PLANT:
+			case CHORUS_PLANT:
+			case KELP_PLANT:
+			case PITCHER_PLANT:
+			case TWISTING_VINES_PLANT:
+			case WEEPING_VINES_PLANT:
+			case ACACIA_LEAVES:
+			case AZALEA_LEAVES:
+			case BIRCH_LEAVES:
+			case CHERRY_LEAVES:
+			case DARK_OAK_LEAVES:
+			case FLOWERING_AZALEA_LEAVES:
+			case JUNGLE_LEAVES:
+			case MANGROVE_LEAVES:
+			case OAK_LEAVES:
+			case SPRUCE_LEAVES:
+			case MOSS_BLOCK:
+			case MOSS_CARPET:
+			case SMALL_DRIPLEAF:
+			case BIG_DRIPLEAF:
+			case PITCHER_POD:
+			case SWEET_BERRIES:
+			case GLOW_BERRIES:
+			case PINK_PETALS:
+			case SEAGRASS:
+			case TALL_SEAGRASS:
+			case KELP:
+			case DRIED_KELP:
+			case DRIED_KELP_BLOCK:
+			case CACTUS:
+			case MELON:
+			case MELON_SLICE:
+			case NETHER_SPROUTS:
+			case VINE:
+			case CAVE_VINES:
+			case TWISTING_VINES:
+			case WEEPING_VINES:
+			case SUGAR_CANE:
+			case APPLE:
+			case AZALEA:
+			case FLOWERING_AZALEA:
+			case FERN:
+			case LARGE_FERN:
+			case DANDELION:
+			case POPPY:
+			case BLUE_ORCHID:
+			case AZURE_BLUET:
+			case ORANGE_TULIP:
+			case PINK_TULIP:
+			case RED_TULIP:
+			case WHITE_TULIP:
+			case OXEYE_DAISY:
+			case CORNFLOWER:
+			case LILY_OF_THE_VALLEY:
+			case WITHER_ROSE:
+			case TORCHFLOWER:
+			case SUNFLOWER:
+			case LILAC:
+			case ROSE_BUSH:
+			case PEONY:
+			case COCOA_BEANS:
+			case CARROT:
+			case POTATO:
+			case CRIMSON_FUNGUS:
+			case WARPED_FUNGUS:
+			case BEETROOT:
+			case CRIMSON_ROOTS:
+			case WARPED_ROOTS:
+			case PUMPKIN:
+			case CARVED_PUMPKIN:
+			case SEA_PICKLE:
+			case BROWN_MUSHROOM:
+			case RED_MUSHROOM:
+			case SHROOMLIGHT:
+			case LILY_PAD:
+			case SPORE_BLOSSOM:
+			case BREAD:
+			case COOKIE:
+			case NETHER_WART:
+			case NETHER_WART_BLOCK:
+			case BAKED_POTATO:
+			case MUSHROOM_STEM:
+			case BROWN_MUSHROOM_BLOCK:
+			case RED_MUSHROOM_BLOCK:
+			case WHEAT:
+			case HAY_BLOCK:
+			case WARPED_WART_BLOCK:
+			case CAKE:
+			case PUMPKIN_PIE:
+				return EventType.COMPOSTING;
+			}
+		case POWDER_SNOW_CAULDRON:
+		case LAVA_CAULDRON:
+		case WATER_CAULDRON:
+			switch(toolmat)
+			{
+			default:
+				return EventType.INTERACT;
+			case BUCKET:
+				return EventType.BUCKET_FILLING;
+			}
+		case DIRT:
+		case GRASS_BLOCK:
+			switch(toolmat)
+			{
+				default:
+					return EventType.INTERACT;
+				case DIAMOND_SHOVEL:
+				case GOLDEN_SHOVEL:
+				case IRON_SHOVEL:
+				case NETHERITE_SHOVEL:
+				case STONE_SHOVEL:
+				case WOODEN_SHOVEL:
+					return EventType.CREATE_PATH;
+				case BONE_MEAL:
+					return EventType.FERTILIZING;
+			}
+		case ACACIA_LOG:
+		case BIRCH_LOG:
+		case CHERRY_LOG:
+		case DARK_OAK_LOG:
+		case JUNGLE_LOG:
+		case MANGROVE_LOG:
+		case OAK_LOG:
+		case SPRUCE_LOG:
+		case ACACIA_WOOD:
+		case BIRCH_WOOD:
+		case CHERRY_WOOD:
+		case DARK_OAK_WOOD:
+		case JUNGLE_WOOD:
+		case MANGROVE_WOOD:
+		case OAK_WOOD:
+		case SPRUCE_WOOD:
+		case CRIMSON_HYPHAE:
+		case WARPED_HYPHAE:
+			switch(toolmat)
+			{
+			default:
+				return EventType.INTERACT;
+			case DIAMOND_AXE:
+			case GOLDEN_AXE:
+			case IRON_AXE:
+			case NETHERITE_AXE:
+			case STONE_AXE:
+			case WOODEN_AXE:
+				return EventType.DEBARKING;
+			}
+		case TNT:
+		case TNT_MINECART:
+			switch(toolmat)
+			{
+			default:
+				return EventType.INTERACT;
+			case FLINT_AND_STEEL:
+				return EventType.IGNITING;
+			}
+		case OAK_SAPLING:
+		case ACACIA_SAPLING:
+		case BAMBOO_SAPLING:
+		case BIRCH_SAPLING:
+		case CHERRY_SAPLING:
+		case DARK_OAK_SAPLING:
+		case JUNGLE_SAPLING:
+		case SPRUCE_SAPLING:
+		case BEETROOTS:
+		case MELON_STEM:
+		case PUMPKIN_STEM:
+		case TORCHFLOWER_SEEDS:
+		case WHEAT:
+		case GRASS:
+		case FERN:
+		case CARROTS:
+		case POTATOES:
+		case AZALEA_LEAVES:
+		case FLOWERING_AZALEA_LEAVES:
+		case MOSS_BLOCK:
+		case BROWN_MUSHROOM:
+		case RED_MUSHROOM:
+		case PINK_PETALS:
+		case TWISTING_VINES:
+		case WEEPING_VINES:
+		case BIG_DRIPLEAF:
+		case BIG_DRIPLEAF_STEM:
+		case GLOW_LICHEN:
+		case COCOA:
+		case CAVE_VINES:
+		case SEAGRASS:
+		case SEA_PICKLE:
+		case KELP:
+		case KELP_PLANT:
+		case OCHRE_FROGLIGHT:
+		case PEARLESCENT_FROGLIGHT:
+		case VERDANT_FROGLIGHT:
+		case SUNFLOWER:
+		case LILAC:
+		case ROSE_BUSH:
+		case PEONY:
+			switch(toolmat)
+			{
+			default:
+				return EventType.INTERACT;
+			case BONE_MEAL:
+				return EventType.FERTILIZING;
+			}
+		}
+	}
+	
+	public Material getAppropiateTool(Material toolmat, Material blockmat)
+	{
+		switch(blockmat)
+		{
+		default:
+			switch(toolmat)
+			{
+			default:
+				return blockmat;
+			case AXOLOTL_BUCKET:
+			case COD_BUCKET:
+			case PUFFERFISH_BUCKET:
+			case SALMON_BUCKET:
+			case TADPOLE_BUCKET:
+			case TROPICAL_FISH_BUCKET:
+			case LAVA_BUCKET:
+			case WATER_BUCKET:
+			case POWDER_SNOW_BUCKET:
+				return toolmat;
 			}
 		case COMPOSTER:
 			switch(toolmat)
@@ -397,7 +651,7 @@ public class BreakPlaceInteractListener implements Listener
 			case WARPED_WART_BLOCK:
 			case CAKE:
 			case PUMPKIN_PIE:
-				return EventType.COMPOSTING;
+				return toolmat;
 			}
 		case POWDER_SNOW_CAULDRON:
 		case LAVA_CAULDRON:
@@ -407,7 +661,7 @@ public class BreakPlaceInteractListener implements Listener
 			default:
 				return null;
 			case BUCKET:
-				return EventType.BUCKET_FILLING;
+				return blockmat;
 			}
 		case DIRT:
 		case GRASS_BLOCK:
@@ -421,7 +675,9 @@ public class BreakPlaceInteractListener implements Listener
 				case NETHERITE_SHOVEL:
 				case STONE_SHOVEL:
 				case WOODEN_SHOVEL:
-					return EventType.CREATE_PATH;
+					return blockmat;
+				case BONE_MEAL:
+					return blockmat;
 			}
 		case ACACIA_LOG:
 		case BIRCH_LOG:
@@ -451,7 +707,66 @@ public class BreakPlaceInteractListener implements Listener
 			case NETHERITE_AXE:
 			case STONE_AXE:
 			case WOODEN_AXE:
-				return EventType.DEBARKING;
+				return blockmat;
+			}
+		case TNT:
+		case TNT_MINECART:
+			switch(toolmat)
+			{
+			default:
+				return null;
+			case FLINT_AND_STEEL:
+				return blockmat;
+			}
+		case OAK_SAPLING:
+		case ACACIA_SAPLING:
+		case BAMBOO_SAPLING:
+		case BIRCH_SAPLING:
+		case CHERRY_SAPLING:
+		case DARK_OAK_SAPLING:
+		case JUNGLE_SAPLING:
+		case SPRUCE_SAPLING:
+		case BEETROOTS:
+		case MELON_STEM:
+		case PUMPKIN_STEM:
+		case TORCHFLOWER_SEEDS:
+		case WHEAT:
+		case GRASS:
+		case FERN:
+		case CARROTS:
+		case POTATOES:
+		case AZALEA_LEAVES:
+		case FLOWERING_AZALEA_LEAVES:
+		case MOSS_BLOCK:
+		case BROWN_MUSHROOM:
+		case RED_MUSHROOM:
+		case PINK_PETALS:
+		case TWISTING_VINES:
+		case WEEPING_VINES:
+		case BIG_DRIPLEAF:
+		case BIG_DRIPLEAF_STEM:
+		case GLOW_LICHEN:
+		case COCOA:
+		case CAVE_VINES:
+		case SEAGRASS:
+		case SEA_PICKLE:
+		case KELP:
+		case KELP_PLANT:
+		case OCHRE_FROGLIGHT:
+		case PEARLESCENT_FROGLIGHT:
+		case VERDANT_FROGLIGHT:
+		case SUNFLOWER:
+		case LILAC:
+		case ROSE_BUSH:
+		case PEONY:
+		case CRIMSON_NYLIUM:
+		case WARPED_NYLIUM:
+			switch(toolmat)
+			{
+			default:
+				return null;
+			case BONE_MEAL:
+				return blockmat;
 			}
 		}
 	}

@@ -1,11 +1,13 @@
 package main.java.me.avankziar.tt.spigot.listener.recipe;
 
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.PrepareGrindstoneEvent;
+import org.bukkit.inventory.ItemStack;
 
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
 import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
@@ -48,11 +50,6 @@ public class PrepareGrindstoneListener implements Listener
 		{
 			return;
 		}
-		event.setResult(null);
-		for(HumanEntity he : event.getViewers())
-		{
-			Player player = (Player) he;
-			player.updateInventory();
-		}
+		event.setResult(new ItemStack(Material.AIR));
 	}
 }

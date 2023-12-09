@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.tt.spigot.TT;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
@@ -26,7 +27,7 @@ import main.java.me.avankziar.tt.spigot.objects.ToolType;
 
 public class DryingListener implements Listener
 {
-	private static LinkedHashMap<String, UUID> placedSponge = new LinkedHashMap<>();
+	private static LinkedHashMap<String, String> placedSponge = new LinkedHashMap<>();
 	final private static EventType DR = EventType.DRYING;
 	
 	@EventHandler(priority = EventPriority.LOW)
@@ -40,14 +41,14 @@ public class DryingListener implements Listener
 		{
 			return;
 		}
-		placedSponge.replace(BlockHandler.getLocationText(event.getBlock().getLocation()), event.getPlayer().getUniqueId());
+		TT.log.info("Placed Sponge "+BlockHandler.getLocationText(event.getBlock().getLocation())); //REMOVEME
+		placedSponge.replace(BlockHandler.getLocationText(event.getBlock().getLocation()), event.getPlayer().getUniqueId().toString());
 	}
 	
 	@EventHandler
 	public void onSponeAbsorb(SpongeAbsorbEvent event)
 	{
 		if(event.isCancelled()
-				|| event.getBlock().getType() != Material.WET_SPONGE
 				|| !EnumHandler.isEventActive(DR))
 		{
 			return;
@@ -59,9 +60,10 @@ public class DryingListener implements Listener
 			@Override
 			public void run()
 			{
-				UUID uuid = placedSponge.get(BlockHandler.getLocationText(loc));
+				final UUID uuid = UUID.fromString(placedSponge.get(BlockHandler.getLocationText(loc)));
 				if(uuid == null)
 				{
+					TT.log.info("SpongeAbsorbEvent 1 "+BlockHandler.getLocationText(loc)); //REMOVEME
 					return;
 				}
 				Player player = Bukkit.getPlayer(uuid);
@@ -69,8 +71,13 @@ public class DryingListener implements Listener
 						&& player.getGameMode() != GameMode.CREATIVE
 						&& player.getGameMode() != GameMode.SPECTATOR)
 				{
+					TT.log.info("SpongeAbsorbEvent 2"); //REMOVEME
+					ARGCheckEventAction.checkEventAction(player, "DRYING:RETURN",
+							DR, ToolType.HAND, null, null, Material.AIR);
 					return;
 				}
+				ARGCheckEventAction.checkEventAction(player, "DRYING:REWARD",
+						DR, ToolType.HAND, null, null, Material.AIR);
 				for(ItemStack is : RewardHandler.getDrops(player, DR, ToolType.HAND, Material.SPONGE, null))
 				{
 					ItemHandler.dropItem(is, player, loc);
@@ -78,6 +85,6 @@ public class DryingListener implements Listener
 				RewardHandler.rewardPlayer(uuid, DR, ToolType.HAND, Material.SPONGE, null, size);
 				placedSponge.remove(BlockHandler.getLocationText(loc));
 			}
-		}.runTaskAsynchronously(TT.getPlugin());
+		}.runTaskLaterAsynchronously(TT.getPlugin(), 2L);
 	}
 }

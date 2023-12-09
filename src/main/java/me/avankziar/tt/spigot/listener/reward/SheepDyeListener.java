@@ -2,6 +2,7 @@ package main.java.me.avankziar.tt.spigot.listener.reward;
 
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.tt.spigot.TT;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
@@ -32,6 +34,8 @@ public class SheepDyeListener implements Listener
 				|| !EnumHandler.isEventActive(SD)
 				|| event.getEntity().getColor() == event.getColor())
 		{
+			ARGCheckEventAction.checkEventAction(event.getPlayer(), "SHEARING:RETURN",
+					SD, ToolType.HAND, null, null, Material.AIR);
 			return;
 		}
 		final Player player = event.getPlayer();
@@ -42,6 +46,8 @@ public class SheepDyeListener implements Listener
 			@Override
 			public void run()
 			{
+				ARGCheckEventAction.checkEventAction(player, "SHEARING:REWARD",
+						SD, ToolType.HAND, null, null, Material.AIR);
 				for(ItemStack is : RewardHandler.getDrops(player, SD, ToolType.HAND, null, ent))
 				{
 					ItemHandler.dropItem(is, player, loc);

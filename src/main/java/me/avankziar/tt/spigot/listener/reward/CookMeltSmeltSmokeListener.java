@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.tt.spigot.TT;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler.BlockType;
 import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
@@ -93,7 +95,7 @@ public class CookMeltSmeltSmokeListener implements Listener
 			return;
 		}
 		BlockType bt = BlockType.valueOf(key[0]);
-		UUID uuid = BlockHandler.getRegisterBlockOwner(bt, event.getBlock().getLocation());
+		final UUID uuid = BlockHandler.getRegisterBlockOwner(bt, event.getBlock().getLocation());
 		if(uuid == null)
 		{
 			if(!new ConfigHandler().finishSmeltIfPlayerHasNotTheRecipeUnlocked())
@@ -104,22 +106,31 @@ public class CookMeltSmeltSmokeListener implements Listener
 			return;
 		}
 		String recipeKey = key[1];
-		if(!ConfigHandler.GAMERULE_UseVanillaAccessToFurnace && !RecipeHandler.hasAccessToRecipe(uuid, bt, recipeKey))
+		final Player player = Bukkit.getPlayer(uuid);
+		if(!ConfigHandler.GAMERULE_UseVanillaAccessToFurnace)
 		{
-			if(!new ConfigHandler().finishSmeltIfPlayerHasNotTheRecipeUnlocked())
+			if(!RecipeHandler.hasAccessToRecipe(uuid, bt, recipeKey))
 			{
+				if(!new ConfigHandler().finishSmeltIfPlayerHasNotTheRecipeUnlocked())
+				{
+					ARGCheckEventAction.checkEventAction(player, et.toString()+":RETURN",
+							et, ToolType.HAND, null, null, Material.AIR);
+					return;
+				}
+				ARGCheckEventAction.checkEventAction(player, et.toString()+":RETURN",
+						et, ToolType.HAND, null, null, Material.AIR);
+				event.setCancelled(true);
 				return;
 			}
-			event.setCancelled(true);
-			return;
 		}
-		final Player player = Bukkit.getPlayer(uuid);
 		final Location loc = event.getBlock().getLocation();
 		new BukkitRunnable()
 		{
 			@Override
 			public void run()
 			{
+				ARGCheckEventAction.checkEventAction(player, et.toString()+":REWARD",
+						et, ToolType.HAND, null, null, Material.AIR);
 				if(player != null)
 				{
 					for(ItemStack is : RewardHandler.getDrops(player, et, ToolType.HAND, event.getResult().getType(), null))

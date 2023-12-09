@@ -1,6 +1,7 @@
 package main.java.me.avankziar.tt.spigot.listener.reward;
 
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.tt.spigot.TT;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
@@ -26,8 +28,9 @@ public class Cold_ForgingRenameListener implements Listener
 	public void onAnvil(InventoryClickEvent event)
 	{
 		if(event.isCancelled()
-				|| !(event.getClickedInventory() instanceof AnvilInventory)
 				|| event.getClickedInventory() == null
+				|| event.getCurrentItem() == null
+				|| !(event.getClickedInventory() instanceof AnvilInventory)
 				|| event.getClickedInventory().getType() != InventoryType.ANVIL
 				|| event.getSlotType() != SlotType.RESULT
 				|| !(event.getWhoClicked() instanceof Player)
@@ -41,7 +44,8 @@ public class Cold_ForgingRenameListener implements Listener
 		AnvilInventory ai = (AnvilInventory) event.getClickedInventory();
 		ItemStack base = ai.getContents()[0];
 		ItemStack add = ai.getContents()[1];
-		ItemStack result = ai.getContents()[2];
+		ItemStack result = event.getCurrentItem().clone();
+		final Material mat = result.getType();
 		if(add == null
 				&& base.hasItemMeta()
 				&& (	(base.getItemMeta().hasDisplayName()
@@ -52,6 +56,8 @@ public class Cold_ForgingRenameListener implements Listener
 		{
 			if(!EnumHandler.isEventActive(RN))
 			{
+				ARGCheckEventAction.checkEventAction((Player) event.getWhoClicked(), "RENAMING:RETURN",
+						CF, ToolType.HAND, null, null, Material.AIR);
 				return;
 			}
 			new BukkitRunnable()
@@ -59,17 +65,21 @@ public class Cold_ForgingRenameListener implements Listener
 				@Override
 				public void run()
 				{
-					for(ItemStack is : RewardHandler.getDrops(player, RN, ToolType.HAND, result.getType(), null))
+					ARGCheckEventAction.checkEventAction((Player) event.getWhoClicked(), "RENAMING:REWARD",
+							CF, ToolType.HAND, null, null, mat);
+					for(ItemStack is : RewardHandler.getDrops(player, RN, ToolType.HAND, mat, null))
 					{
 						ItemHandler.dropItem(is, player, null);
 					}
-					RewardHandler.rewardPlayer(player.getUniqueId(), RN, ToolType.HAND, result.getType(), null, 1);
+					RewardHandler.rewardPlayer(player.getUniqueId(), RN, ToolType.HAND, mat, null, 1);
 				}
 			}.runTaskAsynchronously(TT.getPlugin());
 		} else
 		{
 			if(!EnumHandler.isEventActive(CF))
 			{
+				ARGCheckEventAction.checkEventAction((Player) event.getWhoClicked(), "COLD_FORGING:RETURN2",
+						CF, ToolType.HAND, null, null, mat);
 				return;
 			}
 			new BukkitRunnable()
@@ -77,14 +87,15 @@ public class Cold_ForgingRenameListener implements Listener
 				@Override
 				public void run()
 				{
-					for(ItemStack is : RewardHandler.getDrops(player, CF, ToolType.HAND, result.getType(), null))
+					ARGCheckEventAction.checkEventAction((Player) event.getWhoClicked(), "COLD_FORGING:REWARD",
+							CF, ToolType.HAND, null, null, mat);
+					for(ItemStack is : RewardHandler.getDrops(player, CF, ToolType.HAND, mat, null))
 					{
 						ItemHandler.dropItem(is, player, null);
 					}
-					RewardHandler.rewardPlayer(player.getUniqueId(), CF, ToolType.HAND, result.getType(), null, 1);
+					RewardHandler.rewardPlayer(player.getUniqueId(), CF, ToolType.HAND, mat, null, 1);
 				}
 			}.runTaskAsynchronously(TT.getPlugin());
-			
 		}
 	}
 }

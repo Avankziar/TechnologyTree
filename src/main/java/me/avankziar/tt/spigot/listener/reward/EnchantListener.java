@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.tt.spigot.TT;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
@@ -32,10 +33,14 @@ public class EnchantListener implements Listener
 				|| event.getItem() == null
 				|| !EnumHandler.isEventActive(EN))
 		{
+			ARGCheckEventAction.checkEventAction(event.getEnchanter(), "ENCHANTING:RETURN",
+					EN, ToolType.HAND, null, null, Material.AIR);
 			return;
 		}
 		if(!RecipeHandler.hasAccessToRecipe(event.getEnchanter().getUniqueId(), RecipeType.ENCHANTING, event.getItem().getType().toString()))
 		{
+			ARGCheckEventAction.checkEventAction(event.getEnchanter(), "ENCHANTING:CANNOTACCESS",
+					EN, ToolType.HAND, null, null, Material.AIR);
 			event.setCancelled(true);
 			event.getEnchanter().updateInventory();
 			return;
@@ -51,6 +56,8 @@ public class EnchantListener implements Listener
 				|| event.getItem() == null
 				|| !EnumHandler.isEventActive(EN))
 		{
+			ARGCheckEventAction.checkEventAction(event.getEnchanter(), "ENCHANTING:RETURN",
+					EN, ToolType.HAND, null, null, Material.AIR);
 			return;
 		}
 		final Player player = event.getEnchanter();
@@ -61,6 +68,8 @@ public class EnchantListener implements Listener
 			@Override
 			public void run()
 			{
+				ARGCheckEventAction.checkEventAction(player, "ENCHANTING:REWARD",
+						EN, ToolType.HAND, null, null, Material.AIR);
 				for(ItemStack is : RewardHandler.getDrops(player, EN, ToolType.HAND, mat, null))
 				{
 					ItemHandler.dropItem(is, player, loc);

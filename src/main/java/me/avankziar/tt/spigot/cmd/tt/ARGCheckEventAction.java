@@ -58,6 +58,8 @@ public class ARGCheckEventAction extends ArgumentModule
 			switch(value)
 			{
 			default:
+				player.sendMessage(ChatApi.tl(value//TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.BREEDING.Return")
+						.replace("%eventtype%", et.toString())));
 				break;
 			case "BREAKING:RETURN":
 				player.sendMessage(ChatApi.tl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.CheckEventAction.BREAKING.Return")

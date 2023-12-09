@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.tt.spigot.TT;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
@@ -27,6 +28,8 @@ public class HarvestListener implements Listener
 				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
 				|| !EnumHandler.isEventActive(HA))
 		{
+			ARGCheckEventAction.checkEventAction(event.getPlayer(), "HARVEST:RETURN",
+					HA, ToolType.HAND, null, null, Material.AIR);
 			return;
 		}
 		final ToolType tool = ToolType.getHandToolType(event.getPlayer());
@@ -37,6 +40,8 @@ public class HarvestListener implements Listener
 			@Override
 			public void run()
 			{
+				ARGCheckEventAction.checkEventAction(player, "HARVEST:REWARD",
+						HA, ToolType.HAND, null, null, Material.AIR);
 				for(ItemStack is : RewardHandler.getDrops(event.getPlayer(), HA, tool, mat, null))
 				{
 					ItemHandler.dropItem(is, player, null);

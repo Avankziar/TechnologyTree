@@ -7,8 +7,8 @@ import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryAction;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.inventory.ItemStack;
@@ -16,6 +16,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.tt.spigot.TT;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
@@ -25,35 +26,42 @@ import main.java.me.avankziar.tt.spigot.objects.ToolType;
 public class CraftItemListener implements Listener
 {
 	final private static EventType CR = EventType.CRAFTING;
-	@EventHandler
-	public void onCrafItem(InventoryClickEvent event) //TODO Checken ob es nicht besser CraftItemEvent sein soll (Unwahrscheinlich)
+	
+	@EventHandler //InventoryClickEvent
+	public void onCrafItem(CraftItemEvent event) //TODO Checken ob es nicht besser CraftItemEvent sein soll (Unwahrscheinlich)
 	{
 		if(event.isCancelled()
 				|| !(event.getWhoClicked() instanceof Player)
 				|| event.getSlotType() != SlotType.RESULT
 				|| event.getClickedInventory() == null
-				|| (event.getClickedInventory().getType() != InventoryType.CRAFTING && event.getClickedInventory().getType() != InventoryType.PLAYER)
+				|| (event.getClickedInventory().getType() != InventoryType.WORKBENCH && event.getClickedInventory().getType() != InventoryType.CRAFTING)
 				|| event.getWhoClicked().getGameMode() == GameMode.CREATIVE
 				|| event.getWhoClicked().getGameMode() == GameMode.SPECTATOR
 				|| event.getCurrentItem() == null
 				|| !EnumHandler.isEventActive(CR))
 		{
+			ARGCheckEventAction.checkEventAction((Player) event.getWhoClicked(), "CRAFTING:RETURN1",
+					CR, ToolType.HAND, null, null, Material.AIR);
 			return;
 		}
 		final ItemStack result = event.getCurrentItem().clone();
 		if(result == null) //If the result item is null, deny all and return.
 		{
+			ARGCheckEventAction.checkEventAction((Player) event.getWhoClicked(), "CRAFTING:RESULTNULL1",
+					CR, ToolType.HAND, null, null, Material.AIR);
 			event.setResult(Result.DENY);
 			event.setCurrentItem(null);
 			event.setCancelled(true);
 			return;
 		}
-		Player player = (Player) event.getWhoClicked();
+		final int amount = result.getAmount();
+		final Material mat = result.getType();
+		final Player player = (Player) event.getWhoClicked();
 		if (event.getClick() == ClickType.SHIFT_LEFT 
 				|| event.getClick() == ClickType.SHIFT_RIGHT 
 				|| event.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY)
 		{
-			schedulePostDetectionAll(player, result, result.getType(), result.getItemMeta());
+			schedulePostDetectionAll(player, result, mat, result.getItemMeta());
 		} else
 		{
 			new BukkitRunnable()
@@ -61,11 +69,13 @@ public class CraftItemListener implements Listener
 				@Override
 				public void run()
 				{
-					for(ItemStack is : RewardHandler.getDrops(player, CR, ToolType.HAND, result.getType(), null))
+					ARGCheckEventAction.checkEventAction(player, "CRAFTING:REWARD1",
+							CR, ToolType.HAND, null, null, Material.AIR);
+					for(ItemStack is : RewardHandler.getDrops(player, CR, ToolType.HAND, mat, null))
 					{
 						ItemHandler.dropItem(is, player, null);
 					}
-					RewardHandler.rewardPlayer(player.getUniqueId(), CR, ToolType.HAND, result.getType(), null, 1);
+					RewardHandler.rewardPlayer(player.getUniqueId(), CR, ToolType.HAND, mat, null, amount);
 				}
 			}.runTaskAsynchronously(TT.getPlugin());
 		}
@@ -85,7 +95,7 @@ public class CraftItemListener implements Listener
 		{
 			if(isSameItem(premat, premeta, is))
 			{
-				preInvcount++;
+				preInvcount = preInvcount + is.getAmount();
 			}
 		}
 		final int preCount = preInvcount;
@@ -101,11 +111,11 @@ public class CraftItemListener implements Listener
 				{
 					if(isSameItem(premat, premeta, post))
 					{
-						newCount++;
+						newCount = newCount + post.getAmount();
 					}
 				}
 				int newItemsCount = newCount-preCount;
-				if (newItemsCount > 0)
+				if (newItemsCount < 0)
 				{
 			        return;
 				}
@@ -114,6 +124,8 @@ public class CraftItemListener implements Listener
 					@Override
 					public void run()
 					{
+						ARGCheckEventAction.checkEventAction(player, "CRAFTING:REWARD2",
+								CR, ToolType.HAND, null, null, Material.AIR);
 						for(int i = 0; i <= newItemsCount; i++)
 						{
 							for(ItemStack is : RewardHandler.getDrops(player, CR, ToolType.HAND, premat, null))
