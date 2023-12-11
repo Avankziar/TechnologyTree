@@ -18,9 +18,11 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import main.java.me.avankziar.ifh.general.assistance.ChatApi;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
 import main.java.me.avankziar.tt.spigot.database.SQLiteHandler;
+import main.java.me.avankziar.tt.spigot.handler.BlockHandler;
 import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
@@ -78,7 +80,7 @@ public class BreakPlaceInteractListener implements Listener
 		{
 			event.setExpToDrop(0);
 		}
-		if(!ConfigHandler.GAMERULE_UseVanillaItemDrops)
+		if(RewardHandler.useTTDropMechanicCalculation(event.getPlayer()))
 		{
 			event.setDropItems(false);
 		}
@@ -203,13 +205,6 @@ public class BreakPlaceInteractListener implements Listener
 				event.getPlayer().getInventory().getItemInMainHand() != null ? event.getPlayer().getInventory().getItemInMainHand().getType() : Material.AIR);
 			return;
 		}
-		if(byPassInteraction(event.getClickedBlock()))
-		{
-			ARGCheckEventAction.checkEventAction(event.getPlayer(), "INTERACT:BYPASSINTERACT",
-					EventType.INTERACT, ToolType.HAND, event.getClickedBlock() != null ? event.getClickedBlock().getType() : Material.AIR, null,
-					event.getPlayer().getInventory().getItemInMainHand() != null ? event.getPlayer().getInventory().getItemInMainHand().getType() : Material.AIR);
-			return;
-		}
 		final EventType et = isAppropiateTool(
 				event.getPlayer().getInventory().getItemInMainHand() != null 
 					? event.getPlayer().getInventory().getItemInMainHand().getType() 
@@ -217,15 +212,6 @@ public class BreakPlaceInteractListener implements Listener
 				event.getClickedBlock() != null
 					? event.getClickedBlock().getType()
 					: Material.AIR);
-		if(et == null)
-		{
-			/*ARGCheckEventAction.checkEventAction(event.getPlayer(), "INTERACT:EVENTNOTFOUND",
-					null, ToolType.HAND, event.getClickedBlock() != null ? event.getClickedBlock().getType() : Material.AIR, null,
-					event.getPlayer().getInventory().getItemInMainHand() != null ? event.getPlayer().getInventory().getItemInMainHand().getType() : Material.AIR);*/
-			return;
-		}
-		final Player player = event.getPlayer();
-		final UUID uuid = player.getUniqueId();
 		final Material mat = getAppropiateTool(
 				event.getPlayer().getInventory().getItemInMainHand() != null 
 					? event.getPlayer().getInventory().getItemInMainHand().getType() 
@@ -233,6 +219,38 @@ public class BreakPlaceInteractListener implements Listener
 				event.getClickedBlock() != null
 					? event.getClickedBlock().getType()
 					: Material.AIR);
+		if(byPassInteraction(event.getClickedBlock()))
+		{
+			ARGCheckEventAction.checkEventAction(event.getPlayer(), "INTERACT:BYPASSINTERACT",
+					EventType.INTERACT, ToolType.HAND, event.getClickedBlock() != null ? event.getClickedBlock().getType() : Material.AIR, null,
+					event.getPlayer().getInventory().getItemInMainHand() != null ? event.getPlayer().getInventory().getItemInMainHand().getType() : Material.AIR);
+			return;
+		} else
+		{
+			if(!BlockHandler.bypassAccessIfGamerule(event.getClickedBlock().getType()))
+			{
+				if(!RewardHandler.canAccessInteraction(event.getPlayer(), ToolType.HAND, et, mat, null))
+				{
+					ARGCheckEventAction.checkEventAction(event.getPlayer(), et.toString()+":CANNOTACCESS",
+							et, ToolType.HAND, mat, null, Material.AIR);
+					event.getPlayer().spigot().sendMessage(ChatApi.tctl(
+							TT.getPlugin().getYamlHandler().getLang().getString("BlockHandler.Event.DontKnowToInteract")));
+					event.setCancelled(true);
+					return;
+				}
+			}			
+		}
+		
+		if(et == null)
+		{
+			/*ARGCheckEventAction.checkEventAction(event.getPlayer(), "INTERACT:EVENTNOTFOUND",
+					null, ToolType.HAND, event.getClickedBlock() != null ? event.getClickedBlock().getType() : Material.AIR, null,
+					event.getPlayer().getInventory().getItemInMainHand() != null ? event.getPlayer().getInventory().getItemInMainHand().getType() : Material.AIR);*/
+			return;
+		}
+		final Block block = event.getClickedBlock();
+		final Player player = event.getPlayer();
+		final UUID uuid = player.getUniqueId();
 		final ToolType tool = ToolType.getHandToolType(player);
 		final Location loc = event.getClickedBlock().getLocation();
 		new BukkitRunnable()
@@ -241,8 +259,7 @@ public class BreakPlaceInteractListener implements Listener
 			public void run()
 			{
 				ARGCheckEventAction.checkEventAction(event.getPlayer(), "INTERACT:REWARD",
-						et, ToolType.HAND, event.getClickedBlock() != null ? event.getClickedBlock().getType() : Material.AIR, null,
-						event.getPlayer().getInventory().getItemInMainHand() != null ? event.getPlayer().getInventory().getItemInMainHand().getType() : Material.AIR);
+						et, ToolType.HAND, block != null ? block.getType() : Material.AIR, null, mat);
 				for(ItemStack is : RewardHandler.getDrops(player, et, tool, mat, null))
 				{
 					ItemHandler.dropItem(is, player, loc);

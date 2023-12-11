@@ -32,6 +32,18 @@ public class HarvestListener implements Listener
 					HA, ToolType.HAND, null, null, Material.AIR);
 			return;
 		}
+		if(!RewardHandler.canAccessInteraction(event.getPlayer(),
+				ToolType.HAND, HA, event.getHarvestedBlock().getType(), null))
+		{
+			event.setCancelled(true);
+			ARGCheckEventAction.checkEventAction(event.getPlayer(), "HARVEST:CANNOTACCESS",
+					HA, ToolType.HAND, event.getHarvestedBlock().getType(), null, null);
+			return;
+		}
+		if(RewardHandler.useTTDropMechanicCalculation(event.getPlayer()))
+		{
+			event.getItemsHarvested().clear();
+		}
 		final ToolType tool = ToolType.getHandToolType(event.getPlayer());
 		final Player player = event.getPlayer();
 		final Material mat = event.getHarvestedBlock().getType();

@@ -100,6 +100,10 @@ public class ExplodeIgnitingListener implements Listener
 			return;
 		}
 		ignitingMap.remove(uuid);
+		if(RewardHandler.useTTDropMechanicCalculation(Bukkit.getPlayer(uuid)))
+		{
+			event.blockList().clear();
+		}
 		final Player player = Bukkit.getPlayer(uuid);
 		final Location loc = event.getBlock().getLocation();
 		final Material mat = event.getBlock().getType();

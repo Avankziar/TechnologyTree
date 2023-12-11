@@ -403,7 +403,7 @@ public class RewardHandler
 		}
 	}
 	
-	public static boolean canAccessInteraction(Player player, ToolType toolType, EventType eventType, Material material, EntityType entityType) //Return true, if player cannot maniplulate a Block/Material
+	public static boolean canAccessInteraction(Player player, ToolType toolType, EventType eventType, Material material, EntityType entityType) //Return true, if player can maniplulate a Block/Material
 	{
 		if(player == null || eventType == null)
 		{
@@ -449,13 +449,34 @@ public class RewardHandler
 		return false;
 	}
 	
+	public static int getHighestEnchantmentOffer(UUID uuid)
+	{
+		if(PlayerHandler.enchantmentOffer.containsKey(uuid))
+		{
+			int i = PlayerHandler.enchantmentOffer.get(uuid);
+			return i > 3 ? 3 : (i < 0 ? 0 : i);
+		}
+		return 0;
+	}
+	
+	public static boolean canAccessEnchantment(UUID uuid, Material mat, Enchantment ench) //Return true, if player can put the enchantment on the item
+	{
+		if(PlayerHandler.enchantmentMap.containsKey(uuid)
+				&& PlayerHandler.enchantmentMap.get(uuid).containsKey(mat)
+				&& PlayerHandler.enchantmentMap.get(uuid).get(mat).contains(ench.getKey().getKey()))
+		{
+			return true;
+		}
+		return false;
+	}
+	
 	public static boolean useTTDropMechanicCalculation(Player player)
 	{
 		if(player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR)
 		{
 			return false;
 		}
-		if(!plugin.getYamlHandler().getConfig().getBoolean("Do.Drops.UsePluginDropsCalculation", false))
+		if(ConfigHandler.GAMERULE_UseVanillaItemDrops)
 		{
 			return false;
 		}
@@ -463,7 +484,7 @@ public class RewardHandler
 		{
 			return false;
 		}
-		//TODO Do Config.WorldList And Worldguard
+		//TODO Do Worldguard
 		return true;
 	}
 	

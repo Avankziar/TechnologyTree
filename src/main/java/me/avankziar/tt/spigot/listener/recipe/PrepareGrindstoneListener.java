@@ -22,7 +22,8 @@ public class PrepareGrindstoneListener implements Listener
 	@EventHandler
 	public void onPrepareGrindstone(PrepareGrindstoneEvent event)
 	{
-		if(!EnumHandler.isEventActive(EventType.GRINDING))
+		if(!EnumHandler.isEventActive(EventType.GRINDING)
+				|| event.getResult() == null)
 		{
 			return;
 		}

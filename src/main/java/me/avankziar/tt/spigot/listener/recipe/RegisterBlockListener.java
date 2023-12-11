@@ -47,11 +47,17 @@ public class RegisterBlockListener implements Listener
 				EventType.INTERACT,
 				event.getClickedBlock().getType(), null))
 		{
-			event.setCancelled(true);
-			return;
+			if(!BlockHandler.bypassAccessIfGamerule(event.getClickedBlock().getType()))
+			{
+				//Will be canceled in the BreakPlaceInteractListener if needed
+				return;
+			}
 		}
 		if(!BlockHandler.canRegisterBlock(event.getPlayer(), bt))
 		{
+			event.getPlayer().spigot().sendMessage(ChatApi.tctl(
+					plugin.getYamlHandler().getLang().getString("BlockHandler.Event.CannotRegisterHasTooMuch")));
+			event.setCancelled(true);
 			return;
 		}
 		if(BlockHandler.isAlreadyRegisteredBlock(event.getPlayer().getUniqueId(), bt, loc))

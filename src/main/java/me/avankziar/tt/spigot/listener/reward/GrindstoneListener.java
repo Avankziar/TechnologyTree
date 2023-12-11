@@ -27,6 +27,7 @@ public class GrindstoneListener implements Listener
 	public void onGrindstone(InventoryClickEvent event)
 	{
 		if(event.isCancelled()
+				|| event.getCurrentItem() == null
 				|| event.getClickedInventory() == null
 				|| event.getClickedInventory().getType() != InventoryType.GRINDSTONE
 				|| !(event.getClickedInventory() instanceof GrindstoneInventory)
@@ -39,9 +40,7 @@ public class GrindstoneListener implements Listener
 			return;
 		}
 		final Player player = (Player) event.getWhoClicked();
-		GrindstoneInventory ai = (GrindstoneInventory) event.getClickedInventory();
-		ItemStack result = ai.getContents()[2];
-		final Material mat = result.getType();
+		final Material mat = event.getCurrentItem().getType();
 		new BukkitRunnable()
 		{
 			@Override

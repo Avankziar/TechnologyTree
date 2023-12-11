@@ -69,7 +69,9 @@ public class BucketEmptyFillListener implements Listener
 	@EventHandler
 	public void onBucketFill(PlayerBucketFillEvent event)
 	{
+		
 		if(event.isCancelled()
+				|| event.getItemStack() == null
 				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
 				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
 				|| !EnumHandler.isEventActive(BF))
@@ -79,16 +81,16 @@ public class BucketEmptyFillListener implements Listener
 			return;
 		}
 		if(!RewardHandler.canAccessInteraction(event.getPlayer(),
-				ToolType.HAND, BF, event.getBucket(), null))
+				ToolType.HAND, BF, event.getItemStack().getType(), null))
 		{
 			ARGCheckEventAction.checkEventAction(event.getPlayer(), "BUCKET_FILLING:CANNOTACCESS",
-					BF, ToolType.HAND, event.getBucket(), null, Material.AIR);
+					BF, ToolType.HAND, event.getItemStack().getType(), null, Material.AIR);
 			event.setCancelled(true);
 			return;
 		}
 		final Player player = event.getPlayer();
 		final Location loc = event.getBlockClicked().getLocation();
-		final Material bucket = event.getBucket();
+		final Material bucket = event.getItemStack().getType();
 		new BukkitRunnable()
 		{
 			@Override

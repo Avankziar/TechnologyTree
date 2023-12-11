@@ -69,7 +69,7 @@ public class EntityInteractListener implements Listener
 			public void run()
 			{
 				ARGCheckEventAction.checkEventAction(event.getPlayer(), "INTERACTENTITY:REWARD",
-						EventType.BREEDING, ToolType.HAND, null, event.getRightClicked().getType(),
+						et, ToolType.HAND, null, event.getRightClicked().getType(),
 						event.getPlayer().getInventory().getItemInMainHand() != null
 						? event.getPlayer().getInventory().getItemInMainHand().getType()
 						: null);
@@ -219,14 +219,21 @@ public class EntityInteractListener implements Listener
 			}
 		case COW:
 		case MUSHROOM_COW:
-		case SHEEP:
 		case GOAT:
 			switch(toolmat)
 			{
 			default:
 				return null;
 			case BUCKET:
-				return EventType.BUCKET_FILLING;
+				return EventType.MILKING;
+			case WHEAT:
+				return EventType.BREEDING;
+			}
+		case SHEEP:
+			switch(toolmat)
+			{
+			default:
+				return null;
 			case WHEAT:
 				return EventType.BREEDING;
 			}
@@ -237,15 +244,6 @@ public class EntityInteractListener implements Listener
 				return null;
 			case WHEAT:
 			case HAY_BLOCK:
-				return EventType.BREEDING;
-			}
-		case OCELOT:
-			switch(toolmat)
-			{
-			default:
-				return null;
-			case COD:
-			case SALMON:
 				return EventType.BREEDING;
 			}
 		case HORSE:

@@ -35,12 +35,16 @@ public class ShearListener implements Listener
 			return;
 		}
 		if(!RewardHandler.canAccessInteraction(event.getPlayer(), 
-				ToolType.getToolType(event.getPlayer().getInventory().getItemInMainHand().getType()), SH, null, event.getEntity().getType()))
+				ToolType.HAND, SH, null, event.getEntity().getType()))
 		{
 			ARGCheckEventAction.checkEventAction(event.getPlayer(), "SHEARING:CANNOTACCESS",
 					SH, ToolType.HAND, null, null, Material.AIR);
 			event.setCancelled(true);
 			return;
+		}
+		if(RewardHandler.useTTDropMechanicCalculation(event.getPlayer()))
+		{
+			event.getItem().setType(Material.AIR);
 		}
 		final Player player = event.getPlayer();
 		final EntityType ent = event.getEntity().getType();
@@ -51,11 +55,11 @@ public class ShearListener implements Listener
 			{
 				ARGCheckEventAction.checkEventAction(player, "SHEARING:REWARD",
 						SH, ToolType.HAND, null, null, Material.AIR);
-				for(ItemStack is : RewardHandler.getDrops(player, SH, ToolType.SHEARS, null, ent))
+				for(ItemStack is : RewardHandler.getDrops(player, SH, ToolType.HAND, null, ent))
 				{
 					ItemHandler.dropItem(is, player, null);
 				}
-				RewardHandler.rewardPlayer(player.getUniqueId(), SH, ToolType.SHEARS, null, ent, 1);
+				RewardHandler.rewardPlayer(player.getUniqueId(), SH, ToolType.HAND, null, ent, 1);
 			}
 		}.runTaskAsynchronously(TT.getPlugin());
 	}

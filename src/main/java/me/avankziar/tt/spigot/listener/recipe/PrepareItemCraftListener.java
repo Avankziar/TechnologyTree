@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -23,7 +24,8 @@ public class PrepareItemCraftListener implements Listener
 	public void onPrepareCraft(PrepareItemCraftEvent event)
 	{
 		boolean canAccess = true;
-		if(!EnumHandler.isEventActive(EventType.CRAFTING))
+		if(!EnumHandler.isEventActive(EventType.CRAFTING)
+				|| (event.getInventory().getType() != InventoryType.WORKBENCH && event.getInventory().getType() != InventoryType.CRAFTING))
 		{
 			return;
 		}

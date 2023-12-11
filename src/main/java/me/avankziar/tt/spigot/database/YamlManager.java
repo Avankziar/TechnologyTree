@@ -29,7 +29,6 @@ import org.bukkit.inventory.SmithingTransformRecipe;
 import org.bukkit.inventory.SmithingTrimRecipe;
 import org.bukkit.inventory.SmokingRecipe;
 import org.bukkit.inventory.StonecuttingRecipe;
-import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import main.java.me.avankziar.tt.spigot.database.Language.ISO639_2B;
@@ -308,6 +307,45 @@ public class YamlManager
 		configSpigotKeys.put("Gamerule.UseVanilla.ItemDrops"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				false}));
+		configSpigotKeys.put("Gamerule.UseVanilla.AccessTo.Anvil"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				false}));
+		configSpigotKeys.put("Gamerule.UseVanilla.AccessTo.BrewingStand"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				false}));
+		configSpigotKeys.put("Gamerule.UseVanilla.AccessTo.BlastFurnace"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				false}));
+		configSpigotKeys.put("Gamerule.UseVanilla.AccessTo.Campfire"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				false}));
+		configSpigotKeys.put("Gamerule.UseVanilla.AccessTo.CartographyTable"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				false}));
+		configSpigotKeys.put("Gamerule.UseVanilla.AccessTo.Composter"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				false}));
+		configSpigotKeys.put("Gamerule.UseVanilla.AccessTo.CrafingTable"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				false}));
+		configSpigotKeys.put("Gamerule.UseVanilla.AccessTo.Grindstone"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				false}));
+		configSpigotKeys.put("Gamerule.UseVanilla.AccessTo.EnchantingTable"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				false}));
+		configSpigotKeys.put("Gamerule.UseVanilla.AccessTo.Furnace"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				false}));
+		configSpigotKeys.put("Gamerule.UseVanilla.AccessTo.SmithingTable"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				false}));
+		configSpigotKeys.put("Gamerule.UseVanilla.AccessTo.Smoker"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				false}));
+		configSpigotKeys.put("Gamerule.UseVanilla.AccessTo.StoneCutter"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				false}));
 		configSpigotKeys.put("Do.Access.MainCategory.BypassIfCreative"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				true}));
@@ -447,6 +485,14 @@ public class YamlManager
 				"&bCommandright for &f/tt checkplacedblocks",
 				"&eCheckt den angeschauten block ob er plaziert wurde. (Und somit für Belohnungen nicht mehr zählt)",
 				"&eChecks the viewed block to see if it has been placed. (And therefore no longer counts for rewards)");
+		argumentInput("tt_reload", "reload", basePermission,
+				"/tt reload", "/tt reload ", false,
+				"&c/tt reload &f| Lädt alle Yaml Datein neu. Betroffen sind nicht die Befehle und Drittpluginshooks!",
+				"&c/tt reload &f| Reloads all yaml files. The commands and third-party pluginshooks are not affected!",
+				"&bBefehlsrecht für &f/tt reload",
+				"&bCommandright for &f/tt reload",
+				"&eLädt alle Yaml Datein neu. Betroffen sind nicht die Befehle und Drittpluginshooks!",
+				"&eReloads all yaml files. The commands and third-party pluginshooks are not affected!");
 		commandsInput("techgui", "techgui", "techgui.command.techgui", 
 				"/techgui", "/techgui ", false,
 				"&c/techgui &f| Infoseite für alle Befehle.",
@@ -734,6 +780,18 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&7[CheckEventAction] &cZugriff zur Aktion wurde verweigert! &eEventType: &#ff8c00%eventtype%&e, Rezept: &#ff8c00%r%&e",
 						"&7[CheckEventAction] &cAccess to the action was denied! &eEventType: &#ff8c00%eventtype%&e, Recipe: &#ff8c00%r%&e"}));
+		languageKeys.put(path+"Reload.Cooldown", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[&#ff8c00TT&7] &cDer Reload ist im cooldown!",
+						"&7[&#ff8c00TT&7] &cThe reload is in cooldown!"}));
+		languageKeys.put(path+"Reload.Start", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[&#ff8c00TT&7] &#c6a664Reload Start...",
+						"&7[&#ff8c00TT&7] &#c6a664Reload start..."}));
+		languageKeys.put(path+"Reload.End", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[&#ff8c00TT&7] &#c6a664Reload ist beendet!",
+						"&7[&#ff8c00TT&7] &#c6a664Reload has ended!"}));
 	}
 	
 	private void initPlayerHandlerLang() //INFO:PlayerHandlerLang
@@ -776,6 +834,14 @@ public class YamlManager
 	public void initBlockHandlerLang() //INFO:BlockHandlerLang
 	{
 		String path = "BlockHandler.";
+		languageKeys.put(path+"Event.CannotRegisterHasTooMuch", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDieser Block kann nicht registeriert werden, du hast schon zu viele!",
+						"&cThis block cannot be registered, you already have too many!"}));
+		languageKeys.put(path+"Event.DontKnowToInteract", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cEs ist dir nicht bekannt, wie du mit diesem Block interagieren sollst!",
+						"&cYou do not know how to interact with this block!"}));
 		languageKeys.put(path+"Event.ThirdPartyRegistered", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cDieser Block ist schon registeriert!",
@@ -1211,7 +1277,6 @@ public class YamlManager
 						"",
 						"&eRegistrierte Blöcke => &ahat man&7/&bkann man haben",
 						"&cBraustand: &a%brewing_standfree%&7/&b%brewing_standmax%",
-						"&cVerz. Tisch: &a%enchanting_tablefree%&7/&b%enchanting_tablemax%",
 						"&cLagerfeuer: &a%campfirefree%&7/&b%campfiremax%",
 						"&cOfen: &a%furnacefree%&7/&b%furnacemax%",
 						"&cSchmelzofen: &a%blast_furnacefree%&7/&b%blast_furnacemax%",
@@ -1222,7 +1287,6 @@ public class YamlManager
 						"",
 						"&eRegistrated Blocks => &ahave&7/&bcan have",
 						"&cBrewing Stand: &a%brewing_standfree%&7/&b%brewing_standmax%",
-						"&cEnchanting Table: &a%enchanting_tablefree%&7/&b%enchanting_tablemax%",
 						"&cCampfire: &a%campfirefree%&7/&b%campfiremax%",
 						"&cFurnance: &a%furnacefree%&7/&b%furnacemax%",
 						"&cBlastfurnace: &a%blast_furnacefree%&7/&b%blast_furnacemax%",
@@ -1241,7 +1305,6 @@ public class YamlManager
 						"",
 						"&eRegistrierte Blöcke => &ahat man&7/&bkann man haben",
 						"&cBraustand: &a%brewing_standhas%&7/&b%brewing_standmax%",
-						"&cVerz. Tisch: &a%enchanting_tablehas%&7/&b%enchanting_tablemax%",
 						"&cLagerfeuer: &a%campfirehas%&7/&b%campfiremax%",
 						"&cOfen: &a%furnacehas%&7/&b%furnacemax%",
 						"&cSchmelzofen: &a%blast_furnacehas%&7/&b%blast_furnacemax%",
@@ -1258,7 +1321,6 @@ public class YamlManager
 						"",
 						"&eRegistrated Blocks => &ahave&7/&bcan have",
 						"&cBrewing Stand: &a%brewing_standhas%&7/&b%brewing_standmax%",
-						"&cEnchanting Table: &a%enchanting_tablehas%&7/&b%enchanting_tablemax%",
 						"&cCampfire: &a%campfirehas%&7/&b%campfiremax%",
 						"&cFurnance: &a%furnacehas%&7/&b%furnacemax%",
 						"&cBlastfurnace: &a%blast_furnacehas%&7/&b%blast_furnacemax%",
@@ -12178,6 +12240,8 @@ public class YamlManager
 		    	shapelessRecipeKeys.put(onekey, one);
 		    } else if(r instanceof SmithingTransformRecipe)
 		    {
+		    	RecipeHandler.toSaveRecipe.add(r);
+		    	/*
 		    	SmithingTransformRecipe a = (SmithingTransformRecipe) r;
 		    	String onekey = a.getKey().getKey();
 		    	LinkedHashMap<String, Language> one = new LinkedHashMap<>();
@@ -12250,7 +12314,7 @@ public class YamlManager
 			    		}
 			    	}
 		    	}
-				smithingTransformRecipeKeys.put(onekey, one);
+				smithingTransformRecipeKeys.put(onekey, one);*/
 		    } else if(r instanceof SmithingTrimRecipe)
 		    {
 		    	RecipeHandler.toSaveRecipe.add(r);

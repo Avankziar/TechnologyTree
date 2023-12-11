@@ -13,6 +13,7 @@ import org.bukkit.entity.EntityType;
 
 import main.java.me.avankziar.ifh.general.modifier.ModificationType;
 import main.java.me.avankziar.tt.spigot.TT;
+import main.java.me.avankziar.tt.spigot.assistance.MatchApi;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
@@ -152,6 +153,10 @@ public class CatTechHandler
 				= y.getDouble("OnlyForGlobal.ForUninvolvedPollParticipants.RewardDropChancesInPercent", 100);
 				double forUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent
 				= y.getDouble("OnlyForGlobal.ForUninvolvedPollParticipants.RewardSilkTouchDropChancesInPercent", 100);
+				double forUninvolvedPollParticipants_RewardEnchantmentOffersInPercent
+				= y.getDouble("OnlyForGlobal.ForUninvolvedPollParticipants.RewardEnchantmentOffersInPercent", 100);
+				double forUninvolvedPollParticipants_RewardEnchantmentsInPercent
+				= y.getDouble("OnlyForGlobal.ForUninvolvedPollParticipants.RewardEnchantmentsInPercent", 100);
 				double forUninvolvedPollParticipants_RewardCommandsInPercent
 				= y.getDouble("OnlyForGlobal.ForUninvolvedPollParticipants.RewardCommandsInPercent", 100);
 				double forUninvolvedPollParticipants_RewardItemsInPercent
@@ -343,7 +348,7 @@ public class CatTechHandler
 								RecipeType rt = RecipeType.valueOf(split[0]);
 								String key = split[1];
 								if(rt == RecipeType.BLASTING || rt == RecipeType.CAMPFIRE || rt == RecipeType.FURNACE
-										|| rt == RecipeType.SHAPED || rt == RecipeType.SHAPELESS || rt == RecipeType.SMITHING
+										|| rt == RecipeType.SHAPED || rt == RecipeType.SHAPELESS //|| rt == RecipeType.SMITHING ADDME?
 										|| rt == RecipeType.SMOKING || rt == RecipeType.STONECUTTING)
 								{
 									if(!RecipeHandler.recipeMap.containsKey(rt))
@@ -463,6 +468,65 @@ public class CatTechHandler
 						rewardSilkTouchDropChances.put(i, adc);
 					}
 				}
+				LinkedHashMap<Integer, ArrayList<Integer>> rewardEnchantmentOffers = new LinkedHashMap<>();
+				if(y.get("Rewards.UnlockableEnchantmentOffers") != null)
+				{
+					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
+					{
+						if(y.get("Rewards.UnlockableEnchantmentOffers."+i) == null)
+						{
+							continue;
+						}
+						ArrayList<Integer> ilist = new ArrayList<>();
+						for(String s : y.getStringList("Rewards.UnlockableEnchantmentOffers."+i))
+						{
+							if(MatchApi.isInteger(s))
+							{
+								ilist.add(Integer.parseInt(s));
+							}
+						}
+						rewardEnchantmentOffers.put(i, ilist);
+					}
+				}
+				LinkedHashMap<Integer, LinkedHashMap<Material, ArrayList<String>>> rewardEnchantments = new LinkedHashMap<>();
+				if(y.get("Rewards.UnlockableEnchantments") != null)
+				{
+					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
+					{
+						if(y.get("Rewards.UnlockableEnchantments."+i) == null)
+						{
+							continue;
+						}
+						LinkedHashMap<Material, ArrayList<String>> matmap = new LinkedHashMap<>();
+						for(String a : y.getStringList("Rewards.UnlockableEnchantments."+i))
+						{
+							String[] s = a.split(":");
+							if(s.length != 2)
+							{
+								continue;
+							}
+							try
+							{
+								ArrayList<String> l = new ArrayList<>();
+								Material mat = Material.valueOf(s[0]);
+								String ench = s[1];
+								if(matmap.containsKey(mat))
+								{
+									l = matmap.get(mat);
+								}
+								if(!l.contains(ench))
+								{
+									l.add(ench);
+								}
+								matmap.put(mat, l);
+							} catch(Exception e)
+							{
+								continue;
+							}
+						}
+						rewardEnchantments.put(i, matmap);
+					}
+				}
 				LinkedHashMap<Integer, ArrayList<String>> rewardCommandList = new LinkedHashMap<>();
 				if(y.get("Rewards.Command") != null)
 				{
@@ -518,6 +582,8 @@ public class CatTechHandler
 						forUninvolvedPollParticipants_RewardRecipesInPercent,
 						forUninvolvedPollParticipants_RewardDropChancesInPercent,
 						forUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent,
+						forUninvolvedPollParticipants_RewardEnchantmentOffersInPercent,
+						forUninvolvedPollParticipants_RewardEnchantmentsInPercent,
 						forUninvolvedPollParticipants_RewardCommandsInPercent,
 						forUninvolvedPollParticipants_RewardItemsInPercent,
 						forUninvolvedPollParticipants_RewardModifiersInPercent,
@@ -526,6 +592,7 @@ public class CatTechHandler
 						seeRequirementConditionQuery, seeRequirementShowDifferentItemIfYouNormallyDontSeeIt, researchRequirementConditionQuery, 
 						costTTExp, costVanillaExp, costMoney, costMaterial,
 						rewardUnlockableInteractions, rewardRecipes, rewardDropChances, rewardSilkTouchDropChances,
+						rewardEnchantmentOffers, rewardEnchantments,
 						rewardCommandList, rewardItemList, rewardModifierList, rewardValueEntryList);
 				totalTech += t.getMaximalTechnologyLevelToResearch();
 				if(playerAssociatedType == PlayerAssociatedType.SOLO)
@@ -687,8 +754,8 @@ public class CatTechHandler
 				continue;
 			}
 		}
-		registerBonusMalus();
-		registerCondition();
+		//registerBonusMalus(); //TODO Muss das, bzw. kann das?
+		//registerCondition();
 		return true;
 	}
 	

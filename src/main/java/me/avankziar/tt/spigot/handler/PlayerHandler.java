@@ -66,6 +66,9 @@ public class PlayerHandler
 	
 	public static LinkedHashMap<UUID, LinkedHashMap<RecipeType, ArrayList<String>>> recipeMap = new LinkedHashMap<>(); //UUID, RecipeType und der Key des Recipe
 	
+	public static LinkedHashMap<UUID, Integer> enchantmentOffer = new LinkedHashMap<>(); //UUID, Highest Offer that can the player see
+	public static LinkedHashMap<UUID, LinkedHashMap<Material, ArrayList<String>>> enchantmentMap = new LinkedHashMap<>();
+	
 	public static LinkedHashMap<UUID, LinkedHashMap<BlockType, ArrayList<String>>> registeredBlocks = new LinkedHashMap<>();//UUID, BlockType, Location as Text
 	
 	public final static String 
@@ -74,6 +77,20 @@ public class PlayerHandler
 		SOLOTOTALTECH = "solototaltech",
 		GROUPTOTALTECH = "grouptotaltech",
 		GLOBALTOTALTECH = "globaltotaltech";	
+	
+	public static void reload()
+	{
+		materialInteractionMap = new LinkedHashMap<>();
+		entityTypeInteractionMap = new LinkedHashMap<>();
+		materialDropMap = new LinkedHashMap<>();
+		entityTypeDropMap = new LinkedHashMap<>();
+		materialSilkTouchDropMap = new LinkedHashMap<>();
+		entityTypeSilkTouchDropMap = new LinkedHashMap<>();
+		recipeMap = new LinkedHashMap<>();
+		enchantmentOffer = new LinkedHashMap<>();
+		enchantmentMap = new LinkedHashMap<>();
+		registeredBlocks = new LinkedHashMap<>();
+	}
 	
 	//DO ASYNC!
 	public static void joinPlayer(final Player player)
@@ -162,6 +179,17 @@ public class PlayerHandler
 							addSilkTouchDropChances(uuid, dc, 100.0);
 						}
 					}
+					if(t.getRewardEnchantmentOffers().containsKey(eqs.getResearchLevel()))
+					{
+						for(Integer i : t.getRewardEnchantmentOffers().get(eqs.getResearchLevel()))
+						{
+							addEnchantmentOffers(uuid, i, 100.0);
+						}
+					}
+					if(t.getRewardEnchantments().containsKey(eqs.getResearchLevel()))
+					{
+						addEnchantments(uuid, t.getRewardEnchantments().get(eqs.getResearchLevel()), 100.0);
+					}
 				}
 				for(GlobalEntryQueryStatus eqs : GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getFullList(Type.GLOBALENTRYQUERYSTATUS,
 						"`id` ASC", "`entry_query_type` = ? AND `status_type` = ?",
@@ -184,7 +212,7 @@ public class PlayerHandler
 						for(UnlockableInteraction ui : t.getRewardUnlockableInteractions().get(eqs.getResearchLevel()))
 						{
 							addInteraction(uuid, ui,
-									ifGlobal_HasParticipated ? t.getForUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent() : 100.0);
+									ifGlobal_HasParticipated ? 100.0 : t.getForUninvolvedPollParticipants_RewardUnlockableInteractionsInPercent());
 						}
 					}
 					if(t.getRewardRecipes().containsKey(eqs.getResearchLevel()))
@@ -192,7 +220,7 @@ public class PlayerHandler
 						for(Entry<RecipeType, ArrayList<String>> rtl : t.getRewardRecipes().get(eqs.getResearchLevel()).entrySet())
 						{
 							addRecipe(uuid, rtl.getKey(),
-									ifGlobal_HasParticipated ? t.getForUninvolvedPollParticipants_RewardRecipesInPercent() : 100.0,
+									ifGlobal_HasParticipated ? 100.0 : t.getForUninvolvedPollParticipants_RewardRecipesInPercent(),
 									rtl.getValue().toArray(new String[rtl.getValue().size()]));
 						}
 					}
@@ -201,7 +229,7 @@ public class PlayerHandler
 						for(DropChance dc : t.getRewardDropChances().get(eqs.getResearchLevel()))
 						{
 							addDropChances(uuid, dc,
-									ifGlobal_HasParticipated ? t.getForUninvolvedPollParticipants_RewardDropChancesInPercent() : 100.0);
+									ifGlobal_HasParticipated ? 100.0 : t.getForUninvolvedPollParticipants_RewardDropChancesInPercent());
 						}
 					}					
 					if(t.getRewardSilkTouchDropChances().containsKey(eqs.getResearchLevel()))
@@ -209,8 +237,21 @@ public class PlayerHandler
 						for(DropChance dc : t.getRewardSilkTouchDropChances().get(eqs.getResearchLevel()))
 						{
 							addSilkTouchDropChances(uuid, dc,
-									ifGlobal_HasParticipated ? t.getForUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent() : 100.0);
+									ifGlobal_HasParticipated ? 100.0 : t.getForUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent());
 						}
+					}
+					if(t.getRewardEnchantmentOffers().containsKey(eqs.getResearchLevel()))
+					{
+						for(Integer i : t.getRewardEnchantmentOffers().get(eqs.getResearchLevel()))
+						{
+							addEnchantmentOffers(uuid, i,
+									ifGlobal_HasParticipated ? 100.0 : t.getForUninvolvedPollParticipants_RewardEnchantmentOffersInPercent());
+						}
+					}
+					if(t.getRewardEnchantments().containsKey(eqs.getResearchLevel()))
+					{
+						addEnchantments(uuid, t.getRewardEnchantments().get(eqs.getResearchLevel()),
+								ifGlobal_HasParticipated ? 100.0 : t.getForUninvolvedPollParticipants_RewardEnchantmentsInPercent());
 					}
 				}		
 				registeredBlocks.remove(uuid);
@@ -1914,6 +1955,52 @@ public class PlayerHandler
 			mapI.put(dc.getEventEntityType(), mapII);
 			map0.put(dc.getToolType(), mapI);
 			entityTypeSilkTouchDropMap.put(uuid, map0);
+		}
+	}
+	
+	public static void addEnchantmentOffers(UUID uuid, int i, double rewardReceivedInPercent)
+	{
+		double rrip = rewardReceivedInPercent/100; //value for calculation
+		if(enchantmentOffer.containsKey(uuid)
+				&& enchantmentOffer.get(uuid) < i)
+		{
+			if(rrip >= 1.0)
+			{
+				enchantmentOffer.put(uuid, i);
+			}
+		} else
+		{
+			if(rrip >= 1.0)
+			{
+				enchantmentOffer.put(uuid, i);
+			}
+		}
+	}
+	
+	public static void addEnchantments(UUID uuid, LinkedHashMap<Material, ArrayList<String>> lm, double rewardReceivedInPercent)
+	{
+		double rrip = rewardReceivedInPercent/100; //value for calculation
+		for(Entry<Material, ArrayList<String>> entry : lm.entrySet())
+		{
+			LinkedHashMap<Material, ArrayList<String>> map = new LinkedHashMap<>();
+			if(enchantmentMap.containsKey(uuid))
+			{
+				map = enchantmentMap.get(uuid);
+			}
+			ArrayList<String> l = new ArrayList<>();
+			if(map.containsKey(entry.getKey()))
+			{
+				l = map.get(entry.getKey());
+			}
+			for(String s : entry.getValue())
+			{
+				if(!l.contains(s) && rrip >= 1.0)
+				{
+					l.add(s);
+				}
+			}
+			map.put(entry.getKey(), l);
+			enchantmentMap.put(uuid, map);
 		}
 	}
 }

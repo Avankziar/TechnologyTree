@@ -983,7 +983,7 @@ public class GuiHandler
 			int c = BlockHandler.getMaxRegisteredBlocks(player, bt);
 			s = s.replace("%brewing_standmax%", String.valueOf(c));
 		}
-		if(text.contains("%enchanting_tablehas%"))
+		/*if(text.contains("%enchanting_tablehas%")) REMOVEME Do not needed
 		{
 			BlockType bt = BlockType.ENCHANTING_TABLE;
 			int c = plugin.getMysqlHandler().getCount(Type.REGISTEREDBLOCK,
@@ -996,7 +996,7 @@ public class GuiHandler
 			BlockType bt = BlockType.ENCHANTING_TABLE;
 			int c = BlockHandler.getMaxRegisteredBlocks(player, bt);
 			s = s.replace("%enchanting_tablemax%", String.valueOf(c));
-		}
+		}*/
 		if(text.contains("%campfirehas%"))
 		{
 			BlockType bt = BlockType.CAMPFIRE;

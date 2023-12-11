@@ -22,15 +22,15 @@ public class SQLiteSetup
 	
 	public boolean connectToDatabase() 
 	{
-		TT.log.info("Connecting to the database...");
+		TT.log.info("Connecting to the SQLite database...");
 		try
 		{
 			getConnection();
-			TT.log.info("Database connection successful!");
+			TT.log.info("SQLite Database connection successful!");
 			return true;
 		} catch(Exception e) 
 		{
-			TT.log.log(Level.WARNING, "Could not connect to Database!", e);
+			TT.log.log(Level.WARNING, "Could not connect to SQLite Database!", e);
 			return false;
 		}		
 	}
@@ -88,7 +88,7 @@ public class SQLiteSetup
 			query.execute();
 		} catch (SQLException e) 
 		{
-			TT.log.log(Level.WARNING, "Could not build data source. Or connection is null", e);
+			TT.log.log(Level.WARNING, "Could not build SQLite data source. Or connection is null", e);
 		}
 		return true;
 	}

@@ -350,7 +350,14 @@ Rewards:
       - block_break:WOODEN_SHOVEL:DIRT:null:mat=DIRT:1:1.0 #Gibt 100% Chance, dass beim BlockAbbau von Dirt, 1 DirtItem droppt. Mehrfache DropChange des gleichen Blocks & Event addieren sich.
       - block_break:WOODEN_SHOVEL:DIRT:null:mat=DIRT:2:0.10 #DropSystem umschreiben dahingegend, dass Verz. Glück & Loot miteinberechnet werden.
       - block_break:WOODEN_SHOVEL:DIRT:null:item=Sword:1:10.0
-  
+  UnlockableEnchantmentOffers:
+    '1':
+    - Anzahl, wieviele EnchantmentOffers man im Vz.Tisch sehen darf
+    - 1
+  UnlockableEnchantments:
+    '1':
+    - Material:Verzauberung
+    - GOLDEN_HELMET:unbreaking
   Command:
     1:
       - spigot:value:/warp %player% %value% #Mit Replacer für Spielernamen und den Anzahlswert

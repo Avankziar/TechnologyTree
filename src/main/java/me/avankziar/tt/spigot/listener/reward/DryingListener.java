@@ -41,8 +41,7 @@ public class DryingListener implements Listener
 		{
 			return;
 		}
-		TT.log.info("Placed Sponge "+BlockHandler.getLocationText(event.getBlock().getLocation())); //REMOVEME
-		placedSponge.replace(BlockHandler.getLocationText(event.getBlock().getLocation()), event.getPlayer().getUniqueId().toString());
+		placedSponge.put(BlockHandler.getLocationText(event.getBlock().getLocation()), event.getPlayer().getUniqueId().toString());
 	}
 	
 	@EventHandler
@@ -63,15 +62,13 @@ public class DryingListener implements Listener
 				final UUID uuid = UUID.fromString(placedSponge.get(BlockHandler.getLocationText(loc)));
 				if(uuid == null)
 				{
-					TT.log.info("SpongeAbsorbEvent 1 "+BlockHandler.getLocationText(loc)); //REMOVEME
 					return;
 				}
 				Player player = Bukkit.getPlayer(uuid);
-				if(player != null
-						&& player.getGameMode() != GameMode.CREATIVE
-						&& player.getGameMode() != GameMode.SPECTATOR)
+				if(player == null
+						|| player.getGameMode() == GameMode.CREATIVE
+						|| player.getGameMode() == GameMode.SPECTATOR)
 				{
-					TT.log.info("SpongeAbsorbEvent 2"); //REMOVEME
 					ARGCheckEventAction.checkEventAction(player, "DRYING:RETURN",
 							DR, ToolType.HAND, null, null, Material.AIR);
 					return;
@@ -85,6 +82,6 @@ public class DryingListener implements Listener
 				RewardHandler.rewardPlayer(uuid, DR, ToolType.HAND, Material.SPONGE, null, size);
 				placedSponge.remove(BlockHandler.getLocationText(loc));
 			}
-		}.runTaskLaterAsynchronously(TT.getPlugin(), 2L);
+		}.runTaskAsynchronously(TT.getPlugin());
 	}
 }

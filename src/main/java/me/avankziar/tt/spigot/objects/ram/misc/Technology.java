@@ -30,6 +30,8 @@ public class Technology
 	private double forUninvolvedPollParticipants_RewardRecipesInPercent;
 	private double forUninvolvedPollParticipants_RewardDropChancesInPercent;
 	private double forUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent;
+	private double forUninvolvedPollParticipants_RewardEnchantmentOffersInPercent;
+	private double forUninvolvedPollParticipants_RewardEnchantmentsInPercent;
 	private double forUninvolvedPollParticipants_RewardCommandsInPercent;
 	private double forUninvolvedPollParticipants_RewardItemsInPercent;
 	private double forUninvolvedPollParticipants_RewardModifiersInPercent;
@@ -51,6 +53,8 @@ public class Technology
 	private LinkedHashMap<Integer, LinkedHashMap<RecipeType, ArrayList<String>>> rewardRecipes;
 	private LinkedHashMap<Integer, ArrayList<DropChance>> rewardDropChances;
 	private LinkedHashMap<Integer, ArrayList<DropChance>> rewardSilkTouchDropChances;
+	private LinkedHashMap<Integer, ArrayList<Integer>> rewardEnchantmentOffers; //TechLevel, EnchantmentOfferAmount
+	private LinkedHashMap<Integer, LinkedHashMap<Material, ArrayList<String>>> rewardEnchantments; //Techlevel, Applying Mat, List of applyable Enchantments
 	private LinkedHashMap<Integer, ArrayList<String>> rewardCommandList; //Angelegt wie spigot:player:/warp %player% oder bungee:console:/do do
 	private LinkedHashMap<Integer, ArrayList<String>> rewardItemList; //Angelegt wie sword_y:64, sword_y ist der Dateiname in dem ItemOrdner
 	private LinkedHashMap<Integer, ArrayList<String>> rewardModifierList; //Angelegt wie bonusmalusname:ADDITION:5
@@ -63,6 +67,8 @@ public class Technology
 			double forUninvolvedPollParticipants_RewardRecipesInPercent,
 			double forUninvolvedPollParticipants_RewardDropChancesInPercent,
 			double forUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent,
+			double forUninvolvedPollParticipants_RewardEnchantmentOffersInPercent,
+			double forUninvolvedPollParticipants_RewardEnchantmentsInPercent,
 			double forUninvolvedPollParticipants_RewardCommandsInPercent,
 			double forUninvolvedPollParticipants_RewardItemsInPercent,
 			double forUninvolvedPollParticipants_RewardModifiersInPercent,
@@ -78,6 +84,8 @@ public class Technology
 			LinkedHashMap<Integer, LinkedHashMap<RecipeType, ArrayList<String>>> rewardRecipes,
 			LinkedHashMap<Integer, ArrayList<DropChance>> rewardDropChances,
 			LinkedHashMap<Integer, ArrayList<DropChance>> rewardSilkTouchDropChances,
+			LinkedHashMap<Integer, ArrayList<Integer>> rewardEnchantmentOffers,
+			LinkedHashMap<Integer, LinkedHashMap<Material, ArrayList<String>>> rewardEnchantments,
 			LinkedHashMap<Integer, ArrayList<String>> rewardCommandList,
 			LinkedHashMap<Integer, ArrayList<String>> rewardItemList,
 			LinkedHashMap<Integer, ArrayList<String>> rewardModifierList,
@@ -97,6 +105,8 @@ public class Technology
 		setForUninvolvedPollParticipants_RewardRecipesInPercent(forUninvolvedPollParticipants_RewardRecipesInPercent);
 		setForUninvolvedPollParticipants_RewardDropChancesInPercent(forUninvolvedPollParticipants_RewardDropChancesInPercent);
 		setForUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent(forUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent);
+		setForUninvolvedPollParticipants_RewardEnchantmentOffersInPercent(forUninvolvedPollParticipants_RewardEnchantmentOffersInPercent);
+		setForUninvolvedPollParticipants_RewardEnchantmentsInPercent(forUninvolvedPollParticipants_RewardEnchantmentsInPercent);
 		setForUninvolvedPollParticipants_RewardCommandsInPercent(forUninvolvedPollParticipants_RewardCommandsInPercent);
 		setForUninvolvedPollParticipants_RewardItemsInPercent(forUninvolvedPollParticipants_RewardItemsInPercent);
 		setForUninvolvedPollParticipants_RewardModifiersInPercent(forUninvolvedPollParticipants_RewardModifiersInPercent);
@@ -118,6 +128,8 @@ public class Technology
 		setRewardRecipes(rewardRecipes);
 		setRewardDropChances(rewardDropChances);
 		setRewardSilkTouchDropChances(rewardSilkTouchDropChances);
+		setRewardEnchantmentOffers(rewardEnchantmentOffers);
+		setRewardEnchantments(rewardEnchantments);
 		setRewardCommandList(rewardCommandList);
 		setRewardItemList(rewardItemList);
 		setRewardModifierList(rewardModifierList);
@@ -236,6 +248,28 @@ public class Technology
 			double forUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent)
 	{
 		this.forUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent = forUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent;
+	}
+
+	public double getForUninvolvedPollParticipants_RewardEnchantmentOffersInPercent()
+	{
+		return forUninvolvedPollParticipants_RewardEnchantmentOffersInPercent;
+	}
+
+	public void setForUninvolvedPollParticipants_RewardEnchantmentOffersInPercent(
+			double forUninvolvedPollParticipants_RewardEnchantmentOffersInPercent)
+	{
+		this.forUninvolvedPollParticipants_RewardEnchantmentOffersInPercent = forUninvolvedPollParticipants_RewardEnchantmentOffersInPercent;
+	}
+
+	public double getForUninvolvedPollParticipants_RewardEnchantmentsInPercent()
+	{
+		return forUninvolvedPollParticipants_RewardEnchantmentsInPercent;
+	}
+
+	public void setForUninvolvedPollParticipants_RewardEnchantmentsInPercent(
+			double forUninvolvedPollParticipants_RewardEnchantmentsInPercent)
+	{
+		this.forUninvolvedPollParticipants_RewardEnchantmentsInPercent = forUninvolvedPollParticipants_RewardEnchantmentsInPercent;
 	}
 
 	public double getForUninvolvedPollParticipants_RewardCommandsInPercent()
@@ -425,6 +459,26 @@ public class Technology
 	public void setRewardSilkTouchDropChances(LinkedHashMap<Integer, ArrayList<DropChance>> rewardSilkTouchDropChances)
 	{
 		this.rewardSilkTouchDropChances = rewardSilkTouchDropChances;
+	}
+
+	public LinkedHashMap<Integer, ArrayList<Integer>> getRewardEnchantmentOffers()
+	{
+		return rewardEnchantmentOffers;
+	}
+
+	public void setRewardEnchantmentOffers(LinkedHashMap<Integer, ArrayList<Integer>> rewardEnchantmentOffers)
+	{
+		this.rewardEnchantmentOffers = rewardEnchantmentOffers;
+	}
+
+	public LinkedHashMap<Integer, LinkedHashMap<Material, ArrayList<String>>> getRewardEnchantments()
+	{
+		return rewardEnchantments;
+	}
+
+	public void setRewardEnchantments(LinkedHashMap<Integer, LinkedHashMap<Material, ArrayList<String>>> rewardEnchantments)
+	{
+		this.rewardEnchantments = rewardEnchantments;
 	}
 
 	public LinkedHashMap<Integer, ArrayList<String>> getRewardCommandList()

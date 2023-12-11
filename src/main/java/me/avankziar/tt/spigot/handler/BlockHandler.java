@@ -23,7 +23,9 @@ public class BlockHandler
 {
 	public enum BlockType
 	{
-		UNKNOW, BLASTFURNACE, CAMPFIRE, CRAFTING_TABLE, ENCHANTING_TABLE, FURNACE, SMOKER, BREWING_STAND;
+		UNKNOW,
+		BLASTFURNACE, CAMPFIRE, FURNACE, SMOKER, BREWING_STAND, //Registerable Blocks
+		//CRAFTING_TABLE, ENCHANTING_TABLE, ANVIL, CARTOGRAPHY_TABLE, GRINDSTONE, STONECUTTER, SMITHING_TABLE, COMPOSTER; //not registerable blocks
 	}
 	
 	private static TT plugin = BaseConstructor.getPlugin();
@@ -43,17 +45,10 @@ public class BlockHandler
 		{
 		default:
 			bt = BlockType.UNKNOW;
-			break;
+			break;			
 		case BREWING_STAND:
 			bt = BlockType.BREWING_STAND;
 			break;
-		/*Not Needed
-		 * case CRAFTING_TABLE:
-			bt = BlockType.CRAFTING_TABLE;
-			break;
-		case ENCHANTING_TABLE:
-			bt = BlockType.ENCHANTING_TABLE;
-			break;*/
 		case FURNACE:
 		case FURNACE_MINECART:
 			bt = BlockType.FURNACE;
@@ -70,6 +65,96 @@ public class BlockHandler
 			break;
 		}
 		return bt;
+	}
+	
+	public static boolean bypassAccessIfGamerule(Material mat)
+	{
+		switch(mat)
+		{
+		default:
+			return false;
+		case ANVIL:
+			if(ConfigHandler.GAMERULE_UseVanillaAccessToAnvil)
+			{
+				return true;
+			}
+			break;
+		case BLAST_FURNACE:
+			if(ConfigHandler.GAMERULE_UseVanillaAccessToBlastFurnace)
+			{
+				return true;
+			}
+			break;
+		case BREWING_STAND:
+			if(ConfigHandler.GAMERULE_UseVanillaAccessToBrewingStand)
+			{
+				return true;
+			}
+			break;
+		case CAMPFIRE:
+		case SOUL_CAMPFIRE:
+			if(ConfigHandler.GAMERULE_UseVanillaAccessToCampfire)
+			{
+				return true;
+			}
+			break;
+		case CARTOGRAPHY_TABLE:
+			if(ConfigHandler.GAMERULE_UseVanillaAccessToCartographyTable)
+			{
+				return true;
+			}
+			break;
+		case COMPOSTER:
+			if(ConfigHandler.GAMERULE_UseVanillaAccessToComposter)
+			{
+				return true;
+			}
+			break;
+		case CRAFTING_TABLE:
+			if(ConfigHandler.GAMERULE_UseVanillaAccessToCrafingTable)
+			{
+				return true;
+			}
+			break;
+		case ENCHANTING_TABLE:
+			if(ConfigHandler.GAMERULE_UseVanillaAccessToEnchantingTable)
+			{
+				return true;
+			}
+			break;
+		case FURNACE:
+		case FURNACE_MINECART:
+			if(ConfigHandler.GAMERULE_UseVanillaAccessToFurnace)
+			{
+				return true;
+			}
+			break;
+		case GRINDSTONE:
+			if(ConfigHandler.GAMERULE_UseVanillaAccessToGrindstone)
+			{
+				return true;
+			}
+			break;
+		case SMITHING_TABLE:
+			if(ConfigHandler.GAMERULE_UseVanillaAccessToSmithingTable)
+			{
+				return true;
+			}
+			break;
+		case SMOKER:
+			if(ConfigHandler.GAMERULE_UseVanillaAccessToSmoker)
+			{
+				return true;
+			}
+			break;
+		case STONECUTTER:
+			if(ConfigHandler.GAMERULE_UseVanillaAccessToStoneCutter)
+			{
+				return true;
+			}
+			break;
+		}
+		return false;
 	}
 	
 	public static EventType getEventType(Material mat)

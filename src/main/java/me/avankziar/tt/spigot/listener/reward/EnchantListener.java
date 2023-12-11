@@ -1,8 +1,14 @@
 package main.java.me.avankziar.tt.spigot.listener.reward;
 
+import java.util.ArrayList;
+import java.util.Map.Entry;
+import java.util.UUID;
+
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.enchantments.EnchantmentOffer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,6 +30,7 @@ import main.java.me.avankziar.tt.spigot.objects.ToolType;
 public class EnchantListener implements Listener
 {
 	final private static EventType EN = EventType.ENCHANTING;
+	
 	@EventHandler
 	public void onPrepareEnchant(PrepareItemEnchantEvent event)
 	{
@@ -37,7 +44,8 @@ public class EnchantListener implements Listener
 					EN, ToolType.HAND, null, null, Material.AIR);
 			return;
 		}
-		if(!RecipeHandler.hasAccessToRecipe(event.getEnchanter().getUniqueId(), RecipeType.ENCHANTING, event.getItem().getType().toString()))
+		UUID uuid = event.getEnchanter().getUniqueId();
+		if(!RecipeHandler.hasAccessToRecipe(uuid, RecipeType.ENCHANTING, event.getItem().getType().toString()))
 		{
 			ARGCheckEventAction.checkEventAction(event.getEnchanter(), "ENCHANTING:CANNOTACCESS",
 					EN, ToolType.HAND, null, null, Material.AIR);
@@ -45,10 +53,51 @@ public class EnchantListener implements Listener
 			event.getEnchanter().updateInventory();
 			return;
 		}
+		int heo = RewardHandler.getHighestEnchantmentOffer(uuid);
+		if(heo <= 0)
+		{
+			event.getOffers()[0] = null;
+			event.getOffers()[1] = null;
+			event.getOffers()[2] = null;
+			return;
+		} else if(heo == 1)
+		{
+			if(!RewardHandler.canAccessEnchantment(uuid, event.getItem().getType(), event.getOffers()[0].getEnchantment()))
+			{
+				event.getOffers()[0] = new EnchantmentOffer(Enchantment.VANISHING_CURSE, 1, event.getOffers()[0].getCost());
+			}
+			event.getOffers()[1] = null;
+			event.getOffers()[2] = null;
+		} else if(heo == 2)
+		{
+			if(!RewardHandler.canAccessEnchantment(uuid, event.getItem().getType(), event.getOffers()[0].getEnchantment()))
+			{
+				event.getOffers()[0] = new EnchantmentOffer(Enchantment.VANISHING_CURSE, 1, event.getOffers()[0].getCost());
+			}
+			if(!RewardHandler.canAccessEnchantment(uuid, event.getItem().getType(), event.getOffers()[1].getEnchantment()))
+			{
+				event.getOffers()[1] = new EnchantmentOffer(Enchantment.VANISHING_CURSE, 1, event.getOffers()[1].getCost());
+			}
+			event.getOffers()[2] = null;
+		} else if(heo == 3)
+		{
+			if(!RewardHandler.canAccessEnchantment(uuid, event.getItem().getType(), event.getOffers()[0].getEnchantment()))
+			{
+				event.getOffers()[0] = new EnchantmentOffer(Enchantment.VANISHING_CURSE, 1, event.getOffers()[0].getCost());
+			}
+			if(!RewardHandler.canAccessEnchantment(uuid, event.getItem().getType(), event.getOffers()[1].getEnchantment()))
+			{
+				event.getOffers()[1] = new EnchantmentOffer(Enchantment.VANISHING_CURSE, 1, event.getOffers()[1].getCost());
+			}
+			if(!RewardHandler.canAccessEnchantment(uuid, event.getItem().getType(), event.getOffers()[2].getEnchantment()))
+			{
+				event.getOffers()[2] = new EnchantmentOffer(Enchantment.VANISHING_CURSE, 1, event.getOffers()[2].getCost());
+			}
+		}
 	}
 	
 	@EventHandler
-	public void onPrepareEnchant(EnchantItemEvent event)
+	public void onEnchant(EnchantItemEvent event)
 	{
 		if(event.isCancelled()
 				|| event.getEnchanter().getGameMode() == GameMode.CREATIVE
@@ -63,6 +112,19 @@ public class EnchantListener implements Listener
 		final Player player = event.getEnchanter();
 		final Location loc = event.getEnchantBlock().getLocation();
 		final Material mat = event.getItem().getType();
+		ArrayList<Enchantment> elist = new ArrayList<>();
+		for(Entry<Enchantment, Integer> e : event.getEnchantsToAdd().entrySet())
+		{
+			if(!Enchantment.VANISHING_CURSE.getKey().getKey().equalsIgnoreCase(e.getKey().getKey().getKey()) //VanishingCurse is default ench
+					&& !RewardHandler.canAccessEnchantment(player.getUniqueId(), mat, e.getKey()))
+			{
+				elist.add(e.getKey());
+			}
+		}
+		for(Enchantment e : elist)
+		{
+			event.getEnchantsToAdd().remove(e);
+		}
 		new BukkitRunnable()
 		{		
 			@Override

@@ -34,7 +34,7 @@ public class SheepDyeListener implements Listener
 				|| !EnumHandler.isEventActive(SD)
 				|| event.getEntity().getColor() == event.getColor())
 		{
-			ARGCheckEventAction.checkEventAction(event.getPlayer(), "SHEARING:RETURN",
+			ARGCheckEventAction.checkEventAction(event.getPlayer(), "SHEEP_DYE:RETURN",
 					SD, ToolType.HAND, null, null, Material.AIR);
 			return;
 		}
@@ -46,7 +46,7 @@ public class SheepDyeListener implements Listener
 			@Override
 			public void run()
 			{
-				ARGCheckEventAction.checkEventAction(player, "SHEARING:REWARD",
+				ARGCheckEventAction.checkEventAction(player, "SHEEP_DYE:REWARD",
 						SD, ToolType.HAND, null, null, Material.AIR);
 				for(ItemStack is : RewardHandler.getDrops(player, SD, ToolType.HAND, null, ent))
 				{

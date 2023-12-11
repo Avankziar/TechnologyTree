@@ -49,6 +49,7 @@ public class RecipeHandler
 	public static void init()
 	{
 		recipeMap = new LinkedHashMap<>();
+		toSaveRecipe = new ArrayList<>();
 		haveAllRecipeUnlocked = plugin.getYamlHandler().getConfig().getBoolean("Do.Recipe.HaveAllRecipeUnlocked");
 		Material[] mar = new Material[]
 				{
@@ -299,7 +300,7 @@ public class RecipeHandler
 				ssr++;
 			}
 			TT.log.info("Added "+ssr+" shapeless recipe...");
-			int str = 0;
+			/*int str = 0;
 			for(Entry<String, YamlConfiguration> a : plugin.getYamlHandler().getSmithingTransformRecipe().entrySet())
 			{
 				SmithingTransformRecipe recipe = getSmithingTransformRecipe(a.getKey(), a.getValue());
@@ -311,7 +312,7 @@ public class RecipeHandler
 				registerRecipeInMap(RecipeType.SMITHING, a.getKey());
 				str++;
 			}
-			TT.log.info("Added "+str+" smithingtransform recipe...");
+			TT.log.info("Added "+str+" smithingtransform recipe...");*/
 			//Für die Config nicht geeignet.
 			/*for(Entry<String, YamlConfiguration> a : plugin.getYamlHandler().getSmithingTrimRecipe().entrySet())
 			{
@@ -356,7 +357,7 @@ public class RecipeHandler
 			int fur = 0;
 			int sdr = 0;
 			int ssr = 0;
-			int str = 0;
+			//int str = 0;
 			int smr = 0;
 			int scr = 0;
 			for(Iterator<Recipe> iterator = Bukkit.recipeIterator(); iterator.hasNext();) 
@@ -391,12 +392,12 @@ public class RecipeHandler
 			    	ShapelessRecipe a = (ShapelessRecipe) r;
 			    	registerRecipeInMap(RecipeType.SHAPELESS, a.getKey().getKey());
 			    	ssr++;
-			    } else if(r instanceof SmithingTransformRecipe)
+			    }/* else if(r instanceof SmithingTransformRecipe)
 			    {
 			    	SmithingTransformRecipe a = (SmithingTransformRecipe) r;
 			    	registerRecipeInMap(RecipeType.SMITHING, a.getKey().getKey());
 			    	str++;
-			    }/* else if(r instanceof SmithingTrimRecipe)
+			    } else if(r instanceof SmithingTrimRecipe)
 			    {
 			    	SmithingTrimRecipe a = (SmithingTrimRecipe) r;
 			    	registerRecipeInMap(RecipeType.SMITHING, a.getKey().getKey());
@@ -417,7 +418,7 @@ public class RecipeHandler
 			TT.log.info("Registered "+fur+" furnace recipe...");
 			TT.log.info("Registered "+sdr+" shaped recipe...");
 			TT.log.info("Registered "+ssr+" shapeless recipe...");
-			TT.log.info("Registered "+str+" smithingtransform recipe...");
+			//TT.log.info("Registered "+str+" smithingtransform recipe...");
 			TT.log.info("Registered "+smr+" smoking recipe...");
 			TT.log.info("Registered "+scr+" stonecutting recipe...");
 		}
@@ -582,7 +583,7 @@ public class RecipeHandler
 		}
 	}
 	
-	private static SmithingTransformRecipe getSmithingTransformRecipe(String key, YamlConfiguration y)
+	/*private static SmithingTransformRecipe getSmithingTransformRecipe(String key, YamlConfiguration y)
 	{
 		try
 		{
@@ -629,7 +630,7 @@ public class RecipeHandler
 		{
 			return null;
 		}
-	}
+	}*/
 	
 	/*private static SmithingTrimRecipe getSmithingTrimRecipe(String key, YamlConfiguration y)
 	{

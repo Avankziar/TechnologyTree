@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
@@ -36,6 +37,7 @@ import main.java.me.avankziar.tt.spigot.cmd.TabCompletion;
 import main.java.me.avankziar.tt.spigot.cmd.TechGuiCommandExecutor;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckPlacedBlocks;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGReload;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGTechInfo;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
@@ -53,6 +55,7 @@ import main.java.me.avankziar.tt.spigot.gui.listener.UpperListener;
 import main.java.me.avankziar.tt.spigot.handler.CatTechHandler;
 import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
+import main.java.me.avankziar.tt.spigot.handler.PlayerHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
 import main.java.me.avankziar.tt.spigot.hook.PAPIHook;
 import main.java.me.avankziar.tt.spigot.listener.BlockFormListener;
@@ -271,11 +274,13 @@ public class TT extends JavaPlugin
 		ArgumentConstructor checkplacedblocks = new ArgumentConstructor(CommandExecuteType.TT_CHECKPLACEDBLOCKS,
 													"tt_checkplacedblocks", 0, 0, 0, false, null);
 		new ARGCheckPlacedBlocks(checkplacedblocks);
+		ArgumentConstructor reload = new ArgumentConstructor(CommandExecuteType.TT_RELOAD, "tt_reload", 0, 0, 0, false, null);
+		new ARGReload(reload);
 		ArgumentConstructor techinfo = new ArgumentConstructor(CommandExecuteType.TT_TECHINFO, "tt_techinfo", 0, 1, 2, false, techMapI);
 		new ARGTechInfo(techinfo);
 		
 		CommandConstructor tt = new CommandConstructor(CommandExecuteType.TT, "tt", false,
-				checkeventaction, checkplacedblocks, techinfo);
+				checkeventaction, checkplacedblocks, reload, techinfo);
 		registerCommand(tt.getPath(), tt.getName());
 		getCommand(tt.getName()).setExecutor(new TTCommandExecutor(plugin, tt));
 		getCommand(tt.getName()).setTabCompleter(tab);
@@ -475,6 +480,11 @@ public class TT extends JavaPlugin
 	
 	public boolean reload()
 	{
+		log.info("Reload plugin...");
+		Bukkit.getScheduler().cancelTasks(this);
+		
+		setupIFHAdministration();
+		
 		yamlHandler = new YamlHandler(this);
 		
 		String path = plugin.getYamlHandler().getConfig().getString("IFHAdministrationPath");
@@ -489,10 +499,27 @@ public class TT extends JavaPlugin
 		{
 			log.severe("MySQL is not set in the Plugin " + pluginName + "!");
 			Bukkit.getPluginManager().getPlugin(pluginName).getPluginLoader().disablePlugin(this);
+			log.info("Reload failed!");
 			return false;
 		}
+		
+		sqlLiteHandler = new SQLiteHandler(plugin);
+		sqlLiteSetup = new SQLiteSetup();
+		
+		utility = new Utility(plugin);
+		backgroundTask = new BackgroundTask(this);
+		
+		EnumHandler.init();
 		RecipeHandler.init();
 		CatTechHandler.reload();
+		ConfigHandler.init();
+		PlayerHandler.reload();
+		
+		for(Player player : Bukkit.getOnlinePlayers())
+		{
+			PlayerHandler.joinPlayer(player);
+		}
+		log.info("Reload complete!");
 		return true;
 	}
 	
@@ -510,7 +537,11 @@ public class TT extends JavaPlugin
 	{
 		if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
 		{
-            new PAPIHook(plugin).register();
+			PAPIHook papi = new PAPIHook(plugin);
+			if(!papi.isRegistered())
+			{
+				new PAPIHook(plugin).register();
+			}          
             return;
 		}
 		return;

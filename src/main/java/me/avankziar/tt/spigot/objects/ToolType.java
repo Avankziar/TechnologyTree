@@ -19,7 +19,6 @@ public enum ToolType
 	//SWORD, 
 	WOODEN_SWORD, STONE_SWORD, IRON_SWORD, GOLDEN_SWORD, DIAMOND_SWORD, NETHERITE_SWORD,
 	BOW,
-	SHEARS,
 	FISHING_ROD
 	;
 	
@@ -107,7 +106,6 @@ public enum ToolType
 		case NETHERITE_SHOVEL:
 		case NETHERITE_SWORD:
 		//case PICKAXE:
-		case SHEARS:
 		//case SHOVEL:
 		case STONE_AXE:
 		case STONE_HOE:

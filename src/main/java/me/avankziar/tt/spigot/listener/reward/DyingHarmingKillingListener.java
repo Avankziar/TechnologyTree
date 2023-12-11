@@ -79,64 +79,66 @@ public class DyingHarmingKillingListener implements Listener
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event)
 	{
-		if(event.getEntity().getKiller() != null
-				|| event.getEntity().getKiller().getGameMode() != GameMode.CREATIVE
-				|| event.getEntity().getKiller().getGameMode() != GameMode.SPECTATOR
-				|| EnumHandler.isEventActive(KI))
+		if(event.getEntity().getKiller() != null)
 		{
-			if(damageMap.containsKey(event.getEntity().getUniqueId()))
+			if(event.getEntity().getKiller().getGameMode() != GameMode.CREATIVE
+					|| event.getEntity().getKiller().getGameMode() != GameMode.SPECTATOR
+					|| EnumHandler.isEventActive(KI))
 			{
-				double totaldamage = 0;
-				for(double d : damageMap.get(event.getEntity().getUniqueId()).values())
+				if(damageMap.containsKey(event.getEntity().getUniqueId()))
 				{
-					totaldamage = totaldamage + d;
-				}
-				final double td = totaldamage;
-				final UUID uuid = event.getEntity().getUniqueId();
-				final Player killer = event.getEntity().getKiller();
-				final ToolType tool = ToolType.getHandToolType(killer);
-				new BukkitRunnable()
-				{
-					@Override
-					public void run()
+					double totaldamage = 0;
+					for(double d : damageMap.get(event.getEntity().getUniqueId()).values())
 					{
-						for(Entry<UUID, Double> entry : damageMap.get(uuid).entrySet())
+						totaldamage = totaldamage + d;
+					}
+					final double td = totaldamage;
+					final UUID uuid = event.getEntity().getUniqueId();
+					final Player killer = event.getEntity().getKiller();
+					final ToolType tool = ToolType.getHandToolType(killer);
+					new BukkitRunnable()
+					{
+						@Override
+						public void run()
 						{
-							double percent = entry.getValue()/td;
-							if(Bukkit.getPlayer(entry.getKey()) != null)
+							for(Entry<UUID, Double> entry : damageMap.get(uuid).entrySet())
 							{
-								ARGCheckEventAction.checkEventAction(Bukkit.getPlayer(entry.getKey()), "KILLING:REWARD",
-										KI, ToolType.HAND, null, null, Material.AIR);
-								for(ItemStack is : RewardHandler.getDrops(Bukkit.getPlayer(entry.getKey()), KI, tool, null, EntityType.PLAYER))
+								double percent = entry.getValue()/td;
+								if(Bukkit.getPlayer(entry.getKey()) != null)
 								{
-									Player player = Bukkit.getPlayer(entry.getKey());
-									ItemHandler.dropItem(is, player, null);
+									ARGCheckEventAction.checkEventAction(Bukkit.getPlayer(entry.getKey()), "KILLING:REWARD",
+											KI, ToolType.HAND, null, null, Material.AIR);
+									for(ItemStack is : RewardHandler.getDrops(Bukkit.getPlayer(entry.getKey()), KI, tool, null, EntityType.PLAYER))
+									{
+										Player player = Bukkit.getPlayer(entry.getKey());
+										ItemHandler.dropItem(is, player, null);
+									}
 								}
+								RewardHandler.rewardPlayer(entry.getKey(), KI, tool, null, EntityType.PLAYER, percent);
 							}
-							RewardHandler.rewardPlayer(entry.getKey(), KI, tool, null, EntityType.PLAYER, percent);
 						}
-					}
-				}.runTaskAsynchronously(TT.getPlugin());
-			} else
-			{
-				final ToolType tool = ToolType.getHandToolType(event.getEntity().getKiller());
-				final Player player = event.getEntity().getKiller();
-				final Location loc = event.getEntity().getLastDeathLocation();
-				new BukkitRunnable()
+					}.runTaskAsynchronously(TT.getPlugin());
+				} else
 				{
-					@Override
-					public void run()
+					final ToolType tool = ToolType.getHandToolType(event.getEntity().getKiller());
+					final Player player = event.getEntity().getKiller();
+					final Location loc = event.getEntity().getLastDeathLocation();
+					new BukkitRunnable()
 					{
-						ARGCheckEventAction.checkEventAction(player, "KILLING:REWARD",
-								KI, ToolType.HAND, null, null, Material.AIR);
-						for(ItemStack is : RewardHandler.getDrops(player, KI, tool, null, EntityType.PLAYER))
+						@Override
+						public void run()
 						{
-							ItemHandler.dropItem(is, player, loc);
+							ARGCheckEventAction.checkEventAction(player, "KILLING:REWARD",
+									KI, ToolType.HAND, null, null, Material.AIR);
+							for(ItemStack is : RewardHandler.getDrops(player, KI, tool, null, EntityType.PLAYER))
+							{
+								ItemHandler.dropItem(is, player, loc);
+							}
+							RewardHandler.rewardPlayer(player.getUniqueId(), KI, tool, null, EntityType.PLAYER, 1);
 						}
-						RewardHandler.rewardPlayer(player.getUniqueId(), KI, tool, null, EntityType.PLAYER, 1);
-					}
-				}.runTaskAsynchronously(TT.getPlugin());
-			}			
+					}.runTaskAsynchronously(TT.getPlugin());
+				}			
+			}
 		}
 		if(event.getEntity().getGameMode() == GameMode.CREATIVE
 				|| event.getEntity().getGameMode() == GameMode.SPECTATOR
@@ -149,7 +151,6 @@ public class DyingHarmingKillingListener implements Listener
 		final Player player = event.getEntity();
 		new BukkitRunnable()
 		{
-			
 			@Override
 			public void run()
 			{
