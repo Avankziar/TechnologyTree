@@ -442,11 +442,26 @@ public class RecipeHandler
 	{
 		try
 		{
-			Material input = Material.valueOf(y.getString("Input.Material"));
+			if(y.get("Input.Material") == null)
+			{
+				return null;
+			}
+			ArrayList<Material> l = new ArrayList<>();
+			for(String s : y.getStringList("Input.Material"))
+			{
+				try
+				{
+					l.add(Material.valueOf(s));
+				} catch(Exception e)
+				{
+					continue;
+				}
+			}
+			RecipeChoice.MaterialChoice rcmc = new RecipeChoice.MaterialChoice(l);
 			CookingBookCategory cbc = CookingBookCategory.valueOf(y.getString("Category"));
 			ItemStack r = new ItemGenerator().generateItem(null, y, "Result", 0);
 			BlastingRecipe recipe = new BlastingRecipe(
-					new NamespacedKey(plugin, key), r, input, (float) y.getDouble("Experience"), y.getInt("CookingTime"));
+					new NamespacedKey(plugin, key), r, rcmc, (float) y.getDouble("Experience"), y.getInt("CookingTime"));
 			recipe.setCategory(cbc);
 			recipe.setGroup(y.getString("Group"));
 			return recipe;
@@ -460,11 +475,26 @@ public class RecipeHandler
 	{
 		try
 		{
-			Material input = Material.valueOf(y.getString("Input.Material"));
+			if(y.get("Input.Material") == null)
+			{
+				return null;
+			}
+			ArrayList<Material> l = new ArrayList<>();
+			for(String s : y.getStringList("Input.Material"))
+			{
+				try
+				{
+					l.add(Material.valueOf(s));
+				} catch(Exception e)
+				{
+					continue;
+				}
+			}
+			RecipeChoice.MaterialChoice rcmc = new RecipeChoice.MaterialChoice(l);
 			CookingBookCategory cbc = CookingBookCategory.valueOf(y.getString("Category"));
 			ItemStack r = new ItemGenerator().generateItem(null, y, "Result", 0);
 			CampfireRecipe recipe = new CampfireRecipe(
-					new NamespacedKey(plugin, key), r, input, (float) y.getDouble("Experience"), y.getInt("CookingTime"));
+					new NamespacedKey(plugin, key), r, rcmc, (float) y.getDouble("Experience"), y.getInt("CookingTime"));
 			recipe.setCategory(cbc);
 			recipe.setGroup(y.getString("Group"));
 			return recipe;
@@ -478,11 +508,26 @@ public class RecipeHandler
 	{
 		try
 		{
-			Material input = Material.valueOf(y.getString("Input.Material"));
+			if(y.get("Input.Material") == null)
+			{
+				return null;
+			}
+			ArrayList<Material> l = new ArrayList<>();
+			for(String s : y.getStringList("Input.Material"))
+			{
+				try
+				{
+					l.add(Material.valueOf(s));
+				} catch(Exception e)
+				{
+					continue;
+				}
+			}
+			RecipeChoice.MaterialChoice rcmc = new RecipeChoice.MaterialChoice(l);
 			CookingBookCategory cbc = CookingBookCategory.valueOf(y.getString("Category"));
 			ItemStack r = new ItemGenerator().generateItem(null, y, "Result", 0);
 			FurnaceRecipe recipe = new FurnaceRecipe(
-					new NamespacedKey(plugin, key), r, input, (float) y.getDouble("Experience"), y.getInt("CookingTime"));
+					new NamespacedKey(plugin, key), r, rcmc, (float) y.getDouble("Experience"), y.getInt("CookingTime"));
 			recipe.setCategory(cbc);
 			recipe.setGroup(y.getString("Group"));
 			return recipe;
@@ -681,11 +726,26 @@ public class RecipeHandler
 	{
 		try
 		{
-			Material input = Material.valueOf(y.getString("Input.Material"));
+			if(y.get("Input.Material") == null)
+			{
+				return null;
+			}
+			ArrayList<Material> l = new ArrayList<>();
+			for(String s : y.getStringList("Input.Material"))
+			{
+				try
+				{
+					l.add(Material.valueOf(s));
+				} catch(Exception e)
+				{
+					continue;
+				}
+			}
+			RecipeChoice.MaterialChoice rcmc = new RecipeChoice.MaterialChoice(l);
 			CookingBookCategory cbc = CookingBookCategory.valueOf(y.getString("Category"));
 			ItemStack r = new ItemGenerator().generateItem(null, y, "Result", 0);
 			SmokingRecipe recipe = new SmokingRecipe(
-					new NamespacedKey(plugin, key), r, input, (float) y.getDouble("Experience"), y.getInt("CookingTime"));
+					new NamespacedKey(plugin, key), r, rcmc, (float) y.getDouble("Experience"), y.getInt("CookingTime"));
 			recipe.setCategory(cbc);
 			recipe.setGroup(y.getString("Group"));
 			return recipe;
@@ -700,8 +760,23 @@ public class RecipeHandler
 		try
 		{
 			ItemStack r = new ItemGenerator().generateItem(null, y, "Result", 0);
-			Material input = Material.valueOf(y.getString("Input.Material"));
-			StonecuttingRecipe recipe = new StonecuttingRecipe(new NamespacedKey(plugin, key), r, input);
+			if(y.get("Input.Material") == null)
+			{
+				return null;
+			}
+			ArrayList<Material> l = new ArrayList<>();
+			for(String s : y.getStringList("Input.Material"))
+			{
+				try
+				{
+					l.add(Material.valueOf(s));
+				} catch(Exception e)
+				{
+					continue;
+				}
+			}
+			RecipeChoice.MaterialChoice rcmc = new RecipeChoice.MaterialChoice(l);
+			StonecuttingRecipe recipe = new StonecuttingRecipe(new NamespacedKey(plugin, key), r, rcmc);
 			recipe.setGroup(y.getString("Group"));
 			return recipe;
 		} catch (Exception e)

@@ -46,6 +46,10 @@ public class ItemGenerator
 	@SuppressWarnings("deprecation")
 	public ItemStack generateItem(Player player, YamlConfiguration y, String parentPath, int overrideAmount)
 	{
+		if(y == null)
+		{
+			return null;
+		}
 		if(y.get(parentPath+".Material") == null)
 		{
 			return null;
@@ -311,6 +315,7 @@ public class ItemGenerator
 				im = is.getItemMeta();
 			} catch(Exception e){}
 		}
+		is.setItemMeta(im);
 		return is;
 	}
 	

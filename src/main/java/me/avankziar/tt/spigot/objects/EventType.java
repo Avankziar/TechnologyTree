@@ -38,6 +38,7 @@ public enum EventType
 	SMELTING,
 	SMITHING,
 	SMOKING,
+	STONECUTTING,
 	TAMING;
 	
 	//ADDME Possible new EventTypes

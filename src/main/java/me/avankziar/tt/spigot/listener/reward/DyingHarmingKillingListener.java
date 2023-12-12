@@ -8,14 +8,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.tt.spigot.TT;
@@ -32,34 +37,75 @@ public class DyingHarmingKillingListener implements Listener
 	final private static EventType HA = EventType.HARMING;
 	final private static EventType KI = EventType.KILLING;
 	final private static EventType DY = EventType.DYING;
+	final private static String SPAWNER = "IS_FROM_SPAWNER";
+	
+	@EventHandler
+	public void onCreatureSpawn(CreatureSpawnEvent event) 
+	{
+	    if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER 
+	    		|| event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER_EGG)
+	    {
+	    	event.getEntity().setMetadata(SPAWNER, (MetadataValue) new FixedMetadataValue(TT.getPlugin(), Boolean.valueOf(true))); 
+	    }
+	 }
 	
 	@EventHandler
 	public void onEntityDamageByEntity(EntityDamageByEntityEvent event)
 	{
 		if(!(event.getDamager() instanceof Player)
+				|| event.getEntity().hasMetadata(SPAWNER)
 				|| ((Player) event.getDamager()).getGameMode() == GameMode.CREATIVE
 				|| ((Player) event.getDamager()).getGameMode() == GameMode.SPECTATOR
 				|| !EnumHandler.isEventActive(HA))
 		{
 			return;
 		}
-		LinkedHashMap<UUID, Double> mapI = new LinkedHashMap<>();
-		if(damageMap.containsKey(event.getEntity().getUniqueId()))
+		onHarm(event.getEntity(), (Player) event.getDamager(), event.getDamage());
+	}
+	
+	@EventHandler
+	public void onEntityDamageByProjectile(EntityDamageByEntityEvent event)
+	{
+		if(!EnumHandler.isEventActive(HA)
+				|| event.getEntity().hasMetadata(SPAWNER))
 		{
-			mapI = damageMap.get(event.getEntity().getUniqueId());
+			return;
+		}
+		if(event.getDamager() instanceof Projectile)
+		{
+			if(((Projectile)event.getDamager()).getShooter() != null
+					&& ((Projectile)event.getDamager()).getShooter() instanceof Player)
+			{
+				final Player damager = (Player) ((Projectile)event.getDamager()).getShooter();
+				if(damager.getGameMode() == GameMode.CREATIVE
+						|| damager.getGameMode() == GameMode.SPECTATOR)
+				{
+					return;
+				}
+				onHarm(event.getEntity(), damager, event.getDamage());
+			}
+		}		
+	}
+	
+	private static void onHarm(final Entity entity, final Player player, double damage)
+	{
+		LinkedHashMap<UUID, Double> mapI = new LinkedHashMap<>();
+		if(damageMap.containsKey(entity.getUniqueId()))
+		{
+			mapI = damageMap.get(entity.getUniqueId());
 		}
 		double dam = 0;
-		if(mapI.containsKey(event.getDamager().getUniqueId()))
+		if(mapI.containsKey(player.getUniqueId()))
 		{
-			dam = mapI.get(event.getDamager().getUniqueId());
+			dam = mapI.get(player.getUniqueId());
 		}
-		dam = dam + event.getDamage();
-		mapI.put(event.getDamager().getUniqueId(), dam);
-		damageMap.put(event.getEntity().getUniqueId(), mapI);
-		final ToolType tool = ToolType.getHandToolType((Player) event.getDamager());
-		final Location loc = event.getEntity().getLocation();
-		final Player damager = (Player) event.getDamager();
-		final EntityType ent = event.getEntityType();
+		dam = dam + damage;
+		mapI.put(player.getUniqueId(), dam);
+		damageMap.put(entity.getUniqueId(), mapI);
+		final ToolType tool = ToolType.getHandToolType(player);
+		final Location loc = entity.getLocation();
+		final Player damager = player;
+		final EntityType ent = entity.getType();
 		new BukkitRunnable()
 		{
 			@Override
@@ -71,7 +117,7 @@ public class DyingHarmingKillingListener implements Listener
 				{
 					ItemHandler.dropItem(is, damager, loc);
 				}
-				RewardHandler.rewardPlayer(event.getDamager().getUniqueId(), HA, tool, null, ent, 1);
+				RewardHandler.rewardPlayer(player.getUniqueId(), HA, tool, null, ent, 1);
 			}
 		}.runTaskAsynchronously(TT.getPlugin());
 	}
@@ -171,6 +217,7 @@ public class DyingHarmingKillingListener implements Listener
 		if(event.getEntity().getKiller() == null
 				|| event.getEntity().getKiller().getGameMode() == GameMode.CREATIVE
 				|| event.getEntity().getKiller().getGameMode() == GameMode.SPECTATOR
+				|| event.getEntity().hasMetadata(SPAWNER)
 				|| !EnumHandler.isEventActive(KI))
 		{
 			return;

@@ -112,6 +112,11 @@ public class PlayerHandler
 				
 				recipeMap.remove(uuid);
 				
+				enchantmentOffer.remove(uuid);
+				enchantmentMap.remove(uuid);
+				
+				registeredBlocks.remove(uuid);
+				
 				if(!hasAccount(player))
 				{
 					createAccount(player);
@@ -275,18 +280,15 @@ public class PlayerHandler
 		{
 			@Override
 			public void run()
-			{
-				materialInteractionMap.remove(uuid);
-				entityTypeInteractionMap.remove(uuid);
-				
+			{				
 				materialDropMap.remove(uuid);
 				entityTypeDropMap.remove(uuid);
 				
 				materialSilkTouchDropMap.remove(uuid);
 				entityTypeSilkTouchDropMap.remove(uuid);
 				
-				recipeMap.remove(uuid);
-				registeredBlocks.remove(uuid);
+				enchantmentOffer.remove(uuid);
+				enchantmentMap.remove(uuid);
 			}
 		}.runTaskAsynchronously(plugin);	
 	}
@@ -1147,7 +1149,7 @@ public class PlayerHandler
 		double ttexp = 0;
 		boolean bttexp = true;
 		PlayerData pd = getPlayer(player.getUniqueId());
-		if(pd != null && !t.getCostTTExp().isEmpty())
+		if(pd != null && t.getCostTTExp().get(techLevel) != null)
 		{
 			ttexp = new MathFormulaParser().parse(t.getCostTTExp().get(techLevel), map) * proportionateCosts;
 			TT.log.info("TTExp | "+pd.getActualTTExp()+" | "+ttexp); //REMOVEME
@@ -1155,14 +1157,14 @@ public class PlayerHandler
 		}
 		boolean bvexp = true;
 		int vexp = 0;
-		if(!t.getCostVanillaExp().isEmpty())
+		if(t.getCostVanillaExp().get(techLevel) != null)
 		{
 			vexp = (int) Math.floor(new MathFormulaParser().parse(t.getCostVanillaExp().get(techLevel), map) * proportionateCosts);
 			bvexp = Experience.getExp(player) > vexp;
 		}
 		double money = 0;
 		boolean bmoney = true;
-		if(!t.getCostMoney().isEmpty())
+		if(t.getCostMoney().get(techLevel) != null)
 		{
 			money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map) * proportionateCosts;
 			if(plugin.getIFHEco() != null)
@@ -1441,6 +1443,19 @@ public class PlayerHandler
 						ifGlobal_HasParticipated ? t.getForUninvolvedPollParticipants_RewardSilkTouchDropChancesInPercent() : 100.0);
 			}
 		}
+		if(t.getRewardEnchantmentOffers().containsKey(researchLevel))
+		{
+			for(Integer i : t.getRewardEnchantmentOffers().get(researchLevel))
+			{
+				addEnchantmentOffers(player.getUniqueId(), i,
+						ifGlobal_HasParticipated ? 100.0 : t.getForUninvolvedPollParticipants_RewardEnchantmentOffersInPercent());
+			}
+		}
+		if(t.getRewardEnchantments().containsKey(researchLevel))
+		{
+			addEnchantments(player.getUniqueId(), t.getRewardEnchantments().get(researchLevel),
+					ifGlobal_HasParticipated ? 100.0 : t.getForUninvolvedPollParticipants_RewardEnchantmentsInPercent());
+		}
 		double rripM = (ifGlobal_HasParticipated ? t.getForUninvolvedPollParticipants_RewardModifiersInPercent() : 100.0)/100;
 		if(t.getRewardModifierList().get(researchLevel) != null)
 		{
@@ -1487,9 +1502,35 @@ public class PlayerHandler
 				}
 				if("spigot".equalsIgnoreCase(split[0]))
 				{
-					Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-							split[2].replace("%value%", String.valueOf(Double.parseDouble(split[1]) * rripC))
-									.replace("%player%", player.getName()));
+					new BukkitRunnable()
+					{
+						
+						@Override
+						public void run()
+						{
+							double d = Double.parseDouble(split[1]) * rripC;
+							if(split[2].contains("%value%"))
+							{
+								if(d % 1 == 0)
+								{
+									int i = Double.valueOf(d).intValue();
+									Bukkit.dispatchCommand(Bukkit.getConsoleSender(), split[2]
+											.replace("%player%", player.getName())
+											.replace("%value%", String.valueOf(i)));
+								} else
+								{
+									Bukkit.dispatchCommand(Bukkit.getConsoleSender(), split[2]
+											.replace("%player%", player.getName())
+											.replace("%value%", String.valueOf(d)));
+								}
+							} else
+							{
+								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), split[2]
+										.replace("%player%", player.getName())
+										.replace("%value%", String.valueOf(d)));
+							}
+						}
+					}.runTask(plugin);
 				} else if("bungee".equalsIgnoreCase(split[0]) && plugin.getCommandToBungee() != null)
 				{
 					plugin.getCommandToBungee().executeAsConsole(
@@ -1545,7 +1586,7 @@ public class PlayerHandler
 					continue;
 				}
 				ItemStack is = new ItemGenerator().generateItem(
-						player, plugin.getYamlHandler().getItemGenerators().get(split[0]), "", Integer.parseInt(split[1]));
+						player, plugin.getYamlHandler().getItemGenerators().get(split[0]), split[0], Integer.parseInt(split[1]));
 				if(is == null)
 				{
 					continue;
@@ -1679,7 +1720,7 @@ public class PlayerHandler
 			{
 				sui = mapIII.get(ui.getEventType());
 				sui.add(
-						rrip == 1 ? ui.isCanAccess() : !ui.isCanAccess(),
+						rrip == 1.0 ? ui.isCanAccess() : !ui.isCanAccess(),
 						ui.getTechnologyExperience() * rrip,
 						calMoneyMap,
 						ui.getVanillaExperience() * rrip,
@@ -1687,7 +1728,7 @@ public class PlayerHandler
 			} else
 			{
 				sui = new SimpleUnlockedInteraction(
-						rrip == 1 ? ui.isCanAccess() : !ui.isCanAccess(),
+						rrip == 1.0 ? ui.isCanAccess() : !ui.isCanAccess(),
 						ui.getTechnologyExperience() * rrip,
 						calMoneyMap,
 						ui.getVanillaExperience() * rrip,

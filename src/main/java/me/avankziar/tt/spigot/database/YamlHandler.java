@@ -47,8 +47,8 @@ public class YamlHandler
 	private LinkedHashMap<String, YamlConfiguration> furnaceRecipe = new LinkedHashMap<>();
 	private LinkedHashMap<String, YamlConfiguration> shapedRecipe = new LinkedHashMap<>();
 	private LinkedHashMap<String, YamlConfiguration> shapelessRecipe = new LinkedHashMap<>();
-	private LinkedHashMap<String, YamlConfiguration> smithingTransformRecipe = new LinkedHashMap<>();
-	private LinkedHashMap<String, YamlConfiguration> smithingTrimRecipe = new LinkedHashMap<>();
+	//private LinkedHashMap<String, YamlConfiguration> smithingTransformRecipe = new LinkedHashMap<>();
+	//private LinkedHashMap<String, YamlConfiguration> smithingTrimRecipe = new LinkedHashMap<>();
 	private LinkedHashMap<String, YamlConfiguration> smokingRecipe = new LinkedHashMap<>();
 	private LinkedHashMap<String, YamlConfiguration> stonecuttingRecipe = new LinkedHashMap<>();
 
@@ -128,12 +128,12 @@ public class YamlHandler
 		return shapelessRecipe;
 	}
 	
-	public LinkedHashMap<String, YamlConfiguration> getSmithingTransformRecipe()
+	/*public LinkedHashMap<String, YamlConfiguration> getSmithingTransformRecipe()
 	{
 		return smithingTransformRecipe;
 	}
 	
-	/*public LinkedHashMap<String, YamlConfiguration> getSmithingTrimRecipe()
+	public LinkedHashMap<String, YamlConfiguration> getSmithingTrimRecipe()
 	{
 		return smithingTrimRecipe;
 	}*/
@@ -554,7 +554,7 @@ public class YamlHandler
 		File furnace = new File(plugin.getDataFolder()+"/Recipe/Furnace/");
 		File shaped = new File(plugin.getDataFolder()+"/Recipe/Shaped/");
 		File shapeless = new File(plugin.getDataFolder()+"/Recipe/Shapeless/");
-		File smithingTransform = new File(plugin.getDataFolder()+"/Recipe/SmithingTransform/");
+		//File smithingTransform = new File(plugin.getDataFolder()+"/Recipe/SmithingTransform/");
 		//File smithingTrim = new File(plugin.getDataFolder()+"/Recipe/SmithingTrim/");
 		File smoking = new File(plugin.getDataFolder()+"/Recipe/Smoking/");
 		File stonecutting = new File(plugin.getDataFolder()+"/Recipe/Stonecutting/");
@@ -623,7 +623,7 @@ public class YamlHandler
 			onlyLoadMap(shapeless, getShapelessRecipe());
 		}
 		TT.log.info("Loaded %x% ShapelessRecipes.".replace("%x%", String.valueOf(getShapelessRecipe().size())));
-		if(!smithingTransform.exists())
+		/*if(!smithingTransform.exists())
 		{
 			smithingTransform.mkdir();
 			if(!createAndLoadMap(smithingTransform,
@@ -635,7 +635,7 @@ public class YamlHandler
 		{
 			onlyLoadMap(smithingTransform, getSmithingTransformRecipe());
 		}
-		TT.log.info("Loaded %x% SmithingRecipes.".replace("%x%", String.valueOf(getSmithingTransformRecipe().size())));
+		TT.log.info("Loaded %x% SmithingRecipes.".replace("%x%", String.valueOf(getSmithingTransformRecipe().size())));*/
 		/*if(!smithingTrim.exists())
 		{
 			smithingTrim.mkdir();

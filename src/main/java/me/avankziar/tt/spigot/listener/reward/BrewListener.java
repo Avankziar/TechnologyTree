@@ -24,6 +24,7 @@ import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
+import main.java.me.avankziar.tt.spigot.handler.ifh.PlayerTimesHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.objects.ToolType;
@@ -107,6 +108,14 @@ public class BrewListener implements Listener
 			{
 				ARGCheckEventAction.checkEventAction(Bukkit.getPlayer(uuid), "BREWING:REWARD",
 						BR, ToolType.HAND, null, null, Material.valueOf(recipeKey));
+				if(!RewardHandler.doOfflineReward(player))
+				{
+					if(!new ConfigHandler().rewardPayoutIfAfkFurnaceAndBrewingStand() 
+							&& PlayerTimesHandler.isAfk(player))
+					{
+						return;
+					}
+				}
 				for(ItemStack is : set)
 				{
 					for(ItemStack iss : RewardHandler.getDrops(player, BR, ToolType.HAND, is.getType(), null))

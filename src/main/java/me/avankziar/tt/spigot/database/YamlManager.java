@@ -358,9 +358,6 @@ public class YamlManager
 		configSpigotKeys.put("Do.Block.OverrideAlreadyRegisteredBlocks"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				false}));
-		configSpigotKeys.put("Do.Drops.UsePluginDropsCalculation"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
 		configSpigotKeys.put("Do.DeleteExpireTechnologies.TaskRunInMinutes"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				10}));
@@ -417,6 +414,9 @@ public class YamlManager
 		configSpigotKeys.put("Do.Reward.Payout.TaxInPercent"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				1.0}));
+		configSpigotKeys.put("Do.Reward.Payout.IfAfk.FuranceAndBrewingStand"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				false}));
 		configSpigotKeys.put("Do.Reward.Placing.TrackPlacedBlock"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				true}));
@@ -485,6 +485,14 @@ public class YamlManager
 				"&bCommandright for &f/tt checkplacedblocks",
 				"&eCheckt den angeschauten block ob er plaziert wurde. (Und somit für Belohnungen nicht mehr zählt)",
 				"&eChecks the viewed block to see if it has been placed. (And therefore no longer counts for rewards)");
+		argumentInput("tt_giveitem", "giveitem", basePermission,
+				"/tt giveitem", "/tt giveitem ", false,
+				"&c/tt giveitem <Itemdateiname> <Anzahl> &f| Gibt dem Spieler das Item, welches aus der angegbenen Datei generiert wird.",
+				"&c/tt giveitem <itemfilename> <amount> &f| Gives the player the item that is generated from the specified file.",
+				"&bBefehlsrecht für &f/tt giveitem",
+				"&bCommandright for &f/tt giveitem",
+				"&eGibt dem Spieler das Item, welches aus der angegbenen Datei generiert wird.",
+				"&eGives the player the item that is generated from the specified file.");
 		argumentInput("tt_reload", "reload", basePermission,
 				"/tt reload", "/tt reload ", false,
 				"&c/tt reload &f| Lädt alle Yaml Datein neu. Betroffen sind nicht die Befehle und Drittpluginshooks!",
@@ -780,6 +788,10 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&7[CheckEventAction] &cZugriff zur Aktion wurde verweigert! &eEventType: &#ff8c00%eventtype%&e, Rezept: &#ff8c00%r%&e",
 						"&7[CheckEventAction] &cAccess to the action was denied! &eEventType: &#ff8c00%eventtype%&e, Recipe: &#ff8c00%r%&e"}));
+		languageKeys.put(path+"GiveItem.ItemNotExist", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cItem existiert nicht!",
+						"&cItem doesnt exist!"}));
 		languageKeys.put(path+"Reload.Cooldown", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&7[&#ff8c00TT&7] &cDer Reload ist im cooldown!",
@@ -1276,21 +1288,21 @@ public class YamlManager
 						"&cDeine verbrauchten TTExp: &f%allocatedttexp%",
 						"",
 						"&eRegistrierte Blöcke => &ahat man&7/&bkann man haben",
-						"&cBraustand: &a%brewing_standfree%&7/&b%brewing_standmax%",
-						"&cLagerfeuer: &a%campfirefree%&7/&b%campfiremax%",
-						"&cOfen: &a%furnacefree%&7/&b%furnacemax%",
-						"&cSchmelzofen: &a%blast_furnacefree%&7/&b%blast_furnacemax%",
-						"&cRäucherofen: &a%smokerfree%&7/&b%smokermax%",
+						"&cBraustand: &a%brewing_standhas%&7/&b%brewing_standmax%",
+						"&cLagerfeuer: &a%campfirehas%&7/&b%campfiremax%",
+						"&cOfen: &a%furnacehas%&7/&b%furnacemax%",
+						"&cSchmelzofen: &a%blast_furnacehas%&7/&b%blast_furnacemax%",
+						"&cRäucherofen: &a%smokerhas%&7/&b%smokermax%",
 						
 						"&cYour free TTExp: &f%freettexp%",
 						"&cYour used TTExp: &f%allocatedttexp%",
 						"",
 						"&eRegistrated Blocks => &ahave&7/&bcan have",
-						"&cBrewing Stand: &a%brewing_standfree%&7/&b%brewing_standmax%",
-						"&cCampfire: &a%campfirefree%&7/&b%campfiremax%",
-						"&cFurnance: &a%furnacefree%&7/&b%furnacemax%",
-						"&cBlastfurnace: &a%blast_furnacefree%&7/&b%blast_furnacemax%",
-						"&cSmoker: &a%smokerfree%&7/&b%smokermax%"
+						"&cBrewing Stand: &a%brewing_standhas%&7/&b%brewing_standmax%",
+						"&cCampfire: &a%campfirehas%&7/&b%campfiremax%",
+						"&cFurnance: &a%furnacehas%&7/&b%furnacemax%",
+						"&cBlastfurnace: &a%blast_furnacehas%&7/&b%blast_furnacemax%",
+						"&cSmoker: &a%smokerhas%&7/&b%smokermax%"
 						}));
 		start.put(path+".Lore."+SettingsLevel.MASTER.toString(),
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
@@ -2350,6 +2362,8 @@ public class YamlManager
 				"BREAKING:DIAMOND_PICKAXE:CRAFTING_TABLE:null:mat=CRAFTING_TABLE:1:1.0",
 				"BREAKING:NETHERITE_PICKAXE:CRAFTING_TABLE:null:mat=CRAFTING_TABLE:1:1.0"});
 		LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantmentOffers = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantments = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
@@ -2426,7 +2440,7 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
 		toResCondition = new LinkedHashMap<>();
 		toResCondition.put(1, new String[] {
 				"if:(a):o_1", "else:o_2",
@@ -2604,7 +2618,7 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
 		//REMOVEME TestTech
 		toResCondition = new LinkedHashMap<>();
 		toResCostTTExp.put(1, "1 * techlev + 5 * techacq + 2.5 * solototaltech");
@@ -2763,7 +2777,7 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
 	}
 	
 	private void tech_Miscellaneous_Tools(String[] itemflag, String[] enchantment) //INFO:Miscellaneous_Tools
@@ -2869,6 +2883,8 @@ public class YamlManager
 		rewardDropChance.put(11, new String[] {
 				"SMITHING:HAND:NETHERITE_PICKAXE:null:mat=NETHERITE_INGOT:1:0.02",""});
 		LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantmentOffers = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantments = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
@@ -3252,7 +3268,7 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
 		toResCondition = new LinkedHashMap<>();
 		toResCostTTExp = new LinkedHashMap<>();
@@ -3738,7 +3754,7 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
 		toResCondition = new LinkedHashMap<>();
 		toResCostTTExp = new LinkedHashMap<>();
 		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
@@ -4223,7 +4239,7 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
 		toResCondition = new LinkedHashMap<>();
 		toResCostTTExp = new LinkedHashMap<>();
@@ -4709,7 +4725,7 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
 	}
 	
@@ -4816,6 +4832,8 @@ public class YamlManager
 		rewardDropChance.put(11, new String[] {
 				"SMITHING:HAND:NETHERITE_SWORD:null:mat=NETHERITE_INGOT:1:0.02",""});
 		LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantmentOffers = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantments = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
@@ -5199,7 +5217,7 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
 		toResCondition = new LinkedHashMap<>();
 		toResCondition.put(1, new String[] {
@@ -5669,7 +5687,7 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
 	}
 	
@@ -5832,6 +5850,8 @@ public class YamlManager
 				"BREAKING:NETHERITE_SHOVEL:GRASS_BLOCK:null:mat=GRASS_BLOCK:1:1.0",
 				"BREAKING:NETHERITE_SHOVEL:SAND:null:mat=SAND:1:1.0",
 				"BREAKING:NETHERITE_SHOVEL:GRAVEL:null:mat=GRAVEL:1:1.0"});
+		LinkedHashMap<Integer, String[]> rewardEnchantmentOffers = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantments = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
@@ -6376,7 +6396,7 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
 		toResCondition = new LinkedHashMap<>();
 		toResCondition.put(1, new String[] {
@@ -7065,7 +7085,7 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
 		toResCondition = new LinkedHashMap<>();
 		toResCostTTExp = new LinkedHashMap<>();
@@ -7855,7 +7875,7 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
 	}
 	
@@ -7960,6 +7980,8 @@ public class YamlManager
 		rewardSilkTouchDropChance.put(6, new String[] {
 				"BREAKING:NETHERITE_PICKAXE:STONE:null:mat=STONE:1:1.0",
 				"BREAKING:NETHERITE_PICKAXE:COBBLESTONE:null:mat=COBBLESTONE:1:1.0"});
+		LinkedHashMap<Integer, String[]> rewardEnchantmentOffers = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantments = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
@@ -8267,7 +8289,7 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
 		toResCondition = new LinkedHashMap<>();
 		toResCostTTExp = new LinkedHashMap<>();
 		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
@@ -8770,7 +8792,7 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
 	}
 	
@@ -8911,6 +8933,8 @@ public class YamlManager
 		rewardSilkTouchDropChance.put(6, new String[] {
 				"BREAKING:NETHERITE_PICKAXE:COAL_ORE:null:mat=COAL_ORE:1:1.0",
 				"BREAKING:NETHERITE_PICKAXE:DEEPSLATE_COAL_ORE:null:mat=DEEPSLATE_COAL_ORE:1:1.0"});
+		LinkedHashMap<Integer, String[]> rewardEnchantmentOffers = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantments = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
@@ -9218,7 +9242,7 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
 		toResCondition = new LinkedHashMap<>();
 		toResCostTTExp = new LinkedHashMap<>();
 		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
@@ -9598,7 +9622,7 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
 	}
 	
@@ -9644,6 +9668,8 @@ public class YamlManager
 		rewardDropChance.put(4, rdc);
 		rewardDropChance.put(5, rdc);
 		LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantmentOffers = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantments = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
@@ -9871,7 +9897,7 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
 		toResCondition = new LinkedHashMap<>();
 		toResCostTTExp = new LinkedHashMap<>();
 		toResCostTTExp.put(1, cTTExp);
@@ -10136,7 +10162,7 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
 		//ADDME Alle Setzlinge
 	}
 	
@@ -10231,6 +10257,8 @@ public class YamlManager
 		rewardSilkTouchDropChance.put(5, rdc);
 		rewardSilkTouchDropChance.put(6, rdc);
 		rewardSilkTouchDropChance.put(7, rdc);
+		LinkedHashMap<Integer, String[]> rewardEnchantmentOffers = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantments = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
@@ -10541,7 +10569,7 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
 		toResCondition = new LinkedHashMap<>();
 		toResCostTTExp = new LinkedHashMap<>();
 		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
@@ -10966,7 +10994,7 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
 	}
 	
 	private void tech_Stonemason_Slabs(String[] itemflag, String[] enchantment) //INFO:Stonemason_Slabs
@@ -11026,6 +11054,8 @@ public class YamlManager
 				"BREAKING:GOLDEN_PICKAXE:STONE_SLAB:null:mat=STONE_SLAB:1:1.0",
 				"BREAKING:DIAMOND_PICKAXE:STONE_SLAB:null:mat=STONE_SLAB:1:1.0",
 				"BREAKING:NETHERITE_PICKAXE:STONE_SLAB:null:mat=STONE_SLAB:1:1.0"});
+		LinkedHashMap<Integer, String[]> rewardEnchantmentOffers = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantments = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
@@ -11148,7 +11178,7 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
 	}
 	
@@ -11209,6 +11239,8 @@ public class YamlManager
 				"BREAKING:GOLDEN_PICKAXE:STONE_STAIRS:null:mat=STONE_STAIRS:1:1.0",
 				"BREAKING:DIAMOND_PICKAXE:STONE_STAIRS:null:mat=STONE_STAIRS:1:1.0",
 				"BREAKING:NETHERITE_PICKAXE:STONE_STAIRS:null:mat=STONE_STAIRS:1:1.0"});
+		LinkedHashMap<Integer, String[]> rewardEnchantmentOffers = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantments = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
@@ -11331,7 +11363,7 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
 	}
 	
@@ -11356,6 +11388,8 @@ public class YamlManager
 		rewardUnlockableRecipe.put(1, new String[] {"FURNACE:stone",""});
 		LinkedHashMap<Integer, String[]> rewardDropChance = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantmentOffers = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantments = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
@@ -11433,7 +11467,7 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
 		toResCondition = new LinkedHashMap<>();
 		toResCondition.put(1, new String[] {
@@ -11532,13 +11566,13 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
 	}
 
 	private void tech_Tablerecipe_Enchantmentrecipe(String[] itemflag, String[] enchantment) //INFO:Tablerecipe_Enchantmentrecipe
 	{
-		
+		//TODO EnchantmentOffers & Enchantments nicht vergessen
 	}
 
 	private void tech_Tablerecipe_Brewingrecipe(String[] itemflag, String[] enchantment) //INFO:Tablerecipe_Brewingrecipe
@@ -11583,6 +11617,7 @@ public class YamlManager
 			String[] hadResDisplayname, Material hadResMat, int hadResAmount, String[] hadResItemFlag, String[] hadResEnchantments, String[] hadResLore,
 			LinkedHashMap<Integer, String[]> rewardUnlockableInteractions, LinkedHashMap<Integer, String[]> rewardUnlockableRecipe,
 			LinkedHashMap<Integer, String[]> rewardDropChance, LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance,
+			LinkedHashMap<Integer, String[]> rewardEnchantmentOffers, LinkedHashMap<Integer, String[]> rewardEnchantments,
 			LinkedHashMap<Integer, String[]> rewardCommand, LinkedHashMap<Integer, String[]> rewardItem, 
 			LinkedHashMap<Integer, String[]> rewardModifier, LinkedHashMap<Integer, String[]> rewardValueEntry) //INFO:Technology
 	{
@@ -11795,6 +11830,22 @@ public class YamlManager
 						e.getValue()));
 			}			
 		}
+		for(Entry<Integer, String[]> e : rewardEnchantmentOffers.entrySet())
+		{
+			if(e.getValue() != null)
+			{
+				one.put("Rewards.UnlockableEnchantmentOffers."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
+						e.getValue()));
+			}
+		}
+		for(Entry<Integer, String[]> e : rewardEnchantments.entrySet())
+		{
+			if(e.getValue() != null)
+			{
+				one.put("Rewards.UnlockableEnchantments."+e.getKey(), new Language(new ISO639_2B[] {ISO639_2B.GER},
+						e.getValue()));
+			}			
+		}
 		for(Entry<Integer, String[]> e : rewardCommand.entrySet())
 		{
 			if(e.getValue() != null)
@@ -11858,9 +11909,23 @@ public class YamlManager
 		    	one.put("Group",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 								a.getGroup()}));
-		    	one.put("Input.Material",
-						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-								a.getInput().getType().toString()}));
+		    	if(a.getInputChoice() instanceof RecipeChoice.MaterialChoice)
+		    	{
+		    		RecipeChoice.MaterialChoice rcmc = (RecipeChoice.MaterialChoice) a.getInputChoice();
+		    		ArrayList<String> l = new ArrayList<>();
+		    		for(Material m : rcmc.getChoices())
+		    		{
+		    			l.add(m.toString());
+		    		}
+		    		one.put("Input.Material",
+							new Language(new ISO639_2B[] {ISO639_2B.GER},
+									l.toArray(new String[l.size()])));
+		    	} else
+		    	{
+		    		one.put("Input.Material",
+							new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+									a.getInput().getType().toString(), ""}));
+		    	}
 		    	String path = "Result.";
 		    	one.put(path+"Material",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
@@ -11902,9 +11967,27 @@ public class YamlManager
 		    	one.put("Group",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 								a.getGroup()}));
-		    	one.put("Input.Material",
-						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-								a.getInput().getType().toString()}));
+		    	if(a.getInputChoice() instanceof RecipeChoice.MaterialChoice)
+		    	{
+		    		RecipeChoice.MaterialChoice rcmc = (RecipeChoice.MaterialChoice) a.getInputChoice();
+		    		ArrayList<String> l = new ArrayList<>();
+		    		for(Material m : rcmc.getChoices())
+		    		{
+		    			l.add(m.toString());
+		    		}
+		    		if(l.size() == 1)
+		    		{
+		    			l.add("");
+		    		}
+		    		one.put("Input.Material",
+							new Language(new ISO639_2B[] {ISO639_2B.GER},
+									l.toArray(new String[l.size()])));
+		    	} else
+		    	{
+		    		one.put("Input.Material",
+							new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+									a.getInput().getType().toString(), ""}));
+		    	}
 		    	String path = "Result.";
 		    	one.put(path+"Material",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
@@ -11946,9 +12029,27 @@ public class YamlManager
 		    	one.put("Group",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 								a.getGroup()}));
-		    	one.put("Input.Material",
-						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-								a.getInput().getType().toString()}));
+		    	if(a.getInputChoice() instanceof RecipeChoice.MaterialChoice)
+		    	{
+		    		RecipeChoice.MaterialChoice rcmc = (RecipeChoice.MaterialChoice) a.getInputChoice();
+		    		ArrayList<String> l = new ArrayList<>();
+		    		for(Material m : rcmc.getChoices())
+		    		{
+		    			l.add(m.toString());
+		    		}
+		    		if(l.size() == 1)
+		    		{
+		    			l.add("");
+		    		}
+		    		one.put("Input.Material",
+							new Language(new ISO639_2B[] {ISO639_2B.GER},
+									l.toArray(new String[l.size()])));
+		    	} else
+		    	{
+		    		one.put("Input.Material",
+							new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+									a.getInput().getType().toString(), ""}));
+		    	}
 		    	String path = "Result.";
 		    	one.put(path+"Material",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
@@ -12388,9 +12489,27 @@ public class YamlManager
 		    	one.put("Group",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 								a.getGroup()}));
-		    	one.put("Input.Material",
-						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-								a.getInput().getType().toString()}));
+		    	if(a.getInputChoice() instanceof RecipeChoice.MaterialChoice)
+		    	{
+		    		RecipeChoice.MaterialChoice rcmc = (RecipeChoice.MaterialChoice) a.getInputChoice();
+		    		ArrayList<String> l = new ArrayList<>();
+		    		for(Material m : rcmc.getChoices())
+		    		{
+		    			l.add(m.toString());
+		    		}
+		    		if(l.size() == 1)
+		    		{
+		    			l.add("");
+		    		}
+		    		one.put("Input.Material",
+							new Language(new ISO639_2B[] {ISO639_2B.GER},
+									l.toArray(new String[l.size()])));
+		    	} else
+		    	{
+		    		one.put("Input.Material",
+							new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+									a.getInput().getType().toString(), ""}));
+		    	}
 		    	String path = "Result.";
 		    	one.put(path+"Material",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
@@ -12423,9 +12542,27 @@ public class YamlManager
 		    	one.put("Group",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 								a.getGroup()}));
-		    	one.put("Input.Material",
-						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-								a.getInput().getType().toString()}));
+		    	if(a.getInputChoice() instanceof RecipeChoice.MaterialChoice)
+		    	{
+		    		RecipeChoice.MaterialChoice rcmc = (RecipeChoice.MaterialChoice) a.getInputChoice();
+		    		ArrayList<String> l = new ArrayList<>();
+		    		for(Material m : rcmc.getChoices())
+		    		{
+		    			l.add(m.toString());
+		    		}
+		    		if(l.size() == 1)
+		    		{
+		    			l.add("");
+		    		}
+		    		one.put("Input.Material",
+							new Language(new ISO639_2B[] {ISO639_2B.GER},
+									l.toArray(new String[l.size()])));
+		    	} else
+		    	{
+		    		one.put("Input.Material",
+							new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+									a.getInput().getType().toString(), ""}));
+		    	}
 		    	String path = "Result.";
 		    	one.put(path+"Material",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {

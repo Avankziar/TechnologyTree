@@ -23,6 +23,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.ifh.general.conditionqueryparser.ConditionQueryParser;
+import main.java.me.avankziar.ifh.general.interfaces.PlayerTimes;
 import main.java.me.avankziar.ifh.general.modifier.ModificationType;
 import main.java.me.avankziar.ifh.general.modifier.Modifier;
 import main.java.me.avankziar.ifh.general.valueentry.ValueEntry;
@@ -37,6 +38,7 @@ import main.java.me.avankziar.tt.spigot.cmd.TabCompletion;
 import main.java.me.avankziar.tt.spigot.cmd.TechGuiCommandExecutor;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckPlacedBlocks;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGGiveItem;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGReload;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGTechInfo;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
@@ -57,6 +59,7 @@ import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.PlayerHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
+import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.hook.PAPIHook;
 import main.java.me.avankziar.tt.spigot.listener.BlockFormListener;
 import main.java.me.avankziar.tt.spigot.listener.JoinQuitListener;
@@ -116,6 +119,7 @@ public class TT extends JavaPlugin
 	private ValueEntry valueEntryConsumer;
 	private Modifier modifierConsumer;
 	private ConditionQueryParser conditionQueryParserConsumer;
+	private PlayerTimes playerTimesConsumer;
 	
 	private CommandToBungee commandToBungeeConsumer;
 	private Economy ecoConsumer;
@@ -170,7 +174,7 @@ public class TT extends JavaPlugin
 		setupListeners();
 		setupIFHConsumer();
 		setupPlaceholderAPI();
-		//RewardHandler.doRewardOfflinePlayerTask(); ADDME
+		RewardHandler.doRewardOfflinePlayerTask();
 	}
 	
 	public void onDisable()
@@ -274,13 +278,15 @@ public class TT extends JavaPlugin
 		ArgumentConstructor checkplacedblocks = new ArgumentConstructor(CommandExecuteType.TT_CHECKPLACEDBLOCKS,
 													"tt_checkplacedblocks", 0, 0, 0, false, null);
 		new ARGCheckPlacedBlocks(checkplacedblocks);
+		ArgumentConstructor giveitem = new ArgumentConstructor(CommandExecuteType.TT_GIVEITEM, "tt_giveitem", 0, 2, 2, false, null);
+		new ARGGiveItem(giveitem);
 		ArgumentConstructor reload = new ArgumentConstructor(CommandExecuteType.TT_RELOAD, "tt_reload", 0, 0, 0, false, null);
 		new ARGReload(reload);
 		ArgumentConstructor techinfo = new ArgumentConstructor(CommandExecuteType.TT_TECHINFO, "tt_techinfo", 0, 1, 2, false, techMapI);
 		new ARGTechInfo(techinfo);
 		
 		CommandConstructor tt = new CommandConstructor(CommandExecuteType.TT, "tt", false,
-				checkeventaction, checkplacedblocks, reload, techinfo);
+				checkeventaction, checkplacedblocks, giveitem, reload, techinfo);
 		registerCommand(tt.getPath(), tt.getName());
 		getCommand(tt.getName()).setExecutor(new TTCommandExecutor(plugin, tt));
 		getCommand(tt.getName()).setTabCompleter(tab);
@@ -515,6 +521,8 @@ public class TT extends JavaPlugin
 		ConfigHandler.init();
 		PlayerHandler.reload();
 		
+		RewardHandler.doRewardOfflinePlayerTask();
+		
 		for(Player player : Bukkit.getOnlinePlayers())
 		{
 			PlayerHandler.joinPlayer(player);
@@ -576,6 +584,7 @@ public class TT extends JavaPlugin
 		setupIFHCommandToBungee();
 		setupIFHConditionQueryParser();
 		setupIFHEconomy();
+		setupIFHPlayerTimes();
 	}
 	
 	public void setupIFHValueEntry()
@@ -900,6 +909,49 @@ public class TT extends JavaPlugin
 		}
         return;
     }
+	
+	private void setupIFHPlayerTimes() 
+	{
+		if(!plugin.getServer().getPluginManager().isPluginEnabled("InterfaceHub")) 
+	    {
+	    	return;
+	    }
+        new BukkitRunnable()
+        {
+        	int i = 0;
+			@Override
+			public void run()
+			{
+				try
+				{
+					if(i == 20)
+				    {
+						cancel();
+				    	return;
+				    }
+				    RegisteredServiceProvider<main.java.me.avankziar.ifh.general.interfaces.PlayerTimes> rsp = 
+		                             getServer().getServicesManager().getRegistration(
+		                            		 main.java.me.avankziar.ifh.general.interfaces.PlayerTimes.class);
+				    if(rsp == null) 
+				    {
+				    	i++;
+				        return;
+				    }
+				    playerTimesConsumer = rsp.getProvider();
+				    log.info(pluginName + " detected InterfaceHub >>> PlayerTimes.class is consumed!");
+				    cancel();
+				} catch(NoClassDefFoundError e)
+				{
+					cancel();
+				}			    
+			}
+        }.runTaskTimer(plugin, 0L, 20*2);
+	}
+	
+	public PlayerTimes getPlayerTimes()
+	{
+		return playerTimesConsumer;
+	}
 	
 	public Economy getIFHEco()
 	{

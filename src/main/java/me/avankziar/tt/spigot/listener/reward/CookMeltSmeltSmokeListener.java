@@ -19,6 +19,7 @@ import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler.BlockType;
+import main.java.me.avankziar.tt.spigot.handler.ifh.PlayerTimesHandler;
 import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
@@ -40,7 +41,7 @@ public class CookMeltSmeltSmokeListener implements Listener
 		final BlockType bt = BlockHandler.getBlockType(event.getBlock().getType());
 		final Location loc = event.getBlock().getLocation();
 		final String key = event.getRecipe().getKey().getKey();
-		startSmelt(loc, bt, key);
+		BlockHandler.startSmelt(loc, bt, key);
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST)
@@ -54,19 +55,7 @@ public class CookMeltSmeltSmokeListener implements Listener
 		final BlockType bt = BlockHandler.getBlockType(event.getBlock().getType());
 		final Location loc = event.getBlock().getLocation();
 		final String key = event.getRecipe().getKey().getKey();
-		startSmelt(loc, bt, key);
-	}
-	
-	private void startSmelt(Location loc, BlockType bt, String key)
-	{
-		new BukkitRunnable()
-		{
-			@Override
-			public void run()
-			{
-				BlockHandler.startSmelt(loc, bt, key);
-			}
-		}.runTaskAsynchronously(TT.getPlugin());
+		BlockHandler.startSmelt(loc, bt, key);
 	}
 	
 	/* Do not needed
@@ -92,6 +81,7 @@ public class CookMeltSmeltSmokeListener implements Listener
 		if(key == null)
 		{
 			event.setCancelled(true);
+			event.setResult(new ItemStack(Material.AIR));
 			return;
 		}
 		BlockType bt = BlockType.valueOf(key[0]);
@@ -103,6 +93,7 @@ public class CookMeltSmeltSmokeListener implements Listener
 				return;
 			}
 			event.setCancelled(true);
+			event.setResult(new ItemStack(Material.AIR));
 			return;
 		}
 		String recipeKey = key[1];
@@ -111,15 +102,16 @@ public class CookMeltSmeltSmokeListener implements Listener
 		{
 			if(!RecipeHandler.hasAccessToRecipe(uuid, bt, recipeKey))
 			{
-				if(!new ConfigHandler().finishSmeltIfPlayerHasNotTheRecipeUnlocked())
+				if(new ConfigHandler().finishSmeltIfPlayerHasNotTheRecipeUnlocked())
 				{
 					ARGCheckEventAction.checkEventAction(player, et.toString()+":RETURN",
 							et, ToolType.HAND, null, null, Material.AIR);
 					return;
 				}
-				ARGCheckEventAction.checkEventAction(player, et.toString()+":RETURN",
+				ARGCheckEventAction.checkEventAction(player, et.toString()+":RETURN2",
 						et, ToolType.HAND, null, null, Material.AIR);
 				event.setCancelled(true);
+				event.setResult(new ItemStack(Material.AIR));
 				return;
 			}
 		}
@@ -131,6 +123,14 @@ public class CookMeltSmeltSmokeListener implements Listener
 			{
 				ARGCheckEventAction.checkEventAction(player, et.toString()+":REWARD",
 						et, ToolType.HAND, null, null, Material.AIR);
+				if(!RewardHandler.doOfflineReward(player)) //Is Offline?
+				{
+					if(!new ConfigHandler().rewardPayoutIfAfkFurnaceAndBrewingStand() //if Online, check if afk.
+							&& PlayerTimesHandler.isAfk(player))
+					{
+						return;
+					}
+				}
 				if(player != null)
 				{
 					for(ItemStack is : RewardHandler.getDrops(player, et, ToolType.HAND, event.getResult().getType(), null))

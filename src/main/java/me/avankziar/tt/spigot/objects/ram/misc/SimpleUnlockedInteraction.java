@@ -50,26 +50,26 @@ public class SimpleUnlockedInteraction
 		{
 			String moneyTerm = e.getKey();
 			double moneyValue = e.getValue();
-			if(moneyMap.containsKey(moneyTerm))
+			if(this.moneyMap.containsKey(moneyTerm))
 			{
-				double erg = moneyMap.get(moneyTerm) + moneyValue;
-				moneyMap.put(moneyTerm, erg);
+				double erg = this.moneyMap.get(moneyTerm) + moneyValue;
+				this.moneyMap.put(moneyTerm, erg);
 			} else
 			{
-				moneyMap.put(moneyTerm, moneyValue);
+				this.moneyMap.put(moneyTerm, moneyValue);
 			}
 		}		
 		for(Entry<String, Double> e : commandMap.entrySet())
 		{
 			String commandTerm = e.getKey();
 			double commandValue = e.getValue();
-			if(commandMap.containsKey(commandTerm))
+			if(this.commandMap.containsKey(commandTerm))
 			{
-				double erg = commandMap.get(commandTerm) + commandValue;
-				commandMap.put(commandTerm, erg);
+				double erg = this.commandMap.get(commandTerm) + commandValue;
+				this.commandMap.put(commandTerm, erg);
 			} else
 			{
-				commandMap.put(commandTerm, commandValue);
+				this.commandMap.put(commandTerm, commandValue);
 			}
 		}
 	}
@@ -123,5 +123,4 @@ public class SimpleUnlockedInteraction
 	{
 		this.commandMap = commandMap;
 	}
-
 }

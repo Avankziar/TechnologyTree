@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.event.player.PlayerBucketEntityEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -69,7 +70,6 @@ public class BucketEmptyFillListener implements Listener
 	@EventHandler
 	public void onBucketFill(PlayerBucketFillEvent event)
 	{
-		
 		if(event.isCancelled()
 				|| event.getItemStack() == null
 				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
@@ -91,6 +91,45 @@ public class BucketEmptyFillListener implements Listener
 		final Player player = event.getPlayer();
 		final Location loc = event.getBlockClicked().getLocation();
 		final Material bucket = event.getItemStack().getType();
+		new BukkitRunnable()
+		{
+			@Override
+			public void run()
+			{
+				ARGCheckEventAction.checkEventAction(player, "BUCKET_FILLING:REWARD",
+						BF, ToolType.HAND, bucket, null, Material.AIR);
+				for(ItemStack is : RewardHandler.getDrops(player, BF, null, bucket, null))
+				{
+					ItemHandler.dropItem(is, player, loc);
+				}
+				RewardHandler.rewardPlayer(player.getUniqueId(), BF, ToolType.HAND, bucket, null, 1);
+			}
+		}.runTaskAsynchronously(TT.getPlugin());	
+	}
+	
+	@EventHandler
+	public void onBucketEntity(PlayerBucketEntityEvent event)
+	{
+		if(event.isCancelled()
+				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
+				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
+				|| !EnumHandler.isEventActive(BF))
+		{
+			ARGCheckEventAction.checkEventAction(event.getPlayer(), "BUCKET_FILLING:RETURN",
+					BF, ToolType.HAND, event.getEntityBucket().getType(), null, Material.AIR);
+			return;
+		}
+		if(!RewardHandler.canAccessInteraction(event.getPlayer(),
+				ToolType.HAND, BF, event.getEntityBucket().getType(), null))
+		{
+			ARGCheckEventAction.checkEventAction(event.getPlayer(), "BUCKET_FILLING:CANNOTACCESS",
+					BF, ToolType.HAND, event.getEntityBucket().getType(), null, Material.AIR);
+			event.setCancelled(true);
+			return;
+		}
+		final Player player = event.getPlayer();
+		final Location loc = event.getEntity().getLocation();
+		final Material bucket = event.getEntityBucket().getType();
 		new BukkitRunnable()
 		{
 			@Override

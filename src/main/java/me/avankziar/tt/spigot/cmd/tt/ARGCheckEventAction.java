@@ -53,6 +53,10 @@ public class ARGCheckEventAction extends ArgumentModule
 	
 	public static void checkEventAction(Player player, String value, EventType et, ToolType tool, Material mat, EntityType ent, Material mat2)
 	{//TODO Die anderen Events hinzufügen
+		if(player == null)
+		{
+			return;
+		}
 		if(checkEventAction.contains(player.getUniqueId()))
 		{
 			switch(value)

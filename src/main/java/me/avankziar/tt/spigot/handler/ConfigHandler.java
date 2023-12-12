@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.me.avankziar.tt.spigot.TT;
-import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 
 public class ConfigHandler
 {	
@@ -163,6 +162,11 @@ public class ConfigHandler
 	public double rewardPayoutTaxInPercent()
 	{
 		return plugin.getYamlHandler().getConfig().getLong("Do.Reward.Payout.TaxInPercent", 0);
+	}
+	
+	public boolean rewardPayoutIfAfkFurnaceAndBrewingStand()
+	{
+		return plugin.getYamlHandler().getConfig().getBoolean("Do.Reward.Payout.IfAfk.FuranceAndBrewingStand", false);
 	}
 	
 	public boolean fillNotDefineGuiSlots()

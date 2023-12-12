@@ -2,9 +2,7 @@ Cmd zum sehen, zu welchen Blöcken zugang hat.
 Cmd zum löschen welten bezogener PlacedBlock
 Cmd für das externe Zuweisen von Booster, welche aber keine Technologien sind.
 Event hinzufügen:
-  für das Interagieren mit Blöcken noch rein machen.
-  (Bspw. wenn man Holz entrindet oder Erdblock zum Acker oder Pfad zu machen. Grobe Erde mit Hacke zu erde
-  PlayerBucketEntityEvent
+
 Alle Events durchgehen, was wann eventuell doch gecancelt werden soll. Eventuell Configbasiert?
 EventType hinzufügen?
 
@@ -12,6 +10,16 @@ Wiki Themen
 - Dropmechanik mit Verzauberungen, Glücktrankeffekt und BonusMalus. Sowie der VanillaGrenzen, Silktouch etc.
 - Ein BeispielsYAML wie man Main/SubCategorgien und Technologien ausfüllen kann.
 - Warum die SmithingTrimRecipe nicht in den Rezepten inkludiert sind. (Antwort: Das sind in MC hardgecodet Rezepte)
+- Warum die SmithingTransformRecipe nicht per Config änderbar sind.(Antwort: Wenn mit Configs gemacht, bricht die SchmiedeRezepte komplett)
+- Beim Interagiern von Blöcken gibt es Ausnahmen, die immer funktionieren. Bspw. Bett, die Kiste, Notenblock etc.
+- Kann man mit einem Registriebaren Block nicht interagieren, kann man ihn auch nicht regestieren.
+- Abgebaute Blöcke verschwinden immer, wenn man sie "theoretisch" nicht abbauen darf. Erst wenn man es darf, bekommt man durch die Belohnungen
+  die Drops.
+- Das Platzieren von Blöcken geht immer. (Sofern nicht etwas Anderes vom Externen Plugins kommt, dass dies verhindert)
+- Das Scheeren von Schafe dropt automatisch den VanillaDrops, da dies nicht verhindert werden kann.
+- Das man einstellen kann, bei Öfen & Brauständen im Afk oder Offline Belohnung bekommt oder halt nicht.
+- Das Vercraften von 2 Werkzeugen des gleichen Types und Materials geht nicht mehr. Da die Handhabe von den anderen Rezepten diese scheinbar intern in
+  MC kaputt macht. Man hat auch so keinen Zugriff richtig darauf.
 
 Items welche als CraftComplexRecipe registriert sind, welche aber nicht manipuliert werden können.
 Testen ob man trotzdem craften kann und ob man Belohungen erhält.
@@ -29,22 +37,7 @@ Testen ob man trotzdem craften kann und ob man Belohungen erhält.
 [16:30:19 INFO]: [TT] Cannot be define: repair_item
 [16:30:19 INFO]: [TT] Cannot be define: shulker_box_coloring
 
-Beim CraftingEvent kann es sein, dass bei Reperaturen es nicht korrekt verarbeitet wird.
-
-Eventuell durch das CreatureSpawnEvent für Spawner und Spawn_EGG Metadaten ins Entity setzten, damit das aus der TötungBelohung nicht
-berücksichtig wird.
-	event.getEntity().setMetadata("IS_...", new FixedMetadataValue(plugin, true));
-	
-Beim Benutzen von öfen aller art/Braustand, per config einschaltbar machen, ob man afk Spieler belohnen möchte.
-Ebenso configurierbar machen, ob der Ofen über startet.
-	
-Liste an Events mit der RewardHandler.canAccessInteraction Methode:
-- BlockBreak
-- PlayerBucketEmpty
-- PlayerBucketFill
-- PrepareItemEnchant
-- BlockFertilize
-- PlayerShearEntity
+StoneCutter Crafting hat kein Event. Somit noch keinen Abbruch oder Belohnung.
 
 Beispiel für ConditionAbfragen:
 	Immer true:
@@ -336,7 +329,7 @@ Rewards:
       #Für jeden Wert, Kann interagieren, TTExp, Money & VanillaExp wird mit dem Event und dem Material dann ein BonusMalus erzeugt.
       - block_place:DIRT:null:ToolType:CanAccess:TTExp:Money:VanillaExp:CustomCommand
       #TTExp = 0.5, Money Vault = 1.0, VanillaExp = 20, customcmd = 1.0 (Mit %value% und %player% replacer als consolecommand
-      - block_break:DIRT:null:tool=HAND:canAccess=true:ttexp=0.5:vault=1.0:vaexp=20:cmd=spigot:give %value %DIAMOND %player%=1.0 
+      - block_break:DIRT:null:tool=HAND:canAccess=true:ttexp=0.5:vault=1.0:vaexp=20:cmd=spigot,give %player% DIAMOND %value%=1.0 
   UnlockableRecipe:
     1:
       - BLASTING:<Name> //RecipeType, und der Filename des Rezeptes oder Name des Materials des ResultItems (bspw für ANVIL etc.)
@@ -360,8 +353,8 @@ Rewards:
     - GOLDEN_HELMET:unbreaking
   Command:
     1:
-      - spigot:value:/warp %player% %value% #Mit Replacer für Spielernamen und den Anzahlswert
-      - bungee:value:/do do #Für Console
+      - spigot:value:warp %player% %value% #Mit Replacer für Spielernamen und den Anzahlswert
+      - bungee:value:do do #Für Console
   Item:
     1:
       - sword_y:64 #Item y wird aus dem ItemOrdner geholt und hier eingesetzt.

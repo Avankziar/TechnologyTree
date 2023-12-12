@@ -8,6 +8,9 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.type.Bed;
+import org.bukkit.block.data.type.Door;
+import org.bukkit.block.data.type.Gate;
+import org.bukkit.block.data.type.TrapDoor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -269,10 +272,13 @@ public class BreakPlaceInteractListener implements Listener
 		}.runTaskAsynchronously(TT.getPlugin());
 	}
 	
-	public boolean byPassInteraction(Block block)
+	public static boolean byPassInteraction(Block block)
 	{
 		if(block.getState() instanceof Sign
-				|| block.getState() instanceof Bed)
+				|| block.getState() instanceof Bed
+				|| block.getState().getBlockData() instanceof Gate
+				|| block.getState().getBlockData() instanceof Door
+				|| block.getState().getBlockData() instanceof TrapDoor)
 		{
 			return true;
 		}
@@ -280,6 +286,10 @@ public class BreakPlaceInteractListener implements Listener
 		{
 		default:
 			return false;
+		case CHEST:
+		case CHEST_MINECART:
+		case TRAPPED_CHEST:
+		case BARREL:
 		case NOTE_BLOCK:
 		case JUKEBOX:
 		case CHISELED_BOOKSHELF:

@@ -66,6 +66,15 @@ public class RewardHandler
 		}.runTaskTimerAsynchronously(plugin, 0, period);
 	}
 	
+	public static boolean doOfflineReward(Player player)
+	{
+		if(player == null && new ConfigHandler().rewardPayoutForOfflinePlayerActive())
+		{
+			return true;
+		}
+		return false;
+	}
+	
 	public static void doRewardOfflinePlayerTask()
 	{
 		if(!new ConfigHandler().rewardPayoutForOfflinePlayerActive())
@@ -117,7 +126,6 @@ public class RewardHandler
 		ArrayList<RewardSummary> rewardSummaryList = new ArrayList<>();
 		if(matMap == null && entityMap == null)
 		{
-			TT.log.info("RewardHandler matMap == null && entityMap == null"); //REMOVEME
 			return;
 		}
 		if(matMap != null)
@@ -142,14 +150,12 @@ public class RewardHandler
 							SimpleUnlockedInteraction sui = PlayerHandler.materialInteractionMap.get(uuid).get(tool).get(mat).get(et);
 							if(sui == null)
 							{
-								TT.log.info("RewardHandler sui == null"); //REMOVEME
 								continue;
 							}
 							toGiveTTExp = toGiveTTExp + sui.getTechnologyExperience() * amount;
 							toGiveVanillaExp = toGiveVanillaExp + sui.getVanillaExperience() * amount;
 							for(Entry<String, Double> s : sui.getMoneyMap().entrySet())
 							{
-								TT.log.info("RewardHandler sui.MoneyMap: "+s.getKey()); //REMOVEME
 								double moneyAmount = 0;
 								if(toGiveMoneyMap.containsKey(s.getKey()))
 								{
@@ -197,7 +203,6 @@ public class RewardHandler
 							SimpleUnlockedInteraction sui = PlayerHandler.entityTypeInteractionMap.get(uuid).get(tool).get(ent).get(et);
 							if(sui == null)
 							{
-								TT.log.info("RewardHandler sui == null"); //REMOVEME
 								continue;
 							}
 							toGiveTTExp = toGiveTTExp + sui.getTechnologyExperience() * amount;
@@ -254,11 +259,17 @@ public class RewardHandler
 		for(Entry<String, Double> e : toGiveMoneyMap.entrySet())
 		{
 			TT.log.info("RewardHandler toGiveMoneyMap: "+e.getKey()); //REMOVEME
+			double taxation = new ConfigHandler().rewardPayoutTaxInPercent();
 			if(e.getKey().equalsIgnoreCase("vault") && plugin.getVaultEco() != null)
 			{
-				plugin.getVaultEco().depositPlayer(Bukkit.getOfflinePlayer(uuid), e.getValue());
-				toGiveMoneyD = e.getValue();
-				toGiveMoney = e.getValue()+" "+plugin.getVaultEco().currencyNamePlural();
+				double amount = e.getValue();
+				if(taxation > 0)
+				{
+					amount = amount - e.getValue()*taxation/100;
+				}
+				plugin.getVaultEco().depositPlayer(Bukkit.getOfflinePlayer(uuid), amount);
+				toGiveMoneyD = amount;
+				toGiveMoney = amount+" "+plugin.getVaultEco().currencyNamePlural();
 				continue;
 			} else if(e.getKey().equalsIgnoreCase("vault") && plugin.getVaultEco() == null)
 			{
@@ -274,7 +285,6 @@ public class RewardHandler
 			}
 			if(ec == null)
 			{
-				TT.log.info("RewardHandler ec == null : >"+e.getKey()+"<"); //REMOVEME
 				continue;
 			}
 			Account ac = plugin.getIFHEco().getDefaultAccount(uuid, AccountCategory.JOB, ec);
@@ -283,13 +293,11 @@ public class RewardHandler
 				ac = plugin.getIFHEco().getDefaultAccount(uuid, AccountCategory.MAIN, ec);
 				if(ac == null)
 				{
-					TT.log.info("RewardHandler ac == null"); //REMOVEME
 					continue;
 				}
 			}
 			Account tax = plugin.getIFHEco().getDefaultAccount(uuid, AccountCategory.TAX, ec);
-			double taxation = new ConfigHandler().rewardPayoutTaxInPercent();
-			EconomyAction ea = plugin.getIFHEco().deposit(ac, e.getValue(), taxation, true, tax);
+			EconomyAction ea = plugin.getIFHEco().deposit(ac, e.getValue(), taxation, false, tax);
 			toGiveMoneyD = ea.getDepositAmount();
 			toGiveMoney = plugin.getIFHEco().format(ea.getDepositAmount(), ec,
 					plugin.getIFHEco().getDefaultGradationQuantity(ac.getCurrency()), 3,
@@ -298,17 +306,41 @@ public class RewardHandler
 		}
 		for(Entry<String, Double> e : toGiveCommandMap.entrySet())
 		{
-			String[] split = e.getKey().split(":");
+			TT.log.info("RewardHandler toGiveCmdMap: "+e.getKey()+" | "+e.getValue()); //REMOVEME
+			String[] split = e.getKey().split(",");
 			if(split.length != 2)
 			{
-				TT.log.info("RewardHandler split.length != 2"); //REMOVEME
 				continue;
 			}
 			if("spigot".equalsIgnoreCase(split[0]))
 			{
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), split[1]
-								.replace("%player%", playername)
-								.replace("%value%", String.valueOf(e.getValue())));
+				new BukkitRunnable()
+				{
+					@Override
+					public void run()
+					{
+						if(split[1].contains("%value%"))
+						{
+							if(e.getValue() % 1 == 0)
+							{
+								int i = e.getValue().intValue();
+								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), split[1]
+										.replace("%player%", playername)
+										.replace("%value%", String.valueOf(i)));
+							} else
+							{
+								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), split[1]
+										.replace("%player%", playername)
+										.replace("%value%", String.valueOf(e.getValue())));
+							}
+						} else
+						{
+							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), split[1]
+									.replace("%player%", playername)
+									.replace("%value%", String.valueOf(e.getValue())));
+						}						
+					}
+				}.runTask(plugin);
 			} else if("bungee".equalsIgnoreCase(split[0]) && plugin.getCommandToBungee() != null)
 			{
 				plugin.getCommandToBungee().executeAsConsole(split[1]

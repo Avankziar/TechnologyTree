@@ -1160,7 +1160,7 @@ public class GuiHandler
 				{
 					if(t.getCostVanillaExp().get(techLevel) == null)
 					{
-						s = s.replace("%rawcostvanillaexp%", "0 VanillaExp");
+						s = s.replace("%costvanillaexp%", "0 VanillaExp");
 					}
 					int vexp = 0;
 					if(!t.getCostVanillaExp().isEmpty())
