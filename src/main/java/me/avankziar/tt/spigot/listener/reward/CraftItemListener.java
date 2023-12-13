@@ -61,7 +61,7 @@ public class CraftItemListener implements Listener
 				|| event.getClick() == ClickType.SHIFT_RIGHT 
 				|| event.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY)
 		{
-			schedulePostDetectionAll(player, result, mat, result.getItemMeta());
+			oostDetectionAll(player, result, mat, result.getItemMeta());
 		} else
 		{
 			new BukkitRunnable()
@@ -81,7 +81,7 @@ public class CraftItemListener implements Listener
 		}
 	}
 	
-	public void schedulePostDetectionAll(final Player player,
+	public static void oostDetectionAll(final Player player,
 			final ItemStack pr, final Material premat, final ItemMeta premeta)
 	{ //Da final ItemStack pr null zurücklierfert, holen wir die nicht null Material und ItemMeta.
 		

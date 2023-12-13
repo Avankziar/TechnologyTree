@@ -14,6 +14,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -149,7 +151,6 @@ public class GuiHandler
 		openGui(ssh2, player, gt, gui, settingsLevel, closeInv);
 	}*/
 	
-	@SuppressWarnings("deprecation")
 	public static ItemStack generateItem(YamlConfiguration y, String parentPath, int overrideAmount,
 			MainCategory mcat, SubCategory scat, Technology t, PlayerAssociatedType pat, Player player)
 	{
@@ -219,7 +220,9 @@ public class GuiHandler
 					}					
 					try
 					{
-						esm.addStoredEnchant(Enchantment.getByName(split[0]), Integer.parseInt(split[1]), true);
+						NamespacedKey nsk = NamespacedKey.minecraft(split[0].toLowerCase());
+						Enchantment e = Registry.ENCHANTMENT.get(nsk);
+						esm.addStoredEnchant(e, Integer.parseInt(split[1]), true);
 					} catch(Exception e)
 					{
 						continue;
@@ -241,7 +244,9 @@ public class GuiHandler
 					}					
 					try
 					{
-						im.addEnchant(Enchantment.getByName(split[0]), Integer.parseInt(split[1]), true);
+						NamespacedKey nsk = NamespacedKey.minecraft(split[0].toLowerCase());
+						Enchantment e = Registry.ENCHANTMENT.get(nsk);
+						im.addEnchant(e, Integer.parseInt(split[1]), true);
 					} catch(Exception e)
 					{
 						continue;
@@ -423,7 +428,6 @@ public class GuiHandler
 		return is;
 	}
 	
-	@SuppressWarnings("deprecation")
 	private static void openGui(MainCategory mcat, SubCategory scat, PlayerAssociatedType pat, Player player, GuiType gt, GUIApi gui,
 			SettingsLevel settingsLevel, boolean closeInv)
 	{
@@ -719,7 +723,9 @@ public class GuiHandler
 						}					
 						try
 						{
-							esm.addStoredEnchant(Enchantment.getByName(split[0]), Integer.parseInt(split[1]), true);
+							NamespacedKey nsk = NamespacedKey.minecraft(split[0].toLowerCase());
+							Enchantment e = Registry.ENCHANTMENT.get(nsk);
+							esm.addStoredEnchant(e, Integer.parseInt(split[1]), true);
 						} catch(Exception e)
 						{
 							continue;
@@ -742,7 +748,9 @@ public class GuiHandler
 						}					
 						try
 						{
-							im.addEnchant(Enchantment.getByName(split[0]), Integer.parseInt(split[1]), true);
+							NamespacedKey nsk = NamespacedKey.minecraft(split[0].toLowerCase());
+							Enchantment e = Registry.ENCHANTMENT.get(nsk);
+							im.addEnchant(e, Integer.parseInt(split[1]), true);
 						} catch(Exception e)
 						{
 							filler(gui, i, filler, fillNotDefineGuiSlots);

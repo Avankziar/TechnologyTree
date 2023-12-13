@@ -174,6 +174,21 @@ public class ConfigHandler
 		return plugin.getYamlHandler().getConfig().getBoolean("Do.Gui.FillNotDefineGuiSlots", true);
 	}
 	
+	public boolean jobsRebornImportIsActive()
+	{
+		return plugin.getYamlHandler().getConfig().getBoolean("Do.Import.JobsReborn.Active", false);
+	}
+	
+	public String jobsRebornImportProgessionFormula()
+	{
+		return plugin.getYamlHandler().getConfig().getString("Do.Import.JobsReborn.ProgessionFormula", "10*(joblevel)+(joblevel*joblevel*4)");
+	}
+	
+	public int jobsRebornImportMaxJobsPerPlayer()
+	{
+		return plugin.getYamlHandler().getConfig().getInt("Do.Import.JobsReborn.MaxJobsPerPlayer", 3);
+	}
+	
 	public boolean accessMainCategory_IfCreative()
 	{
 		return plugin.getYamlHandler().getConfig().getBoolean("Do.Access.MainCategory.BypassIfCreative", true);

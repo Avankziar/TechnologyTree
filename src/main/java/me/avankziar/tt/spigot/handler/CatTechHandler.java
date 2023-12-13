@@ -348,8 +348,8 @@ public class CatTechHandler
 								RecipeType rt = RecipeType.valueOf(split[0]);
 								String key = split[1];
 								if(rt == RecipeType.BLASTING || rt == RecipeType.CAMPFIRE || rt == RecipeType.FURNACE
-										|| rt == RecipeType.SHAPED || rt == RecipeType.SHAPELESS //|| rt == RecipeType.SMITHING ADDME?
-										|| rt == RecipeType.SMOKING || rt == RecipeType.STONECUTTING)
+										|| rt == RecipeType.SHAPED || rt == RecipeType.SHAPELESS || rt == RecipeType.SMOKING
+										) //Annotation, STONECUTTING is not there, because is has no Event to grab. It only added more Recipes.
 								{
 									if(!RecipeHandler.recipeMap.containsKey(rt))
 									{	

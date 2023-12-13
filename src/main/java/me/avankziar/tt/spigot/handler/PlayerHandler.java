@@ -33,6 +33,7 @@ import main.java.me.avankziar.tt.spigot.gui.objects.SettingsLevel;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler.BlockType;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
 import main.java.me.avankziar.tt.spigot.ifh.ItemGenerator;
+import main.java.me.avankziar.tt.spigot.imports.ImportJobsReborn;
 import main.java.me.avankziar.tt.spigot.objects.EntryQueryType;
 import main.java.me.avankziar.tt.spigot.objects.EntryStatusType;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
@@ -131,6 +132,11 @@ public class PlayerHandler
 					}
 				}
 				PlayerData pd = getPlayer(player.getUniqueId());
+				if(new ConfigHandler().jobsRebornImportIsActive())
+				{
+					String formula = new ConfigHandler().jobsRebornImportProgessionFormula();
+					ImportJobsReborn.importJobsReborn(player, pd, formula);
+				}
 				if(pd.isShowSyncMessage())
 				{
 					player.spigot().sendMessage(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("PlayerHandler.SyncStart")));

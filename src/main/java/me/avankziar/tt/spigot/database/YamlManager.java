@@ -380,6 +380,15 @@ public class YamlManager
 		configSpigotKeys.put("Do.Item.LoseDropItemOwnershipAfterTimeInSeconds"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				300}));
+		configSpigotKeys.put("Do.Import.JobsReborn.Active"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				false}));
+		configSpigotKeys.put("Do.Import.JobsReborn.MaxJobsPerPlayer"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				3}));
+		configSpigotKeys.put("Do.Import.JobsReborn.ProgessionFormula"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				"10*(joblevel)+(joblevel*joblevel*4)"}));
 		configSpigotKeys.put("Do.NewPlayer.ShowSyncMessage"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				true}));
@@ -817,6 +826,10 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&7[&#ff8c00TT&7] &#c6a664Sync ist komplett!",
 						"&7[&#ff8c00TT&7] &#c6a664Sync is complete!"}));
+		languageKeys.put(path+"ImportFromJobsReborn", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7[&#ff8c00TT&7] &#c6a664Durch die Jobs von JobsReborn wurde dir &f%ttexp% &#c6a664TTExp gutgeschrieben!",
+						"&7[&#ff8c00TT&7] &#c6a664JobsReborn jobs have credited you with &f%ttexp% &#c6a664TTExp!"}));
 		languageKeys.put(path+"PayTechnology.Category", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&6Technologiekauf",
@@ -11592,7 +11605,94 @@ public class YamlManager
 	
 	private void tech_Booster_Miningbooster(String[] itemflag, String[] enchantment) //INFO:Booster_Miningbooster
 	{
-		
+		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
+		String cTTExp = "10 * techlev + 5 * techacq + 2.5 * solototaltech";
+		toResCostTTExp.put(1, cTTExp);
+		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
+		rewardUnlockableInteractions.put(1, new String[] {
+				"BREAKING:DIRT:null:ttexp=5.0",	""});
+		LinkedHashMap<Integer, String[]> rewardUnlockableRecipe = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardDropChance = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantmentOffers = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantments = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardValueEntry = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"&eLäuft nach der Erforschung ab innerhalb von: 10m",
+				"",
+				"&eKosten:",
+				"&f%costttexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fAbbauen von &#c6a664Erde(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,dirtminingbooster,1,BREAKING,HAND,DIRT% TTExp",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"&eExpires after research within: 10m",
+				"",
+				"&eCosts:",
+				"&f%costttexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fMining of &#c6a664Dirt(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,dirtminingbooster,1,BREAKING,HAND,DIRT% TTExp",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		addTechnology(
+				"dirtminingbooster", new String[] {"Erdeabbaubooster", "DirtMiningBooster"},
+				TechnologyType.BOOSTER, 1, PlayerAssociatedType.GLOBAL, 0, "0d-0H-10m-0s", "miningbooster", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				null, true,
+				new String[] {"&8Tech Erdeabbaubooster","&8Tech Woodenlog"},
+				Material.BARRIER, 1, itemflag, null, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fAbbaubooster von Eichenstamm.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fMining of &#c6a664Oaklog.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				new String[] {"&7Eichenstamm","&7Oaklog"},
+				Material.OAK_LOG, 1, itemflag, null, canResLore.get(1),
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&dEichenstamm","&dOaklog"},
+				Material.OAK_LOG, 1, itemflag, null, canResLore,
+				new String[] {"&5Eichenstamm","&5Oaklog"},
+				Material.OAK_LOG, 1, itemflag, enchantment, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fAbbauen von &#c6a664Eichenstamm &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
+						"&fSetzen von &#c6a664Eichenstamm &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fMining of &#c6a664Oaklog &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
+						"&fPlacing of &#c6a664Oaklog &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
+						
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
 	}
 	
 	private void tech_Booster_Craftingbooster(String[] itemflag, String[] enchantment) //INFO:Booster_Craftingbooster

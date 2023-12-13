@@ -89,6 +89,7 @@ import main.java.me.avankziar.tt.spigot.listener.reward.ItemConsumeListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.ShearListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.SheepDyeListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.SmithingListener;
+import main.java.me.avankziar.tt.spigot.listener.reward.StoneCutterListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.TameListener;
 import main.java.me.avankziar.tt.spigot.modifiervalueentry.Bypass;
 import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
@@ -481,6 +482,7 @@ public class TT extends JavaPlugin
 		pm.registerEvents(new ShearListener(), plugin);
 		pm.registerEvents(new SheepDyeListener(), plugin);
 		pm.registerEvents(new SmithingListener(), plugin);
+		pm.registerEvents(new StoneCutterListener(), plugin);
 		pm.registerEvents(new TameListener(), plugin);		
 	}
 	
