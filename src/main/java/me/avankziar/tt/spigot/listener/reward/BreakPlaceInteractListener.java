@@ -339,7 +339,7 @@ public class BreakPlaceInteractListener implements Listener
 			case PUMPKIN_SEEDS:
 			case TORCHFLOWER_SEEDS:
 			case WHEAT_SEEDS:
-			case GRASS:
+			case SHORT_GRASS:
 			case HANGING_ROOTS:
 			case CAVE_VINES_PLANT:
 			case CHORUS_PLANT:
@@ -510,7 +510,7 @@ public class BreakPlaceInteractListener implements Listener
 		case PUMPKIN_STEM:
 		case TORCHFLOWER_SEEDS:
 		case WHEAT:
-		case GRASS:
+		case SHORT_GRASS:
 		case FERN:
 		case CARROTS:
 		case POTATOES:
@@ -586,7 +586,7 @@ public class BreakPlaceInteractListener implements Listener
 			case PUMPKIN_SEEDS:
 			case TORCHFLOWER_SEEDS:
 			case WHEAT_SEEDS:
-			case GRASS:
+			case SHORT_GRASS:
 			case HANGING_ROOTS:
 			case CAVE_VINES_PLANT:
 			case CHORUS_PLANT:
@@ -758,7 +758,7 @@ public class BreakPlaceInteractListener implements Listener
 		case PUMPKIN_STEM:
 		case TORCHFLOWER_SEEDS:
 		case WHEAT:
-		case GRASS:
+		case SHORT_GRASS:
 		case FERN:
 		case CARROTS:
 		case POTATOES:

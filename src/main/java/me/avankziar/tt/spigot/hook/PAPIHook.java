@@ -11,8 +11,11 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import main.java.me.avankziar.tt.spigot.TT;
+import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
 import main.java.me.avankziar.tt.spigot.handler.CatTechHandler;
 import main.java.me.avankziar.tt.spigot.handler.PlayerHandler;
+import main.java.me.avankziar.tt.spigot.objects.EntryQueryType;
+import main.java.me.avankziar.tt.spigot.objects.EntryStatusType;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
 import main.java.me.avankziar.tt.spigot.objects.ToolType;
@@ -137,8 +140,21 @@ public class PAPIHook extends PlaceholderExpansion
 		}
 		if(idf.startsWith("hastech") && idf.split(",").length == 2)
 		{
-			String tech = idf.split(",")[1];
-			
+			String[] sp = idf.split(",");
+			if(sp.length != 3)
+			{
+				return "Not correct Placeholder Input";
+			}
+			PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
+			String tech = sp[2];
+			switch(pat)
+			{
+			case GLOBAL:
+			case GROUP:
+			case SOLO: return String.valueOf(plugin.getMysqlHandler().exist(Type.SOLO_ENTRYQUERYSTATUS,
+					"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ? AND `intern_name` = ?",
+					player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString(), tech));
+			}
 		} else if(idf.startsWith("raw_reward_tech_ttexp_mat") || idf.startsWith("raw_reward_tech_ttexp_ent"))
 		{
 			return reward_tech_ttexp(idf);

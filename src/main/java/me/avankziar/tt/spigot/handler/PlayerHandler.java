@@ -141,7 +141,7 @@ public class PlayerHandler
 				{
 					player.spigot().sendMessage(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("PlayerHandler.SyncStart")));
 				}
-				for(SoloEntryQueryStatus eqs : SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getFullList(Type.SOLOENTRYQUERYSTATUS,
+				for(SoloEntryQueryStatus eqs : SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getFullList(Type.SOLO_ENTRYQUERYSTATUS,
 						"`id` ASC", "`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
 						player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString())))
 				{
@@ -202,7 +202,7 @@ public class PlayerHandler
 						addEnchantments(uuid, t.getRewardEnchantments().get(eqs.getResearchLevel()), 100.0);
 					}
 				}
-				for(GlobalEntryQueryStatus eqs : GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getFullList(Type.GLOBALENTRYQUERYSTATUS,
+				for(GlobalEntryQueryStatus eqs : GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getFullList(Type.GLOBAL_ENTRYQUERYSTATUS,
 						"`id` ASC", "`entry_query_type` = ? AND `status_type` = ?",
 						EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString())))
 				{
@@ -215,7 +215,7 @@ public class PlayerHandler
 					{
 						continue;
 					}
-					boolean ifGlobal_HasParticipated = plugin.getMysqlHandler().exist(Type.GLOBALTECHNOLOGYPOLL,
+					boolean ifGlobal_HasParticipated = plugin.getMysqlHandler().exist(Type.GLOBAL_TECHNOLOGYPOLL,
 							"`player_uuid` = ? AND `global_choosen_technology_id` = ?",
 							player.getUniqueId().toString(), eqs.getId());
 					if(t.getRewardUnlockableInteractions().containsKey(eqs.getResearchLevel()))
@@ -338,7 +338,7 @@ public class PlayerHandler
 			switch(pat)
 			{
 			case SOLO:
-				SoloEntryQueryStatus mseqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLOENTRYQUERYSTATUS,
+				SoloEntryQueryStatus mseqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLO_ENTRYQUERYSTATUS,
 						"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 						player.getUniqueId().toString(), mcat.getInternName(), EntryQueryType.MAIN_CATEGORY.toString());
 				boolean exist = mseqs != null;
@@ -378,18 +378,18 @@ public class PlayerHandler
 				}
 				if(exist)
 				{					
-					plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, mseqs,
+					plugin.getMysqlHandler().updateData(Type.SOLO_ENTRYQUERYSTATUS, mseqs,
 							"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 							player.getUniqueId().toString(), mcat.getInternName(), EntryQueryType.MAIN_CATEGORY.toString());
 				} else
 				{
-					plugin.getMysqlHandler().create(Type.SOLOENTRYQUERYSTATUS, mseqs);
+					plugin.getMysqlHandler().create(Type.SOLO_ENTRYQUERYSTATUS, mseqs);
 				}
 				return map;
 			case GROUP:
 				return null;//TODO
 			case GLOBAL:
-				GlobalEntryQueryStatus mgeqs = (GlobalEntryQueryStatus) plugin.getMysqlHandler().getData(Type.GLOBALENTRYQUERYSTATUS,
+				GlobalEntryQueryStatus mgeqs = (GlobalEntryQueryStatus) plugin.getMysqlHandler().getData(Type.GLOBAL_ENTRYQUERYSTATUS,
 						"`intern_name` = ? AND `entry_query_type` = ?",
 						mcat.getInternName(), EntryQueryType.MAIN_CATEGORY.toString());
 				boolean existII = mgeqs != null;
@@ -428,12 +428,12 @@ public class PlayerHandler
 				}
 				if(existII)
 				{
-					plugin.getMysqlHandler().updateData(Type.GLOBALENTRYQUERYSTATUS, mgeqs,
+					plugin.getMysqlHandler().updateData(Type.GLOBAL_ENTRYQUERYSTATUS, mgeqs,
 							"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 							player.getUniqueId().toString(), mcat.getInternName(), EntryQueryType.MAIN_CATEGORY.toString());
 				} else
 				{
-					plugin.getMysqlHandler().create(Type.GLOBALENTRYQUERYSTATUS, mgeqs);
+					plugin.getMysqlHandler().create(Type.GLOBAL_ENTRYQUERYSTATUS, mgeqs);
 				}
 				return map;
 			}
@@ -443,7 +443,7 @@ public class PlayerHandler
 			switch(pat)
 			{
 			case SOLO:
-				SoloEntryQueryStatus sseqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLOENTRYQUERYSTATUS,
+				SoloEntryQueryStatus sseqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLO_ENTRYQUERYSTATUS,
 						"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 						player.getUniqueId().toString(), scat.getInternName(), EntryQueryType.SUB_CATEGORY.toString());
 				boolean exist = sseqs != null;
@@ -482,18 +482,18 @@ public class PlayerHandler
 				}
 				if(exist)
 				{
-					plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, sseqs,
+					plugin.getMysqlHandler().updateData(Type.SOLO_ENTRYQUERYSTATUS, sseqs,
 							"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 							player.getUniqueId().toString(), scat.getInternName(), EntryQueryType.SUB_CATEGORY.toString());
 				} else
 				{
-					plugin.getMysqlHandler().create(Type.SOLOENTRYQUERYSTATUS, sseqs);
+					plugin.getMysqlHandler().create(Type.SOLO_ENTRYQUERYSTATUS, sseqs);
 				}
 				return map;
 			case GROUP:
 				return null;//TODO
 			case GLOBAL:
-				GlobalEntryQueryStatus sgeqs = (GlobalEntryQueryStatus) plugin.getMysqlHandler().getData(Type.GLOBALENTRYQUERYSTATUS,
+				GlobalEntryQueryStatus sgeqs = (GlobalEntryQueryStatus) plugin.getMysqlHandler().getData(Type.GLOBAL_ENTRYQUERYSTATUS,
 						"`intern_name` = ? AND `entry_query_type` = ?",
 						scat.getInternName(), EntryQueryType.SUB_CATEGORY.toString());
 				boolean existII = sgeqs != null;
@@ -532,12 +532,12 @@ public class PlayerHandler
 				}
 				if(existII)
 				{
-					plugin.getMysqlHandler().updateData(Type.GLOBALENTRYQUERYSTATUS, sgeqs,
+					plugin.getMysqlHandler().updateData(Type.GLOBAL_ENTRYQUERYSTATUS, sgeqs,
 							"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 							player.getUniqueId().toString(), scat.getInternName(), EntryQueryType.SUB_CATEGORY.toString());
 				} else
 				{
-					plugin.getMysqlHandler().create(Type.GLOBALENTRYQUERYSTATUS, sgeqs);
+					plugin.getMysqlHandler().create(Type.GLOBAL_ENTRYQUERYSTATUS, sgeqs);
 				}
 				return map;
 			}
@@ -560,13 +560,13 @@ public class PlayerHandler
 			PlayerAssociatedType pat, MainCategory mcat, SubCategory scat, Technology tech)
 	{
 		LinkedHashMap<ItemStack, Boolean> map = new LinkedHashMap<>();
-		ArrayList<SoloEntryQueryStatus> highestNotResearchedEntryList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLOENTRYQUERYSTATUS,
+		ArrayList<SoloEntryQueryStatus> highestNotResearchedEntryList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLO_ENTRYQUERYSTATUS,
 				"`research_level` DESC", 0, 1,
 				"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ? AND `status_type` != ?",
 				player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString(),
 				EntryStatusType.HAVE_RESEARCHED_IT.toString()));
 		SoloEntryQueryStatus hNRE = highestNotResearchedEntryList.size() == 0 ? null : highestNotResearchedEntryList.get(0); //highestNotResearchedEntry
-		ArrayList<SoloEntryQueryStatus> highestEntryResearchedList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLOENTRYQUERYSTATUS,
+		ArrayList<SoloEntryQueryStatus> highestEntryResearchedList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLO_ENTRYQUERYSTATUS,
 				"`research_level` DESC", 0, 1,
 				"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ? AND `status_type` = ?",
 				player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString(),
@@ -641,12 +641,12 @@ public class PlayerHandler
 			}
 			if(exist)
 			{
-				plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, hNRE,
+				plugin.getMysqlHandler().updateData(Type.SOLO_ENTRYQUERYSTATUS, hNRE,
 						"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 						player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
 			} else
 			{
-				plugin.getMysqlHandler().create(Type.SOLOENTRYQUERYSTATUS, hNRE);
+				plugin.getMysqlHandler().create(Type.SOLO_ENTRYQUERYSTATUS, hNRE);
 			}
 			return map;
 		} else if(hNRE == null && hRE != null) //Spieler hat die Technology letztes Mal erforscht, Gui wird scheinbar neu geladen.
@@ -689,7 +689,7 @@ public class PlayerHandler
 			{
 				return null; //Error
 			}
-			plugin.getMysqlHandler().create(Type.SOLOENTRYQUERYSTATUS, hNRE);
+			plugin.getMysqlHandler().create(Type.SOLO_ENTRYQUERYSTATUS, hNRE);
 			return map;
 		} else if(hNRE != null && hRE != null) //Spieler hat die Technology schonmal erforscht
 		{
@@ -763,7 +763,7 @@ public class PlayerHandler
 				map.put(tech.getSeeRequirementItemIfYouCannotSeeIt(player), false); //Result: Cannot See it
 				return map;
 			}
-			plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, hNRE,"`id` = ?",	hNRE.getId());
+			plugin.getMysqlHandler().updateData(Type.SOLO_ENTRYQUERYSTATUS, hNRE,"`id` = ?",	hNRE.getId());
 			return map;			
 		}
 		return null; //Error
@@ -773,13 +773,13 @@ public class PlayerHandler
 			PlayerAssociatedType pat, MainCategory mcat, SubCategory scat, Technology tech)
 	{
 		LinkedHashMap<ItemStack, Boolean> map = new LinkedHashMap<>();
-		ArrayList<GlobalEntryQueryStatus> highestNotResearchedEntryList = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBALENTRYQUERYSTATUS,
+		ArrayList<GlobalEntryQueryStatus> highestNotResearchedEntryList = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBAL_ENTRYQUERYSTATUS,
 				"`research_level` DESC", 0, 1,
 				"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ? AND `status_type` != ?",
 				tech.getInternName(), EntryQueryType.TECHNOLOGY.toString(),
 				EntryStatusType.HAVE_RESEARCHED_IT.toString()));
 		GlobalEntryQueryStatus hNRE = highestNotResearchedEntryList.size() == 0 ? null : highestNotResearchedEntryList.get(0); //highestNotResearchedEntry
-		ArrayList<GlobalEntryQueryStatus> highestEntryResearchedList = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBALENTRYQUERYSTATUS,
+		ArrayList<GlobalEntryQueryStatus> highestEntryResearchedList = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBAL_ENTRYQUERYSTATUS,
 				"`research_level` DESC", 0, 1,
 				"`intern_name` = ? AND `entry_query_type` = ? AND `status_type` = ?",
 				tech.getInternName(), EntryQueryType.TECHNOLOGY.toString(),
@@ -855,12 +855,12 @@ public class PlayerHandler
 			}
 			if(exist)
 			{
-				plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, hNRE,
+				plugin.getMysqlHandler().updateData(Type.SOLO_ENTRYQUERYSTATUS, hNRE,
 						"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 						player.getUniqueId().toString(), tech.getInternName(), EntryQueryType.TECHNOLOGY.toString());
 			} else
 			{
-				plugin.getMysqlHandler().create(Type.GLOBALENTRYQUERYSTATUS, hNRE);
+				plugin.getMysqlHandler().create(Type.GLOBAL_ENTRYQUERYSTATUS, hNRE);
 			}
 			return map;
 		} else if(hNRE == null && hRE != null) //Spieler hat die Technology letztes Mal erforscht, Gui wird scheinbar neu geladen.
@@ -903,7 +903,7 @@ public class PlayerHandler
 			{
 				return null; //Error
 			}
-			plugin.getMysqlHandler().create(Type.GLOBALENTRYQUERYSTATUS, hNRE);
+			plugin.getMysqlHandler().create(Type.GLOBAL_ENTRYQUERYSTATUS, hNRE);
 			return map;
 		} else if(hNRE != null && hRE != null) //Spieler hat die Technology schonmal erforscht
 		{
@@ -977,7 +977,7 @@ public class PlayerHandler
 				map.put(tech.getSeeRequirementItemIfYouCannotSeeIt(player), false); //Result: Cannot See it
 				return map;
 			}
-			plugin.getMysqlHandler().updateData(Type.GLOBALENTRYQUERYSTATUS, hNRE,"`id` = ?", hNRE.getId());
+			plugin.getMysqlHandler().updateData(Type.GLOBAL_ENTRYQUERYSTATUS, hNRE,"`id` = ?", hNRE.getId());
 			return map;			
 		}
 		return null; //Error
@@ -1007,7 +1007,7 @@ public class PlayerHandler
 			}
 			EntryQueryType eqt = c[1].equalsIgnoreCase("maincategory") ? EntryQueryType.MAIN_CATEGORY
 					: (c[1].equalsIgnoreCase("subcategory") ? EntryQueryType.SUB_CATEGORY : EntryQueryType.TECHNOLOGY);
-			SoloEntryQueryStatus eqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLOENTRYQUERYSTATUS,
+			SoloEntryQueryStatus eqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLO_ENTRYQUERYSTATUS,
 					"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 					uuid.toString(), c[2], eqt.toString());
 			b = eqs == null ? "false"
@@ -1021,7 +1021,7 @@ public class PlayerHandler
 			{
 				return s;
 			}
-			SoloEntryQueryStatus eqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLOENTRYQUERYSTATUS,
+			SoloEntryQueryStatus eqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLO_ENTRYQUERYSTATUS,
 					"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ? AND `research_level` = ?",
 					uuid.toString(), c[1], EntryQueryType.TECHNOLOGY.toString(), c[2]);
 			b = eqs == null ? "false" :
@@ -1035,7 +1035,7 @@ public class PlayerHandler
 			{
 				return s;
 			}
-			SoloEntryQueryStatus eqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLOENTRYQUERYSTATUS,
+			SoloEntryQueryStatus eqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLO_ENTRYQUERYSTATUS,
 					"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 					uuid.toString(), c[1], EntryQueryType.TECHNOLOGY.toString());
 			b = eqs == null ? "0" : String.valueOf(eqs.getResearchLevel());
@@ -1071,7 +1071,7 @@ public class PlayerHandler
 	//Called if wished to buy the tech
 	public static AcquireRespond haveAlreadyResearched(Player player, Technology t)
 	{		
-		ArrayList<SoloEntryQueryStatus> sEQSList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLOENTRYQUERYSTATUS,
+		ArrayList<SoloEntryQueryStatus> sEQSList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLO_ENTRYQUERYSTATUS,
 				"`research_level` DESC", 0, 1,
 				"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 				player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString()));
@@ -1083,7 +1083,7 @@ public class PlayerHandler
 					EntryQueryType.TECHNOLOGY, EntryStatusType.CANNOT_SEE_IT, 1,
 					t.getTechnologyType() == TechnologyType.BOOSTER ?
 							System.currentTimeMillis()+t.getIfBoosterDurationUntilExpiration() : Long.MAX_VALUE);
-			plugin.getMysqlHandler().create(Type.SOLOENTRYQUERYSTATUS, sEQS);
+			plugin.getMysqlHandler().create(Type.SOLO_ENTRYQUERYSTATUS, sEQS);
 		} else if(t.getTechnologyType() == TechnologyType.SIMPLE)
 		{
 			//Sollte nicht passieren, da der Spieler diese Technology schon komplett erforscht hat.
@@ -1120,15 +1120,15 @@ public class PlayerHandler
 		}
 		int techLevel = 0;
 		int acquiredTech = 0;
-		int totalSoloTechs = plugin.getMysqlHandler().getCount(Type.SOLOENTRYQUERYSTATUS,
+		int totalSoloTechs = plugin.getMysqlHandler().getCount(Type.SOLO_ENTRYQUERYSTATUS,
 				"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
 				player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
-		int totalGlobalTechs = plugin.getMysqlHandler().getCount(Type.GLOBALENTRYQUERYSTATUS,
+		int totalGlobalTechs = plugin.getMysqlHandler().getCount(Type.GLOBAL_ENTRYQUERYSTATUS,
 				"`entry_query_type` = ? AND `status_type` = ?",
 				EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
 		if(t.getPlayerAssociatedType() == PlayerAssociatedType.SOLO)
 		{
-			ArrayList<SoloEntryQueryStatus> eeqsList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLOENTRYQUERYSTATUS,
+			ArrayList<SoloEntryQueryStatus> eeqsList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLO_ENTRYQUERYSTATUS,
 					"`research_level` DESC", 0, 1,
 					"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 					player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString()));
@@ -1138,7 +1138,7 @@ public class PlayerHandler
 			acquiredTech = eqs == null ? 0 : techLevel - 1; //Tech which was already acquire
 		} else
 		{
-			ArrayList<GlobalEntryQueryStatus> eeqsList = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBALENTRYQUERYSTATUS,
+			ArrayList<GlobalEntryQueryStatus> eeqsList = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBAL_ENTRYQUERYSTATUS,
 					"`research_level` DESC", 0, 1,
 					"`intern_name` = ? AND `entry_query_type` = ?",
 					t.getInternName(), EntryQueryType.TECHNOLOGY.toString()));
@@ -1304,7 +1304,7 @@ public class PlayerHandler
 	public static int researchSoloTechnology(Player player, Technology t, boolean doUpdate)
 	//Return researchLevel of the technology
 	{
-		ArrayList<SoloEntryQueryStatus> sEQSList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLOENTRYQUERYSTATUS,
+		ArrayList<SoloEntryQueryStatus> sEQSList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLO_ENTRYQUERYSTATUS,
 				"`research_level` DESC", 0, 1,
 				"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 				player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString()));
@@ -1318,7 +1318,7 @@ public class PlayerHandler
 					EntryQueryType.TECHNOLOGY, EntryStatusType.HAVE_RESEARCHED_IT, researchLevel,
 					t.getTechnologyType() == TechnologyType.BOOSTER ?
 							System.currentTimeMillis()+t.getIfBoosterDurationUntilExpiration() : Long.MAX_VALUE);
-			plugin.getMysqlHandler().create(Type.SOLOENTRYQUERYSTATUS, sEQS);
+			plugin.getMysqlHandler().create(Type.SOLO_ENTRYQUERYSTATUS, sEQS);
 		} else if(t.getTechnologyType() == TechnologyType.SIMPLE)
 		{
 			//Sollte nicht passieren, da der Spieler diese Technology schon komplett erforscht hat.
@@ -1333,7 +1333,7 @@ public class PlayerHandler
 			sEQS.setDurationUntilExpiration(t.getTechnologyType() == TechnologyType.BOOSTER 
 											? System.currentTimeMillis() + t.getIfBoosterDurationUntilExpiration() 
 											: Long.MAX_VALUE);
-			plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, sEQS, "`id` = ?", sEQS.getId());
+			plugin.getMysqlHandler().updateData(Type.SOLO_ENTRYQUERYSTATUS, sEQS, "`id` = ?", sEQS.getId());
 		} else if(t.getTechnologyType() == TechnologyType.MULTIPLE)
 		{
 			//Spieler erforsch das nächste level
@@ -1353,7 +1353,7 @@ public class PlayerHandler
 						EntryQueryType.TECHNOLOGY, EntryStatusType.HAVE_RESEARCHED_IT, researchLevel,
 						t.getTechnologyType() == TechnologyType.BOOSTER ?
 								System.currentTimeMillis()+t.getIfBoosterDurationUntilExpiration() : Long.MAX_VALUE);
-				plugin.getMysqlHandler().create(Type.SOLOENTRYQUERYSTATUS, sEQS);
+				plugin.getMysqlHandler().create(Type.SOLO_ENTRYQUERYSTATUS, sEQS);
 			} else
 			{
 				sEQS.setResearchLevel(researchLevel);
@@ -1361,7 +1361,7 @@ public class PlayerHandler
 				sEQS.setDurationUntilExpiration(t.getTechnologyType() == TechnologyType.BOOSTER 
 												? System.currentTimeMillis() + t.getIfBoosterDurationUntilExpiration() 
 												: Long.MAX_VALUE);
-				plugin.getMysqlHandler().updateData(Type.SOLOENTRYQUERYSTATUS, sEQS, "`id` = ?", sEQS.getId());
+				plugin.getMysqlHandler().updateData(Type.SOLO_ENTRYQUERYSTATUS, sEQS, "`id` = ?", sEQS.getId());
 			}
 		}
 		if(doUpdate)
@@ -1374,7 +1374,7 @@ public class PlayerHandler
 	//Return the researchlevel
 	public static int researchGlobalTechnology(Technology t, boolean doUpdate)
 	{
-		ArrayList<GlobalEntryQueryStatus> eqsList = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBALENTRYQUERYSTATUS,
+		ArrayList<GlobalEntryQueryStatus> eqsList = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBAL_ENTRYQUERYSTATUS,
 				"`research_level` DESC", 0, 1,
 				"`intern_name` = ? AND `entry_query_type` = ?",
 				t.getInternName(), EntryQueryType.TECHNOLOGY.toString()));
@@ -1385,7 +1385,7 @@ public class PlayerHandler
 					EntryQueryType.TECHNOLOGY, EntryStatusType.HAVE_RESEARCHED_IT, 1,
 					t.getTechnologyType() == TechnologyType.BOOSTER ?
 							System.currentTimeMillis()+t.getIfBoosterDurationUntilExpiration() : Long.MAX_VALUE);
-			plugin.getMysqlHandler().create(Type.GLOBALENTRYQUERYSTATUS, eqs);
+			plugin.getMysqlHandler().create(Type.GLOBAL_ENTRYQUERYSTATUS, eqs);
 			return 1;
 		} else if(t.getTechnologyType() == TechnologyType.SIMPLE && eqs != null && eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT)
 		{
@@ -1397,7 +1397,7 @@ public class PlayerHandler
 			GlobalEntryQueryStatus eqsNew = eqs;
 			int rsl = eqs.getResearchLevel()+1;
 			eqsNew.setResearchLevel(rsl);
-			plugin.getMysqlHandler().create(Type.GLOBALENTRYQUERYSTATUS, eqsNew);
+			plugin.getMysqlHandler().create(Type.GLOBAL_ENTRYQUERYSTATUS, eqsNew);
 			return rsl;
 		} else if(eqs != null && eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT
 				&& eqs.getResearchLevel() == t.getMaximalTechnologyLevelToResearch())
@@ -1412,7 +1412,7 @@ public class PlayerHandler
 		boolean ifGlobal_HasParticipated = true;
 		if(t.getPlayerAssociatedType() == PlayerAssociatedType.GLOBAL || globalTechnologyPollID > 0)
 		{
-			ifGlobal_HasParticipated = plugin.getMysqlHandler().exist(Type.GLOBALTECHNOLOGYPOLL,
+			ifGlobal_HasParticipated = plugin.getMysqlHandler().exist(Type.GLOBAL_TECHNOLOGYPOLL,
 					"`player_uuid` = ? AND `global_choosen_technology_id` = ?",
 					player.getUniqueId().toString(), globalTechnologyPollID);
 		}
@@ -1614,10 +1614,10 @@ public class PlayerHandler
 	{
 		int techLevel = researchlevel;
 		int acquiredTech = researchlevel - 1;
-		int totalSoloTechs = plugin.getMysqlHandler().getCount(Type.SOLOENTRYQUERYSTATUS,
+		int totalSoloTechs = plugin.getMysqlHandler().getCount(Type.SOLO_ENTRYQUERYSTATUS,
 				"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
 				player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
-		int totalGlobalTechs = plugin.getMysqlHandler().getCount(Type.GLOBALENTRYQUERYSTATUS,
+		int totalGlobalTechs = plugin.getMysqlHandler().getCount(Type.GLOBAL_ENTRYQUERYSTATUS,
 				"`entry_query_type` = ? AND `status_type` = ?",
 				player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
 		HashMap<String, Double> map = new HashMap<>();

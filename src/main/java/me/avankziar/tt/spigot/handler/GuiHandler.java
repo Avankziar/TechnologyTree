@@ -151,6 +151,7 @@ public class GuiHandler
 		openGui(ssh2, player, gt, gui, settingsLevel, closeInv);
 	}*/
 	
+	@SuppressWarnings("deprecation")
 	public static ItemStack generateItem(YamlConfiguration y, String parentPath, int overrideAmount,
 			MainCategory mcat, SubCategory scat, Technology t, PlayerAssociatedType pat, Player player)
 	{
@@ -383,7 +384,7 @@ public class GuiHandler
 						&& y.get(parentPath+".Potion.Amplifier") != null)
 				{
 					imm.addCustomEffect(new PotionEffect(
-							PotionEffectType.getByName(y.getString(parentPath+".Potion.PotionEffectType")),
+							PotionEffectType.getByName(y.getString(parentPath+".Potion.PotionEffectType")), //FIXME PotionHandling ist seit 1.20.4 komisch
 							y.getInt(parentPath+".Potion.Duration"),
 							y.getInt(parentPath+".Potion.Amplifier")), true);
 				}
@@ -856,10 +857,10 @@ public class GuiHandler
 	public static List<String> getLorePlaceHolder(Player player, MainCategory mcat, SubCategory scat, Technology t, List<String> lore, String playername)
 	{
 		List<String> list = new ArrayList<>();
-		int totalSoloTechs = plugin.getMysqlHandler().getCount(Type.SOLOENTRYQUERYSTATUS,
+		int totalSoloTechs = plugin.getMysqlHandler().getCount(Type.SOLO_ENTRYQUERYSTATUS,
 				"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
 				player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
-		int totalGlobalTechs = plugin.getMysqlHandler().getCount(Type.GLOBALENTRYQUERYSTATUS,
+		int totalGlobalTechs = plugin.getMysqlHandler().getCount(Type.GLOBAL_ENTRYQUERYSTATUS,
 				"`entry_query_type` = ? AND `status_type` = ?",
 				EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
 		boolean papi = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null 
@@ -934,11 +935,11 @@ public class GuiHandler
 		}
 		if(text.contains("%techhave%"))
 		{
-			int c = plugin.getMysqlHandler().getCount(Type.SOLOENTRYQUERYSTATUS,
+			int c = plugin.getMysqlHandler().getCount(Type.SOLO_ENTRYQUERYSTATUS,
 						"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
 						player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString())
 					+
-					plugin.getMysqlHandler().getCount(Type.GLOBALENTRYQUERYSTATUS,
+					plugin.getMysqlHandler().getCount(Type.GLOBAL_ENTRYQUERYSTATUS,
 						"`entry_query_type` = ? AND `status_type` = ?",
 						EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
 			s = s.replace("%techhave%",  String.valueOf(c));
@@ -949,7 +950,7 @@ public class GuiHandler
 		}
 		if(text.contains("%solotechhave%"))
 		{
-			int c = plugin.getMysqlHandler().getCount(Type.SOLOENTRYQUERYSTATUS,
+			int c = plugin.getMysqlHandler().getCount(Type.SOLO_ENTRYQUERYSTATUS,
 					"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
 					player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
 			s = s.replace("%solotechhave%", String.valueOf(c));
@@ -968,7 +969,7 @@ public class GuiHandler
 		}
 		if(text.contains("%globaltechhave%"))
 		{
-			int c = plugin.getMysqlHandler().getCount(Type.GLOBALENTRYQUERYSTATUS,
+			int c = plugin.getMysqlHandler().getCount(Type.GLOBAL_ENTRYQUERYSTATUS,
 					"`entry_query_type` = ? AND `status_type` = ?",
 					EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
 			s = s.replace("%globaltechhave%", String.valueOf(c));
@@ -1095,7 +1096,7 @@ public class GuiHandler
 				int acquiredTech = 0;
 				if(t.getPlayerAssociatedType() == PlayerAssociatedType.SOLO)
 				{
-					ArrayList<SoloEntryQueryStatus> highestEntryResearchedList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLOENTRYQUERYSTATUS,
+					ArrayList<SoloEntryQueryStatus> highestEntryResearchedList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLO_ENTRYQUERYSTATUS,
 							"`research_level` DESC", 0, 1,
 							"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 							player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString()));
@@ -1105,7 +1106,7 @@ public class GuiHandler
 					acquiredTech = eqs == null ? 0 : techLevel - 1; //Tech which was already acquire
 				} else
 				{
-					ArrayList<GlobalEntryQueryStatus> highestEntryResearchedList = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBALENTRYQUERYSTATUS,
+					ArrayList<GlobalEntryQueryStatus> highestEntryResearchedList = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBAL_ENTRYQUERYSTATUS,
 							"`research_level` DESC", 0, 1,
 							"`intern_name` = ? AND `entry_query_type` = ?",
 							t.getInternName(), EntryQueryType.TECHNOLOGY.toString()));
@@ -1250,7 +1251,7 @@ public class GuiHandler
 		{
 		case SOLO:
 			//TODO Das noch als Liste ändern und daher das Object herholen.
-			SoloEntryQueryStatus seqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLOENTRYQUERYSTATUS,
+			SoloEntryQueryStatus seqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLO_ENTRYQUERYSTATUS,
 					"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 					player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString());
 			int techLevel = seqs == null ? 1 : seqs.getResearchLevel() + 1; //Tech which may to acquire
@@ -1289,11 +1290,11 @@ public class GuiHandler
 			int totalSoloTechs, int totalGlobalTechs)
 	{
 		String s = text;
-		SoloEntryQueryStatus eqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLOENTRYQUERYSTATUS,
+		SoloEntryQueryStatus eqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLO_ENTRYQUERYSTATUS,
 				"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 				player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString());
 		int techLevel = eqs == null ? 1 : eqs.getResearchLevel();
-		int acquiredTech = plugin.getMysqlHandler().getCount(Type.SOLOENTRYQUERYSTATUS,
+		int acquiredTech = plugin.getMysqlHandler().getCount(Type.SOLO_ENTRYQUERYSTATUS,
 				"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
 				player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT);
 		HashMap<String, Double> map = new HashMap<>();

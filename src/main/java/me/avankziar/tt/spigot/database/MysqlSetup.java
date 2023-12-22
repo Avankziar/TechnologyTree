@@ -156,7 +156,7 @@ public class MysqlSetup
 	
 	private boolean setupDatabaseII() 
 	{
-		String data = "CREATE TABLE IF NOT EXISTS `" + MysqlHandler.Type.SOLOENTRYQUERYSTATUS.getValue()
+		String data = "CREATE TABLE IF NOT EXISTS `" + MysqlHandler.Type.SOLO_ENTRYQUERYSTATUS.getValue()
 		+ "` (id int AUTO_INCREMENT PRIMARY KEY,"
 		+ " intern_name text NOT NULL,"
 		+ " player_uuid char(36) NOT NULL,"
@@ -185,7 +185,7 @@ public class MysqlSetup
 	
 	private boolean setupDatabaseIV() 
 	{
-		String data = "CREATE TABLE IF NOT EXISTS `" + MysqlHandler.Type.GLOBALTECHNOLOGYPOLL.getValue()
+		String data = "CREATE TABLE IF NOT EXISTS `" + MysqlHandler.Type.GLOBAL_TECHNOLOGYPOLL.getValue()
 		+ "` (id int AUTO_INCREMENT PRIMARY KEY,"
 		+ " player_uuid char(36) NOT NULL,"
 		+ " choosen_technology text not NULL,"
@@ -198,7 +198,7 @@ public class MysqlSetup
 	
 	private boolean setupDatabaseV() 
 	{
-		String data = "CREATE TABLE IF NOT EXISTS `" + MysqlHandler.Type.GLOBALENTRYQUERYSTATUS.getValue()
+		String data = "CREATE TABLE IF NOT EXISTS `" + MysqlHandler.Type.GLOBAL_ENTRYQUERYSTATUS.getValue()
 		+ "` (id int AUTO_INCREMENT PRIMARY KEY,"
 		+ " intern_name text NOT NULL,"
 		+ " entry_query_type text NOT NULL,"

@@ -695,7 +695,7 @@ public class RewardHandler
 	
 	public static void main(String[] args) //TestVersuch (in Eclipse) einer Rechnung um ein Stetigs Dropwachstum zu berechnen
     {
-		int deletedays = 365;
+		/*int deletedays = 365;
 		if(deletedays < 0)
 		{
 			return;
@@ -704,7 +704,7 @@ public class RewardHandler
 		String ldt = LocalDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneId.systemDefault()) //1700129713226L
 				.format(DateTimeFormatter.ofPattern("dd.MM.yyyy-HH:mm:ss"));
 		System.out.println(time);
-		System.out.println(ldt);
+		System.out.println(ldt);*/
 		/*HashMap<String, Double> map = new HashMap<>();
 		map.put("techlev", (double) 0);
 		map.put("techacq", (double) 0);
@@ -780,6 +780,8 @@ public class RewardHandler
 				}
 			}
 		}*/
+		
+		//--------------------------------------------------------------------
     }
 	
 	private static int getVanillaDropBarrier(Material material, int i)

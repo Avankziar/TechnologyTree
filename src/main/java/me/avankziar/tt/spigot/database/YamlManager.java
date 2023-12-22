@@ -2417,7 +2417,7 @@ public class YamlManager
 				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 0, "", "interactionblocks", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Tech Werkbank","&8Tech Craftingtable"},
+				new String[] {"&8Werkbank","&8Craftingtable"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&cAnforderungen zum einsehen:",
@@ -2577,7 +2577,7 @@ public class YamlManager
 				TechnologyType.MULTIPLE, 2, PlayerAssociatedType.SOLO, 1, "", "interactionblocks", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Tech Ofen","&8Tech Furnace"},
+				new String[] {"&8Ofen","&8Furnace"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&cAnforderungen zum einsehen:",
@@ -2746,7 +2746,7 @@ public class YamlManager
 				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 42, "", "interactionblocks", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Tech Testen","&8Tech Testing"},
+				new String[] {"&8Testen","&8Testing"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
 						"",
@@ -3203,7 +3203,7 @@ public class YamlManager
 				TechnologyType.MULTIPLE, 11, PlayerAssociatedType.SOLO, 0, "", "tools", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Tech Spitzhacke","&8Tech Pickaxe"},
+				new String[] {"&8Spitzhacke","&8Pickaxe"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
@@ -3689,7 +3689,7 @@ public class YamlManager
 				TechnologyType.MULTIPLE, 11, PlayerAssociatedType.SOLO, 1, "", "tools", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Tech Schaufel","&8Tech Shovel"},
+				new String[] {"&8Schaufel","&8Shovel"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
@@ -4174,7 +4174,7 @@ public class YamlManager
 				TechnologyType.MULTIPLE, 11, PlayerAssociatedType.SOLO, 2, "", "tools", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Tech Hacke","&8Tech Shovel"},
+				new String[] {"&8Hacke","&8Shovel"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
@@ -4660,7 +4660,7 @@ public class YamlManager
 				TechnologyType.MULTIPLE, 11, PlayerAssociatedType.SOLO, 3, "", "tools", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Tech Axt","&8Tech Axe"},
+				new String[] {"&8Axt","&8Axe"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
@@ -5152,7 +5152,7 @@ public class YamlManager
 				TechnologyType.MULTIPLE, 11, PlayerAssociatedType.SOLO, 0, "", "weapons_armor", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Tech Schwert","&8Tech Sword"},
+				new String[] {"&8Schwert","&8Sword"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
@@ -5628,7 +5628,7 @@ public class YamlManager
 				TechnologyType.MULTIPLE, 11, PlayerAssociatedType.SOLO, 1, "", "weapons_armor", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Tech Schuhe","&8Tech Boots"},
+				new String[] {"&8Schuhe","&8Boots"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
@@ -5749,7 +5749,7 @@ public class YamlManager
 				"STICK;8"});
 		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] {
-				"BREAKING:DIRT:null:tool=HAND:ttexp=10.0:vaexp=10:vault=0.1:default=1.0", //TODO Change back
+				"BREAKING:DIRT:null:tool=HAND:ttexp=0.01:vaexp=10:vault=0.1:default=1.0", //TODO Change back
 				"BREAKING:GRASS_BLOCK:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",
 				"BREAKING:SAND:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",
 				"BREAKING:GRAVEL:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1"});
@@ -6357,7 +6357,7 @@ public class YamlManager
 				"soil_I", new String[] {"Böden_I", "Dirt"}, TechnologyType.MULTIPLE, 7, PlayerAssociatedType.SOLO, 0, "", "soil", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Tech Böden I","&8Tech Soil I"},
+				new String[] {"&8Böden I","&8Soil I"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
@@ -7046,7 +7046,7 @@ public class YamlManager
 				"soil_II", new String[] {"Böden_II", "Soil_II"}, TechnologyType.MULTIPLE, 7, PlayerAssociatedType.SOLO, 1, "", "soil", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Tech Böden II","&8Tech Soil II"},
+				new String[] {"&8Böden II","&8Soil II"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
@@ -7830,7 +7830,7 @@ public class YamlManager
 				"soil_III", new String[] {"Böden_III", "Soil_III"}, TechnologyType.MULTIPLE, 7, PlayerAssociatedType.SOLO, 2, "", "soil", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Tech Böden III","8Tech Soil III"},
+				new String[] {"&8Böden III","8Tech Soil III"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
@@ -8262,7 +8262,7 @@ public class YamlManager
 				"stone_I", new String[] {"Stein_I", "Stone_I"}, TechnologyType.MULTIPLE, 6, PlayerAssociatedType.SOLO, 0, "", "stone", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Tech Stein I","&8Tech Stone I"},
+				new String[] {"&8Stein I","&8Stone I"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
@@ -8759,7 +8759,7 @@ public class YamlManager
 				"stone_II", new String[] {"Stein_II", "Stone_II"}, TechnologyType.MULTIPLE, 6, PlayerAssociatedType.SOLO, 1, "", "stone", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Tech Stein_II","&8Tech Stone_II"},
+				new String[] {"&8Stein_II","&8Stone_II"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
@@ -9215,7 +9215,7 @@ public class YamlManager
 				"coalore", new String[] {"Kohleerz", "Coalore"}, TechnologyType.MULTIPLE, 6, PlayerAssociatedType.SOLO, 0, "", "ore", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Tech Kohleerz","&8Tech Coalore"},
+				new String[] {"&8Kohleerz","&8Coalore"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
@@ -9595,7 +9595,7 @@ public class YamlManager
 				TechnologyType.MULTIPLE, 5, PlayerAssociatedType.SOLO, 1, "", "ore", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Tech Eisenerz","&8Tech Ironore"}, 
+				new String[] {"&8Eisenerz","&8Ironore"}, 
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
@@ -9868,7 +9868,7 @@ public class YamlManager
 				TechnologyType.MULTIPLE, 5, PlayerAssociatedType.SOLO, 0, "", "sapling", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Tech Eichensetzling","&8Tech Oaksapling"},
+				new String[] {"&8Eichensetzling","&8Oaksapling"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
@@ -10133,7 +10133,7 @@ public class YamlManager
 				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 1, "", "sapling", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Tech Fichtensetzling","&8Tech Sprucesapling"},
+				new String[] {"&8Fichtensetzling","&8Sprucesapling"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
@@ -10541,7 +10541,7 @@ public class YamlManager
 				TechnologyType.MULTIPLE, 7, PlayerAssociatedType.SOLO, 0, "", "wood", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Tech Holzstamm","&8Tech Woodenlog"},
+				new String[] {"&8Holzstamm","&8Woodenlog"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
@@ -10959,7 +10959,7 @@ public class YamlManager
 						"f:hasresearchedtech,darkoaklog,1:==:true",
 						"g:hasresearchedtech,mangrovelog,1:==:true",
 						"h:hasresearchedtech,cherrylog,1:==:true"}, true,
-				new String[] {"&8Tech Holzbretter I","&8Tech Woodenplanks I"},
+				new String[] {"&8Holzbretter I","&8Woodenplanks I"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&cAnforderungen zum einsehen:",
@@ -11145,7 +11145,7 @@ public class YamlManager
 						"output:o_1:true",
 						"output:o_2:false",
 						"a:hasresearchedtech,stone_I,1:==:true"}, true,
-				new String[] {"&8Tech Steinstufen I","&8Tech Stoneslaps I"},
+				new String[] {"&8Steinstufen I","&8Stoneslaps I"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&cAnforderungen zum einsehen:",
@@ -11330,7 +11330,7 @@ public class YamlManager
 						"output:o_1:true",
 						"output:o_2:false",
 						"a:hasresearchedtech,stone_I,1:==:true"}, true,
-				new String[] {"&8Tech Steintreppen I","&8Tech Stonestairs I"},
+				new String[] {"&8Steintreppen I","&8Stonestairs I"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&cAnforderungen zum einsehen:",
@@ -11440,7 +11440,7 @@ public class YamlManager
 				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 0, "", "furnancerecipe", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Tech Ofenrezept Stein","&8Tech Furnacerecipe Stone"},
+				new String[] {"&8Ofenrezept Stein","&8Furnacerecipe Stone"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&cAnforderungen zum einsehen:",
@@ -11539,7 +11539,7 @@ public class YamlManager
 				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 1, "", "furnancerecipe", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Tech Ofenrezept Eisenbarren","&8Tech Furnacerecipe Ironingot"},
+				new String[] {"&8Ofenrezept Eisenbarren","&8Furnacerecipe Ironingot"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&cAnforderungen zum einsehen:",
@@ -11607,7 +11607,7 @@ public class YamlManager
 	{
 		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		String cTTExp = "10 * techlev + 5 * techacq + 2.5 * solototaltech";
+		String cTTExp = "10 * techlev + 5 * techacq + 2.5 * globaltotaltech";
 		toResCostTTExp.put(1, cTTExp);
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
@@ -11649,9 +11649,9 @@ public class YamlManager
 		addTechnology(
 				"dirtminingbooster", new String[] {"Erdeabbaubooster", "DirtMiningBooster"},
 				TechnologyType.BOOSTER, 1, PlayerAssociatedType.GLOBAL, 0, "0d-0H-10m-0s", "miningbooster", 
-				0, 0, 0, 0, 0, 0, 0, 0,
+				50, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Tech Erdeabbaubooster","&8Tech Woodenlog"},
+				new String[] {"&8Erdeabbaubooster","&8Woodenlog"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
@@ -11663,32 +11663,25 @@ public class YamlManager
 						"&fMining of &#c6a664Oaklog.",
 						"",
 						"&cRightclick &bfor a more detailed view."},
-				new String[] {"&7Eichenstamm","&7Oaklog"},
+				new String[] {"&7Erdeabbaubooster","&7DirtMiningBooster"},
 				Material.OAK_LOG, 1, itemflag, null, canResLore.get(1),
 				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
-				new String[] {"&dEichenstamm","&dOaklog"},
+				new String[] {"&dErdeabbaubooster","&dDirtMiningBooster"},
 				Material.OAK_LOG, 1, itemflag, null, canResLore,
-				new String[] {"&5Eichenstamm","&5Oaklog"},
+				new String[] {"&5Erdeabbaubooster","&5DirtMiningBooster"},
 				Material.OAK_LOG, 1, itemflag, enchantment, new String[] {
+						"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+						"&eLäuft nach der Erforschung ab innerhalb von: 10m",
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fAbbauen von &#c6a664Eichenstamm &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
-								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% VExp | "
-								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
-						"&fSetzen von &#c6a664Eichenstamm &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
-								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% VExp | "
-								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
+						"&fAbbauen von &#c6a664Erde(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,dirtminingbooster,1,BREAKING,HAND,DIRT% TTExp",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+						"&eExpires after research within: 10m",
 						"",
 						"&eUnlocks the following:",
-						"&fMining of &#c6a664Oaklog &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
-								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% VExp | "
-								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
-						"&fPlacing of &#c6a664Oaklog &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
-								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% VExp | "
-								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,oaklog,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
-						
+						"&fMining of &#c6a664Dirt(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,dirtminingbooster,1,BREAKING,HAND,DIRT% TTExp",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
@@ -11697,7 +11690,87 @@ public class YamlManager
 	
 	private void tech_Booster_Craftingbooster(String[] itemflag, String[] enchantment) //INFO:Booster_Craftingbooster
 	{
-		
+		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
+		String cTTExp = "10 * techlev + 5 * techacq + 2.5 * globaltotaltech";
+		toResCostTTExp.put(1, cTTExp);
+		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
+		rewardUnlockableInteractions.put(1, new String[] {
+				"CRAFTING:STICK:null:ttexp=1.07:vaexp=1:default=1.0", ""});
+		LinkedHashMap<Integer, String[]> rewardUnlockableRecipe = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardDropChance = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantmentOffers = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantments = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardValueEntry = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"&eLäuft nach der Erforschung ab innerhalb von: 10m",
+				"",
+				"&eKosten:",
+				"&f%costttexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellen von &#c6a664Stock &#546f42%tt_raw_reward_tech_ttexp_mat,GLOBAL,stickcraftingbooster,1,CRAFTING,HAND,STICK% TTExp",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"&eExpires after research within: 10m",
+				"",
+				"&eCosts:",
+				"&f%costttexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting of &#c6a664Stock &#546f42%tt_raw_reward_tech_ttexp_mat,GLOBAL,stickcraftingbooster,1,CRAFTING,HAND,STICK% TTExp",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		addTechnology(
+				"stickcraftingbooster", new String[] {"Stockherstellungsbooster", "StickCraftingBooster"},
+				TechnologyType.BOOSTER, 1, PlayerAssociatedType.GLOBAL, 0, "0d-0H-10m-0s", "craftingbooster", 
+				50, 0, 0, 0, 0, 0, 0, 0,
+				null, true,
+				new String[] {"&8Stockherstellungsbooster","&8StickCraftingBooster"},
+				Material.BARRIER, 1, itemflag, null, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fAbbaubooster von Eichenstamm.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fMining of &#c6a664Oaklog.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				new String[] {"&7Stockherstellungsbooster","&7StickCraftingBooster"},
+				Material.OAK_LOG, 1, itemflag, null, canResLore.get(1),
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&dStockherstellungsbooster","&dStickCraftingBooster"},
+				Material.OAK_LOG, 1, itemflag, null, canResLore,
+				new String[] {"&5Stockherstellungsbooster","&5StickCraftingBooster"},
+				Material.OAK_LOG, 1, itemflag, enchantment, new String[] {
+						"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+						"&eLäuft nach der Erforschung ab innerhalb von: 10m",
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fHerstellen von &#c6a664Stock &#546f42%tt_raw_reward_tech_ttexp_mat,GLOBAL,stickcraftingbooster,1,CRAFTING,HAND,STICK% TTExp",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+						"&eExpires after research within: 10m",
+						"",
+						"&eUnlocks the following:",
+						"&fCrafting of &#c6a664Stock &#546f42%tt_raw_reward_tech_ttexp_mat,GLOBAL,stickcraftingbooster,1,CRAFTING,HAND,STICK% TTExp",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
 	}
 	
 	public void addTechnology(

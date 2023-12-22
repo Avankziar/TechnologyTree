@@ -53,19 +53,19 @@ public class BackgroundTask
 			{
 				long now = System.currentTimeMillis();
 				
-				plugin.getMysqlHandler().deleteData(Type.SOLOENTRYQUERYSTATUS,
+				plugin.getMysqlHandler().deleteData(Type.SOLO_ENTRYQUERYSTATUS,
 						"`duration_until_expiration` < ?",
 						now);
 				
 				ArrayList<GlobalEntryQueryStatus> geqsa = GlobalEntryQueryStatus.convert(
-						plugin.getMysqlHandler().getFullList(Type.GLOBALENTRYQUERYSTATUS,
+						plugin.getMysqlHandler().getFullList(Type.GLOBAL_ENTRYQUERYSTATUS,
 								"`id` ASC",
 								"`duration_until_expiration` < ?",
 								now));
 				for(GlobalEntryQueryStatus geqs : geqsa)
 				{
-					plugin.getMysqlHandler().deleteData(Type.GLOBALTECHNOLOGYPOLL, "`global_choosen_technology_id` = ?", geqs.getId());
-					plugin.getMysqlHandler().deleteData(Type.GLOBALENTRYQUERYSTATUS, "`id` = ?", geqs.getId());
+					plugin.getMysqlHandler().deleteData(Type.GLOBAL_TECHNOLOGYPOLL, "`global_choosen_technology_id` = ?", geqs.getId());
+					plugin.getMysqlHandler().deleteData(Type.GLOBAL_ENTRYQUERYSTATUS, "`id` = ?", geqs.getId());
 				}
 			}
 		}.runTaskTimerAsynchronously(plugin, 60*20L,
@@ -142,12 +142,12 @@ public class BackgroundTask
 	
 	private static void processPoll(PlayerAssociatedType pat)
 	{
-		if(!plugin.getMysqlHandler().exist(MysqlHandler.Type.GLOBALTECHNOLOGYPOLL, "`processed_in_repayment` = ?", false))
+		if(!plugin.getMysqlHandler().exist(MysqlHandler.Type.GLOBAL_TECHNOLOGYPOLL, "`processed_in_repayment` = ?", false))
 		{
 			return;
 		}
 		ArrayList<GlobalTechnologyPoll> tpar = GlobalTechnologyPoll.convert(
-				plugin.getMysqlHandler().getFullList(MysqlHandler.Type.GLOBALTECHNOLOGYPOLL,
+				plugin.getMysqlHandler().getFullList(MysqlHandler.Type.GLOBAL_TECHNOLOGYPOLL,
 				"`id`", "`processed_in_repayment = ?`", false));
 		LinkedHashMap<String, Integer> countMap = new LinkedHashMap<>();
 		int participants = tpar.size();
@@ -162,7 +162,7 @@ public class BackgroundTask
 		}
 		if(countMap.isEmpty())
 		{
-			plugin.getMysqlHandler().truncate(Type.GLOBALTECHNOLOGYPOLL);
+			plugin.getMysqlHandler().truncate(Type.GLOBAL_TECHNOLOGYPOLL);
 			return;
 		}
 		int max = 0;
@@ -177,7 +177,7 @@ public class BackgroundTask
 		}
 		Technology globalChoosen = CatTechHandler.getTechnology(choosenTech, PlayerAssociatedType.GLOBAL);
 		int researchlevel = PlayerHandler.researchGlobalTechnology(globalChoosen, true);
-		ArrayList<GlobalEntryQueryStatus> geqsa = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBALENTRYQUERYSTATUS,
+		ArrayList<GlobalEntryQueryStatus> geqsa = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBAL_ENTRYQUERYSTATUS,
 				"`id` DESC", 0, 1, "`intern_name` = ?", globalChoosen.getInternName()));
 		GlobalEntryQueryStatus geqs = geqsa.get(0);
 		int share = 1/participants;
@@ -189,10 +189,10 @@ public class BackgroundTask
 			if(pcp == null)
 			{
 				tp.setProcessedInRepayment(true);
-				plugin.getMysqlHandler().updateData(Type.GLOBALTECHNOLOGYPOLL, tp, "`id` = ?", tp.getId());
+				plugin.getMysqlHandler().updateData(Type.GLOBAL_TECHNOLOGYPOLL, tp, "`id` = ?", tp.getId());
 				continue;
 			}
-			plugin.getMysqlHandler().updateData(Type.GLOBALTECHNOLOGYPOLL, tp, "`id` = ?", tp.getId());
+			plugin.getMysqlHandler().updateData(Type.GLOBAL_TECHNOLOGYPOLL, tp, "`id` = ?", tp.getId());
 			Technology playerChoosen = CatTechHandler.getTechnology(choosenTech, PlayerAssociatedType.GLOBAL);
 			PlayerHandler.repaymentGlobalTechnology(pcp, playerChoosen, researchlevel);
 			PlayerHandler.payTechnology(pcp, globalChoosen, share);

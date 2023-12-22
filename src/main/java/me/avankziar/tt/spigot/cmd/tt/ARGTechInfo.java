@@ -82,10 +82,10 @@ public class ARGTechInfo extends ArgumentModule
 	{
 		int techLevel = 0;
 		int acquiredTech = 0;
-		int totalSoloTechs = plugin.getMysqlHandler().getCount(Type.SOLOENTRYQUERYSTATUS,
+		int totalSoloTechs = plugin.getMysqlHandler().getCount(Type.SOLO_ENTRYQUERYSTATUS,
 				"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
 				player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
-		int totalGlobalTechs = plugin.getMysqlHandler().getCount(Type.GLOBALENTRYQUERYSTATUS,
+		int totalGlobalTechs = plugin.getMysqlHandler().getCount(Type.GLOBAL_ENTRYQUERYSTATUS,
 				"`entry_query_type` = ? AND `status_type` = ?",
 				EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
 		if(lvl != null)
@@ -97,7 +97,7 @@ public class ARGTechInfo extends ArgumentModule
 			switch(t.getPlayerAssociatedType())
 			{
 			case SOLO:
-				ArrayList<SoloEntryQueryStatus> seqsList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLOENTRYQUERYSTATUS,
+				ArrayList<SoloEntryQueryStatus> seqsList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLO_ENTRYQUERYSTATUS,
 						"`research_level` DESC", 0, 1,
 						"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 						player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString()));
@@ -109,7 +109,7 @@ public class ARGTechInfo extends ArgumentModule
 				//TODO
 				break;
 			case GLOBAL:
-				ArrayList<GlobalEntryQueryStatus> geqsList = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBALENTRYQUERYSTATUS,
+				ArrayList<GlobalEntryQueryStatus> geqsList = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBAL_ENTRYQUERYSTATUS,
 						"`research_level` DESC", 0, 1,
 						"`intern_name` = ? AND `entry_query_type` = ?",
 						t.getInternName(), EntryQueryType.TECHNOLOGY.toString()));

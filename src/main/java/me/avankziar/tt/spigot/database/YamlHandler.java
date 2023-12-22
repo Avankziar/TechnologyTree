@@ -31,7 +31,7 @@ public class YamlHandler
 	private String languages;
 	private File language = null;
 	private YamlConfiguration lang = new YamlConfiguration();
-	private File mvelanguage = null;
+	//private File mvelanguage = null; //TODO Was mache ich nun damit?
 	private YamlConfiguration mvelang = new YamlConfiguration();
 	
 	private LinkedHashMap<GuiType, YamlConfiguration> gui = new LinkedHashMap<>();

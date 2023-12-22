@@ -19,10 +19,16 @@ public class MysqlHandler
 	public enum Type
 	{
 		PLAYERDATA("ttPlayerData", new PlayerData()),
-		SOLOENTRYQUERYSTATUS("ttSoloEntryQueryStatus", new SoloEntryQueryStatus()),
 		REGISTEREDBLOCK("ttRegisteredBlock", new RegisteredBlock()),
-		GLOBALTECHNOLOGYPOLL("ttGlobalTechnologyPoll", new GlobalTechnologyPoll()),
-		GLOBALENTRYQUERYSTATUS("ttGlobalEntryQueryStatus", new GlobalEntryQueryStatus());
+		
+		SOLO_ENTRYQUERYSTATUS("ttSolo_EntryQueryStatus", new SoloEntryQueryStatus()),
+		
+		GROUP_DATA("ttGroup_Data", null),
+		GROUP_PLAYERAFFILIATION("ttGroup_PlayerAffiliation", null),
+		GROUP_ENTRYQUERYSTATUS("ttGroup_EntryQueryStatus", null), //FIXME
+		
+		GLOBAL_TECHNOLOGYPOLL("ttGlobal_TechnologyPoll", new GlobalTechnologyPoll()),
+		GLOBAL_ENTRYQUERYSTATUS("ttGlobal_EntryQueryStatus", new GlobalEntryQueryStatus());
 		
 		private Type(String value, Object object)
 		{
