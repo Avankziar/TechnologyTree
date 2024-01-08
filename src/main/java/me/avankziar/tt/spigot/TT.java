@@ -30,6 +30,7 @@ import main.java.me.avankziar.ifh.general.valueentry.ValueEntry;
 import main.java.me.avankziar.ifh.spigot.administration.Administration;
 import main.java.me.avankziar.ifh.spigot.economy.Economy;
 import main.java.me.avankziar.ifh.spigot.interfaces.EnumTranslation;
+import main.java.me.avankziar.ifh.spigot.tobungee.chatlike.MessageToBungee;
 import main.java.me.avankziar.ifh.spigot.tobungee.commands.CommandToBungee;
 import main.java.me.avankziar.tt.spigot.assistance.BackgroundTask;
 import main.java.me.avankziar.tt.spigot.assistance.Utility;
@@ -121,6 +122,7 @@ public class TT extends JavaPlugin
 	private Modifier modifierConsumer;
 	private ConditionQueryParser conditionQueryParserConsumer;
 	private PlayerTimes playerTimesConsumer;
+	private MessageToBungee messageToBungeeConsumer;
 	
 	private CommandToBungee commandToBungeeConsumer;
 	private Economy ecoConsumer;
@@ -584,6 +586,7 @@ public class TT extends JavaPlugin
 		setupIFHModifier();
 		setupIFHEnumTranslation();
 		setupIFHCommandToBungee();
+		setupIFHMessageToBungee();
 		setupIFHConditionQueryParser();
 		setupIFHEconomy();
 		setupIFHPlayerTimes();
@@ -813,6 +816,53 @@ public class TT extends JavaPlugin
 	public CommandToBungee getCommandToBungee()
 	{
 		return commandToBungeeConsumer;
+	}
+	
+	public void setupIFHMessageToBungee()
+	{
+		if(!new ConfigHandler().isMechanicMessageToBungeeEnabled())
+		{
+			return;
+		}
+		if(!plugin.getServer().getPluginManager().isPluginEnabled("InterfaceHub")) 
+	    {
+	    	return;
+	    }
+        new BukkitRunnable()
+        {
+        	int i = 0;
+			@Override
+			public void run()
+			{
+				try
+				{
+					if(i == 20)
+				    {
+						cancel();
+				    	return;
+				    }
+				    RegisteredServiceProvider<main.java.me.avankziar.ifh.spigot.tobungee.chatlike.MessageToBungee> rsp = 
+		                             getServer().getServicesManager().getRegistration(
+		                            		 main.java.me.avankziar.ifh.spigot.tobungee.chatlike.MessageToBungee.class);
+				    if(rsp == null) 
+				    {
+				    	i++;
+				        return;
+				    }
+				    messageToBungeeConsumer = rsp.getProvider();
+				    log.info(pluginName + " detected InterfaceHub >>> MessageToBungee.class is consumed!");
+				    cancel();
+				} catch(NoClassDefFoundError e)
+				{
+					cancel();
+				}
+			}
+        }.runTaskTimer(plugin, 0L, 20*2);
+	}
+	
+	public MessageToBungee getMessageToBungee()
+	{
+		return messageToBungeeConsumer;
 	}
 	
 	public void setupIFHConditionQueryParser()

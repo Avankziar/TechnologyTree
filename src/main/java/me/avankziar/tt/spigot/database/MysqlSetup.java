@@ -57,7 +57,7 @@ public class MysqlSetup
 		{
 			TT.log.log(Level.WARNING, "Could not connect to Database!", e);
 			return false;
-		}		
+		}
 	}
 	
 	public Connection getConnection() throws SQLException
@@ -67,6 +67,7 @@ public class MysqlSetup
 	
 	private Connection reConnect() throws SQLException
 	{
+		String url = "jdbc:mysql://";
 		boolean bool = false;
 	    try
 	    {
@@ -93,7 +94,7 @@ public class MysqlSetup
         properties.setProperty("useSSL", String.valueOf(isSSLEnabled));
         properties.setProperty("requireSSL", String.valueOf(isSSLEnabled));
         //Connect to database
-        Connection conn = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, properties);
+        Connection conn = DriverManager.getConnection(url + host + ":" + port + "/" + database, properties);
         return conn;
 	}
 	
@@ -189,9 +190,12 @@ public class MysqlSetup
 		+ "` (id int AUTO_INCREMENT PRIMARY KEY,"
 		+ " player_uuid char(36) NOT NULL,"
 		+ " choosen_technology text not NULL,"
+		+ " choosen_technology_researchlevel int,"
+		+ " processed_in_poll boolean,"
 		+ " processed_in_repayment boolean,"
 		+ " global_choosen_technology text,"
-		+ " global_choosen_technology_id int);"; //global_choosen_technology_id = GlobalEntryQueryStatus.id
+		+ " global_choosen_technology_id int,"
+		+ " total_participants int);"; //global_choosen_technology_id = GlobalEntryQueryStatus.id
 		baseSetup(data);
 		return true;
 	}

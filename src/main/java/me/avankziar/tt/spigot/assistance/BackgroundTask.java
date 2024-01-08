@@ -14,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import main.java.me.avankziar.ifh.general.assistance.ChatApi;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
@@ -74,7 +75,7 @@ public class BackgroundTask
 	
 	private void doTechnologyPoll()
 	{
-		if(plugin.getYamlHandler().getConfig().getBoolean("Do.TechnologyPoll.ProcessPollOnMainServer"))
+		if(!plugin.getYamlHandler().getConfig().getBoolean("Do.TechnologyPoll.ProcessPollOnMainServer"))
 		{
 			return;
 		}
@@ -142,13 +143,32 @@ public class BackgroundTask
 	
 	private static void processPoll(PlayerAssociatedType pat)
 	{
-		if(!plugin.getMysqlHandler().exist(MysqlHandler.Type.GLOBAL_TECHNOLOGYPOLL, "`processed_in_repayment` = ?", false))
+		//Cancel if no one has voted for a tech
+		if(!plugin.getMysqlHandler().exist(MysqlHandler.Type.GLOBAL_TECHNOLOGYPOLL, "`processed_in_poll` = ?", false))
 		{
+			ArrayList<String> l = new ArrayList<>();
+			l.add(plugin.getYamlHandler().getLang().getString("BackgroundTask.PollEvaluation.Headline"));
+			l.add(plugin.getYamlHandler().getLang().getString("BackgroundTask.PollEvaluation.NoVoteExist"));
+			l.add(plugin.getYamlHandler().getLang().getString("BackgroundTask.PollEvaluation.Bottomline"));
+			if(plugin.getMessageToBungee() != null)
+			{
+				plugin.getMessageToBungee().sendMessage(l.toArray(new String[l.size()]));
+			} else
+			{
+				for(Player player : Bukkit.getOnlinePlayers())
+				{
+					for(String s : l)
+					{
+						player.sendMessage(ChatApi.tl(s));
+					}
+				}
+			}
 			return;
 		}
+		//Call all, which are NOT processed in poll
 		ArrayList<GlobalTechnologyPoll> tpar = GlobalTechnologyPoll.convert(
 				plugin.getMysqlHandler().getFullList(MysqlHandler.Type.GLOBAL_TECHNOLOGYPOLL,
-				"`id`", "`processed_in_repayment = ?`", false));
+				"`id`", "`processed_in_poll = ?`", false));
 		LinkedHashMap<String, Integer> countMap = new LinkedHashMap<>();
 		int participants = tpar.size();
 		for(GlobalTechnologyPoll tp : tpar)
@@ -180,19 +200,22 @@ public class BackgroundTask
 		ArrayList<GlobalEntryQueryStatus> geqsa = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBAL_ENTRYQUERYSTATUS,
 				"`id` DESC", 0, 1, "`intern_name` = ?", globalChoosen.getInternName()));
 		GlobalEntryQueryStatus geqs = geqsa.get(0);
-		int share = 1/participants;
-		for(GlobalTechnologyPoll tp : tpar)
+		double share = 1/participants;
+		for(GlobalTechnologyPoll gtp : tpar)
 		{
-			Player pcp = Bukkit.getPlayer(tp.getPlayerUUID());
-			tp.setGlobal_Choosen_Technology(choosenTech);
-			tp.setGlobal_Choosen_Technology_ID(geqs.getId());
+			Player pcp = Bukkit.getPlayer(gtp.getPlayerUUID());
+			gtp.setChoosen_Technology_Researchlevel(researchlevel);
+			gtp.setGlobal_Choosen_Technology(choosenTech);
+			gtp.setGlobal_Choosen_Technology_ID(geqs.getId());
+			gtp.setProcessedInPoll(true);
+			gtp.setTotal_Participants(participants);
 			if(pcp == null)
 			{
-				tp.setProcessedInRepayment(true);
-				plugin.getMysqlHandler().updateData(Type.GLOBAL_TECHNOLOGYPOLL, tp, "`id` = ?", tp.getId());
+				plugin.getMysqlHandler().updateData(Type.GLOBAL_TECHNOLOGYPOLL, gtp, "`id` = ?", gtp.getId());
 				continue;
 			}
-			plugin.getMysqlHandler().updateData(Type.GLOBAL_TECHNOLOGYPOLL, tp, "`id` = ?", tp.getId());
+			gtp.setProcessedInRepayment(false);
+			plugin.getMysqlHandler().updateData(Type.GLOBAL_TECHNOLOGYPOLL, gtp, "`id` = ?", gtp.getId());
 			Technology playerChoosen = CatTechHandler.getTechnology(choosenTech, PlayerAssociatedType.GLOBAL);
 			PlayerHandler.repaymentGlobalTechnology(pcp, playerChoosen, researchlevel);
 			PlayerHandler.payTechnology(pcp, globalChoosen, share);

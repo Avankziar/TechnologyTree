@@ -150,8 +150,12 @@ public class PAPIHook extends PlaceholderExpansion
 			switch(pat)
 			{
 			case GLOBAL:
+				return String.valueOf(plugin.getMysqlHandler().exist(Type.GLOBAL_ENTRYQUERYSTATUS,
+						"`entry_query_type` = ? AND `status_type` = ? AND `intern_name` = ?",
+						EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString(), tech));
 			case GROUP:
-			case SOLO: return String.valueOf(plugin.getMysqlHandler().exist(Type.SOLO_ENTRYQUERYSTATUS,
+			case SOLO: 
+				return String.valueOf(plugin.getMysqlHandler().exist(Type.SOLO_ENTRYQUERYSTATUS,
 					"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ? AND `intern_name` = ?",
 					player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString(), tech));
 			}
@@ -209,9 +213,16 @@ public class PAPIHook extends PlaceholderExpansion
 		String[] sp = idf.split(",");
 		if(sp.length != 7)
 		{
-			return "Error split.length isnt 7!";
+			return "!Error split.length isnt 7!";
 		}
-		PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
+		PlayerAssociatedType pat = null;
+		try
+		{
+			pat = PlayerAssociatedType.valueOf(sp[1]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!PlayerAssociatedType can only be GLOBAL, GROUP or SOLO!";
+		}
 		Technology t = null;
 		switch(pat)
 		{
@@ -219,9 +230,31 @@ public class PAPIHook extends PlaceholderExpansion
 		case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
 		case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
 		}
-		int lvl = Integer.parseInt(sp[3]);
-		EventType evt = EventType.valueOf(sp[4]);
-		ToolType tool = ToolType.valueOf(sp[5]);
+		if(t == null)
+		{
+			return "!Technology dont exist!";
+		}
+		int lvl = 0;
+		EventType evt = null;
+		ToolType tool = null;
+		try
+		{
+			lvl = Integer.parseInt(sp[3]);
+			evt = EventType.valueOf(sp[4]);
+			tool = ToolType.valueOf(sp[5]);
+		} catch(NumberFormatException e)
+		{
+			return "!Level is not are number!";
+		} catch(IllegalArgumentException e)
+		{
+			if(evt == null)
+			{
+				return "!EventType dont exist!";
+			} else
+			{
+				return "!ToolType dont exist!";
+			}
+		}
 		if(!t.getRewardUnlockableInteractions().containsKey(lvl))
 		{
 			return "Error Tech dont contains in that Lvl TTExp Reward for that input!";
@@ -234,7 +267,14 @@ public class PAPIHook extends PlaceholderExpansion
 	private String reward_tech_ttexp_mat(String[] sp,
 			PlayerAssociatedType pat, Technology t, int lvl, EventType evt, ToolType tool)
 	{
-		Material mat = Material.valueOf(sp[6]);
+		Material mat = null;
+		try
+		{
+			mat = Material.valueOf(sp[6]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!Material dont exist!";
+		}
 		for(UnlockableInteraction ui : t.getRewardUnlockableInteractions().get(lvl))
 		{
 			if(evt == ui.getEventType() && tool == ui.getToolType()
@@ -249,7 +289,14 @@ public class PAPIHook extends PlaceholderExpansion
 	private String reward_tech_ttexp_ent(String[] sp,
 			PlayerAssociatedType pat, Technology t, int lvl, EventType evt, ToolType tool)
 	{
-		EntityType ent = EntityType.valueOf(sp[6]);
+		EntityType ent = null;
+		try
+		{
+			ent = EntityType.valueOf(sp[6]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!EntityType dont exist!";
+		}
 		for(UnlockableInteraction ui : t.getRewardUnlockableInteractions().get(lvl))
 		{
 			if(evt == ui.getEventType() && tool == ui.getToolType()
@@ -268,7 +315,14 @@ public class PAPIHook extends PlaceholderExpansion
 		{
 			return "Error split.length isnt 6!";
 		}
-		PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
+		PlayerAssociatedType pat = null;
+		try
+		{
+			pat = PlayerAssociatedType.valueOf(sp[1]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!PlayerAssociatedType can only be GLOBAL, GROUP or SOLO!";
+		}
 		Technology t = null;
 		switch(pat)
 		{
@@ -276,8 +330,26 @@ public class PAPIHook extends PlaceholderExpansion
 		case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
 		case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
 		}
-		EventType evt = EventType.valueOf(sp[3]);
-		ToolType tool = ToolType.valueOf(sp[4]);
+		if(t == null)
+		{
+			return "!Technology dont exist!";
+		}
+		EventType evt = null;
+		ToolType tool = null;
+		try
+		{
+			evt = EventType.valueOf(sp[3]);
+			tool = ToolType.valueOf(sp[4]);
+		} catch(IllegalArgumentException e)
+		{
+			if(evt == null)
+			{
+				return "!EventType dont exist!";
+			} else
+			{
+				return "!ToolType dont exist!";
+			}
+		}
 		return idf.startsWith("raw_reward_techtotal_ttexp_mat")
 				? reward_techtotal_ttexp_mat(sp, pat, t, evt, tool)
 				: reward_techtotal_ttexp_ent(sp, pat, t, evt, tool);
@@ -286,7 +358,14 @@ public class PAPIHook extends PlaceholderExpansion
 	private String reward_techtotal_ttexp_mat(String[] sp,
 			PlayerAssociatedType pat, Technology t, EventType evt, ToolType tool)
 	{
-		Material mat = Material.valueOf(sp[5]);
+		Material mat = null;
+		try
+		{
+			mat = Material.valueOf(sp[5]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!Material dont exist!";
+		}
 		double d = 0.0;
 		for(Entry<Integer, ArrayList<UnlockableInteraction>> e : t.getRewardUnlockableInteractions().entrySet())
 		{
@@ -305,7 +384,14 @@ public class PAPIHook extends PlaceholderExpansion
 	private String reward_techtotal_ttexp_ent(String[] sp,
 			PlayerAssociatedType pat, Technology t, EventType evt, ToolType tool)
 	{
-		EntityType ent = EntityType.valueOf(sp[5]);
+		EntityType ent = null;
+		try
+		{
+			ent = EntityType.valueOf(sp[5]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!EntityType dont exist!";
+		}
 		double d = 0.0;
 		for(Entry<Integer, ArrayList<UnlockableInteraction>> e : t.getRewardUnlockableInteractions().entrySet())
 		{
@@ -328,8 +414,22 @@ public class PAPIHook extends PlaceholderExpansion
 		{
 			return "Error split.length isnt 4!";
 		}
-		EventType evt = EventType.valueOf(sp[1]);
-		ToolType tool = ToolType.valueOf(sp[2]);
+		EventType evt = null;
+		ToolType tool = null;
+		try
+		{
+			evt = EventType.valueOf(sp[1]);
+			tool = ToolType.valueOf(sp[2]);
+		} catch(IllegalArgumentException e)
+		{
+			if(evt == null)
+			{
+				return "!EventType dont exist!";
+			} else
+			{
+				return "!ToolType dont exist!";
+			}
+		}
 		return idf.startsWith("raw_reward_player_ttexp_mat")
 				? reward_player_ttexp_mat(uuid, sp, evt, tool)
 				: reward_player_ttexp_ent(uuid, sp, evt, tool);
@@ -337,7 +437,14 @@ public class PAPIHook extends PlaceholderExpansion
 	
 	private String reward_player_ttexp_mat(UUID uuid, String[] sp, EventType evt, ToolType tool)
 	{
-		Material mat = Material.valueOf(sp[3]);
+		Material mat = null;
+		try
+		{
+			mat = Material.valueOf(sp[3]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!Material dont exist!";
+		}
 		if(PlayerHandler.materialInteractionMap.containsKey(uuid)
 				&& PlayerHandler.materialInteractionMap.get(uuid).containsKey(tool)
 				&& PlayerHandler.materialInteractionMap.get(uuid).get(tool).containsKey(mat)
@@ -350,7 +457,14 @@ public class PAPIHook extends PlaceholderExpansion
 	
 	private String reward_player_ttexp_ent(UUID uuid, String[] sp, EventType evt, ToolType tool)
 	{
-		EntityType ent = EntityType.valueOf(sp[3]);
+		EntityType ent = null;
+		try
+		{
+			ent = EntityType.valueOf(sp[3]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!EntityType dont exist!";
+		}
 		if(PlayerHandler.entityTypeInteractionMap.containsKey(uuid)
 				&& PlayerHandler.entityTypeInteractionMap.get(uuid).containsKey(tool)
 				&& PlayerHandler.entityTypeInteractionMap.get(uuid).get(tool).containsKey(ent)
@@ -368,7 +482,14 @@ public class PAPIHook extends PlaceholderExpansion
 		{
 			return "Error split.length isnt 7!";
 		}
-		PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
+		PlayerAssociatedType pat = null;
+		try
+		{
+			pat = PlayerAssociatedType.valueOf(sp[1]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!PlayerAssociatedType can only be GLOBAL, GROUP or SOLO!";
+		}
 		Technology t = null;
 		switch(pat)
 		{
@@ -376,9 +497,31 @@ public class PAPIHook extends PlaceholderExpansion
 		case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
 		case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
 		}
-		int lvl = Integer.parseInt(sp[3]);
-		EventType evt = EventType.valueOf(sp[4]);
-		ToolType tool = ToolType.valueOf(sp[5]);
+		if(t == null)
+		{
+			return "!Technology dont exist!";
+		}
+		int lvl = 0;
+		EventType evt = null;
+		ToolType tool = null;
+		try
+		{
+			lvl = Integer.parseInt(sp[3]);
+			evt = EventType.valueOf(sp[4]);
+			tool = ToolType.valueOf(sp[5]);
+		} catch(NumberFormatException e)
+		{
+			return "!Level is not are number!";
+		} catch(IllegalArgumentException e)
+		{
+			if(evt == null)
+			{
+				return "!EventType dont exist!";
+			} else
+			{
+				return "!ToolType dont exist!";
+			}
+		}
 		if(!t.getRewardUnlockableInteractions().containsKey(lvl))
 		{
 			return "Error Tech dont contains in that Lvl TTExp Reward for that input!";
@@ -391,7 +534,14 @@ public class PAPIHook extends PlaceholderExpansion
 	private String reward_tech_vexp_mat(String[] sp,
 			PlayerAssociatedType pat, Technology t, int lvl, EventType evt, ToolType tool)
 	{
-		Material mat = Material.valueOf(sp[6]);
+		Material mat = null;
+		try
+		{
+			mat = Material.valueOf(sp[6]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!Material dont exist!";
+		}
 		for(UnlockableInteraction ui : t.getRewardUnlockableInteractions().get(lvl))
 		{
 			if(evt == ui.getEventType() && tool == ui.getToolType()
@@ -406,7 +556,14 @@ public class PAPIHook extends PlaceholderExpansion
 	private String reward_tech_vexp_ent(String[] sp,
 			PlayerAssociatedType pat, Technology t, int lvl, EventType evt, ToolType tool)
 	{
-		EntityType ent = EntityType.valueOf(sp[6]);
+		EntityType ent = null;
+		try
+		{
+			ent = EntityType.valueOf(sp[6]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!EntityType dont exist!";
+		}
 		for(UnlockableInteraction ui : t.getRewardUnlockableInteractions().get(lvl))
 		{
 			if(evt == ui.getEventType() && tool == ui.getToolType()
@@ -425,7 +582,14 @@ public class PAPIHook extends PlaceholderExpansion
 		{
 			return "Error split.length isnt 6!";
 		}
-		PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
+		PlayerAssociatedType pat = null;
+		try
+		{
+			pat = PlayerAssociatedType.valueOf(sp[1]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!PlayerAssociatedType can only be GLOBAL, GROUP or SOLO!";
+		}
 		Technology t = null;
 		switch(pat)
 		{
@@ -433,8 +597,26 @@ public class PAPIHook extends PlaceholderExpansion
 		case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
 		case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
 		}
-		EventType evt = EventType.valueOf(sp[3]);
-		ToolType tool = ToolType.valueOf(sp[4]);
+		if(t == null)
+		{
+			return "!Technology dont exist!";
+		}
+		EventType evt = null;
+		ToolType tool = null;
+		try
+		{
+			evt = EventType.valueOf(sp[3]);
+			tool = ToolType.valueOf(sp[4]);
+		} catch(IllegalArgumentException e)
+		{
+			if(evt == null)
+			{
+				return "!EventType dont exist!";
+			} else
+			{
+				return "!ToolType dont exist!";
+			}
+		}
 		return idf.startsWith("raw_reward_techtotal_vexp_mat")
 				? reward_techtotal_vexp_mat(sp, pat, t, evt, tool)
 				: reward_techtotal_vexp_ent(sp, pat, t, evt, tool);
@@ -443,7 +625,14 @@ public class PAPIHook extends PlaceholderExpansion
 	private String reward_techtotal_vexp_mat(String[] sp,
 			PlayerAssociatedType pat, Technology t, EventType evt, ToolType tool)
 	{
-		Material mat = Material.valueOf(sp[5]);
+		Material mat = null;
+		try
+		{
+			mat = Material.valueOf(sp[5]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!Material dont exist!";
+		}
 		double d = 0.0;
 		for(Entry<Integer, ArrayList<UnlockableInteraction>> e : t.getRewardUnlockableInteractions().entrySet())
 		{
@@ -462,7 +651,14 @@ public class PAPIHook extends PlaceholderExpansion
 	private String reward_techtotal_vexp_ent(String[] sp,
 			PlayerAssociatedType pat, Technology t, EventType evt, ToolType tool)
 	{
-		EntityType ent = EntityType.valueOf(sp[6]);
+		EntityType ent = null;
+		try
+		{
+			ent = EntityType.valueOf(sp[5]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!EntityType dont exist!";
+		}
 		double d = 0.0;
 		for(Entry<Integer, ArrayList<UnlockableInteraction>> e : t.getRewardUnlockableInteractions().entrySet())
 		{
@@ -485,8 +681,22 @@ public class PAPIHook extends PlaceholderExpansion
 		{
 			return "Error split.length isnt 4!";
 		}
-		EventType evt = EventType.valueOf(sp[1]);
-		ToolType tool = ToolType.valueOf(sp[2]);
+		EventType evt = null;
+		ToolType tool = null;
+		try
+		{
+			evt = EventType.valueOf(sp[1]);
+			tool = ToolType.valueOf(sp[2]);
+		} catch(IllegalArgumentException e)
+		{
+			if(evt == null)
+			{
+				return "!EventType dont exist!";
+			} else
+			{
+				return "!ToolType dont exist!";
+			}
+		}
 		return idf.startsWith("raw_reward_player_vexp_mat")
 				? reward_player_vexp_mat(uuid, sp, evt, tool)
 				: reward_player_vexp_ent(uuid, sp, evt, tool);
@@ -494,7 +704,14 @@ public class PAPIHook extends PlaceholderExpansion
 	
 	private String reward_player_vexp_mat(UUID uuid, String[] sp, EventType evt, ToolType tool)
 	{
-		Material mat = Material.valueOf(sp[3]);
+		Material mat = null;
+		try
+		{
+			mat = Material.valueOf(sp[3]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!Material dont exist!";
+		}
 		if(PlayerHandler.materialInteractionMap.containsKey(uuid)
 				&& PlayerHandler.materialInteractionMap.get(uuid).containsKey(tool)
 				&& PlayerHandler.materialInteractionMap.get(uuid).get(tool).containsKey(mat)
@@ -507,7 +724,14 @@ public class PAPIHook extends PlaceholderExpansion
 	
 	private String reward_player_vexp_ent(UUID uuid, String[] sp, EventType evt, ToolType tool)
 	{
-		EntityType ent = EntityType.valueOf(sp[3]);
+		EntityType ent = null;
+		try
+		{
+			ent = EntityType.valueOf(sp[3]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!EntityType dont exist!";
+		}
 		if(PlayerHandler.entityTypeInteractionMap.containsKey(uuid)
 				&& PlayerHandler.entityTypeInteractionMap.get(uuid).containsKey(tool)
 				&& PlayerHandler.entityTypeInteractionMap.get(uuid).get(tool).containsKey(ent)
@@ -525,7 +749,14 @@ public class PAPIHook extends PlaceholderExpansion
 		{
 			return "Error split.length isnt 7!";
 		}
-		PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
+		PlayerAssociatedType pat = null;
+		try
+		{
+			pat = PlayerAssociatedType.valueOf(sp[1]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!PlayerAssociatedType can only be GLOBAL, GROUP or SOLO!";
+		}
 		Technology t = null;
 		switch(pat)
 		{
@@ -533,9 +764,31 @@ public class PAPIHook extends PlaceholderExpansion
 		case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
 		case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
 		}
-		int lvl = Integer.parseInt(sp[3]);
-		EventType evt = EventType.valueOf(sp[4]);
-		ToolType tool = ToolType.valueOf(sp[5]);
+		if(t == null)
+		{
+			return "!Technology dont exist!";
+		}
+		int lvl = 0;
+		EventType evt = null;
+		ToolType tool = null;
+		try
+		{
+			lvl = Integer.parseInt(sp[3]);
+			evt = EventType.valueOf(sp[4]);
+			tool = ToolType.valueOf(sp[5]);
+		} catch(NumberFormatException e)
+		{
+			return "!Level is not are number!";
+		} catch(IllegalArgumentException e)
+		{
+			if(evt == null)
+			{
+				return "!EventType dont exist!";
+			} else
+			{
+				return "!ToolType dont exist!";
+			}
+		}
 		if(!t.getRewardUnlockableInteractions().containsKey(lvl))
 		{
 			return "Error Tech dont contains in that Lvl TTExp Reward for that input!";
@@ -548,7 +801,14 @@ public class PAPIHook extends PlaceholderExpansion
 	private String reward_tech_money_mat(String[] sp,
 			PlayerAssociatedType pat, Technology t, int lvl, EventType evt, ToolType tool)
 	{
-		Material mat = Material.valueOf(sp[6]);
+		Material mat = null;
+		try
+		{
+			mat = Material.valueOf(sp[6]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!Material dont exist!";
+		}
 		String cun = "";
 		if(sp.length == 7)
 		{
@@ -578,7 +838,14 @@ public class PAPIHook extends PlaceholderExpansion
 	private String reward_tech_money_ent(String[] sp,
 			PlayerAssociatedType pat, Technology t, int lvl, EventType evt, ToolType tool)
 	{
-		EntityType ent = EntityType.valueOf(sp[6]);
+		EntityType ent = null;
+		try
+		{
+			ent = EntityType.valueOf(sp[6]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!EntityType dont exist!";
+		}
 		String cun = "";
 		if(sp.length == 7)
 		{
@@ -612,7 +879,14 @@ public class PAPIHook extends PlaceholderExpansion
 		{
 			return "Error split.length isnt 7!";
 		}
-		PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
+		PlayerAssociatedType pat = null;
+		try
+		{
+			pat = PlayerAssociatedType.valueOf(sp[1]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!PlayerAssociatedType can only be GLOBAL, GROUP or SOLO!";
+		}
 		Technology t = null;
 		switch(pat)
 		{
@@ -620,8 +894,26 @@ public class PAPIHook extends PlaceholderExpansion
 		case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
 		case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
 		}
-		EventType evt = EventType.valueOf(sp[4]);
-		ToolType tool = ToolType.valueOf(sp[3]);
+		if(t == null)
+		{
+			return "!Technology dont exist!";
+		}
+		EventType evt = null;
+		ToolType tool = null;
+		try
+		{
+			evt = EventType.valueOf(sp[3]);
+			tool = ToolType.valueOf(sp[4]);
+		} catch(IllegalArgumentException e)
+		{
+			if(evt == null)
+			{
+				return "!EventType dont exist!";
+			} else
+			{
+				return "!ToolType dont exist!";
+			}
+		}
 		return idf.startsWith("raw_reward_techtotal_money_mat")
 				? reward_techtotal_money_mat(sp, pat, t, evt, tool)
 				: reward_techtotal_money_ent(sp, pat, t, evt, tool);
@@ -630,7 +922,14 @@ public class PAPIHook extends PlaceholderExpansion
 	private String reward_techtotal_money_mat(String[] sp,
 			PlayerAssociatedType pat, Technology t, EventType evt, ToolType tool)
 	{
-		Material mat = Material.valueOf(sp[6]);
+		Material mat = null;
+		try
+		{
+			mat = Material.valueOf(sp[6]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!Material dont exist!";
+		}
 		String cun = "";
 		if(sp.length == 7)
 		{
@@ -664,7 +963,14 @@ public class PAPIHook extends PlaceholderExpansion
 	private String reward_techtotal_money_ent(String[] sp,
 			PlayerAssociatedType pat, Technology t, EventType evt, ToolType tool)
 	{
-		EntityType ent = EntityType.valueOf(sp[6]);
+		EntityType ent = null;
+		try
+		{
+			ent = EntityType.valueOf(sp[6]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!EntityType dont exist!";
+		}
 		String cun = "";
 		if(sp.length == 7)
 		{
@@ -702,8 +1008,22 @@ public class PAPIHook extends PlaceholderExpansion
 		{
 			return "Error split.length isnt 4!";
 		}
-		EventType evt = EventType.valueOf(sp[1]);
-		ToolType tool = ToolType.valueOf(sp[2]);
+		EventType evt = null;
+		ToolType tool = null;
+		try
+		{
+			evt = EventType.valueOf(sp[1]);
+			tool = ToolType.valueOf(sp[2]);
+		} catch(IllegalArgumentException e)
+		{
+			if(evt == null)
+			{
+				return "!EventType dont exist!";
+			} else
+			{
+				return "!ToolType dont exist!";
+			}
+		}
 		return idf.startsWith("raw_reward_player_money_mat")
 				? reward_player_money_mat(uuid, sp, evt, tool)
 				: reward_player_money_ent(uuid, sp, evt, tool);
@@ -711,7 +1031,14 @@ public class PAPIHook extends PlaceholderExpansion
 	
 	private String reward_player_money_mat(UUID uuid, String[] sp, EventType evt, ToolType tool)
 	{
-		Material mat = Material.valueOf(sp[3]);
+		Material mat = null;
+		try
+		{
+			mat = Material.valueOf(sp[3]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!Material dont exist!";
+		}
 		String cun = "";
 		if(sp.length == 4)
 		{
@@ -739,7 +1066,14 @@ public class PAPIHook extends PlaceholderExpansion
 	
 	private String reward_player_money_ent(UUID uuid, String[] sp, EventType evt, ToolType tool)
 	{
-		EntityType ent = EntityType.valueOf(sp[3]);
+		EntityType ent = null;
+		try
+		{
+			ent = EntityType.valueOf(sp[3]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!EntityType dont exist!";
+		}
 		String cun = "";
 		if(sp.length == 4)
 		{
@@ -772,7 +1106,14 @@ public class PAPIHook extends PlaceholderExpansion
 		{
 			return "Error split.length isnt 8!";
 		}
-		PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
+		PlayerAssociatedType pat = null;
+		try
+		{
+			pat = PlayerAssociatedType.valueOf(sp[1]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!PlayerAssociatedType can only be GLOBAL, GROUP or SOLO!";
+		}
 		Technology t = null;
 		switch(pat)
 		{
@@ -780,9 +1121,31 @@ public class PAPIHook extends PlaceholderExpansion
 		case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
 		case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
 		}
-		int lvl = Integer.parseInt(sp[3]);
-		EventType evt = EventType.valueOf(sp[4]);
-		ToolType tool = ToolType.valueOf(sp[5]);
+		if(t == null)
+		{
+			return "!Technology dont exist!";
+		}
+		int lvl = 0;
+		EventType evt = null;
+		ToolType tool = null;
+		try
+		{
+			lvl = Integer.parseInt(sp[3]);
+			evt = EventType.valueOf(sp[4]);
+			tool = ToolType.valueOf(sp[5]);
+		} catch(NumberFormatException e)
+		{
+			return "!Level is not are number!";
+		} catch(IllegalArgumentException e)
+		{
+			if(evt == null)
+			{
+				return "!EventType dont exist!";
+			} else
+			{
+				return "!ToolType dont exist!";
+			}
+		}
 		return idf.startsWith("reward_tech_dropchance_mat")
 				? reward_tech_dropchance_mat(sp, pat, t, lvl, evt, tool)
 				: reward_tech_dropchance_ent(sp, pat, t, lvl, evt, tool);
@@ -792,7 +1155,14 @@ public class PAPIHook extends PlaceholderExpansion
 			PlayerAssociatedType pat, Technology t, int lvl, EventType evt, ToolType tool)
 	{
 		
-		Material mat = Material.valueOf(sp[6]);
+		Material mat = null;
+		try
+		{
+			mat = Material.valueOf(sp[6]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!Material dont exist!";
+		}
 		String dropmat = sp[7];
 		StringBuilder sb = new StringBuilder();
 		LinkedHashMap<Integer, Double> map = new LinkedHashMap<>(); //Amount to drop, Dropchance
@@ -830,7 +1200,14 @@ public class PAPIHook extends PlaceholderExpansion
 	private String reward_tech_dropchance_ent(String[] sp,
 			PlayerAssociatedType pat, Technology t, int lvl, EventType evt, ToolType tool)
 	{
-		EntityType ent = EntityType.valueOf(sp[6]);
+		EntityType ent = null;
+		try
+		{
+			ent = EntityType.valueOf(sp[6]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!EntityType dont exist!";
+		}
 		String dropmat = sp[7];
 		StringBuilder sb = new StringBuilder();
 		LinkedHashMap<Integer, Double> map = new LinkedHashMap<>(); //Amount to drop, Dropchance
@@ -871,7 +1248,14 @@ public class PAPIHook extends PlaceholderExpansion
 		{
 			return "Error split.length isnt 7!";
 		}
-		PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
+		PlayerAssociatedType pat = null;
+		try
+		{
+			pat = PlayerAssociatedType.valueOf(sp[1]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!PlayerAssociatedType can only be GLOBAL, GROUP or SOLO!";
+		}
 		Technology t = null;
 		switch(pat)
 		{
@@ -879,8 +1263,26 @@ public class PAPIHook extends PlaceholderExpansion
 		case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
 		case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
 		}
-		EventType evt = EventType.valueOf(sp[3]);
-		ToolType tool = ToolType.valueOf(sp[4]);
+		if(t == null)
+		{
+			return "!Technology dont exist!";
+		}
+		EventType evt = null;
+		ToolType tool = null;
+		try
+		{
+			evt = EventType.valueOf(sp[3]);
+			tool = ToolType.valueOf(sp[4]);
+		} catch(IllegalArgumentException e)
+		{
+			if(evt == null)
+			{
+				return "!EventType dont exist!";
+			} else
+			{
+				return "!ToolType dont exist!";
+			}
+		}
 		return idf.startsWith("reward_techtotal_dropchance_mat")
 				? reward_techtotal_dropchance_mat(sp, pat, t, evt, tool)
 				: reward_techtotal_dropchance_ent(sp, pat, t, evt, tool);
@@ -889,7 +1291,14 @@ public class PAPIHook extends PlaceholderExpansion
 	private String reward_techtotal_dropchance_mat(String[] sp,
 			PlayerAssociatedType pat, Technology t, EventType evt, ToolType tool)
 	{
-		Material mat = Material.valueOf(sp[5]);
+		Material mat = null;
+		try
+		{
+			mat = Material.valueOf(sp[5]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!Material dont exist!";
+		}
 		String dropmat = sp[6];
 		StringBuilder sb = new StringBuilder();
 		LinkedHashMap<Integer, Double> map = new LinkedHashMap<>(); //Amount to drop, Dropchance
@@ -929,7 +1338,14 @@ public class PAPIHook extends PlaceholderExpansion
 	private String reward_techtotal_dropchance_ent(String[] sp,
 			PlayerAssociatedType pat, Technology t, EventType evt, ToolType tool)
 	{
-		EntityType ent = EntityType.valueOf(sp[5]);
+		EntityType ent = null;
+		try
+		{
+			ent = EntityType.valueOf(sp[5]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!EntityType dont exist!";
+		}
 		String dropmat = sp[6];
 		StringBuilder sb = new StringBuilder();
 		LinkedHashMap<Integer, Double> map = new LinkedHashMap<>(); //Amount to drop, Dropchance
@@ -973,8 +1389,22 @@ public class PAPIHook extends PlaceholderExpansion
 		{
 			return "Error split.length isnt 5!";
 		}
-		EventType evt = EventType.valueOf(sp[1]);
-		ToolType tool = ToolType.valueOf(sp[2]);
+		EventType evt = null;
+		ToolType tool = null;
+		try
+		{
+			evt = EventType.valueOf(sp[1]);
+			tool = ToolType.valueOf(sp[2]);
+		} catch(IllegalArgumentException e)
+		{
+			if(evt == null)
+			{
+				return "!EventType dont exist!";
+			} else
+			{
+				return "!ToolType dont exist!";
+			}
+		}
 		return idf.startsWith("reward_player_dropchance_mat")
 				? reward_player_dropchance_mat(uuid, sp, evt, tool)
 				: reward_player_dropchance_ent(uuid, sp, evt, tool);
@@ -982,7 +1412,14 @@ public class PAPIHook extends PlaceholderExpansion
 	
 	private String reward_player_dropchance_mat(UUID uuid, String[] sp, EventType evt, ToolType tool)
 	{
-		Material mat = Material.valueOf(sp[3]);
+		Material mat = null;
+		try
+		{
+			mat = Material.valueOf(sp[3]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!Material dont exist!";
+		}
 		String dropmat = sp[4];
 		StringBuilder sb = new StringBuilder();
 		LinkedHashMap<Integer, Double> map = new LinkedHashMap<>(); //Amount to drop, Dropchance
@@ -1026,7 +1463,14 @@ public class PAPIHook extends PlaceholderExpansion
 	
 	private String reward_player_dropchance_ent(UUID uuid, String[] sp, EventType evt, ToolType tool)
 	{
-		EntityType ent = EntityType.valueOf(sp[3]);
+		EntityType ent = null;
+		try
+		{
+			ent = EntityType.valueOf(sp[3]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!EntityType dont exist!";
+		}
 		String dropmat = sp[4];
 		StringBuilder sb = new StringBuilder();
 		LinkedHashMap<Integer, Double> map = new LinkedHashMap<>(); //Amount to drop, Dropchance
@@ -1075,7 +1519,14 @@ public class PAPIHook extends PlaceholderExpansion
 		{
 			return "Error split.length isnt 8!";
 		}
-		PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
+		PlayerAssociatedType pat = null;
+		try
+		{
+			pat = PlayerAssociatedType.valueOf(sp[1]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!PlayerAssociatedType can only be GLOBAL, GROUP or SOLO!";
+		}
 		Technology t = null;
 		switch(pat)
 		{
@@ -1083,9 +1534,31 @@ public class PAPIHook extends PlaceholderExpansion
 		case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
 		case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
 		}
-		int lvl = Integer.parseInt(sp[3]);
-		EventType evt = EventType.valueOf(sp[4]);
-		ToolType tool = ToolType.valueOf(sp[5]);
+		if(t == null)
+		{
+			return "!Technology dont exist!";
+		}
+		int lvl = 0;
+		EventType evt = null;
+		ToolType tool = null;
+		try
+		{
+			lvl = Integer.parseInt(sp[3]);
+			evt = EventType.valueOf(sp[4]);
+			tool = ToolType.valueOf(sp[5]);
+		} catch(NumberFormatException e)
+		{
+			return "!Level is not are number!";
+		} catch(IllegalArgumentException e)
+		{
+			if(evt == null)
+			{
+				return "!EventType dont exist!";
+			} else
+			{
+				return "!ToolType dont exist!";
+			}
+		}
 		return idf.startsWith("reward_tech_silktouchdropchance_mat")
 				? reward_tech_silktouchdropchance_mat(sp, pat, t, lvl, evt, tool)
 				: reward_tech_silktouchdropchance_ent(sp, pat, t, lvl, evt, tool);
@@ -1094,7 +1567,14 @@ public class PAPIHook extends PlaceholderExpansion
 	private String reward_tech_silktouchdropchance_mat(String[] sp,
 			PlayerAssociatedType pat, Technology t, int lvl, EventType evt, ToolType tool)
 	{
-		Material mat = Material.valueOf(sp[6]);
+		Material mat = null;
+		try
+		{
+			mat = Material.valueOf(sp[6]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!Material dont exist!";
+		}
 		String dropmat = sp[7];
 		StringBuilder sb = new StringBuilder();
 		LinkedHashMap<Integer, Double> map = new LinkedHashMap<>(); //Amount to drop, Dropchance
@@ -1135,7 +1615,14 @@ public class PAPIHook extends PlaceholderExpansion
 	private String reward_tech_silktouchdropchance_ent(String[] sp,
 			PlayerAssociatedType pat, Technology t, int lvl, EventType evt, ToolType tool)
 	{
-		EntityType ent = EntityType.valueOf(sp[6]);
+		EntityType ent = null;
+		try
+		{
+			ent = EntityType.valueOf(sp[6]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!EntityType dont exist!";
+		}
 		String dropmat = sp[7];
 		StringBuilder sb = new StringBuilder();
 		LinkedHashMap<Integer, Double> map = new LinkedHashMap<>(); //Amount to drop, Dropchance
@@ -1180,7 +1667,14 @@ public class PAPIHook extends PlaceholderExpansion
 		{
 			return "Error split.length isnt 7!";
 		}
-		PlayerAssociatedType pat = PlayerAssociatedType.valueOf(sp[1]);
+		PlayerAssociatedType pat = null;
+		try
+		{
+			pat = PlayerAssociatedType.valueOf(sp[1]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!PlayerAssociatedType can only be GLOBAL, GROUP or SOLO!";
+		}
 		Technology t = null;
 		switch(pat)
 		{
@@ -1188,8 +1682,26 @@ public class PAPIHook extends PlaceholderExpansion
 		case GROUP: t = CatTechHandler.technologyMapGroup.get(sp[2]); break;
 		case GLOBAL: t = CatTechHandler.technologyMapGlobal.get(sp[2]); break;
 		}
-		EventType evt = EventType.valueOf(sp[3]);
-		ToolType tool = ToolType.valueOf(sp[4]);
+		if(t == null)
+		{
+			return "!Technology dont exist!";
+		}
+		EventType evt = null;
+		ToolType tool = null;
+		try
+		{
+			evt = EventType.valueOf(sp[3]);
+			tool = ToolType.valueOf(sp[4]);
+		} catch(IllegalArgumentException e)
+		{
+			if(evt == null)
+			{
+				return "!EventType dont exist!";
+			} else
+			{
+				return "!ToolType dont exist!";
+			}
+		}
 		return idf.startsWith("reward_techtotal_silktouchdropchance_mat")
 				? reward_techtotal_silktouchdropchance_mat(sp, pat, t, evt, tool)
 				: reward_techtotal_silktouchdropchance_ent(sp, pat, t, evt, tool);
@@ -1198,7 +1710,14 @@ public class PAPIHook extends PlaceholderExpansion
 	private String reward_techtotal_silktouchdropchance_mat(String[] sp,
 			PlayerAssociatedType pat, Technology t, EventType evt, ToolType tool)
 	{
-		Material mat = Material.valueOf(sp[5]);
+		Material mat = null;
+		try
+		{
+			mat = Material.valueOf(sp[5]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!Material dont exist!";
+		}
 		String dropmat = sp[6];
 		StringBuilder sb = new StringBuilder();
 		LinkedHashMap<Integer, Double> map = new LinkedHashMap<>(); //Amount to drop, Dropchance
@@ -1238,7 +1757,14 @@ public class PAPIHook extends PlaceholderExpansion
 	private String reward_techtotal_silktouchdropchance_ent(String[] sp,
 			PlayerAssociatedType pat, Technology t, EventType evt, ToolType tool)
 	{
-		EntityType ent = EntityType.valueOf(sp[5]);
+		EntityType ent = null;
+		try
+		{
+			ent = EntityType.valueOf(sp[5]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!EntityType dont exist!";
+		}
 		String dropmat = sp[6];
 		StringBuilder sb = new StringBuilder();
 		LinkedHashMap<Integer, Double> map = new LinkedHashMap<>(); //Amount to drop, Dropchance
@@ -1282,8 +1808,22 @@ public class PAPIHook extends PlaceholderExpansion
 		{
 			return "Error split.length isnt 5!";
 		}
-		EventType evt = EventType.valueOf(sp[1]);
-		ToolType tool = ToolType.valueOf(sp[2]);
+		EventType evt = null;
+		ToolType tool = null;
+		try
+		{
+			evt = EventType.valueOf(sp[1]);
+			tool = ToolType.valueOf(sp[2]);
+		} catch(IllegalArgumentException e)
+		{
+			if(evt == null)
+			{
+				return "!EventType dont exist!";
+			} else
+			{
+				return "!ToolType dont exist!";
+			}
+		}
 		return idf.startsWith("reward_player_silktouchdropchance_mat")
 				? reward_player_silktouchdropchance_mat(uuid, sp, evt, tool)
 				: reward_player_silktouchdropchance_ent(uuid, sp, evt, tool);
@@ -1291,7 +1831,14 @@ public class PAPIHook extends PlaceholderExpansion
 	
 	private String reward_player_silktouchdropchance_mat(UUID uuid, String[] sp, EventType evt, ToolType tool)
 	{
-		Material mat = Material.valueOf(sp[3]);
+		Material mat = null;
+		try
+		{
+			mat = Material.valueOf(sp[3]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!Material dont exist!";
+		}
 		String dropmat = sp[4];
 		StringBuilder sb = new StringBuilder();
 		LinkedHashMap<Integer, Double> map = new LinkedHashMap<>(); //Amount to drop, Dropchance
@@ -1335,7 +1882,14 @@ public class PAPIHook extends PlaceholderExpansion
 	
 	private String reward_player_silktouchdropchance_ent(UUID uuid, String[] sp, EventType evt, ToolType tool)
 	{
-		EntityType ent = EntityType.valueOf(sp[3]);
+		EntityType ent = null;
+		try
+		{
+			ent = EntityType.valueOf(sp[3]);
+		} catch(IllegalArgumentException e)
+		{
+			return "!EntityType dont exist!";
+		}
 		String dropmat = sp[4];
 		StringBuilder sb = new StringBuilder();
 		LinkedHashMap<Integer, Double> map = new LinkedHashMap<>(); //Amount to drop, Dropchance

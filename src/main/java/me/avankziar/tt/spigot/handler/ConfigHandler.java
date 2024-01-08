@@ -81,6 +81,11 @@ public class ConfigHandler
 		return plugin.getYamlHandler().getConfig().getBoolean("EnableMechanic.CommandToBungee", false);
 	}
 	
+	public boolean isMechanicMessageToBungeeEnabled()
+	{
+		return plugin.getYamlHandler().getConfig().getBoolean("EnableMechanic.MessageToBungee", false);
+	}
+	
 	public boolean isMechanicConditionQueryParserEnabled()
 	{
 		return plugin.getYamlHandler().getConfig().getBoolean("EnableMechanic.ConditionQueryParser", false);
@@ -177,11 +182,6 @@ public class ConfigHandler
 	public boolean jobsRebornImportIsActive()
 	{
 		return plugin.getYamlHandler().getConfig().getBoolean("Do.Import.JobsReborn.Active", false);
-	}
-	
-	public String jobsRebornImportProgessionFormula()
-	{
-		return plugin.getYamlHandler().getConfig().getString("Do.Import.JobsReborn.ProgessionFormula", "10*(joblevel)+(joblevel*joblevel*4)");
 	}
 	
 	public int jobsRebornImportMaxJobsPerPlayer()

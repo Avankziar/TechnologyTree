@@ -16,24 +16,31 @@ public class GlobalTechnologyPoll implements MysqlHandable
 	private int id;
 	private UUID playerUUID;
 	private String choosen_Technology;
+	private int choosen_Technology_Researchlevel;
+	private boolean processedInPoll;
 	private boolean processedInRepayment;
 	private String global_Choosen_Technology;
 	private int global_Choosen_Technology_ID;
+	private int total_Participants;
 	
 	public GlobalTechnologyPoll()
 	{
 		
 	}
 	
-	public GlobalTechnologyPoll(int id, UUID playerUUID, String choosen_Technology, boolean processedInRepayment,
-			String global_Choosen_Technology, int global_Choosen_Technology_ID)
+	public GlobalTechnologyPoll(int id, UUID playerUUID, String choosen_Technology, int choosen_Technology_Researchlevel, 
+			boolean processedInPoll, boolean processedInRepayment,
+			String global_Choosen_Technology, int global_Choosen_Technology_ID, int total_Participants)
 	{
 		setId(id);
 		setPlayerUUID(playerUUID);
 		setChoosen_Technology(choosen_Technology);
+		setChoosen_Technology_Researchlevel(choosen_Technology_Researchlevel);
+		setProcessedInPoll(processedInPoll);
 		setProcessedInRepayment(processedInRepayment);
 		setGlobal_Choosen_Technology(global_Choosen_Technology);
 		setGlobal_Choosen_Technology_ID(global_Choosen_Technology_ID);
+		setTotal_Participants(total_Participants);
 	}
 
 	public int getId()
@@ -66,6 +73,26 @@ public class GlobalTechnologyPoll implements MysqlHandable
 		this.choosen_Technology = choosen_Technology;
 	}
 	
+	public int getChoosen_Technology_Researchlevel()
+	{
+		return choosen_Technology_Researchlevel;
+	}
+
+	public void setChoosen_Technology_Researchlevel(int choosen_Technology_Researchlevel)
+	{
+		this.choosen_Technology_Researchlevel = choosen_Technology_Researchlevel;
+	}
+
+	public boolean isProcessedInPoll()
+	{
+		return processedInPoll;
+	}
+
+	public void setProcessedInPoll(boolean processedInPoll)
+	{
+		this.processedInPoll = processedInPoll;
+	}
+
 	public boolean isProcessedInRepayment()
 	{
 		return processedInRepayment;
@@ -96,22 +123,35 @@ public class GlobalTechnologyPoll implements MysqlHandable
 		this.global_Choosen_Technology_ID = global_Choosen_Technology_ID;
 	}
 
+	public int getTotal_Participants()
+	{
+		return total_Participants;
+	}
+
+	public void setTotal_Participants(int total_Participants)
+	{
+		this.total_Participants = total_Participants;
+	}
+
 	@Override
 	public boolean create(Connection conn, String tablename)
 	{
 		try
 		{
 			String sql = "INSERT INTO `" + tablename
-					+ "`(`player_uuid`, `choosen_technology`, "
-					+ "`processed_in_repayment`, `global_choosen_technology`, `global_choosen_technology_id`) " 
-					+ "VALUES(?, ?, "
-					+ "?, ?)";
+					+ "`(`player_uuid`, `choosen_technology`, `choosen_technology_researchlevel`, `processed_in_poll`, "
+					+ "`processed_in_repayment`, `global_choosen_technology`, `global_choosen_technology_id`, `total_participants`) " 
+					+ "VALUES(?, ?, ?"
+					+ "?, ?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 	        ps.setString(1, getPlayerUUID().toString());
 	        ps.setString(2, getChoosen_Technology());
-	        ps.setBoolean(3, isProcessedInRepayment());
-	        ps.setString(4, getGlobal_Choosen_Technology());
-	        ps.setInt(5, getGlobal_Choosen_Technology_ID());
+	        ps.setInt(3, getChoosen_Technology_Researchlevel());
+	        ps.setBoolean(4, isProcessedInPoll());
+	        ps.setBoolean(5, isProcessedInRepayment());
+	        ps.setString(6, getGlobal_Choosen_Technology());
+	        ps.setInt(7, getGlobal_Choosen_Technology_ID());
+	        ps.setInt(8, getTotal_Participants());
 	        int i = ps.executeUpdate();
 	        MysqlHandler.addRows(MysqlHandler.QueryType.INSERT, i);
 	        return true;
@@ -128,16 +168,20 @@ public class GlobalTechnologyPoll implements MysqlHandable
 		try
 		{
 			String sql = "UPDATE `" + tablename
-				+ "` SET `player_uuid` = ?, `choosen_technology` = ?, `processed_in_repayment` = ?"
-				+ " `global_choosen_technology` = ?, `global_choosen_technology_id` = ?"
+				+ "` SET `player_uuid` = ?, `choosen_technology` = ?, `choosen_technology_researchlevel`,"
+				+ " `processed_in_poll` = ?, `processed_in_repayment` = ?,"
+				+ " `global_choosen_technology` = ?, `global_choosen_technology_id` = ?, `total_participants` = ?"
 				+ " WHERE "+whereColumn;
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, getPlayerUUID().toString());
 	        ps.setString(2, getChoosen_Technology());
-	        ps.setBoolean(3, isProcessedInRepayment());
-	        ps.setString(4, getGlobal_Choosen_Technology()); 
-	        ps.setInt(5, getGlobal_Choosen_Technology_ID());
-			int i = 6;
+	        ps.setInt(3, getChoosen_Technology_Researchlevel());
+	        ps.setBoolean(4, isProcessedInPoll());
+	        ps.setBoolean(5, isProcessedInRepayment());
+	        ps.setString(6, getGlobal_Choosen_Technology()); 
+	        ps.setInt(7, getGlobal_Choosen_Technology_ID());
+	        ps.setInt(8, getTotal_Participants());
+			int i = 9;
 			for(Object o : whereObject)
 			{
 				ps.setObject(i, o);
@@ -176,9 +220,12 @@ public class GlobalTechnologyPoll implements MysqlHandable
 				al.add(new GlobalTechnologyPoll(rs.getInt("id"),
 						UUID.fromString(rs.getString("player_uuid")),
 						rs.getString("choosen_technology"),
+						rs.getInt("choosen_technology_researchlevel"),
+						rs.getBoolean("processed_in_poll"),
 						rs.getBoolean("processed_in_repayment"),
 						rs.getString("global_choosen_technology"),
-						rs.getInt("global_choosen_technology_id")));
+						rs.getInt("global_choosen_technology_id"),
+						rs.getInt("total_participants")));
 			}
 			return al;
 		} catch (SQLException e)

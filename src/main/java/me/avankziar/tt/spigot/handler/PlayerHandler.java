@@ -28,6 +28,7 @@ import main.java.me.avankziar.tt.spigot.assistance.Experience;
 import main.java.me.avankziar.tt.spigot.assistance.MatchApi;
 import main.java.me.avankziar.tt.spigot.assistance.TimeHandler;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
+import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
 import main.java.me.avankziar.tt.spigot.gui.objects.SettingsLevel;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler.BlockType;
@@ -41,6 +42,7 @@ import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
 import main.java.me.avankziar.tt.spigot.objects.TechnologyType;
 import main.java.me.avankziar.tt.spigot.objects.ToolType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalEntryQueryStatus;
+import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalTechnologyPoll;
 import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
 import main.java.me.avankziar.tt.spigot.objects.mysql.RegisteredBlock;
 import main.java.me.avankziar.tt.spigot.objects.mysql.SoloEntryQueryStatus;
@@ -134,8 +136,22 @@ public class PlayerHandler
 				PlayerData pd = getPlayer(player.getUniqueId());
 				if(new ConfigHandler().jobsRebornImportIsActive())
 				{
-					String formula = new ConfigHandler().jobsRebornImportProgessionFormula();
-					ImportJobsReborn.importJobsReborn(player, pd, formula);
+					ImportJobsReborn.importJobsReborn(player, pd);
+				}
+				if(plugin.getMysqlHandler().exist(MysqlHandler.Type.GLOBAL_TECHNOLOGYPOLL, 
+						"`player_uuid` AND `processed_in_repayment` = ?", player.getUniqueId().toString(), true))
+				{
+					ArrayList<GlobalTechnologyPoll> l = GlobalTechnologyPoll.convert(plugin.getMysqlHandler().getFullList(
+							MysqlHandler.Type.GLOBAL_TECHNOLOGYPOLL, "`id` ASC", "`player_uuid` AND `processed_in_repayment` = ?", player.getUniqueId().toString(), true));
+					for(GlobalTechnologyPoll gtp : l)
+					{
+						double share = 1/gtp.getTotal_Participants();
+						gtp.setProcessedInRepayment(false);
+						Technology playerChoosen = CatTechHandler.getTechnology(gtp.getChoosen_Technology(), PlayerAssociatedType.GLOBAL);
+						PlayerHandler.repaymentGlobalTechnology(player, playerChoosen, gtp.getChoosen_Technology_Researchlevel());
+						PlayerHandler.payTechnology(player, playerChoosen, share);
+						plugin.getMysqlHandler().updateData(Type.GLOBAL_TECHNOLOGYPOLL, gtp, "`id` = ?", gtp.getId());
+					}
 				}
 				if(pd.isShowSyncMessage())
 				{
@@ -504,7 +520,7 @@ public class PlayerHandler
 				}
 				if(existII && sgeqs.getStatusType() == EntryStatusType.CAN_SEE_IT)
 				{
-					map.put(scat.getSeeRequirementItemIfYouCanSeeIt(player), null);
+					map.put(scat.getSeeRequirementItemIfYouCanSeeIt(player), true);
 					return map;
 				}
 				ArrayList<String> sgls = new ArrayList<>();
@@ -521,14 +537,14 @@ public class PlayerHandler
 				if(sgal != null && sgal.get(0).equalsIgnoreCase("true"))
 				{
 					sgeqs.setStatusType(EntryStatusType.CAN_SEE_IT);
-					map.put(scat.getSeeRequirementItemIfYouCanSeeIt(player), null);
+					map.put(scat.getSeeRequirementItemIfYouCanSeeIt(player), true);
 				} else
 				{
 					if(!scat.isSeeRequirementShowDifferentItemIfYouNormallyDontSeeIt())
 					{
 						return null;
 					}
-					map.put(scat.getSeeRequirementItemIfYouCannotSeeIt(player), null);
+					map.put(scat.getSeeRequirementItemIfYouCannotSeeIt(player), false);
 				}
 				if(existII)
 				{
@@ -773,9 +789,10 @@ public class PlayerHandler
 			PlayerAssociatedType pat, MainCategory mcat, SubCategory scat, Technology tech)
 	{
 		LinkedHashMap<ItemStack, Boolean> map = new LinkedHashMap<>();
-		ArrayList<GlobalEntryQueryStatus> highestNotResearchedEntryList = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBAL_ENTRYQUERYSTATUS,
+		ArrayList<GlobalEntryQueryStatus> highestNotResearchedEntryList = 
+				GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBAL_ENTRYQUERYSTATUS,
 				"`research_level` DESC", 0, 1,
-				"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ? AND `status_type` != ?",
+				"`intern_name` = ? AND `entry_query_type` = ? AND `status_type` != ?",
 				tech.getInternName(), EntryQueryType.TECHNOLOGY.toString(),
 				EntryStatusType.HAVE_RESEARCHED_IT.toString()));
 		GlobalEntryQueryStatus hNRE = highestNotResearchedEntryList.size() == 0 ? null : highestNotResearchedEntryList.get(0); //highestNotResearchedEntry
@@ -1158,7 +1175,6 @@ public class PlayerHandler
 		if(pd != null && t.getCostTTExp().get(techLevel) != null)
 		{
 			ttexp = new MathFormulaParser().parse(t.getCostTTExp().get(techLevel), map) * proportionateCosts;
-			TT.log.info("TTExp | "+pd.getActualTTExp()+" | "+ttexp); //REMOVEME
 			bttexp = pd.getActualTTExp() >= ttexp;
 		}
 		boolean bvexp = true;
@@ -1369,6 +1385,19 @@ public class PlayerHandler
 			doUpdate(player, t, 0, researchLevel);
 		}		
 		return researchLevel;
+	}
+	
+	public static void addInGlobalPoll(Player player, Technology t)
+	{
+		if(!plugin.getMysqlHandler().exist(MysqlHandler.Type.GLOBAL_TECHNOLOGYPOLL, "`processed_in_poll` = ?", false))
+		{
+			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("PlayerHandler.AddInGlobalPoll.AlreadyHaveVoted")));
+			return;
+		}
+		GlobalTechnologyPoll gtp = new GlobalTechnologyPoll(0, player.getUniqueId(), t.getInternName(), 0, false, false, "", 0, 0);
+		plugin.getMysqlHandler().create(MysqlHandler.Type.GLOBAL_TECHNOLOGYPOLL, gtp);
+		player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("PlayerHandler.AddInGlobalPoll.AddInGlobalPoll.Voted")));
+		return;
 	}
 	
 	//Return the researchlevel

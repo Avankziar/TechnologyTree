@@ -293,6 +293,9 @@ public class YamlManager
 		configSpigotKeys.put("EnableMechanic.ConditionQueryParser"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				true}));
+		configSpigotKeys.put("EnableMechanic.MessageToBungee"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				true}));
 		
 		configSpigotKeys.put("EnableCommands.Base"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
@@ -386,9 +389,6 @@ public class YamlManager
 		configSpigotKeys.put("Do.Import.JobsReborn.MaxJobsPerPlayer"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				3}));
-		configSpigotKeys.put("Do.Import.JobsReborn.ProgessionFormula"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				"10*(joblevel)+(joblevel*joblevel*4)"}));
 		configSpigotKeys.put("Do.NewPlayer.ShowSyncMessage"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				true}));
@@ -664,6 +664,7 @@ public class YamlManager
 						"&c✖",
 						"&c✖"}));
 		initCommandsLang();
+		initBackgroundTaskLang();
 		initPlayerHandlerLang();
 		initBlockHandlerLang();
 		initGuiHandlerLang();
@@ -815,6 +816,23 @@ public class YamlManager
 						"&7[&#ff8c00TT&7] &#c6a664Reload has ended!"}));
 	}
 	
+	private void initBackgroundTaskLang() //INFO:BackgroundTaskLang
+	{
+		String path = "BackgroundTask.";
+		languageKeys.put(path+"PollEvaluation.Headline", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&f=====&#ff8c00Technolgie Wahlauswertung&f=====",
+						"&f=====&#ff8c00Technolgy poll evaluation&f====="}));
+		languageKeys.put(path+"PollEvaluation.Bottomline", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&f========================================",
+						"&f========================================"}));
+		languageKeys.put(path+"PollEvaluation.NoVoteExist", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cEs sind keine Stimmen für die Technologiewahl eingegangen. Die derzeitige Technologiewahl ist somit ungültig.",
+						"&cNo votes have been received for the technology election. The current technology election is therefore invalid."}));
+	}
+	
 	private void initPlayerHandlerLang() //INFO:PlayerHandlerLang
 	{
 		String path = "PlayerHandler.";
@@ -854,6 +872,14 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&bWahlkostenerstattung von &e%technology% &bin &7%subcategory%&f/&7%maincategory%",
 						"&bTechnology choice refund of &e%technology% &bin &7%subcategory%&f/&7%maincategory%"}));
+		languageKeys.put(path+"AddInGlobalPoll.AlreadyHaveVoted", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDu hast schon für die nächste Technologiewahl gevotet!",
+						"&eYou have already voted for the next technology choice!"}));
+		languageKeys.put(path+"AddInGlobalPoll.Voted", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDu hast für die Technologie %tech% gevoted. &7Anmerkung: Die Kosten werden dir zum Teil wiedererstattet, wenn die Technologiewahl stattfindet. Die Erstattungsmenge hängt von der Anzahl der Wahlteilnehmer ab. Bei 10 Teilnehmer, zahl man nur 1/10 der Kosten.",
+						"&eYou have voted for the technology %tech%. &7Note: The costs will be partially refunded to you when the technology poll takes place. The refund amount depends on the number of voters. With 10 participants, you only pay 1/10 of the costs."}));
 	}
 	
 	public void initBlockHandlerLang() //INFO:BlockHandlerLang
@@ -2220,7 +2246,7 @@ public class YamlManager
 						"&fZugang zu allerlei Abbaubooster.",
 						"",
 						"&fAccess to all kinds of miningbooster."});
-		addSubCategory("craftbooster",
+		addSubCategory("craftingbooster",
 				new String[] {"Herstellungsbooster", "Craftingbooster"},
 				PlayerAssociatedType.GLOBAL, 1,
 				new String[] {

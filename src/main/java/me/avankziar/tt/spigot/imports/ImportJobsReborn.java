@@ -1,5 +1,7 @@
 package main.java.me.avankziar.tt.spigot.imports;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +11,9 @@ import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import org.apache.commons.io.FilenameUtils;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import main.java.me.avankziar.ifh.general.assistance.ChatApi;
@@ -22,7 +27,7 @@ public class ImportJobsReborn
 {
 	private static TT plugin = TT.getPlugin();
 	
-	public static void importJobsReborn(Player player, PlayerData pd, String formula)
+	public static void importJobsReborn(Player player, PlayerData pd)
 	{
 		int juserid = getJobsRebornUserID(player.getUniqueId());
 		if(juserid == 0)
@@ -34,7 +39,8 @@ public class ImportJobsReborn
 		{
 			return;
 		}
-		double ttexp = convertJobInExp(map, formula);
+		LinkedHashMap<String, String> formulamap = getFormulas();
+		double ttexp = convertJobInExp(map, formulamap);
 		pd.setActualTTExp(pd.getActualTTExp() + ttexp);
 		pd.setTotalReceivedTTExp(pd.getTotalReceivedTTExp() + ttexp);
 		PlayerHandler.updatePlayer(pd);
@@ -192,6 +198,43 @@ public class ImportJobsReborn
 		return map;
 	}
 	
+	private static LinkedHashMap<String, String> getFormulas()
+	{
+		LinkedHashMap<String, String> formulamap = new LinkedHashMap<>();
+		File jobsDir = new File("plugins/Jobs/jobs");
+		File[] listOfFiles = jobsDir.listFiles();
+		for (int i = 0; i < listOfFiles.length; i++) 
+		{
+			if(!listOfFiles[i].isFile()) 
+			{
+				continue;
+			}
+			YamlConfiguration y = new YamlConfiguration();
+			try 
+			{
+				y.load(listOfFiles[i]);
+			} catch (IOException | InvalidConfigurationException e) 
+			{
+				return null;
+			}
+			String path = null;
+			for(String s : y.getKeys(false))
+			{
+				if(y.get(s+".fullname") != null)
+				{
+					path = s;
+					break;
+				}
+			}
+			String name = FilenameUtils.removeExtension(listOfFiles[i].getName()) + ";"+y.getString(path+".fullname");
+			if(!formulamap.containsKey(name))
+			{
+				formulamap.put(name, y.getString(path+".leveling-progression-equation"));
+			}
+		}
+		return formulamap;
+	}
+	
 	private static void deleteJobsRebornData(int userid)
 	{
 		PreparedStatement ps = null;
@@ -236,14 +279,24 @@ public class ImportJobsReborn
 		return;
 	}
 	
-	private static double convertJobInExp(LinkedHashMap<String, LinkedHashMap<Integer, Integer>> m, String formula)
+	private static double convertJobInExp(LinkedHashMap<String, LinkedHashMap<Integer, Integer>> m, LinkedHashMap<String, String> formulamap)
 	{
 		double ttexp = 0;
 		int numjobs = m.size();
 		int maxjobs = new ConfigHandler().jobsRebornImportMaxJobsPerPlayer();
-		for(LinkedHashMap<Integer, Integer> v : m.values())
+		for(Entry<String, LinkedHashMap<Integer, Integer>> v : m.entrySet())
 		{
-			for(Entry<Integer, Integer> e : v.entrySet())
+			String j = v.getKey();
+			String formula = null;
+			for(String f : formulamap.keySet())
+			{
+				if(f.contains(j))
+				{
+					formula = formulamap.get(f);
+					break;
+				}
+			}
+			for(Entry<Integer, Integer> e : v.getValue().entrySet())
 			{
 				int level = e.getKey();
 				int exp = e.getValue();
