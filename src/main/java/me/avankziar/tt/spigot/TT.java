@@ -29,7 +29,9 @@ import main.java.me.avankziar.ifh.general.modifier.Modifier;
 import main.java.me.avankziar.ifh.general.valueentry.ValueEntry;
 import main.java.me.avankziar.ifh.spigot.administration.Administration;
 import main.java.me.avankziar.ifh.spigot.economy.Economy;
+import main.java.me.avankziar.ifh.spigot.interfaces.BungeeOnlinePlayers;
 import main.java.me.avankziar.ifh.spigot.interfaces.EnumTranslation;
+import main.java.me.avankziar.ifh.spigot.tobungee.chatlike.BaseComponentToBungee;
 import main.java.me.avankziar.ifh.spigot.tobungee.chatlike.MessageToBungee;
 import main.java.me.avankziar.ifh.spigot.tobungee.commands.CommandToBungee;
 import main.java.me.avankziar.tt.spigot.assistance.BackgroundTask;
@@ -123,8 +125,10 @@ public class TT extends JavaPlugin
 	private ConditionQueryParser conditionQueryParserConsumer;
 	private PlayerTimes playerTimesConsumer;
 	private MessageToBungee messageToBungeeConsumer;
-	
+	private BaseComponentToBungee baseComponentToBungeeConsumer;
 	private CommandToBungee commandToBungeeConsumer;
+	private BungeeOnlinePlayers bungeeOnlinePlayersConsumer;
+	
 	private Economy ecoConsumer;
 	
 	private net.milkbowl.vault.economy.Economy vEco;
@@ -590,6 +594,7 @@ public class TT extends JavaPlugin
 		setupIFHConditionQueryParser();
 		setupIFHEconomy();
 		setupIFHPlayerTimes();
+		setupIFHBungeeOnlinePlayers();
 	}
 	
 	public void setupIFHValueEntry()
@@ -773,10 +778,6 @@ public class TT extends JavaPlugin
 	
 	public void setupIFHCommandToBungee()
 	{
-		if(!new ConfigHandler().isMechanicCommandToBungeeEnabled())
-		{
-			return;
-		}
 		if(!plugin.getServer().getPluginManager().isPluginEnabled("InterfaceHub")) 
 	    {
 	    	return;
@@ -820,10 +821,6 @@ public class TT extends JavaPlugin
 	
 	public void setupIFHMessageToBungee()
 	{
-		if(!new ConfigHandler().isMechanicMessageToBungeeEnabled())
-		{
-			return;
-		}
 		if(!plugin.getServer().getPluginManager().isPluginEnabled("InterfaceHub")) 
 	    {
 	    	return;
@@ -865,12 +862,51 @@ public class TT extends JavaPlugin
 		return messageToBungeeConsumer;
 	}
 	
+	public void setupIFHBaseComponentToBungee()
+	{
+		if(!plugin.getServer().getPluginManager().isPluginEnabled("InterfaceHub")) 
+	    {
+	    	return;
+	    }
+        new BukkitRunnable()
+        {
+        	int i = 0;
+			@Override
+			public void run()
+			{
+				try
+				{
+					if(i == 20)
+				    {
+						cancel();
+				    	return;
+				    }
+				    RegisteredServiceProvider<main.java.me.avankziar.ifh.spigot.tobungee.chatlike.BaseComponentToBungee> rsp = 
+		                             getServer().getServicesManager().getRegistration(
+		                            		 main.java.me.avankziar.ifh.spigot.tobungee.chatlike.BaseComponentToBungee.class);
+				    if(rsp == null) 
+				    {
+				    	i++;
+				        return;
+				    }
+				    baseComponentToBungeeConsumer = rsp.getProvider();
+				    log.info(pluginName + " detected InterfaceHub >>> BaseComponentToBungee.class is consumed!");
+				    cancel();
+				} catch(NoClassDefFoundError e)
+				{
+					cancel();
+				}
+			}
+        }.runTaskTimer(plugin, 0L, 20*2);
+	}
+	
+	public BaseComponentToBungee getBaseComponentToBungee()
+	{
+		return baseComponentToBungeeConsumer;
+	}
+	
 	public void setupIFHConditionQueryParser()
 	{
-		if(!new ConfigHandler().isMechanicConditionQueryParserEnabled())
-		{
-			return;
-		}
 		if(!plugin.getServer().getPluginManager().isPluginEnabled("InterfaceHub")) 
 	    {
 	    	return;
@@ -1003,6 +1039,49 @@ public class TT extends JavaPlugin
 	public PlayerTimes getPlayerTimes()
 	{
 		return playerTimesConsumer;
+	}
+	
+	private void setupIFHBungeeOnlinePlayers() 
+	{
+		if(!plugin.getServer().getPluginManager().isPluginEnabled("InterfaceHub")) 
+	    {
+	    	return;
+	    }
+        new BukkitRunnable()
+        {
+        	int i = 0;
+			@Override
+			public void run()
+			{
+				try
+				{
+					if(i == 20)
+				    {
+						cancel();
+				    	return;
+				    }
+				    RegisteredServiceProvider<main.java.me.avankziar.ifh.spigot.interfaces.BungeeOnlinePlayers> rsp = 
+		                             getServer().getServicesManager().getRegistration(
+		                            		 main.java.me.avankziar.ifh.spigot.interfaces.BungeeOnlinePlayers.class);
+				    if(rsp == null) 
+				    {
+				    	i++;
+				        return;
+				    }
+				    bungeeOnlinePlayersConsumer = rsp.getProvider();
+				    log.info(pluginName + " detected InterfaceHub >>> BungeeOnlinePlayers.class is consumed!");
+				    cancel();
+				} catch(NoClassDefFoundError e)
+				{
+					cancel();
+				}			    
+			}
+        }.runTaskTimer(plugin, 0L, 20*2);
+	}
+	
+	public BungeeOnlinePlayers getBungeeOnlinePlayers()
+	{
+		return bungeeOnlinePlayersConsumer;
 	}
 	
 	public Economy getIFHEco()

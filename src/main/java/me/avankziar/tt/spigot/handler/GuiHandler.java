@@ -68,6 +68,8 @@ import main.java.me.avankziar.tt.spigot.objects.EntryQueryType;
 import main.java.me.avankziar.tt.spigot.objects.EntryStatusType;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalEntryQueryStatus;
+import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
+import main.java.me.avankziar.tt.spigot.objects.mysql.GroupEntryQueryStatus;
 import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
 import main.java.me.avankziar.tt.spigot.objects.mysql.SoloEntryQueryStatus;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.MainCategory;
@@ -552,7 +554,6 @@ public class GuiHandler
 			{
 				if(tj >= 53)
 				{
-					TT.log.info("GuiHandler tj >= 53"); //REMOVEME
 					break;
 				}
 				int ii = ee.getKey();
@@ -561,7 +562,6 @@ public class GuiHandler
 				if((ii < 0 && ii > 53) || isb == null)
 				{
 					tj++;
-					TT.log.info("GuiHandler (ii < 0 && ii > 53) || isb == null"); //REMOVEME
 					continue;
 				}
 				for(Entry<ItemStack, Boolean> eee : isb.entrySet())
@@ -582,7 +582,6 @@ public class GuiHandler
 						ctar.add(new ClickFunction(ClickType.RIGHT, ClickFunctionType.INFO_TECHNOLOGY));
 					}
 					gui.add(ii, iss, settingsLevel, true, true, map, ctar.toArray(new ClickFunction[ctar.size()]));
-					TT.log.info("GuiHandler gui.add: ii:"+ii+" | iss.getType:"+iss.getType().toString()); //REMOVEME
 				}
 				tj++;
 			}
@@ -687,7 +686,7 @@ public class GuiHandler
 					: (TT.getPlugin().getEnumTl() != null
 							  ? TT.getPlugin().getEnumTl().getLocalization(mat)
 							  : is.getType().toString()));
-			displayname = getStringPlaceHolder(player, mcat, scat, null, displayname, playername, 0, 0);
+			displayname = getStringPlaceHolder(player, mcat, scat, null, displayname, playername, 0, 0, 0);
 			if(is == null)
 			{
 				is = new ItemStack(mat, amount);
@@ -857,18 +856,15 @@ public class GuiHandler
 	public static List<String> getLorePlaceHolder(Player player, MainCategory mcat, SubCategory scat, Technology t, List<String> lore, String playername)
 	{
 		List<String> list = new ArrayList<>();
-		int totalSoloTechs = plugin.getMysqlHandler().getCount(Type.SOLO_ENTRYQUERYSTATUS,
-				"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
-				player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
-		int totalGlobalTechs = plugin.getMysqlHandler().getCount(Type.GLOBAL_ENTRYQUERYSTATUS,
-				"`entry_query_type` = ? AND `status_type` = ?",
-				EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
+		double totalSoloTechs = PlayerHandler.getTotalResearchSoloTech(player);
+		double totalGroupTechs = PlayerHandler.getTotalResearchGroupTech(GroupHandler.getGroup(player));
+		double totalGlobalTechs = PlayerHandler.getTotalResearchGlobalTech();
 		boolean papi = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null 
 				&& Bukkit.getPluginManager().getPlugin("PlaceholderAPI").isEnabled();
 		for(String s : lore)
 		{
 			String a = getStringPlaceHolder(player, mcat, scat, t, s, playername,
-					totalSoloTechs, totalGlobalTechs);
+					totalSoloTechs, totalGroupTechs, totalGlobalTechs);
 			if(a == null)
 			{
 				continue;
@@ -883,7 +879,7 @@ public class GuiHandler
 				String ts = ac == null ? "." : plugin.getIFHEco().getDefaultThousandSeperator(ac.getCurrency());
 				String ds = ac == null ? "," : plugin.getIFHEco().getDefaultDecimalSeperator(ac.getCurrency());
 				a = getStringPlaceHolderIFH(player, t, a, ac, dg, useSI, useSy, ts, ds, playername,
-						totalSoloTechs, totalGlobalTechs);
+						totalSoloTechs, totalGroupTechs, totalGlobalTechs);
 				if(a == null)
 				{
 					continue;
@@ -891,7 +887,7 @@ public class GuiHandler
 			} else
 			{
 				a = getStringPlaceHolderVault(player, t, a, playername,
-						totalSoloTechs, totalGlobalTechs);
+						totalSoloTechs, totalGroupTechs, totalGlobalTechs);
 				if(a == null)
 				{
 					continue;
@@ -907,7 +903,7 @@ public class GuiHandler
 	}
 	
 	private static String getStringPlaceHolder(Player player, MainCategory mcat, SubCategory scat, Technology t, String text, String playername,
-			int totalSoloTechs, int totalGlobalTechs)
+			double totalSoloTechs, double totalGroupTechs, double totalGlobalTechs)
 	{
 		String s = text;
 		if(text.contains("%player%"))
@@ -942,6 +938,13 @@ public class GuiHandler
 					plugin.getMysqlHandler().getCount(Type.GLOBAL_ENTRYQUERYSTATUS,
 						"`entry_query_type` = ? AND `status_type` = ?",
 						EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
+			GroupData gd = GroupHandler.getGroup(player);
+			if(gd != null)
+			{
+				c += plugin.getMysqlHandler().getCount(Type.GROUP_ENTRYQUERYSTATUS,
+						"`group_name` = ? AND `entry_query_type` = ? AND `status_type` = ?",
+						gd.getGroupName(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
+			}
 			s = s.replace("%techhave%",  String.valueOf(c));
 		}
 		if(text.contains("%techexist%"))
@@ -961,7 +964,15 @@ public class GuiHandler
 		}
 		if(text.contains("%grouptechhave%"))
 		{
-			s = s.replace("%grouptechhave%", "0"); //TODO
+			GroupData gd = GroupHandler.getGroup(player);
+			int c = 0;
+			if(gd != null)
+			{
+				c = plugin.getMysqlHandler().getCount(Type.GROUP_ENTRYQUERYSTATUS,
+						"`group_name` = ? AND `entry_query_type` = ? AND `status_type` = ?",
+						gd.getGroupName(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
+			}
+			s = s.replace("%grouptechhave%", String.valueOf(c));
 		}
 		if(text.contains("%grouptechexist%"))
 		{
@@ -992,20 +1003,6 @@ public class GuiHandler
 			int c = BlockHandler.getMaxRegisteredBlocks(player, bt);
 			s = s.replace("%brewing_standmax%", String.valueOf(c));
 		}
-		/*if(text.contains("%enchanting_tablehas%")) REMOVEME Do not needed
-		{
-			BlockType bt = BlockType.ENCHANTING_TABLE;
-			int c = plugin.getMysqlHandler().getCount(Type.REGISTEREDBLOCK,
-					"`player_uuid` = ? AND `block_type` = ?",
-					player.getUniqueId().toString(), bt.toString());
-			s = s.replace("%enchanting_tablehas%", String.valueOf(c));
-		}
-		if(text.contains("%enchanting_tablemax%"))
-		{
-			BlockType bt = BlockType.ENCHANTING_TABLE;
-			int c = BlockHandler.getMaxRegisteredBlocks(player, bt);
-			s = s.replace("%enchanting_tablemax%", String.valueOf(c));
-		}*/
 		if(text.contains("%campfirehas%"))
 		{
 			BlockType bt = BlockType.CAMPFIRE;
@@ -1096,21 +1093,19 @@ public class GuiHandler
 				int acquiredTech = 0;
 				if(t.getPlayerAssociatedType() == PlayerAssociatedType.SOLO)
 				{
-					ArrayList<SoloEntryQueryStatus> highestEntryResearchedList = SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.SOLO_ENTRYQUERYSTATUS,
-							"`research_level` DESC", 0, 1,
-							"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-							player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString()));
-					SoloEntryQueryStatus eqs = highestEntryResearchedList.size() == 0 ? null : highestEntryResearchedList.get(0);
+					SoloEntryQueryStatus eqs = EntryQueryStatusHandler.getSoloEntryHighestResearchLevel(player, t, EntryQueryType.TECHNOLOGY);
 					techLevel = eqs == null ? 1 
 							: (eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT ? eqs.getResearchLevel() + 1 : eqs.getResearchLevel()); //Tech which may to acquire
 					acquiredTech = eqs == null ? 0 : techLevel - 1; //Tech which was already acquire
-				} else
+				} else if(t.getPlayerAssociatedType() == PlayerAssociatedType.GROUP)
 				{
-					ArrayList<GlobalEntryQueryStatus> highestEntryResearchedList = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBAL_ENTRYQUERYSTATUS,
-							"`research_level` DESC", 0, 1,
-							"`intern_name` = ? AND `entry_query_type` = ?",
-							t.getInternName(), EntryQueryType.TECHNOLOGY.toString()));
-					GlobalEntryQueryStatus eqs = highestEntryResearchedList.size() == 0 ? null : highestEntryResearchedList.get(0);
+					GroupEntryQueryStatus eqs = EntryQueryStatusHandler.getGroupEntryHighestResearchLevel(player, t, EntryQueryType.TECHNOLOGY);
+					techLevel = eqs == null ? 1 
+							: (eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT ? eqs.getResearchLevel() + 1 : eqs.getResearchLevel()); //Tech which may to acquire
+					acquiredTech = eqs == null ? 0 : techLevel - 1; //Tech which was already acquire
+				}  else
+				{
+					GlobalEntryQueryStatus eqs = EntryQueryStatusHandler.getGlobalEntryHighestResearchLevel(t, EntryQueryType.TECHNOLOGY);
 					techLevel = eqs == null ? 1 
 							: (eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT ? eqs.getResearchLevel() + 1 : eqs.getResearchLevel()); //Tech which may to acquire
 					acquiredTech = eqs == null ? 0 : techLevel - 1; //Tech which was already acquire
@@ -1122,8 +1117,11 @@ public class GuiHandler
 				HashMap<String, Double> map = new HashMap<>();
 				map.put(PlayerHandler.TECHLEVEL, (double) techLevel);
 				map.put(PlayerHandler.TECHACQUIRED, (double) acquiredTech);
-				map.put(PlayerHandler.SOLOTOTALTECH, (double) totalSoloTechs);
-				map.put(PlayerHandler.GLOBALTOTALTECH, (double) totalGlobalTechs);
+				map.put(PlayerHandler.SOLORESEARCHEDTOTALTECH, (double) totalSoloTechs);
+				map.put(PlayerHandler.GLOBALRESEARCHEDTOTALTECH, (double) totalGlobalTechs);
+				map.put(PlayerHandler.GROUPLEVEL, Double.valueOf(GroupHandler.getGroupLevel(player)));
+				map.put(PlayerHandler.GROUPMEMBERAMOUNT, Double.valueOf(GroupHandler.getGroupMemberAmount(player)));
+				map.put(PlayerHandler.GROUPMEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getGroupMemberTotalAmount(player)));
 				if(text.contains("%rawcostttexp%"))
 				{
 					if(t.getCostTTExp().get(techLevel) == null)
@@ -1236,7 +1234,7 @@ public class GuiHandler
 	
 	private static String getStringPlaceHolderIFH(Player player, Technology t, String text,
 			Account ac, int dg, boolean useSI, boolean useSy, String ts, String ds, String playername,
-			int totalSoloTechs, int totalGlobalTechs)
+			double totalSoloTechs, double totalGroupTechs, double totalGlobalTechs)
 	{
 		String s = text;
 		/*if(text.contains("%accountname%"))
@@ -1247,20 +1245,20 @@ public class GuiHandler
 		{
 			return s;
 		}
-		switch(t.getPlayerAssociatedType())
+		if(t.getPlayerAssociatedType() == PlayerAssociatedType.SOLO)
 		{
-		case SOLO:
-			//TODO Das noch als Liste ändern und daher das Object herholen.
-			SoloEntryQueryStatus seqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLO_ENTRYQUERYSTATUS,
-					"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-					player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString());
+			SoloEntryQueryStatus seqs = EntryQueryStatusHandler.getSoloEntryHighestResearchLevel(player, t, EntryQueryType.TECHNOLOGY);
 			int techLevel = seqs == null ? 1 : seqs.getResearchLevel() + 1; //Tech which may to acquire
 			int acquiredTech = seqs == null ? 0 : techLevel; //Tech which was already acquire
 			HashMap<String, Double> map = new HashMap<>();
 			map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
 			map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
-			map.put(PlayerHandler.SOLOTOTALTECH, Double.valueOf(totalSoloTechs));
-			map.put(PlayerHandler.GLOBALTOTALTECH, Double.valueOf(totalGlobalTechs));
+			map.put(PlayerHandler.SOLORESEARCHEDTOTALTECH, Double.valueOf(totalSoloTechs));
+			map.put(PlayerHandler.GROUPRESEARCHEDTOTALTECH, Double.valueOf(totalGroupTechs));
+			map.put(PlayerHandler.GLOBALRESEARCHEDTOTALTECH, Double.valueOf(totalGlobalTechs));
+			map.put(PlayerHandler.GROUPLEVEL, Double.valueOf(GroupHandler.getGroupLevel(player)));
+			map.put(PlayerHandler.GROUPMEMBERAMOUNT, Double.valueOf(GroupHandler.getGroupMemberAmount(player)));
+			map.put(PlayerHandler.GROUPMEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getGroupMemberTotalAmount(player)));
 			if(text.contains("%costmoney%"))
 			{
 				if(t.getCostMoney().get(techLevel) == null)
@@ -1277,36 +1275,110 @@ public class GuiHandler
 				s = s.replace("%costmoney%", t == null ? "/" : 
 					ChatColor.stripColor(plugin.getIFHEco().format(money, ac.getCurrency(), dg, moneyFrac, useSI, useSy, ts, ds)));
 			}
-			break;
-		case GROUP:
-		case GLOBAL:
-			//TODO noch machen
+		} else if(t.getPlayerAssociatedType() == PlayerAssociatedType.GROUP)
+		{
+			GroupEntryQueryStatus seqs = EntryQueryStatusHandler.getGroupEntryHighestResearchLevel(player, t, EntryQueryType.TECHNOLOGY);
+			int techLevel = seqs == null ? 1 : seqs.getResearchLevel() + 1; //Tech which may to acquire
+			int acquiredTech = seqs == null ? 0 : techLevel; //Tech which was already acquire
+			HashMap<String, Double> map = new HashMap<>();
+			map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
+			map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
+			map.put(PlayerHandler.SOLORESEARCHEDTOTALTECH, Double.valueOf(totalSoloTechs));
+			map.put(PlayerHandler.GROUPRESEARCHEDTOTALTECH, Double.valueOf(totalGroupTechs));
+			map.put(PlayerHandler.GLOBALRESEARCHEDTOTALTECH, Double.valueOf(totalGlobalTechs));
+			map.put(PlayerHandler.GROUPLEVEL, Double.valueOf(GroupHandler.getGroupLevel(player)));
+			map.put(PlayerHandler.GROUPMEMBERAMOUNT, Double.valueOf(GroupHandler.getGroupMemberAmount(player)));
+			map.put(PlayerHandler.GROUPMEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getGroupMemberTotalAmount(player)));
+			if(text.contains("%costmoney%"))
+			{
+				if(t.getCostMoney().get(techLevel) == null)
+				{
+					return null;
+				}
+				int moneyFrac = 0;
+				double money = 0.0;
+				if(t != null)
+				{
+					money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map);
+					moneyFrac = String.valueOf(money).split("\\.")[1].length();
+				}
+				s = s.replace("%costmoney%", t == null ? "/" : 
+					ChatColor.stripColor(plugin.getIFHEco().format(money, ac.getCurrency(), dg, moneyFrac, useSI, useSy, ts, ds)));
+			}
+		} else 
+		{
+			GlobalEntryQueryStatus seqs = EntryQueryStatusHandler.getGlobalEntryHighestResearchLevel(t, EntryQueryType.TECHNOLOGY);
+			int techLevel = seqs == null ? 1 : seqs.getResearchLevel() + 1; //Tech which may to acquire
+			int acquiredTech = seqs == null ? 0 : techLevel; //Tech which was already acquire
+			HashMap<String, Double> map = new HashMap<>();
+			map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
+			map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
+			map.put(PlayerHandler.SOLORESEARCHEDTOTALTECH, Double.valueOf(totalSoloTechs));
+			map.put(PlayerHandler.GROUPRESEARCHEDTOTALTECH, Double.valueOf(totalGroupTechs));
+			map.put(PlayerHandler.GLOBALRESEARCHEDTOTALTECH, Double.valueOf(totalGlobalTechs));
+			map.put(PlayerHandler.GROUPLEVEL, Double.valueOf(GroupHandler.getGroupLevel(player)));
+			map.put(PlayerHandler.GROUPMEMBERAMOUNT, Double.valueOf(GroupHandler.getGroupMemberAmount(player)));
+			map.put(PlayerHandler.GROUPMEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getGroupMemberTotalAmount(player)));
+			if(text.contains("%costmoney%"))
+			{
+				if(t.getCostMoney().get(techLevel) == null)
+				{
+					return null;
+				}
+				int moneyFrac = 0;
+				double money = 0.0;
+				if(t != null)
+				{
+					money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map);
+					moneyFrac = String.valueOf(money).split("\\.")[1].length();
+				}
+				s = s.replace("%costmoney%", t == null ? "/" : 
+					ChatColor.stripColor(plugin.getIFHEco().format(money, ac.getCurrency(), dg, moneyFrac, useSI, useSy, ts, ds)));
+			}
 		}
-		
 		return s;
 	}
 	
 	private static String getStringPlaceHolderVault(Player player, Technology t, String text, String playername,
-			int totalSoloTechs, int totalGlobalTechs)
+			double totalSoloTechs, double totalGroupTechs, double totalGlobalTechs)
 	{
 		String s = text;
-		SoloEntryQueryStatus eqs = (SoloEntryQueryStatus) plugin.getMysqlHandler().getData(Type.SOLO_ENTRYQUERYSTATUS,
-				"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
-				player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString());
-		int techLevel = eqs == null ? 1 : eqs.getResearchLevel();
-		int acquiredTech = plugin.getMysqlHandler().getCount(Type.SOLO_ENTRYQUERYSTATUS,
-				"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
-				player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT);
-		HashMap<String, Double> map = new HashMap<>();
-		map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
-		map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
-		map.put(PlayerHandler.SOLOTOTALTECH, Double.valueOf(totalSoloTechs));
-		map.put(PlayerHandler.GLOBALTOTALTECH, Double.valueOf(totalGlobalTechs));
+		if(t == null)
+		{
+			return s;
+		}
 		if(text.contains("%costmoney%"))
 		{
-			if(t.getCostMoney().get(techLevel) == null)
+			int techLevel = 0;
+			int acquiredTech = 0;
+			HashMap<String, Double> map = new HashMap<>();
+			map.put(PlayerHandler.SOLORESEARCHEDTOTALTECH, Double.valueOf(totalSoloTechs));
+			map.put(PlayerHandler.GROUPRESEARCHEDTOTALTECH, Double.valueOf(totalGroupTechs));
+			map.put(PlayerHandler.GLOBALRESEARCHEDTOTALTECH, Double.valueOf(totalGlobalTechs));
+			map.put(PlayerHandler.GROUPLEVEL, Double.valueOf(GroupHandler.getGroupLevel(player)));
+			map.put(PlayerHandler.GROUPMEMBERAMOUNT, Double.valueOf(GroupHandler.getGroupMemberAmount(player)));
+			map.put(PlayerHandler.GROUPMEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getGroupMemberTotalAmount(player)));
+			if(t.getPlayerAssociatedType() == PlayerAssociatedType.SOLO)
 			{
-				return null;
+				SoloEntryQueryStatus seqs = EntryQueryStatusHandler.getSoloEntryHighestResearchLevel(player, t, EntryQueryType.TECHNOLOGY);
+				techLevel = seqs == null ? 1 : seqs.getResearchLevel() + 1; //Tech which may to acquire
+				acquiredTech = seqs == null ? 0 : techLevel; //Tech which was already acquire
+				map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
+				map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
+			} else if(t.getPlayerAssociatedType() == PlayerAssociatedType.GROUP)
+			{
+				GroupEntryQueryStatus seqs = EntryQueryStatusHandler.getGroupEntryHighestResearchLevel(player, t, EntryQueryType.TECHNOLOGY);
+				techLevel = seqs == null ? 1 : seqs.getResearchLevel() + 1; //Tech which may to acquire
+				acquiredTech = seqs == null ? 0 : techLevel; //Tech which was already acquire
+				map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
+				map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
+			} else 
+			{
+				GlobalEntryQueryStatus seqs = EntryQueryStatusHandler.getGlobalEntryHighestResearchLevel(t, EntryQueryType.TECHNOLOGY);
+				techLevel = seqs == null ? 1 : seqs.getResearchLevel() + 1; //Tech which may to acquire
+				acquiredTech = seqs == null ? 0 : techLevel; //Tech which was already acquire
+				map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
+				map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
 			}
 			double money = 0.0;
 			if(t != null)

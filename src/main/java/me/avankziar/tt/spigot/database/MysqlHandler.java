@@ -10,9 +10,13 @@ import java.util.logging.Level;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalEntryQueryStatus;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalTechnologyPoll;
+import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
+import main.java.me.avankziar.tt.spigot.objects.mysql.GroupEntryQueryStatus;
+import main.java.me.avankziar.tt.spigot.objects.mysql.GroupPlayerAffiliation;
 import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
 import main.java.me.avankziar.tt.spigot.objects.mysql.RegisteredBlock;
 import main.java.me.avankziar.tt.spigot.objects.mysql.SoloEntryQueryStatus;
+import main.java.me.avankziar.tt.spigot.objects.mysql.UpdateTech;
 
 public class MysqlHandler
 {
@@ -23,12 +27,14 @@ public class MysqlHandler
 		
 		SOLO_ENTRYQUERYSTATUS("ttSolo_EntryQueryStatus", new SoloEntryQueryStatus()),
 		
-		GROUP_DATA("ttGroup_Data", null),
-		GROUP_PLAYERAFFILIATION("ttGroup_PlayerAffiliation", null),
-		GROUP_ENTRYQUERYSTATUS("ttGroup_EntryQueryStatus", null), //FIXME
+		GROUP_DATA("ttGroup_Data", new GroupData()),
+		GROUP_PLAYERAFFILIATION("ttGroup_PlayerAffiliation", new GroupPlayerAffiliation()),
+		GROUP_ENTRYQUERYSTATUS("ttGroup_EntryQueryStatus", new GroupEntryQueryStatus()),
 		
 		GLOBAL_TECHNOLOGYPOLL("ttGlobal_TechnologyPoll", new GlobalTechnologyPoll()),
-		GLOBAL_ENTRYQUERYSTATUS("ttGlobal_EntryQueryStatus", new GlobalEntryQueryStatus());
+		GLOBAL_ENTRYQUERYSTATUS("ttGlobal_EntryQueryStatus", new GlobalEntryQueryStatus()),
+		
+		UPDATE_TECH("ttUpdate_Tech", new UpdateTech());
 		
 		private Type(String value, Object object)
 		{

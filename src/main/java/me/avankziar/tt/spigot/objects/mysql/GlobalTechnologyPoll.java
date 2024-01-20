@@ -16,7 +16,7 @@ public class GlobalTechnologyPoll implements MysqlHandable
 	private int id;
 	private UUID playerUUID;
 	private String choosen_Technology;
-	private int choosen_Technology_Researchlevel;
+	private int choosen_Technology_Researchlevel;  //Eigentlich global_choosen_Technology_Researchlevel, aka das RLvl vom GlobalchoosenTech
 	private boolean processedInPoll;
 	private boolean processedInRepayment;
 	private String global_Choosen_Technology;

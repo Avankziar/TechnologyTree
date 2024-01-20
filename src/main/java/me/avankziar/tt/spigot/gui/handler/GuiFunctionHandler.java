@@ -11,6 +11,7 @@ import main.java.me.avankziar.tt.spigot.gui.objects.ClickFunctionType;
 import main.java.me.avankziar.tt.spigot.gui.objects.GuiType;
 import main.java.me.avankziar.tt.spigot.gui.objects.SettingsLevel;
 import main.java.me.avankziar.tt.spigot.handler.CatTechHandler;
+import main.java.me.avankziar.tt.spigot.handler.GroupHandler;
 import main.java.me.avankziar.tt.spigot.handler.GuiHandler;
 import main.java.me.avankziar.tt.spigot.handler.PlayerHandler;
 import main.java.me.avankziar.tt.spigot.handler.PlayerHandler.AcquireRespond;
@@ -49,17 +50,18 @@ public class GuiFunctionHandler
 		case RETURN_TOMAINCATEGORY: returnToMainCategory(player, openInv, settingsLevel, pat); break;
 		case RETURN_TOSUBCATEGORY: returnToSubCategory(player, openInv, settingsLevel, mcat, pat); break;
 		case START_MAINCATEGORYS_SOLO: fromStartToMainCat(player, openInv, settingsLevel, PlayerAssociatedType.SOLO); break;
-		case START_MAINCATEGORYS_GROUP: break; //TODO
+		case START_MAINCATEGORYS_GROUP: fromStartToMainCat(player, openInv, settingsLevel, PlayerAssociatedType.GROUP); break;
 		case START_MAINCATEGORYS_GLOBAL: fromStartToMainCat(player, openInv, settingsLevel, PlayerAssociatedType.GLOBAL); break;
 		case MAINCATEGORYS_SUBCATEGORYS_SOLO: fromMainCatToSubCat(player, openInv, settingsLevel, mcat, PlayerAssociatedType.SOLO); break;
-		case MAINCATEGORYS_SUBCATEGORYS_GROUP: break; //TODO
+		case MAINCATEGORYS_SUBCATEGORYS_GROUP: fromMainCatToSubCat(player, openInv, settingsLevel, mcat, PlayerAssociatedType.GROUP); break;
 		case MAINCATEGORYS_SUBCATEGORYS_GLOBAL: fromMainCatToSubCat(player, openInv, settingsLevel, mcat, PlayerAssociatedType.GLOBAL); break;
 		case SUBCATEGORYS_TECHNOLOGYS_SOLO: fromSubCatToTechs(player, openInv, settingsLevel, scat, PlayerAssociatedType.SOLO); break;
-		case SUBCATEGORYS_TECHNOLOGYS_GROUP: break; //TODO
+		case SUBCATEGORYS_TECHNOLOGYS_GROUP: fromSubCatToTechs(player, openInv, settingsLevel, scat, PlayerAssociatedType.GROUP); break;
 		case SUBCATEGORYS_TECHNOLOGYS_GLOBAL: fromSubCatToTechs(player, openInv, settingsLevel, scat, PlayerAssociatedType.GLOBAL); break;
 		case INFO_TECHNOLOGY: infoTechnology(player, tech, pat); break;
 		case RESEARCH_TECHNOLOGY_SOLO: researchTechnologySolo(player, openInv, settingsLevel, tech, pat); break;
-		case RESEARCH_TECHNOLOGY_GLOBAL: researchTechnologyGlobal(player, openInv, settingsLevel, tech, pat);
+		case RESEARCH_TECHNOLOGY_GROUP: researchTechnologyGroup(player, openInv, settingsLevel, tech, pat); break;
+		case RESEARCH_TECHNOLOGY_GLOBAL: researchTechnologyGlobal(player, openInv, settingsLevel, tech, pat); break;
 		}	
 	}
 	
@@ -194,6 +196,9 @@ public class GuiFunctionHandler
 		AcquireRespond ar = PlayerHandler.haveAlreadyResearched(player, t);
 		switch(ar)
 		{
+		case CANNOT_BE_RESEARCH:
+			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.CannotBeResearch")));
+			break;
 		case NOT_ENOUGH_TT_EXP:
 			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.NotEnoughTTExp")));
 			break;
@@ -218,6 +223,9 @@ public class GuiFunctionHandler
 			AcquireRespond arII = PlayerHandler.payTechnology(player, t, 1.0);
 			switch(arII)
 			{
+			case CANNOT_BE_RESEARCH:
+				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.CannotBeResearch")));
+				break;
 			case NOT_ENOUGH_TT_EXP:
 				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.NotEnoughTTExp")));
 				break;
@@ -247,16 +255,29 @@ public class GuiFunctionHandler
 		}
 	}
 	
-	private static void researchTechnologySolo(Player player, Inventory inv, SettingsLevel settingsLevel, String tech, PlayerAssociatedType pat)
+	private static void researchTechnologyGroup(Player player, Inventory inv, SettingsLevel settingsLevel, String tech, PlayerAssociatedType pat)
 	{
-		Technology t = CatTechHandler.technologyMapSolo.get(tech);
+		Technology t = CatTechHandler.technologyMapGroup.get(tech);
 		if(t == null)
 		{
+			return;
+		}
+		if(!GroupHandler.isInGroup(player.getUniqueId()))
+		{
+			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Group.YouAreInNoGroup")));
+			return;
+		}
+		if(!GroupHandler.getAffiliateGroup(player).isCanResearch())
+		{
+			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.Privilege.CanNotResearch")));
 			return;
 		}
 		AcquireRespond ar = PlayerHandler.haveAlreadyResearched(player, t);
 		switch(ar)
 		{
+		case CANNOT_BE_RESEARCH:
+			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.CannotBeResearch")));
+			break;
 		case NOT_ENOUGH_TT_EXP:
 			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.NotEnoughTTExp")));
 			break;
@@ -281,6 +302,81 @@ public class GuiFunctionHandler
 			AcquireRespond arII = PlayerHandler.payTechnology(player, t, 1.0);
 			switch(arII)
 			{
+			case CANNOT_BE_RESEARCH:
+				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.CannotBeResearch")));
+				break;
+			case NOT_ENOUGH_TT_EXP:
+				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.NotEnoughTTExp")));
+				break;
+			case NOT_ENOUGH_VANILLA_EXP:
+				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.NotEnoughVanillaExp")));
+				break;
+			case NOT_ENOUGH_MONEY:
+				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.NotEnoughMoney")));
+				break;
+			case NOT_ENOUGH_MATERIAL:
+				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.NotEnoughMaterial")));
+				break;
+			case TECH_IS_SIMPLE_AND_ALREADY_RESEARCHED:
+				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.IsSimpleAndAlreadyResearched")
+						.replace("%tech%", t.getDisplayName())));
+				break;
+			case TECH_MAX_LEVEL_IS_REACHED:
+				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.MaxResearchLevelAlreadyReached")
+						.replace("%tech%", t.getDisplayName())));
+				break;
+			case CAN_BE_RESEARCHED:
+				int rlvl = PlayerHandler.researchGroupTechnology(player, t, true);
+				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.TechnologyResearched")
+						.replace("%level%", String.valueOf(rlvl))
+						.replace("%tech%", t.getDisplayName())));
+				fromSubCatToTechs(player, inv, settingsLevel, t.getOverlyingSubCategory(), pat);
+				break;
+			}
+			break;
+		}
+	}
+	
+	private static void researchTechnologySolo(Player player, Inventory inv, SettingsLevel settingsLevel, String tech, PlayerAssociatedType pat)
+	{
+		Technology t = CatTechHandler.technologyMapSolo.get(tech);
+		if(t == null)
+		{
+			return;
+		}
+		AcquireRespond ar = PlayerHandler.haveAlreadyResearched(player, t);
+		switch(ar)
+		{
+		case CANNOT_BE_RESEARCH:
+			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.CannotBeResearch")));
+			break;
+		case NOT_ENOUGH_TT_EXP:
+			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.NotEnoughTTExp")));
+			break;
+		case NOT_ENOUGH_VANILLA_EXP:
+			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.NotEnoughVanillaExp")));
+			break;
+		case NOT_ENOUGH_MONEY:
+			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.NotEnoughMoney")));
+			break;
+		case NOT_ENOUGH_MATERIAL:
+			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.NotEnoughMaterial")));
+			break;
+		case TECH_IS_SIMPLE_AND_ALREADY_RESEARCHED:
+			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.IsSimpleAndAlreadyResearched")
+					.replace("%tech%", t.getDisplayName())));
+			break;
+		case TECH_MAX_LEVEL_IS_REACHED:
+			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.MaxResearchLevelAlreadyReached")
+					.replace("%tech%", t.getDisplayName())));
+			break;
+		case CAN_BE_RESEARCHED:
+			AcquireRespond arII = PlayerHandler.payTechnology(player, t, 1.0);
+			switch(arII)
+			{
+			case CANNOT_BE_RESEARCH:
+				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.CannotBeResearch")));
+				break;
 			case NOT_ENOUGH_TT_EXP:
 				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.NotEnoughTTExp")));
 				break;

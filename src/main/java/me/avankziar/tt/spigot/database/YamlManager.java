@@ -287,19 +287,6 @@ public class YamlManager
 		configSpigotKeys.put("EnableMechanic.ValueEntry"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				true}));
-		configSpigotKeys.put("EnableMechanic.CommandToBungee"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
-		configSpigotKeys.put("EnableMechanic.ConditionQueryParser"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
-		configSpigotKeys.put("EnableMechanic.MessageToBungee"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
-		
-		configSpigotKeys.put("EnableCommands.Base"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
 		
 		configSpigotKeys.put("ValueEntry.OverrulePermission"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
@@ -449,11 +436,59 @@ public class YamlManager
 				false}));
 		configSpigotKeys.put("Do.TechnologyPoll.DaysOfTheMonth_ToProcessThePoll"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				"GROUP:18-00:WEDNESDAY:FIRST",
-				"GROUP:18-00:14",
-				"GROUP:18-00:WEDNESDAY:THIRD",
 				"GLOBAL:20-00:SUNDAY:SECOND",
 				"GLOBAL:20-00:SUNDAY:FOURTH"}));
+		configSpigotKeys.put("Group.Creation.Cost.TTExp"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				"group_totalamount*1000000+1000000"}));
+		configSpigotKeys.put("Group.Level.MaximumAchievableLevel"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				5}));
+		configSpigotKeys.put("Group.DailyUpkeep.Active"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				true}));
+		configSpigotKeys.put("Group.DailyUpkeep.ActiveFromLevel"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				2}));
+		configSpigotKeys.put("Group.DailyUpkeep.Fromula"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				"group_level*group_researched_totaltech + group_memberamount*pi^2"}));
+		configSpigotKeys.put("Group.DailyUpkeep.Default.MASTER"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				100}));
+		configSpigotKeys.put("Group.DailyUpkeep.Default.VICE"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				80}));
+		configSpigotKeys.put("Group.DailyUpkeep.Default.COUNCILMEMBER"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				60}));
+		configSpigotKeys.put("Group.DailyUpkeep.Default.MEMBER"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				40}));
+		configSpigotKeys.put("Group.DailyUpkeep.Default.ADEPT"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				20}));
+		configSpigotKeys.put("Group.Level.CostsForIncreasingLevel"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				"group_level*group_memberamount*group_membertotalamount + group_researched_totaltech*pi^2"}));
+		configSpigotKeys.put("Group.Member.TotalAmountPerLevel.Player"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				"(2+group_level+group_level)^2"}));
+		configSpigotKeys.put("Group.Member.TotalAmountPerLevel.MASTER"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				"group_level"}));
+		configSpigotKeys.put("Group.Member.TotalAmountPerLevel.VICE"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				"(1+group_level)*1.25"}));
+		configSpigotKeys.put("Group.Member.TotalAmountPerLevel.COUNCILMEMBER"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				"(1+group_level)*1.5"}));
+		configSpigotKeys.put("Group.Member.TotalAmountPerLevel.MEMBER"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				"(2+group_level)*2"}));
+		configSpigotKeys.put("Group.Member.TotalAmountPerLevel.ADEPT"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				"(2+group_level)*3"}));
 	}
 	
 	@SuppressWarnings("unused") //INFO:Commands
@@ -674,6 +709,10 @@ public class YamlManager
 	public void initCommandsLang() //INFO:CommandsLang
 	{
 		String path = "Commands.";
+		languageKeys.put(path+"Cmd.OtherCmd", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cBitte nutze den Befehl mit einem weiteren Argument aus der Tabliste!",
+						"&cPlease use the command with another argument from the tab list!"}));
 		languageKeys.put(path+"PlayerNotExist", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cDer Spieler %player% existiert nicht!",
@@ -814,6 +853,330 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&7[&#ff8c00TT&7] &#c6a664Reload ist beendet!",
 						"&7[&#ff8c00TT&7] &#c6a664Reload has ended!"}));
+		languageKeys.put(path+"Group.Position.MASTER", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Meister",
+						"Master"}));
+		languageKeys.put(path+"Group.Position.VICE", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Vize",
+						"Vice"}));
+		languageKeys.put(path+"Group.Position.COUNCILMEMBER", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Ratsmitglied",
+						"Councilmember"}));
+		languageKeys.put(path+"Group.Position.MEMBER", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Mitglied",
+						"Member"}));
+		languageKeys.put(path+"Group.Position.ADEPT", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Adept",
+						"Adept"}));
+		languageKeys.put(path+"Group.Position.INVITEE", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Eingeladener",
+						"Invitee"}));
+		languageKeys.put(path+"Group.Position.APPLICANT", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Bewerber",
+						"Applicant"}));
+		languageKeys.put(path+"Group.Position.NoPosition", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&c%rank% ist kein Rang!",
+						"&c%rank% is no rank!"}));
+		languageKeys.put(path+"Group.GroupDontExist", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDie Gruppe %group% existiert nicht!",
+						"&cThe group %group% does not exist!"}));
+		languageKeys.put(path+"Group.YouAreInAGroup", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu bist schon in einer Gruppe!",
+						"&cYou are already in a group!"}));
+		languageKeys.put(path+"Group.YouAreInNoGroup", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu bist in keiner Gruppe!",
+						"&cYou are not in a group!"}));
+		languageKeys.put(path+"Group.PlayerIsInAGroup", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDer Spieler %player% ist schon in einer Gruppe!",
+						"&cThe player %player% is already in a group!"}));
+		languageKeys.put(path+"Group.PlayerIsInNoGroup", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDer Spieler %player% ist in keiner Gruppe!",
+						"&cThe player %player% is in no group!"}));
+		languageKeys.put(path+"Group.GroupHasToManyMember", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDie maximale Gruppenmitgliederanzahl ist schon erreicht!",
+						"&cThe maximum number of group members has already been reached!"}));
+		languageKeys.put(path+"Group.Privilege.CanNotAcceptApplication", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu hast nicht das Privileg um Spielerbewerbungen anzunehmen!",
+						"&cYou do not have the privilege to accept player applications!"}));
+		languageKeys.put(path+"Group.Privilege.CanNotDemote", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu hast nicht das Privileg um Spieler nicht degradieren!",
+						"&cYou do not have the privilege of not demoting players!"}));
+		languageKeys.put(path+"Group.Privilege.CanNotIncreaseLevel", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu hast nicht das Privileg um das Gruppenlevel zu erhöhen!",
+						"&cYou do not have the privilege to increase the group level!"}));
+		languageKeys.put(path+"Group.Privilege.CanNotInvite", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu hast nicht das Privileg um Spieler in die Gruppe einzuladen!",
+						"&cYou do not have the privilege to invite players to the group!"}));
+		languageKeys.put(path+"Group.Privilege.CanNotKick", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu hast nicht das Privileg um Spieler aus der Gruppe zu entlassen!",
+						"&cYou do not have the privilege to dismiss players from the group!"}));
+		languageKeys.put(path+"Group.Privilege.CanNotPromote", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu hast nicht das Privileg um Spieler zu befördern!",
+						"&cYou do not have the privilege to promote players!"}));
+		languageKeys.put(path+"Group.Privilege.CanNotSetDefaultUpKeep", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu hast nicht das Privileg um den Standart Unterhalt zu setzten!",
+						"&cYou do not have the privilege to set the standard maintenance!"}));
+		languageKeys.put(path+"Group.Privilege.CanNotResearch", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu hast nicht das Privileg für die Gruppe Technologien zu erforschen!",
+						"&cYou do not have the privilege of researching technologies for the group!"}));
+		languageKeys.put(path+"Group.Privilege.CanNotSetIndividualUpKeep", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu hast nicht das Privileg um den individuellen Unterhalt eines Spieler zu setzten!",
+						"&cYou do not have the privilege to bet on the individual maintenance of a player!"}));
+		languageKeys.put(path+"Group.Create.GroupNameAlreadyExist", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDie Gruppe mit dem Namen %name% existiert schon!",
+						"&cThe group with the name %name% already exists!"}));
+		languageKeys.put(path+"Group.Create.NotEnoughTTExp", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu hast nicht genug TTExp! Kosten: %cost%",
+						"&cYou dont have enough TTExp! Costs: %cost%"}));
+		languageKeys.put(path+"Group.Create.GroupCreatedBypass", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&aDu hast die Gruppe %name% erstellt!",
+						"&aYou have created the group %name%!!"}));
+		languageKeys.put(path+"Group.Create.GroupCreated", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&aDu hast die Gruppe %name% erstellt! Dir wurden %cost% TTExp abgezogen!",
+						"&aYou have created the group %name%! You have been deducted %cost% TTExp!"}));
+		languageKeys.put(path+"Group.SendInvite.SendToInvitee", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% der Technologygruppe %group%, hat dich in seine Gruppe eingeladen! Klick hier!",
+						"&eThe player %player% of the technology group %group%, has invited you to join his group! Click here!"}));
+		languageKeys.put(path+"Group.SendInvite.SendToInviter", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDu hast den Spieler %player% in deine Gruppe eingeladen!",
+						"&eYou have invited the player %player% to your group!"}));
+		languageKeys.put(path+"Group.AcceptInvite.NoInvitee", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu wurdest von keiner Gruppe eingeladen!",
+						"&cYou were not invited by any group!"}));
+		languageKeys.put(path+"Group.AcceptInvite.NoInviteeFromTheGroup", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu wurdest von nicht von der Gruppe %group% eingeladen! Sondern von der Gruppe %group2%!",
+						"&cYou were not invited by the %group% group! But from the group %group2%!"}));
+		languageKeys.put(path+"Group.AcceptInvite.PlayerJointGroup", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% ist der Gruppe %group% beigetreten!",
+						"&ePlayer %player% has joined group %group%!"}));
+		languageKeys.put(path+"Group.SendApplication.Applicated", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% hat sich bei der Gruppe %group% beworben!",
+						"&ePlayer %player% has applied to group %group%!"}));
+		languageKeys.put(path+"Group.AcceptApplication.NoApplicant", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDer Spieler %player% hat sich nicht beworben!",
+						"&cPlayer %player% did not apply!"}));
+		languageKeys.put(path+"Group.SetPrivileges.YourGroupRankIsLowerThanTheOther", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDein Gruppenrang %prank% müsst höhergestellt sein als den Rang des Mitgliedes (%rank%), wo du ein Privileg ändern möchtest.",
+						"&cYour group rank %prank% must be higher than the rank of the member (%rank%) where you want to change a privilege."}));
+		languageKeys.put(path+"Group.SetPrivileges.YourGroupRankDontMatchTheNeededRank", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu benötigst mindesten %rank% (Du bist %prank%) um diese Privileg einstellen zu können.",
+						"&cYou need at least %rank% (you are %prank%) to be able to set this privilege."}));
+		languageKeys.put(path+"Group.SetPrivileges.YouDontHaveThePrivilegeYourself", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu benötigst das Privileg selber um es bei anderen einstellen zu können!",
+						"&cYou need the privilege yourself to be able to set it for others!"}));
+		languageKeys.put(path+"Group.SetPrivileges.NoPrivilege", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDas Privileg extistiert nicht!",
+						"&cThe privilege does not exist!"}));
+		languageKeys.put(path+"Group.SetPrivileges.Apply.CAN_SETINDIVIDUAL_DAILY_UPKEEP", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% hat das Privileg bekommen, den Individuellen Unterhalt anderes Spieler einzustellen.",
+						"&eThe player %player% has been given the privilege of setting the individual maintenance of other players."}));
+		languageKeys.put(path+"Group.SetPrivileges.Apply.CAN_KICK", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% hat das Privileg bekommen, andere Mitglieder aus der Gruppe zu entlassen.",
+						"&eThe player %player% has been given the privilege of dismissing other members from the group."}));
+		languageKeys.put(path+"Group.SetPrivileges.Apply.CAN_SETDEFAULT_DAILY_UPKEEP", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% hat das Privileg bekommen, den Standart Unterhalt pro Gruppenrang einzustellen.",
+						"&eThe player %player% has been given the privilege of setting the default upkeep per group rank."}));
+		languageKeys.put(path+"Group.SetPrivileges.Apply.CAN_PROMOTE", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% hat das Privileg bekommen, andere Mitglieder der Gruppe bis zu dem eigenen Rang zu befördern.",
+						"&eThe player %player% has been given the privilege of promoting other members of the group up to their own rank."}));
+		languageKeys.put(path+"Group.SetPrivileges.Apply.CAN_DEMOTE", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% hat das Privileg bekommen, andere Mitglieder der Gruppe zu degradieren.",
+						"&eThe player %player% has been given the privilege of demoting other members of the group."}));
+		languageKeys.put(path+"Group.SetPrivileges.Apply.CAN_INCREASE_LEVEL", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% hat das Privileg bekommen, das Gruppenlevel zu erhöhen.",
+						"&eThe player %player% has been given the privilege of increasing the group level."}));
+		languageKeys.put(path+"Group.SetPrivileges.Apply.CAN_RESEARCH", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% hat das Privileg bekommen, Gruppentechnologien zu erforschen.",
+						"&eThe player %player% has been given the privilege of researching group technologies."}));
+		languageKeys.put(path+"Group.SetPrivileges.Apply.CAN_SENDINVITE", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% hat das Privileg bekommen, andere Spieler in die Gruppe einzuladen.",
+						"&eThe player %player% has been given the privilege of inviting other players to the group."}));
+		languageKeys.put(path+"Group.SetPrivileges.Apply.CAN_ACCEPT_APPLICATION", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% hat das Privileg bekommen, Bewerbungen anderer Spieler anzunehmen.",
+						"&eThe player %player% has been given the privilege of accepting applications from other players."}));
+		languageKeys.put(path+"Group.SetPrivileges.Remove.CAN_SETINDIVIDUAL_DAILY_UPKEEP", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% hat das Privileg verloren, den Individuellen Unterhalt anderes Spieler einzustellen.",
+						"&eThe player %player% has lost the privilege to set the individual maintenance of other players."}));
+		languageKeys.put(path+"Group.SetPrivileges.Remove.CAN_KICK", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% hat das Privileg verloren, andere Mitglieder aus der Gruppe zu entlassen.",
+						"&eThe player %player% has lost the privilege to dismiss other members from the group."}));
+		languageKeys.put(path+"Group.SetPrivileges.Remove.CAN_SETDEFAULT_DAILY_UPKEEP", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% hat das Privileg verloren, den Standart Unterhalt pro Gruppenrang einzustellen.",
+						"&eThe player %player% has lost the privilege to set the standard upkeep per group rank."}));
+		languageKeys.put(path+"Group.SetPrivileges.Remove.CAN_PROMOTE", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% hat das Privileg verloren, andere Mitglieder der Gruppe bis zu dem eigenen Rang zu befördern.",
+						"&eThe player %player% has lost the privilege to promote other members of the group up to their own rank."}));
+		languageKeys.put(path+"Group.SetPrivileges.Remove.CAN_DEMOTE", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% hat das Privileg verloren, andere Mitglieder der Gruppe zu degradieren.",
+						"&eThe player %player% has lost the privilege to demote other members of the group."}));
+		languageKeys.put(path+"Group.SetPrivileges.Remove.CAN_INCREASE_LEVEL", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% hat das Privileg verloren, das Gruppenlevel zu erhöhen.",
+						"&eThe player %player% has lost the privilege to increase the group level."}));
+		languageKeys.put(path+"Group.SetPrivileges.Remove.CAN_RESEARCH", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% hat das Privileg verloren, Gruppentechnologien zu erforschen.",
+						"&eThe player %player% has lost the privilege to research group technologies."}));
+		languageKeys.put(path+"Group.SetPrivileges.Remove.CAN_SENDINVITE", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% hat das Privileg verloren, andere Spieler in die Gruppe einzuladen.",
+						"&eThe player %player% has lost the privilege of inviting other players to the group."}));
+		languageKeys.put(path+"Group.SetPrivileges.Remove.CAN_ACCEPT_APPLICATION", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% hat das Privileg verloren, Bewerbungen anderer Spieler anzunehmen.",
+						"&eThe player %player% has lost the privilege of accepting applications from other players."}));
+		languageKeys.put(path+"Group.SetIndividuellUpkeep.Set", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% hat den Inviduellen Unterhalt des Spielers %player2% auf %upkeep% TTExp gesetzt.",
+						"&eThe player %player% has set the invidual maintenance of the player %player2% to %upkeep% TTExp."}));
+		languageKeys.put(path+"Group.Demote.RankIsHigher", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDer Spieler %player% hat einen niedrigeren Rank als gewünscht. Nutze dazu eine Beförderung.",
+						"&cThe player %player% has a lower rank than desired. Use a promotion for this."}));
+		languageKeys.put(path+"Group.Demote.YouCannotDemoteYourself", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu kannst dich nicht selbst befördern!",
+						"&cYou cannot promote yourself!"}));
+		languageKeys.put(path+"Group.Demote.Set", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% hat den Spielers %player2% degradiert zu %rank%.",
+						"&eThe player %player% has demoted the player %player2% to %rank%."}));
+		languageKeys.put(path+"Group.Promote.RankIsLower", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDer Spieler %player% hat einen höheren Rank als gewünscht. Nutze dazu eine Degradierung.",
+						"&cThe player %player% has a higher rank than desired. Use a demotion for this."}));
+		languageKeys.put(path+"Group.Promote.YouCannotPromoteYourself", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu kannst dich nicht selbst befördern!",
+						"&cYou cannot promote yourself!"}));
+		languageKeys.put(path+"Group.Promote.Set", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% hat den Spielers %player2% zum Rang %rank% befördert.",
+						"&eThe player %player% has promoted the player %player2% to the rank %rank%."}));
+		languageKeys.put(path+"Group.Kick.YouCannotKickYourself",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu kannst dich nicht selber aus der Gruppe kicken!",
+						"&cYou cannot kick yourself out of the group!"}));
+		languageKeys.put(path+"Group.Kick.YourGroupRankIsLowerThanTheOther",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu kannst kein Mitglied kicken, welcher im Rang höher ist als du selbst!",
+						"&cYou cannot kick a member who is higher in rank than you!"}));
+		languageKeys.put(path+"Group.Kick.KickedPlayer",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player1% hat den Spieler %player2% aus der Gruppe entlassen!",
+						"&eThe player %player1% has dismissed the player %player2% from the group!"}));
+		languageKeys.put(path+"Group.IncreaseLevel.HaveMaxLevel",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDeine Gruppe hat das Maximale Level schon erreicht!",
+						"&cYour group has already reached the maximum level!"}));
+		languageKeys.put(path+"Group.IncreaseLevel.NotEnoughTTExp",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cGruppenerfahrung ist zu gering zum erhöhen des Gruppenlevel!",
+						"&cGroup experience is too low to increase the group level!"}));
+		languageKeys.put(path+"Group.IncreaseLevel.Increased",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDas Gruppenlevel wurde von %pre% auf %post% für %cost% TTExp erhöht!",
+						"&eThe group level has been increased from %pre% to %post% for %cost% TTExp!"}));
+		languageKeys.put(path+"Group.Donate.Donated",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% hat der Gruppe %group% %ttexp% TTExp gespendet!",
+						"&ePlayer %player% has donated %ttexp% TTExp to group %group%!"}));
+		languageKeys.put(path+"Group.SetDefaultUpkeep.WrongPosition",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cFür den %rank% kann kein Standartunterhalt eingestellt werden!",
+						"&cNo default upkeep can be set for the %rank%!"}));
+		languageKeys.put(path+"Group.SetDefaultUpkeep.Set",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eFür den Rang %rank% wurde der Standartunterhalt auf %upkeep% TTExp gesetzt. Nur für Beförderungen, Degradierungen und Aufnahme in die Gruppe geltet der neue Wert!",
+						"&eFor the rank %rank% the default upkeep has been set to %upkeep% TTExp. The new value only applies to promotions, demotions & joining to the group!"}));
+		languageKeys.put(path+"Group.Leave.NotLastMember",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu bist nicht das letzte Mitglied in der Gruppe! Um als Großmeister die Gruppe verlassen zu können, musst du entweder den Großmeisterrang an einen anderes Mitglied geben oder alle anderen Mitglieder aus der Gruppe rausschmeißen!",
+						"&cYou are not the last member in the group! To leave the group as a Grandmaster, you must either give your Grandmaster rank to another member or kick all other members out of the group!"}));
+		languageKeys.put(path+"Group.Leave.NotConfirm",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cUm die Gruppe verlassen zu können, musst du den Befehl bestätigen! %cmd%",
+						"&cTo leave the group, you must confirm the command! %cmd%"}));
+		languageKeys.put(path+"Group.Leave.PlayerLeave",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% hat die Gruppe verlassen!",
+						"&eThe player %player% has left the group!"}));
+		languageKeys.put(path+"Group.Leave.GroupClose",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDu hast die Gruppe verlassen und da du das letzte Mitglied warst ist die Gruppe geschlossen worden!",
+						"&eYou have left the group and since you were the last member, the group has been closed!"}));
+		languageKeys.put(path+"Group.SetDescription.OnlyGrandmasterCanSetNewDescription",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cNur der Großmeister darf die Beschreibung der Gruppe ändern!",
+						"&cOnly the grandmaster may change the description of the group!"}));
+		languageKeys.put(path+"Group.SetDescription.Set",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDie Beschreibung der Gruppe würde gesetzt:",
+						"&eThe description of the group would be set:"}));
+		languageKeys.put(path+"Group.SetGrandmaster.NotTheGrandmaster",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu bist nicht der Großmeister!",
+						"&cYou are not the Grand Master!"}));
+		languageKeys.put(path+"Group.SetGrandmaster.AlreadyGrandmaster",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu bist schon der Großmeister!",
+						"&cYou are already the grand master!"}));
+		languageKeys.put(path+"Group.SetGrandmaster.Set",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler %player% ist nun Großmeister der Gruppe %group%!",
+						"&eThe player %player% is now the grandmaster of the group %group%!"}));
 	}
 	
 	private void initBackgroundTaskLang() //INFO:BackgroundTaskLang
@@ -930,6 +1293,10 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&e%subcat% Technologien",
 						"&e%subcat% Techologys"}));
+		languageKeys.put(path+"Technology.CannotBeResearch", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu kannst diese Technologie nicht erforchen!",
+						"&cYou cannot research this technology!"}));
 		languageKeys.put(path+"Technology.NotEnoughTTExp", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cDu hast nicht genug TTExp!",

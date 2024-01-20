@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -20,10 +21,13 @@ import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
 import main.java.me.avankziar.tt.spigot.database.SQLiteHandler;
 import main.java.me.avankziar.tt.spigot.handler.CatTechHandler;
+import main.java.me.avankziar.tt.spigot.handler.EntryQueryStatusHandler;
 import main.java.me.avankziar.tt.spigot.handler.PlayerHandler;
+import main.java.me.avankziar.tt.spigot.objects.EntryQueryType;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalEntryQueryStatus;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalTechnologyPoll;
+import main.java.me.avankziar.tt.spigot.objects.mysql.UpdateTech;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.Technology;
 
 public class BackgroundTask
@@ -41,6 +45,8 @@ public class BackgroundTask
 		doDeleteExpiringTechnologies();
 		doTechnologyPoll();
 		doDeleteExpirePlacedBlocks();
+		doUpdatePlayer();
+		//ADDME DailyUpkeep for Groups
 		return true;
 	}
 	
@@ -182,30 +188,27 @@ public class BackgroundTask
 		}
 		if(countMap.isEmpty())
 		{
-			plugin.getMysqlHandler().truncate(Type.GLOBAL_TECHNOLOGYPOLL);
 			return;
 		}
 		int max = 0;
-		String choosenTech = "";
+		String globalChoosenTech = "";
 		for(Entry<String, Integer> e : countMap.entrySet())
 		{
 			if(max < e.getValue())
 			{
 				max = e.getValue();
-				choosenTech = e.getKey();
+				globalChoosenTech = e.getKey();
 			}
 		}
-		Technology globalChoosen = CatTechHandler.getTechnology(choosenTech, PlayerAssociatedType.GLOBAL);
-		int researchlevel = PlayerHandler.researchGlobalTechnology(globalChoosen, true);
-		ArrayList<GlobalEntryQueryStatus> geqsa = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBAL_ENTRYQUERYSTATUS,
-				"`id` DESC", 0, 1, "`intern_name` = ?", globalChoosen.getInternName()));
-		GlobalEntryQueryStatus geqs = geqsa.get(0);
+		Technology globalChoosen = CatTechHandler.getTechnology(globalChoosenTech, PlayerAssociatedType.GLOBAL);
+		int globalResearchlevel = PlayerHandler.researchGlobalTechnology(globalChoosen, true);
+		GlobalEntryQueryStatus geqs = EntryQueryStatusHandler.getGlobalEntryHighestResearchLevel(globalChoosen, EntryQueryType.TECHNOLOGY);
 		double share = 1/participants;
 		for(GlobalTechnologyPoll gtp : tpar)
 		{
 			Player pcp = Bukkit.getPlayer(gtp.getPlayerUUID());
-			gtp.setChoosen_Technology_Researchlevel(researchlevel);
-			gtp.setGlobal_Choosen_Technology(choosenTech);
+			gtp.setChoosen_Technology_Researchlevel(globalResearchlevel);
+			gtp.setGlobal_Choosen_Technology(globalChoosenTech);
 			gtp.setGlobal_Choosen_Technology_ID(geqs.getId());
 			gtp.setProcessedInPoll(true);
 			gtp.setTotal_Participants(participants);
@@ -214,16 +217,59 @@ public class BackgroundTask
 				plugin.getMysqlHandler().updateData(Type.GLOBAL_TECHNOLOGYPOLL, gtp, "`id` = ?", gtp.getId());
 				continue;
 			}
-			gtp.setProcessedInRepayment(false);
+			gtp.setProcessedInRepayment(true);
 			plugin.getMysqlHandler().updateData(Type.GLOBAL_TECHNOLOGYPOLL, gtp, "`id` = ?", gtp.getId());
-			Technology playerChoosen = CatTechHandler.getTechnology(choosenTech, PlayerAssociatedType.GLOBAL);
-			PlayerHandler.repaymentGlobalTechnology(pcp, playerChoosen, researchlevel);
+			Technology playerChoosen = CatTechHandler.getTechnology(globalChoosenTech, PlayerAssociatedType.GLOBAL);
+			PlayerHandler.repaymentGlobalTechnology(pcp, playerChoosen, globalResearchlevel);
 			PlayerHandler.payTechnology(pcp, globalChoosen, share);
 		}
-		for(Player player : Bukkit.getOnlinePlayers())
+		if(plugin.getBungeeOnlinePlayers() != null)
 		{
-			PlayerHandler.doUpdate(player, globalChoosen, geqs.getId(), researchlevel);
+			for(UUID uuid : plugin.getBungeeOnlinePlayers().getBungeeOnlinePlayers().keySet())
+			{
+				Player player = Bukkit.getPlayer(uuid);
+				if(player == null)
+				{
+					UpdateTech ut = new UpdateTech(0, uuid, PlayerAssociatedType.GLOBAL, globalChoosenTech, geqs.getId(), globalResearchlevel);
+					plugin.getMysqlHandler().create(Type.UPDATE_TECH, ut);
+					continue;
+				}
+				PlayerHandler.doUpdate(player, globalChoosen, geqs.getId(), globalResearchlevel);
+			}
+		} else
+		{
+			for(Player player : Bukkit.getOnlinePlayers())
+			{
+				PlayerHandler.doUpdate(player, globalChoosen, geqs.getId(), globalResearchlevel);
+			}
 		}
+	}
+	
+	private static void doUpdatePlayer()
+	{
+		new BukkitRunnable()
+		{
+			@Override
+			public void run()
+			{
+				if(!plugin.getMysqlHandler().exist(Type.UPDATE_TECH, "`id` > ?", 0))
+				{
+					return;
+				}
+				ArrayList<UpdateTech> l = UpdateTech.convert(plugin.getMysqlHandler().getFullList(Type.UPDATE_TECH, "`id` ASC", "`id` > ?", 0));
+				for(UpdateTech u : l)
+				{
+					Player player = Bukkit.getPlayer(u.getUUID());
+					if(player == null)
+					{
+						continue;
+					}
+					Technology t = CatTechHandler.getTechnology(u.getTechnology(), u.getPlayerAssociatedType());
+					PlayerHandler.doUpdate(player, t, u.getGlobalTechnologyPollID(), u.getResearchLevel());
+					plugin.getMysqlHandler().deleteData(Type.UPDATE_TECH, "`id` = ?", u.getId());
+				}
+			}
+		}.runTaskTimerAsynchronously(plugin, 0, 20L*15);
 	}
 	
 	private static int getDayOfWeekAndMonth(String text)

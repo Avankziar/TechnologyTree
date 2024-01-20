@@ -10,7 +10,10 @@ public class Bypass
 	{
 		//Here Condition and BypassPermission.
 		SEE_MAIN_CATEGORYS,
-		SEE_SUB_CATEGORYS;
+		SEE_SUB_CATEGORYS,
+		GROUP_CREATE,
+		GROUP_INCREASELEVEL,
+		GROUP_SETGRANDMASTER;
 		
 		public String getValueLable()
 		{

@@ -606,7 +606,7 @@ public class CatTechHandler
 					map.put(guiSlot, t);
 					subCategoryTechnologyMapSolo.put(overlyingSubCategory, map);
 					totalSoloTech += t.getMaximalTechnologyLevelToResearch();
-				}/* else if(playerAssociatedType == PlayerAssociatedType.GROUP)
+				} else if(playerAssociatedType == PlayerAssociatedType.GROUP)
 				{
 					technologyMapGroup.put(internName, t);
 					LinkedHashMap<Integer, Technology> map = new LinkedHashMap<>();
@@ -617,7 +617,7 @@ public class CatTechHandler
 					map.put(guiSlot, t);
 					subCategoryTechnologyMapGroup.put(overlyingSubCategory, map);
 					totalGroupTech += t.getMaximalTechnologyLevelToResearch();
-				}*/ else if(playerAssociatedType == PlayerAssociatedType.GLOBAL)
+				} else if(playerAssociatedType == PlayerAssociatedType.GLOBAL)
 				{
 					technologyMapGlobal.put(internName, t);
 					LinkedHashMap<Integer, Technology> map = new LinkedHashMap<>();
@@ -676,7 +676,7 @@ public class CatTechHandler
 					}
 					map.put(guiSlot, sc);
 					mainCategorySubCategoryMapSolo.put(overlyingCategory, map);
-				}/* else if(playerAssociatedType == PlayerAssociatedType.GROUP)
+				} else if(playerAssociatedType == PlayerAssociatedType.GROUP)
 				{
 					subCategoryMapGroup.put(internName, sc);
 					LinkedHashMap<Integer, SubCategory> map = new LinkedHashMap<>();
@@ -686,7 +686,7 @@ public class CatTechHandler
 					}
 					map.put(guiSlot, sc);
 					mainCategorySubCategoryMapGroup.put(overlyingCategory, map);
-				}*/ else if(playerAssociatedType == PlayerAssociatedType.GLOBAL)
+				} else if(playerAssociatedType == PlayerAssociatedType.GLOBAL)
 				{
 					subCategoryMapGlobal.put(internName, sc);
 					LinkedHashMap<Integer, SubCategory> map = new LinkedHashMap<>();
@@ -735,10 +735,10 @@ public class CatTechHandler
 				if(playerAssociatedType == PlayerAssociatedType.SOLO)
 				{
 					mainCategoryMapSolo.put(internName, mc);
-				}/* else if(playerAssociatedType == PlayerAssociatedType.GROUP)
+				} else if(playerAssociatedType == PlayerAssociatedType.GROUP)
 				{
 					mainCategoryMapGroup.put(internName, mc);
-				}*/ else if(playerAssociatedType == PlayerAssociatedType.GLOBAL)
+				} else if(playerAssociatedType == PlayerAssociatedType.GLOBAL)
 				{
 					mainCategoryMapGlobal.put(internName, mc);
 				}
@@ -841,6 +841,20 @@ public class CatTechHandler
 		case SOLO: return technologyMapSolo.get(uniqueIdentifier);
 		}
 		return null;
+	}
+	
+	public static Technology getTechnology(String uniqueIdentifier)
+	{
+		Technology t = technologyMapGlobal.get(uniqueIdentifier);
+		if(t == null)
+		{
+			t = technologyMapGroup.get(uniqueIdentifier);
+			if(t == null)
+			{
+				t = technologyMapSolo.get(uniqueIdentifier);
+			}
+		}
+		return t;
 	}
 	
 	public static SubCategory getSubCategory(Technology t, PlayerAssociatedType pat)

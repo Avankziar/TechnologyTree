@@ -76,21 +76,6 @@ public class ConfigHandler
 		return plugin.getYamlHandler().getConfig().getBoolean("EnableMechanic.ValueEntry", false);
 	}
 	
-	public boolean isMechanicCommandToBungeeEnabled()
-	{
-		return plugin.getYamlHandler().getConfig().getBoolean("EnableMechanic.CommandToBungee", false);
-	}
-	
-	public boolean isMechanicMessageToBungeeEnabled()
-	{
-		return plugin.getYamlHandler().getConfig().getBoolean("EnableMechanic.MessageToBungee", false);
-	}
-	
-	public boolean isMechanicConditionQueryParserEnabled()
-	{
-		return plugin.getYamlHandler().getConfig().getBoolean("EnableMechanic.ConditionQueryParser", false);
-	}
-	
 	public List<String> getAutoResearchedTechnologies()
 	{
 		if(plugin.getYamlHandler().getConfig().get("Do.NewPlayer.AutoResearchTechnology") != null)

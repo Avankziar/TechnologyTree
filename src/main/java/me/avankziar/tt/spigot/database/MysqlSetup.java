@@ -136,6 +136,22 @@ public class MysqlSetup
 		{
 			return false;
 		}
+		if(!setupDatabaseVI())
+		{
+			return false;
+		}
+		if(!setupDatabaseVII())
+		{
+			return false;
+		}
+		if(!setupDatabaseVIII())
+		{
+			return false;
+		}
+		if(!setupDatabaseIX())
+		{
+			return false;
+		}
 		return true;
 	}
 	
@@ -209,6 +225,85 @@ public class MysqlSetup
 		+ " status_type text NOT NULL,"
 		+ " research_level int,"
 		+ " duration_until_expiration BIGINT);";
+		baseSetup(data);
+		return true;
+	}
+	
+	private boolean setupDatabaseVI() 
+	{
+		String data = "CREATE TABLE IF NOT EXISTS `" + MysqlHandler.Type.GROUP_DATA.getValue()
+		+ "` (id int AUTO_INCREMENT PRIMARY KEY,"
+		+ " group_name text NOT NULL,"
+		+ " grandmaster_uuid char(36),"
+		+ " creation_time BIGINT,"
+		+ " display_descrition longtext," 	//Beschreibung der Gruppe
+		+ " group_tech_exp double," 		//Konto für ttexp
+		+ " group_level int," 				//Gruppenlvl, wird als Variabel in den Tech Formel gebrauch
+		+ " max_amount_player int,"			//Wieviel Spieler maximal in der Gruppe sein dürfen, werden durch bezahlen von gebühren erhöht
+		+ " max_amount_master int,"			//Wieviel Spieler in der Gruppe maximal Master-Rang sein dürfen etc.
+		+ " max_amount_vice int,"
+		+ " max_amount_councilmember int,"
+		+ " max_amount_member int,"
+		+ " max_amount_adept int,"
+		+ " group_counter_failed_upkeep int,"		//Die Anzahl Tage, wielange die Gruppe Ihren Unterhalt (berechnet durch Formel in der Config)
+													//nicht gezahlt hat. Aka nach x Tage, wird das Gruppenlvl verringert.
+		+ " default_group_tech_exp_daily_upkeep_master double," 			//Der Tägliche Standart Unterhalt, wieviel die Spieler
+		+ " default_group_tech_exp_daily_upkeep_vice double,"
+		+ " default_group_tech_exp_daily_upkeep_councilmember double,"
+		+ " default_group_tech_exp_daily_upkeep_member double,"
+		+ " default_group_tech_exp_daily_upkeep_adept double"
+		+ ");";
+		baseSetup(data);
+		return true;
+	}
+	
+	private boolean setupDatabaseVII() 
+	{
+		String data = "CREATE TABLE IF NOT EXISTS `" + MysqlHandler.Type.GROUP_ENTRYQUERYSTATUS.getValue()
+		+ "` (id int AUTO_INCREMENT PRIMARY KEY,"
+		+ " intern_name text NOT NULL,"
+		+ " group_name text NOT NULL,"
+		+ " entry_query_type text NOT NULL,"
+		+ " status_type text NOT NULL,"
+		+ " research_level int,"
+		+ " duration_until_expiration BIGINT);";
+		baseSetup(data);
+		return true;
+	}
+	
+	private boolean setupDatabaseVIII() 
+	{
+		String data = "CREATE TABLE IF NOT EXISTS `" + MysqlHandler.Type.GROUP_PLAYERAFFILIATION.getValue()
+		+ "` (id int AUTO_INCREMENT PRIMARY KEY,"
+		+ " group_name text NOT NULL UNIQUE,"
+		+ " player_uuid char(36) NOT NULL UNIQUE,"
+		+ " rank text NOT NULL,"
+		+ " rank_ordinal int,"
+		+ " individual_tech_exp_daily_upkeep double,"
+		+ " can_research boolean,"
+		+ " can_kick boolean,"
+		+ " can_invite boolean,"
+		+ " can_acceptapplication boolean,"
+		+ " can_promote boolean,"
+		+ " can_demote boolean,"
+		+ " can_increaselevel boolean,"
+		+ " can_setdefault_daily_upkeep boolean,"
+		+ " can_setindividual_daily_upkeep boolean"
+		+ ");";
+		baseSetup(data);
+		return true;
+	}
+	
+	private boolean setupDatabaseIX()
+	{
+		String data = "CREATE TABLE IF NOT EXISTS `" + MysqlHandler.Type.UPDATE_TECH.getValue()
+		+ "` (id int AUTO_INCREMENT PRIMARY KEY,"
+		+ " player_uuid char(36) NOT NULL,"
+		+ " player_associated_type text NOT NULL,"
+		+ " technology text,"
+		+ " global_technology_poll_id int,"
+		+ " research_level int"
+		+ ");";
 		baseSetup(data);
 		return true;
 	}

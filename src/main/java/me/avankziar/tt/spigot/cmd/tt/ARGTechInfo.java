@@ -21,13 +21,15 @@ import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
 import main.java.me.avankziar.tt.spigot.handler.CatTechHandler;
+import main.java.me.avankziar.tt.spigot.handler.GroupHandler;
 import main.java.me.avankziar.tt.spigot.handler.PlayerHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
 import main.java.me.avankziar.tt.spigot.objects.EntryQueryType;
-import main.java.me.avankziar.tt.spigot.objects.EntryStatusType;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
 import main.java.me.avankziar.tt.spigot.objects.TechnologyType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalEntryQueryStatus;
+import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
+import main.java.me.avankziar.tt.spigot.objects.mysql.GroupEntryQueryStatus;
 import main.java.me.avankziar.tt.spigot.objects.mysql.SoloEntryQueryStatus;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.DropChance;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.Technology;
@@ -82,12 +84,6 @@ public class ARGTechInfo extends ArgumentModule
 	{
 		int techLevel = 0;
 		int acquiredTech = 0;
-		int totalSoloTechs = plugin.getMysqlHandler().getCount(Type.SOLO_ENTRYQUERYSTATUS,
-				"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
-				player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
-		int totalGlobalTechs = plugin.getMysqlHandler().getCount(Type.GLOBAL_ENTRYQUERYSTATUS,
-				"`entry_query_type` = ? AND `status_type` = ?",
-				EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
 		if(lvl != null)
 		{
 			techLevel = lvl;
@@ -106,7 +102,19 @@ public class ARGTechInfo extends ArgumentModule
 				acquiredTech = seqs == null ? 0 : techLevel; //Tech which was already acquire
 				break;
 			case GROUP:
-				//TODO
+				GroupData gd = GroupHandler.getGroup(player);
+				String gn = "";
+				if(gd != null)
+				{
+					gn = gd.getGroupName();
+				}
+				ArrayList<GroupEntryQueryStatus> greqsList = GroupEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GROUP_ENTRYQUERYSTATUS,
+						"`research_level` DESC", 0, 1,
+						"`group_name` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
+						gn, t.getInternName(), EntryQueryType.TECHNOLOGY.toString()));
+				GroupEntryQueryStatus greqs = greqsList.size() == 0 ? null : greqsList.get(0);
+				techLevel = greqs == null ? 1 : greqs.getResearchLevel() + 1; //Tech which may to acquire
+				acquiredTech = greqs == null ? 0 : techLevel; //Tech which was already acquire
 				break;
 			case GLOBAL:
 				ArrayList<GlobalEntryQueryStatus> geqsList = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBAL_ENTRYQUERYSTATUS,
@@ -126,8 +134,8 @@ public class ARGTechInfo extends ArgumentModule
 		HashMap<String, Double> map = new HashMap<>();
 		map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
 		map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
-		map.put(PlayerHandler.SOLOTOTALTECH, Double.valueOf(totalSoloTechs));
-		map.put(PlayerHandler.GLOBALTOTALTECH, Double.valueOf(totalGlobalTechs));
+		map.put(PlayerHandler.SOLORESEARCHEDTOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchSoloTech(player)));
+		map.put(PlayerHandler.GLOBALRESEARCHEDTOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchGlobalTech()));
 		YamlConfiguration y = plugin.getYamlHandler().getLang();
 		String path = "GuiHandler.Technology.Info.";
 		ArrayList<BaseComponent> albc = new ArrayList<>();

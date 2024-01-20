@@ -20,6 +20,9 @@ Wiki Themen
 - Das man einstellen kann, bei Öfen & Brauständen im Afk oder Offline Belohnung bekommt oder halt nicht.
 - Das Vercraften von 2 Werkzeugen des gleichen Types und Materials geht nicht mehr. Da die Handhabe von den anderen Rezepten diese scheinbar intern in
   MC kaputt macht. Man hat auch so keinen Zugriff richtig darauf.
+- Die Beziehung von GruppenPrivilegien zu den Gruppenrängen, bzw. dass man generell nur das Privileg bei einem anderen Spieler
+  einstellen kann, wenn man sie überhaupt hat.
+- Man kann personen nur bis zu dem Rang untersich promoten, auch wenn man das Privileg dazu hat.
 
 Items welche als CraftComplexRecipe registriert sind, welche aber nicht manipuliert werden können.
 Testen ob man trotzdem craften kann und ob man Belohungen erhält.
