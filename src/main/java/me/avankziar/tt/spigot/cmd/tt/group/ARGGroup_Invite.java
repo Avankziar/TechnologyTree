@@ -4,24 +4,25 @@ import java.io.IOException;
 
 import org.bukkit.command.CommandSender;
 
+import main.java.me.avankziar.ifh.general.assistance.ChatApi;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
 
-public class ARGGroup_ListApplication extends ArgumentModule
+public class ARGGroup_Invite extends ArgumentModule
 {
 	private TT plugin;
 	
-	public ARGGroup_ListApplication(TT plugin, ArgumentConstructor argumentConstructor)
+	public ARGGroup_Invite(TT plugin, ArgumentConstructor argumentConstructor)
 	{
 		super(argumentConstructor);
 		this.plugin = plugin;
 	}
 
-	//tt group invite 
+	//tt group application ...
 	@Override
 	public void run(CommandSender sender, String[] args) throws IOException
 	{
-		
+		sender.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Cmd.OtherCmd")));
 	}
 }

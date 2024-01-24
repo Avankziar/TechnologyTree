@@ -17,17 +17,17 @@ import main.java.me.avankziar.tt.spigot.handler.GroupHandler.Position;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupPlayerAffiliation;
 
-public class ARGGroup_SendApplication extends ArgumentModule
+public class ARGGroup_Application_Send extends ArgumentModule
 {
 	private TT plugin;
 	
-	public ARGGroup_SendApplication(TT plugin, ArgumentConstructor argumentConstructor)
+	public ARGGroup_Application_Send(TT plugin, ArgumentConstructor argumentConstructor)
 	{
 		super(argumentConstructor);
 		this.plugin = plugin;
 	}
 
-	//tt group sendapplication <groupname>
+	//tt group application send <groupname>
 	@Override
 	public void run(CommandSender sender, String[] args) throws IOException
 	{
@@ -37,7 +37,7 @@ public class ARGGroup_SendApplication extends ArgumentModule
 			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.YouAreInAGroup")));
 			return;
 		}
-		String gn = args[2];
+		String gn = args[3];
 		GroupData gd = GroupHandler.getGroup(gn);
 		if(gd == null)
 		{
@@ -46,7 +46,7 @@ public class ARGGroup_SendApplication extends ArgumentModule
 			return;
 		}
 		GroupHandler.createAffiliateGroup(player.getUniqueId(), gd.getGroupName(), Position.APPLICANT, false);
-		String txt = ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.SendApplication.Applicated")
+		String txt = ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.Application.Send.Applicated")
 				.replace("%player%", player.getName())
 				.replace("%group%", gd.getGroupName()));
 		ArrayList<UUID> l = new ArrayList<>();

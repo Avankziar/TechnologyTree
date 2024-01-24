@@ -10,6 +10,7 @@ import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
 import main.java.me.avankziar.tt.spigot.handler.GroupHandler;
+import main.java.me.avankziar.tt.spigot.handler.GroupHandler.Position;
 import main.java.me.avankziar.tt.spigot.modifiervalueentry.ModifierValueEntry;
 import main.java.me.avankziar.tt.spigot.modifiervalueentry.Bypass.Permission;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
@@ -84,7 +85,14 @@ public class ARGGroup_IncreaseLevel extends ArgumentModule
 			}
 			gd.setGroupTechExp(gd.getGroupTechExp()-cost);
 		}
+		int members = GroupHandler.getGroupMemberAmount(gd.getGroupName());
 		gd.setGroupLevel(gd.getGroupLevel()+1);
+		gd.setMaxAmountPlayer(GroupHandler.getMemberTotalAmount(gd.getGroupName(), gd.getGroupLevel(), members));
+		gd.setMaxAmountMaster(GroupHandler.getMemberTotalAmount(Position.MASTER, gd.getGroupName(), gd.getGroupLevel(), members));
+		gd.setMaxAmountVice(GroupHandler.getMemberTotalAmount(Position.VICE, gd.getGroupName(), gd.getGroupLevel(), members));
+		gd.setMaxAmountCouncilMember(GroupHandler.getMemberTotalAmount(Position.COUNCILMEMBER, gd.getGroupName(), gd.getGroupLevel(), members));
+		gd.setMaxAmountMember(GroupHandler.getMemberTotalAmount(Position.MEMBER, gd.getGroupName(), gd.getGroupLevel(), members));
+		gd.setMaxAmountAdept(GroupHandler.getMemberTotalAmount(Position.ADEPT, gd.getGroupName(), gd.getGroupLevel(), members));
 		GroupHandler.sendMembersText(gd.getGroupName(), plugin.getYamlHandler().getLang().getString("Commands.Group.IncreaseLevel.Increased")
 				.replace("%pre%", String.valueOf(gd.getGroupLevel()-1))
 				.replace("%post%", String.valueOf(gd.getGroupLevel()))

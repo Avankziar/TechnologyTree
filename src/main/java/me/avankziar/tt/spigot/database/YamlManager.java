@@ -945,6 +945,26 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cDu hast nicht das Privileg um den individuellen Unterhalt eines Spieler zu setzten!",
 						"&cYou do not have the privilege to bet on the individual maintenance of a player!"}));
+		languageKeys.put(path+"Group.Groups.Headline", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7=====&cGruppenInfo&7=====",
+						"&7=====&cGruppenInfo&7====="}));
+		languageKeys.put(path+"Group.Groups.GroupAmount", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eEs existieren insgesamt %amount% Gruppen.",
+						"&eThere are a total of %amount% groups."}));
+		languageKeys.put(path+"Group.Groups.PlayerAmount", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eInsgesamt sind %amount% Spieler in diesen Gruppen.",
+						"&eThere are a total of %amount% players in these groups."}));
+		languageKeys.put(path+"Group.Groups.Median", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDas sind im Durschnitt %average% und im Median %median% Spieler.",
+						"&eThe average is %average% and the median is %median% players."}));
+		languageKeys.put(path+"Group.Groups.Bottomline", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7====================",
+						"&7===================="}));
 		languageKeys.put(path+"Group.Create.GroupNameAlreadyExist", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cDie Gruppe mit dem Namen %name% existiert schon!",
@@ -961,34 +981,38 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&aDu hast die Gruppe %name% erstellt! Dir wurden %cost% TTExp abgezogen!",
 						"&aYou have created the group %name%! You have been deducted %cost% TTExp!"}));
-		languageKeys.put(path+"Group.SendInvite.SendToInvitee", 
+		languageKeys.put(path+"Group.Invite.Send.SendToInvitee", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&eDer Spieler %player% der Technologygruppe %group%, hat dich in seine Gruppe eingeladen! Klick hier!",
 						"&eThe player %player% of the technology group %group%, has invited you to join his group! Click here!"}));
-		languageKeys.put(path+"Group.SendInvite.SendToInviter", 
+		languageKeys.put(path+"Group.Invite.Send.SendToInviter", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&eDu hast den Spieler %player% in deine Gruppe eingeladen!",
 						"&eYou have invited the player %player% to your group!"}));
-		languageKeys.put(path+"Group.AcceptInvite.NoInvitee", 
+		languageKeys.put(path+"Group.Invite.Accept.NoInvitee", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cDu wurdest von keiner Gruppe eingeladen!",
 						"&cYou were not invited by any group!"}));
-		languageKeys.put(path+"Group.AcceptInvite.NoInviteeFromTheGroup", 
+		languageKeys.put(path+"Group.Invite.Accept.NoInviteeFromTheGroup", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cDu wurdest von nicht von der Gruppe %group% eingeladen! Sondern von der Gruppe %group2%!",
 						"&cYou were not invited by the %group% group! But from the group %group2%!"}));
-		languageKeys.put(path+"Group.AcceptInvite.PlayerJointGroup", 
+		languageKeys.put(path+"Group.Invite.Accept.PlayerJointGroup", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&eDer Spieler %player% ist der Gruppe %group% beigetreten!",
 						"&ePlayer %player% has joined group %group%!"}));
-		languageKeys.put(path+"Group.SendApplication.Applicated", 
+		languageKeys.put(path+"Group.Application.Send.Applicated", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&eDer Spieler %player% hat sich bei der Gruppe %group% beworben!",
 						"&ePlayer %player% has applied to group %group%!"}));
-		languageKeys.put(path+"Group.AcceptApplication.NoApplicant", 
+		languageKeys.put(path+"Group.Application.Accept.NoApplicant", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cDer Spieler %player% hat sich nicht beworben!",
 						"&cPlayer %player% did not apply!"}));
+		languageKeys.put(path+"Group.Application.Accept.NoInviteeFromTheGroup", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDer Spieler hat sich nicht beworben!",
+						"&cThe player has not applied!"}));
 		languageKeys.put(path+"Group.SetPrivileges.YourGroupRankIsLowerThanTheOther", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cDein Gruppenrang %prank% müsst höhergestellt sein als den Rang des Mitgliedes (%rank%), wo du ein Privileg ändern möchtest.",
@@ -1177,6 +1201,110 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&eDer Spieler %player% ist nun Großmeister der Gruppe %group%!",
 						"&eThe player %player% is now the grandmaster of the group %group%!"}));
+		languageKeys.put(path+"Group.List.NoGroups",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cKeine Gruppen gefunden!",
+						"&cNo groups found!"}));
+		languageKeys.put(path+"Group.List.Headline",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7=====&cGruppenListe Seite: %page%&7=====",
+						"&7=====&cGrouplist Page: %page%&7====="}));
+		languageKeys.put(path+"Group.List.Groups",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00%group%-Lv.%lvl%-(%members%/%totalmembers%)&7",
+						"&#ff8c00%group%-Lv.%lvl%-(%members%/%totalmembers%)&7"}));
+		languageKeys.put(path+"Group.List.GroupsHover",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Großmeister: &b%grandmaster%~!~&eBeschreibung: &b%desc%",
+						"&#ff8c00Grandmaster: &b%grandmaster%~!~&eDescription: &b%desc%"}));
+		languageKeys.put(path+"Group.PlayerInfo.Headline",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7====&#ff8c00TT Spielerinfo %player%&7=====",
+						"&7====&#ff8c00TT Playerinfo %player%&7====="}));
+		languageKeys.put(path+"Group.PlayerInfo.Bottomline",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7===================",
+						"&7==================="}));
+		languageKeys.put(path+"Group.PlayerInfo.Group",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Gruppe: &f%group% &f| &#ff8c00Level: &f%lvl%",
+						"&#ff8c00Group: &f%group% &f| &#ff8c00Level: &f%lvl%"}));
+		languageKeys.put(path+"Group.PlayerInfo.GroupPosition",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Gruppenrang: &f%rank%",
+						"&#ff8c00Grouprank: &f%rank%"}));
+		languageKeys.put(path+"Group.PlayerInfo.GroupGrandMaster",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Gruppengroßmeister: &f%gm%",
+						"&#ff8c00Groupgrandmaster: &f%gm%"}));
+		languageKeys.put(path+"Group.PlayerInfo.GroupMember",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Anzahl an Mitglieder: &f%member%/%totalmember%",
+						"&#ff8c00Anzahl an Mitglieder: &f%member%/%totalmember%"}));
+		languageKeys.put(path+"Group.PlayerInfo.GroupInfo",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eFür mehr Infos zur Gruppe, klicke hier!",
+						"&eFor more information about the group, click here!"}));
+		languageKeys.put(path+"Group.PlayerInfo.SendApplication",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDu bist in keiner Gruppe! Klicke hier um der Gruppe des Spielers eine Aufnahmebewerbung zu schicken!",
+						"&eYou are not in a group! Click here to send a membership application to the player's group!"}));
+		languageKeys.put(path+"Group.PlayerInfo.InNoGroup",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Spieler ist in keiner Gruppe!",
+						"&eThe player is not in any group!"}));
+		languageKeys.put(path+"Group.Info.Headline",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7====&#ff8c00TT Gruppeninfo %group%-%id%&7=====",
+						"&7====&#ff8c00TT Groupinfo %group%-%id%&7====="}));
+		languageKeys.put(path+"Group.Info.Bottomline",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7===================",
+						"&7==================="}));
+		languageKeys.put(path+"Group.Info.Creation",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Erstellung: &f%creation%",
+						"&#ff8c00Creation: &f%creation%"}));
+		languageKeys.put(path+"Group.Info.Description",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Beschreibung:",
+						"&#ff8c00Discription:"}));
+		languageKeys.put(path+"Group.Info.Level",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Level: &f%level%/%maxlevel%",
+						"&#ff8c00Level: &f%level%/%maxlevel%"}));
+		languageKeys.put(path+"Group.Info.CostForNextLevel",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Kosten für das nächste Level: &f%cost%",
+						"&#ff8c00Costs for the next level: &f%cost%"}));
+		languageKeys.put(path+"Group.Info.TTExp",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Gruppen TTExp: &f%ttexp% TTExp",
+						"&#ff8c00Group TTExp: &f%ttexp% TTExp"}));
+		languageKeys.put(path+"Group.Info.Grandmaster",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Großmeister: &f%grandmaster%",
+						"&#ff8c00Grandmaster: &f%grandmaster%"}));
+		languageKeys.put(path+"Group.Info.Memberamount",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Mitgliederanzahl: &f%member%/%maxmember%",
+						"&#ff8c00Memberamount: &f%member%/%maxmember%"}));
+		languageKeys.put(path+"Group.Info.Upkeep",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Gruppenunterhalt: &f%upkeep%",
+						"&#ff8c00GroupUpkeep: &f%upkeep%"}));
+		languageKeys.put(path+"Group.Info.CounterFailedUpkeep",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Tage mit keinem gezahlten Unterhalt: &f%failedupkeep%",
+						"&#ff8c00Days with no upkeep paid: &f%failedupkeep%"}));
+		languageKeys.put(path+"Group.Info.Member.MASTER",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Meisterspieleranzahl: &f%value%/%maxvalue%",
+						"&#ff8c00Masterplayeramount: &f%value%/%maxvalue%"}));
+		languageKeys.put(path+"Group.Info.DefaultUpkeep.MASTER",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Zu zahlender Unterhalt von Meister: &f%upkeep%",
+						"&#ff8c00Upkeep to be paid by Master: &f%upkeep%"}));
 	}
 	
 	private void initBackgroundTaskLang() //INFO:BackgroundTaskLang

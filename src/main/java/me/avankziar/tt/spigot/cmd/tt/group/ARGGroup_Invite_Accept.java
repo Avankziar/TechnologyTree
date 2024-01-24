@@ -18,17 +18,17 @@ import main.java.me.avankziar.tt.spigot.handler.GroupHandler.Position;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupPlayerAffiliation;
 
-public class ARGGroup_AcceptInvite extends ArgumentModule
+public class ARGGroup_Invite_Accept extends ArgumentModule
 {
 	private TT plugin;
 	
-	public ARGGroup_AcceptInvite(TT plugin, ArgumentConstructor argumentConstructor)
+	public ARGGroup_Invite_Accept(TT plugin, ArgumentConstructor argumentConstructor)
 	{
 		super(argumentConstructor);
 		this.plugin = plugin;
 	}
 
-	//tt group acceptinvite <groupname>
+	//tt group invite accept <groupname>
 	@Override
 	public void run(CommandSender sender, String[] args) throws IOException
 	{
@@ -38,7 +38,7 @@ public class ARGGroup_AcceptInvite extends ArgumentModule
 			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.YouAreInAGroup")));
 			return;
 		}
-		String gn = args[2];
+		String gn = args[3];
 		GroupData gd = GroupHandler.getGroup(gn);
 		if(gd == null)
 		{
@@ -51,12 +51,12 @@ public class ARGGroup_AcceptInvite extends ArgumentModule
 		GroupPlayerAffiliation gpa = GroupHandler.getAffiliateGroup(player.getUniqueId(), gd.getGroupName());
 		if(gpa == null || gpa.getRank().getRank() < 5)
 		{
-			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.AcceptInvite.NoInvitee")));
+			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.Invite.Accept.NoInvitee")));
 			return;
 		}
 		if(!gpa.getGroupName().equals(gd.getGroupName()))
 		{
-			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.AcceptInvite.NoInviteeFromTheGroup")
+			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.Invite.Accept.NoInviteeFromTheGroup")
 					.replace("%group%", gd.getGroupName())
 					.replace("%group2%", gpa.getGroupName())));
 			return;
@@ -68,7 +68,7 @@ public class ARGGroup_AcceptInvite extends ArgumentModule
 		}
 		plugin.getMysqlHandler().deleteData(Type.GROUP_PLAYERAFFILIATION, "`player_uuid` = ?", player.getUniqueId().toString());
 		GroupHandler.createAffiliateGroup(player.getUniqueId(), gd.getGroupName(), Position.ADEPT, false);
-		String txt = ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.AcceptInvite.PlayerJointGroup")
+		String txt = ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.Invite.Accept.PlayerJointGroup")
 				.replace("%player%", player.getName())
 				.replace("%group%", gd.getGroupName()));
 		ArrayList<UUID> l = new ArrayList<>();

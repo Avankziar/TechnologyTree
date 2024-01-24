@@ -74,7 +74,7 @@ public class ARGGroup_SendInvite extends ArgumentModule
 		TextComponent tx = ChatApi.clickEvent(plugin.getYamlHandler().getLang().getString("Commands.Group.SendInvite.SendToInvitee")
 							.replace("%player%", player.getName())
 							.replace("%group%", gd.getGroupName()),
-							Action.SUGGEST_COMMAND, CommandSuggest.get(CommandExecuteType.TT_GROUP_ACCEPTINVITE) + " " + gd.getGroupName());
+							Action.SUGGEST_COMMAND, CommandSuggest.get(CommandExecuteType.TT_GROUP_INVITE_ACCEPT) + " " + gd.getGroupName());
 		if(Bukkit.getPlayer(uuid) != null)
 		{
 			Bukkit.getPlayer(uuid).spigot().sendMessage(tx);

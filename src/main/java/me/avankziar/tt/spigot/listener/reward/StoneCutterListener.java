@@ -24,7 +24,7 @@ import main.java.me.avankziar.tt.spigot.objects.ToolType;
 
 public class StoneCutterListener implements Listener
 {
-	final private static EventType SC = EventType.HARMING;
+	final private static EventType SC = EventType.STONECUTTING;
 
 	@EventHandler
 	public void onStoneCutter(InventoryClickEvent event)

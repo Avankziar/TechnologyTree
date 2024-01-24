@@ -181,7 +181,7 @@ public class GroupHandler
 		if(groupname != null)
 		{
 			return (GroupPlayerAffiliation) plugin.getMysqlHandler().getData(Type.GROUP_PLAYERAFFILIATION,
-					"`player_uuid` = ? AND `group_name` = ?", uuid.toString(), groupname);
+					"`player_uuid` = ? AND `group_name` = ? AND `rank_ordinal` < ?", uuid.toString(), groupname, 5);
 		}
 		return (GroupPlayerAffiliation) plugin.getMysqlHandler().getData(Type.GROUP_PLAYERAFFILIATION,
 				"`player_uuid` = ?", uuid.toString());
@@ -190,6 +190,12 @@ public class GroupHandler
 	public static ArrayList<GroupPlayerAffiliation> getAllAffiliateGroup(String groupname)
 	{
 		return GroupPlayerAffiliation.convert(plugin.getMysqlHandler().getFullList(Type.GROUP_PLAYERAFFILIATION, "`id` ASC", "`group_name` = ?", groupname));
+	}
+	
+	public static ArrayList<GroupPlayerAffiliation> getAllAffiliateGroup(String groupname, Position pos)
+	{
+		return GroupPlayerAffiliation.convert(plugin.getMysqlHandler().getFullList(Type.GROUP_PLAYERAFFILIATION,
+				"`id` ASC", "`group_name` = ? AND `rank_ordinal` = ?", groupname, pos.getRank()));
 	}
 	
 	public static void updatePlayerAffiliation(GroupPlayerAffiliation gpa)
@@ -205,12 +211,12 @@ public class GroupHandler
 		}
 		GroupData gd = new GroupData(0, groupname, player.getUniqueId(),
 				System.currentTimeMillis(), "N.A.", 0, 0,
-				getMemberTotalAmount(groupname, getMaximumAchievableLevel(), getMaximumAchievableLevel()),
-				getMemberTotalAmount(Position.MASTER, groupname, getMaximumAchievableLevel(), getMaximumAchievableLevel()),
-				getMemberTotalAmount(Position.VICE, groupname, getMaximumAchievableLevel(), getMaximumAchievableLevel()),
-				getMemberTotalAmount(Position.COUNCILMEMBER, groupname, getMaximumAchievableLevel(), getMaximumAchievableLevel()),
-				getMemberTotalAmount(Position.MEMBER, groupname, getMaximumAchievableLevel(), getMaximumAchievableLevel()),
-				getMemberTotalAmount(Position.ADEPT, groupname, getMaximumAchievableLevel(), getMaximumAchievableLevel()),
+				getMemberTotalAmount(groupname, 0, 1),
+				getMemberTotalAmount(Position.MASTER, groupname, 0, 1),
+				getMemberTotalAmount(Position.VICE, groupname, 0, 1),
+				getMemberTotalAmount(Position.COUNCILMEMBER, groupname, 0, 1),
+				getMemberTotalAmount(Position.MEMBER, groupname, 0, 1),
+				getMemberTotalAmount(Position.ADEPT, groupname, 0, 1),
 				0,
 				getDefaultUpKeep(Position.MASTER),
 				getDefaultUpKeep(Position.VICE),
@@ -261,6 +267,16 @@ public class GroupHandler
 			i = plugin.getMysqlHandler().getCount(Type.GROUP_PLAYERAFFILIATION, "`group_name` = ? AND `rank_ordinal` < ?", gd.getGroupName(), 5);
 		}
 		return i;
+	}
+	
+	public static int getGroupMemberAmount(String groupname)
+	{
+		return plugin.getMysqlHandler().getCount(Type.GROUP_PLAYERAFFILIATION, "`group_name` = ? AND `rank_ordinal` < ?", groupname, 5);
+	}
+	
+	public static int getTotalGroupPlayerAffiliate()
+	{
+		return plugin.getMysqlHandler().getCount(Type.GROUP_PLAYERAFFILIATION, "`id` > ?", 0);
 	}
 	
 	public static int getTotalGroupAmount()
@@ -314,5 +330,10 @@ public class GroupHandler
 		{
 			plugin.getMessageToBungee().sendMessage(uuid, txt);
 		}
+	}
+	
+	public static int getGroupAffiliates(String groupname, Position pos)
+	{
+		return plugin.getMysqlHandler().getCount(Type.GROUP_PLAYERAFFILIATION, "`group_name` = ? AND `rank_ordinal` = ?", groupname, pos.getRank());
 	}
 }

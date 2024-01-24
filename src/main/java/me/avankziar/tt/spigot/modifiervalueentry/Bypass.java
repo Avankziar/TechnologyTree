@@ -13,7 +13,8 @@ public class Bypass
 		SEE_SUB_CATEGORYS,
 		GROUP_CREATE,
 		GROUP_INCREASELEVEL,
-		GROUP_SETGRANDMASTER;
+		GROUP_SETGRANDMASTER,
+		GROUP_INFO;
 		
 		public String getValueLable()
 		{
