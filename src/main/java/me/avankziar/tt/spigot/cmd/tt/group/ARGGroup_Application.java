@@ -5,18 +5,14 @@ import java.io.IOException;
 import org.bukkit.command.CommandSender;
 
 import main.java.me.avankziar.ifh.general.assistance.ChatApi;
-import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
 
 public class ARGGroup_Application extends ArgumentModule
-{
-	private TT plugin;
-	
-	public ARGGroup_Application(TT plugin, ArgumentConstructor argumentConstructor)
+{	
+	public ARGGroup_Application(ArgumentConstructor argumentConstructor)
 	{
 		super(argumentConstructor);
-		this.plugin = plugin;
 	}
 
 	//tt group application ...

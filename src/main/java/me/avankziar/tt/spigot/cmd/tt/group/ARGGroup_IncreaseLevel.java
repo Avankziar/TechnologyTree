@@ -6,24 +6,20 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import main.java.me.avankziar.ifh.general.assistance.ChatApi;
-import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
 import main.java.me.avankziar.tt.spigot.handler.GroupHandler;
 import main.java.me.avankziar.tt.spigot.handler.GroupHandler.Position;
-import main.java.me.avankziar.tt.spigot.modifiervalueentry.ModifierValueEntry;
 import main.java.me.avankziar.tt.spigot.modifiervalueentry.Bypass.Permission;
+import main.java.me.avankziar.tt.spigot.modifiervalueentry.ModifierValueEntry;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupPlayerAffiliation;
 
 public class ARGGroup_IncreaseLevel extends ArgumentModule
-{
-	private TT plugin;
-	
-	public ARGGroup_IncreaseLevel(TT plugin, ArgumentConstructor argumentConstructor)
+{	
+	public ARGGroup_IncreaseLevel(ArgumentConstructor argumentConstructor)
 	{
 		super(argumentConstructor);
-		this.plugin = plugin;
 	}
 
 	//tt group increaselevel [groupname]

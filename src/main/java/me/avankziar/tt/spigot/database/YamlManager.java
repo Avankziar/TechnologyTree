@@ -2,6 +2,7 @@ package main.java.me.avankziar.tt.spigot.database;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -62,6 +63,7 @@ public class YamlManager
 	private static LinkedHashMap<PlayerAssociatedType, LinkedHashMap<String, LinkedHashMap<String, Language>>> subCategoryKeys = new LinkedHashMap<>();
 	private static LinkedHashMap<PlayerAssociatedType, LinkedHashMap<String, LinkedHashMap<String, Language>>> technologyKeys = new LinkedHashMap<>();
 	
+	private static LinkedHashMap<String, Language> recipeListKeys = new LinkedHashMap<>();
 	private static LinkedHashMap<String, LinkedHashMap<String, Language>> blastingRecipeKeys = new LinkedHashMap<>();
 	private static LinkedHashMap<String, LinkedHashMap<String, Language>> campfireRecipeKeys = new LinkedHashMap<>();
 	private static LinkedHashMap<String, LinkedHashMap<String, Language>> furnaceRecipeKeys = new LinkedHashMap<>();
@@ -147,6 +149,11 @@ public class YamlManager
 	public LinkedHashMap<PlayerAssociatedType, LinkedHashMap<String, LinkedHashMap<String, Language>>> getTechnologyKey()
 	{
 		return technologyKeys;
+	}
+	
+	public LinkedHashMap<String, Language> getRecipeListKey()
+	{
+		return recipeListKeys;
 	}
 	
 	public LinkedHashMap<String, LinkedHashMap<String, Language>> getBlastingRecipeKey()
@@ -367,6 +374,9 @@ public class YamlManager
 		configSpigotKeys.put("Do.Gui.FillNotDefineGuiSlots"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				Material.LIGHT_GRAY_STAINED_GLASS_PANE.toString()}));
+		configSpigotKeys.put("Do.Group.IfGroupHasNoMemberDeleteIt"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				true}));
 		configSpigotKeys.put("Do.Item.LoseDropItemOwnershipAfterTimeInSeconds"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				300}));
@@ -447,9 +457,15 @@ public class YamlManager
 		configSpigotKeys.put("Group.DailyUpkeep.Active"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				true}));
+		configSpigotKeys.put("Group.DailyUpkeep.Time"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				"11-00"}));
 		configSpigotKeys.put("Group.DailyUpkeep.ActiveFromLevel"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				2}));
+		configSpigotKeys.put("Group.DailyUpkeep.CounterFailedUpkeepToReduceGroupLevel"
+				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+				7}));
 		configSpigotKeys.put("Group.DailyUpkeep.Fromula"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				"group_level*group_researched_totaltech + group_memberamount*pi^2"}));
@@ -529,14 +545,238 @@ public class YamlManager
 				"&bCommandright for &f/tt checkplacedblocks",
 				"&eCheckt den angeschauten block ob er plaziert wurde. (Und somit für Belohnungen nicht mehr zählt)",
 				"&eChecks the viewed block to see if it has been placed. (And therefore no longer counts for rewards)");
+		argumentInput("tt_exp", "exp", basePermission,
+				"/tt exp", "/tt exp ", false,
+				"&c/tt exp &f| Zwischenbefehl",
+				"&c/tt exp &f| Intermediate command",
+				"&bBefehlsrecht für &f/tt exp",
+				"&bCommandright for &f/tt exp",
+				"&eZwischenbefehl",
+				"&eIntermediate command");
+		argumentInput("tt_exp_add", "add", basePermission,
+				"/tt exp add <playername> <exp(decimalnumber)>", "/tt exp add ", false,
+				"&c/tt exp add <Spielername> <Exp(Dezimalzahl)> &f| Fügt TTExp dem Spieler hinzu oder entfernt es.",
+				"&c/tt exp add <playername> <exp(decimalnumber)> &f| Adds or removes TTExp from the player.",
+				"&bBefehlsrecht für &f/tt exp add",
+				"&bCommandright for &f/tt exp add",
+				"&eFügt TTExp dem Spieler hinzu oder entfernt es.",
+				"&eAdds or removes TTExp from the player.");
+		argumentInput("tt_exp_set", "set", basePermission,
+				"/tt exp set <playername> <exp(decimalnumber)>", "/tt exp set ", false,
+				"&c/tt exp set <Spielername> <Exp(Dezimalzahl)> &f| Setzt die TTExp des Spielers auf die angegebene Zahl.",
+				"&c/tt exp set <playername> <exp(decimalnumber)> &f| Sets the players TTExp to the specified number.",
+				"&bBefehlsrecht für &f/tt exp set",
+				"&bCommandright for &f/tt exp set",
+				"&eSetzt die TTExp des Spielers auf die angegebene Zahl.",
+				"&eSets the players TTExp to the specified number.");
 		argumentInput("tt_giveitem", "giveitem", basePermission,
-				"/tt giveitem", "/tt giveitem ", false,
+				"/tt giveitem <itemfilename> <amount>", "/tt giveitem ", false,
 				"&c/tt giveitem <Itemdateiname> <Anzahl> &f| Gibt dem Spieler das Item, welches aus der angegbenen Datei generiert wird.",
 				"&c/tt giveitem <itemfilename> <amount> &f| Gives the player the item that is generated from the specified file.",
 				"&bBefehlsrecht für &f/tt giveitem",
 				"&bCommandright for &f/tt giveitem",
 				"&eGibt dem Spieler das Item, welches aus der angegbenen Datei generiert wird.",
 				"&eGives the player the item that is generated from the specified file.");
+		argumentInput("tt_group", "group", basePermission,
+				"/tt group", "/tt group ", false,
+				"&c/tt group &f| Zeigt allgemeine Infos zu allen Gruppen an.",
+				"&c/tt group &f| Displays general information on all groups.",
+				"&bBefehlsrecht für &f/tt group",
+				"&bCommandright for &f/tt group",
+				"&eZeigt allgemeine Infos zu allen Gruppen an.",
+				"&eDisplays general information on all groups.");
+		argumentInput("tt_group_application", "application", basePermission,
+				"/tt group application", "/tt group application ", false,
+				"&c/tt group application &f| Zwischenbefehl",
+				"&c/tt group application &f| Intermediate command",
+				"&bBefehlsrecht für &f/tt group application",
+				"&bCommandright for &f/tt group application",
+				"&eZwischenbefehl",
+				"&eIntermediate command");
+		argumentInput("tt_group_application_accept", "accept", basePermission,
+				"/tt group application accept <playername>", "/tt group application accept ", false,
+				"&c/tt group application accept <playername> &f| Akzeptiert einen Bewerber in die Gruppe.",
+				"&c/tt group application accept <playername> &f| Accepts an applicant into the group.",
+				"&bBefehlsrecht für &f/tt group application accept",
+				"&bCommandright for &f/tt group application accept",
+				"&eAkzeptiert einen Bewerber in die Gruppe.",
+				"&eAccepts an applicant into the group.");
+		argumentInput("tt_group_application_deny", "deny", basePermission,
+				"/tt group application deny <playername>", "/tt group application deny ", false,
+				"&c/tt group application deny <playername> &f| Lehnt einen Bewerbung an die Gruppe ab.",
+				"&c/tt group application deny <playername> &f| Rejects an application to the group.",
+				"&bBefehlsrecht für &f/tt group application deny",
+				"&bCommandright for &f/tt group application deny",
+				"&eLehnt einen Bewerbung an die Gruppe ab.",
+				"&eRejects an application to the group.");
+		argumentInput("tt_group_application_list", "list", basePermission,
+				"/tt group application list [group]", "/tt group application list ", false,
+				"&c/tt group application list [group] &f| Zeigt alle akutelle Bewerbungen.",
+				"&c/tt group application list [group] &f| Shows all current applications.",
+				"&bBefehlsrecht für &f/tt group application list",
+				"&bCommandright for &f/tt group application list",
+				"&eZeigt alle akutelle Bewerbungen.",
+				"&e");
+		argumentInput("tt_group_application_send", "send", basePermission,
+				"/tt group application send <groupname>", "/tt group application send ", false,
+				"&c/tt group application send <groupname> &f| Sendet eine Aufnahmebewerbung an die Gruppe angegebene Gruppe.",
+				"&c/tt group application send <groupname> &f| Sends an application for admission to the group specified.",
+				"&bBefehlsrecht für &f/tt group application send",
+				"&bCommandright for &f/tt group application send",
+				"&eSendet eine Aufnahmebewerbung an die Gruppe angegebene Gruppe.",
+				"&eSends an application for admission to the group specified.");
+		argumentInput("tt_group_create", "create", basePermission,
+				"/tt group create [groupname]", "/tt group create ", false,
+				"&c/tt group create [groupname] &f| Erstellt eine Gruppe. Ohne angegebene Gruppennamen zeigt es die Infos was die Gruppenerstellung kosten würde.",
+				"&c/tt group create [groupname] &f| Creates a group. Without a specified group name, it shows the information on how much the group creation would cost.",
+				"&bBefehlsrecht für &f/tt group create",
+				"&bCommandright for &f/tt group create",
+				"&eErstellt eine Gruppe. Ohne angegebene Gruppennamen zeigt es die Infos was die Gruppenerstellung kosten würde.",
+				"&eCreates a group. Without a specified group name, it shows the information on how much the group creation would cost.");
+		argumentInput("tt_group_demote", "demote", basePermission,
+				"/tt group demote <playername> <rank>", "/tt group demote ", false,
+				"&c/tt group demote <playername> <rank> &f| Degradiert einen Gruppenmitglied auf den Angegebenen Rang.",
+				"&c/tt group demote <playername> <rank> &f| Demotes a party member to the specified rank.",
+				"&bBefehlsrecht für &f/tt group demote",
+				"&bCommandright for &f/tt group demote",
+				"&eDegradiert einen Gruppenmitglied auf den Angegebenen Rang.",
+				"&eDemotes a party member to the specified rank.");
+		argumentInput("tt_group_donate", "donate", basePermission,
+				"/tt group donate <amount(Double)> [groupname]", "/tt group donate ", false,
+				"&c/tt group donate <amount(Double)> [groupname] &f| Spendet TTExp an die Gruppe. Ist keine Gruppe angegeben, wird es an die eigene gespendet sofern vorhanden.",
+				"&c/tt group donate <amount(Double)> [groupname] &f| Donates TTExp to the group. If no group is specified, it is donated to your own if available.",
+				"&bBefehlsrecht für &f/tt group donate",
+				"&bCommandright for &f/tt group donate",
+				"&eSpendet TTExp an die Gruppe. Ist keine Gruppe angegeben, wird es an die eigene gespendet sofern vorhanden.",
+				"&eDonates TTExp to the group. If no group is specified, it is donated to your own if available.");
+		argumentInput("tt_group_increaselevel", "increaselevel", basePermission,
+				"/tt group increaselevel [groupname]", "/tt group increaselevel ", false,
+				"&c/tt group increaselevel [groupname] &f| Erhöht das GruppenLevel um 1. Anfallende Kosten werden dem angehäuften Wissen der Gruppe abgezogen.",
+				"&c/tt group increaselevel [groupname] &f| Increases the group level by 1. Costs incurred are deducted from the groups accumulated knowledge.",
+				"&bBefehlsrecht für &f/tt group increaselevel",
+				"&bCommandright for &f/tt group increaselevel",
+				"&eErhöht das GruppenLevel um 1. Anfallende Kosten werden dem angehäuften Wissen der Gruppe abgezogen.",
+				"&eIncreases the group level by 1. Costs incurred are deducted from the groups accumulated knowledge.");
+		argumentInput("tt_group_info", "info", basePermission,
+				"/tt group info [group]", "/tt group info ", false,
+				"&c/tt group info [group] &f| Zeigt alle Info der eigenen oder angegebenen Gruppe an.",
+				"&c/tt group info [group] &f| Displays all info of the own or specified group.",
+				"&bBefehlsrecht für &f/tt group info",
+				"&bCommandright for &f/tt group info",
+				"&eZeigt alle Info der eigenen oder angegebenen Gruppe an.",
+				"&eDisplays all info of the own or specified group.");
+		argumentInput("tt_group_invite", "invite", basePermission,
+				"/tt group invite", "/tt group invite ", false,
+				"&c/tt group invite &f| Listet alle Einladungen auf.",
+				"&c/tt group invite &f| Lists all invitations.",
+				"&bBefehlsrecht für &f/tt group invite",
+				"&bCommandright for &f/tt group invite",
+				"&eListet alle Einladungen auf.",
+				"&eLists all invitations.");
+		argumentInput("tt_group_invite_accept", "accept", basePermission,
+				"/tt group invite accept <groupname>", "/tt group invite accept ", false,
+				"&c/tt group invite accept <groupname> &f| Akzeptiert eine Einladung der Gruppe, welches in einer Aufnahme in die Gruppe mündet.",
+				"&c/tt group invite accept <groupname> &f| Accepts an invitation from the group, which results in acceptance into the group.",
+				"&bBefehlsrecht für &f/tt group invite accept",
+				"&bCommandright for &f/tt group invite accept",
+				"&eAkzeptiert eine Einladung der Gruppe, welches in einer Aufnahme in die Gruppe mündet.",
+				"&eAccepts an invitation from the group, which results in acceptance into the group.");
+		argumentInput("tt_group_invite_deny", "deny", basePermission,
+				"/tt group invite deny <groupname>", "/tt group invite deny ", false,
+				"&c/tt group invite deny <groupname> &f| Lehnt eine Einladung der Gruppe ab.",
+				"&c/tt group invite deny <groupname> &f| Declines an invitation from the group.",
+				"&bBefehlsrecht für &f/tt group invite deny",
+				"&bCommandright for &f/tt group invite deny",
+				"&eLehnt eine Einladung der Gruppe ab.",
+				"&eDeclines an invitation from the group.");
+		argumentInput("tt_group_invite_send", "send", basePermission,
+				"/tt group invite send <playername>", "/tt group invite send ", false,
+				"&c/tt group invite send <playername> &f| Sendet Einladungen zur Gruppe an den Spieler. Achtung! Nicht zurücknehmbar!",
+				"&c/tt group invite send <playername> &f| Sends invitations to the group to the player. Attention! Cannot be withdrawn!",
+				"&bBefehlsrecht für &f/tt group invite send",
+				"&bCommandright for &f/tt group invite send",
+				"&eSendet Einladungen zur Gruppe an den Spieler. Achtung! Nicht zurücknehmbar!",
+				"&eSends invitations to the group to the player. Attention! Cannot be withdrawn!");
+		argumentInput("tt_group_kick", "kick", basePermission,
+				"/tt group kick <playername>", "/tt group kick ", false,
+				"&c/tt group kick <playername> &f| Wirft den Spieler aus der Gruppe heraus.",
+				"&c/tt group kick <playername> &f| Kicks the player out of the group.",
+				"&bBefehlsrecht für &f/tt group kick",
+				"&bCommandright for &f/tt group kick",
+				"&eWirft den Spieler aus der Gruppe heraus.",
+				"&eKicks the player out of the group.");
+		argumentInput("tt_group_leave", "leave", basePermission,
+				"/tt group leave [confirm]", "/tt group leave ", false,
+				"&c/tt group leave [confirm] &f| Verlässt nach dem Bestätigen die Gruppe.",
+				"&c/tt group leave [confirm] &f| Leaves the group after confirming.",
+				"&bBefehlsrecht für &f/tt group leave",
+				"&bCommandright for &f/tt group leave",
+				"&eVerlässt nach dem Bestätigen die Gruppe.",
+				"&eLeaves the group after confirming.");
+		argumentInput("tt_group_list", "list", basePermission,
+				"/tt group list [page]", "/tt group list ", false,
+				"&c/tt group list [page] &f| Listet alle existierende Gruppen auf.",
+				"&c/tt group list [page] &f| Lists all existing groups.",
+				"&bBefehlsrecht für &f/tt group list",
+				"&bCommandright for &f/tt group list",
+				"&eListet alle existierende Gruppen auf.",
+				"&eLists all existing groups.");
+		argumentInput("tt_group_playerinfo", "playerinfo", basePermission,
+				"/tt group playerinfo [playername]", "/tt group playerinfo ", false,
+				"&c/tt group playerinfo [playername] &f| Zeigt alle Gruppeninfos zu dem Spieler auf.",
+				"&c/tt group playerinfo [playername] &f| Shows all group information about the player.",
+				"&bBefehlsrecht für &f/tt group playerinfo",
+				"&bCommandright for &f/tt group playerinfo",
+				"&eZeigt alle Gruppeninfos zu dem Spieler auf.",
+				"&eShows all group information about the player.");
+		argumentInput("tt_group_promote", "promote", basePermission,
+				"/tt group promote <playername> <rank>", "/tt group promote ", false,
+				"&c/tt group promote <playername> <rank> &f| Befördert den Spieler zum angegeben Rang.",
+				"&c/tt group promote <playername> <rank> &f| Promotes the player to the specified rank.",
+				"&bBefehlsrecht für &f/tt group promote",
+				"&bCommandright for &f/tt group promote",
+				"&eBefördert den Spieler zum angegeben Rang.",
+				"&ePromotes the player to the specified rank.");
+		argumentInput("tt_group_setdefaultupkeep", "setdefaultupkeep", basePermission,
+				"/tt group setdefaultupkeep <position> <upkeep(double)>", "/tt group setdefaultupkeep ", false,
+				"&c/tt group setdefaultupkeep <position> <upkeep(double)> &f| Setzt den Rangspezifischen Wissensunterhalt der Mitglieder gegenüber der Gruppe.",
+				"&c/tt group setdefaultupkeep <position> <upkeep(double)> &f| Sets the rank-specific knowledge maintenance of the members in relation to the group.",
+				"&bBefehlsrecht für &f/tt group setdefaultupkeep",
+				"&bCommandright for &f/tt group setdefaultupkeep",
+				"&eSetzt den Rangspezifischen Wissensunterhalt der Mitglieder gegenüber der Gruppe.",
+				"&eSets the rank-specific knowledge maintenance of the members in relation to the group.");
+		argumentInput("tt_group_setdescription", "setdescription", basePermission,
+				"/tt group setdescription <words...>", "/tt group setdescription ", false,
+				"&c/tt group setdescription <words...> &f| Setzt die Gruppenbeschreibung.",
+				"&c/tt group setdescription <words...> &f| Sets the group description.",
+				"&bBefehlsrecht für &f/tt group setdescription",
+				"&bCommandright for &f/tt group setdescription",
+				"&eSetzt die Gruppenbeschreibung.",
+				"&eSets the group description.");
+		argumentInput("tt_group_setgrandmaster", "setgrandmaster", basePermission,
+				"/tt group setgrandmaster <playername> [groupname]", "/tt group setgrandmaster ", false,
+				"&c/tt group setgrandmaster <playername> [groupname] &f| Setzt den Großmeister der Gruppe.",
+				"&c/tt group setgrandmaster <playername> [groupname] &f| Places the grandmaster of the group.",
+				"&bBefehlsrecht für &f/tt group setgrandmaster",
+				"&bCommandright for &f/tt group setgrandmaster",
+				"&eSetzt den Großmeister der Gruppe.",
+				"&ePlaces the grandmaster of the group.");
+		argumentInput("tt_group_setindividualupkeep", "setindividualupkeep", basePermission,
+				"/tt group setindividualupkeep <playername> <upkeep(double)>", "/tt group setindividualupkeep ", false,
+				"&c/tt group setindividualupkeep <playername> <upkeep(double)> &f| Setzt den Mitgliederspezifischen Wissensunterhalt gegenüber der Gruppe.",
+				"&c/tt group setindividualupkeep <playername> <upkeep(double)> &f| Sets the member-specific knowledge maintenance for the group.",
+				"&bBefehlsrecht für &f/tt group setindividualupkeep",
+				"&bCommandright for &f/tt group setindividualupkeep",
+				"&eSetzt den Mitgliederspezifischen Wissensunterhalt gegenüber der Gruppe.",
+				"&eSets the member-specific knowledge maintenance for the group.");
+		argumentInput("tt_group_setprivileges", "setprivileges", basePermission,
+				"/tt group setprivileges <playername> <groupprivilege>", "/tt group setprivileges ", false,
+				"&c/tt group setprivileges <playername> <groupprivilege> &f| Setzt die Gruppenprivilegien.",
+				"&c/tt group setprivileges <playername> <groupprivilege> &f| Sets the group privileges.",
+				"&bBefehlsrecht für &f/tt group setprivileges",
+				"&bCommandright for &f/tt group setprivileges",
+				"&eSetzt die Gruppenprivilegien.",
+				"&eSets the group privileges.");
 		argumentInput("tt_reload", "reload", basePermission,
 				"/tt reload", "/tt reload ", false,
 				"&c/tt reload &f| Lädt alle Yaml Datein neu. Betroffen sind nicht die Befehle und Drittpluginshooks!",
@@ -853,6 +1093,18 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&7[&#ff8c00TT&7] &#c6a664Reload ist beendet!",
 						"&7[&#ff8c00TT&7] &#c6a664Reload has ended!"}));
+		languageKeys.put(path+"Exp.ToZero", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDem Spieler %player% sollten %value% TTExp abgezogen werden, jedoch hatte er nur noch %value2%. Somit werden seine TTExp auf 0 gesetzt.",
+						"&eThe player %player% should have %value% TTExp deducted, but he only had %value2% left. His TTExp is therefore set to 0."}));
+		languageKeys.put(path+"Exp.Reduce", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDem Spieler %player% wurden %value% TTExp abgezogen. Er besitzt noch %value2% TTExp.",
+						"&eThe player %player% has had %value% TTExp deducted. He still has %value2% TTExp."}));
+		languageKeys.put(path+"Exp.Add", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDem Spieler %player% wurden %value% TTExp hinzugefügt. Er besitzt nun %value2% TTExp.",
+						"&eAdded %value% TTExp to the player %player%. He now has %value2% TTExp."}));
 		languageKeys.put(path+"Group.Position.MASTER", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"Meister",
@@ -965,6 +1217,10 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&7====================",
 						"&7===================="}));
+		languageKeys.put(path+"Group.Create.CostInfo", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eUm eine Gruppe zu eröffnen würden zum jetztigen Zeitpunkt %cost% TTExp anfallen. Berechnet nach: %v%",
+						"&eTo open a group, %cost% TTExp would be incurred at the present time. Calculated according to: %v%"}));
 		languageKeys.put(path+"Group.Create.GroupNameAlreadyExist", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cDie Gruppe mit dem Namen %name% existiert schon!",
@@ -981,6 +1237,34 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&aDu hast die Gruppe %name% erstellt! Dir wurden %cost% TTExp abgezogen!",
 						"&aYou have created the group %name%! You have been deducted %cost% TTExp!"}));
+		languageKeys.put(path+"Group.Invite.List.NoInvites", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu bist in keine Gruppe eingeladen worden!",
+						"&cYou have not been invited to any group!"}));
+		languageKeys.put(path+"Group.Invite.List.InvitingGroups",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Einladende Gruppen:",
+						"&#ff8c00Inviting groups:"}));
+		languageKeys.put(path+"Group.Invite.List.Groups",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00%group%&f-",
+						"&#ff8c00%group%&f-"}));
+		languageKeys.put(path+"Group.Invite.List.Comma",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&f, ",
+						"&f, "}));
+		languageKeys.put(path+"Group.Invite.List.Accept",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&aAkzeptieren",
+						"&aAccept"}));
+		languageKeys.put(path+"Group.Invite.List.Seperator",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&f|",
+						"&f|"}));
+		languageKeys.put(path+"Group.Invite.List.Deny",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cAblehnen",
+						"&cDeny"}));
 		languageKeys.put(path+"Group.Invite.Send.SendToInvitee", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&eDer Spieler %player% der Technologygruppe %group%, hat dich in seine Gruppe eingeladen! Klick hier!",
@@ -1001,6 +1285,10 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&eDer Spieler %player% ist der Gruppe %group% beigetreten!",
 						"&ePlayer %player% has joined group %group%!"}));
+		languageKeys.put(path+"Group.Invite.Deny.DenyInvitation", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDer Spieler %player% hat die Einladung der Gruppe %group% abgelehnt!",
+						"&cPlayer %player% has declined the invitation of group %group%!"}));
 		languageKeys.put(path+"Group.Application.Send.Applicated", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&eDer Spieler %player% hat sich bei der Gruppe %group% beworben!",
@@ -1013,6 +1301,10 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cDer Spieler hat sich nicht beworben!",
 						"&cThe player has not applied!"}));
+		languageKeys.put(path+"Group.Application.Deny.DenyEntryInTheGroup", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDie Bewerbung des Spieler %player% für die Gruppe %group% ist abgelehnt worden!",
+						"&cThe application of the player %player% for the group %group% has been rejected!"}));
 		languageKeys.put(path+"Group.SetPrivileges.YourGroupRankIsLowerThanTheOther", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cDein Gruppenrang %prank% müsst höhergestellt sein als den Rang des Mitgliedes (%rank%), wo du ein Privileg ändern möchtest.",
@@ -1289,10 +1581,14 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&#ff8c00Mitgliederanzahl: &f%member%/%maxmember%",
 						"&#ff8c00Memberamount: &f%member%/%maxmember%"}));
+		languageKeys.put(path+"Group.Info.GetUpkeep",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Mitgliederunterhalt: &f%upkeep% pro Tag",
+						"&#ff8c00MemberUpkeep: &f%upkeep% per day"}));
 		languageKeys.put(path+"Group.Info.Upkeep",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&#ff8c00Gruppenunterhalt: &f%upkeep%",
-						"&#ff8c00GroupUpkeep: &f%upkeep%"}));
+						"&#ff8c00Gruppenunterhalt: &f%upkeep% pro Tag",
+						"&#ff8c00GroupUpkeep: &f%upkeep% per day"}));
 		languageKeys.put(path+"Group.Info.CounterFailedUpkeep",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&#ff8c00Tage mit keinem gezahlten Unterhalt: &f%failedupkeep%",
@@ -1301,10 +1597,146 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&#ff8c00Meisterspieleranzahl: &f%value%/%maxvalue%",
 						"&#ff8c00Masterplayeramount: &f%value%/%maxvalue%"}));
+		languageKeys.put(path+"Group.Info.Member.VICE",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Vizespieleranzahl: &f%value%/%maxvalue%",
+						"&#ff8c00Viceplayeramount: &f%value%/%maxvalue%"}));
+		languageKeys.put(path+"Group.Info.Member.COUNCILMEMBER",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Ratsmitgliedspieleranzahl: &f%value%/%maxvalue%",
+						"&#ff8c00Councilmemberplayeramount: &f%value%/%maxvalue%"}));
+		languageKeys.put(path+"Group.Info.Member.MEMBER",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Mitgliedspieleranzahl: &f%value%/%maxvalue%",
+						"&#ff8c00Memberplayeramount: &f%value%/%maxvalue%"}));
+		languageKeys.put(path+"Group.Info.Member.ADEPT",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Adeptspieleranzahl: &f%value%/%maxvalue%",
+						"&#ff8c00Adeptplayeramount: &f%value%/%maxvalue%"}));
 		languageKeys.put(path+"Group.Info.DefaultUpkeep.MASTER",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&#ff8c00Zu zahlender Unterhalt von Meister: &f%upkeep%",
 						"&#ff8c00Upkeep to be paid by Master: &f%upkeep%"}));
+		languageKeys.put(path+"Group.Info.DefaultUpkeep.VICE",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Zu zahlender Unterhalt von Vize: &f%upkeep%",
+						"&#ff8c00Upkeep to be paid by Vice: &f%upkeep%"}));
+		languageKeys.put(path+"Group.Info.DefaultUpkeep.COUNCILMEMBER",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Zu zahlender Unterhalt von Ratsmitglieder: &f%upkeep%",
+						"&#ff8c00Upkeep to be paid by Councilmember: &f%upkeep%"}));
+		languageKeys.put(path+"Group.Info.DefaultUpkeep.MEMBER",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Zu zahlender Unterhalt von Mitglieder: &f%upkeep%",
+						"&#ff8c00Upkeep to be paid by Members: &f%upkeep%"}));
+		languageKeys.put(path+"Group.Info.DefaultUpkeep.ADEPT",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Zu zahlender Unterhalt von Adepts: &f%upkeep%",
+						"&#ff8c00Upkeep to be paid by Adepts: &f%upkeep%"}));
+		languageKeys.put(path+"Group.Info.Members.Line",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Mitglieder:",
+						"&#ff8c00Members:"}));
+		languageKeys.put(path+"Group.Info.Members.Members",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00%member%",
+						"&#ff8c00%member%"}));
+		languageKeys.put(path+"Group.Info.Members.Comma",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&f, ",
+						"&f, "}));
+		languageKeys.put(path+"Group.Info.Members.Hover0",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Rang: &f%rank%",
+						"&#ff8c00Rang: &f%rank%"}));
+		languageKeys.put(path+"Group.Info.Members.HoverI",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Individueller Unterhalt: &f%value%",
+						"&#ff8c00Induvidual Upkeep: &f%value%"}));
+		languageKeys.put(path+"Group.Info.Members.HoverII",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Kann Individuellen Unterhalt setzten: &f%value%",
+						"&#ff8c00Can set individual upkeep: &f%value%"}));
+		languageKeys.put(path+"Group.Info.Members.HoverIII",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Kann Mitglieder entlassen: &f%value%",
+						"&#ff8c00Can kick members: &f%value%"}));
+		languageKeys.put(path+"Group.Info.Members.HoverIV",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Kann Standart Unterhalt setzten: &f%value%",
+						"&#ff8c00Can set defaul upkeep: &f%value%"}));
+		languageKeys.put(path+"Group.Info.Members.HoverV",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Kann Mitglieder befördern: &f%value%",
+						"&#ff8c00Can promote members: &f%value%"}));
+		languageKeys.put(path+"Group.Info.Members.HoverVI",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Kann Mitglieder degradieren: &f%value%",
+						"&#ff8c00Can demote members: &f%value%"}));
+		languageKeys.put(path+"Group.Info.Members.HoverVII",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Kann Gruppenlevel erhöhen: &f%value%",
+						"&#ff8c00Can increase grouplevel: &f%value%"}));
+		languageKeys.put(path+"Group.Info.Members.HoverVIII",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Kann Gruppentechnologien erforschen: &f%value%",
+						"&#ff8c00Can research grouptechnologies: &f%value%"}));
+		languageKeys.put(path+"Group.Info.Members.HoverIX",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Kann Spieler in die Gruppe einladen: &f%value%",
+						"&#ff8c00Can invite player to the group: &f%value%"}));
+		languageKeys.put(path+"Group.Info.Members.HoverX",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Kann Bewerber annehmen: &f%value%",
+						"&#ff8c00Can accept applications: &f%value%"}));
+		languageKeys.put(path+"Group.Info.Invitee.ToJugde",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Anzahl ausstehender Einladungen: &f%value%",
+						"&#ff8c00Number of pending invitations: &f%value%"}));
+		languageKeys.put(path+"Group.Info.Invitee.Invitees",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Eingeladene:",
+						"&#ff8c00Invitees:"}));
+		languageKeys.put(path+"Group.Info.Invitee.Members",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00%member%",
+						"&#ff8c00%member%"}));
+		languageKeys.put(path+"Group.Info.Invitee.Comma",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&f, ",
+						"&f, "}));
+		languageKeys.put(path+"Group.Info.Applicant.ToJugde",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Anzahl ausstehender Bewerbungen: &f%value%",
+						"&#ff8c00Number of pending applications: &f%value%"}));
+		languageKeys.put(path+"Group.Info.Applicant.Applicants",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00Bewerber:",
+						"&#ff8c00Applicants:"}));
+		languageKeys.put(path+"Group.Info.Applicant.Members",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&#ff8c00%member%&f-",
+						"&#ff8c00%member%&f-"}));
+		languageKeys.put(path+"Group.Info.Applicant.Comma",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&f, ",
+						"&f, "}));
+		languageKeys.put(path+"Group.Info.Applicant.Accept",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&aAkzeptieren",
+						"&aAccept"}));
+		languageKeys.put(path+"Group.Info.Applicant.Seperator",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&f|",
+						"&f|"}));
+		languageKeys.put(path+"Group.Info.Applicant.Deny",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cAblehnen",
+						"&cDeny"}));
+		languageKeys.put(path+"Group.ApplicationList.NoApplicants",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cEs stehen keiner Bewerber aus!",
+						"&cThere are no applicants pending!"}));
 	}
 	
 	private void initBackgroundTaskLang() //INFO:BackgroundTaskLang
@@ -1322,6 +1754,42 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cEs sind keine Stimmen für die Technologiewahl eingegangen. Die derzeitige Technologiewahl ist somit ungültig.",
 						"&cNo votes have been received for the technology election. The current technology election is therefore invalid."}));
+		languageKeys.put(path+"GroupDailyUpkeep.FailedCollectdUpkeep", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDu hast mit der Gruppe %group%, Wissen im Wert von %exp% TTExp geteilt! &cJedoch hast du deinen Beitrag von %failedexp% TTExp nicht voll beglichen!",
+						"&eYou have shared knowledge worth %exp% TTExp with the group %group%! &cHowever, you have not paid your contribution of %failedexp% TTExp in full!"}));
+		languageKeys.put(path+"GroupDailyUpkeep.CollectedUpkeep", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDu hast mit der Gruppe %group%, Wissen im Wert von %exp% TTExp geteilt!",
+						"&eYou have shared knowledge worth %exp% TTExp with the group %group%!"}));
+		languageKeys.put(path+"GroupDailyUpkeep.NoUpkeep", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDie Gruppe %group% ist unter dem Gruppenlevel von %lvl%. Somit fällt kein Wissensunterhalt an.",
+						"&eThe group %group% is below the group level of %lvl%. This means that there is no knowledge maintenance."}));
+		languageKeys.put(path+"GroupDailyUpkeep.AddedCollectedUpkeep", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDie Mitglieder der Gruppe %group% haben Wissen im Wert von %exp% TTExp zusammengetragen und somit den Wissenunterhalt von %upkeep% TTExp begleichen können! Nur %failed% Mitglieder konnten ihren Beitrag in Teilen nicht nachkommen.",
+						"&eThe members of the %group% group have collected knowledge worth %exp% TTExp and were thus able to pay for the knowledge maintenance of %upkeep% TTExp! Only %failed% members could not fulfill their contribution in parts."}));
+		languageKeys.put(path+"GroupDailyUpkeep.AddedCollectedUpkeepButHaveEnoughAlready", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDie Mitglieder der Gruppe %group% haben Wissen im Wert von %exp% TTExp zusammengetragen. Jedoch konnte der Defizit mit dem Wissenunterhalt von %upkeep% TTExp mit dem schon angehäuftem Wissen beglichen werden! Nur %failed% Mitglieder konnten ihren Beitrag in Teilen nicht nachkommen.",
+						"&eThe members of the %group% group have accumulated knowledge worth %exp% TTExp. However, the deficit could be made up with the knowledge maintenance of %upkeep% TTExp with the knowledge already accumulated! Only %failed% members could not fulfill their contribution in parts."}));
+		languageKeys.put(path+"GroupDailyUpkeep.AddedCollectedUpkeepButHaveNotEnoughAlready", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDie Mitglieder der Gruppe %group% haben Wissen im Wert von %exp% TTExp zusammengetragen. Es konnte jedoch der Wissenunterhalt von %upkeep% TTExp nicht mit dem schon angehäuftem Wissen beglichen werden! Nur %failed% Mitglieder konnten ihren Beitrag in Teilen nicht nachkommen.",
+						"&eThe members of the %group% group have accumulated knowledge worth %exp% TTExp. However, the knowledge maintenance of %upkeep% TTExp could not be paid for with the knowledge already accumulated! Only %failed% members could not fulfill their contribution in parts."}));
+		languageKeys.put(path+"GroupDailyUpkeep.FailedCounterMinusOne", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&aDie Gruppe %group% hat den täglichen Wissenunterhalt begleichen können. Somit wird der Zähler für nicht gezahltem Unterhalt wird ums eins verringert auf %failed%.",
+						"&aThe %group% group has been able to pay the daily knowledge maintenance. The counter for unpaid maintenance is therefore reduced by one to %failed%."}));
+		languageKeys.put(path+"GroupDailyUpkeep.FailedCounterPlusOne", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDie Gruppe %group% hat den täglichen Wissenunterhalt nicht begleichen können. Der Zähler für nicht gezahltem Unterhalt wird ums eins erhöht auf %failed%. Maximal Anzahl an Tagen bis zur Gruppenlevel Reduzierung: %maxfailed%",
+						"&cThe %group% group has not been able to pay the daily knowledge maintenance. The counter for unpaid maintenance is increased by one to %failed%. Maximum number of days until group level reduction: %maxfailed%"}));
+		languageKeys.put(path+"GroupDailyUpkeep.MaxFailedCounter", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&4Die Gruppe %group% hat %maxfailed% Mal den Wissensunterhalt nicht geleichen können! &cDas Gruppenlevel wird daher von %prelvl% auf %postlvl% reduziert!",
+						"&4The group %group% has not matched %maxfailed% times for knowledge maintenance! &cThe group level is therefore reduced from %prelvl% to %postlvl%!"}));
 	}
 	
 	private void initPlayerHandlerLang() //INFO:PlayerHandlerLang
@@ -12585,12 +13053,17 @@ public class YamlManager
 	{
 		for(Iterator<Recipe> iterator = Bukkit.recipeIterator(); iterator.hasNext();) 
 		{
+			String recipeType = null;
+			String onekey = null;
 		    Recipe r = iterator.next();
 		    if(r instanceof BlastingRecipe)
 		    {
 		    	BlastingRecipe a = (BlastingRecipe) r;
-		    	String onekey = a.getKey().getKey();
+		    	onekey = a.getKey().getNamespace()+"-"+a.getKey().getKey();
 		    	LinkedHashMap<String, Language> one = new LinkedHashMap<>();
+		    	one.put("IsModified",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								false}));
 		    	one.put("Category",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 								a.getCategory().toString()}));
@@ -12610,6 +13083,10 @@ public class YamlManager
 		    		for(Material m : rcmc.getChoices())
 		    		{
 		    			l.add(m.toString());
+		    		}
+		    		if(l.size() == 1)
+		    		{
+		    			l.add("");
 		    		}
 		    		one.put("Input.Material",
 							new Language(new ISO639_2B[] {ISO639_2B.GER},
@@ -12644,11 +13121,15 @@ public class YamlManager
 			    	}
 		    	}
 				blastingRecipeKeys.put(onekey, one);
+				recipeType = "blasting";
 		    } else if(r instanceof CampfireRecipe)
 		    {
 		    	CampfireRecipe a = (CampfireRecipe) r;
-		    	String onekey = a.getKey().getKey();
+		    	onekey = a.getKey().getNamespace()+"-"+a.getKey().getKey();
 		    	LinkedHashMap<String, Language> one = new LinkedHashMap<>();
+		    	one.put("IsModified",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								false}));
 		    	one.put("Category",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 								a.getCategory().toString()}));
@@ -12706,11 +13187,15 @@ public class YamlManager
 			    	}
 		    	}
 				campfireRecipeKeys.put(onekey, one);
+				recipeType = "campfire";
 		    } else if(r instanceof FurnaceRecipe)
 		    {
 		    	FurnaceRecipe a = (FurnaceRecipe) r;
-		    	String onekey = a.getKey().getKey();
+		    	onekey = a.getKey().getNamespace()+"-"+a.getKey().getKey();
 		    	LinkedHashMap<String, Language> one = new LinkedHashMap<>();
+		    	one.put("IsModified",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								false}));
 		    	one.put("Category",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 								a.getCategory().toString()}));
@@ -12768,6 +13253,7 @@ public class YamlManager
 			    	}
 		    	}
 				furnaceRecipeKeys.put(onekey, one);
+				recipeType = "furnace";
 		    } else if(r instanceof MerchantRecipe) //https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/inventory/MerchantRecipe.html
 		    {
 		    	RecipeHandler.toSaveRecipe.add(r);
@@ -12848,8 +13334,11 @@ public class YamlManager
 		    } else if(r instanceof ShapedRecipe)
 		    {
 		    	ShapedRecipe a = (ShapedRecipe) r;
-		    	String onekey = a.getKey().getKey();
+		    	onekey = a.getKey().getNamespace()+"-"+a.getKey().getKey();
 		    	LinkedHashMap<String, Language> one = new LinkedHashMap<>();
+		    	one.put("IsModified",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								false}));
 		    	one.put("Category",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 								a.getCategory().toString()}));
@@ -12965,11 +13454,15 @@ public class YamlManager
 			    	}
 		    	}
 		    	shapedRecipeKeys.put(onekey, one);
+		    	recipeType = "shaped";
 		    } else if(r instanceof ShapelessRecipe)
 		    {
 		    	ShapelessRecipe a = (ShapelessRecipe) r;
-		    	String onekey = a.getKey().getKey();
+		    	onekey = a.getKey().getNamespace()+"-"+a.getKey().getKey();
 		    	LinkedHashMap<String, Language> one = new LinkedHashMap<>();
+		    	one.put("IsModified",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								false}));
 		    	one.put("Category",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 								a.getCategory().toString()}));
@@ -13033,6 +13526,7 @@ public class YamlManager
 			    	}
 		    	}
 		    	shapelessRecipeKeys.put(onekey, one);
+		    	recipeType = "shapeless";
 		    } else if(r instanceof SmithingTransformRecipe)
 		    {
 		    	RecipeHandler.toSaveRecipe.add(r);
@@ -13169,8 +13663,11 @@ public class YamlManager
 		    } else if(r instanceof SmokingRecipe)
 		    {
 		    	SmokingRecipe a = (SmokingRecipe) r;
-		    	String onekey = a.getKey().getKey();
+		    	onekey = a.getKey().getNamespace()+"-"+a.getKey().getKey();
 		    	LinkedHashMap<String, Language> one = new LinkedHashMap<>();
+		    	one.put("IsModified",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								false}));
 		    	one.put("Category",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 								a.getCategory().toString()}));
@@ -13228,11 +13725,15 @@ public class YamlManager
 			    	}
 		    	}
 				smokingRecipeKeys.put(onekey, one);
+				recipeType = "smoking";
 		    } else if(r instanceof StonecuttingRecipe)
 		    {
 		    	StonecuttingRecipe a = (StonecuttingRecipe) r;
-		    	String onekey = a.getKey().getKey();
+		    	onekey = a.getKey().getNamespace()+"-"+a.getKey().getKey();
 		    	LinkedHashMap<String, Language> one = new LinkedHashMap<>();
+		    	one.put("IsModified",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								false}));
 		    	one.put("Group",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 								a.getGroup()}));
@@ -13281,9 +13782,39 @@ public class YamlManager
 			    	}
 		    	}
 				stonecuttingRecipeKeys.put(onekey, one);
+				recipeType = "stonecutting";
 		    } else
 		    {
 		    	RecipeHandler.toSaveRecipe.add(r);
+		    }
+		    if(recipeType != null)
+		    {
+		    	String[] sp = onekey.split("-");
+		    	if(sp.length != 2)
+		    	{
+		    		continue;
+		    	}
+		    	onekey = sp[1];
+		    	Language l = new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {onekey});
+		    	if(recipeListKeys.containsKey(recipeType))
+		    	{
+		    		l = recipeListKeys.get(recipeType);
+		    		Object[] o = l.languageValues.get(ISO639_2B.GER);
+		    		ArrayList<Object> ol = new ArrayList<>(Arrays.asList(o));
+		    		ol.add(onekey);
+		    		ArrayList<String> as = new ArrayList<>();
+		    		for(Object ob : ol)
+		    		{
+		    			if(ob instanceof String)
+		    			{
+		    				String s = (String) ob;
+		    				as.add(s);
+		    			}
+		    		}
+		    		Collections.sort(as);
+		    		l = new Language(new ISO639_2B[] {ISO639_2B.GER}, as.toArray(new Object[as.size()]));
+		    	}
+		    	recipeListKeys.put(recipeType, l);
 		    }
 		    /* else if(r instanceof CraftComplexRecipe)
 		    {

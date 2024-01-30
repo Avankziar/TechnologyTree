@@ -14,13 +14,11 @@ import main.java.me.avankziar.tt.general.ChatApi;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
-import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.objects.ToolType;
 
 public class ARGCheckEventAction extends ArgumentModule
 {
-	private static TT plugin = BaseConstructor.getPlugin();
 	public static HashSet<UUID> checkEventAction = new HashSet<>();
 	
 	public ARGCheckEventAction(ArgumentConstructor argumentConstructor)

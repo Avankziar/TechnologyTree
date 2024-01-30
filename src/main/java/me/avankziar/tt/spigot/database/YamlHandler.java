@@ -34,6 +34,9 @@ public class YamlHandler
 	//private File mvelanguage = null; //TODO Was mache ich nun damit?
 	private YamlConfiguration mvelang = new YamlConfiguration();
 	
+	private File recipeList = null;
+	private YamlConfiguration recipeLists = new YamlConfiguration();
+	
 	private LinkedHashMap<GuiType, YamlConfiguration> gui = new LinkedHashMap<>();
 	
 	private LinkedHashMap<String, YamlConfiguration> itemGenerator = new LinkedHashMap<>();
@@ -76,6 +79,11 @@ public class YamlHandler
 	public YamlConfiguration getMVELang()
 	{
 		return mvelang;
+	}
+	
+	public YamlConfiguration getRecipeList()
+	{
+		return recipeLists;
 	}
 	
 	public YamlConfiguration getGui(GuiType guiType)
@@ -250,6 +258,24 @@ public class YamlHandler
 			return false;
 		}
 		writeFile(commands, com, plugin.getYamlManager().getCommandsKey());
+		recipeList = new File(plugin.getDataFolder(), "recipelist.yml");
+		if(!recipeList.exists()) 
+		{
+			TT.log.info("Create recipelist.yml...");
+			try(InputStream in = plugin.getResource("default.yml"))
+			{
+				Files.copy(in, recipeList.toPath());
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		recipeLists = loadYamlTask(recipeList, recipeLists);
+		if (recipeLists == null)
+		{
+			return false;
+		}
+		writeFile(recipeList, recipeLists, plugin.getYamlManager().getRecipeListKey());
 		return true;
 	}
 	

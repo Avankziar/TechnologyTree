@@ -18,7 +18,6 @@ import main.java.me.avankziar.tt.spigot.assistance.MatchApi;
 import main.java.me.avankziar.tt.spigot.assistance.TimeHandler;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
-import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
 import main.java.me.avankziar.tt.spigot.handler.CatTechHandler;
 import main.java.me.avankziar.tt.spigot.handler.GroupHandler;
@@ -39,9 +38,7 @@ import net.md_5.bungee.api.chat.HoverEvent.Action;
 import net.md_5.bungee.api.chat.TextComponent;
 
 public class ARGTechInfo extends ArgumentModule
-{
-	private static TT plugin = BaseConstructor.getPlugin();
-	
+{	
 	public ARGTechInfo(ArgumentConstructor argumentConstructor)
 	{
 		super(argumentConstructor);

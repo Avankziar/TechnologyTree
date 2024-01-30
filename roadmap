@@ -1,6 +1,7 @@
 Cmd zum sehen, zu welchen Blöcken zugang hat.
 Cmd zum löschen welten bezogener PlacedBlock
 Cmd für das externe Zuweisen von Booster, welche aber keine Technologien sind.
+Events erstellen um bei berechnungen zusätzliche Werte einzutragen.
 Event hinzufügen:
 
 Alle Events durchgehen, was wann eventuell doch gecancelt werden soll. Eventuell Configbasiert?
@@ -11,6 +12,8 @@ Wiki Themen
 - Ein BeispielsYAML wie man Main/SubCategorgien und Technologien ausfüllen kann.
 - Warum die SmithingTrimRecipe nicht in den Rezepten inkludiert sind. (Antwort: Das sind in MC hardgecodet Rezepte)
 - Warum die SmithingTransformRecipe nicht per Config änderbar sind.(Antwort: Wenn mit Configs gemacht, bricht die SchmiedeRezepte komplett)
+- Alle Spezialrezepte sind immer nutzbar. Nur die Belohnungen können determiert werden!
+- Die Rezeptenliste Datei, soll einen schnellen überblick auf minecraft vanilla Rezepte geben.
 - Beim Interagiern von Blöcken gibt es Ausnahmen, die immer funktionieren. Bspw. Bett, die Kiste, Notenblock etc.
 - Kann man mit einem Registriebaren Block nicht interagieren, kann man ihn auch nicht regestieren.
 - Abgebaute Blöcke verschwinden immer, wenn man sie "theoretisch" nicht abbauen darf. Erst wenn man es darf, bekommt man durch die Belohnungen
@@ -19,7 +22,8 @@ Wiki Themen
 - Das Scheeren von Schafe dropt automatisch den VanillaDrops, da dies nicht verhindert werden kann.
 - Das man einstellen kann, bei Öfen & Brauständen im Afk oder Offline Belohnung bekommt oder halt nicht.
 - Das Vercraften von 2 Werkzeugen des gleichen Types und Materials geht nicht mehr. Da die Handhabe von den anderen Rezepten diese scheinbar intern in
-  MC kaputt macht. Man hat auch so keinen Zugriff richtig darauf.
+  MC kaputt macht. Man hat auch so keinen Zugriff richtig darauf. TESTEN!
+- 
 - Die Beziehung von GruppenPrivilegien zu den Gruppenrängen, bzw. dass man generell nur das Privileg bei einem anderen Spieler
   einstellen kann, wenn man sie überhaupt hat.
 - Man kann personen nur bis zu dem Rang untersich promoten, auch wenn man das Privileg dazu hat.

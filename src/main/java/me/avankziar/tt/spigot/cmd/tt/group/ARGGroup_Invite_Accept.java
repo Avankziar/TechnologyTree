@@ -1,15 +1,11 @@
 package main.java.me.avankziar.tt.spigot.cmd.tt.group;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import main.java.me.avankziar.ifh.general.assistance.ChatApi;
-import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
@@ -19,13 +15,10 @@ import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupPlayerAffiliation;
 
 public class ARGGroup_Invite_Accept extends ArgumentModule
-{
-	private TT plugin;
-	
-	public ARGGroup_Invite_Accept(TT plugin, ArgumentConstructor argumentConstructor)
+{	
+	public ARGGroup_Invite_Accept(ArgumentConstructor argumentConstructor)
 	{
 		super(argumentConstructor);
-		this.plugin = plugin;
 	}
 
 	//tt group invite accept <groupname>
@@ -71,21 +64,6 @@ public class ARGGroup_Invite_Accept extends ArgumentModule
 		String txt = ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.Invite.Accept.PlayerJointGroup")
 				.replace("%player%", player.getName())
 				.replace("%group%", gd.getGroupName()));
-		ArrayList<UUID> l = new ArrayList<>();
-		for(GroupPlayerAffiliation ga : GroupHandler.getAllAffiliateGroup(gpa.getGroupName()))
-		{
-			Player m = Bukkit.getPlayer(ga.getPlayerUUID());
-			if(m != null)
-			{
-				m.sendMessage(txt);
-			} else
-			{
-				l.add(ga.getPlayerUUID());
-			}
-		}
-		if(plugin.getMessageToBungee() != null && !l.isEmpty())
-		{
-			plugin.getMessageToBungee().sendMessage(l, txt);
-		}
+		GroupHandler.sendMembersText(gn, txt, player.getUniqueId());
 	}
 }

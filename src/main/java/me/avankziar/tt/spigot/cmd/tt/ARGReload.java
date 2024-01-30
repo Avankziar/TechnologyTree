@@ -9,11 +9,9 @@ import main.java.me.avankziar.ifh.general.assistance.ChatApi;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
-import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 
 public class ARGReload extends ArgumentModule
 {
-	private static TT plugin = BaseConstructor.getPlugin();
 	private static Long cooldown = System.currentTimeMillis();
 	
 	public ARGReload(ArgumentConstructor argumentConstructor)

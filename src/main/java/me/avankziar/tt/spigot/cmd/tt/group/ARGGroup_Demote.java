@@ -7,7 +7,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import main.java.me.avankziar.ifh.general.assistance.ChatApi;
-import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.assistance.Utility;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
@@ -16,13 +15,10 @@ import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupPlayerAffiliation;
 
 public class ARGGroup_Demote extends ArgumentModule
-{
-	private TT plugin;
-	
-	public ARGGroup_Demote(TT plugin, ArgumentConstructor argumentConstructor)
+{	
+	public ARGGroup_Demote(ArgumentConstructor argumentConstructor)
 	{
 		super(argumentConstructor);
-		this.plugin = plugin;
 	}
 
 	//tt group demote <playername> <rank>

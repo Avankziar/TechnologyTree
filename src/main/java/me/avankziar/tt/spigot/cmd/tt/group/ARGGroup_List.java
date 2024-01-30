@@ -8,7 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import main.java.me.avankziar.ifh.general.assistance.ChatApi;
-import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.assistance.MatchApi;
 import main.java.me.avankziar.tt.spigot.assistance.Utility;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
@@ -24,13 +23,10 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
 public class ARGGroup_List extends ArgumentModule
-{
-	private TT plugin;
-	
-	public ARGGroup_List(TT plugin, ArgumentConstructor argumentConstructor)
+{	
+	public ARGGroup_List(ArgumentConstructor argumentConstructor)
 	{
 		super(argumentConstructor);
-		this.plugin = plugin;
 	}
 
 	//tt group list [page]

@@ -7,7 +7,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import main.java.me.avankziar.ifh.general.assistance.ChatApi;
-import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.assistance.MatchApi;
 import main.java.me.avankziar.tt.spigot.assistance.Utility;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
@@ -17,13 +16,10 @@ import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupPlayerAffiliation;
 
 public class ARGGroup_SetIndividualUpkeep extends ArgumentModule
-{
-	private TT plugin;
-	
-	public ARGGroup_SetIndividualUpkeep(TT plugin, ArgumentConstructor argumentConstructor)
+{	
+	public ARGGroup_SetIndividualUpkeep(ArgumentConstructor argumentConstructor)
 	{
 		super(argumentConstructor);
-		this.plugin = plugin;
 	}
 
 	//tt group individualupkeep <playername> <upkeep(double)>

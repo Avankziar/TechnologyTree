@@ -22,17 +22,22 @@ import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
 import main.java.me.avankziar.tt.spigot.database.SQLiteHandler;
 import main.java.me.avankziar.tt.spigot.handler.CatTechHandler;
 import main.java.me.avankziar.tt.spigot.handler.EntryQueryStatusHandler;
+import main.java.me.avankziar.tt.spigot.handler.GroupHandler;
 import main.java.me.avankziar.tt.spigot.handler.PlayerHandler;
 import main.java.me.avankziar.tt.spigot.objects.EntryQueryType;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalEntryQueryStatus;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalTechnologyPoll;
+import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
+import main.java.me.avankziar.tt.spigot.objects.mysql.GroupPlayerAffiliation;
+import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
 import main.java.me.avankziar.tt.spigot.objects.mysql.UpdateTech;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.Technology;
 
 public class BackgroundTask
 {
 	private static TT plugin;
+	public static boolean globalPollInProcess = false;
 	
 	public BackgroundTask(TT plugin)
 	{
@@ -46,7 +51,7 @@ public class BackgroundTask
 		doTechnologyPoll();
 		doDeleteExpirePlacedBlocks();
 		doUpdatePlayer();
-		//ADDME DailyUpkeep for Groups
+		doGroupDailyUpkeep();
 		return true;
 	}
 	
@@ -88,11 +93,11 @@ public class BackgroundTask
 		List<String> timesList = plugin.getYamlHandler().getConfig().getStringList("Do.TechnologyPoll.DaysOfTheMonth_ToProcessThePoll");
 		new BukkitRunnable()
 		{
-			boolean inProcess = false;
+			long lastTime = 0;
 			@Override
 			public void run()
 			{
-				if(inProcess)
+				if(globalPollInProcess || (lastTime-System.currentTimeMillis() < 1000*60*2))
 				{
 					return;
 				}
@@ -137,14 +142,15 @@ public class BackgroundTask
 					PlayerAssociatedType pat = PlayerAssociatedType.valueOf(split[0]);
 					if(pat == PlayerAssociatedType.GLOBAL)
 					{
-						inProcess = false;
+						globalPollInProcess = true;
+						lastTime = System.currentTimeMillis();
 						processPoll(pat);
-						inProcess = true;
+						globalPollInProcess = false;
 					}
 					return;
 				}
 			}
-		}.runTaskTimerAsynchronously(plugin, 20L*20, 30L*20);
+		}.runTaskTimerAsynchronously(plugin, 20L*20, 20L*30);
 	}
 	
 	private static void processPoll(PlayerAssociatedType pat)
@@ -301,5 +307,184 @@ public class BackgroundTask
 			}
 		}.runTaskTimerAsynchronously(plugin, 20L, 
 				plugin.getYamlHandler().getConfig().getLong("Do.DeleteExpirePlacedBlocks.TaskRunInMinutes", 5)*60*20L);
+	}
+	
+	private static void doGroupDailyUpkeep()
+	{
+		if(!plugin.getYamlHandler().getConfig().getBoolean("Group.DailyUpkeep.Active", true))
+		{
+			return;
+		}
+		String time = plugin.getYamlHandler().getConfig().getString("", "11-00");
+		String[] sp = time.split("-");
+		if(sp.length != 2 || !MatchApi.isInteger(sp[0]) || !MatchApi.isInteger(sp[1])
+				|| !MatchApi.isPositivNumber(Integer.valueOf(sp[0])) || !MatchApi.isPositivNumber(Integer.valueOf(sp[1])))
+		{
+			return;
+		}
+		new BukkitRunnable()
+		{
+			long lastTime = 0;
+			LocalTime lt = LocalTime.of(Integer.valueOf(sp[0]), Integer.valueOf(sp[1]));
+			boolean deleteIfNoMember = plugin.getYamlHandler().getConfig().getBoolean("Do.Group.IfGroupHasNoMemberDeleteIt", true);
+			@Override
+			public void run()
+			{
+				if(lastTime - System.currentTimeMillis() < 1000*60*2)
+				{
+					return;
+				}
+				LocalTime now = LocalTime.now();
+				if(lt.getHour() != now.getHour() || lt.getMinute() != now.getMinute())
+				{
+					return;
+				}
+				ArrayList<GroupData> agd = GroupData.convert(plugin.getMysqlHandler().getFullList(Type.GROUP_DATA, "`id` ASC", "`id` > ?", 0));
+				if(agd == null || agd.isEmpty())
+				{
+					return;
+				}
+				ArrayList<GroupData> toDeleteGroup = new ArrayList<>();
+				for(int i = 0; i < agd.size(); i++)
+				{
+					GroupData gd = agd.get(i);
+					ArrayList<GroupPlayerAffiliation> gpa = GroupPlayerAffiliation.convert(plugin.getMysqlHandler().getFullList(
+							Type.GROUP_PLAYERAFFILIATION, "`id` ASC", "`group_name` = ? AND `rank_ordinal` < ?", gd.getGroupName(), 5));
+					if(gpa == null || gpa.isEmpty())
+					{
+						if(deleteIfNoMember)
+						{
+							toDeleteGroup.add(gd);
+						}
+					}
+					double collectedUpkeep = 0;
+					int failedUpkeep = 0;
+					for(GroupPlayerAffiliation gp : gpa)
+					{
+						PlayerData pd = PlayerHandler.getPlayer(gp.getPlayerUUID());
+						if(pd == null)
+						{
+							continue;
+						}
+						if(pd.getActualTTExp() < gp.getIndividualTechExpDailyUpkeep())
+						{
+							collectedUpkeep += pd.getActualTTExp();
+							pd.setActualTTExp(0);
+							GroupHandler.sendMemberText(gp.getPlayerUUID(),
+									ChatApi.tl(plugin.getYamlHandler().getLang().getString("BackgroundTask.GroupDailyUpkeep.FailedCollectdUpkeep")
+											.replace("%group%", gd.getGroupName())
+											.replace("%exp%", String.valueOf(pd.getActualTTExp()))
+											.replace("%failedexp%", String.valueOf(gp.getIndividualTechExpDailyUpkeep()))));
+						} else
+						{
+							collectedUpkeep += gp.getIndividualTechExpDailyUpkeep();
+							pd.setActualTTExp(pd.getActualTTExp()-gp.getIndividualTechExpDailyUpkeep());
+							GroupHandler.sendMemberText(gp.getPlayerUUID(),
+									ChatApi.tl(plugin.getYamlHandler().getLang().getString("BackgroundTask.GroupDailyUpkeep.CollectedUpkeep")
+											.replace("%group%", gd.getGroupName())
+											.replace("%exp%", String.valueOf(gp.getIndividualTechExpDailyUpkeep()))));
+						}
+						PlayerHandler.updatePlayer(pd);
+					}
+					int lvl = plugin.getYamlHandler().getConfig().getInt("Group.DailyUpkeep.ActiveFromLevel", 2);
+					if(gd.getGroupLevel() < lvl)
+					{
+						gd.setGroupTechExp(gd.getGroupTechExp()+collectedUpkeep);
+						GroupHandler.updateGroup(gd);
+						GroupHandler.sendMembersText(gd.getGroupName(),
+								ChatApi.tl(plugin.getYamlHandler().getLang().getString("BackgroundTask.GroupDailyUpkeep.NoUpkeep")
+										.replace("%group%", gd.getGroupName())
+										.replace("%lvl%", String.valueOf(lvl))));
+						continue;
+					}
+					double upkeep = GroupHandler.calculateGroupDailyUpKeep(gd.getGroupName(), gd.getGroupLevel(), gpa.size());
+					double c = collectedUpkeep;
+					if(collectedUpkeep > upkeep)
+					{
+						collectedUpkeep -= upkeep;
+						gd.setGroupTechExp(collectedUpkeep);
+						GroupHandler.sendMembersText(gd.getGroupName(), 
+								ChatApi.tl(plugin.getYamlHandler().getLang().getString("BackgroundTask.GroupDailyUpkeep.AddedCollectedUpkeep")
+										.replace("%group%", gd.getGroupName())
+										.replace("%exp%", String.valueOf(c))
+										.replace("%upkeep%", String.valueOf(upkeep))
+										.replace("failed%", String.valueOf(failedUpkeep))));
+						if(gd.getGroupCounterFailedUpkeep() > 0)
+						{
+							gd.setGroupCounterFailedUpkeep(gd.getGroupCounterFailedUpkeep()-1);
+							GroupHandler.sendMembersText(gd.getGroupName(), 
+									ChatApi.tl(plugin.getYamlHandler().getLang().getString("BackgroundTask.GroupDailyUpkeep.FailedCounterMinusOne")
+											.replace("%group%", gd.getGroupName())
+											.replace("%failed%", String.valueOf(gd.getGroupCounterFailedUpkeep()))));
+						}
+					} else
+					{
+						upkeep -= collectedUpkeep;
+						int maxfailed = plugin.getYamlHandler().getConfig().getInt("Group.DailyUpkeep.CounterFailedUpkeepToReduceGroupLevel", 7);
+						if(gd.getGroupTechExp() > upkeep)
+						{
+							gd.setGroupTechExp(gd.getGroupTechExp()-upkeep);
+							GroupHandler.sendMembersText(gd.getGroupName(), 
+									ChatApi.tl(plugin.getYamlHandler().getLang().getString("BackgroundTask.GroupDailyUpkeep.AddedCollectedUpkeepButHaveEnoughAlready")
+											.replace("%group%", gd.getGroupName())
+											.replace("%exp%", String.valueOf(c))
+											.replace("%upkeep%", String.valueOf(upkeep))
+											.replace("failed%", String.valueOf(failedUpkeep))));
+							if(gd.getGroupCounterFailedUpkeep() > 0)
+							{
+								gd.setGroupCounterFailedUpkeep(gd.getGroupCounterFailedUpkeep()-1);
+								GroupHandler.sendMembersText(gd.getGroupName(), 
+										ChatApi.tl(plugin.getYamlHandler().getLang().getString("BackgroundTask.GroupDailyUpkeep.FailedCounterMinusOne")
+												.replace("%group%", gd.getGroupName())
+												.replace("%failed%", String.valueOf(gd.getGroupCounterFailedUpkeep()))));
+							}
+						} else
+						{
+							gd.setGroupTechExp(0);
+							gd.setGroupCounterFailedUpkeep(gd.getGroupCounterFailedUpkeep()+1);
+							GroupHandler.sendMembersText(gd.getGroupName(), 
+									ChatApi.tl(plugin.getYamlHandler().getLang().getString("BackgroundTask.GroupDailyUpkeep.AddedCollectedUpkeepButHaveNotEnoughAlready")
+											.replace("%group%", gd.getGroupName())
+											.replace("%exp%", String.valueOf(c))
+											.replace("%upkeep%", String.valueOf(upkeep))
+											.replace("failed%", String.valueOf(failedUpkeep))));
+							GroupHandler.sendMembersText(gd.getGroupName(), 
+									ChatApi.tl(plugin.getYamlHandler().getLang().getString("BackgroundTask.GroupDailyUpkeep.FailedCounterPlusOne")
+											.replace("%group%", gd.getGroupName())
+											.replace("%failed%", String.valueOf(gd.getGroupCounterFailedUpkeep()))
+											.replace("%maxfailed%", String.valueOf(maxfailed))));
+							if(gd.getGroupCounterFailedUpkeep() >= maxfailed)
+							{
+								gd.setGroupLevel(gd.getGroupLevel()-1);
+								gd.setGroupCounterFailedUpkeep(0);
+								GroupHandler.sendMembersText(gd.getGroupName(), 
+										ChatApi.tl(plugin.getYamlHandler().getLang().getString("BackgroundTask.GroupDailyUpkeep.MaxFailedCounter")
+												.replace("%group%", gd.getGroupName())
+												.replace("%maxfailed%", String.valueOf(maxfailed))
+												.replace("%prelvl%", String.valueOf(gd.getGroupLevel()+1))
+												.replace("%postlvl%", String.valueOf(gd.getGroupLevel()))));
+							}
+						}
+					}
+					GroupHandler.updateGroup(gd);
+				}
+				int deletedGroups = toDeleteGroup.size();
+				int deletedEntrys = 0;
+				int deletedMembers = 0;
+				for(int i = 0; i < toDeleteGroup.size(); i++)
+				{
+					GroupData gd = toDeleteGroup.get(i);
+					deletedMembers += plugin.getMysqlHandler().deleteData(Type.GROUP_PLAYERAFFILIATION, "`group_name` = ?", gd.getGroupName());
+					deletedEntrys += plugin.getMysqlHandler().deleteData(Type.GROUP_ENTRYQUERYSTATUS, "`group_name` = ?", gd.getGroupName());
+					plugin.getMysqlHandler().deleteData(Type.GROUP_DATA, "`group_name` = ?", gd.getGroupName());
+				}
+				TT.log.info("==========Deleted Groups==========");
+				TT.log.info("Reason: Have No Members after checking the DailyUpkeep");
+				TT.log.info("Deleted Groups: "+deletedGroups);
+				TT.log.info("Deleted Entrys: "+deletedEntrys+" (Categorys and Techs)");
+				TT.log.info("Deleted Members: "+deletedMembers+" (Applicants and Invitees)");
+				TT.log.info("==================================");
+			}
+		}.runTaskTimerAsynchronously(plugin, 0L, 20L*30);
 	}
 }

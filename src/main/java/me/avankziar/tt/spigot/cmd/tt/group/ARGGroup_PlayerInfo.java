@@ -8,7 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import main.java.me.avankziar.ifh.general.assistance.ChatApi;
-import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.assistance.Utility;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
@@ -18,17 +17,14 @@ import main.java.me.avankziar.tt.spigot.handler.GroupHandler;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupPlayerAffiliation;
 import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.ClickEvent.Action;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class ARGGroup_PlayerInfo extends ArgumentModule
-{
-	private TT plugin;
-	
-	public ARGGroup_PlayerInfo(TT plugin, ArgumentConstructor argumentConstructor)
+{	
+	public ARGGroup_PlayerInfo(ArgumentConstructor argumentConstructor)
 	{
 		super(argumentConstructor);
-		this.plugin = plugin;
 	}
 
 	//tt group playerinfo [playername]
@@ -84,14 +80,14 @@ public class ARGGroup_PlayerInfo extends ArgumentModule
 			a.add(l);
 			l = new ArrayList<>();
 			l.add(ChatApi.clickEvent(plugin.getYamlHandler().getLang().getString("Commands.Group.PlayerInfo.GroupInfo"),
-					Action.SUGGEST_COMMAND, CommandSuggest.get(CommandExecuteType.TT_GROUP_INFO)+" "+gd.getGroupName()));
+					Action.SUGGEST_COMMAND, CommandSuggest.get(CommandExecuteType.TT_GROUP_INFO)+gd.getGroupName()));
 			a.add(l);
 			if(!p2.equals(player.getName()) && !GroupHandler.isInGroup(player.getUniqueId())
 					&& gtmember > gmember)
 			{
 				l = new ArrayList<>();
 				l.add(ChatApi.clickEvent(plugin.getYamlHandler().getLang().getString("Commands.Group.PlayerInfo.SendApplication"),
-						Action.SUGGEST_COMMAND, CommandSuggest.get(CommandExecuteType.TT_GROUP_APPLICATION_SEND)+" "+gd.getGroupName()));
+						Action.SUGGEST_COMMAND, CommandSuggest.get(CommandExecuteType.TT_GROUP_APPLICATION_SEND)+gd.getGroupName()));
 				a.add(l);
 			}
 		} else

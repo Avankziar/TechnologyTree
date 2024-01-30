@@ -9,17 +9,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.ifh.general.assistance.ChatApi;
-import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.assistance.MatchApi;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
-import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.tt.spigot.ifh.ItemGenerator;
 
 public class ARGGiveItem extends ArgumentModule
-{
-	private static TT plugin = BaseConstructor.getPlugin();
-	
+{	
 	public ARGGiveItem(ArgumentConstructor argumentConstructor)
 	{
 		super(argumentConstructor);

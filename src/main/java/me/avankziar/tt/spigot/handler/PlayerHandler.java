@@ -353,6 +353,7 @@ public class PlayerHandler
 				{
 					player.spigot().sendMessage(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("PlayerHandler.SyncEnd")));
 				}
+				//ADDME Hier alle Einladungen in Gruppen anzeigen!
 			}
 		}.runTaskAsynchronously(plugin);
 	}

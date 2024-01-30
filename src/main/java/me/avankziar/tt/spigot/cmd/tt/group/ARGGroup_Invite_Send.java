@@ -9,7 +9,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import main.java.me.avankziar.ifh.general.assistance.ChatApi;
-import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.assistance.Utility;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
@@ -22,17 +21,14 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent.Action;
 import net.md_5.bungee.api.chat.TextComponent;
 
-public class ARGGroup_SendInvite extends ArgumentModule
-{
-	private TT plugin;
-	
-	public ARGGroup_SendInvite(TT plugin, ArgumentConstructor argumentConstructor)
+public class ARGGroup_Invite_Send extends ArgumentModule
+{	
+	public ARGGroup_Invite_Send(ArgumentConstructor argumentConstructor)
 	{
 		super(argumentConstructor);
-		this.plugin = plugin;
 	}
 
-	//tt group sendinvite <playername>
+	//tt group invite send <playername>
 	@Override
 	public void run(CommandSender sender, String[] args) throws IOException
 	{
@@ -54,7 +50,7 @@ public class ARGGroup_SendInvite extends ArgumentModule
 			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.GroupHasToManyMember")));
 			return;
 		}
-		String p2 = args[2];
+		String p2 = args[3];
 		UUID uuid = Utility.convertNameToUUID(p2);
 		if(uuid == null)
 		{

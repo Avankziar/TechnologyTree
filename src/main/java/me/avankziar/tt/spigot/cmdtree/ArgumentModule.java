@@ -8,6 +8,7 @@ import main.java.me.avankziar.tt.spigot.TT;
 
 public abstract class ArgumentModule
 {
+	public static TT plugin = BaseConstructor.getPlugin();
 	public ArgumentConstructor argumentConstructor;
 
     public ArgumentModule(ArgumentConstructor argumentConstructor)

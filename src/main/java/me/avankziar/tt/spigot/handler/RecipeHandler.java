@@ -46,11 +46,14 @@ public class RecipeHandler
 	public static LinkedHashMap<RecipeType, ArrayList<String>> recipeMap; //Alle registrierte Recipe
 	public static ArrayList<Recipe> toSaveRecipe = new ArrayList<>();
 	
+	public static boolean loadPluginRecipe = false;
+	
 	public static void init()
 	{
 		recipeMap = new LinkedHashMap<>();
 		toSaveRecipe = new ArrayList<>();
 		haveAllRecipeUnlocked = plugin.getYamlHandler().getConfig().getBoolean("Do.Recipe.HaveAllRecipeUnlocked");
+		loadPluginRecipe = plugin.getYamlHandler().getConfig().getBoolean("Do.Recipe.LoadThePluginRecipe");
 		Material[] mar = new Material[]
 				{
 					Material.REDSTONE, Material.GLOWSTONE_DUST, Material.FERMENTED_SPIDER_EYE, Material.MAGMA_CREAM,
@@ -227,14 +230,14 @@ public class RecipeHandler
 				break;
 			}
 		}
-		if(plugin.getYamlHandler().getConfig().getBoolean("Do.Recipe.LoadThePluginRecipe"))
+		if(loadPluginRecipe)
 		{
-			Bukkit.clearRecipes();
-			for(Recipe recipe : toSaveRecipe)
+			//Bukkit.clearRecipes(); //INFO:Nicht machen, da es bestimmte dinge break.
+			/*for(Recipe recipe : toSaveRecipe)
 			{
 				Bukkit.addRecipe(recipe);
-			}
-			TT.log.info("Added "+toSaveRecipe.size()+" default recipe...");
+			}*/
+			//TT.log.info("Added "+toSaveRecipe.size()+" default recipe...");
 			int blr = 0;
 			for(Entry<String, YamlConfiguration> a : plugin.getYamlHandler().getBlastingRecipe().entrySet())
 			{
@@ -243,7 +246,24 @@ public class RecipeHandler
 				{
 					continue;
 				}
-				Bukkit.addRecipe(recipe);
+				if(!a.getKey().contains("-"))
+				{
+					//Internes neues Rezept
+					Bukkit.addRecipe(recipe);
+				} else
+				{
+					//Originales Minecraftrezept verändert
+					if(a.getValue().getBoolean("IsModified", false))
+					{
+						NamespacedKey nsk = NamespacedKey.fromString(a.getKey().replace("-", ":"));
+						Recipe r = Bukkit.getRecipe(nsk);
+						if(r != null && r instanceof BlastingRecipe)
+						{
+							Bukkit.removeRecipe(nsk);
+							Bukkit.addRecipe(recipe);
+						}
+					}					
+				}
 				registerRecipeInMap(RecipeType.BLASTING, a.getKey());
 				blr++;
 			}
@@ -256,7 +276,24 @@ public class RecipeHandler
 				{
 					continue;
 				}
-				Bukkit.addRecipe(recipe);
+				if(!a.getKey().contains("-"))
+				{
+					//Internes neues Rezept
+					Bukkit.addRecipe(recipe);
+				} else
+				{
+					//Originales Minecraftrezept
+					if(a.getValue().getBoolean("IsModified", false))
+					{
+						NamespacedKey nsk = NamespacedKey.fromString(a.getKey().replace("-", ":"));
+						Recipe r = Bukkit.getRecipe(nsk);
+						if(r != null && r instanceof CampfireRecipe)
+						{
+							Bukkit.removeRecipe(nsk);
+							Bukkit.addRecipe(recipe);
+						}
+					}
+				}
 				registerRecipeInMap(RecipeType.CAMPFIRE, a.getKey());
 				car++;
 			}
@@ -269,7 +306,24 @@ public class RecipeHandler
 				{
 					continue;
 				}
-				Bukkit.addRecipe(recipe);
+				if(!a.getKey().contains("-"))
+				{
+					//Internes neues Rezept
+					Bukkit.addRecipe(recipe);
+				} else
+				{
+					//Originales Minecraftrezept
+					if(a.getValue().getBoolean("IsModified", false))
+					{
+						NamespacedKey nsk = NamespacedKey.fromString(a.getKey().replace("-", ":"));
+						Recipe r = Bukkit.getRecipe(nsk);
+						if(r != null && r instanceof FurnaceRecipe)
+						{
+							Bukkit.removeRecipe(nsk);
+							Bukkit.addRecipe(recipe);
+						}
+					}
+				}
 				registerRecipeInMap(RecipeType.FURNACE, a.getKey());
 				fur++;
 			}
@@ -282,7 +336,24 @@ public class RecipeHandler
 				{
 					continue;
 				}
-				Bukkit.addRecipe(recipe);
+				if(!a.getKey().contains("-"))
+				{
+					//Internes neues Rezept
+					Bukkit.addRecipe(recipe);
+				} else
+				{
+					//Originales Minecraftrezept
+					if(a.getValue().getBoolean("IsModified", false))
+					{
+						NamespacedKey nsk = NamespacedKey.fromString(a.getKey().replace("-", ":"));
+						Recipe r = Bukkit.getRecipe(nsk);
+						if(r != null && r instanceof ShapedRecipe)
+						{
+							Bukkit.removeRecipe(nsk);
+							Bukkit.addRecipe(recipe);
+						}
+					}					
+				}
 				registerRecipeInMap(RecipeType.SHAPED, a.getKey());
 				sdr++;
 			}
@@ -295,7 +366,24 @@ public class RecipeHandler
 				{
 					continue;
 				}
-				Bukkit.addRecipe(recipe);
+				if(!a.getKey().contains("-"))
+				{
+					//Internes neues Rezept
+					Bukkit.addRecipe(recipe);
+				} else
+				{
+					//Originales Minecraftrezept
+					if(a.getValue().getBoolean("IsModified", false))
+					{
+						NamespacedKey nsk = NamespacedKey.fromString(a.getKey().replace("-", ":"));
+						Recipe r = Bukkit.getRecipe(nsk);
+						if(r != null && r instanceof ShapelessRecipe)
+						{
+							Bukkit.removeRecipe(nsk);
+							Bukkit.addRecipe(recipe);
+						}
+					}				
+				}
 				registerRecipeInMap(RecipeType.SHAPELESS, a.getKey());
 				ssr++;
 			}
@@ -332,7 +420,24 @@ public class RecipeHandler
 				{
 					continue;
 				}
-				Bukkit.addRecipe(recipe);
+				if(!a.getKey().contains("-"))
+				{
+					//Internes neues Rezept
+					Bukkit.addRecipe(recipe);
+				} else
+				{
+					//Originales Minecraftrezept
+					if(a.getValue().getBoolean("IsModified", false))
+					{
+						NamespacedKey nsk = NamespacedKey.fromString(a.getKey().replace("-", ":"));
+						Recipe r = Bukkit.getRecipe(nsk);
+						if(r != null && r instanceof SmokingRecipe)
+						{
+							Bukkit.removeRecipe(nsk);
+							Bukkit.addRecipe(recipe);
+						}
+					}
+				}
 				registerRecipeInMap(RecipeType.SMOKING, a.getKey());
 				smr++;
 			}
@@ -345,7 +450,24 @@ public class RecipeHandler
 				{
 					continue;
 				}
-				Bukkit.addRecipe(recipe);
+				if(!a.getKey().contains("-"))
+				{
+					//Internes neues Rezept
+					Bukkit.addRecipe(recipe);
+				} else
+				{
+					//Originales Minecraftrezept
+					if(a.getValue().getBoolean("IsModified", false))
+					{
+						NamespacedKey nsk = NamespacedKey.fromString(a.getKey().replace("-", ":"));
+						Recipe r = Bukkit.getRecipe(nsk);
+						if(r != null && r instanceof StonecuttingRecipe)
+						{
+							Bukkit.removeRecipe(nsk);
+							Bukkit.addRecipe(recipe);
+						}
+					}
+				}
 				registerRecipeInMap(RecipeType.STONECUTTING, a.getKey());
 				scr++;
 			}
@@ -467,6 +589,7 @@ public class RecipeHandler
 			return recipe;
 		} catch (Exception e)
 		{
+			TT.log.warning("Exception in BlastingRecipe: "+key);
 			return null;
 		}
 	}
@@ -500,6 +623,7 @@ public class RecipeHandler
 			return recipe;
 		} catch (Exception e)
 		{
+			TT.log.warning("Exception in CampfireRecipe: "+key);
 			return null;
 		}		
 	}
@@ -533,6 +657,7 @@ public class RecipeHandler
 			return recipe;
 		} catch (Exception e)
 		{
+			TT.log.warning("Exception in FurnaceRecipe: "+key);
 			return null;
 		}
 	}
@@ -601,7 +726,7 @@ public class RecipeHandler
 			return recipe;
 		} catch (Exception e)
 		{
-			TT.log.info("Shaped Recipe "+key+ " failed");
+			TT.log.warning("Exception in ShapeRecipe: "+key);
 			e.printStackTrace();
 			return null;
 		}
@@ -624,6 +749,7 @@ public class RecipeHandler
 			return recipe;
 		} catch (Exception e)
 		{
+			TT.log.warning("Exception in ShapelessRecipe: "+key);
 			return null;
 		}
 	}
@@ -751,6 +877,7 @@ public class RecipeHandler
 			return recipe;
 		} catch (Exception e)
 		{
+			TT.log.warning("Exception in SmokingRecipe: "+key);
 			return null;
 		}		
 	}
@@ -781,6 +908,7 @@ public class RecipeHandler
 			return recipe;
 		} catch (Exception e)
 		{
+			TT.log.warning("Exception in StonecuttingRecipe: "+key);
 			return null;
 		}
 	}
@@ -834,6 +962,11 @@ public class RecipeHandler
 		return haveAllRecipeUnlocked;
 	}
 	
+	/*
+	 * Methode use only for ANVIL, BREWSTAND, STONECUTTER, ENTCHANTINGTABLE, GRINDSTONE
+	 * All other recipes goes to hasAccessToRecipe(UUID uuid, Recipe r)
+	 * Because there can be determined if the recipe is a special one, and than always be true.
+	*/
 	public static boolean hasAccessToRecipe(UUID uuid, RecipeType rt, String key)
 	{
 		if(PlayerHandler.recipeMap.containsKey(uuid)

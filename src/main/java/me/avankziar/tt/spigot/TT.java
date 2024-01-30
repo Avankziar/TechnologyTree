@@ -41,9 +41,37 @@ import main.java.me.avankziar.tt.spigot.cmd.TabCompletion;
 import main.java.me.avankziar.tt.spigot.cmd.TechGuiCommandExecutor;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckPlacedBlocks;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGExp;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGGiveItem;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGGroup;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGReload;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGTechInfo;
+import main.java.me.avankziar.tt.spigot.cmd.tt.exp.ARGExp_Add;
+import main.java.me.avankziar.tt.spigot.cmd.tt.exp.ARGExp_Set;
+import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_Application;
+import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_Application_Accept;
+import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_Application_Deny;
+import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_Application_List;
+import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_Application_Send;
+import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_Create;
+import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_Demote;
+import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_Donate;
+import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_IncreaseLevel;
+import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_Info;
+import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_Invite;
+import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_Invite_Accept;
+import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_Invite_Deny;
+import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_Invite_Send;
+import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_Kick;
+import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_Leave;
+import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_List;
+import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_PlayerInfo;
+import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_Promote;
+import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_SetDefaultUpkeep;
+import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_SetDescription;
+import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_SetGrandMaster;
+import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_SetIndividualUpkeep;
+import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_SetPrivileges;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
@@ -186,6 +214,7 @@ public class TT extends JavaPlugin
 	
 	public void onDisable()
 	{
+		Bukkit.resetRecipes();
 		Bukkit.getScheduler().cancelTasks(this);
 		HandlerList.unregisterAll(this);
 		log.info(pluginName + " is disabled!");
@@ -292,8 +321,100 @@ public class TT extends JavaPlugin
 		ArgumentConstructor techinfo = new ArgumentConstructor(CommandExecuteType.TT_TECHINFO, "tt_techinfo", 0, 1, 2, false, techMapI);
 		new ARGTechInfo(techinfo);
 		
+		ArgumentConstructor exp_add = new ArgumentConstructor(CommandExecuteType.TT_EXP_ADD, "tt_exp_add", 1, 3, 3, false, null);
+		new ARGExp_Add(exp_add);
+		ArgumentConstructor exp_set = new ArgumentConstructor(CommandExecuteType.TT_EXP_SET, "tt_exp_set", 1, 3, 3, false, null);
+		new ARGExp_Set(exp_set);
+		ArgumentConstructor exp = new ArgumentConstructor(CommandExecuteType.TT_EXP, "tt_exp", 0, 0, 0, false, null,
+				exp_add, exp_set);
+		new ARGExp(exp);
+		
+		ArgumentConstructor gr_app_accept = new ArgumentConstructor(CommandExecuteType.TT_GROUP_APPLICATION_ACCEPT,
+				"tt_group_application_accept", 2, 3, 3, false, null);
+		new ARGGroup_Application_Accept(gr_app_accept);
+		ArgumentConstructor gr_app_deny = new ArgumentConstructor(CommandExecuteType.TT_GROUP_APPLICATION_DENY,
+				"tt_group_application_deny", 2, 3, 3, false, null);
+		new ARGGroup_Application_Deny(gr_app_deny);
+		ArgumentConstructor gr_app_list = new ArgumentConstructor(CommandExecuteType.TT_GROUP_APPLICATION_LIST,
+				"tt_group_application_list", 2, 3, 3, false, null);
+		new ARGGroup_Application_List(gr_app_list);
+		ArgumentConstructor gr_app_send = new ArgumentConstructor(CommandExecuteType.TT_GROUP_APPLICATION_SEND,
+				"tt_group_application_send", 2, 3, 3, false, null);
+		new ARGGroup_Application_Send(gr_app_send);
+		ArgumentConstructor gr_application = new ArgumentConstructor(CommandExecuteType.TT_GROUP_APPLICATION,
+				"tt_group_application", 1, 1, 1, false, null,
+				gr_app_accept, gr_app_deny, gr_app_list, gr_app_send);
+		new ARGGroup_Application(gr_application);
+		
+		ArgumentConstructor gr_create = new ArgumentConstructor(CommandExecuteType.TT_GROUP_CREATE,
+				"tt_group_create", 1, 1, 2, false, null);
+		new ARGGroup_Create(gr_create);
+		ArgumentConstructor gr_demote = new ArgumentConstructor(CommandExecuteType.TT_GROUP_DEMOTE,
+				"tt_group_demote", 1, 3, 3, false, null);
+		new ARGGroup_Demote(gr_demote);
+		ArgumentConstructor gr_donate = new ArgumentConstructor(CommandExecuteType.TT_GROUP_DONATE,
+				"tt_group_donate", 1, 2, 3, false, null);
+		new ARGGroup_Donate(gr_donate);
+		ArgumentConstructor gr_increaselevel = new ArgumentConstructor(CommandExecuteType.TT_GROUP_INCREASELEVEL,
+				"tt_group_increaselevel", 1, 1, 2, false, null);
+		new ARGGroup_IncreaseLevel(gr_increaselevel);
+		ArgumentConstructor gr_info = new ArgumentConstructor(CommandExecuteType.TT_GROUP_INFO,
+				"tt_group_info", 1, 1, 2, false, null);
+		new ARGGroup_Info(gr_info);
+		
+		ArgumentConstructor gr_invite_accept = new ArgumentConstructor(CommandExecuteType.TT_GROUP_INVITE_ACCEPT,
+				"tt_group_invite_accept", 2, 3, 3, false, null);
+		new ARGGroup_Invite_Accept(gr_invite_accept);
+		ArgumentConstructor gr_invite_deny = new ArgumentConstructor(CommandExecuteType.TT_GROUP_INVITE_DENY,
+				"tt_group_invite_deny", 2, 3, 3, false, null);
+		new ARGGroup_Invite_Deny(gr_invite_deny);
+		ArgumentConstructor gr_invite_send = new ArgumentConstructor(CommandExecuteType.TT_GROUP_INVITE_SEND,
+				"tt_group_invite_send", 2, 3, 3, false, null);
+		new ARGGroup_Invite_Send(gr_invite_send);
+		ArgumentConstructor gr_invite = new ArgumentConstructor(CommandExecuteType.TT_GROUP_INVITE,
+				"tt_group_invite", 1, 1, 1, false, null,
+				gr_invite_accept, gr_invite_deny, gr_invite_send);
+		new ARGGroup_Invite(gr_invite);
+		
+		ArgumentConstructor gr_kick = new ArgumentConstructor(CommandExecuteType.TT_GROUP_KICK,
+				"tt_group_kick", 1, 2, 2, false, null);
+		new ARGGroup_Kick(gr_kick);
+		ArgumentConstructor gr_leave = new ArgumentConstructor(CommandExecuteType.TT_GROUP_LEAVE,
+				"tt_group_leave", 1, 1, 2, false, null);
+		new ARGGroup_Leave(gr_leave);
+		ArgumentConstructor gr_list = new ArgumentConstructor(CommandExecuteType.TT_GROUP_LIST,
+				"tt_group_list", 1, 1, 2, false, null);
+		new ARGGroup_List(gr_list);
+		ArgumentConstructor gr_playerinfo = new ArgumentConstructor(CommandExecuteType.TT_GROUP_PLAYERINFO,
+				"tt_group_playerinfo", 1, 1, 2, false, null);
+		new ARGGroup_PlayerInfo(gr_playerinfo);
+		ArgumentConstructor gr_promote = new ArgumentConstructor(CommandExecuteType.TT_GROUP_PROMOTE,
+				"tt_group_promote", 1, 3, 3, false, null);
+		new ARGGroup_Promote(gr_promote);
+		ArgumentConstructor gr_setdefaultupkeep = new ArgumentConstructor(CommandExecuteType.TT_GROUP_SETDEFAULT_UPKEEP,
+				"tt_group_setdefaultupkeep", 1, 3, 3, false, null);
+		new ARGGroup_SetDefaultUpkeep(gr_setdefaultupkeep);
+		ArgumentConstructor gr_setdescription = new ArgumentConstructor(CommandExecuteType.TT_GROUP_SETDESCRIPTION,
+				"tt_group_setdescription", 1, 2, 999, false, null);
+		new ARGGroup_SetDescription(gr_setdescription);
+		ArgumentConstructor gr_setgrandmaster = new ArgumentConstructor(CommandExecuteType.TT_GROUP_SETGRANDMASTER,
+				"tt_group_setgrandmaster", 1, 3, 3, false, null);
+		new ARGGroup_SetGrandMaster(gr_setgrandmaster);
+		ArgumentConstructor gr_setindividualupkeep = new ArgumentConstructor(CommandExecuteType.TT_GROUP_SETINDIVIDUAL_UPKEEP,
+				"tt_group_setindividualupkeep", 1, 3, 3, false, null);
+		new ARGGroup_SetIndividualUpkeep(gr_setindividualupkeep);
+		ArgumentConstructor gr_setprivileges = new ArgumentConstructor(CommandExecuteType.TT_GROUP_SETPRIVILEGES,
+				"tt_group_setprivileges", 1, 3, 3, false, null);
+		new ARGGroup_SetPrivileges(gr_setprivileges);
+		
+		ArgumentConstructor group = new ArgumentConstructor(CommandExecuteType.TT_GROUP, "tt_group", 0, 0, 0, false, null,
+				gr_application, gr_create, gr_demote, gr_donate, gr_increaselevel, gr_info, gr_invite,
+				gr_kick, gr_leave, gr_list, gr_playerinfo, gr_promote, gr_setdefaultupkeep, gr_setdescription, gr_setgrandmaster,
+				gr_setindividualupkeep, gr_setprivileges);
+		new ARGGroup(group);
+		
 		CommandConstructor tt = new CommandConstructor(CommandExecuteType.TT, "tt", false,
-				checkeventaction, checkplacedblocks, giveitem, reload, techinfo);
+				checkeventaction, checkplacedblocks, exp, giveitem, group, reload, techinfo);
 		registerCommand(tt.getPath(), tt.getName());
 		getCommand(tt.getName()).setExecutor(new TTCommandExecutor(plugin, tt));
 		getCommand(tt.getName()).setTabCompleter(tab);

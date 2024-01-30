@@ -11,16 +11,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 
 import main.java.me.avankziar.tt.general.ChatApi;
-import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
-import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.tt.spigot.objects.sqllite.PlacedBlock;
 
 public class ARGCheckPlacedBlocks extends ArgumentModule
-{
-	private static TT plugin = BaseConstructor.getPlugin();
-	
+{	
 	public ARGCheckPlacedBlocks(ArgumentConstructor argumentConstructor)
 	{
 		super(argumentConstructor);

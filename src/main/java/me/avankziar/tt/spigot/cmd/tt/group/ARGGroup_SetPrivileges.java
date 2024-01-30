@@ -7,7 +7,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import main.java.me.avankziar.ifh.general.assistance.ChatApi;
-import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.assistance.Utility;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
@@ -19,12 +18,9 @@ import main.java.me.avankziar.tt.spigot.objects.mysql.GroupPlayerAffiliation;
 
 public class ARGGroup_SetPrivileges extends ArgumentModule
 {
-	private TT plugin;
-	
-	public ARGGroup_SetPrivileges(TT plugin, ArgumentConstructor argumentConstructor)
+	public ARGGroup_SetPrivileges(ArgumentConstructor argumentConstructor)
 	{
 		super(argumentConstructor);
-		this.plugin = plugin;
 	}
 
 	//tt group setprivileges <playername> <groupprivilege>
@@ -46,6 +42,11 @@ public class ARGGroup_SetPrivileges extends ArgumentModule
 		}
 		String p2 = args[2];
 		UUID uuid = Utility.convertNameToUUID(p2);
+		if(uuid == null)
+		{
+			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("NoPlayerExist")));
+			return;
+		}
 		GroupPlayerAffiliation gpa2 = GroupHandler.getAffiliateGroup(uuid, gd.getGroupName());
 		if(gpa2 == null)
 		{

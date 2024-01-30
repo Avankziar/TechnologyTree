@@ -8,7 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import main.java.me.avankziar.ifh.general.assistance.ChatApi;
-import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
@@ -16,13 +15,10 @@ import main.java.me.avankziar.tt.spigot.handler.GroupHandler;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
 
 public class ARGGroup extends ArgumentModule
-{
-	private TT plugin;
-	
-	public ARGGroup(TT plugin, ArgumentConstructor argumentConstructor)
+{	
+	public ARGGroup(ArgumentConstructor argumentConstructor)
 	{
 		super(argumentConstructor);
-		this.plugin = plugin;
 	}
 
 	//tt group ... 

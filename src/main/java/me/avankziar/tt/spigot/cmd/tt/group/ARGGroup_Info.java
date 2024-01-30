@@ -12,24 +12,25 @@ import main.java.me.avankziar.tt.spigot.assistance.TimeHandler;
 import main.java.me.avankziar.tt.spigot.assistance.Utility;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
+import main.java.me.avankziar.tt.spigot.cmdtree.CommandExecuteType;
+import main.java.me.avankziar.tt.spigot.cmdtree.CommandSuggest;
+import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
 import main.java.me.avankziar.tt.spigot.handler.GroupHandler;
 import main.java.me.avankziar.tt.spigot.handler.GroupHandler.Position;
-import main.java.me.avankziar.tt.spigot.modifiervalueentry.ModifierValueEntry;
 import main.java.me.avankziar.tt.spigot.modifiervalueentry.Bypass.Permission;
+import main.java.me.avankziar.tt.spigot.modifiervalueentry.ModifierValueEntry;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupPlayerAffiliation;
 import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent.Action;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class ARGGroup_Info extends ArgumentModule
-{
-	private TT plugin;
-	
-	public ARGGroup_Info(TT plugin, ArgumentConstructor argumentConstructor)
+{	
+	public ARGGroup_Info(ArgumentConstructor argumentConstructor)
 	{
 		super(argumentConstructor);
-		this.plugin = plugin;
 	}
 
 	//tt group info [group]
@@ -50,7 +51,8 @@ public class ARGGroup_Info extends ArgumentModule
 			return;
 		}
 		GroupPlayerAffiliation gpa = GroupHandler.getAffiliateGroup(player.getUniqueId(), gd.getGroupName());
-		boolean bypass = ((gpa != null || ModifierValueEntry.hasPermission(player, Permission.GROUP_INFO)) ? true : false);
+		boolean bypass0 = ((gpa != null || ModifierValueEntry.hasPermission(player, Permission.GROUP_INFO)) ? true : false);
+		boolean bypassI = (((gpa != null && gpa.getRank().getRank() < 3) || ModifierValueEntry.hasPermission(player, Permission.GROUP_INFO)) ? true : false);
 		ArrayList<ArrayList<BaseComponent>> a = new ArrayList<>();
 		ArrayList<BaseComponent> l = new ArrayList<>();
 		l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Headline")
@@ -73,7 +75,7 @@ public class ARGGroup_Info extends ArgumentModule
 				.replace("%maxlevel%", String.valueOf(GroupHandler.getMaximumAchievableLevel()))));
 		a.add(l);
 		int members = GroupHandler.getGroupMemberAmount(gd.getGroupName());
-		if(bypass)
+		if(bypass0 || bypassI)
 		{			
 			double costForNextLvl = GroupHandler.getCostsForIncreasingLevel(gd.getGroupName(), gd.getGroupLevel(), members);
 			l = new ArrayList<>();
@@ -97,27 +99,43 @@ public class ARGGroup_Info extends ArgumentModule
 				.replace("%member%", String.valueOf(members))
 				.replace("%maxmember%", String.valueOf(tmembers))));
 		a.add(l);
-		if(bypass)
+		ArrayList<GroupPlayerAffiliation> agpa = GroupPlayerAffiliation.convert(
+				plugin.getMysqlHandler().getFullList(Type.GROUP_PLAYERAFFILIATION,
+						"`rank_ordinal` ASC, `id` ASC", "`group_name` = ? AND `rank_ordinal` < ?", gd.getGroupName(), 5));
+		if(bypass0 || bypassI)
 		{
+			double getUpkeep = 0;
+			for(GroupPlayerAffiliation gpla : agpa)
+			{
+				if(gpla != null)
+				{
+					getUpkeep += gpla.getIndividualTechExpDailyUpkeep();
+				}
+			}
+			l = new ArrayList<>();
+			l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.Info.GetUpkeep")
+					.replace("%upkeep%", String.valueOf(getUpkeep))));
+			a.add(l);
 			double upkeep = GroupHandler.calculateGroupDailyUpKeep(gd.getGroupName(), gd.getGroupLevel(), members);
 			l = new ArrayList<>();
 			l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Upkeep")
-					.replace("%member%", String.valueOf(upkeep))));
+					.replace("%upkeep%", String.valueOf(upkeep))));
 			a.add(l);
 			l = new ArrayList<>();
 			l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.Info.CounterFailedUpkeep")
 					.replace("%failedupkeep%", String.valueOf(gd.getGroupCounterFailedUpkeep()))));
 			a.add(l);
 		}
-		Position pos = Position.MASTER;
-		l = new ArrayList<>();
-		l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Info.Member."+pos.toString())
-				.replace("%value%", String.valueOf(GroupHandler.getGroupAffiliates(gd.getGroupName(), pos)))
-				.replace("%maxvalue%", String.valueOf(gd.getMaxAmountMaster()))));
-		a.add(l);
-		if(bypass)
+		getLines(a, gd, Position.MASTER, bypassI);
+		getLines(a, gd, Position.VICE, bypassI);
+		getLines(a, gd, Position.COUNCILMEMBER, bypassI);
+		getLines(a, gd, Position.MEMBER, bypassI);
+		getLines(a, gd, Position.ADEPT, bypassI);
+		if(bypass0)
 		{
-			ArrayList<GroupPlayerAffiliation> agpa = GroupHandler.getAllAffiliateGroup(gd.getGroupName(), pos);
+			l = new ArrayList<>();
+			l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Members.Line")));
+			a.add(l);
 			if(agpa != null && !agpa.isEmpty())
 			{
 				l = new ArrayList<>();
@@ -125,18 +143,140 @@ public class ARGGroup_Info extends ArgumentModule
 				{
 					GroupPlayerAffiliation gpla = agpa.get(i);
 					String n = Utility.convertUUIDToName(gpla.getPlayerUUID().toString());
-					TextComponent tx = ChatApi.hoverEvent(gn, Action.SHOW_TEXT, grandmaster);
+					TextComponent tx = null;
+					if(!bypassI)
+					{
+						tx = ChatApi.hoverEvent(
+								plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Members.Members")
+								.replace("%member%", n), 
+								Action.SHOW_TEXT, 
+								plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Members.Hover0")
+								.replace("%rank%", GroupHandler.getPositionLocale(gpla.getRank()))
+								);
+					} else if(bypassI)
+					{
+						tx = ChatApi.hoverEvent(
+								plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Members.Members")
+								.replace("%member%", n), 
+								Action.SHOW_TEXT, 
+								plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Members.Hover0")
+								.replace("%rank%", GroupHandler.getPositionLocale(gpla.getRank()))
+								+"~!~"+
+								plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Members.HoverI")
+								.replace("%value%", String.valueOf(gpla.getIndividualTechExpDailyUpkeep()))
+								+"~!~"+
+								plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Members.HoverII")
+								.replace("%value%", getBoolean(gpla.isCanSetIndividualDailyUpkeep()))
+								+"~!~"+
+								plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Members.HoverIII")
+								.replace("%value%", getBoolean(gpla.isCanKick()))
+								+"~!~"+
+								plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Members.HoverIV")
+								.replace("%value%", getBoolean(gpla.isCanSetDefaultDailyUpkeep()))
+								+"~!~"+
+								plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Members.HoverV")
+								.replace("%value%", getBoolean(gpla.isCanPromote()))
+								+"~!~"+
+								plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Members.HoverVI")
+								.replace("%value%", getBoolean(gpla.isCanDemote()))
+								+"~!~"+
+								plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Members.HoverVII")
+								.replace("%value%", getBoolean(gpla.isCanIncreaseLevel()))
+								+"~!~"+
+								plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Members.HoverVIII")
+								.replace("%value%", getBoolean(gpla.isCanResearch()))
+								+"~!~"+
+								plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Members.HoverIX")
+								.replace("%value%", getBoolean(gpla.isCanInvite()))
+								+"~!~"+
+								plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Members.HoverX")
+								.replace("%value%", getBoolean(gpla.isCanAcceptApplication()))
+								);
+					}
+					l.add(tx);
+					if(i+1 < agpa.size())
+					{
+						l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Members.Comma")));
+					}
 				}
 				a.add(l);
 			}
-			l = new ArrayList<>();
-			l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Info.DefaultUpkeep."+pos.toString())
-					.replace("%upkeep%", String.valueOf(gd.getDefaultGroupTechExpDailyUpkeep_Master()))));
-			a.add(l);
 		}
-		
-		GroupHandler.getGroupAffiliates(gd.getGroupName(), Position.INVITEE);
-		GroupHandler.getGroupAffiliates(gd.getGroupName(), Position.APPLICANT);
+		int inv = GroupHandler.getGroupAffiliates(gd.getGroupName(), Position.INVITEE);
+		l = new ArrayList<>();
+		l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Invitee.ToJugde")
+				.replace("%value%", String.valueOf(inv))));
+		a.add(l);
+		if(inv > 0 && bypass0)
+		{
+			ArrayList<GroupPlayerAffiliation> agpaa = GroupHandler.getAllAffiliateGroup(gd.getGroupName(), Position.APPLICANT);
+			if(agpaa != null && !agpaa.isEmpty())
+			{
+				l = new ArrayList<>();
+				l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Invitee.Invitees")));
+				a.add(l);
+				l = new ArrayList<>();
+				for(int i = 0; i < agpa.size(); i++)
+				{
+					GroupPlayerAffiliation gpla = agpa.get(i);
+					String n = Utility.convertUUIDToName(gpla.getPlayerUUID().toString());
+					TextComponent tx0 = ChatApi.tctl(
+							plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Invitee.Members")
+							.replace("%member%", n));
+					l.add(tx0);
+					if(i+1 < agpa.size())
+					{
+						l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Invitee.Comma")));
+					}
+				}
+				a.add(l);
+			}
+		}
+		int app = GroupHandler.getGroupAffiliates(gd.getGroupName(), Position.APPLICANT);
+		l = new ArrayList<>();
+		l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Applicant.ToJugde")
+				.replace("%value%", String.valueOf(app))));
+		a.add(l);
+		if(app > 0 && bypass0)
+		{
+			ArrayList<GroupPlayerAffiliation> agpaa = GroupHandler.getAllAffiliateGroup(gd.getGroupName(), Position.APPLICANT);
+			if(agpaa != null && !agpaa.isEmpty())
+			{
+				l = new ArrayList<>();
+				l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Applicant.Applicants")));
+				a.add(l);
+				l = new ArrayList<>();
+				for(int i = 0; i < agpa.size(); i++)
+				{
+					GroupPlayerAffiliation gpla = agpa.get(i);
+					String n = Utility.convertUUIDToName(gpla.getPlayerUUID().toString());
+					TextComponent tx0 = ChatApi.tctl(
+							plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Applicant.Members")
+							.replace("%member%", n));
+					TextComponent txI = ChatApi.clickEvent(
+							plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Applicant.Accept"),
+							ClickEvent.Action.SUGGEST_COMMAND,
+							CommandSuggest.get(CommandExecuteType.TT_GROUP_APPLICATION_ACCEPT)+n
+							);
+					TextComponent txII = ChatApi.tctl(
+							plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Applicant.Seperator"));
+					TextComponent txIII = ChatApi.clickEvent(
+							plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Applicant.Deny"),
+							ClickEvent.Action.SUGGEST_COMMAND,
+							CommandSuggest.get(CommandExecuteType.TT_GROUP_APPLICATION_DENY)+n
+							);
+					l.add(tx0);
+					l.add(txI);
+					l.add(txII);
+					l.add(txIII);
+					if(i+1 < agpa.size())
+					{
+						l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Applicant.Comma")));
+					}
+				}
+				a.add(l);
+			}
+		}
 		l = new ArrayList<>();
 		l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Bottomline")));
 		a.add(l);
@@ -146,5 +286,26 @@ public class ARGGroup_Info extends ArgumentModule
 			tx.setExtra(bc);
 			player.spigot().sendMessage(tx);
 		}
+	}
+	
+	public static void getLines(ArrayList<ArrayList<BaseComponent>> a, GroupData gd, Position pos, boolean bypassI)
+	{
+		ArrayList<BaseComponent> l = new ArrayList<>();
+		l.add(ChatApi.tctl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.Info.Member."+pos.toString())
+				.replace("%value%", String.valueOf(GroupHandler.getGroupAffiliates(gd.getGroupName(), pos)))
+				.replace("%maxvalue%", String.valueOf(gd.getMaxAmountMaster()))));
+		a.add(l);
+		if(bypassI)
+		{
+			l = new ArrayList<>();
+			l.add(ChatApi.tctl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.Info.DefaultUpkeep."+pos.toString())
+					.replace("%upkeep%", String.valueOf(gd.getDefaultGroupTechExpDailyUpkeep_Master()))));
+			a.add(l);
+		}
+	}
+	
+	public static String getBoolean(boolean boo)
+	{
+		return boo ? TT.getPlugin().getYamlHandler().getLang().getString("IsTrue") : TT.getPlugin().getYamlHandler().getLang().getString("IsFalse");
 	}
 }
