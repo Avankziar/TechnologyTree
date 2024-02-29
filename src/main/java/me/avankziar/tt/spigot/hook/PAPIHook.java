@@ -875,9 +875,9 @@ public class PAPIHook extends PlaceholderExpansion
 	private String reward_techtotal_money(String idf)
 	{
 		String[] sp = idf.split(",");
-		if(sp.length != 7 && sp.length != 8)
+		if(sp.length != 6 && sp.length != 7)
 		{
-			return "Error split.length isnt 7!";
+			return "Error split.length isnt 6!";
 		}
 		PlayerAssociatedType pat = null;
 		try
@@ -925,13 +925,13 @@ public class PAPIHook extends PlaceholderExpansion
 		Material mat = null;
 		try
 		{
-			mat = Material.valueOf(sp[6]);
+			mat = Material.valueOf(sp[5]);
 		} catch(IllegalArgumentException e)
 		{
 			return "!Material dont exist!";
 		}
 		String cun = "";
-		if(sp.length == 7)
+		if(sp.length == 6)
 		{
 			if(plugin.getIFHEco() != null)
 			{
@@ -942,7 +942,7 @@ public class PAPIHook extends PlaceholderExpansion
 			}
 		} else
 		{
-			cun = sp[7];
+			cun = sp[6];
 		}
 		double d = 0.0;
 		for(Entry<Integer, ArrayList<UnlockableInteraction>> e : t.getRewardUnlockableInteractions().entrySet())
@@ -966,13 +966,13 @@ public class PAPIHook extends PlaceholderExpansion
 		EntityType ent = null;
 		try
 		{
-			ent = EntityType.valueOf(sp[6]);
+			ent = EntityType.valueOf(sp[5]);
 		} catch(IllegalArgumentException e)
 		{
 			return "!EntityType dont exist!";
 		}
 		String cun = "";
-		if(sp.length == 7)
+		if(sp.length == 6)
 		{
 			if(plugin.getIFHEco() != null)
 			{
@@ -983,7 +983,7 @@ public class PAPIHook extends PlaceholderExpansion
 			}
 		} else
 		{
-			cun = sp[7];
+			cun = sp[6];
 		}
 		double d = 0.0;
 		for(Entry<Integer, ArrayList<UnlockableInteraction>> e : t.getRewardUnlockableInteractions().entrySet())

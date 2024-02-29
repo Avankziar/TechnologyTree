@@ -270,9 +270,7 @@ public class BlockHandler
 			uuid = entry.getKey();
 			break;
 		}
-		if(uuid == null 
-				|| (uuid != null && Bukkit.getPlayer(uuid) == null && new ConfigHandler().startSmeltIfPlayerIsNotOnline())
-				|| new ConfigHandler().startSmeltIfPlayerIsNotOnline())
+		if(uuid == null)
 		{
 			RegisteredBlock rg = (RegisteredBlock) plugin.getMysqlHandler().getData(MysqlHandler.Type.REGISTEREDBLOCK,
 					"`block_type` = ? AND `server` = ? AND `world` = ? AND `block_x` = ? AND `block_y` = ? AND `block_z` = ?",

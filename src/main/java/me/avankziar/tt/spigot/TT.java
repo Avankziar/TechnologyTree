@@ -11,8 +11,10 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.Plugin;
@@ -88,6 +90,7 @@ import main.java.me.avankziar.tt.spigot.gui.listener.UpperListener;
 import main.java.me.avankziar.tt.spigot.handler.CatTechHandler;
 import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
+import main.java.me.avankziar.tt.spigot.handler.GroupHandler;
 import main.java.me.avankziar.tt.spigot.handler.PlayerHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
@@ -123,6 +126,10 @@ import main.java.me.avankziar.tt.spigot.listener.reward.SmithingListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.StoneCutterListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.TameListener;
 import main.java.me.avankziar.tt.spigot.modifiervalueentry.Bypass;
+import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.GroupPrivilege;
+import main.java.me.avankziar.tt.spigot.objects.RewardType;
+import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
 import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
 
 public class TT extends JavaPlugin
@@ -291,6 +298,52 @@ public class TT extends JavaPlugin
 		
 		LinkedHashMap<Integer, ArrayList<String>> playerMapI = new LinkedHashMap<>();
 		playerMapI.put(1, players);
+		LinkedHashMap<Integer, ArrayList<String>> playerMapII = new LinkedHashMap<>();
+		playerMapII.put(2, players);
+		LinkedHashMap<Integer, ArrayList<String>> playerMapIII = new LinkedHashMap<>();
+		playerMapIII.put(3, players);
+		
+		ArrayList<String> groups = new ArrayList<>();
+		for(GroupData gd : GroupData.convert(plugin.getMysqlHandler().getFullList(
+				MysqlHandler.Type.GROUP_DATA, "`group_name` ASC", "`id` > ?", 0)))
+		{
+			groups.add(gd.getGroupName());
+		}
+		LinkedHashMap<Integer, ArrayList<String>> groupMapI = new LinkedHashMap<>();
+		groupMapI.put(1, groups);
+		LinkedHashMap<Integer, ArrayList<String>> groupMapII = new LinkedHashMap<>();
+		groupMapII.put(2, groups);
+		LinkedHashMap<Integer, ArrayList<String>> groupMapIII = new LinkedHashMap<>();
+		groupMapIII.put(3, groups);
+		
+		ArrayList<String> grouprank = new ArrayList<>();
+		for(GroupHandler.Position gp : GroupHandler.Position.values())
+		{
+			grouprank.add(gp.toString());
+		}
+		LinkedHashMap<Integer, ArrayList<String>> groupRankMapI = new LinkedHashMap<>();
+		groupRankMapI.put(1, grouprank);
+		LinkedHashMap<Integer, ArrayList<String>> groupRankMapII = new LinkedHashMap<>();
+		groupRankMapII.put(2, grouprank);
+		LinkedHashMap<Integer, ArrayList<String>> groupRankMapIII = new LinkedHashMap<>();
+		groupRankMapIII.put(3, grouprank);
+		
+		LinkedHashMap<Integer, ArrayList<String>> promoteDemoteMap = new LinkedHashMap<>();
+		promoteDemoteMap.put(2, players);
+		promoteDemoteMap.put(3, grouprank);
+		
+		LinkedHashMap<Integer, ArrayList<String>> grandMasterMap = new LinkedHashMap<>();
+		grandMasterMap.put(2, players);
+		grandMasterMap.put(3, groups);
+		
+		ArrayList<String> groupprivileges = new ArrayList<>();
+		for(GroupPrivilege gp : GroupPrivilege.values())
+		{
+			groupprivileges.add(gp.toString());
+		}
+		LinkedHashMap<Integer, ArrayList<String>> privilegesMap = new LinkedHashMap<>();
+		privilegesMap.put(2, players);
+		privilegesMap.put(3, groupprivileges);
 		
 		LinkedHashMap<Integer, ArrayList<String>> techMapI = new LinkedHashMap<>();
 		ArrayList<String> techList = new ArrayList<>();
@@ -321,63 +374,60 @@ public class TT extends JavaPlugin
 		ArgumentConstructor techinfo = new ArgumentConstructor(CommandExecuteType.TT_TECHINFO, "tt_techinfo", 0, 1, 2, false, techMapI);
 		new ARGTechInfo(techinfo);
 		
-		ArgumentConstructor exp_add = new ArgumentConstructor(CommandExecuteType.TT_EXP_ADD, "tt_exp_add", 1, 3, 3, false, null);
+		ArgumentConstructor exp_add = new ArgumentConstructor(CommandExecuteType.TT_EXP_ADD, "tt_exp_add", 1, 3, 3, false, playerMapII);
 		new ARGExp_Add(exp_add);
-		ArgumentConstructor exp_set = new ArgumentConstructor(CommandExecuteType.TT_EXP_SET, "tt_exp_set", 1, 3, 3, false, null);
+		ArgumentConstructor exp_set = new ArgumentConstructor(CommandExecuteType.TT_EXP_SET, "tt_exp_set", 1, 3, 3, false, playerMapII);
 		new ARGExp_Set(exp_set);
 		ArgumentConstructor exp = new ArgumentConstructor(CommandExecuteType.TT_EXP, "tt_exp", 0, 0, 0, false, null,
 				exp_add, exp_set);
 		new ARGExp(exp);
 		
 		ArgumentConstructor gr_app_accept = new ArgumentConstructor(CommandExecuteType.TT_GROUP_APPLICATION_ACCEPT,
-				"tt_group_application_accept", 2, 3, 3, false, null);
+				"tt_group_application_accept", 2, 3, 3, false, playerMapIII);
 		new ARGGroup_Application_Accept(gr_app_accept);
 		ArgumentConstructor gr_app_deny = new ArgumentConstructor(CommandExecuteType.TT_GROUP_APPLICATION_DENY,
-				"tt_group_application_deny", 2, 3, 3, false, null);
+				"tt_group_application_deny", 2, 3, 3, false, playerMapIII);
 		new ARGGroup_Application_Deny(gr_app_deny);
 		ArgumentConstructor gr_app_list = new ArgumentConstructor(CommandExecuteType.TT_GROUP_APPLICATION_LIST,
-				"tt_group_application_list", 2, 3, 3, false, null);
+				"tt_group_application_list", 2, 2, 3, false, groupMapIII);
 		new ARGGroup_Application_List(gr_app_list);
 		ArgumentConstructor gr_app_send = new ArgumentConstructor(CommandExecuteType.TT_GROUP_APPLICATION_SEND,
-				"tt_group_application_send", 2, 3, 3, false, null);
+				"tt_group_application_send", 2, 3, 3, false, groupMapIII);
 		new ARGGroup_Application_Send(gr_app_send);
 		ArgumentConstructor gr_application = new ArgumentConstructor(CommandExecuteType.TT_GROUP_APPLICATION,
 				"tt_group_application", 1, 1, 1, false, null,
 				gr_app_accept, gr_app_deny, gr_app_list, gr_app_send);
 		new ARGGroup_Application(gr_application);
-		
 		ArgumentConstructor gr_create = new ArgumentConstructor(CommandExecuteType.TT_GROUP_CREATE,
 				"tt_group_create", 1, 1, 2, false, null);
 		new ARGGroup_Create(gr_create);
 		ArgumentConstructor gr_demote = new ArgumentConstructor(CommandExecuteType.TT_GROUP_DEMOTE,
-				"tt_group_demote", 1, 3, 3, false, null);
+				"tt_group_demote", 1, 3, 3, false, promoteDemoteMap);
 		new ARGGroup_Demote(gr_demote);
 		ArgumentConstructor gr_donate = new ArgumentConstructor(CommandExecuteType.TT_GROUP_DONATE,
-				"tt_group_donate", 1, 2, 3, false, null);
+				"tt_group_donate", 1, 2, 3, false, groupMapIII);
 		new ARGGroup_Donate(gr_donate);
 		ArgumentConstructor gr_increaselevel = new ArgumentConstructor(CommandExecuteType.TT_GROUP_INCREASELEVEL,
-				"tt_group_increaselevel", 1, 1, 2, false, null);
+				"tt_group_increaselevel", 1, 1, 2, false, groupMapII);
 		new ARGGroup_IncreaseLevel(gr_increaselevel);
 		ArgumentConstructor gr_info = new ArgumentConstructor(CommandExecuteType.TT_GROUP_INFO,
-				"tt_group_info", 1, 1, 2, false, null);
+				"tt_group_info", 1, 1, 2, false, groupMapII);
 		new ARGGroup_Info(gr_info);
-		
 		ArgumentConstructor gr_invite_accept = new ArgumentConstructor(CommandExecuteType.TT_GROUP_INVITE_ACCEPT,
-				"tt_group_invite_accept", 2, 3, 3, false, null);
+				"tt_group_invite_accept", 2, 3, 3, false, groupMapIII);
 		new ARGGroup_Invite_Accept(gr_invite_accept);
 		ArgumentConstructor gr_invite_deny = new ArgumentConstructor(CommandExecuteType.TT_GROUP_INVITE_DENY,
-				"tt_group_invite_deny", 2, 3, 3, false, null);
+				"tt_group_invite_deny", 2, 3, 3, false, groupMapIII);
 		new ARGGroup_Invite_Deny(gr_invite_deny);
 		ArgumentConstructor gr_invite_send = new ArgumentConstructor(CommandExecuteType.TT_GROUP_INVITE_SEND,
-				"tt_group_invite_send", 2, 3, 3, false, null);
+				"tt_group_invite_send", 2, 3, 3, false, playerMapIII);
 		new ARGGroup_Invite_Send(gr_invite_send);
 		ArgumentConstructor gr_invite = new ArgumentConstructor(CommandExecuteType.TT_GROUP_INVITE,
 				"tt_group_invite", 1, 1, 1, false, null,
 				gr_invite_accept, gr_invite_deny, gr_invite_send);
 		new ARGGroup_Invite(gr_invite);
-		
 		ArgumentConstructor gr_kick = new ArgumentConstructor(CommandExecuteType.TT_GROUP_KICK,
-				"tt_group_kick", 1, 2, 2, false, null);
+				"tt_group_kick", 1, 2, 2, false, playerMapII);
 		new ARGGroup_Kick(gr_kick);
 		ArgumentConstructor gr_leave = new ArgumentConstructor(CommandExecuteType.TT_GROUP_LEAVE,
 				"tt_group_leave", 1, 1, 2, false, null);
@@ -386,25 +436,25 @@ public class TT extends JavaPlugin
 				"tt_group_list", 1, 1, 2, false, null);
 		new ARGGroup_List(gr_list);
 		ArgumentConstructor gr_playerinfo = new ArgumentConstructor(CommandExecuteType.TT_GROUP_PLAYERINFO,
-				"tt_group_playerinfo", 1, 1, 2, false, null);
+				"tt_group_playerinfo", 1, 1, 2, false, playerMapII);
 		new ARGGroup_PlayerInfo(gr_playerinfo);
 		ArgumentConstructor gr_promote = new ArgumentConstructor(CommandExecuteType.TT_GROUP_PROMOTE,
-				"tt_group_promote", 1, 3, 3, false, null);
+				"tt_group_promote", 1, 3, 3, false, promoteDemoteMap);
 		new ARGGroup_Promote(gr_promote);
 		ArgumentConstructor gr_setdefaultupkeep = new ArgumentConstructor(CommandExecuteType.TT_GROUP_SETDEFAULT_UPKEEP,
-				"tt_group_setdefaultupkeep", 1, 3, 3, false, null);
+				"tt_group_setdefaultupkeep", 1, 3, 3, false, groupRankMapII);
 		new ARGGroup_SetDefaultUpkeep(gr_setdefaultupkeep);
 		ArgumentConstructor gr_setdescription = new ArgumentConstructor(CommandExecuteType.TT_GROUP_SETDESCRIPTION,
 				"tt_group_setdescription", 1, 2, 999, false, null);
 		new ARGGroup_SetDescription(gr_setdescription);
 		ArgumentConstructor gr_setgrandmaster = new ArgumentConstructor(CommandExecuteType.TT_GROUP_SETGRANDMASTER,
-				"tt_group_setgrandmaster", 1, 3, 3, false, null);
+				"tt_group_setgrandmaster", 1, 2, 3, false, grandMasterMap);
 		new ARGGroup_SetGrandMaster(gr_setgrandmaster);
 		ArgumentConstructor gr_setindividualupkeep = new ArgumentConstructor(CommandExecuteType.TT_GROUP_SETINDIVIDUAL_UPKEEP,
-				"tt_group_setindividualupkeep", 1, 3, 3, false, null);
+				"tt_group_setindividualupkeep", 1, 3, 3, false, playerMapII);
 		new ARGGroup_SetIndividualUpkeep(gr_setindividualupkeep);
 		ArgumentConstructor gr_setprivileges = new ArgumentConstructor(CommandExecuteType.TT_GROUP_SETPRIVILEGES,
-				"tt_group_setprivileges", 1, 3, 3, false, null);
+				"tt_group_setprivileges", 1, 3, 3, false, privilegesMap);
 		new ARGGroup_SetPrivileges(gr_setprivileges);
 		
 		ArgumentConstructor group = new ArgumentConstructor(CommandExecuteType.TT_GROUP, "tt_group", 0, 0, 0, false, null,
@@ -773,9 +823,55 @@ public class TT extends JavaPlugin
 								bc.getValueEntryDisplayName(),
 								bc.getValueEntryExplanation());
 					}
+					String dn = plugin.getYamlHandler().getMVELang().getString("ValueEntry.Material.Displayname");
+					List<String> expl = plugin.getYamlHandler().getMVELang().getStringList("ValueEntry.Material.Explanation");
+					for(Material m : Material.values())
+					{
+						for(EventType et : EventType.values())
+						{
+							for(RewardType r : RewardType.values())
+							{
+								String path = CatTechHandler.getValueEntry(r, et, m, null);
+								if(getValueEntry().isRegistered(path))
+								{
+									continue;
+								}
+								getValueEntry().register(
+										path,
+										dn
+										.replace("%m%", EnumHandler.getName(m))
+										.replace("%et%", EnumHandler.getName(et))
+										.replace("%r%", EnumHandler.getName(r)),
+										expl.toArray(new String[expl.size()]));
+							}
+						}
+					}
+					dn = plugin.getYamlHandler().getMVELang().getString("ValueEntry.Entity.Displayname");
+					expl = plugin.getYamlHandler().getMVELang().getStringList("ValueEntry.Entity.Explanation");
+					for(EntityType e : EntityType.values())
+					{
+						for(EventType et : EventType.values())
+						{
+							for(RewardType r : RewardType.values())
+							{
+								String path = CatTechHandler.getValueEntry(r, et, null, e);
+								if(getValueEntry().isRegistered(path))
+								{
+									continue;
+								}
+								getValueEntry().register(
+										path,
+										dn
+										.replace("%e%", EnumHandler.getName(e))
+										.replace("%et%", EnumHandler.getName(et))
+										.replace("%r%", EnumHandler.getName(r)),
+										expl.toArray(new String[expl.size()]));
+							}
+						}
+					}
 				}
 			}
-        }.runTaskTimer(plugin, 0L, 20*2);
+        }.runTaskTimerAsynchronously(plugin, 20L, 20*2);
 	}
 	
 	public ValueEntry getValueEntry()
@@ -823,30 +919,76 @@ public class TT extends JavaPlugin
 					cancel();
 				}
 				if(getModifier() != null)
-				{				
-					List<Bypass.Counter> list = new ArrayList<Bypass.Counter>(EnumSet.allOf(Bypass.Counter.class));
-					for(Bypass.Counter ept : list)
+				{
+					for(Bypass.Counter ept : Bypass.Counter.values())
 					{
-						if(!getModifier().isRegistered(ept.getModification()))
+						if(getModifier().isRegistered(ept.getModification()))
 						{
-							ModificationType modt = null;
-							switch(ept)
+							continue;
+						}
+						ModificationType modt = null;
+						switch(ept)
+						{
+						case REGISTER_BLOCK_:
+							modt = ModificationType.UP;
+							break;
+						}
+						List<String> lar = plugin.getYamlHandler().getMVELang().getStringList(ept.toString()+".Explanation");
+						getModifier().register(
+								ept.getModification(),
+								plugin.getYamlHandler().getMVELang().getString(ept.toString()+".Displayname", ept.toString()),
+								modt,
+								lar.toArray(new String[lar.size()]));
+					}
+					String dn = plugin.getYamlHandler().getMVELang().getString("Modifier.Material.Displayname");
+					List<String> expl = plugin.getYamlHandler().getMVELang().getStringList("Modifier.Entity.Explanation");
+					for(Material m : Material.values())
+					{
+						for(EventType et : EventType.values())
+						{
+							for(RewardType r : RewardType.values())
 							{
-							case REGISTER_BLOCK_:
-								modt = ModificationType.UP;
-								break;
+								String path = CatTechHandler.getModifier(r, et, m, null);
+								if(getValueEntry().isRegistered(path))
+								{
+									continue;
+								}
+								getValueEntry().register(
+										path,
+										dn
+										.replace("%m%", EnumHandler.getName(m))
+										.replace("%et%", EnumHandler.getName(et))
+										.replace("%r%", EnumHandler.getName(r)),
+										expl.toArray(new String[expl.size()]));
 							}
-							List<String> lar = plugin.getYamlHandler().getMVELang().getStringList(ept.toString()+".Explanation");
-							getModifier().register(
-									ept.getModification(),
-									plugin.getYamlHandler().getMVELang().getString(ept.toString()+".Displayname", ept.toString()),
-									modt,
-									lar.toArray(new String[lar.size()]));
+						}
+					}
+					dn = plugin.getYamlHandler().getMVELang().getString("Modifier.Entity.Displayname");
+					expl = plugin.getYamlHandler().getMVELang().getStringList("Modifier.Entity.Explanation");
+					for(EntityType e : EntityType.values())
+					{
+						for(EventType et : EventType.values())
+						{
+							for(RewardType r : RewardType.values())
+							{
+								String path = CatTechHandler.getModifier(r, et, null, e);
+								if(getValueEntry().isRegistered(path))
+								{
+									continue;
+								}
+								getValueEntry().register(
+										path,
+										dn
+										.replace("%e%", EnumHandler.getName(e))
+										.replace("%et%", EnumHandler.getName(et))
+										.replace("%r%", EnumHandler.getName(r)),
+										expl.toArray(new String[expl.size()]));
+							}
 						}
 					}
 				}
 			}
-        }.runTaskTimer(plugin, 20L, 20*2);
+        }.runTaskTimerAsynchronously(plugin, 20L, 20*2);
 	}
 	
 	public Modifier getModifier()

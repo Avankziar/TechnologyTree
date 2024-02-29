@@ -85,10 +85,9 @@ public class ARGGroup_SetIndividualUpkeep extends ArgumentModule
 		gpa2.setIndividualTechExpDailyUpkeep(upkeep);
 		GroupHandler.updatePlayerAffiliation(gpa2);
 		String txt = plugin.getYamlHandler().getLang().getString("Commands.Group.SetIndividuellUpkeep.Set")
-				.replace("%player1%", player.getName())
+				.replace("%player%", player.getName())
 				.replace("%player2%", p2)
 				.replace("%upkeep%", String.valueOf(upkeep));
-		player.sendMessage(ChatApi.tl(txt));
-		GroupHandler.sendMemberText(uuid, txt);
+		GroupHandler.sendMembersText(gd.getGroupName(), txt, player.getUniqueId());
 	}
 }

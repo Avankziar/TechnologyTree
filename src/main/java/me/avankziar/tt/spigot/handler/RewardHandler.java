@@ -13,7 +13,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
@@ -35,6 +34,7 @@ import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.tt.spigot.event.PostRewardEvent;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.RewardType;
 import main.java.me.avankziar.tt.spigot.objects.ToolType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.RewardSummary;
@@ -152,6 +152,7 @@ public class RewardHandler
 							{
 								continue;
 							}
+							TT.log.info("toGiveTTExp: "+toGiveTTExp+" | sui.getTechnologyExperience(): "+sui.getTechnologyExperience()+" | amount: "+amount); //REMOVEME
 							toGiveTTExp = toGiveTTExp + sui.getTechnologyExperience() * amount;
 							toGiveVanillaExp = toGiveVanillaExp + sui.getVanillaExperience() * amount;
 							for(Entry<String, Double> s : sui.getMoneyMap().entrySet())
@@ -300,7 +301,7 @@ public class RewardHandler
 			EconomyAction ea = plugin.getIFHEco().deposit(ac, e.getValue(), taxation, false, tax);
 			toGiveMoneyD = ea.getDepositAmount();
 			toGiveMoney = plugin.getIFHEco().format(ea.getDepositAmount(), ec,
-					plugin.getIFHEco().getDefaultGradationQuantity(ac.getCurrency()), 3,
+					plugin.getIFHEco().getDefaultGradationQuantity(ac.getCurrency()), plugin.getIFHEco().getDefaultDecimalPlaces(ac.getCurrency()),
 					plugin.getIFHEco().getDefaultUseSIPrefix(ac.getCurrency()), plugin.getIFHEco().getDefaultUseSymbol(ac.getCurrency()),
 					plugin.getIFHEco().getDefaultThousandSeperator(ac.getCurrency()), plugin.getIFHEco().getDefaultDecimalSeperator(ac.getCurrency()));
 		}
@@ -350,29 +351,34 @@ public class RewardHandler
 		}
 		if(Bukkit.getPlayer(uuid) != null && pd.isShowRewardMessage())
 		{
-			if(toGiveTTExp > 0 && toGiveVanillaExp > 0 && toGiveMoneyD > 0)
+			StringBuilder sb = new StringBuilder();
+			if(toGiveMoneyD > 0)
 			{
-				Bukkit.getPlayer(uuid).sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Reward.TaskMsg.AllThree")
-						.replace("%ttexp%", Numbers.format(toGiveTTExp))
-						.replace("%vaexp%", String.valueOf((int) toGiveVanillaExp))
-						.replace("%money%", toGiveMoney)
-						.replace("%times%", LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis()), ZoneId.systemDefault())
-										   .format(DateTimeFormatter.ofPattern("HH:mm:ss")))));
-			} else if(toGiveTTExp > 0 && toGiveVanillaExp > 0 && toGiveMoneyD <= 0)
-			{
-				Bukkit.getPlayer(uuid).sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Reward.TaskMsg.TTAndVaExp")
-						.replace("%ttexp%", Numbers.format(toGiveTTExp))
-						.replace("%vaexp%", String.valueOf((int) toGiveVanillaExp))
-						.replace("%times%", LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis()), ZoneId.systemDefault())
-								   .format(DateTimeFormatter.ofPattern("HH:mm:ss")))));
-			} else if(toGiveTTExp > 0 && toGiveVanillaExp <= 0 && toGiveMoneyD <= 0)
-			{
-				Bukkit.getPlayer(uuid).sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Reward.TaskMsg.TTExp")
-						.replace("%ttexp%", Numbers.format(toGiveTTExp))
-						.replace("%times%", LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis()), ZoneId.systemDefault())
-								   .format(DateTimeFormatter.ofPattern("HH:mm:ss")))));
+				sb.append(plugin.getYamlHandler().getLang().getString("Reward.TaskMsg.Money")
+						.replace("%money%", toGiveMoney));
 			}
-			
+			if(toGiveTTExp > 0)
+			{
+				if(!sb.isEmpty())
+				{
+					sb.append(plugin.getYamlHandler().getLang().getString("Reward.TaskMsg.Comma"));
+				}
+				sb.append(plugin.getYamlHandler().getLang().getString("Reward.TaskMsg.TTExp")
+						.replace("%ttexp%", Numbers.format(toGiveTTExp)));
+			}
+			if(toGiveVanillaExp > 0)
+			{
+				if(!sb.isEmpty())
+				{
+					sb.append(plugin.getYamlHandler().getLang().getString("Reward.TaskMsg.Comma"));
+				}
+				sb.append(plugin.getYamlHandler().getLang().getString("Reward.TaskMsg.VaExp")
+						.replace("%vaexp%", String.valueOf((int) toGiveVanillaExp)));
+			}
+			Bukkit.getPlayer(uuid).sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Reward.TaskMsg.Headline")
+					.replace("%times%", LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis()), ZoneId.systemDefault())
+									   .format(DateTimeFormatter.ofPattern("HH:mm:ss")))));
+			Bukkit.getPlayer(uuid).sendMessage(ChatApi.tl(sb.toString()));			
 		}
 		PostRewardEvent postRewardEvent = new PostRewardEvent(uuid, playername, rewardSummaryList);
 		Bukkit.getPluginManager().callEvent(postRewardEvent);
@@ -450,9 +456,12 @@ public class RewardHandler
 					&& PlayerHandler.materialInteractionMap.get(uuid).get(toolType).get(material).containsKey(eventType))
 			{
 				boolean b = PlayerHandler.materialInteractionMap.get(uuid).get(toolType).get(material).get(eventType).isCanAccess();
-				return b; /*? b : plugin.getValueEntry().getBooleanValueEntry(uuid, 
-							CatTechHandler.getValueEntry(RewardType.ACCESS, eventType, material, entityType),
-							plugin.getServername(), player.getWorld().getName());*/ //TODO Checken, warum das null gibt
+				TT.log.info("canAccessInteraction b: "+b); //REMOVEME
+				Boolean B = plugin.getValueEntry().getBooleanValueEntry(uuid, 
+						CatTechHandler.getValueEntry(RewardType.ACCESS, eventType, material, entityType),
+						plugin.getServername(), player.getWorld().getName()); //TODO Checken, warum das null gibt
+				TT.log.info("canAccessInteraction B: "+(B == null ? "null" : B)); //REMOVEME
+				return b ? b : B;
 			}
 		} else if(entityType != null)
 		{
@@ -502,29 +511,11 @@ public class RewardHandler
 		return false;
 	}
 	
-	public static boolean useTTDropMechanicCalculation(Player player)
-	{
-		if(player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR)
-		{
-			return false;
-		}
-		if(ConfigHandler.GAMERULE_UseVanillaItemDrops)
-		{
-			return false;
-		}
-		if(plugin.getYamlHandler().getConfig().getStringList("Do.Drops.DoNotUsePluginDropsCalculationWorlds").contains(player.getWorld().getName()))
-		{
-			return false;
-		}
-		//TODO Do Worldguard
-		return true;
-	}
-	
 	public static ArrayList<ItemStack> getDrops(Player player,
 			EventType eventType, ToolType toolType, Material material, EntityType entityType)
 	{
 		//https://minecraft.fandom.com/wiki/Fortune
-		boolean breakingThroughVanillaDropBarrier = plugin.getYamlHandler().getConfig().getBoolean("Do.Drops.BreakingThroughVanillaDropBarrier", true);
+		boolean breakingThroughVanillaDropBarrier = new ConfigHandler().breakingThroughVanillaDropBarrier();
 		boolean silkTouch = (player.getInventory().getItemInMainHand() != null &&
 				player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.SILK_TOUCH) > 0);
 		final ToolType tool = toolType != null ? toolType : ToolType.getHandToolType(player);
@@ -789,7 +780,7 @@ public class RewardHandler
 		switch(material)
 		{
 		default:
-			return i;
+			return 1;
 		case PRISMARINE_CRYSTALS:
 			return 3;
 		case PRISMARINE_SHARD:

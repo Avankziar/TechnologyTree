@@ -35,9 +35,9 @@ public class ARGGroup_Application_List extends ArgumentModule
 	{
 		Player player = (Player) sender;
 		String gn = null;
-		if(args.length >= 3 && ModifierValueEntry.hasPermission(player, Permission.GROUP_INFO))
+		if(args.length >= 4 && ModifierValueEntry.hasPermission(player, Permission.GROUP_INFO))
 		{
-			gn = args[2];
+			gn = args[3];
 		}
 		GroupData gd = gn == null ? GroupHandler.getGroup(player) : GroupHandler.getGroup(gn);
 		if(gd == null)
@@ -85,6 +85,7 @@ public class ARGGroup_Application_List extends ArgumentModule
 			{
 				l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Applicant.Comma")));
 			}
+			a.add(l);
 		}
 		for(ArrayList<BaseComponent> bc : a)
 		{

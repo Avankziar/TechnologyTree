@@ -7,7 +7,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import main.java.me.avankziar.ifh.general.assistance.ChatApi;
-import main.java.me.avankziar.tt.spigot.assistance.Utility;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
 import main.java.me.avankziar.tt.spigot.cmdtree.CommandExecuteType;
@@ -52,21 +51,20 @@ public class ARGGroup_Invite extends ArgumentModule
 		for(int i = 0; i < gpa.size(); i++)
 		{
 			GroupPlayerAffiliation gpla = gpa.get(i);
-			String n = Utility.convertUUIDToName(gpla.getPlayerUUID().toString());
 			TextComponent tx0 = ChatApi.tctl(
 					plugin.getYamlHandler().getLang().getString("Commands.Group.Invite.List.Groups")
-					.replace("%group%", n));
+					.replace("%group%", gpla.getGroupName()));
 			TextComponent txI = ChatApi.clickEvent(
 					plugin.getYamlHandler().getLang().getString("Commands.Group.Invite.List.Accept"),
 					ClickEvent.Action.SUGGEST_COMMAND,
-					CommandSuggest.get(CommandExecuteType.TT_GROUP_INVITE_ACCEPT)+n
+					CommandSuggest.get(CommandExecuteType.TT_GROUP_INVITE_ACCEPT)+gpla.getGroupName()
 					);
 			TextComponent txII = ChatApi.tctl(
 					plugin.getYamlHandler().getLang().getString("Commands.Group.Invite.List.Seperator"));
 			TextComponent txIII = ChatApi.clickEvent(
-					plugin.getYamlHandler().getLang().getString("Commands.GroupInvite.List.Deny"),
+					plugin.getYamlHandler().getLang().getString("Commands.Group.Invite.List.Deny"),
 					ClickEvent.Action.SUGGEST_COMMAND,
-					CommandSuggest.get(CommandExecuteType.TT_GROUP_INVITE_DENY)+n
+					CommandSuggest.get(CommandExecuteType.TT_GROUP_INVITE_DENY)+gpla.getGroupName()
 					);
 			l.add(tx0);
 			l.add(txI);
@@ -76,6 +74,7 @@ public class ARGGroup_Invite extends ArgumentModule
 			{
 				l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Applicant.Comma")));
 			}
+			a.add(l);
 		}
 		for(ArrayList<BaseComponent> bc : a)
 		{

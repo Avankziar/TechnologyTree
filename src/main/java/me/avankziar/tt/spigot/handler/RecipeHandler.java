@@ -246,7 +246,12 @@ public class RecipeHandler
 				{
 					continue;
 				}
-				if(!a.getKey().contains("-"))
+				if(a.getValue().getBoolean("doRemoveFromLoading", false))
+				{
+					//Remove vom Bukkit intern recipes
+					NamespacedKey nsk = NamespacedKey.fromString(a.getKey().replace("-", ":"));
+					Bukkit.removeRecipe(nsk);
+				} else if(!a.getKey().contains("-"))
 				{
 					//Internes neues Rezept
 					Bukkit.addRecipe(recipe);

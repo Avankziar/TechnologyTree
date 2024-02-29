@@ -141,8 +141,7 @@ public class GlobalTechnologyPoll implements MysqlHandable
 			String sql = "INSERT INTO `" + tablename
 					+ "`(`player_uuid`, `choosen_technology`, `choosen_technology_researchlevel`, `processed_in_poll`, "
 					+ "`processed_in_repayment`, `global_choosen_technology`, `global_choosen_technology_id`, `total_participants`) " 
-					+ "VALUES(?, ?, ?"
-					+ "?, ?, ?, ?)";
+					+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 	        ps.setString(1, getPlayerUUID().toString());
 	        ps.setString(2, getChoosen_Technology());
@@ -168,7 +167,7 @@ public class GlobalTechnologyPoll implements MysqlHandable
 		try
 		{
 			String sql = "UPDATE `" + tablename
-				+ "` SET `player_uuid` = ?, `choosen_technology` = ?, `choosen_technology_researchlevel`,"
+				+ "` SET `player_uuid` = ?, `choosen_technology` = ?, `choosen_technology_researchlevel` = ?,"
 				+ " `processed_in_poll` = ?, `processed_in_repayment` = ?,"
 				+ " `global_choosen_technology` = ?, `global_choosen_technology_id` = ?, `total_participants` = ?"
 				+ " WHERE "+whereColumn;

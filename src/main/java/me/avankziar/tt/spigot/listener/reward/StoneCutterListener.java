@@ -55,7 +55,7 @@ public class StoneCutterListener implements Listener
 				|| event.getClick() == ClickType.SHIFT_RIGHT 
 				|| event.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY)
 		{
-			CraftItemListener.oostDetectionAll(player, result, mat, result.getItemMeta());
+			CraftItemListener.postDetectionAll(player, result, mat, result.getItemMeta());
 		} else
 		{
 			new BukkitRunnable()

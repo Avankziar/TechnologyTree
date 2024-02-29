@@ -64,13 +64,13 @@ public class ARGGroup_Invite_Send extends ArgumentModule
 			return;
 		}
 		GroupData gd = GroupHandler.getGroup(player);
-		GroupHandler.createAffiliateGroup(player.getUniqueId(), gd.getGroupName(), Position.INVITEE, false);
-		player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Group.SendInvite.SendToInviter")
+		GroupHandler.createAffiliateGroup(uuid, gd.getGroupName(), Position.INVITEE, false);
+		player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.Invite.Send.SendToInviter")
 				.replace("%player%", p2)));
-		TextComponent tx = ChatApi.clickEvent(plugin.getYamlHandler().getLang().getString("Commands.Group.SendInvite.SendToInvitee")
+		TextComponent tx = ChatApi.clickEvent(plugin.getYamlHandler().getLang().getString("Commands.Group.Invite.Send.SendToInvitee")
 							.replace("%player%", player.getName())
 							.replace("%group%", gd.getGroupName()),
-							Action.SUGGEST_COMMAND, CommandSuggest.get(CommandExecuteType.TT_GROUP_INVITE_ACCEPT) + " " + gd.getGroupName());
+							Action.SUGGEST_COMMAND, CommandSuggest.get(CommandExecuteType.TT_GROUP_INVITE_ACCEPT) + gd.getGroupName());
 		if(Bukkit.getPlayer(uuid) != null)
 		{
 			Bukkit.getPlayer(uuid).spigot().sendMessage(tx);

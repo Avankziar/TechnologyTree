@@ -99,7 +99,7 @@ public class ARGGroup_Demote extends ArgumentModule
 		gpa2.setIndividualTechExpDailyUpkeep(gd.getDefaultGroupTechExpDailyUpkeep(pos));
 		GroupHandler.updatePlayerAffiliation(gpa2);
 		String txt = plugin.getYamlHandler().getLang().getString("Commands.Group.Demote.Set")
-				.replace("%player1%", player.getName())
+				.replace("%player%", player.getName())
 				.replace("%player2%", p2)
 				.replace("%rank%", GroupHandler.getPositionLocale(pos));
 		GroupHandler.sendMembersText(gd.getGroupName(), txt);

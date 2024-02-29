@@ -78,7 +78,7 @@ public class ARGGroup_Promote extends ArgumentModule
 					.getString("Commands.Group.Promote.YouCannotPromoteYourself")));
 			return;
 		}
-		if(gpa2.getRank().getRank() >= pos.getRank())
+		if(gpa2.getRank().getRank() <= pos.getRank())
 		{
 			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.Promote.RankIsLower")
 					.replace("%player%", p2)));
@@ -86,7 +86,7 @@ public class ARGGroup_Promote extends ArgumentModule
 		}
 		if(!player.getUniqueId().toString().equals(gd.getGrandmasterUUID().toString()))
 		{
-			if(gpa.getRank().getRank() >= gpa2.getRank().getRank())
+			if(gpa.getRank().getRank() > pos.getRank())
 			{
 				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang()
 						.getString("Commands.Group.SetPrivileges.YourGroupRankIsLowerThanTheOther")
@@ -99,7 +99,7 @@ public class ARGGroup_Promote extends ArgumentModule
 		gpa2.setIndividualTechExpDailyUpkeep(gd.getDefaultGroupTechExpDailyUpkeep(pos));
 		GroupHandler.updatePlayerAffiliation(gpa2);
 		String txt = plugin.getYamlHandler().getLang().getString("Commands.Group.Promote.Set")
-				.replace("%player1%", player.getName())
+				.replace("%player%", player.getName())
 				.replace("%player2%", p2)
 				.replace("%rank%", GroupHandler.getPositionLocale(pos));
 		GroupHandler.sendMembersText(gd.getGroupName(), txt);

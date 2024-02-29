@@ -55,11 +55,13 @@ public class ARGGroup_Donate extends ArgumentModule
 		if(gd == null)
 		{
 			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.GroupDontExist")
-					.replace("%group%", "N.A.")));
+					.replace("%group%", gn == null ? "N.A." : gn)));
 			return;
 		}
 		pd.setActualTTExp(pd.getActualTTExp()-donate);
 		PlayerHandler.updatePlayer(pd);
+		gd.setGroupTechExp(donate+gd.getGroupTechExp());
+		GroupHandler.updateGroup(gd);
 		String txt = plugin.getYamlHandler().getLang().getString("Commands.Group.Donate.Donated")
 				.replace("%player%", player.getName())
 				.replace("%group%", gd.getGroupName())

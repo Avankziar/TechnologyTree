@@ -2,6 +2,7 @@ Cmd zum sehen, zu welchen Blöcken zugang hat.
 Cmd zum löschen welten bezogener PlacedBlock
 Cmd für das externe Zuweisen von Booster, welche aber keine Technologien sind.
 Events erstellen um bei berechnungen zusätzliche Werte einzutragen.
+Mobs im Wasser droppen etwas ohne die techs zu haben.
 Event hinzufügen:
 
 Alle Events durchgehen, was wann eventuell doch gecancelt werden soll. Eventuell Configbasiert?

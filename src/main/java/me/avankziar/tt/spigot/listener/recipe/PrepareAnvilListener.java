@@ -8,7 +8,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
 
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
-import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
@@ -30,8 +29,7 @@ public class PrepareAnvilListener implements Listener
 		{
 			Player player = (Player) he;
 			if(player.getGameMode() == GameMode.CREATIVE
-					|| player.getGameMode() == GameMode.SPECTATOR
-					|| ConfigHandler.GAMERULE_UseVanillaAccessToAnvil)
+					|| player.getGameMode() == GameMode.SPECTATOR)
 			{
 				ARGCheckEventAction.checkEventAction(player, "COLD_FORGING:RETURN",
 						EventType.COLD_FORGING, ToolType.HAND, null, null, event.getResult().getType());

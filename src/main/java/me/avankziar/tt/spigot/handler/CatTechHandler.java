@@ -1,17 +1,16 @@
 package main.java.me.avankziar.tt.spigot.handler;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.logging.Level;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 
-import main.java.me.avankziar.ifh.general.modifier.ModificationType;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.assistance.MatchApi;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
@@ -182,12 +181,20 @@ public class CatTechHandler
 				= y.getBoolean("RequirementToSee.ShowDifferentItemIfYouNormallyDontSeeIt");
 				
 				LinkedHashMap<Integer, List<String>> researchRequirementConditionQuery = new LinkedHashMap<>();
+				List<String> standartConQ = new ArrayList<>();
+				standartConQ.add("if:(a):o_1");
+				standartConQ.add("else:o_2");
+				standartConQ.add("output:o_1:true");
+				standartConQ.add("output:o_2:false");
+				standartConQ.add("a:true");
 				if(y.get("RequirementToResearch.ConditionQuery") != null)
 				{
 					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
 					{
 						if(y.get("RequirementToResearch.ConditionQuery."+i) == null)
 						{
+							//If for specific level are no conditionquerys stated, do always return standart query.
+							researchRequirementConditionQuery.put(i, standartConQ);
 							continue;
 						}
 						researchRequirementConditionQuery.put(i, y.getStringList("RequirementToResearch.ConditionQuery."+i));
@@ -196,13 +203,7 @@ public class CatTechHandler
 				{
 					for(int i = 1; i <= maximalTechnologyLevelToResearch; i++)
 					{
-						List<String> l = new ArrayList<>();
-						l.add("if:(a):o_1");
-						l.add("else:o_2");
-						l.add("output:o_1:true");
-						l.add("output:o_2:false");
-						l.add("a:true");
-						researchRequirementConditionQuery.put(i, l);
+						researchRequirementConditionQuery.put(i, standartConQ);
 					}
 				}
 				
@@ -298,21 +299,54 @@ public class CatTechHandler
 									String[] sp = split[ii].split("=");
 									if(split[ii].startsWith("tool") && sp.length == 2)
 									{
+										try
+										{
+											ToolType.valueOf(sp[1]);
+										} catch(Exception e)
+										{
+											TT.log.warning("Tech "+internName+" hasnt found by tool a ToolType where it should be!");
+											continue;
+										}
 										ui.setToolType(ToolType.valueOf(sp[1]));
 									} else if(split[ii].startsWith("canAccess") && sp.length == 2)
 									{
+										if(!MatchApi.isBoolean(sp[1]))
+										{
+											TT.log.warning("Tech "+internName+" hasnt found by canAccess a boolean(true/false) where it should be!");
+											continue;
+										}
 										ui.setCanAccess(Boolean.valueOf(sp[1]));
 									} else if(split[ii].startsWith("ttexp") && sp.length == 2)
 									{
+										if(!MatchApi.isDouble(sp[1]))
+										{
+											TT.log.warning("Tech "+internName+" hasnt found by ttexp a double where it should be!");
+											continue;
+										}
 										ui.setTechnologyExperience(Double.parseDouble(sp[1]));
 									} else if(split[ii].startsWith("vaexp") && sp.length == 2)
 									{
+										if(!MatchApi.isInteger(sp[1]))
+										{
+											TT.log.warning("Tech "+internName+" hasnt found by vanilla exp a integer where it should be!");
+											continue;
+										}
 										ui.setVanillaExperience(Integer.valueOf(sp[1]));
 									} else if(split[ii].startsWith("cmd") && sp.length == 3)
 									{
+										if(!MatchApi.isDouble(sp[2]))
+										{
+											TT.log.warning("Tech "+internName+" hasnt found by command a double where it should be!");
+											continue;
+										}
 										ui.addCommandValues(sp[1], Double.parseDouble(sp[2]));
 									} else if(sp.length == 2) //Money
 									{
+										if(!MatchApi.isDouble(sp[1]))
+										{
+											TT.log.warning("Tech "+internName+" hasnt found by money a double where it should be!");
+											continue;
+										}
 										ui.addMoneyValues(sp[0], Double.parseDouble(sp[1]));
 									} 
 								}
@@ -373,7 +407,7 @@ public class CatTechHandler
 								rr.put(rt, list);
 							} catch(Exception e)
 							{
-								e.printStackTrace();
+								TT.log.warning("Tech "+internName+" hasnt found by UnlockableRecipe a RecipeType where it should be!");
 								continue;
 							}
 						}
@@ -754,81 +788,46 @@ public class CatTechHandler
 				continue;
 			}
 		}
-		//registerBonusMalus(); //TODO Muss das, bzw. kann das?
-		//registerCondition();
+		logLoadedTechs("Loaded Global Maincategories: ", mainCategoryMapGlobal.keySet());
+		logLoadedTechs("Loaded Global Subcategories: ", subCategoryMapGlobal.keySet());
+		logLoadedTechs("Loaded Global Technologies: ", technologyMapGlobal.keySet());
+		logLoadedTechs("Loaded Group Maincategories: ", mainCategoryMapGroup.keySet());
+		logLoadedTechs("Loaded Group Subcategories: ", subCategoryMapGroup.keySet());
+		logLoadedTechs("Loaded Group Technologies: ", technologyMapGroup.keySet());
+		logLoadedTechs("Loaded Solo Maincategories: ", mainCategoryMapSolo.keySet());
+		logLoadedTechs("Loaded Solo Subcategories: ", subCategoryMapSolo.keySet());
+		logLoadedTechs("Loaded Solo Technologies: ", technologyMapSolo.keySet());
 		return true;
 	}
 	
-	private static void registerBonusMalus()
+	private static void logLoadedTechs(String a, Set<String> set)
 	{
-		if(plugin.getModifier() == null)
+		ArrayList<String> arr = new ArrayList<>();
+		StringBuilder sb = new StringBuilder();
+		int i = 0;
+		for(String s : set)
 		{
-			return;
-		}
-		List<RewardType> rewardTypeList = new ArrayList<RewardType>(EnumSet.allOf(RewardType.class));
-		List<EventType> eventTypeList = new ArrayList<EventType>(EnumSet.allOf(EventType.class));
-		List<Material> materialList = new ArrayList<Material>(EnumSet.allOf(Material.class));
-		List<EntityType> entityTypeList = new ArrayList<EntityType>(EnumSet.allOf(EntityType.class));
-		ModificationType bmt = ModificationType.UP;
-		for(Material ma : materialList)
-		{
-			for(EventType e : eventTypeList)
+			if(!sb.isEmpty())
 			{
-				for(RewardType r : rewardTypeList)
-				{
-					if(r == RewardType.ACCESS)
-					{
-						continue;
-					}
-					String bm = getModifier(r, e, ma, null);
-					if(bm == null)
-					{
-						continue;
-					}
-					if(plugin.getModifier().isRegistered(bm))
-					{
-						continue;
-					}
-					List<String> lar = plugin.getYamlHandler().getMVELang().getStringList(
-							ma.toString()+"."+e.toString()+"."+r.toString()+".Explanation");
-					plugin.getModifier().register(
-							bm,
-							plugin.getYamlHandler().getMVELang().getString(
-									ma.toString()+"."+e.toString()+"."+r.toString()+".Displayname", ma.toString()+"_"+e.toString()+"_"+r.toString()),
-							bmt,
-							lar.toArray(new String[lar.size()]));
-				}
+				sb.append(", ");
+			}
+			sb.append(s);
+			i++;
+			if(i >= 10)
+			{
+				arr.add(sb.toString());
+				sb = new StringBuilder();
+				i = 0;
 			}
 		}
-		for(EntityType et : entityTypeList)
+		if(!sb.isEmpty())
 		{
-			for(EventType e : eventTypeList)
-			{
-				for(RewardType r : rewardTypeList)
-				{
-					if(r == RewardType.ACCESS)
-					{
-						continue;
-					}
-					String bm = getModifier(r, e, null, et);
-					if(bm == null)
-					{
-						continue;
-					}
-					if(plugin.getModifier().isRegistered(bm))
-					{
-						continue;
-					}
-					List<String> lar = plugin.getYamlHandler().getMVELang().getStringList(
-							et.toString()+"."+e.toString()+"."+r.toString()+".Explanation");
-					plugin.getModifier().register(
-							bm,
-							plugin.getYamlHandler().getMVELang().getString(
-									et.toString()+"."+e.toString()+"."+r.toString()+".Displayname", et.toString()+"_"+e.toString()+"_"+r.toString()),
-							bmt,
-							lar.toArray(new String[lar.size()]));
-				}
-			}
+			arr.add(sb.toString());
+		}
+		TT.log.info(a);
+		for(String s : arr)
+		{
+			TT.log.info(s);
 		}
 	}
 	
@@ -885,76 +884,6 @@ public class CatTechHandler
 		return null;
 	}
 	
-	private static void registerCondition()
-	{
-		if(plugin.getValueEntry() == null)
-		{
-			return;
-		}
-		List<RewardType> rewardTypeList = new ArrayList<RewardType>(EnumSet.allOf(RewardType.class));
-		List<EventType> eventTypeList = new ArrayList<EventType>(EnumSet.allOf(EventType.class));
-		List<Material> materialList = new ArrayList<Material>(EnumSet.allOf(Material.class));
-		List<EntityType> entityTypeList = new ArrayList<EntityType>(EnumSet.allOf(EntityType.class));
-		for(Material ma : materialList)
-		{
-			for(EventType e : eventTypeList)
-			{
-				for(RewardType r : rewardTypeList)
-				{
-					if(r != RewardType.ACCESS)
-					{
-						continue;
-					}
-					String bm = getValueEntry(r, e, ma, null);
-					if(bm == null)
-					{
-						continue;
-					}
-					if(plugin.getValueEntry().isRegistered(bm))
-					{
-						continue;
-					}
-					List<String> lar = plugin.getYamlHandler().getMVELang().getStringList(
-							ma.toString()+"."+e.toString()+"."+r.toString()+".Explanation");
-					plugin.getValueEntry().register(
-							bm,
-							plugin.getYamlHandler().getMVELang().getString(
-									ma.toString()+"."+e.toString()+"."+r.toString()+".Displayname", ma.toString()+"_"+e.toString()+"_"+r.toString()),
-							lar.toArray(new String[lar.size()]));
-				}
-			}
-		}
-		for(EntityType et : entityTypeList)
-		{
-			for(EventType e : eventTypeList)
-			{
-				for(RewardType r : rewardTypeList)
-				{
-					if(r == RewardType.ACCESS)
-					{
-						continue;
-					}
-					String c = getValueEntry(r, e, null, et);
-					if(c == null)
-					{
-						continue;
-					}
-					if(plugin.getValueEntry().isRegistered(c))
-					{
-						continue;
-					}
-					List<String> lar = plugin.getYamlHandler().getMVELang().getStringList(
-							et.toString()+"."+e.toString()+"."+r.toString()+".Explanation");
-					plugin.getValueEntry().register(
-							c,
-							plugin.getYamlHandler().getMVELang().getString(
-									et.toString()+"."+e.toString()+"."+r.toString()+".Displayname", et.toString()+"_"+e.toString()+"_"+r.toString()),
-							lar.toArray(new String[lar.size()]));
-				}
-			}
-		}
-	}
-	
 	public static String getModifier(RewardType rewardType, EventType eventType, Material material, EntityType entityType)
 	{
 		if(material != null)
@@ -963,7 +892,7 @@ public class CatTechHandler
 					+"-"+material.toString().toLowerCase()
 					+"-"+eventType.toString().toLowerCase()
 					+"-"+rewardType.toString().toLowerCase();
-		} else if(eventType != null)
+		} else if(entityType != null)
 		{
 			return BaseConstructor.getPlugin().pluginName.toLowerCase()
 					+"-"+entityType.toString().toLowerCase()

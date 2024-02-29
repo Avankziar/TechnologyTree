@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import main.java.me.avankziar.ifh.general.assistance.ChatApi;
 import main.java.me.avankziar.tt.spigot.TT;
+import main.java.me.avankziar.tt.spigot.assistance.Numbers;
 import main.java.me.avankziar.tt.spigot.assistance.TimeHandler;
 import main.java.me.avankziar.tt.spigot.assistance.Utility;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
@@ -15,6 +16,7 @@ import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
 import main.java.me.avankziar.tt.spigot.cmdtree.CommandExecuteType;
 import main.java.me.avankziar.tt.spigot.cmdtree.CommandSuggest;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
+import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.GroupHandler;
 import main.java.me.avankziar.tt.spigot.handler.GroupHandler.Position;
 import main.java.me.avankziar.tt.spigot.modifiervalueentry.Bypass.Permission;
@@ -80,17 +82,17 @@ public class ARGGroup_Info extends ArgumentModule
 			double costForNextLvl = GroupHandler.getCostsForIncreasingLevel(gd.getGroupName(), gd.getGroupLevel(), members);
 			l = new ArrayList<>();
 			l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.Info.CostForNextLevel")
-					.replace("%cost%", String.valueOf(costForNextLvl))));
+					.replace("%cost%", Numbers.format(costForNextLvl))));
 			a.add(l);
 			l = new ArrayList<>();
 			l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.Info.TTExp")
-					.replace("%cost%", String.valueOf(gd.getGroupTechExp()))));
+					.replace("%ttexp%", Numbers.format(gd.getGroupTechExp()))));
 			a.add(l);
 		}
 		String grandmaster = Utility.convertUUIDToName(gd.getGrandmasterUUID().toString());
 		l = new ArrayList<>();
 		l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Grandmaster")
-				.replace("%level%", grandmaster)));
+				.replace("%grandmaster%", grandmaster)));
 		a.add(l);
 		
 		int tmembers = GroupHandler.getMemberTotalAmount(gd.getGroupName(), gd.getGroupLevel(), members);
@@ -114,13 +116,16 @@ public class ARGGroup_Info extends ArgumentModule
 			}
 			l = new ArrayList<>();
 			l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.Info.GetUpkeep")
-					.replace("%upkeep%", String.valueOf(getUpkeep))));
+					.replace("%upkeep%", Numbers.format(getUpkeep))));
 			a.add(l);
-			double upkeep = GroupHandler.calculateGroupDailyUpKeep(gd.getGroupName(), gd.getGroupLevel(), members);
-			l = new ArrayList<>();
-			l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Upkeep")
-					.replace("%upkeep%", String.valueOf(upkeep))));
-			a.add(l);
+			if(gd.getGroupLevel() >= new ConfigHandler().getUpkeepActiveLvl())
+			{
+				double upkeep = GroupHandler.calculateGroupDailyUpKeep(gd.getGroupName(), gd.getGroupLevel(), members);
+				l = new ArrayList<>();
+				l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Upkeep")
+						.replace("%upkeep%", Numbers.format(upkeep))));
+				a.add(l);
+			}
 			l = new ArrayList<>();
 			l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.Info.CounterFailedUpkeep")
 					.replace("%failedupkeep%", String.valueOf(gd.getGroupCounterFailedUpkeep()))));
@@ -216,9 +221,9 @@ public class ARGGroup_Info extends ArgumentModule
 				l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Invitee.Invitees")));
 				a.add(l);
 				l = new ArrayList<>();
-				for(int i = 0; i < agpa.size(); i++)
+				for(int i = 0; i < agpaa.size(); i++)
 				{
-					GroupPlayerAffiliation gpla = agpa.get(i);
+					GroupPlayerAffiliation gpla = agpaa.get(i);
 					String n = Utility.convertUUIDToName(gpla.getPlayerUUID().toString());
 					TextComponent tx0 = ChatApi.tctl(
 							plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Invitee.Members")
@@ -246,9 +251,9 @@ public class ARGGroup_Info extends ArgumentModule
 				l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Applicant.Applicants")));
 				a.add(l);
 				l = new ArrayList<>();
-				for(int i = 0; i < agpa.size(); i++)
+				for(int i = 0; i < agpaa.size(); i++)
 				{
-					GroupPlayerAffiliation gpla = agpa.get(i);
+					GroupPlayerAffiliation gpla = agpaa.get(i);
 					String n = Utility.convertUUIDToName(gpla.getPlayerUUID().toString());
 					TextComponent tx0 = ChatApi.tctl(
 							plugin.getYamlHandler().getLang().getString("Commands.Group.Info.Applicant.Members")
@@ -290,16 +295,44 @@ public class ARGGroup_Info extends ArgumentModule
 	
 	public static void getLines(ArrayList<ArrayList<BaseComponent>> a, GroupData gd, Position pos, boolean bypassI)
 	{
+		String max = "";
+		int maxvalue = 0;
+		double upkeep = 0;
+		switch(pos)
+		{
+		default: 
+			break;
+		case MASTER:
+			maxvalue = gd.getMaxAmountMaster();
+			upkeep = gd.getDefaultGroupTechExpDailyUpkeep_Master();
+			break;
+		case VICE:
+			maxvalue = gd.getMaxAmountVice();
+			upkeep = gd.getDefaultGroupTechExpDailyUpkeep_Vice();
+			break;
+		case COUNCILMEMBER:
+			maxvalue = gd.getMaxAmountCouncilMember();
+			upkeep = gd.getDefaultGroupTechExpDailyUpkeep_CouncilMember();
+			break;
+		case MEMBER:
+			maxvalue = gd.getMaxAmountMember();
+			upkeep = gd.getDefaultGroupTechExpDailyUpkeep_Member();
+			break;
+		case ADEPT:
+			max = "∞";
+			upkeep = gd.getDefaultGroupTechExpDailyUpkeep_Adept();
+			break;
+		}
 		ArrayList<BaseComponent> l = new ArrayList<>();
-		l.add(ChatApi.tctl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.Info.Member."+pos.toString())
+		l.add(ChatApi.tctl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.Group.Info.Member."+pos.toString())
 				.replace("%value%", String.valueOf(GroupHandler.getGroupAffiliates(gd.getGroupName(), pos)))
-				.replace("%maxvalue%", String.valueOf(gd.getMaxAmountMaster()))));
+				.replace("%maxvalue%", pos == Position.ADEPT ? max : String.valueOf(maxvalue))));
 		a.add(l);
 		if(bypassI)
 		{
 			l = new ArrayList<>();
-			l.add(ChatApi.tctl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.Info.DefaultUpkeep."+pos.toString())
-					.replace("%upkeep%", String.valueOf(gd.getDefaultGroupTechExpDailyUpkeep_Master()))));
+			l.add(ChatApi.tctl(TT.getPlugin().getYamlHandler().getLang().getString("Commands.Group.Info.DefaultUpkeep."+pos.toString())
+					.replace("%upkeep%", Numbers.format(upkeep))));
 			a.add(l);
 		}
 	}

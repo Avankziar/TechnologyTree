@@ -25,6 +25,7 @@ import main.java.me.avankziar.tt.spigot.handler.EntryQueryStatusHandler;
 import main.java.me.avankziar.tt.spigot.handler.GroupHandler;
 import main.java.me.avankziar.tt.spigot.handler.PlayerHandler;
 import main.java.me.avankziar.tt.spigot.objects.EntryQueryType;
+import main.java.me.avankziar.tt.spigot.objects.EntryStatusType;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalEntryQueryStatus;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalTechnologyPoll;
@@ -66,19 +67,20 @@ public class BackgroundTask
 				long now = System.currentTimeMillis();
 				
 				plugin.getMysqlHandler().deleteData(Type.SOLO_ENTRYQUERYSTATUS,
-						"`duration_until_expiration` < ?",
-						now);
+						"`duration_until_expiration` < ?", now);
+				
+				plugin.getMysqlHandler().deleteData(Type.GROUP_ENTRYQUERYSTATUS,
+						"`duration_until_expiration` < ?", now);
 				
 				ArrayList<GlobalEntryQueryStatus> geqsa = GlobalEntryQueryStatus.convert(
 						plugin.getMysqlHandler().getFullList(Type.GLOBAL_ENTRYQUERYSTATUS,
-								"`id` ASC",
-								"`duration_until_expiration` < ?",
-								now));
+								"`id` ASC",	"`duration_until_expiration` < ?", now));
 				for(GlobalEntryQueryStatus geqs : geqsa)
 				{
 					plugin.getMysqlHandler().deleteData(Type.GLOBAL_TECHNOLOGYPOLL, "`global_choosen_technology_id` = ?", geqs.getId());
-					plugin.getMysqlHandler().deleteData(Type.GLOBAL_ENTRYQUERYSTATUS, "`id` = ?", geqs.getId());
 				}
+				plugin.getMysqlHandler().deleteData(Type.GLOBAL_ENTRYQUERYSTATUS,
+						"`duration_until_expiration` < ?", now);
 			}
 		}.runTaskTimerAsynchronously(plugin, 60*20L,
 				plugin.getYamlHandler().getConfig().getLong("Do.DeleteExpireTechnologies.TaskRunInMinutes", 5)*60*20L);
@@ -93,11 +95,12 @@ public class BackgroundTask
 		List<String> timesList = plugin.getYamlHandler().getConfig().getStringList("Do.TechnologyPoll.DaysOfTheMonth_ToProcessThePoll");
 		new BukkitRunnable()
 		{
-			long lastTime = 0;
+			long lastTime = System.currentTimeMillis();
 			@Override
 			public void run()
 			{
-				if(globalPollInProcess || (lastTime-System.currentTimeMillis() < 1000*60*2))
+				long time = System.currentTimeMillis()-lastTime;
+				if(globalPollInProcess || time < 1000*90)
 				{
 					return;
 				}
@@ -105,55 +108,63 @@ public class BackgroundTask
 				for(String l : timesList)
 				{
 					String[] split = l.split(":");
-					if(split.length != 3 && split.length != 4)
+					if(split.length != 2 && split.length != 3)
 					{
 						continue;
 					}
-					String[] split2 = split[1].split("-");
+					String[] split2 = split[0].split("-");
 					if(split2.length != 2)
 					{
 						continue;
 					}
 					LocalTime lt = LocalTime.of(Integer.valueOf(split2[0]), Integer.valueOf(split2[1]));
-					if(ldt.getHour() != lt.getHour() && ldt.getMinute() != lt.getMinute())
+					if(ldt.getHour() != lt.getHour() || ldt.getMinute() != lt.getMinute())
 					{
 						continue;
 					}
-					if(split.length == 3)
+					if(split.length == 2)
 					{
-						int dayOfMonth = Integer.valueOf(split[2]);
+						if(!MatchApi.isInteger(split[1]))
+						{
+							TT.log.warning("In the config.yml "+split[1]+" is NO number to match the the nth day of the month!");
+							continue;
+						}
+						int dayOfMonth = Integer.valueOf(split[1]);
 						if(ldt.getDayOfMonth() != dayOfMonth)
 						{
 							continue;
 						}
-					} else if(split.length == 4)
+					} else if(split.length == 3)
 					{
-						DayOfWeek dayOfWeek = DayOfWeek.valueOf(split[2]);
+						DayOfWeek dayOfWeek = DayOfWeek.valueOf(split[1]);
 						if(dayOfWeek != ldt.getDayOfWeek())
 						{
 							continue;
 						}
-						LocalDate than = getNthOfMonth(getDayOfWeekAndMonth(split[3]), dayOfWeek, ldt.getMonthValue(), ldt.getYear());
+						LocalDate than = getNthOfMonth(getDayOfWeekAndMonth(split[2]), dayOfWeek, ldt.getMonthValue(), ldt.getYear());
 						if(ldt.getDayOfMonth() != than.getDayOfMonth())
 						{
 							continue;
 						}
 					}
-					PlayerAssociatedType pat = PlayerAssociatedType.valueOf(split[0]);
-					if(pat == PlayerAssociatedType.GLOBAL)
+					globalPollInProcess = true;
+					new BukkitRunnable()
 					{
-						globalPollInProcess = true;
-						lastTime = System.currentTimeMillis();
-						processPoll(pat);
-						globalPollInProcess = false;
-					}
+						@Override
+						public void run()
+						{
+							lastTime = System.currentTimeMillis();
+							processPoll();
+							globalPollInProcess = false;
+						}
+					}.runTaskAsynchronously(plugin);
 					return;
 				}
 			}
-		}.runTaskTimerAsynchronously(plugin, 20L*20, 20L*30);
+		}.runTaskTimer(plugin, 20L*5, 20L*15);
 	}
 	
-	private static void processPoll(PlayerAssociatedType pat)
+	private static void processPoll()
 	{
 		//Cancel if no one has voted for a tech
 		if(!plugin.getMysqlHandler().exist(MysqlHandler.Type.GLOBAL_TECHNOLOGYPOLL, "`processed_in_poll` = ?", false))
@@ -180,7 +191,7 @@ public class BackgroundTask
 		//Call all, which are NOT processed in poll
 		ArrayList<GlobalTechnologyPoll> tpar = GlobalTechnologyPoll.convert(
 				plugin.getMysqlHandler().getFullList(MysqlHandler.Type.GLOBAL_TECHNOLOGYPOLL,
-				"`id`", "`processed_in_poll = ?`", false));
+				"`id` ASC", "`processed_in_poll` = ?", false));
 		LinkedHashMap<String, Integer> countMap = new LinkedHashMap<>();
 		int participants = tpar.size();
 		for(GlobalTechnologyPoll tp : tpar)
@@ -207,8 +218,9 @@ public class BackgroundTask
 			}
 		}
 		Technology globalChoosen = CatTechHandler.getTechnology(globalChoosenTech, PlayerAssociatedType.GLOBAL);
-		int globalResearchlevel = PlayerHandler.researchGlobalTechnology(globalChoosen, true);
-		GlobalEntryQueryStatus geqs = EntryQueryStatusHandler.getGlobalEntryHighestResearchLevel(globalChoosen, EntryQueryType.TECHNOLOGY);
+		int globalResearchlevel = PlayerHandler.researchGlobalTechnology(globalChoosen);
+		GlobalEntryQueryStatus geqs = EntryQueryStatusHandler.getGlobalEntryHighestResearchLevel(globalChoosen,
+				EntryQueryType.TECHNOLOGY, EntryStatusType.HAVE_RESEARCHED_IT);
 		double share = 1/participants;
 		for(GlobalTechnologyPoll gtp : tpar)
 		{
@@ -249,9 +261,30 @@ public class BackgroundTask
 				PlayerHandler.doUpdate(player, globalChoosen, geqs.getId(), globalResearchlevel);
 			}
 		}
+		ArrayList<String> l = new ArrayList<>();
+		l.add(plugin.getYamlHandler().getLang().getString("BackgroundTask.PollEvaluation.Headline"));
+		l.add(plugin.getYamlHandler().getLang().getString("BackgroundTask.PollEvaluation.Vote")
+				.replace("%pcp%", String.valueOf(participants))
+				.replace("%tech%", globalChoosen.getDisplayName())
+				.replace("%lv%", String.valueOf(globalResearchlevel))
+				);
+		l.add(plugin.getYamlHandler().getLang().getString("BackgroundTask.PollEvaluation.Bottomline"));
+		if(plugin.getMessageToBungee() != null)
+		{
+			plugin.getMessageToBungee().sendMessage(l.toArray(new String[l.size()]));
+		} else
+		{
+			for(Player player : Bukkit.getOnlinePlayers())
+			{
+				for(String s : l)
+				{
+					player.sendMessage(ChatApi.tl(s));
+				}
+			}
+		}
 	}
 	
-	private static void doUpdatePlayer()
+	private void doUpdatePlayer()
 	{
 		new BukkitRunnable()
 		{
@@ -309,13 +342,13 @@ public class BackgroundTask
 				plugin.getYamlHandler().getConfig().getLong("Do.DeleteExpirePlacedBlocks.TaskRunInMinutes", 5)*60*20L);
 	}
 	
-	private static void doGroupDailyUpkeep()
+	private void doGroupDailyUpkeep()
 	{
 		if(!plugin.getYamlHandler().getConfig().getBoolean("Group.DailyUpkeep.Active", true))
 		{
 			return;
 		}
-		String time = plugin.getYamlHandler().getConfig().getString("", "11-00");
+		String time = plugin.getYamlHandler().getConfig().getString("Group.DailyUpkeep.Time", "11-00");
 		String[] sp = time.split("-");
 		if(sp.length != 2 || !MatchApi.isInteger(sp[0]) || !MatchApi.isInteger(sp[1])
 				|| !MatchApi.isPositivNumber(Integer.valueOf(sp[0])) || !MatchApi.isPositivNumber(Integer.valueOf(sp[1])))
@@ -324,13 +357,13 @@ public class BackgroundTask
 		}
 		new BukkitRunnable()
 		{
-			long lastTime = 0;
+			long lastTime = System.currentTimeMillis();
 			LocalTime lt = LocalTime.of(Integer.valueOf(sp[0]), Integer.valueOf(sp[1]));
 			boolean deleteIfNoMember = plugin.getYamlHandler().getConfig().getBoolean("Do.Group.IfGroupHasNoMemberDeleteIt", true);
 			@Override
 			public void run()
 			{
-				if(lastTime - System.currentTimeMillis() < 1000*60*2)
+				if(System.currentTimeMillis() - lastTime < 1000*60*2)
 				{
 					return;
 				}
@@ -344,6 +377,7 @@ public class BackgroundTask
 				{
 					return;
 				}
+				lastTime = System.currentTimeMillis();
 				ArrayList<GroupData> toDeleteGroup = new ArrayList<>();
 				for(int i = 0; i < agd.size(); i++)
 				{
@@ -355,6 +389,7 @@ public class BackgroundTask
 						if(deleteIfNoMember)
 						{
 							toDeleteGroup.add(gd);
+							continue;
 						}
 					}
 					double collectedUpkeep = 0;
@@ -366,25 +401,30 @@ public class BackgroundTask
 						{
 							continue;
 						}
-						if(pd.getActualTTExp() < gp.getIndividualTechExpDailyUpkeep())
+						if(gp.getIndividualTechExpDailyUpkeep() > 0)
 						{
-							collectedUpkeep += pd.getActualTTExp();
-							pd.setActualTTExp(0);
-							GroupHandler.sendMemberText(gp.getPlayerUUID(),
-									ChatApi.tl(plugin.getYamlHandler().getLang().getString("BackgroundTask.GroupDailyUpkeep.FailedCollectdUpkeep")
-											.replace("%group%", gd.getGroupName())
-											.replace("%exp%", String.valueOf(pd.getActualTTExp()))
-											.replace("%failedexp%", String.valueOf(gp.getIndividualTechExpDailyUpkeep()))));
-						} else
-						{
-							collectedUpkeep += gp.getIndividualTechExpDailyUpkeep();
-							pd.setActualTTExp(pd.getActualTTExp()-gp.getIndividualTechExpDailyUpkeep());
-							GroupHandler.sendMemberText(gp.getPlayerUUID(),
-									ChatApi.tl(plugin.getYamlHandler().getLang().getString("BackgroundTask.GroupDailyUpkeep.CollectedUpkeep")
-											.replace("%group%", gd.getGroupName())
-											.replace("%exp%", String.valueOf(gp.getIndividualTechExpDailyUpkeep()))));
+							if(pd.getActualTTExp() < gp.getIndividualTechExpDailyUpkeep())
+							{
+								double lastTTExp = pd.getActualTTExp();
+								collectedUpkeep += pd.getActualTTExp();
+								pd.setActualTTExp(0);
+								failedUpkeep++;
+								GroupHandler.sendMemberText(gp.getPlayerUUID(),
+										ChatApi.tl(plugin.getYamlHandler().getLang().getString("BackgroundTask.GroupDailyUpkeep.FailedCollectdUpkeep")
+												.replace("%group%", gd.getGroupName())
+												.replace("%exp%", String.valueOf(lastTTExp))
+												.replace("%failedexp%", String.valueOf(gp.getIndividualTechExpDailyUpkeep()))));
+							} else
+							{
+								collectedUpkeep += gp.getIndividualTechExpDailyUpkeep();
+								pd.setActualTTExp(pd.getActualTTExp()-gp.getIndividualTechExpDailyUpkeep());
+								GroupHandler.sendMemberText(gp.getPlayerUUID(),
+										ChatApi.tl(plugin.getYamlHandler().getLang().getString("BackgroundTask.GroupDailyUpkeep.CollectedUpkeep")
+												.replace("%group%", gd.getGroupName())
+												.replace("%exp%", String.valueOf(gp.getIndividualTechExpDailyUpkeep()))));
+							}
+							PlayerHandler.updatePlayer(pd);
 						}
-						PlayerHandler.updatePlayer(pd);
 					}
 					int lvl = plugin.getYamlHandler().getConfig().getInt("Group.DailyUpkeep.ActiveFromLevel", 2);
 					if(gd.getGroupLevel() < lvl)
@@ -402,13 +442,13 @@ public class BackgroundTask
 					if(collectedUpkeep > upkeep)
 					{
 						collectedUpkeep -= upkeep;
-						gd.setGroupTechExp(collectedUpkeep);
+						gd.setGroupTechExp(gd.getGroupTechExp()+collectedUpkeep);
 						GroupHandler.sendMembersText(gd.getGroupName(), 
 								ChatApi.tl(plugin.getYamlHandler().getLang().getString("BackgroundTask.GroupDailyUpkeep.AddedCollectedUpkeep")
 										.replace("%group%", gd.getGroupName())
 										.replace("%exp%", String.valueOf(c))
 										.replace("%upkeep%", String.valueOf(upkeep))
-										.replace("failed%", String.valueOf(failedUpkeep))));
+										.replace("%failed%", String.valueOf(failedUpkeep))));
 						if(gd.getGroupCounterFailedUpkeep() > 0)
 						{
 							gd.setGroupCounterFailedUpkeep(gd.getGroupCounterFailedUpkeep()-1);
@@ -429,7 +469,7 @@ public class BackgroundTask
 											.replace("%group%", gd.getGroupName())
 											.replace("%exp%", String.valueOf(c))
 											.replace("%upkeep%", String.valueOf(upkeep))
-											.replace("failed%", String.valueOf(failedUpkeep))));
+											.replace("%failed%", String.valueOf(failedUpkeep))));
 							if(gd.getGroupCounterFailedUpkeep() > 0)
 							{
 								gd.setGroupCounterFailedUpkeep(gd.getGroupCounterFailedUpkeep()-1);
@@ -447,7 +487,7 @@ public class BackgroundTask
 											.replace("%group%", gd.getGroupName())
 											.replace("%exp%", String.valueOf(c))
 											.replace("%upkeep%", String.valueOf(upkeep))
-											.replace("failed%", String.valueOf(failedUpkeep))));
+											.replace("%failed%", String.valueOf(failedUpkeep))));
 							GroupHandler.sendMembersText(gd.getGroupName(), 
 									ChatApi.tl(plugin.getYamlHandler().getLang().getString("BackgroundTask.GroupDailyUpkeep.FailedCounterPlusOne")
 											.replace("%group%", gd.getGroupName())
@@ -468,23 +508,26 @@ public class BackgroundTask
 					}
 					GroupHandler.updateGroup(gd);
 				}
-				int deletedGroups = toDeleteGroup.size();
-				int deletedEntrys = 0;
-				int deletedMembers = 0;
-				for(int i = 0; i < toDeleteGroup.size(); i++)
+				if(toDeleteGroup.size() > 0)
 				{
-					GroupData gd = toDeleteGroup.get(i);
-					deletedMembers += plugin.getMysqlHandler().deleteData(Type.GROUP_PLAYERAFFILIATION, "`group_name` = ?", gd.getGroupName());
-					deletedEntrys += plugin.getMysqlHandler().deleteData(Type.GROUP_ENTRYQUERYSTATUS, "`group_name` = ?", gd.getGroupName());
-					plugin.getMysqlHandler().deleteData(Type.GROUP_DATA, "`group_name` = ?", gd.getGroupName());
+					int deletedGroups = toDeleteGroup.size();
+					int deletedEntrys = 0;
+					int deletedMembers = 0;
+					for(int i = 0; i < toDeleteGroup.size(); i++)
+					{
+						GroupData gd = toDeleteGroup.get(i);
+						deletedMembers += plugin.getMysqlHandler().deleteData(Type.GROUP_PLAYERAFFILIATION, "`group_name` = ?", gd.getGroupName());
+						deletedEntrys += plugin.getMysqlHandler().deleteData(Type.GROUP_ENTRYQUERYSTATUS, "`group_name` = ?", gd.getGroupName());
+						plugin.getMysqlHandler().deleteData(Type.GROUP_DATA, "`group_name` = ?", gd.getGroupName());
+					}
+					TT.log.info("==========Deleted Groups==========");
+					TT.log.info("Reason: Have No Members after checking the DailyUpkeep");
+					TT.log.info("Deleted Groups: "+deletedGroups);
+					TT.log.info("Deleted Entrys: "+deletedEntrys+" (Categorys and Techs)");
+					TT.log.info("Deleted Members: "+deletedMembers+" (Applicants and Invitees)");
+					TT.log.info("==================================");
 				}
-				TT.log.info("==========Deleted Groups==========");
-				TT.log.info("Reason: Have No Members after checking the DailyUpkeep");
-				TT.log.info("Deleted Groups: "+deletedGroups);
-				TT.log.info("Deleted Entrys: "+deletedEntrys+" (Categorys and Techs)");
-				TT.log.info("Deleted Members: "+deletedMembers+" (Applicants and Invitees)");
-				TT.log.info("==================================");
 			}
-		}.runTaskTimerAsynchronously(plugin, 0L, 20L*30);
+		}.runTaskTimerAsynchronously(plugin, 0L, 20L*15);
 	}
 }

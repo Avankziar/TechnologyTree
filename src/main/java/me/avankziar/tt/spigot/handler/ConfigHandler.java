@@ -3,6 +3,8 @@ package main.java.me.avankziar.tt.spigot.handler;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Material;
+
 import main.java.me.avankziar.tt.spigot.TT;
 
 public class ConfigHandler
@@ -26,6 +28,7 @@ public class ConfigHandler
 			GAMERULE_UseVanillaAccessToSmoker = false,
 			GAMERULE_UseVanillaAccessToStoneCutter = false
 			;
+	
 	public ConfigHandler(){}
 	
 	public enum CountType
@@ -124,11 +127,6 @@ public class ConfigHandler
 		return plugin.getYamlHandler().getConfig().getBoolean("Do.Reward.Brewing.FinishBrewIfPlayerHasNotTheRecipeUnlocked", false);
 	}
 	
-	public boolean startSmeltIfPlayerIsNotOnline()
-	{
-		return plugin.getYamlHandler().getConfig().getBoolean("Do.Reward.Smelting.StartSmeltIfPlayerIsNotOnline", true);
-	}
-	
 	public boolean finishSmeltIfPlayerHasNotTheRecipeUnlocked()
 	{
 		return plugin.getYamlHandler().getConfig().getBoolean("Do.Reward.Smelting.FinishSmeltIfPlayerHasNotTheRecipeUnlocked", false);
@@ -159,9 +157,19 @@ public class ConfigHandler
 		return plugin.getYamlHandler().getConfig().getBoolean("Do.Reward.Payout.IfAfk.FuranceAndBrewingStand", false);
 	}
 	
+	public boolean dropsIfEntitySpawnedFromSpawner()
+	{
+		return plugin.getYamlHandler().getConfig().getBoolean("Do.Reward.Payout.EntitySpawnedFromSpawner", false);
+	}
+	
 	public boolean fillNotDefineGuiSlots()
 	{
-		return plugin.getYamlHandler().getConfig().getBoolean("Do.Gui.FillNotDefineGuiSlots", true);
+		return plugin.getYamlHandler().getConfig().getBoolean("Gui.FillNotDefineGuiSlots", true);
+	}
+	
+	public Material fillerItemMaterial()
+	{
+		return Material.valueOf(plugin.getConfig().getString("Gui.FillerItemMaterial", "LIGHT_GRAY_STAINED_GLASS_PANE"));
 	}
 	
 	public boolean jobsRebornImportIsActive()
@@ -187,5 +195,15 @@ public class ConfigHandler
 	public boolean accessTechnology_IfCreative()
 	{
 		return plugin.getYamlHandler().getConfig().getBoolean("Do.Access.Technology.BypassIfCreative", true);
+	}
+	
+	public int getUpkeepActiveLvl()
+	{
+		return plugin.getYamlHandler().getConfig().getInt("Group.DailyUpkeep.ActiveFromLevel", 2);
+	}
+	
+	public boolean breakingThroughVanillaDropBarrier()
+	{
+		return plugin.getYamlHandler().getConfig().getBoolean("Gamerule.Drops.BreakingThroughVanillaDropBarrier", true);
 	}
 }

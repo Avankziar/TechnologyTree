@@ -76,12 +76,12 @@ public class ARGGroup_SetGrandMaster extends ArgumentModule
 						.getString("Commands.Group.SetGrandmaster.AlreadyGrandmaster")));
 				return;
 			}
-			if(GroupHandler.getAffiliateGroup(uuid, null) != null)
-			{
-				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.PlayerIsInAGroup")
-						.replace("%player%", p2)));
-				return;
-			}
+		}
+		if(gpa2 != null && !gpa2.getGroupName().equals(gd.getGroupName()))
+		{
+			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.PlayerIsInAGroup")
+					.replace("%player%", p2)));
+			return;
 		}
 		String txt = ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.SetGrandmaster.Set")
 				.replace("%player%", p2)

@@ -27,7 +27,6 @@ public class GroupData implements MysqlHandable
 	private int maxAmountVice;
 	private int maxAmountCouncilMember;
 	private int maxAmountMember;
-	private int maxAmountAdept;
 	
 	private int groupCounterFailedUpkeep;
 	
@@ -35,13 +34,13 @@ public class GroupData implements MysqlHandable
 	private double defaultGroupTechExpDailyUpkeep_Vice;
 	private double defaultGroupTechExpDailyUpkeep_CouncilMember;
 	private double defaultGroupTechExpDailyUpkeep_Member;
-	private double defaultGroupTechExpDailyUpkeep_Adpet;
+	private double defaultGroupTechExpDailyUpkeep_Adept;
 	
 	public GroupData()
 	{}
 	
 	public GroupData(int id, String groupName, UUID grandmasterUUID, long creationTime, String displayDescription, double groupTechExp, int groupLevel,
-			int maxAmountPlayer, int maxAmountMaster, int maxAmountVice, int maxAmountCouncilMember, int maxAmountMember, int maxAmountAdept,
+			int maxAmountPlayer, int maxAmountMaster, int maxAmountVice, int maxAmountCouncilMember, int maxAmountMember,
 			int groupCounterFailedUpkeep, double defaultGroupTechExpDailyUpkeep_Master, double defaultGroupTechExpDailyUpkeep_Vice,
 			double defaultGroupTechExpDailyUpkeep_CouncilMember, double defaultGroupTechExpDailyUpkeep_Member,
 			double defaultGroupTechExpDailyUpkeep_Adpet)
@@ -58,13 +57,12 @@ public class GroupData implements MysqlHandable
 		setMaxAmountVice(maxAmountVice);
 		setMaxAmountCouncilMember(maxAmountCouncilMember);
 		setMaxAmountMember(maxAmountMember);
-		setMaxAmountAdept(maxAmountAdept);
 		setGroupCounterFailedUpkeep(groupCounterFailedUpkeep);
 		setDefaultGroupTechExpDailyUpkeep_Master(defaultGroupTechExpDailyUpkeep_Master);
 		setDefaultGroupTechExpDailyUpkeep_Vice(defaultGroupTechExpDailyUpkeep_Vice);
 		setDefaultGroupTechExpDailyUpkeep_CouncilMember(defaultGroupTechExpDailyUpkeep_CouncilMember);
 		setDefaultGroupTechExpDailyUpkeep_Member(defaultGroupTechExpDailyUpkeep_Member);
-		setDefaultGroupTechExpDailyUpkeep_Adpet(defaultGroupTechExpDailyUpkeep_Adpet);
+		setDefaultGroupTechExpDailyUpkeep_Adept(defaultGroupTechExpDailyUpkeep_Adpet);
 	}
 
 	public int getId()
@@ -187,16 +185,6 @@ public class GroupData implements MysqlHandable
 		this.maxAmountMember = maxAmountMember;
 	}
 
-	public int getMaxAmountAdept()
-	{
-		return maxAmountAdept;
-	}
-
-	public void setMaxAmountAdept(int maxAmountAdept)
-	{
-		this.maxAmountAdept = maxAmountAdept;
-	}
-
 	public int getGroupCounterFailedUpkeep()
 	{
 		return groupCounterFailedUpkeep;
@@ -247,14 +235,14 @@ public class GroupData implements MysqlHandable
 		this.defaultGroupTechExpDailyUpkeep_Member = defaultGroupTechExpDailyUpkeep_Member;
 	}
 
-	public double getDefaultGroupTechExpDailyUpkeep_Adpet()
+	public double getDefaultGroupTechExpDailyUpkeep_Adept()
 	{
-		return defaultGroupTechExpDailyUpkeep_Adpet;
+		return defaultGroupTechExpDailyUpkeep_Adept;
 	}
 
-	public void setDefaultGroupTechExpDailyUpkeep_Adpet(double defaultGroupTechExpDailyUpkeep_Adpet)
+	public void setDefaultGroupTechExpDailyUpkeep_Adept(double defaultGroupTechExpDailyUpkeep_Adept)
 	{
-		this.defaultGroupTechExpDailyUpkeep_Adpet = defaultGroupTechExpDailyUpkeep_Adpet;
+		this.defaultGroupTechExpDailyUpkeep_Adept = defaultGroupTechExpDailyUpkeep_Adept;
 	}
 	
 	public double getDefaultGroupTechExpDailyUpkeep(GroupHandler.Position pos)
@@ -265,7 +253,7 @@ public class GroupData implements MysqlHandable
 		case VICE: return getDefaultGroupTechExpDailyUpkeep_Vice();
 		case COUNCILMEMBER: return getDefaultGroupTechExpDailyUpkeep_CouncilMember();
 		case MEMBER: return getDefaultGroupTechExpDailyUpkeep_Member();
-		case ADEPT: return getDefaultGroupTechExpDailyUpkeep_Adpet();
+		case ADEPT: return getDefaultGroupTechExpDailyUpkeep_Adept();
 		default: break;
 		}
 		return 0;
@@ -297,13 +285,12 @@ public class GroupData implements MysqlHandable
 	        ps.setInt(9, getMaxAmountVice());
 	        ps.setInt(10, getMaxAmountCouncilMember());
 	        ps.setInt(11, getMaxAmountMember());
-	        ps.setInt(12, getMaxAmountAdept());
-	        ps.setInt(13, getGroupCounterFailedUpkeep());
-	        ps.setDouble(14, getDefaultGroupTechExpDailyUpkeep_Master());
-	        ps.setDouble(15, getDefaultGroupTechExpDailyUpkeep_Vice());
-	        ps.setDouble(16, getDefaultGroupTechExpDailyUpkeep_CouncilMember());
-	        ps.setDouble(17, getDefaultGroupTechExpDailyUpkeep_Member());
-	        ps.setDouble(18, getDefaultGroupTechExpDailyUpkeep_Adpet());
+	        ps.setInt(12, getGroupCounterFailedUpkeep());
+	        ps.setDouble(13, getDefaultGroupTechExpDailyUpkeep_Master());
+	        ps.setDouble(14, getDefaultGroupTechExpDailyUpkeep_Vice());
+	        ps.setDouble(15, getDefaultGroupTechExpDailyUpkeep_CouncilMember());
+	        ps.setDouble(16, getDefaultGroupTechExpDailyUpkeep_Member());
+	        ps.setDouble(17, getDefaultGroupTechExpDailyUpkeep_Adept());
 	        int i = ps.executeUpdate();
 	        MysqlHandler.addRows(MysqlHandler.QueryType.INSERT, i);
 	        return true;
@@ -321,7 +308,7 @@ public class GroupData implements MysqlHandable
 		{
 			String sql = "UPDATE `" + tablename
 				+ "` SET `group_name` = ?, `grandmaster_uuid` = ?, `creation_time` = ?, `display_descrition` = ?, `group_tech_exp` = ?, `group_level` = ?,"
-				+ " `max_amount_player` = ?, `max_amount_master` = ?, `max_amount_vice` = ?, `max_amount_councilmember` = ?, `max_amount_member` = ?, `max_amount_adept` = ?,"
+				+ " `max_amount_player` = ?, `max_amount_master` = ?, `max_amount_vice` = ?, `max_amount_councilmember` = ?, `max_amount_member` = ?,"
 				+ " `group_counter_failed_upkeep` = ?, `default_group_tech_exp_daily_upkeep_master` = ?, `default_group_tech_exp_daily_upkeep_vice` = ?,"
 				+ " `default_group_tech_exp_daily_upkeep_councilmember` = ?, `default_group_tech_exp_daily_upkeep_member` = ?, `default_group_tech_exp_daily_upkeep_adept` = ?"
 				+ " WHERE "+whereColumn;
@@ -337,14 +324,13 @@ public class GroupData implements MysqlHandable
 	        ps.setInt(9, getMaxAmountVice());
 	        ps.setInt(10, getMaxAmountCouncilMember());
 	        ps.setInt(11, getMaxAmountMember());
-	        ps.setInt(12, getMaxAmountAdept());
-	        ps.setInt(13, getGroupCounterFailedUpkeep());
-	        ps.setDouble(14, getDefaultGroupTechExpDailyUpkeep_Master());
-	        ps.setDouble(15, getDefaultGroupTechExpDailyUpkeep_Vice());
-	        ps.setDouble(16, getDefaultGroupTechExpDailyUpkeep_CouncilMember());
-	        ps.setDouble(17, getDefaultGroupTechExpDailyUpkeep_Member());
-	        ps.setDouble(18, getDefaultGroupTechExpDailyUpkeep_Adpet());
-			int i = 19;
+	        ps.setInt(12, getGroupCounterFailedUpkeep());
+	        ps.setDouble(13, getDefaultGroupTechExpDailyUpkeep_Master());
+	        ps.setDouble(14, getDefaultGroupTechExpDailyUpkeep_Vice());
+	        ps.setDouble(15, getDefaultGroupTechExpDailyUpkeep_CouncilMember());
+	        ps.setDouble(16, getDefaultGroupTechExpDailyUpkeep_Member());
+	        ps.setDouble(17, getDefaultGroupTechExpDailyUpkeep_Adept());
+			int i = 18;
 			for(Object o : whereObject)
 			{
 				ps.setObject(i, o);
@@ -392,7 +378,6 @@ public class GroupData implements MysqlHandable
 						rs.getInt("max_amount_vice"),
 						rs.getInt("max_amount_councilmember"),
 						rs.getInt("max_amount_member"),
-						rs.getInt("max_amount_adept"),
 						rs.getInt("group_counter_failed_upkeep"),
 						rs.getDouble("default_group_tech_exp_daily_upkeep_master"),
 						rs.getDouble("default_group_tech_exp_daily_upkeep_vice"),

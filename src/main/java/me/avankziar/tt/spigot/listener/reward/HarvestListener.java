@@ -11,6 +11,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
+import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
@@ -40,7 +41,7 @@ public class HarvestListener implements Listener
 					HA, ToolType.HAND, event.getHarvestedBlock().getType(), null, null);
 			return;
 		}
-		if(RewardHandler.useTTDropMechanicCalculation(event.getPlayer()))
+		if(!ConfigHandler.GAMERULE_UseVanillaItemDrops)
 		{
 			event.getItemsHarvested().clear();
 		}

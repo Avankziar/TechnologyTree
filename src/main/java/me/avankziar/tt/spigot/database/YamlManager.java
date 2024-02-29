@@ -13,7 +13,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.BlastingRecipe;
 import org.bukkit.inventory.CampfireRecipe;
 import org.bukkit.inventory.FurnaceRecipe;
@@ -37,12 +36,10 @@ import main.java.me.avankziar.tt.spigot.gui.objects.ClickFunctionType;
 import main.java.me.avankziar.tt.spigot.gui.objects.ClickType;
 import main.java.me.avankziar.tt.spigot.gui.objects.GuiType;
 import main.java.me.avankziar.tt.spigot.gui.objects.SettingsLevel;
-import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
 import main.java.me.avankziar.tt.spigot.modifiervalueentry.Bypass;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
-import main.java.me.avankziar.tt.spigot.objects.RewardType;
 import main.java.me.avankziar.tt.spigot.objects.TechnologyType;
 
 public class YamlManager
@@ -80,7 +77,7 @@ public class YamlManager
 		initConfig();
 		initCommands();
 		initLanguage();
-		initModifierValueEntryLanguage(); //TODO
+		initModifierValueEntryLanguage();
 		initGuiStart();
 		initGuiMainCat();
 		initGuiSubCat();
@@ -210,6 +207,45 @@ public class YamlManager
 		{
 			return;
 		}
+		if(key.startsWith("#"))
+		{
+			//Comments
+			String k = key.replace("#", "");
+			if(yml.get(k) == null)
+			{
+				//return because no aktual key are present
+				return;
+			}
+			if(yml.getComments(k) != null && !yml.getComments(k).isEmpty())
+			{
+				//Return, because the comments are already present, and there could be modified. F.e. could be comments from a admin.
+				return;
+			}
+			if(keyMap.get(key).languageValues.get(languageType).length == 1)
+			{
+				if(keyMap.get(key).languageValues.get(languageType)[0] instanceof String)
+				{
+					String s = ((String) keyMap.get(key).languageValues.get(languageType)[0]).replace("\r\n", "");
+					yml.setComments(k, Arrays.asList(s));
+				}
+			} else
+			{
+				List<Object> list = Arrays.asList(keyMap.get(key).languageValues.get(languageType));
+				ArrayList<String> stringList = new ArrayList<>();
+				if(list instanceof List<?>)
+				{
+					for(Object o : list)
+					{
+						if(o instanceof String)
+						{
+							stringList.add(((String) o).replace("\r\n", ""));
+						}
+					}
+				}
+				yml.setComments(k, (List<String>) stringList);
+			}
+			return;
+		}
 		if(yml.get(key) != null)
 		{
 			return;
@@ -244,69 +280,237 @@ public class YamlManager
 		}
 	}
 	
+	private void addConfig(String path, Object[] c, Object[] o)
+	{
+		configSpigotKeys.put(path, new Language(new ISO639_2B[] {ISO639_2B.GER}, c));
+		addConfigComments("#"+path, o);
+	}
+	
+	private void addConfigComments(String path, Object[] o)
+	{
+		configSpigotKeys.put(path, new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, o));
+	}
+	
 	public void initConfig() //INFO:Config
 	{
-		configSpigotKeys.put("useIFHAdministration"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
-		configSpigotKeys.put("IFHAdministrationPath"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				"tt"}));
-		/*
-		 * The normale single path. In the config make it no sense to add other language as English
-		 * But the ISO639_2B is here the default language from this plugin!
-		 */
-		configSpigotKeys.put("ServerName"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				"hub"}));
+		addConfig("useIFHAdministration",
+				new Object[] {
+				true},
+				new Object[] {
+				"Boolean um auf das IFH Interface Administration zugreifen soll.",
+				"Wenn 'true' eingegeben ist, aber IFH Administration ist nicht vorhanden, so werden automatisch die eigenen Configwerte genommen.",
+				"Boolean to access the IFH Interface Administration.",
+				"If 'true' is entered, but IFH Administration is not available, the own config values are automatically used."});
+		addConfig("IFHAdministrationPath", 
+				new Object[] {
+				"tt"},
+				new Object[] {
+				"",
+				"Diese Funktion sorgt dafür, dass TT auf das IFH Interface Administration zugreifen kann.",
+				"Das IFH Interface Administration ist eine Zentrale für die Daten von Sprache, Servername und Mysqldaten.",
+				"Diese Zentralisierung erlaubt für einfache Änderung/Anpassungen genau dieser Daten.",
+				"Sollte TT darauf zugreifen, werden die Werte in der eigenen Config dafür ignoriert.",
+				"",
+				"This function ensures that TT can access the IFH Interface Administration.",
+				"The IFH Interface Administration is a central point for the language, server name and mysql data.",
+				"This centralization allows for simple changes/adjustments to precisely this data.",
+				"If TT accesses it, the values in its own config are ignored."});
+		addConfig("ServerName",
+				new Object[] {
+				"hub"},
+				new Object[] {
+				"",
+				"Der Server steht für den Namen des Spigotservers, wie er in BungeeCord/Waterfall config.yml unter dem Pfad 'servers' angegeben ist.",
+				"Sollte kein BungeeCord/Waterfall oder andere Proxys vorhanden sein oder du nutzt IFH Administration, so kannst du diesen Bereich ignorieren.",
+				"",
+				"The server stands for the name of the spigot server as specified in BungeeCord/Waterfall config.yml under the path 'servers'.",
+				"If no BungeeCord/Waterfall or other proxies are available or you are using IFH Administration, you can ignore this area."});
 		
-		configSpigotKeys.put("Mysql.Status"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				false}));
-		configSpigotKeys.put("Mysql.Host"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				"127.0.0.1"}));
-		configSpigotKeys.put("Mysql.Port"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				3306}));
-		configSpigotKeys.put("Mysql.DatabaseName"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				"mydatabase"}));
-		configSpigotKeys.put("Mysql.SSLEnabled"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				false}));
-		configSpigotKeys.put("Mysql.AutoReconnect"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
-		configSpigotKeys.put("Mysql.VerifyServerCertificate"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				false}));
-		configSpigotKeys.put("Mysql.User"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				"admin"}));
-		configSpigotKeys.put("Mysql.Password"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				"not_0123456789"}));
+		addConfig("Mysql.Status",
+				new Object[] {
+				false},
+				new Object[] {
+				"",
+				"'Status' ist ein simple Sicherheitsfunktion, damit nicht unnötige Fehler in der Konsole geworfen werden.",
+				"Stelle diesen Wert auf 'true', wenn alle Daten korrekt eingetragen wurden.",
+				"",
+				"'Status' is a simple security function so that unnecessary errors are not thrown in the console.",
+				"Set this value to 'true' if all data has been entered correctly."});
+		addConfigComments("#Mysql", 
+				new Object[] {
+				"",
+				"Mysql ist ein relationales Open-Source-SQL-Databaseverwaltungssystem, das von Oracle entwickelt und unterstützt wird.",
+				"'My' ist ein Namenkürzel und 'SQL' steht für Structured Query Language. Eine Programmsprache mit der man Daten auf einer relationalen Datenbank zugreifen und diese verwalten kann.",
+				"Link https://www.mysql.com/de/",
+				"Wenn du IFH Administration nutzt, kann du diesen Bereich ignorieren.",
+				"",
+				"Mysql is an open source relational SQL database management system developed and supported by Oracle.",
+				"'My' is a name abbreviation and 'SQL' stands for Structured Query Language. A program language that can be used to access and manage data in a relational database.",
+				"Link https://www.mysql.com",
+				"If you use IFH Administration, you can ignore this section."});
+		addConfig("Mysql.Host",
+				new Object[] {
+				"127.0.0.1"},
+				new Object[] {
+				"",
+				"Der Host, oder auch die IP. Sie kann aus einer Zahlenkombination oder aus einer Adresse bestehen.",
+				"Für den Lokalhost, ist es möglich entweder 127.0.0.1 oder 'localhost' einzugeben. Bedenke, manchmal kann es vorkommen,",
+				"das bei gehosteten Server die ServerIp oder Lokalhost möglich ist.",
+				"",
+				"The host, or IP. It can consist of a number combination or an address.",
+				"For the local host, it is possible to enter either 127.0.0.1 or >localhost<.",
+				"Please note that sometimes the serverIp or localhost is possible for hosted servers."});
+		addConfig("Mysql.Port",
+				new Object[] {
+				3306},
+				new Object[] {
+				"",
+				"Ein Port oder eine Portnummer ist in Rechnernetzen eine Netzwerkadresse,",
+				"mit der das Betriebssystem die Datenpakete eines Transportprotokolls zu einem Prozess zuordnet.",
+				"Ein Port für Mysql ist standart gemäß 3306.",
+				"",
+				"In computer networks, a port or port number ",
+				"is a network address with which the operating system assigns the data packets of a transport protocol to a process.",
+				"A port for Mysql is standard according to 3306."});
+		addConfig("Mysql.DatabaseName",
+				new Object[] {
+				"mydatabase"},
+				new Object[] {
+				"",
+				"Name der Datenbank in Mysql.",
+				"",
+				"Name of the database in Mysql."});
+		addConfig("Mysql.SSLEnabled",
+				new Object[] {
+				false},
+				new Object[] {
+				"",
+				"SSL ist einer der drei Möglichkeiten, welcher, solang man nicht weiß, was es ist, es so lassen sollte wie es ist.",
+				"",
+				"SSL is one of the three options which, as long as you don't know what it is, you should leave it as it is."});
+		addConfig("Mysql.AutoReconnect",
+				new Object[] {
+				true},
+				new Object[] {
+				"",
+				"AutoReconnect ist einer der drei Möglichkeiten, welcher, solang man nicht weiß, was es ist, es so lassen sollte wie es ist.",
+				"",
+				"AutoReconnect is one of the three options which, as long as you don't know what it is, you should leave it as it is."});
+		addConfig("Mysql.VerifyServerCertificate",
+				new Object[] {
+				false},
+				new Object[] {
+				"",
+				"VerifyServerCertificate ist einer der drei Möglichkeiten, welcher, solang man nicht weiß, was es ist, es so lassen sollte wie es ist.",
+				"",
+				"VerifyServerCertificate is one of the three options which, as long as you don't know what it is, you should leave it as it is."});
+		addConfig("Mysql.User",
+				new Object[] {
+				"admin"},
+				new Object[] {
+				"",
+				"Der User, welcher auf die Mysql zugreifen soll.",
+				"",
+				"The user who should access the Mysql."});
+		addConfig("Mysql.Password",
+				new Object[] {
+				"not_0123456789"},
+				new Object[] {
+				"",
+				"Das Passwort des Users, womit er Zugang zu Mysql bekommt.",
+				"",
+				"The user's password, with which he gets access to Mysql."});
 		
-		configSpigotKeys.put("EnableMechanic.Modifier"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
-		configSpigotKeys.put("EnableMechanic.ValueEntry"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
+		addConfig("EnableMechanic.Modifier",
+				new Object[] {
+				true},
+				new Object[] {
+				"",
+				"Ermöglicht TT die Benutzung von IFH Interface Modifier.",
+				"Es erlaubt, dass externe Plugins oder per Befehl Zahlenmodifikatoren in bestimmte Werten einfließen.",
+				"Bspw. könnte es dazu führen, dass die Spieler mehr regestrierte Öfen besitzen dürfen.",
+				"",
+				"Enables TT to use IFH interface modifiers.",
+				"It allows external plugins or by command to include number modifiers in certain values.",
+				"For example, it could lead to players being allowed to own more registered furnace."});
+		addConfig("EnableMechanic.ValueEntry",
+				new Object[] {
+				true},
+				new Object[] {
+				"",
+				"Ermöglicht TT die Benutzung von IFH Interface ValueEntry.",
+				"Es erlaubt, dass externe Plugins oder per Befehl Werteeinträge vornehmen.",
+				"Bspw. könnte man dadurch bestimmte Befehle oder Technologien für Spieler freischalten.",
+				"",
+				"Enables TT to use the IFH interface ValueEntry.",
+				"It allows external plugins or commands to make value entries.",
+				"For example, it could be used to unlock certain commands or technologies for players."});
 		
-		configSpigotKeys.put("ValueEntry.OverrulePermission"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				false}));
-		configSpigotKeys.put("Gamerule.UseVanilla.ExpDrops"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				false}));
-		configSpigotKeys.put("Gamerule.UseVanilla.ItemDrops"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				false}));
+		addConfig("ValueEntry.OverrulePermission",
+				new Object[] {
+				false},
+				new Object[] {
+				"",
+				"Sollte ValueEntry eingeschalten und installiert sein, so wird bei fast allen Permissionabfragen ValueEntry mit abgefragt.",
+				"Fall 1: ValueEntry ist nicht vorhanden oder nicht eingschaltet. So wird die Permission normal abgefragt.",
+				"Für alle weitern Fälle ist ValueEntry vorhanden und eingeschaltet.",
+				"Fall 2: Der Werteeintrag für den Spieler für diesen abgefragten Wert ist nicht vorhanden,",
+				"so wird wenn 'OverrulePermission'=true immer 'false' zurückgegeben.",
+				"Ist 'OverrulePermission'=false wird eine normale Permissionabfrage gemacht.",
+				"Fall 3: Der Werteeintrag für den Spieler für diesen abgefragten Wert ist vorhanden,",
+				"so wird wenn 'OverrulePermission'=true der hinterlegte Werteeintrag zurückgegebn.",
+				"Wenn 'OverrulePermission'=false ist, wird 'true' zurückgegeben wenn der hinterlegte Werteeintrag ODER die Permissionabfrage 'true' ist.",
+				"Sollten beide 'false' sein, wird 'false' zurückgegeben.",
+				"",
+				"If ValueEntry is switched on and installed, ValueEntry is also queried for almost all permission queries.",
+				"Case 1: ValueEntry is not present or not switched on. The permission is queried normally.",
+				"For all other cases, ValueEntry is present and switched on.",
+				"Case 2: The value entry for the player for this queried value is not available,",
+				"so if 'OverrulePermission'=true, 'false' is always returned.",
+				"If 'OverrulePermission'=false, a normal permission query is made.",
+				"Case 3: The value entry for the player for this queried value exists,",
+				"so if 'OverrulePermission'=true the stored value entry is returned.",
+				"If 'OverrulePermission'=false, 'true' is returned if the stored value entry OR the permission query is 'true'.",
+				"If both are 'false', 'false' is returned."});
+		addConfig("Gamerule.UseVanilla.ExpDrops",
+				new Object[] {
+				false},
+				new Object[] {
+				"",
+				"Wenn 'true', dann droppen automatisch alle Exp, welche auch im Vanilla droppen würden. Zuzüglich was noch mit den Belohnungen,",
+				"welche von den Technologien kommen.",
+				"",
+				"If 'true', then all exp that would also drop in vanilla will automatically drop. Plus what else with the rewards,",
+				"which come from the technologies."});
+		addConfigComments("#Gamerule.UseVanilla", 
+				new Object[] {
+				"",
+				"Gamerule UseVanilla bezieht sich auf Spieleinstellunge vom Plugin TT, welche mit dem Vanilla Minecraft zu tun hat.",
+				"",
+				"Gamerule UseVanilla refers to game settings from the plugin TT, which has to do with the vanilla Minecraft."});
+		addConfig("Gamerule.UseVanilla.ItemDrops",
+				new Object[] {
+				false},
+				new Object[] {
+				"",
+				"Wenn 'true', dann droppen automatisch alle Items, welche auch im Vanilla droppen würden. Zuzüglich noch mit den Belohnungen,",
+				"welche von den Technologien kommen.",
+				"",
+				"If 'true', then all items that would also drop in vanilla will drop automatically. Plus the rewards,",
+				"which come from the technologies."});
 		configSpigotKeys.put("Gamerule.UseVanilla.AccessTo.Anvil"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				false}));
+		addConfigComments("#Gamerule.UseVanilla.AccessTo", 
+				new Object[] {
+				"",
+				"Gamerule AccessTo bezieht sich auf Spieleinstellunge vom Plugin TT.",
+				"Wenn 'true', dann können Spieler die Interaktion mit den Blöcken bypassen und immer darauf zugreifen.",
+				"Was nicht bedeutet, dass der Spieler auf alle Rezepte automatisch zugreifen kann.",
+				"",
+				"Gamerule AccessTo refers to game settings from the TT plugin.",
+				"If 'true', then players can bypass the interaction with the blocks and always access them.",
+				"Which does not mean that the player can automatically access all recipes."});
 		configSpigotKeys.put("Gamerule.UseVanilla.AccessTo.BrewingStand"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				false}));
@@ -343,168 +547,529 @@ public class YamlManager
 		configSpigotKeys.put("Gamerule.UseVanilla.AccessTo.StoneCutter"
 				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 				false}));
-		configSpigotKeys.put("Do.Access.MainCategory.BypassIfCreative"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
-		configSpigotKeys.put("Do.Access.SubCategory.BypassIfCreative"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
-		configSpigotKeys.put("Do.Access.Technology.BypassIfCreative"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
-		configSpigotKeys.put("Do.Block.OverrideAlreadyRegisteredBlocks"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				false}));
-		configSpigotKeys.put("Do.DeleteExpireTechnologies.TaskRunInMinutes"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				10}));
-		configSpigotKeys.put("Do.DeleteExpirePlacedBlocks.TaskRunInMinutes"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				15}));
-		configSpigotKeys.put("Do.Drops.DoNotUsePluginDropsCalculationWorlds"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				"hubdummy",
-				"spawncitydummy"}));
-		configSpigotKeys.put("Do.Drops.BreakingThroughVanillaDropBarrier"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));		
-		configSpigotKeys.put("Do.Gui.FillNotDefineGuiSlots"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
-		configSpigotKeys.put("Do.Gui.FillNotDefineGuiSlots"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				Material.LIGHT_GRAY_STAINED_GLASS_PANE.toString()}));
-		configSpigotKeys.put("Do.Group.IfGroupHasNoMemberDeleteIt"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
-		configSpigotKeys.put("Do.Item.LoseDropItemOwnershipAfterTimeInSeconds"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				300}));
-		configSpigotKeys.put("Do.Import.JobsReborn.Active"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				false}));
-		configSpigotKeys.put("Do.Import.JobsReborn.MaxJobsPerPlayer"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				3}));
-		configSpigotKeys.put("Do.NewPlayer.ShowSyncMessage"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
-		configSpigotKeys.put("Do.NewPlayer.ShowRewardMessage"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
-		configSpigotKeys.put("Do.NewPlayer.AutoResearchTechnology"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+		addConfig("Gamerule.Drops.BreakingThroughVanillaDropBarrier",
+				new Object[] {
+				true},
+				new Object[] {
+				"",
+				"In Minecraft Vanilla gibt es für bestimmte Drops ein oberes Limit, wieviel maximal droppen kann.",
+				"Bspw. Rohkuper bis zu 20 mal oder Lapis Lazuli bis zu 36 mal mit allen Verzauberungen.",
+				"Sollte diese Einstellung 'true' sein, so können auch per Konfiguration mehr von diesen Items droppen.",
+				"Auf 'false' bekommt man maximal das heraus, was Vanilla möglich ist.",
+				"",
+				"In Minecraft Vanilla, there is an upper limit for certain drops as to the maximum amount that can drop.",
+				"For example, raw copper up to 20 times or lapis lazuli up to 36 times with all enchantments.",
+				"If this setting is 'true', more of these items can drop per configuration.",
+				"On 'false' you get at most what is possible in vanilla."});
+		addConfig("Do.Access.MainCategory.BypassIfCreative",
+				new Object[] {
+				true},
+				new Object[] {
+				"",
+				"Wenn 'true' können Spieler im Gamemode Creative alle Hauptkategorien sehen und darauf zugreifen,",
+				"ungeachtet ob sie es tatsächlich könnten.",
+				"",
+				"If 'true', players can see and access all main categories in Game Mode Creative,",
+				"regardless of whether they actually could."});
+		addConfig("Do.Access.SubCategory.BypassIfCreative",
+				new Object[] {
+				true},
+				new Object[] {
+				"",
+				"Wenn 'true' können Spieler im Gamemode Creative alle Untergeordnetenkategorien sehen und darauf zugreifen,",
+				"ungeachtet ob sie es tatsächlich könnten.",
+				"",
+				"If 'true', players can see and access all sub categories in Game Mode Creative,",
+				"regardless of whether they actually could."});
+		addConfig("Do.Access.Technology.BypassIfCreative",
+				new Object[] {
+				true},
+				new Object[] {
+				"",
+				"Wenn 'true' können Spieler im Gamemode Creative alle Technologien sehen und freischalten,",
+				"ungeachtet ob sie es tatsächlich könnten.",
+				"",
+				"If 'true', players can see and unlock all technologies in Creative game mode,",
+				"regardless of whether they actually could."});
+		addConfig("Do.Block.OverrideAlreadyRegisteredBlocks",
+				new Object[] {
+				false},
+				new Object[] {
+				"",
+				"Wenn 'true', dann werden schon von anderen Spieler regestrierte Blöcke wie Öfen nun auf den neuen Spieler überschrieben.",
+				"",
+				"If 'true', then blocks already registered by other players, such as ovens, are now overwritten by the new player."});
+		addConfig("Do.DeleteExpireTechnologies.TaskRunInMinutes",
+				new Object[] {
+				10},
+				new Object[] {
+				"",
+				"Die Anzahl an Minuten wann der Hintergrundtask die ausgelaufenen temporären Technologien wieder löscht.",
+				"",
+				"The number of minutes when the background task deletes the expired temporary technologies."});
+		addConfig("Do.DeleteExpirePlacedBlocks.TaskRunInMinutes",
+				new Object[] {
+				15},
+				new Object[] {
+				"",
+				"Die Anzahl an Minuten wann der Hintergrundtask die gesetzten Blöcke wieder entfernt. (So dass sie wieder abgebaut werden können um Belohnungen zu erhalten)",
+				"",
+				"The number of minutes when the background task removes the set blocks. (So that they can be dismantled again to receive rewards)"});	
+		addConfig("Gui.FillNotDefineGuiSlots",
+				new Object[] {
+				true},
+				new Object[] {
+				"",
+				"Wenn 'true' dann werden allen leeren Plätze im Gui mit einem Item aufgefüllt.",
+				"",
+				"If 'true' then all empty spaces in the gui are filled with an item."});
+		addConfig("Gui.FillerItemMaterial",
+				new Object[] {
+				Material.LIGHT_GRAY_STAINED_GLASS_PANE.toString()},
+				new Object[] {
+				"",
+				"Das Item, welches ohne Namen als Füllitem in die Gui gesetzt wird.",
+				"",
+				"The item that is placed in the gui as a filler item without a name."});
+		addConfig("Do.Group.IfGroupHasNoMemberDeleteIt",
+				new Object[] {
+				true},
+				new Object[] {
+				"",
+				"Wenn 'true', dann wird bei dem Wissenunterhaltsbezugs Task geschaut ob Gruppen keine Mitglieder haben.",
+				"Sollte das der Fall sein, werden die Daten der Gruppe gelöscht.",
+				"",
+				"If 'true', then the knowledge maintenance reference task checks whether groups have no members.",
+				"If this is the case, the group data is deleted."});
+		addConfig("Do.Item.LoseDropItemOwnershipAfterTimeInSeconds",
+				new Object[] {
+				300},
+				new Object[] {
+				"",
+				"Items die durch das Belohnungssystem des Plugins droppen, haben x lange den Spieler als Eigentümer definiert.",
+				"So dass nur dieser Spieler die Items aufheben kann. Nach dieser Zeit ist es frei für alle.",
+				"",
+				"Items that drop through the plugin's reward system have the player defined as the owner for x amount of time.",
+				"So that only this player can pick up the items. After this time, it is free for everyone."});
+		addConfig("Do.Import.JobsReborn.Active",
+				new Object[] {
+				false},
+				new Object[] {
+				"",
+				"Wenn 'true', dann wird das Plugin nach Daten vom Plugin JobsReborn in der Mysql suchen.",
+				"Sollten Spieler dann joinen wird versucht, diesee JobExp vom Plugin JobsReborn als TTExp gutzuschreiben.",
+				"Danach wird der Spieler aus den Daten von JobsReborn gelöscht.",
+				"",
+				"If 'true', then the plugin will search for data from the JobsReborn plugin in the mysql.",
+				"If players then join, an attempt is made to credit this JobExp from the JobsReborn plugin as TTExp.",
+				"The player is then deleted from the JobsReborn data."});
+		addConfig("Do.Import.JobsReborn.MaxJobsPerPlayer",
+				new Object[] {
+				3},
+				new Object[] {
+				"",
+				"Um die Mathematischen Formel von JobsReborn korrekt zu berechnen ist hier die maximale Anzahl von Jobs angegeben,",
+				"welche die Spieler früher in JobsReborn zu Verfügung hatten.",
+				"",
+				"In order to correctly calculate the JobsReborn mathematical formula, the maximum number of jobs is given here",
+				"which the players used to have available in JobsReborn."});
+		addConfig("Do.NewPlayer.ShowSyncMessage",
+				new Object[] {
+				true},
+				new Object[] {
+				"",
+				"Wenn'true', dann werden neuen Spieler immer automatisch Synchronisationsnachrichten angezeigt beim Joinen.",
+				"Spieler können dass, nach Standarteinstellungen aber selbstständig ein- und ausschalten.",
+				"",
+				"If 'true', then new players are always automatically shown synchronization messages when joining.",
+				"Players can switch this on and off independently according to the default settings."});
+		addConfig("Do.NewPlayer.ShowRewardMessage",
+				new Object[] {
+				true},
+				new Object[] {
+				"",
+				"Wenn'true', dann werden neuen Spieler immer automatisch Belohnungsnachrichten angezeigt.",
+				"Spieler können dass, nach Standarteinstellungen aber selbstständig ein- und ausschalten.",
+				"",
+				"If 'true', then new players are always automatically shown reward messages.",
+				"Players can switch this on and off independently according to standard settings."});
+		addConfig("Do.NewPlayer.AutoResearchTechnology",
+				new Object[] {
 				"soil_I",
-				"oaklog"}));
-		configSpigotKeys.put("Do.Recipe.LoadThePluginRecipe"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
-		configSpigotKeys.put("Do.Recipe.HaveAllRecipeUnlocked"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				false}));
+				"oaklog"},
+				new Object[] {
+				"",
+				"Alle Technologien, welche neue Spieler automatisch freigeschaltet bekommen.",
+				"Es ist anzuraten, mindestens eine Technologie freizuschalten, da sonst über andere Wege definiert werden muss,",
+				"wie man an TTExp gelangt.",
+				"",
+				"All technologies that are automatically unlocked for new players.",
+				"It is advisable to unlock at least one technology, otherwise you will have to define other ways",
+				"How to get TTExp."});
+		addConfig("Do.Recipe.LoadThePluginRecipe",
+				new Object[] {
+				true},
+				new Object[] {
+				"",
+				"Wenn 'true', dann wird TT versuchen alle veränderten Rezepte in Minecraft reinzuladen.",
+				"Wenn 'false', dann werden nur die Vanilla Rezepte beachtet.",
+				"",
+				"If 'true', then TT will try to load all modified recipes into Minecraft.",
+				"If 'false', then only the vanilla recipes are taken into account."});
+		addConfig("Do.Recipe.HaveAllRecipeUnlocked",
+				new Object[] {
+				false},
+				new Object[] {
+				"",
+				"Wenn 'true', dann hat jeder Spieler automatisch alle Rezept von Öfen etc. freigeschaltet.",
+				"Bezieht sich NICHT auf Verzauberungen!",
+				"",
+				"If 'true', then every player has automatically unlocked all recipes for ovens etc.",
+				"Does NOT apply to enchantments!"});
 		List<EventType> eventTypeList = new ArrayList<EventType>(EnumSet.allOf(EventType.class));
 		ArrayList<String> eventTypeListII = new ArrayList<>();
 		for(EventType e : eventTypeList) {eventTypeListII.add(e.toString());}
-		configSpigotKeys.put("Do.Reward.ActiveEvents"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				eventTypeListII.toArray(new String[eventTypeListII.size()])}));
-		configSpigotKeys.put("Do.Reward.Payout.RepetitionRateForOnlinePlayersInSeconds"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				60}));
-		configSpigotKeys.put("Do.Reward.Payout.ForOfflinePlayerActive"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				false}));
-		configSpigotKeys.put("Do.Reward.Payout.RepetitionRateForOfflinePlayersInSeconds"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				60}));
-		configSpigotKeys.put("Do.Reward.Payout.TaxInPercent"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				1.0}));
-		configSpigotKeys.put("Do.Reward.Payout.IfAfk.FuranceAndBrewingStand"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				false}));
-		configSpigotKeys.put("Do.Reward.Placing.TrackPlacedBlock"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
-		configSpigotKeys.put("Do.Reward.Placing.PlacedBlockExpirationDate"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				"365d-0H-0m-0s"}));
-		configSpigotKeys.put("Do.Reward.Placing.IfBlockIsManuallyPlacedBefore_RewardItByBreaking"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				false}));
-		configSpigotKeys.put("Do.Reward.Brewing.FinishBrewIfPlayerHasNotTheRecipeUnlocked"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				false}));
-		configSpigotKeys.put("Do.Reward.Smelting.StartSmeltIfPlayerIsNotOnline"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
-		configSpigotKeys.put("Do.Reward.Smelting.FinishSmeltIfPlayerHasNotTheRecipeUnlocked"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				false}));
-		configSpigotKeys.put("Do.TechnologyPoll.ProcessPollOnMainServer"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				false}));
-		configSpigotKeys.put("Do.TechnologyPoll.DaysOfTheMonth_ToProcessThePoll"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				"GLOBAL:20-00:SUNDAY:SECOND",
-				"GLOBAL:20-00:SUNDAY:FOURTH"}));
-		configSpigotKeys.put("Group.Creation.Cost.TTExp"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				"group_totalamount*1000000+1000000"}));
-		configSpigotKeys.put("Group.Level.MaximumAchievableLevel"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				5}));
-		configSpigotKeys.put("Group.DailyUpkeep.Active"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				true}));
-		configSpigotKeys.put("Group.DailyUpkeep.Time"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				"11-00"}));
-		configSpigotKeys.put("Group.DailyUpkeep.ActiveFromLevel"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				2}));
-		configSpigotKeys.put("Group.DailyUpkeep.CounterFailedUpkeepToReduceGroupLevel"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				7}));
-		configSpigotKeys.put("Group.DailyUpkeep.Fromula"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				"group_level*group_researched_totaltech + group_memberamount*pi^2"}));
-		configSpigotKeys.put("Group.DailyUpkeep.Default.MASTER"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				100}));
-		configSpigotKeys.put("Group.DailyUpkeep.Default.VICE"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				80}));
-		configSpigotKeys.put("Group.DailyUpkeep.Default.COUNCILMEMBER"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				60}));
-		configSpigotKeys.put("Group.DailyUpkeep.Default.MEMBER"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				40}));
-		configSpigotKeys.put("Group.DailyUpkeep.Default.ADEPT"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				20}));
-		configSpigotKeys.put("Group.Level.CostsForIncreasingLevel"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				"group_level*group_memberamount*group_membertotalamount + group_researched_totaltech*pi^2"}));
-		configSpigotKeys.put("Group.Member.TotalAmountPerLevel.Player"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				"(2+group_level+group_level)^2"}));
-		configSpigotKeys.put("Group.Member.TotalAmountPerLevel.MASTER"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+		addConfig("Do.Reward.ActiveEvents", 
+				new Object[] {
+				eventTypeListII.toArray(new String[eventTypeListII.size()])},
+				new Object[] {
+				"",
+				"Die Liste aller aktiven Events. Wenn ein Event herausgenommen wird, wird alles was in diesem Event passiert nicht vergütet.",
+				"Liste aller Event => https://github.com/Avankziar/TechnologyTree/blob/main/src/main/java/me/avankziar/tt/spigot/objects/EventType.java",
+				"",
+				"The list of all active events. If an event is removed, everything that happens in this event will not be remunerated.",
+				"List of all events => https://github.com/Avankziar/TechnologyTree/blob/main/src/main/java/me/avankziar/tt/spigot/objects/EventType.java"});
+		addConfig("Do.Reward.Payout.RepetitionRateForOnlinePlayersInSeconds",
+				new Object[] {
+				60},
+				new Object[] {
+				"",
+				"Die Anzahl an Sekunden, wann der Task zu Auszahlung der Belohnungen sich wiederholt.",
+				"",
+				"The number of seconds when the task to pay out the rewards is repeated."});
+		addConfig("Do.Reward.Payout.ForOfflinePlayerActive",
+				new Object[] {
+				false},
+				new Object[] {
+				"",
+				"Wenn 'true' so werden auch OfflineSpieler für Tätigkeiten weiterhin belohnt. Bspw. mit dem Brennen von Öfen etc.",
+				"Mit OfflineSpieler sind auch jene Spieler gemeint, welche auch gerade auf einem anderen Server im Netzwerk spielen.",
+				"Jedoch werden ausstehende Belohnungen beim Quit oder Serverwechsel direkt ausgezahlt.",
+				"Somit nur Aktivitäten gemeint, die sich nach dem Verlassen des Servers sich zutragen.",
+				"",
+				"If 'true', offline players will also continue to be rewarded for activities. For example, by burning ovens, etc.",
+				"Offline players are also those players who are currently playing on another server in the network.",
+				"However, outstanding rewards are paid out directly when quitting or switching servers.",
+				"This only refers to activities that take place after leaving the server."});
+		addConfig("Do.Reward.Payout.RepetitionRateForOfflinePlayersInSeconds",
+				new Object[] {
+				60},
+				new Object[] {
+				"",
+				"Die Anzahl an Sekunden, wann der Task zu Auszahlung der Belohnungen sich wiederholt. Für OfflineSpieler.",
+				"",
+				"The number of seconds when the task to pay out the rewards is repeated. For OfflinePlayer."});
+		addConfig("Do.Reward.Payout.TaxInPercent",
+				new Object[] {
+				1.0},
+				new Object[] {
+				"",
+				"Der Prozentbetrag des erwirtschafteten Geldes, welcher auf das Steuerkonto des Spielers überwiesen wird, falls vorhanden.",
+				"Falls nicht vorhanden, geht der Steuerbetrag ins Nichts.",
+				"",
+				"The percentage of the money earned that is transferred to the player's tax account, if any.",
+				"If not available, the tax amount goes to nothing."});
+		addConfig("Do.Reward.Payout.IfAfk.FuranceAndBrewingStand",
+				new Object[] {
+				false},
+				new Object[] {
+				"",
+				"Wenn 'true' werden bei Öfen und Brauständen keine Belohnungen ausgegeben, wenn der Spieler afk ist.",
+				"Funktion ist nur mit einer Anbindung von 'IFH PlayerTimes' möglich. Bspw. wäre AfkRecord so ein Plugin, was dies könnte.",
+				"",
+				"If 'true', no rewards are issued for stoves and brewing levels if the player is offline.",
+				"Function is only possible with a connection to 'IFH PlayerTimes'. For example, AfkRecord would be a plugin that could do this."});
+		addConfig("Do.Reward.Payout.EntitySpawnedFromSpawner",
+				new Object[] {
+				false},
+				new Object[] {
+				"",
+				"Ob Belohnungen ausgezahlt werden sollen, wenn Entitys von Spawner gespawnt worden sind.",
+				"",
+				"Whether rewards should be paid out when Entities have been spawned by spawners."});
+		addConfig("Do.Reward.Placing.TrackPlacedBlock",
+				new Object[] {
+				true},
+				new Object[] {
+				"",
+				"Wenn 'true', dann werden vom Spieler gesetzte Blöcke als solche auch getrackt.",
+				"Den Status eines getrackten Blocks wird der Block unter 3 Umstanden verlieren:",
+				"1. Wenn er abgebaut wird.",
+				"2. Wenn die unten beschriebene Zeit um ist.",
+				"3. Wenn der Block sich in ein anderes Material wandelt. Bspw. Zementpulver kommt mit Wasser in Berührung.",
+				"",
+				"If 'true', then blocks set by the player are tracked as such.",
+				"The block will lose the status of a tracked block under 3 circumstances:",
+				"1. if it is dismantled.",
+				"2. when the time described below has elapsed",
+				"3. when the block changes into another material. For example, cement powder comes into contact with water."});
+		addConfig("Do.Reward.Placing.PlacedBlockExpirationDate",
+				new Object[] {
+				"365d-0H-0m-0s"},
+				new Object[] {
+				"",
+				"Beschreibt, ab wann getrackte Blöcke diesen Status wieder verlieren.",
+				"",
+				"Describes when tracked blocks lose this status again."});
+		addConfig("Do.Reward.Placing.IfBlockIsManuallyPlacedBefore_RewardItByBreaking",
+				new Object[] {
+				false},
+				new Object[] {
+				"",
+				"Wenn 'true' und der abgebaute Block war ein getrackter gesetzter Block, dann wird der Spieler auch vergütet.",
+				"Wenn 'false' werden keine getrackten Blocke beim Abbau vergütet.",
+				"",
+				"If 'true' and the mined block was a tracked set block, then the player is also rewarded.",
+				"If 'false', no tracked blocks are rewarded when breaking."});
+		addConfig("Do.Reward.Brewing.FinishBrewIfPlayerHasNotTheRecipeUnlocked",
+				new Object[] {
+				false},
+				new Object[] {
+				"",
+				"Wenn 'true', dann werden Braurezepte trotzdem zuende gebraut, auch wenn der Spieler laut Technologien, dies noch nicht kann.",
+				"",
+				"If 'true', brewing recipes will still be brewed to completion, even if the player is not yet able to do so according to the technologies."});
+		addConfig("Do.Reward.Smelting.FinishSmeltIfPlayerHasNotTheRecipeUnlocked",
+				new Object[] {
+				false},
+				new Object[] {
+				"",
+				"Wenn 'true', dann werden Kochrezepte (Öfen/Schmelzöfen/Räucheröfen/Lagerfeuer) trotzdem zuende gebrannt, auch wenn der Spieler laut Technologien, dies noch nicht kann.",
+				"",
+				"If 'true', then cooking recipes (ovens/smelting furnaces/smoking stoves/storage fires) will still be completed, even if the player is not yet able to do so according to the technologies."});
+		addConfig("Do.TechnologyPoll.ProcessPollOnMainServer",
+				new Object[] {
+				false},
+				new Object[] {
+				"",
+				"Wenn 'true', dann werden die GlobalTechnologieumfrage im Hintergrund auch ausgewertet.",
+				"ACHTUNG! Dies soll nur auf einem der Server im Netzwerk durchgeführt werden!",
+				"",
+				"If 'true', then the global technology survey is also evaluated in the background.",
+				"ATTENTION! This should only be carried out on one of the servers in the network!"});
+		addConfig("Do.TechnologyPoll.DaysOfTheMonth_ToProcessThePoll",
+				new Object[] {
+				"20-00:SUNDAY:SECOND",
+				"20-00:SUNDAY:FOURTH",
+				"20-00:8"},
+				new Object[] {
+				"",
+				"Beschreibt wann die Globaltechnologieumfrage ausgewertet werden soll. Im Grunde gibt es 2 mögliche Formate:",
+				"1. '20-00:SUNDAY:FIRST' beschreibt, dass es um 20:00 am ersten Sonntag des Monats ausgeführt werden soll.",
+				"Dabei ist 'SUNDAY' mit jedem Wochentag ersetztbar sowie 'FIRST' kann 'SECOND', 'THIRD', 'FOURTH' und 'FIFTH',",
+				"da man im Monat ja nicht 28 Tage (oder 4 Wochen) sondern 30,4 Tage (oder 4,34 Wochen) im Durchschnitt hat.",
+				"2. '20-00:1' beschreibt, dass es um 20:00 am ersten Tag im Monat ausgeführt werden soll.",
+				"",
+				"Describes when the global technology survey should be evaluated. There are basically 2 possible formats:",
+				"1. '20-00:SUNDAY:FIRST' describes that it should be executed at 20:00 on the first Sunday of the month.",
+				"SUNDAY' can be replaced with any day of the week and 'FIRST' can be replaced with 'SECOND', 'THIRD', 'FOURTH' and 'FIFTH',",
+				"as the average month does not have 28 days (or 4 weeks) but 30.4 days (or 4.34 weeks).",
+				"2. '20-00:1' describes that it should be executed at 20:00 on the first day of the month."});
+		addConfig("Group.Creation.Cost.TTExp",
+				new Object[] {
+				"group_totalamount*1000000+1000000"},
+				new Object[] {
+				"",
+				"Mathematische Formel, welche die Kosten zur Erstellung von Technologiegruppen regelt.",
+				"Für die nativen Operation/Funktione/Konstanten siehe https://github.com/Avankziar/InterfaceHub/wiki/GER-MathFormulaParser",
+				"Erlaubt sind nicht native Replacer:",
+				"'group_totalamount' für die Anzahl aller schon existierenden Gruppen.",
+				"'solo_researched_totaltech' für die Anzahl aller des Spielers erforschten SoloTechs",
+				"'global_researched_totaltech' für die Anzahl aller von der Community erforschten GlobalTechs",
+				"",
+				"Mathematical formula governing the cost of creating technology groups.",
+				"For the native operation/function/constants, see https://github.com/Avankziar/InterfaceHub/wiki/GER-MathFormulaParser",
+				"Allowed are non-native replacers:",
+				"'group_totalamount' for the number of all existing groups.",
+				"'solo_researched_totaltech' for the number of all SoloTechs researched by the player",
+				"'global_researched_totaltech' for the number of all GlobalTechs researched by the community"});
+		addConfig("Group.Level.MaximumAchievableLevel",
+				new Object[] {
+				10},
+				new Object[] {
+				"",
+				"Das maximale Level, welche Gruppen für ihr Gruppenlevel erreichen können.",
+				"",
+				"The maximum level that groups can reach for their group level."});
+		addConfig("Group.DailyUpkeep.Active",
+				new Object[] {
+				true},
+				new Object[] {
+				"",
+				"Wenn 'true', dann wird von den Gruppen ein Wissensunterhalt durch TTExp pro Tag bezahlt.",
+				"",
+				"If 'true', then the groups are paid a knowledge maintenance fee by TTExp per day."});
+		addConfig("Group.DailyUpkeep.Time",
+				new Object[] {
+				"11-00"},
+				new Object[] {
+				"",
+				"Die Zeit, im 24h Format, wann die Gruppen den Wissensunterhalt bezahlen müssen.",
+				"",
+				"The time, in 24h format, when the groups have to pay for the knowledge maintenance."});
+		addConfig("Group.DailyUpkeep.ActiveFromLevel",
+				new Object[] {
+				2},
+				new Object[] {
+				"",
+				"Das Gruppenlevel ab wann die Gruppen den Wissensunterhalt zahlen müssen.",
+				"",
+				"The group level from which the groups must pay the knowledge maintenance."});
+		addConfig("Group.DailyUpkeep.CounterFailedUpkeepToReduceGroupLevel",
+				new Object[] {
+				7},
+				new Object[] {
+				"",
+				"Pro nicht gezahltem Wissensunterhalt wird ein Zähler nach oben gesetzt.",
+				"Wird die Anzahl an hier angegeben Tagen erreicht, so wird das Gruppenlevel um 1 verringert und der Zähler wieder auf 0 gesetzt.",
+				"",
+				"A counter is incremented for each unpaid knowledge maintenance.",
+				"If the number of days specified here is reached, the group level is reduced by 1 and the counter is reset to 0."});
+		addConfig("Group.DailyUpkeep.Fromula",
+				new Object[] {
+				"group_level*group_researched_totaltech + group_memberamount*pi^2"},
+				new Object[] {
+				"Mathematische Formel, welche den Wissensunterhalt regelt.",
+				"Für die nativen Operation/Funktione/Konstanten siehe https://github.com/Avankziar/InterfaceHub/wiki/GER-MathFormulaParser",
+				"Erlaubt sind nicht native Replacer:",
+				"'group_level' Das Gruppenlevel der Gruppe.",
+				"'group_memberamount' Die momentane Anzahl an Gruppenmitglieder.",
+				"'group_membertotalamount' Die maximal mögliche Anzahl an Gruppenmitglieder.",
+				"'group_researched_totaltech' Die Anzahl an erforschten GruppenTechnologien der Gruppe.",
+				"",
+				"Mathematical formula that governs knowledge maintenance.",
+				"For the native operation/function/constants, see https://github.com/Avankziar/InterfaceHub/wiki/GER-MathFormulaParser",
+				"Allowed are non-native replacers:",
+				"'group_level' The group level of the group.",
+				"'group_memberamount' The current number of group members.",
+				"'group_membertotalamount' The maximum possible number of group members.",
+				"'group_researched_totaltech' The number of researched group technologies in the group."});
+		addConfig("Group.DailyUpkeep.Default.MASTER",
+				new Object[] {
+				100},
+				new Object[] {
+				"",
+				"Der Standart Wissensunterhalt für eine Meisterposition.",
+				"Werte werden bei einer Gruppenerstellung übernommen. Nachhaltige Änderungen in der Gruppe möglich.",
+				"",
+				"The standard knowledge maintenance for a master position.",
+				"Values are adopted when a group is created. Sustainable changes in the group possible."});
+		addConfig("Group.DailyUpkeep.Default.VICE",
+				new Object[] {
+				80},
+				new Object[] {
+				"",
+				"Der Standart Wissensunterhalt für eine Vizeposition.",
+				"Werte werden bei einer Gruppenerstellung übernommen. Nachhaltige Änderungen in der Gruppe möglich.",
+				"",
+				"The standard knowledge maintenance for a vice position.",
+				"Values are adopted when a group is created. Sustainable changes in the group possible."});
+		addConfig("Group.DailyUpkeep.Default.COUNCILMEMBER",
+				new Object[] {
+				60},
+				new Object[] {
+				"",
+				"Der Standart Wissensunterhalt für eine Ratsmitgliedposition.",
+				"Werte werden bei einer Gruppenerstellung übernommen. Nachhaltige Änderungen in der Gruppe möglich.",
+				"",
+				"The standard knowledge maintenance for a council member position.",
+				"Values are adopted when a group is created. Permanent changes in the group possible."});
+		addConfig("Group.DailyUpkeep.Default.MEMBER",
+				new Object[] {
+				40},
+				new Object[] {
+				"",
+				"Der Standart Wissensunterhalt für eine Mitgliedsposition.",
+				"Werte werden bei einer Gruppenerstellung übernommen. Nachhaltige Änderungen in der Gruppe möglich.",
+				"",
+				"The standard knowledge maintenance for a member position.",
+				"Values are adopted when a group is created. Sustainable changes in the group possible."});
+		addConfig("Group.DailyUpkeep.Default.ADEPT",
+				new Object[] {
+				20},
+				new Object[] {
+				"",
+				"Der Standart Wissensunterhalt für eine Adeptenposition.",
+				"Werte werden bei einer Gruppenerstellung übernommen. Nachhaltige Änderungen in der Gruppe möglich.",
+				"",
+				"The standard knowledge maintenance for an adept position.",
+				"Values are adopted when a group is created. Permanent changes in the group possible."});
+		addConfig("Group.Level.CostsForIncreasingLevel",
+				new Object[] {
+				"group_level*group_memberamount*group_membertotalamount + group_researched_totaltech*pi^2"},
+				new Object[] {
+				"",
+				"Mathematische Formel, welche den die Kosten für die Gruppenlevelerhöhung regelt.",
+				"Für die nativen Operation/Funktione/Konstanten siehe https://github.com/Avankziar/InterfaceHub/wiki/GER-MathFormulaParser",
+				"Erlaubt sind nicht native Replacer:",
+				"'group_level' Das Gruppenlevel der Gruppe.",
+				"'group_memberamount' Die momentane Anzahl an Gruppenmitglieder.",
+				"'group_membertotalamount' Die maximal mögliche Anzahl an Gruppenmitglieder.",
+				"'group_researched_totaltech' Die Anzahl an erforschten GruppenTechnologien der Gruppe.",
+				"",
+				"Mathematical formula governing the cost of the group level increase.",
+				"For the native operation/function/constants, see https://github.com/Avankziar/InterfaceHub/wiki/GER-MathFormulaParser",
+				"Allowed are non-native replacers:",
+				"'group_level' The group level of the group.",
+				"'group_memberamount' The current number of group members.",
+				"'group_membertotalamount' The maximum possible number of group members.",
+				"'group_researched_totaltech' The number of researched group technologies in the group."});
+		addConfig("Group.Member.TotalAmountPerLevel.Player",
+				new Object[] {
+				"1+(group_level)^3"},
+				new Object[] {
+				"",
+				"Mathematische Formel, welche die maximale Mitgliederanzahl regelt.",
+				"Für die nativen Operation/Funktione/Konstanten siehe https://github.com/Avankziar/InterfaceHub/wiki/GER-MathFormulaParser",
+				"Erlaubt sind nicht native Replacer:",
+				"'group_level' Das Gruppenlevel der Gruppe.",
+				"'group_memberamount' Die momentane Anzahl an Gruppenmitglieder.",
+				"'group_researched_totaltech' Die Anzahl an erforschten GruppenTechnologien der Gruppe.",
+				"",
+				"Mathematical formula governing the maximum number of members.",
+				"For the native operation/function/constants, see https://github.com/Avankziar/InterfaceHub/wiki/GER-MathFormulaParser",
+				"Non-native replacers are permitted:",
+				"'group_level' The group level of the group.",
+				"'group_memberamount' The current number of group members.",
+				"'group_researched_totaltech' The number of researched group technologies of the group."});
+		configSpigotKeys.put("Group.Member.TotalAmountPerLevel.MASTER", new Language(new ISO639_2B[] {ISO639_2B.GER},
+				new Object[] {
 				"group_level"}));
-		configSpigotKeys.put("Group.Member.TotalAmountPerLevel.VICE"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+		addConfigComments("#Group.Member.TotalAmountPerLevel",
+				new Object[] {
+				"",
+				"Mathematische Formeln, welche die maximale Anzahl für die jeweiligen Positionen regelt.",
+				"Für die nativen Operation/Funktione/Konstanten siehe https://github.com/Avankziar/InterfaceHub/wiki/GER-MathFormulaParser",
+				"Erlaubt sind nicht native Replacer:",
+				"'group_level' Das Gruppenlevel der Gruppe.",
+				"'group_memberamount' Die momentane Anzahl an Gruppenmitglieder.",
+				"'group_researched_totaltech' Die Anzahl an erforschten GruppenTechnologien der Gruppe.",
+				"",
+				"Mathematical formulas that regulate the maximum number for the respective positions.",
+				"For the native operation/function/constants, see https://github.com/Avankziar/InterfaceHub/wiki/GER-MathFormulaParser",
+				"Non-native replacers are permitted:",
+				"'group_level' The group level of the group.",
+				"'group_memberamount' The current number of group members.",
+				"'group_researched_totaltech' The number of researched group technologies of the group."});
+		configSpigotKeys.put("Group.Member.TotalAmountPerLevel.VICE", new Language(new ISO639_2B[] {ISO639_2B.GER},
+				new Object[] {
 				"(1+group_level)*1.25"}));
-		configSpigotKeys.put("Group.Member.TotalAmountPerLevel.COUNCILMEMBER"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+		configSpigotKeys.put("Group.Member.TotalAmountPerLevel.COUNCILMEMBER", new Language(new ISO639_2B[] {ISO639_2B.GER},
+				new Object[] {
 				"(1+group_level)*1.5"}));
-		configSpigotKeys.put("Group.Member.TotalAmountPerLevel.MEMBER"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+		configSpigotKeys.put("Group.Member.TotalAmountPerLevel.MEMBER", new Language(new ISO639_2B[] {ISO639_2B.GER},
+				new Object[] {
 				"(2+group_level)*2"}));
-		configSpigotKeys.put("Group.Member.TotalAmountPerLevel.ADEPT"
-				, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-				"(2+group_level)*3"}));
 	}
 	
 	@SuppressWarnings("unused") //INFO:Commands
@@ -949,7 +1514,7 @@ public class YamlManager
 	public void initCommandsLang() //INFO:CommandsLang
 	{
 		String path = "Commands.";
-		languageKeys.put(path+"Cmd.OtherCmd", 
+		languageKeys.put(path+"OtherCmd", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cBitte nutze den Befehl mit einem weiteren Argument aus der Tabliste!",
 						"&cPlease use the command with another argument from the tab list!"}));
@@ -1105,6 +1670,10 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&eDem Spieler %player% wurden %value% TTExp hinzugefügt. Er besitzt nun %value2% TTExp.",
 						"&eAdded %value% TTExp to the player %player%. He now has %value2% TTExp."}));
+		languageKeys.put(path+"Exp.Set", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDem Spieler %player% wurden die TTExp auf %value% TTExp gesetzt.",
+						"&eThe TTExp of the player %player% was set to %value% TTExp."}));
 		languageKeys.put(path+"Group.Position.MASTER", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"Meister",
@@ -1237,6 +1806,10 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&aDu hast die Gruppe %name% erstellt! Dir wurden %cost% TTExp abgezogen!",
 						"&aYou have created the group %name%! You have been deducted %cost% TTExp!"}));
+		languageKeys.put(path+"Group.Invite.Invite.PlayerJoin",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDu wurdest von %value% Technologiegruppen eingeladen! Klicke hier zum anschauen der Liste!",
+						"&eYou have been invited by %value% technology groups! Click here to view the list!"}));
 		languageKeys.put(path+"Group.Invite.List.NoInvites", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cDu bist in keine Gruppe eingeladen worden!",
@@ -1259,8 +1832,8 @@ public class YamlManager
 						"&aAccept"}));
 		languageKeys.put(path+"Group.Invite.List.Seperator",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&f|",
-						"&f|"}));
+						" &f| ",
+						" &f| "}));
 		languageKeys.put(path+"Group.Invite.List.Deny",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cAblehnen",
@@ -1307,11 +1880,11 @@ public class YamlManager
 						"&cThe application of the player %player% for the group %group% has been rejected!"}));
 		languageKeys.put(path+"Group.SetPrivileges.YourGroupRankIsLowerThanTheOther", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&cDein Gruppenrang %prank% müsst höhergestellt sein als den Rang des Mitgliedes (%rank%), wo du ein Privileg ändern möchtest.",
-						"&cYour group rank %prank% must be higher than the rank of the member (%rank%) where you want to change a privilege."}));
+						"&cDein Gruppenrang &f%prank% &cmüsst höhergestellt sein als den Rang des Mitgliedes (&f%rank%&c), wo du ein Privileg ändern möchtest.",
+						"&cYour group rank &f%prank% &cmust be higher than the rank of the member (&f%rank%&c) where you want to change a privilege."}));
 		languageKeys.put(path+"Group.SetPrivileges.YourGroupRankDontMatchTheNeededRank", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&cDu benötigst mindesten %rank% (Du bist %prank%) um diese Privileg einstellen zu können.",
+						"&cDu benötigst mindestens %rank% (Du bist %prank%) um diese Privileg einstellen zu können.",
 						"&cYou need at least %rank% (you are %prank%) to be able to set this privilege."}));
 		languageKeys.put(path+"Group.SetPrivileges.YouDontHaveThePrivilegeYourself", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
@@ -1321,6 +1894,10 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cDas Privileg extistiert nicht!",
 						"&cThe privilege does not exist!"}));
+		languageKeys.put(path+"Group.SetPrivileges.YouAreGrandmaster", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu als Großmeister kannst deine eigenen Privilegien nicht negieren!",
+						"&cAs a grandmaster, you cannot negate your own privileges!"}));
 		languageKeys.put(path+"Group.SetPrivileges.Apply.CAN_SETINDIVIDUAL_DAILY_UPKEEP", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&eDer Spieler %player% hat das Privileg bekommen, den Individuellen Unterhalt anderes Spieler einzustellen.",
@@ -1371,7 +1948,7 @@ public class YamlManager
 						"&eThe player %player% has lost the privilege to set the standard upkeep per group rank."}));
 		languageKeys.put(path+"Group.SetPrivileges.Remove.CAN_PROMOTE", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&eDer Spieler %player% hat das Privileg verloren, andere Mitglieder der Gruppe bis zu dem eigenen Rang zu befördern.",
+						"&eDer Spieler %player% hat das Privileg verloren, andere Gruppenmitglieder bis zu seinem eigenen Rang zu befördern.",
 						"&eThe player %player% has lost the privilege to promote other members of the group up to their own rank."}));
 		languageKeys.put(path+"Group.SetPrivileges.Remove.CAN_DEMOTE", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
@@ -1507,8 +2084,8 @@ public class YamlManager
 						"&#ff8c00%group%-Lv.%lvl%-(%members%/%totalmembers%)&7"}));
 		languageKeys.put(path+"Group.List.GroupsHover",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&#ff8c00Großmeister: &b%grandmaster%~!~&eBeschreibung: &b%desc%",
-						"&#ff8c00Grandmaster: &b%grandmaster%~!~&eDescription: &b%desc%"}));
+						"&cGroßmeister: &b%grandmaster%~!~&eBeschreibung:~!~&f%desc%",
+						"&cGrandmaster: &b%grandmaster%~!~&eDescription~!~&f%desc%"}));
 		languageKeys.put(path+"Group.PlayerInfo.Headline",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&7====&#ff8c00TT Spielerinfo %player%&7=====",
@@ -1639,68 +2216,68 @@ public class YamlManager
 						"&#ff8c00Members:"}));
 		languageKeys.put(path+"Group.Info.Members.Members",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&#ff8c00%member%",
-						"&#ff8c00%member%"}));
+						"&e%member%",
+						"&e%member%"}));
 		languageKeys.put(path+"Group.Info.Members.Comma",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&f, ",
 						"&f, "}));
 		languageKeys.put(path+"Group.Info.Members.Hover0",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&#ff8c00Rang: &f%rank%",
-						"&#ff8c00Rang: &f%rank%"}));
+						"&eRang: &f%rank%",
+						"&eRang: &f%rank%"}));
 		languageKeys.put(path+"Group.Info.Members.HoverI",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&#ff8c00Individueller Unterhalt: &f%value%",
-						"&#ff8c00Induvidual Upkeep: &f%value%"}));
+						"&eIndividueller Unterhalt: &f%value%",
+						"&eInduvidual Upkeep: &f%value%"}));
 		languageKeys.put(path+"Group.Info.Members.HoverII",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&#ff8c00Kann Individuellen Unterhalt setzten: &f%value%",
-						"&#ff8c00Can set individual upkeep: &f%value%"}));
+						"&eKann Individuellen Unterhalt setzten: &f%value%",
+						"&eCan set individual upkeep: &f%value%"}));
 		languageKeys.put(path+"Group.Info.Members.HoverIII",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&#ff8c00Kann Mitglieder entlassen: &f%value%",
-						"&#ff8c00Can kick members: &f%value%"}));
+						"&eKann Mitglieder entlassen: &f%value%",
+						"&eCan kick members: &f%value%"}));
 		languageKeys.put(path+"Group.Info.Members.HoverIV",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&#ff8c00Kann Standart Unterhalt setzten: &f%value%",
-						"&#ff8c00Can set defaul upkeep: &f%value%"}));
+						"&eKann Standart Unterhalt setzten: &f%value%",
+						"&eCan set defaul upkeep: &f%value%"}));
 		languageKeys.put(path+"Group.Info.Members.HoverV",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&#ff8c00Kann Mitglieder befördern: &f%value%",
-						"&#ff8c00Can promote members: &f%value%"}));
+						"&eKann Mitglieder befördern: &f%value%",
+						"&eCan promote members: &f%value%"}));
 		languageKeys.put(path+"Group.Info.Members.HoverVI",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&#ff8c00Kann Mitglieder degradieren: &f%value%",
-						"&#ff8c00Can demote members: &f%value%"}));
+						"&eKann Mitglieder degradieren: &f%value%",
+						"&eCan demote members: &f%value%"}));
 		languageKeys.put(path+"Group.Info.Members.HoverVII",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&#ff8c00Kann Gruppenlevel erhöhen: &f%value%",
-						"&#ff8c00Can increase grouplevel: &f%value%"}));
+						"&eKann Gruppenlevel erhöhen: &f%value%",
+						"&eCan increase grouplevel: &f%value%"}));
 		languageKeys.put(path+"Group.Info.Members.HoverVIII",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&#ff8c00Kann Gruppentechnologien erforschen: &f%value%",
-						"&#ff8c00Can research grouptechnologies: &f%value%"}));
+						"&eKann Gruppentechnologien erforschen: &f%value%",
+						"&eCan research grouptechnologies: &f%value%"}));
 		languageKeys.put(path+"Group.Info.Members.HoverIX",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&#ff8c00Kann Spieler in die Gruppe einladen: &f%value%",
-						"&#ff8c00Can invite player to the group: &f%value%"}));
+						"&eKann Spieler in die Gruppe einladen: &f%value%",
+						"&eCan invite player to the group: &f%value%"}));
 		languageKeys.put(path+"Group.Info.Members.HoverX",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&#ff8c00Kann Bewerber annehmen: &f%value%",
-						"&#ff8c00Can accept applications: &f%value%"}));
+						"&eKann Bewerber annehmen: &f%value%",
+						"&eCan accept applications: &f%value%"}));
 		languageKeys.put(path+"Group.Info.Invitee.ToJugde",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&#ff8c00Anzahl ausstehender Einladungen: &f%value%",
 						"&#ff8c00Number of pending invitations: &f%value%"}));
 		languageKeys.put(path+"Group.Info.Invitee.Invitees",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&#ff8c00Eingeladene:",
-						"&#ff8c00Invitees:"}));
+						"&aEingeladene:",
+						"&aInvitees:"}));
 		languageKeys.put(path+"Group.Info.Invitee.Members",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&#ff8c00%member%",
-						"&#ff8c00%member%"}));
+						"&f%member%",
+						"&f%member%"}));
 		languageKeys.put(path+"Group.Info.Invitee.Comma",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&f, ",
@@ -1711,8 +2288,8 @@ public class YamlManager
 						"&#ff8c00Number of pending applications: &f%value%"}));
 		languageKeys.put(path+"Group.Info.Applicant.Applicants",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&#ff8c00Bewerber:",
-						"&#ff8c00Applicants:"}));
+						"&cBewerber:",
+						"&cApplicants:"}));
 		languageKeys.put(path+"Group.Info.Applicant.Members",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&#ff8c00%member%&f-",
@@ -1754,6 +2331,10 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cEs sind keine Stimmen für die Technologiewahl eingegangen. Die derzeitige Technologiewahl ist somit ungültig.",
 						"&cNo votes have been received for the technology election. The current technology election is therefore invalid."}));
+		languageKeys.put(path+"PollEvaluation.Vote", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDie Technologiewahlauswertung hat ergeben, dass es %pcp% Teilnehmer gab. Die Auswahl viel auf %tech% Level %lv%.",
+						"&cNo votes have been received for the technology election. The current technology election is therefore invalid."}));
 		languageKeys.put(path+"GroupDailyUpkeep.FailedCollectdUpkeep", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&eDu hast mit der Gruppe %group%, Wissen im Wert von %exp% TTExp geteilt! &cJedoch hast du deinen Beitrag von %failedexp% TTExp nicht voll beglichen!",
@@ -1764,20 +2345,20 @@ public class YamlManager
 						"&eYou have shared knowledge worth %exp% TTExp with the group %group%!"}));
 		languageKeys.put(path+"GroupDailyUpkeep.NoUpkeep", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&eDie Gruppe %group% ist unter dem Gruppenlevel von %lvl%. Somit fällt kein Wissensunterhalt an.",
-						"&eThe group %group% is below the group level of %lvl%. This means that there is no knowledge maintenance."}));
+						"&#ff8c00Die Gruppe %group% ist unter dem Gruppenlevel von %lvl%. Somit fällt kein Wissensunterhalt an.",
+						"&#ff8c00The group %group% is below the group level of %lvl%. This means that there is no knowledge maintenance."}));
 		languageKeys.put(path+"GroupDailyUpkeep.AddedCollectedUpkeep", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&eDie Mitglieder der Gruppe %group% haben Wissen im Wert von %exp% TTExp zusammengetragen und somit den Wissenunterhalt von %upkeep% TTExp begleichen können! Nur %failed% Mitglieder konnten ihren Beitrag in Teilen nicht nachkommen.",
-						"&eThe members of the %group% group have collected knowledge worth %exp% TTExp and were thus able to pay for the knowledge maintenance of %upkeep% TTExp! Only %failed% members could not fulfill their contribution in parts."}));
+						"&#ff8c00Die Mitglieder der Gruppe %group% haben Wissen im Wert von %exp% TTExp zusammengetragen und somit den Wissenunterhalt von %upkeep% TTExp begleichen können! Nur %failed% Mitglieder konnten ihren Beitrag in Teilen nicht nachkommen.",
+						"&#ff8c00The members of the %group% group have collected knowledge worth %exp% TTExp and were thus able to pay for the knowledge maintenance of %upkeep% TTExp! Only %failed% members could not fulfill their contribution in parts."}));
 		languageKeys.put(path+"GroupDailyUpkeep.AddedCollectedUpkeepButHaveEnoughAlready", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&eDie Mitglieder der Gruppe %group% haben Wissen im Wert von %exp% TTExp zusammengetragen. Jedoch konnte der Defizit mit dem Wissenunterhalt von %upkeep% TTExp mit dem schon angehäuftem Wissen beglichen werden! Nur %failed% Mitglieder konnten ihren Beitrag in Teilen nicht nachkommen.",
-						"&eThe members of the %group% group have accumulated knowledge worth %exp% TTExp. However, the deficit could be made up with the knowledge maintenance of %upkeep% TTExp with the knowledge already accumulated! Only %failed% members could not fulfill their contribution in parts."}));
+						"&#ff8c00Die Mitglieder der Gruppe %group% haben Wissen im Wert von %exp% TTExp zusammengetragen. Jedoch konnte der Defizit mit dem Wissenunterhalt von %upkeep% TTExp mit dem schon angehäuftem Wissen beglichen werden! Nur %failed% Mitglieder konnten ihren Beitrag in Teilen nicht nachkommen.",
+						"&#ff8c00The members of the %group% group have accumulated knowledge worth %exp% TTExp. However, the deficit could be made up with the knowledge maintenance of %upkeep% TTExp with the knowledge already accumulated! Only %failed% members could not fulfill their contribution in parts."}));
 		languageKeys.put(path+"GroupDailyUpkeep.AddedCollectedUpkeepButHaveNotEnoughAlready", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&eDie Mitglieder der Gruppe %group% haben Wissen im Wert von %exp% TTExp zusammengetragen. Es konnte jedoch der Wissenunterhalt von %upkeep% TTExp nicht mit dem schon angehäuftem Wissen beglichen werden! Nur %failed% Mitglieder konnten ihren Beitrag in Teilen nicht nachkommen.",
-						"&eThe members of the %group% group have accumulated knowledge worth %exp% TTExp. However, the knowledge maintenance of %upkeep% TTExp could not be paid for with the knowledge already accumulated! Only %failed% members could not fulfill their contribution in parts."}));
+						"&#ff8c00Die Mitglieder der Gruppe %group% haben Wissen im Wert von %exp% TTExp zusammengetragen. Es konnte jedoch der Wissenunterhalt von %upkeep% TTExp nicht mit dem schon angehäuftem Wissen beglichen werden! Nur %failed% Mitglieder konnten ihren Beitrag in Teilen nicht nachkommen.",
+						"&#ff8c00The members of the %group% group have accumulated knowledge worth %exp% TTExp. However, the knowledge maintenance of %upkeep% TTExp could not be paid for with the knowledge already accumulated! Only %failed% members could not fulfill their contribution in parts."}));
 		languageKeys.put(path+"GroupDailyUpkeep.FailedCounterMinusOne", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&aDie Gruppe %group% hat den täglichen Wissenunterhalt begleichen können. Somit wird der Zähler für nicht gezahltem Unterhalt wird ums eins verringert auf %failed%.",
@@ -1833,8 +2414,8 @@ public class YamlManager
 						"&bTechnology choice refund of &e%technology% &bin &7%subcategory%&f/&7%maincategory%"}));
 		languageKeys.put(path+"AddInGlobalPoll.AlreadyHaveVoted", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&eDu hast schon für die nächste Technologiewahl gevotet!",
-						"&eYou have already voted for the next technology choice!"}));
+						"&eDu hast schon für die nächste Technologiewahl (%value%) gevotet!",
+						"&eYou have already voted for the next technology choice (%value%)!"}));
 		languageKeys.put(path+"AddInGlobalPoll.Voted", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&eDu hast für die Technologie %tech% gevoted. &7Anmerkung: Die Kosten werden dir zum Teil wiedererstattet, wenn die Technologiewahl stattfindet. Die Erstattungsmenge hängt von der Anzahl der Wahlteilnehmer ab. Bei 10 Teilnehmer, zahl man nur 1/10 der Kosten.",
@@ -2050,18 +2631,26 @@ public class YamlManager
 	public void initRewardHandlerLang() //INFO:RewardHandlerLang
 	{
 		String path = "Reward.";
-		languageKeys.put(path+"TaskMsg.AllThree", 
+		languageKeys.put(path+"TaskMsg.Headline", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&7[%times%] &#c6a664Belohnung verdient: &f%money%&#c6a664, &f%ttexp% &#c6a664TTExp, &f%vaexp% &#c6a664VanillaExp",
-						"&7[%times%] &#c6a664Reward earned: &f%money%&#c6a664, &f%ttexp% &#c6a664TTExp, &f%vaexp% &#c6a664VanillaExp"}));
-		languageKeys.put(path+"TaskMsg.TTAndVaExp", 
+						"&7[%times%] &#c6a664Belohnung verdient:",
+						"&7[%times%] &#c6a664Reward earned:"}));
+		languageKeys.put(path+"TaskMsg.Comma", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&7[%times%] &#c6a664Belohnung verdient: &f%ttexp% &#c6a664TTExp, &f%vaexp% &#c6a664VanillaExp",
-						"&7[%times%] &#c6a664Reward earned: &f%ttexp% &#c6a664TTExp, &f%vaexp% &#c6a664VanillaExp"}));
+						"&#c6a664, ",
+						"&#c6a664, "}));
 		languageKeys.put(path+"TaskMsg.TTExp", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&7[%times%] &#c6a664Belohnung verdient: &f%ttexp% &#c6a664TTExp",
-						"&7[%times%] &#c6a664Reward earned: &f%ttexp% &#c6a664TTExp"}));
+						"&f%ttexp% &#c6a664TTExp",
+						"&f%ttexp% &#c6a664TTExp"}));
+		languageKeys.put(path+"TaskMsg.VaExp", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&f%vaexp% &#c6a664VanillaExp",
+						"&f%vaexp% &#c6a664VanillaExp"}));
+		languageKeys.put(path+"TaskMsg.Money", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&f%money%",
+						"&f%money%"}));
 	}
 	
 	public void initModifierValueEntryLanguage() //INFO:ModifierValueEntryLanguages
@@ -2110,104 +2699,46 @@ public class YamlManager
 						"&eHandles the number of blocks",
 						"&ethe player may register.",
 						"&e(For Furnace/Blastfurnace/Smoker/Campfire)"}));
-		List<RewardType> rewardTypeList = new ArrayList<RewardType>(EnumSet.allOf(RewardType.class));
-		List<EventType> eventTypeList = new ArrayList<EventType>(EnumSet.allOf(EventType.class));
-		List<Material> materialList = new ArrayList<Material>(EnumSet.allOf(Material.class));
-		List<EntityType> entityTypeList = new ArrayList<EntityType>(EnumSet.allOf(EntityType.class));
-		LinkedHashMap<EventType, String> eventTypeMap = new LinkedHashMap<>();
-		LinkedHashMap<RewardType, String> rewardTypeMap = new LinkedHashMap<>();
-		for(EventType e : eventTypeList)
-		{
-			String s = EnumHandler.getName(e);
-			eventTypeMap.put(e, s);
-		}
-		for(RewardType r : rewardTypeList)
-		{
-			String s = EnumHandler.getName(r);
-			rewardTypeMap.put(r, s);
-		}
-		for(Material ma : materialList)
-		{
-			String mat = EnumHandler.getName(ma);
-			for(EventType e : eventTypeList)
-			{
-				String ev = eventTypeMap.get(e);
-				for(RewardType r : rewardTypeList)
-				{
-					String rt = rewardTypeMap.get(r);
-					if(r == RewardType.ACCESS)
-					{
-						mvelanguageKeys.put(ma.toString()+"."+e.toString()+"."+r.toString()+".Displayname",
-								new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-										"&eValueEntry für das Material %ma%, des Events %e% des Belohnungstyp %r%."
-										.replace("%m%", mat).replace("%e%", ev).replace("%r%", rt),
-										"&eValueEntry for the material %ma%, of the event %e% of the reward type %r%."
-										.replace("%m%", mat).replace("%e%", ev).replace("%r%", rt)}));
-						mvelanguageKeys.put(ma.toString()+"."+e.toString()+"."+r.toString()+".Explanation",
-								new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-										"&eValueEntry für",
-										"&edas Plugin TechnologyTree.",
-										"&eValueEntry for",
-										"&ethe plugin TechnologyTree."}));
-					} else
-					{
-						mvelanguageKeys.put(ma.toString()+"."+e.toString()+"."+r.toString()+".Displayname",
-								new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-										"&eModifier für das Material %ma%, des Events %e% des Belohnungstyp %r%."
-										.replace("%m%", mat).replace("%e%", ev).replace("%r%", rt),
-										"&eModifier for the material %ma%, of the event %e% of the reward type %r%."
-										.replace("%m%", mat).replace("%e%", ev).replace("%r%", rt)}));
-						mvelanguageKeys.put(ma.toString()+"."+e.toString()+"."+r.toString()+".Explanation",
-								new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-										"&eModifier für",
-										"&edas Plugin TechnologyTree.",
-										"&eModifier for",
-										"&ethe plugin TechnologyTree."}));
-					}
-				}
-			}
-		}
-		for(EntityType et : entityTypeList)
-		{
-			String ent = EnumHandler.getName(et);
-			for(EventType e : eventTypeList)
-			{
-				String ev = eventTypeMap.get(e);
-				for(RewardType r : rewardTypeList)
-				{
-					String rt = rewardTypeMap.get(r);
-					if(r == RewardType.ACCESS)
-					{
-						mvelanguageKeys.put(et.toString()+"."+e.toString()+"."+r.toString()+".Displayname",
-								new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-										"&eValueEntry für das Entity %ma%, des Events %e% des Belohnungstyp %r%."
-										.replace("%m%", ent).replace("%e%", ev).replace("%r%", rt),
-										"&eValueEntry for the entity %ma%, of the event %e% of the reward type %r%."
-										.replace("%m%", ent).replace("%e%", ev).replace("%r%", rt)}));
-						mvelanguageKeys.put(et.toString()+"."+e.toString()+"."+r.toString()+".Explanation",
-								new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-										"&eValueEntry für",
-										"&edas Plugin TechnologyTree.",
-										"&eValueEntry for",
-										"&ethe plugin TechnologyTree."}));
-					} else
-					{
-						mvelanguageKeys.put(et.toString()+"."+e.toString()+"."+r.toString()+".Displayname",
-								new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-										"&eModifier für das Entity %ma%, des Events %e% des Belohnungstyp %r%."
-										.replace("%m%", ent).replace("%e%", ev).replace("%r%", rt),
-										"&eModifier for the entity %ma%, of the event %e% of the reward type %r%."
-										.replace("%m%", ent).replace("%e%", ev).replace("%r%", rt)}));
-						mvelanguageKeys.put(et.toString()+"."+e.toString()+"."+r.toString()+".Explanation",
-								new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-										"&eModifier für",
-										"&edas Plugin TechnologyTree.",
-										"&eModifier for",
-										"&ethe plugin TechnologyTree."}));
-					}
-				}
-			}
-		}
+		mvelanguageKeys.put("ValueEntry.Material.Displayname",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eValueEntry für das Material %ma%, des Events %et% des Belohnungstyp %r%.",
+						"&eValueEntry for the material %ma%, of the event %et% of the reward type %r%."}));
+		mvelanguageKeys.put("ValueEntry.Material.Explanation",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eValueEntry für",
+						"&edas Plugin TechnologyTree.",
+						"&eValueEntry for",
+						"&ethe plugin TechnologyTree."}));
+		mvelanguageKeys.put("Modifier.Material.Displayname",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eModifier für das Material %ma%, des Events %et% des Belohnungstyp %r%.",
+						"&eModifier for the material %ma%, of the event %et% of the reward type %r%."}));
+		mvelanguageKeys.put("Modifier.Material.Explanation",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eModifier für",
+						"&edas Plugin TechnologyTree.",
+						"&eModifier for",
+						"&ethe plugin TechnologyTree."}));
+		mvelanguageKeys.put("ValueEntry.Entity.Displayname",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eValueEntry für das Entity %e%, des Events %et% des Belohnungstyp %r%.",
+						"&eValueEntry for the entity %e%, of the event %et% of the reward type %r%."}));
+		mvelanguageKeys.put("ValueEntry.Entity.Explanation",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eValueEntry für",
+						"&edas Plugin TechnologyTree.",
+						"&eValueEntry for",
+						"&ethe plugin TechnologyTree."}));
+		mvelanguageKeys.put("Modifier.Entity.Explanation",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eModifier für das Entity %e%, des Events %et% des Belohnungstyp %r%.",
+						"&eModifier for the entity %e%, of the event %et% of the reward type %r%."}));
+		mvelanguageKeys.put("Modifier.Entity.Explanation",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eModifier für",
+						"&edas Plugin TechnologyTree.",
+						"&eModifier for",
+						"&ethe plugin TechnologyTree."}));
 	}
 	
 	public void initGuiStart() //INFO:GuiStart
@@ -2440,12 +2971,18 @@ public class YamlManager
 						"&bum zu dessen Subkategorien und schließlich",
 						"&bzu den von dir und deiner Gruppe",
 						"&bzusammen erforschbaren Technologien zu kommen.",
+						"&#ff8800Wisse, dass du nur hier Technologien erforschen kannst,",
+						"&#ff8800wenn du in einer Gruppe bist und diese dir",
+						"&#ff8800gestattet diese zu erforschen!",
 						
 						"&bLists all the main categories in a new menu,",
 						"&bwhich you can click to go to its subcategories ",
 						"&band finally to the technologies",
 						"&byou and your group can research together.",
-						""
+						"&#ff8800Know that you can only explore technologies",
+						"&#ff8800here if you are in a group that",
+						"&#ff8800allows you to explore them!",
+						"",
 						}));
 		start.put(path+".ClickFunction."+ClickType.LEFT.toString(),
 				new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
@@ -2471,11 +3008,15 @@ public class YamlManager
 						"&bum zu dessen Subkategorien und schließlich",
 						"&bzu den von allen Spielern zusammen",
 						"&berforschbaren Technologien zu kommen.",
+						"&cAchtung! Einmal gewählt, lässt sich die Technologieauswahl",
+						"&cnicht rückgängig machen bis nach der nächsten Wahlauswertung!",
 						
 						"&bLists all the main categories in a new menu,",
 						"&bwhich you can click to go to its subcategories ",
 						"&band finally to the technologies",
 						"&ball Player can research together.",
+						"&cAttention! Once selected, the technology selection",
+						"&ccannot be reversed until after the next election evaluation!",
 						""
 						}));
 		start.put(path+".ClickFunction."+ClickType.LEFT.toString(),
@@ -2703,28 +3244,28 @@ public class YamlManager
 				new String[] {"Steinmetz", "Stonemason"},
 				PlayerAssociatedType.SOLO, 3,
 				new String[] {
-						"a:hasresearchedtech,stone_I,1:==:true",
-						"b:var1=perm=here.your.first.permission:==:true",
-						"c:var1=perm=here.your.other.permission:==:true",
 						"if:(a&&b&&c):o_1",
 						"else:o_2",
 						"output:o_1:true",
-						"output:o_2:false"}, true,
+						"output:o_2:false",
+						"a:hasresearchedtech,stone_I,1:==:true",
+						"b:var1=perm=here.your.first.permission:==:true",
+						"c:var1=perm=here.your.other.permission:==:true"}, true,
 				new String[] {"&8Hauptkategorie Steinmetz","&8Maincategory Stonemason"}, Material.BARRIER, 1,
 				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
 						"",
 						"&cAnforderungen zum einsehen:",
 						"&cMuss die Technology >&#ff8c00Stein I:1&c< erforscht haben.",
-						"&cPermission >&#ff8c00here.your.first.permission&c<",
-						"&cPermission >&#ff8c00here.your.other.permission&c<",
+						"&cSowie Permission >&#ff8c00here.your.first.permission&c<",
+						"&cund Permission >&#ff8c00here.your.other.permission&c<",
 						"",
 						"&fGibt Einsicht auf verschiedenste Bereiche des",
 						"&fSteinmetzes wie Steinstufen und Treppen zum craften.",
 						"",
 						"&cRequirements to view:",
 						"&cMust have researched the Technology >&#ff8c00Stone I:1&c<.",
-						"&cPermission >&#ff8c00here.your.first.permission&c<",
-						"&cPermission >&#ff8c00here.your.other.permission&c<",
+						"&cAs well Permission >&#ff8c00here.your.first.permission&c<",
+						"&cand Permission >&#ff8c00here.your.other.permission&c<",
 						"",
 						"&fGives insight into various areas of the stonemason",
 						"&fto craft stoneslaps and stairs."},
@@ -3185,6 +3726,26 @@ public class YamlManager
 						"&fZugang zu allerlei Schmiederezepten.",
 						"",
 						"&fAccess to all kinds of smithing recipes."});
+		addSubCategory("grindstonerecipe",
+				new String[] {"Schleifsteinrezepte", "Grindstonerecipe"},
+				PlayerAssociatedType.SOLO, 5,
+				new String[] {
+						"if:(a):o_1", "else:o_2",
+						"output:o_1:true",
+						"output:o_2:false",
+						"a:true"}, true, "tablerecipe",
+				new String[] {"&8Subkategorie Schleifsteinrezepte","&8Subcategory Grindstonerecipe"}, Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
+						"",
+						"&fZugang zu allerlei Schleifsteinrezepten.",
+						"",
+						"&fAccess to all kinds of grindstone recipes."},
+				new String[] {"&5Subkategorie Schleifsteinrezepte","&5Subcategory Grindstonerecipe"}, Material.GRINDSTONE, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
+						"",
+						"&fZugang zu allerlei Schleifsteinrezepten.",
+						"",
+						"&fAccess to all kinds of gridstone recipes."});
 	}
 	
 	public void subc_Booster(String[] itemflag)
@@ -3303,7 +3864,7 @@ public class YamlManager
 	public void initTechnology() //INFO:Technology
 	{
 		String[] itemflag = new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()};
-		String[] enchantment = new String[] {Enchantment.KNOCKBACK.toString()+":1", ""};
+		String[] enchantment = new String[] {Enchantment.KNOCKBACK.getKey().getKey()+":1", ""};
 		subc_Miscellaneous(itemflag);
 		tech_Miscellaneous_Interactionblocks(itemflag, enchantment);
 		tech_Miscellaneous_Tools(itemflag, enchantment);
@@ -3327,7 +3888,8 @@ public class YamlManager
 		tech_Tablerecipe_Enchantmentrecipe(itemflag, enchantment);
 		tech_Tablerecipe_Brewingrecipe(itemflag, enchantment);
 		tech_Tablerecipe_Anvilrecipe(itemflag, enchantment);
-		tech_Tablerecipe_Forgingcerecipe(itemflag, enchantment);
+		tech_Tablerecipe_Smithingrecipe(itemflag, enchantment);
+		tech_Tablerecipe_Grindingrecipe(itemflag, enchantment);
 		
 		subc_Booster(itemflag);
 		tech_Booster_Miningbooster(itemflag, enchantment);
@@ -3337,17 +3899,12 @@ public class YamlManager
 	private void tech_Miscellaneous_Interactionblocks(String[] itemflag, String[] enchantment) //INFO:Miscellaneous_Interactionblocks
 	{
 		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
-		toResCondition.put(1, new String[] {
-				"if:(a):o_1", "else:o_2",
-				"output:o_1:true",
-				"output:o_2:false",
-				"a:hasresearchedtech,woodenplanks_I,1:==:true"});
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] {
@@ -3357,12 +3914,12 @@ public class YamlManager
 		LinkedHashMap<Integer, String[]> rewardDropChance = new LinkedHashMap<>();
 		rewardDropChance.put(1, new String[] {
 				"BREAKING:HAND:CRAFTING_TABLE:null:mat=CRAFTING_TABLE:1:1.0",
-				"BREAKING:WOODEN_PICKAXE:CRAFTING_TABLE:null:mat=CRAFTING_TABLE:1:1.0",
-				"BREAKING:STONE_PICKAXE:CRAFTING_TABLE:null:mat=CRAFTING_TABLE:1:1.0",
-				"BREAKING:IRON_PICKAXE:CRAFTING_TABLE:null:mat=CRAFTING_TABLE:1:1.0",
-				"BREAKING:GOLDEN_PICKAXE:CRAFTING_TABLE:null:mat=CRAFTING_TABLE:1:1.0",
-				"BREAKING:DIAMOND_PICKAXE:CRAFTING_TABLE:null:mat=CRAFTING_TABLE:1:1.0",
-				"BREAKING:NETHERITE_PICKAXE:CRAFTING_TABLE:null:mat=CRAFTING_TABLE:1:1.0"});
+				"BREAKING:WOODEN_AXE:CRAFTING_TABLE:null:mat=CRAFTING_TABLE:1:1.0",
+				"BREAKING:STONE_AXE:CRAFTING_TABLE:null:mat=CRAFTING_TABLE:1:1.0",
+				"BREAKING:IRON_AXE:CRAFTING_TABLE:null:mat=CRAFTING_TABLE:1:1.0",
+				"BREAKING:GOLDEN_AXE:CRAFTING_TABLE:null:mat=CRAFTING_TABLE:1:1.0",
+				"BREAKING:DIAMOND_AXE:CRAFTING_TABLE:null:mat=CRAFTING_TABLE:1:1.0",
+				"BREAKING:NETHERITE_AXE:CRAFTING_TABLE:null:mat=CRAFTING_TABLE:1:1.0"});
 		LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardEnchantmentOffers = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardEnchantments = new LinkedHashMap<>();
@@ -3374,9 +3931,6 @@ public class YamlManager
 		canResLore.put(1, new String[] {
 				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
 				"",
-				"&cAnforderungen zum einsehen:",
-				"&cMuss die Technology >&#ff8c00Holzbretter&c< erforscht haben.",
-				"",
 				"&eKosten:",
 				"&f%costttexp% | %costvanillaexp%",
 				"&f%costmoney% Geld",
@@ -3387,9 +3941,6 @@ public class YamlManager
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
-				"",
-				"&cRequirements to view:",
-				"&cMust have researched the Technology >&#ff8c00Planks&c<.",
 				"",
 				"&eCosts:",
 				"&f%costttexp% | %costvanillaexp%",
@@ -3405,7 +3956,11 @@ public class YamlManager
 				"crafting_table", new String[] {"Werkbank", "Craftingtable"},
 				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 0, "", "interactionblocks", 
 				0, 0, 0, 0, 0, 0, 0, 0,
-				null, true,
+				new String[] { //ConditionToSee
+						"if:(a):o_1", "else:o_2",
+						"output:o_1:true",
+						"output:o_2:false",
+						"a:hasresearchedtech,woodenplanks_I,1:==:true"}, true,
 				new String[] {"&8Werkbank","&8Craftingtable"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
@@ -3424,18 +3979,20 @@ public class YamlManager
 						"&fCrafting & Interaction with Craftingtable",
 						"",
 						"&cRightclick &bfor a more detailed view."},
-				new String[] {"&7Tech Werkbank","&7Tech Craftingtable"},
+				new String[] {"&7Werkbank","&7Craftingtable"},
 				Material.CRAFTING_TABLE, 1, itemflag, null, canResLore.get(1),
 				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
-				new String[] {"&dTech Werkbank","&dTech Craftingtable"},
+				new String[] {"&dWerkbank","&dCraftingtable"},
 				Material.CRAFTING_TABLE, 1, itemflag, null, canResLore,
-				new String[] {"&5Tech Werkbank","&5Tech Craftingtable"},
+				new String[] {"&5Werkbank","&5Craftingtable"},
 				Material.CRAFTING_TABLE, 1, itemflag, enchantment, new String[] {
+						"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
 						"",
 						"&eSchaltet folgendes frei:",
 						"&fHerstellung & Interaktion mit der Werkbank",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
 						"",
 						"&eUnlocks the following:",
 						"&fCrafting & Interaction with Craftingtable",
@@ -3444,20 +4001,15 @@ public class YamlManager
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
 				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
 		toResCondition = new LinkedHashMap<>();
-		toResCondition.put(1, new String[] {
-				"if:(a):o_1", "else:o_2",
-				"output:o_1:true",
-				"output:o_2:false",
-				"a:hasresearchedtech,stone_I,1:==:true"});
 		toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
 		toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
 		toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
 		toResCostMaterial = new LinkedHashMap<>();
 		rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] {
@@ -3510,6 +4062,8 @@ public class YamlManager
 				"BREAKING:GOLDEN_PICKAXE:FURNACE_MINECART:null:mat=FURNACE_MINECART:1:1.0",
 				"BREAKING:DIAMOND_PICKAXE:FURNACE_MINECART:null:mat=FURNACE_MINECART:1:1.0",
 				"BREAKING:NETHERITE_PICKAXE:FURNACE_MINECART:null:mat=FURNACE_MINECART:1:1.0"});
+		rewardEnchantmentOffers = new LinkedHashMap<>();
+		rewardEnchantments = new LinkedHashMap<>();
 		rewardCommand = new LinkedHashMap<>();
 		rewardItem = new LinkedHashMap<>();
 		rewardModifier = new LinkedHashMap<>();
@@ -3565,7 +4119,11 @@ public class YamlManager
 				"furnace", new String[] {"Ofen", "Furnace"},
 				TechnologyType.MULTIPLE, 2, PlayerAssociatedType.SOLO, 1, "", "interactionblocks", 
 				0, 0, 0, 0, 0, 0, 0, 0,
-				null, true,
+				new String[] {
+						"if:(a):o_1", "else:o_2",
+						"output:o_1:true",
+						"output:o_2:false",
+						"a:hasresearchedtech,stone_I,1:==:true"}, true,
 				new String[] {"&8Ofen","&8Furnace"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
@@ -3586,33 +4144,21 @@ public class YamlManager
 						"&fFurnace, Blastfurnace and Furnaceminecart",
 						"",
 						"&cRightclick &bfor a more detailed view."},
-				new String[] {"&7Tech Ofen","&7Tech Furnace"},
+				new String[] {"&7Ofen","&7Furnace"},
 				Material.FURNACE, 1, itemflag, null, canResLore.get(1),
 				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
-				new String[] {"&dTech Ofen","&dTech Furnace"},
+				new String[] {"&dOfen","&dFurnace"},
 				Material.FURNACE, 1, itemflag, null, canResLore,
-				new String[] {"&5Tech Ofen","&5Tech Furnace"},
+				new String[] {"&5Ofen","&5Furnace"},
 				Material.FURNACE, 1, itemflag, enchantment, new String[] {
-						"",
-						"&cAnforderungen zum einsehen:",
-						"&cMuss die Technology >&#ff8c00Stein I:1< erforscht haben.",
-						"",
-						"&eKosten:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney%",
+						"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
 						"",
 						"&eSchaltet folgendes frei:",
 						"&fHerstellung & Interaktion mit dem",
 						"&fOfen, Schmelzofen und Ofenlore",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
-						"",
-						"&cRequirements to view:",
-						"&cMust have researched the Technology >Stone I<.",
-						"",
-						"&eCosts:",
-						"&f%costttexp% | %costvanillaexp%",
-						"&f%costmoney% Money",
+						"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
 						"",
 						"&eUnlocks the following:",
 						"&fCrafting & Interaction with",
@@ -3621,13 +4167,598 @@ public class YamlManager
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
 				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+		//EnchantingTable
+		toResCondition = new LinkedHashMap<>();
+		toResCondition.put(1, new String[] {
+				"if:(a):o_1", "else:o_2",
+				"output:o_1:true",
+				"output:o_2:false",
+				"a:true"});
+		toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostMoney = new LinkedHashMap<>();
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMaterial = new LinkedHashMap<>();
+		rewardUnlockableInteractions = new LinkedHashMap<>();
+		rewardUnlockableInteractions.put(1, new String[] {
+				"INTERACT:ENCHANTING_TABLE:null",
+				"ENCHANTING:WOODEN_AXE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:WOODEN_HOE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:WOODEN_SHOVEL:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:WOODEN_PICKAXE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:STONE_AXE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:STONE_HOE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:STONE_SHOVEL:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:STONE_PICKAXE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:IRON_AXE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:IRON_HOE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:IRON_SHOVEL:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:IRON_PICKAXE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:GOLDEN_AXE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:GOLDEN_HOE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:GOLDEN_SHOVEL:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:GOLDEN_PICKAXE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:DIAMOND_AXE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:DIAMOND_HOE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:DIAMOND_SHOVEL:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:DIAMOND_PICKAXE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:NETHERITE_AXE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:NETHERITE_HOE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:NETHERITE_SHOVEL:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:NETHERITE_PICKAXE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:LEATHER_BOOTS:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:LEATHER_CHESTPLATE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:LEATHER_HELMET:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:LEATHER_LEGGINGS:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:LEATHER_HORSE_ARMOR:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:IRON_BOOTS:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:IRON_CHESTPLATE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:IRON_HELMET:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:IRON_LEGGINGS:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:IRON_HORSE_ARMOR:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:CHAINMAIL_BOOTS:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:CHAINMAIL_CHESTPLATE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:CHAINMAIL_HELMET:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:CHAINMAIL_LEGGINGS:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:GOLDEN_BOOTS:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:GOLDEN_CHESTPLATE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:GOLDEN_HELMET:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:GOLDEN_LEGGINGS:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:GOLDEN_HORSE_ARMOR:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:DIAMOND_BOOTS:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:DIAMOND_CHESTPLATE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:DIAMOND_HELMET:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:DIAMOND_LEGGINGS:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:DIAMOND_HORSE_ARMOR:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:NETHERITE_BOOTS:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:NETHERITE_CHESTPLATE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:NETHERITE_HELMET:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",
+				"ENCHANTING:NETHERITE_LEGGINGS:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5"});
+		rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardUnlockableRecipe.put(1, new String[] {"SHAPED:enchanting_table",""});
+		rewardDropChance = new LinkedHashMap<>();
+		rewardDropChance.put(1, new String[] {
+				"BREAKING:WOODEN_PICKAXE:ENCHANTING_TABLE:null:mat=ENCHANTING_TABLE:1:1.0",
+				"BREAKING:STONE_PICKAXE:ENCHANTING_TABLE:null:mat=ENCHANTING_TABLE:1:1.0",
+				"BREAKING:IRON_PICKAXE:ENCHANTING_TABLE:null:mat=ENCHANTING_TABLE:1:1.0",
+				"BREAKING:GOLDEN_PICKAXE:ENCHANTING_TABLE:null:mat=ENCHANTING_TABLE:1:1.0",
+				"BREAKING:DIAMOND_PICKAXE:ENCHANTING_TABLE:null:mat=ENCHANTING_TABLE:1:1.0",
+				"BREAKING:NETHERITE_PICKAXE:ENCHANTING_TABLE:null:mat=ENCHANTING_TABLE:1:1.0"});
+		rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance.put(1, new String[] {
+				"BREAKING:WOODEN_PICKAXE:ENCHANTING_TABLE:null:mat=ENCHANTING_TABLE:1:1.0",
+				"BREAKING:STONE_PICKAXE:ENCHANTING_TABLE:null:mat=ENCHANTING_TABLE:1:1.0",
+				"BREAKING:IRON_PICKAXE:ENCHANTING_TABLE:null:mat=ENCHANTING_TABLE:1:1.0",
+				"BREAKING:GOLDEN_PICKAXE:ENCHANTING_TABLE:null:mat=ENCHANTING_TABLE:1:1.0",
+				"BREAKING:DIAMOND_PICKAXE:ENCHANTING_TABLE:null:mat=ENCHANTING_TABLE:1:1.0",
+				"BREAKING:NETHERITE_PICKAXE:ENCHANTING_TABLE:null:mat=ENCHANTING_TABLE:1:1.0"});
+		rewardEnchantmentOffers = new LinkedHashMap<>();
+		rewardEnchantmentOffers.put(1, new String[] {
+				"1",
+				""});
+		rewardEnchantments = new LinkedHashMap<>();
+		rewardCommand = new LinkedHashMap<>();
+		rewardItem = new LinkedHashMap<>();
+		rewardModifier = new LinkedHashMap<>();
+		rewardValueEntry = new LinkedHashMap<>();
+		canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung & Interaktion mit dem Verzauberungstisch.",
+				"&fVerzauberungstisch Verzauberungsangebot Stufe 1",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting & Interaction with Enchanting Table.",
+				"&fEnchanting table enchantingoffer level 1",
+				"",
+				"&cRightclick &bfor a more detailed view."
+				});
+		addTechnology(
+				"enchanting_table", new String[] {"Verzauberungstisch", "Enchanting_Table"},
+				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 2, "", "interactionblocks", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				null, true,
+				new String[] {"&8Verzauberungstisch","&8Enchanting_Table"},
+				Material.BARRIER, 1, itemflag, null, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fHerstellung & Interaktion mit dem Verzauberungstisch",
+						"&fVerzauberungstisch Verzauberungsangebot Stufe 1",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fCrafting & Interaction with Enchanting Table",
+						"&fEnchanting table enchantingoffer level 1",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				new String[] {"&7Verzauberungstisch","&7Enchanting_Table"},
+				Material.ENCHANTING_TABLE, 1, itemflag, null, canResLore.get(1),
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&dVerzauberungstisch","&dEnchanting_Table"},
+				Material.ENCHANTING_TABLE, 1, itemflag, null, canResLore,
+				new String[] {"&5Verzauberungstisch","&5Enchanting_Table"},
+				Material.ENCHANTING_TABLE, 1, itemflag, enchantment, new String[] {
+						"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fHerstellung & Interaktion mit dem Verzauberungstisch",
+						"&fVerzauberungstisch Verzauberungsangebot Stufe 1",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+						"",
+						"&eUnlocks the following:",
+						"&fCrafting & Interaction with Enchanting Table",
+						"&fEnchanting table enchantingoffer level 1",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+		//Brewingstand
+		toResCondition = new LinkedHashMap<>();
+		toResCondition.put(1, new String[] {
+				"if:(a):o_1", "else:o_2",
+				"output:o_1:true",
+				"output:o_2:false",
+				"a:true"});
+		toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostMoney = new LinkedHashMap<>();
+		toResCostMaterial = new LinkedHashMap<>();
+		rewardUnlockableInteractions = new LinkedHashMap<>();
+		rewardUnlockableInteractions.put(1, new String[] {
+				"INTERACT:BREWING_STAND:null",""});
+		rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardUnlockableRecipe.put(1, new String[] {"SHAPED:brewing_stand",""});
+		rewardDropChance = new LinkedHashMap<>();
+		rewardDropChance.put(1, new String[] {
+				"BREAKING:WOODEN_PICKAXE:BREWING_STAND:null:mat=BREWING_STAND:1:1.0",
+				"BREAKING:STONE_PICKAXE:BREWING_STAND:null:mat=BREWING_STAND:1:1.0",
+				"BREAKING:IRON_PICKAXE:BREWING_STAND:null:mat=BREWING_STAND:1:1.0",
+				"BREAKING:GOLDEN_PICKAXE:BREWING_STAND:null:mat=BREWING_STAND:1:1.0",
+				"BREAKING:DIAMOND_PICKAXE:BREWING_STAND:null:mat=BREWING_STAND:1:1.0",
+				"BREAKING:NETHERITE_PICKAXE:BREWING_STAND:null:mat=BREWING_STAND:1:1.0"});
+		rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance.put(1, new String[] {
+				"BREAKING:WOODEN_PICKAXE:BREWING_STAND:null:mat=BREWING_STAND:1:1.0",
+				"BREAKING:STONE_PICKAXE:BREWING_STAND:null:mat=BREWING_STAND:1:1.0",
+				"BREAKING:IRON_PICKAXE:BREWING_STAND:null:mat=BREWING_STAND:1:1.0",
+				"BREAKING:GOLDEN_PICKAXE:BREWING_STAND:null:mat=BREWING_STAND:1:1.0",
+				"BREAKING:DIAMOND_PICKAXE:BREWING_STAND:null:mat=BREWING_STAND:1:1.0",
+				"BREAKING:NETHERITE_PICKAXE:BREWING_STAND:null:mat=BREWING_STAND:1:1.0"});
+		rewardEnchantmentOffers = new LinkedHashMap<>();
+		rewardEnchantments = new LinkedHashMap<>();
+		rewardCommand = new LinkedHashMap<>();
+		rewardItem = new LinkedHashMap<>();
+		rewardModifier = new LinkedHashMap<>();
+		rewardValueEntry = new LinkedHashMap<>();
+		canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung & Interaktion mit dem Braustand.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting & Interaction with Brewingstand.",
+				"",
+				"&cRightclick &bfor a more detailed view."
+				});
+		addTechnology(
+				"brewing_stand", new String[] {"Braustand", "Brewingstand"},
+				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 3, "", "interactionblocks", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				null, true,
+				new String[] {"&8Braustand","&8Brewingstand"},
+				Material.BARRIER, 1, itemflag, null, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fHerstellung & Interaktion mit dem &fBraustand",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fCrafting & Interaction with Brewingstand",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				new String[] {"&7Braustand","&7Brewingstand"},
+				Material.BREWING_STAND, 1, itemflag, null, canResLore.get(1),
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&dBraustand","&dBrewingstand"},
+				Material.BREWING_STAND, 1, itemflag, null, canResLore,
+				new String[] {"&5Braustand","&5Brewingstand"},
+				Material.BREWING_STAND, 1, itemflag, enchantment, new String[] {
+						"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fHerstellung & Interaktion mit dem Braustand.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+						"",
+						"&eUnlocks the following:",
+						"&fCrafting & Interaction with Brewingstand.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+		//SmithingTable
+		toResCondition = new LinkedHashMap<>();
+		toResCondition.put(1, new String[] {
+				"if:(a):o_1", "else:o_2",
+				"output:o_1:true",
+				"output:o_2:false",
+				"a:true"});
+		toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostMoney = new LinkedHashMap<>();
+		toResCostMaterial = new LinkedHashMap<>();
+		rewardUnlockableInteractions = new LinkedHashMap<>();
+		rewardUnlockableInteractions.put(1, new String[] {
+				"INTERACT:SMITHING_TABLE:null",""});
+		rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardUnlockableRecipe.put(1, new String[] {"SHAPED:smithing_table",""});
+		rewardDropChance = new LinkedHashMap<>();
+		rewardDropChance.put(1, new String[] {
+				"BREAKING:WOODEN_PICKAXE:SMITHING_TABLE:null:mat=SMITHING_TABLE:1:1.0",
+				"BREAKING:STONE_PICKAXE:SMITHING_TABLE:null:mat=SMITHING_TABLE:1:1.0",
+				"BREAKING:IRON_PICKAXE:SMITHING_TABLE:null:mat=SMITHING_TABLE:1:1.0",
+				"BREAKING:GOLDEN_PICKAXE:SMITHING_TABLE:null:mat=SMITHING_TABLE:1:1.0",
+				"BREAKING:DIAMOND_PICKAXE:SMITHING_TABLE:null:mat=SMITHING_TABLE:1:1.0",
+				"BREAKING:NETHERITE_PICKAXE:SMITHING_TABLE:null:mat=SMITHING_TABLE:1:1.0"});
+		rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance.put(1, new String[] {
+				"BREAKING:WOODEN_PICKAXE:SMITHING_TABLE:null:mat=SMITHING_TABLE:1:1.0",
+				"BREAKING:STONE_PICKAXE:SMITHING_TABLE:null:mat=SMITHING_TABLE:1:1.0",
+				"BREAKING:IRON_PICKAXE:SMITHING_TABLE:null:mat=SMITHING_TABLE:1:1.0",
+				"BREAKING:GOLDEN_PICKAXE:SMITHING_TABLE:null:mat=SMITHING_TABLE:1:1.0",
+				"BREAKING:DIAMOND_PICKAXE:SMITHING_TABLE:null:mat=SMITHING_TABLE:1:1.0",
+				"BREAKING:NETHERITE_PICKAXE:SMITHING_TABLE:null:mat=SMITHING_TABLE:1:1.0"});
+		rewardEnchantmentOffers = new LinkedHashMap<>();
+		rewardEnchantments = new LinkedHashMap<>();
+		rewardCommand = new LinkedHashMap<>();
+		rewardItem = new LinkedHashMap<>();
+		rewardModifier = new LinkedHashMap<>();
+		rewardValueEntry = new LinkedHashMap<>();
+		canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung & Interaktion mit dem Schmiedetisch.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting & Interaction with SmithingTable.",
+				"",
+				"&cRightclick &bfor a more detailed view."
+				});
+		addTechnology(
+				"smithing_table", new String[] {"Schmiedetisch", "SmithingTable"},
+				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 4, "", "interactionblocks", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				null, true,
+				new String[] {"&8Schmiedetisch","&8SmithingTable"},
+				Material.BARRIER, 1, itemflag, null, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fHerstellung & Interaktion mit dem &fSchmiedetisch",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fCrafting & Interaction with SmithingTable",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				new String[] {"&7Schmiedetisch","&7SmithingTable"},
+				Material.SMITHING_TABLE, 1, itemflag, null, canResLore.get(1),
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&dSchmiedetisch","&dSmithingTable"},
+				Material.SMITHING_TABLE, 1, itemflag, null, canResLore,
+				new String[] {"&5Schmiedetisch","&5SmithingTable"},
+				Material.SMITHING_TABLE, 1, itemflag, enchantment, new String[] {
+						"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fHerstellung & Interaktion mit dem Schmiedetisch.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+						"",
+						"&eUnlocks the following:",
+						"&fCrafting & Interaction with SmithingTable.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+		//Amboss
+		toResCondition = new LinkedHashMap<>();
+		toResCondition.put(1, new String[] {
+				"if:(a):o_1", "else:o_2",
+				"output:o_1:true",
+				"output:o_2:false",
+				"a:true"});
+		toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostMoney = new LinkedHashMap<>();
+		toResCostMaterial = new LinkedHashMap<>();
+		rewardUnlockableInteractions = new LinkedHashMap<>();
+		rewardUnlockableInteractions.put(1, new String[] {
+				"INTERACT:ANVIL:null",
+				"INTERACT:CHIPPED_ANVIL:null",
+				"INTERACT:DAMAGED_ANVIL:null"});
+		rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardUnlockableRecipe.put(1, new String[] {"SHAPED:anvil",""});
+		rewardDropChance = new LinkedHashMap<>();
+		rewardDropChance.put(1, new String[] {
+				"BREAKING:WOODEN_PICKAXE:ANVIL:null:mat=ANVIL:1:1.0",
+				"BREAKING:STONE_PICKAXE:ANVIL:null:mat=ANVIL:1:1.0",
+				"BREAKING:IRON_PICKAXE:ANVIL:null:mat=ANVIL:1:1.0",
+				"BREAKING:GOLDEN_PICKAXE:ANVIL:null:mat=ANVIL:1:1.0",
+				"BREAKING:DIAMOND_PICKAXE:ANVIL:null:mat=ANVIL:1:1.0",
+				"BREAKING:NETHERITE_PICKAXE:ANVIL:null:mat=ANVIL:1:1.0",
+				"BREAKING:WOODEN_PICKAXE:CHIPPED_ANVIL:null:mat=CHIPPED_ANVIL:1:1.0",
+				"BREAKING:STONE_PICKAXE:CHIPPED_ANVIL:null:mat=CHIPPED_ANVIL:1:1.0",
+				"BREAKING:IRON_PICKAXE:CHIPPED_ANVIL:null:mat=CHIPPED_ANVIL:1:1.0",
+				"BREAKING:GOLDEN_PICKAXE:CHIPPED_ANVIL:null:mat=CHIPPED_ANVIL:1:1.0",
+				"BREAKING:DIAMOND_PICKAXE:CHIPPED_ANVIL:null:mat=CHIPPED_ANVIL:1:1.0",
+				"BREAKING:NETHERITE_PICKAXE:CHIPPED_ANVIL:null:mat=CHIPPED_ANVIL:1:1.0",
+				"BREAKING:WOODEN_PICKAXE:DAMAGED_ANVIL:null:mat=DAMAGED_ANVIL:1:1.0",
+				"BREAKING:STONE_PICKAXE:DAMAGED_ANVIL:null:mat=DAMAGED_ANVIL:1:1.0",
+				"BREAKING:IRON_PICKAXE:DAMAGED_ANVIL:null:mat=DAMAGED_ANVIL:1:1.0",
+				"BREAKING:GOLDEN_PICKAXE:DAMAGED_ANVIL:null:mat=DAMAGED_ANVIL:1:1.0",
+				"BREAKING:DIAMOND_PICKAXE:DAMAGED_ANVIL:null:mat=DAMAGED_ANVIL:1:1.0",
+				"BREAKING:NETHERITE_PICKAXE:DAMAGED_ANVIL:null:mat=DAMAGED_ANVIL:1:1.0"});
+		rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance.put(1, new String[] {
+				"BREAKING:WOODEN_PICKAXE:ANVIL:null:mat=ANVIL:1:1.0",
+				"BREAKING:STONE_PICKAXE:ANVIL:null:mat=ANVIL:1:1.0",
+				"BREAKING:IRON_PICKAXE:ANVIL:null:mat=ANVIL:1:1.0",
+				"BREAKING:GOLDEN_PICKAXE:ANVIL:null:mat=ANVIL:1:1.0",
+				"BREAKING:DIAMOND_PICKAXE:ANVIL:null:mat=ANVIL:1:1.0",
+				"BREAKING:NETHERITE_PICKAXE:ANVIL:null:mat=ANVIL:1:1.0",
+				"BREAKING:WOODEN_PICKAXE:CHIPPED_ANVIL:null:mat=CHIPPED_ANVIL:1:1.0",
+				"BREAKING:STONE_PICKAXE:CHIPPED_ANVIL:null:mat=CHIPPED_ANVIL:1:1.0",
+				"BREAKING:IRON_PICKAXE:CHIPPED_ANVIL:null:mat=CHIPPED_ANVIL:1:1.0",
+				"BREAKING:GOLDEN_PICKAXE:CHIPPED_ANVIL:null:mat=CHIPPED_ANVIL:1:1.0",
+				"BREAKING:DIAMOND_PICKAXE:CHIPPED_ANVIL:null:mat=CHIPPED_ANVIL:1:1.0",
+				"BREAKING:NETHERITE_PICKAXE:CHIPPED_ANVIL:null:mat=CHIPPED_ANVIL:1:1.0",
+				"BREAKING:WOODEN_PICKAXE:DAMAGED_ANVIL:null:mat=DAMAGED_ANVIL:1:1.0",
+				"BREAKING:STONE_PICKAXE:DAMAGED_ANVIL:null:mat=DAMAGED_ANVIL:1:1.0",
+				"BREAKING:IRON_PICKAXE:DAMAGED_ANVIL:null:mat=DAMAGED_ANVIL:1:1.0",
+				"BREAKING:GOLDEN_PICKAXE:DAMAGED_ANVIL:null:mat=DAMAGED_ANVIL:1:1.0",
+				"BREAKING:DIAMOND_PICKAXE:DAMAGED_ANVIL:null:mat=DAMAGED_ANVIL:1:1.0",
+				"BREAKING:NETHERITE_PICKAXE:DAMAGED_ANVIL:null:mat=DAMAGED_ANVIL:1:1.0"});
+		rewardEnchantmentOffers = new LinkedHashMap<>();
+		rewardEnchantments = new LinkedHashMap<>();
+		rewardCommand = new LinkedHashMap<>();
+		rewardItem = new LinkedHashMap<>();
+		rewardModifier = new LinkedHashMap<>();
+		rewardValueEntry = new LinkedHashMap<>();
+		canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung & Interaktion mit dem Amboss.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting & Interaction with Anvil.",
+				"",
+				"&cRightclick &bfor a more detailed view."
+				});
+		addTechnology(
+				"anvil", new String[] {"Amboss", "Anvil"},
+				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 5, "", "interactionblocks", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				null, true,
+				new String[] {"&8Amboss","&8Anvil"},
+				Material.BARRIER, 1, itemflag, null, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fHerstellung & Interaktion mit dem &fAmboss",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fCrafting & Interaction with Anvil",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				new String[] {"&7Amboss","&7Anvil"},
+				Material.ANVIL, 1, itemflag, null, canResLore.get(1),
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&dAmboss","&dAnvil"},
+				Material.ANVIL, 1, itemflag, null, canResLore,
+				new String[] {"&5Amboss","&5Anvil"},
+				Material.ANVIL, 1, itemflag, enchantment, new String[] {
+						"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fHerstellung & Interaktion mit dem Amboss.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+						"",
+						"&eUnlocks the following:",
+						"&fCrafting & Interaction with Anvil.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+		//Grindstone
+		toResCondition = new LinkedHashMap<>();
+		toResCondition.put(1, new String[] {
+				"if:(a):o_1", "else:o_2",
+				"output:o_1:true",
+				"output:o_2:false",
+				"a:true"});
+		toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostMoney = new LinkedHashMap<>();
+		toResCostMaterial = new LinkedHashMap<>();
+		rewardUnlockableInteractions = new LinkedHashMap<>();
+		rewardUnlockableInteractions.put(1, new String[] {
+				"INTERACT:GRINDSTONE:null",""});
+		rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardUnlockableRecipe.put(1, new String[] {"SHAPED:anvil",""});
+		rewardDropChance = new LinkedHashMap<>();
+		rewardDropChance.put(1, new String[] {
+				"BREAKING:WOODEN_PICKAXE:GRINDSTONE:null:mat=GRINDSTONE:1:1.0",
+				"BREAKING:STONE_PICKAXE:GRINDSTONE:null:mat=GRINDSTONE:1:1.0",
+				"BREAKING:IRON_PICKAXE:GRINDSTONE:null:mat=GRINDSTONE:1:1.0",
+				"BREAKING:GOLDEN_PICKAXE:GRINDSTONE:null:mat=GRINDSTONE:1:1.0",
+				"BREAKING:DIAMOND_PICKAXE:GRINDSTONE:null:mat=GRINDSTONE:1:1.0",
+				"BREAKING:NETHERITE_PICKAXE:GRINDSTONE:null:mat=GRINDSTONE:1:1.0"});
+		rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance.put(1, new String[] {
+				"BREAKING:WOODEN_PICKAXE:GRINDSTONE:null:mat=GRINDSTONE:1:1.0",
+				"BREAKING:STONE_PICKAXE:GRINDSTONE:null:mat=GRINDSTONE:1:1.0",
+				"BREAKING:IRON_PICKAXE:GRINDSTONE:null:mat=GRINDSTONE:1:1.0",
+				"BREAKING:GOLDEN_PICKAXE:GRINDSTONE:null:mat=GRINDSTONE:1:1.0",
+				"BREAKING:DIAMOND_PICKAXE:GRINDSTONE:null:mat=GRINDSTONE:1:1.0",
+				"BREAKING:NETHERITE_PICKAXE:GRINDSTONE:null:mat=GRINDSTONE:1:1.0"});
+		rewardEnchantmentOffers = new LinkedHashMap<>();
+		rewardEnchantments = new LinkedHashMap<>();
+		rewardCommand = new LinkedHashMap<>();
+		rewardItem = new LinkedHashMap<>();
+		rewardModifier = new LinkedHashMap<>();
+		rewardValueEntry = new LinkedHashMap<>();
+		canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fHerstellung & Interaktion mit dem Schleifstein.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fCrafting & Interaction with Grindstone.",
+				"",
+				"&cRightclick &bfor a more detailed view."
+				});
+		addTechnology(
+				"grindstone", new String[] {"Schleifstein", "Grindstone"},
+				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 6, "", "interactionblocks", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				null, true,
+				new String[] {"&8Schleifstein","&8Grindstone"},
+				Material.BARRIER, 1, itemflag, null, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fHerstellung & Interaktion mit dem &fSchleifstein",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fCrafting & Interaction with Grindstone",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				new String[] {"&7Schleifstein","&7Grindstone"},
+				Material.GRINDSTONE, 1, itemflag, null, canResLore.get(1),
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&dSchleifstein","&dGrindstone"},
+				Material.GRINDSTONE, 1, itemflag, null, canResLore,
+				new String[] {"&5Schleifstein","&5Grindstone"},
+				Material.GRINDSTONE, 1, itemflag, enchantment, new String[] {
+						"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fHerstellung & Interaktion mit dem Schleifstein.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+						"",
+						"&eUnlocks the following:",
+						"&fCrafting & Interaction with Grindstone.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
 		//REMOVEME TestTech
 		toResCondition = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "1 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostTTExp.put(1, "1 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
 		toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
 		toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
 		toResCostMaterial = new LinkedHashMap<>();
 		rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] {
@@ -3786,36 +4917,36 @@ public class YamlManager
 	{
 		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(7, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
-		toResCostTTExp.put(8, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
-		toResCostTTExp.put(9, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
-		toResCostTTExp.put(10, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
-		toResCostTTExp.put(11, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(7, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
+		toResCostTTExp.put(8, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
+		toResCostTTExp.put(9, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
+		toResCostTTExp.put(10, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
+		toResCostTTExp.put(11, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(7, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
-		toResCostMoney.put(8, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
-		toResCostMoney.put(9, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
-		toResCostMoney.put(10, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
-		toResCostMoney.put(11, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(7, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
+		toResCostMoney.put(8, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
+		toResCostMoney.put(9, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
+		toResCostMoney.put(10, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
+		toResCostMoney.put(11, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(1, new String[] {
 				"OAK_PLANKS;16",
@@ -4211,6 +5342,7 @@ public class YamlManager
 				Material.WOODEN_PICKAXE, 1, itemflag, null, canResLore,
 				new String[] {"&5Tech Spitzhacke","&5Tech Pickaxe"},
 				Material.WOODEN_PICKAXE, 1, itemflag, enchantment, new String[] {
+						"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
 						"",
 						"&eSchaltet folgendes frei:",
 						"&f◦ Herstellung:",
@@ -4240,6 +5372,7 @@ public class YamlManager
 						"&f◦◦ Netheritebarren beim herstellen einer Netheritespitzhacke &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,pickaxe,CRAFTING,HAND,NETHERITE_PICKAXE,mat=NETHERITE_INGOT%",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
 						"",
 						"&eUnlocks the following:",
 						"&f◦ Crafting:",
@@ -4274,36 +5407,36 @@ public class YamlManager
 				);
 		toResCondition = new LinkedHashMap<>();
 		toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(7, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
-		toResCostTTExp.put(8, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
-		toResCostTTExp.put(9, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
-		toResCostTTExp.put(10, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
-		toResCostTTExp.put(11, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(7, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
+		toResCostTTExp.put(8, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
+		toResCostTTExp.put(9, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
+		toResCostTTExp.put(10, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
+		toResCostTTExp.put(11, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
 		toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
 		toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(7, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
-		toResCostMoney.put(8, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
-		toResCostMoney.put(9, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
-		toResCostMoney.put(10, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
-		toResCostMoney.put(11, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(7, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
+		toResCostMoney.put(8, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
+		toResCostMoney.put(9, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
+		toResCostMoney.put(10, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
+		toResCostMoney.put(11, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
 		toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(1, new String[] {
 				"OAK_PLANKS;16",
@@ -4697,6 +5830,7 @@ public class YamlManager
 				Material.WOODEN_SHOVEL, 1, itemflag, null, canResLore,
 				new String[] {"&5Tech Schaufel","&5Tech Shovel"},
 				Material.WOODEN_SHOVEL, 1, itemflag, enchantment, new String[] {
+						"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
 						"",
 						"&eSchaltet folgendes frei:",
 						"&f◦ Herstellung:",
@@ -4726,6 +5860,7 @@ public class YamlManager
 						"&f◦◦ Netheritebarren beim herstellen einer Netheriteschaufel &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,shovel,CRAFTING,HAND,NETHERITE_SHOVEL,mat=NETHERITE_INGOT%",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
 						"",
 						"&eUnlocks the following:",
 						"&f◦ Crafting:",
@@ -4759,36 +5894,36 @@ public class YamlManager
 				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
 		toResCondition = new LinkedHashMap<>();
 		toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(7, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
-		toResCostTTExp.put(8, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
-		toResCostTTExp.put(9, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
-		toResCostTTExp.put(10, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
-		toResCostTTExp.put(11, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(7, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
+		toResCostTTExp.put(8, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
+		toResCostTTExp.put(9, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
+		toResCostTTExp.put(10, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
+		toResCostTTExp.put(11, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
 		toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
 		toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(7, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
-		toResCostMoney.put(8, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
-		toResCostMoney.put(9, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
-		toResCostMoney.put(10, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
-		toResCostMoney.put(11, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(7, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
+		toResCostMoney.put(8, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
+		toResCostMoney.put(9, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
+		toResCostMoney.put(10, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
+		toResCostMoney.put(11, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
 		toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(1, new String[] {
 				"OAK_PLANKS;16",
@@ -5182,6 +6317,7 @@ public class YamlManager
 				Material.WOODEN_HOE, 1, itemflag, null, canResLore,
 				new String[] {"&5Tech Hacke","&5Tech Hoe"},
 				Material.WOODEN_HOE, 1, itemflag, null, new String[] {
+						"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
 						"",
 						"&eSchaltet folgendes frei:",
 						"&f◦ Herstellung:",
@@ -5211,6 +6347,7 @@ public class YamlManager
 						"&f◦◦ Netheritebarren beim herstellen einer Netheritehacke &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,hoe,CRAFTING,HAND,NETHERITE_HOE,mat=NETHERITE_INGOT%",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
 						"",
 						"&eUnlocks the following:",
 						"&f◦ Crafting:",
@@ -5245,36 +6382,36 @@ public class YamlManager
 				);
 		toResCondition = new LinkedHashMap<>();
 		toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(7, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
-		toResCostTTExp.put(8, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
-		toResCostTTExp.put(9, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
-		toResCostTTExp.put(10, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
-		toResCostTTExp.put(11, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(7, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
+		toResCostTTExp.put(8, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
+		toResCostTTExp.put(9, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
+		toResCostTTExp.put(10, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
+		toResCostTTExp.put(11, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
 		toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
 		toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(7, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
-		toResCostMoney.put(8, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
-		toResCostMoney.put(9, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
-		toResCostMoney.put(10, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
-		toResCostMoney.put(11, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(7, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
+		toResCostMoney.put(8, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
+		toResCostMoney.put(9, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
+		toResCostMoney.put(10, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
+		toResCostMoney.put(11, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
 		toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(1, new String[] {
 				"OAK_PLANKS;16",
@@ -5668,6 +6805,7 @@ public class YamlManager
 				Material.WOODEN_AXE, 1, itemflag, null, canResLore,
 				new String[] {"&5Tech Axt","&5Tech Axe"},
 				Material.WOODEN_AXE, 1, itemflag, enchantment, new String[] {
+						"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
 						"",
 						"&eSchaltet folgendes frei:",
 						"&f◦ Herstellung:",
@@ -5697,6 +6835,7 @@ public class YamlManager
 						"&f◦◦ Netheritebarren beim herstellen einer Netheritespitzhacke &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,axe,CRAFTING,HAND,NETHERITE_AXE,mat=NETHERITE_INGOT%",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
 						"",
 						"&eUnlocks the following:",
 						"&f◦ Crafting:",
@@ -5735,36 +6874,36 @@ public class YamlManager
 	{
 		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(7, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
-		toResCostTTExp.put(8, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
-		toResCostTTExp.put(9, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
-		toResCostTTExp.put(10, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
-		toResCostTTExp.put(11, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(7, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
+		toResCostTTExp.put(8, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
+		toResCostTTExp.put(9, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
+		toResCostTTExp.put(10, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
+		toResCostTTExp.put(11, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(7, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
-		toResCostMoney.put(8, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
-		toResCostMoney.put(9, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
-		toResCostMoney.put(10, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
-		toResCostMoney.put(11, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(7, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
+		toResCostMoney.put(8, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
+		toResCostMoney.put(9, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
+		toResCostMoney.put(10, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
+		toResCostMoney.put(11, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(1, new String[] {
 				"OAK_PLANKS;16",
@@ -5796,7 +6935,7 @@ public class YamlManager
 		rewardUnlockableInteractions.put(5, new String[] {
 				"CRAFTING:DIAMOND_SWORD:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(6, new String[] {
-				"CRAFTING:NETHERITE_SWORD:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
+				"SMITHING:NETHERITE_SWORD:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		String[] rui = new String[] {
 				"CRAFTING:WOODEN_SWORD:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
 				"CRAFTING:STONE_SWORD:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
@@ -5850,7 +6989,7 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellen von &#c6a664Holzaxt",
+				"&fHerstellen von &#c6a664Holzschwert",
 				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sword,1,CRAFTING,HAND,WOODEN_SWORD% TTExp | "
 				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sword,1,CRAFTING,HAND,WOODEN_SWORD% VExp | "
 				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sword,1,CRAFTING,HAND,WOODEN_SWORD% Dollar",
@@ -5864,7 +7003,7 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of &#c6a664woodenaxe",
+				"&fCrafting of &#c6a664woodensword",
 				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sword,1,CRAFTING,HAND,WOODEN_SWORD% TTExp | "
 				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sword,1,CRAFTING,HAND,WOODEN_SWORD% VExp | "
 				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sword,1,CRAFTING,HAND,WOODEN_SWORD% Dollar",
@@ -5879,7 +7018,7 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellen von &#c6a664Steinaxt",
+				"&fHerstellen von &#c6a664Steinschwert",
 				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sword,2,CRAFTING,HAND,STONE_SWORD% TTExp | "
 				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sword,2,CRAFTING,HAND,STONE_SWORD% VExp | "
 				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sword,2,CRAFTING,HAND,STONE_SWORD% Dollar",
@@ -5893,7 +7032,7 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of &#c6a664stoneaxe",
+				"&fCrafting of &#c6a664stonesword",
 				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sword,2,CRAFTING,HAND,STONE_SWORD% TTExp | "
 				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sword,2,CRAFTING,HAND,STONE_SWORD% VExp | "
 				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sword,2,CRAFTING,HAND,STONE_SWORD% Dollar",
@@ -5908,7 +7047,7 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellen von &#c6a664Eisenaxt",
+				"&fHerstellen von &#c6a664Eisenschwert",
 				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sword,3,CRAFTING,HAND,IRON_SWORD% TTExp | "
 				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sword,3,CRAFTING,HAND,IRON_SWORD% VExp | "
 				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sword,3,CRAFTING,HAND,IRON_SWORD% Dollar",
@@ -5922,7 +7061,7 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of &#c6a664ironaxe",
+				"&fCrafting of &#c6a664ironsword",
 				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sword,3,CRAFTING,HAND,IRON_SWORD% TTExp | "
 				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sword,3,CRAFTING,HAND,IRON_SWORD% VExp | "
 				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sword,3,CRAFTING,HAND,IRON_SWORD% Dollar",
@@ -5937,7 +7076,7 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellen von &#c6a664Goldaxt",
+				"&fHerstellen von &#c6a664Goldschwert",
 				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sword,4,CRAFTING,HAND,GOLDEN_SWORD% TTExp | "
 				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sword,4,CRAFTING,HAND,GOLDEN_SWORD% VExp | "
 				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sword,4,CRAFTING,HAND,GOLDEN_SWORD% Dollar",
@@ -5952,7 +7091,7 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of &#c6a664goldenaxe",
+				"&fCrafting of &#c6a664goldensword",
 				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sword,4,CRAFTING,HAND,GOLDEN_SWORD% TTExp | "
 				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sword,4,CRAFTING,HAND,GOLDEN_SWORD% VExp | "
 				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sword,4,CRAFTING,HAND,GOLDEN_SWORD% Dollar",
@@ -5968,7 +7107,7 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellen von &#c6a664Diamantaxt",
+				"&fHerstellen von &#c6a664Diamantschwert",
 				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sword,5,CRAFTING,HAND,DIAMOND_SWORD% TTExp | "
 				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sword,5,CRAFTING,HAND,DIAMOND_SWORD% VExp | "
 				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sword,5,CRAFTING,HAND,DIAMOND_SWORD% Dollar",
@@ -5983,7 +7122,7 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of &#c6a664diamondaxe",
+				"&fCrafting of &#c6a664diamondsword",
 				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sword,5,CRAFTING,HAND,DIAMOND_SWORD% TTExp | "
 				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sword,5,CRAFTING,HAND,DIAMOND_SWORD% VExp | "
 				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sword,5,CRAFTING,HAND,DIAMOND_SWORD% Dollar",
@@ -5999,7 +7138,7 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fHerstellen von &#c6a664Netheriteaxt",
+				"&fHerstellen von &#c6a664Netheriteschwert",
 				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sword,6,SMITHING,HAND,NETHERITE_SWORD% TTExp | "
 				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sword,6,SMITHING,HAND,NETHERITE_SWORD% VExp | "
 				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sword,6,SMITHING,HAND,NETHERITE_SWORD% Dollar",
@@ -6014,7 +7153,7 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fCrafting of &#c6a664netheriteaxe",
+				"&fCrafting of &#c6a664netheritesword",
 				"&f◦ &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sword,6,SMITHING,HAND,NETHERITE_SWORD% TTExp | "
 				  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sword,6,SMITHING,HAND,NETHERITE_SWORD% VExp | "
 				  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sword,6,SMITHING,HAND,NETHERITE_SWORD% Dollar",
@@ -6160,6 +7299,7 @@ public class YamlManager
 				Material.WOODEN_SWORD, 1, itemflag, null, canResLore,
 				new String[] {"&5Schwert","&5Sword"},
 				Material.WOODEN_SWORD, 1, itemflag, enchantment, new String[] {
+						"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
 						"",
 						"&eSchaltet folgendes frei:",
 						"&f◦ Herstellung:",
@@ -6186,9 +7326,10 @@ public class YamlManager
 						"&f◦◦ Eisenbarren beim herstellen einer Eisenschwert &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD,mat=IRON_INGOT%",
 						"&f◦◦ Goldbarren beim herstellen einer Goldschwert &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD,mat=GOLD_INGOT%",
 						"&f◦◦ Diamant beim herstellen einer Diamantschwert &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD,mat=DIAMOND%",
-						"&f◦◦ Netheritebarren beim herstellen einer Netheriteschwert &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,NETHERITE_SWORD,mat=NETHERITE_INGOT%",
+						"&f◦◦ Netheritebarren beim herstellen einer Netheriteschwert &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,sword,SMITHING,HAND,NETHERITE_SWORD,mat=NETHERITE_INGOT%",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
 						"",
 						"&eUnlocks the following:",
 						"&f◦ Crafting:",
@@ -6215,7 +7356,7 @@ public class YamlManager
 						"&f◦◦ Ironingots during the production of an ironsword &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,IRON_SWORD,mat=IRON_INGOT%",
 						"&f◦◦ Goldingots during the production of an goldensword &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,GOLDEN_SWORD,mat=GOLD_INGOT%",
 						"&f◦◦ Diamonds during the production of an diamondsword &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,DIAMOND_SWORD,mat=DIAMOND%",
-						"&f◦◦ Netheriteingots during the production of an netheritesword &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,sword,CRAFTING,HAND,NETHERITE_SWORD,mat=NETHERITE_INGOT%",
+						"&f◦◦ Netheriteingots during the production of an netheritesword &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,sword,SMITHING,HAND,NETHERITE_SWORD,mat=NETHERITE_INGOT%",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
@@ -6227,36 +7368,36 @@ public class YamlManager
 				"output:o_1:true",
 				"a:true"});
 		toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(7, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
-		toResCostTTExp.put(8, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
-		toResCostTTExp.put(9, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
-		toResCostTTExp.put(10, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
-		toResCostTTExp.put(11, "10 * (100 * techlev + 50 * techacq + 25 * solototaltech)");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(7, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
+		toResCostTTExp.put(8, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
+		toResCostTTExp.put(9, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
+		toResCostTTExp.put(10, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
+		toResCostTTExp.put(11, "10 * (100 * techlev + 50 * techacq + 25 * solo_researched_totaltech)");
 		toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
 		toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(7, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
-		toResCostMoney.put(8, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
-		toResCostMoney.put(9, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
-		toResCostMoney.put(10, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
-		toResCostMoney.put(11, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solototaltech)");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(7, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
+		toResCostMoney.put(8, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
+		toResCostMoney.put(9, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
+		toResCostMoney.put(10, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
+		toResCostMoney.put(11, "5 * (1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech)");
 		toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(1, new String[] {
 				"LEATHER;2",
@@ -6283,7 +7424,7 @@ public class YamlManager
 		rewardUnlockableInteractions.put(4, new String[] {
 				"CRAFTING:DIAMOND_BOOTS:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rewardUnlockableInteractions.put(5, new String[] {
-				"CRAFTING:NETHERITE_BOOTS:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
+				"SMITHING:NETHERITE_BOOTS:null:tool=HAND:ttexp=1:vaexp=10:vault=1:default=1", ""});
 		rui = new String[] {
 				"CRAFTING:LEATHER_BOOTS:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
 				"CRAFTING:IRON_BOOTS:null:tool=HAND:ttexp=1:vaexp=2:vault=1:default=1",
@@ -6636,6 +7777,7 @@ public class YamlManager
 				Material.LEATHER_BOOTS, 1, itemflag, null, canResLore,
 				new String[] {"&5Schuhe","&5Boots"},
 				Material.LEATHER_BOOTS, 1, itemflag, enchantment, new String[] {
+						"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
 						"",
 						"&eSchaltet folgendes frei:",
 						"&f◦ Herstellung:",
@@ -6659,9 +7801,10 @@ public class YamlManager
 						"&f◦◦ Eisenbarren beim herstellen einer Eisenschuhe &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD,mat=IRON_INGOT%",
 						"&f◦◦ Goldbarren beim herstellen einer Goldschuhe &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD,mat=GOLD_INGOT%",
 						"&f◦◦ Diamant beim herstellen einer Diamantschuhe &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD,mat=DIAMOND%",
-						"&f◦◦ Netheritebarren beim herstellen einer Netheriteschuhe &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,NETHERITE_SWORD,mat=NETHERITE_INGOT%",
+						"&f◦◦ Netheritebarren beim herstellen einer Netheriteschuhe &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,boots,SMITHING,HAND,NETHERITE_SWORD,mat=NETHERITE_INGOT%",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
 						"",
 						"&eUnlocks the following:",
 						"&f◦ Crafting:",
@@ -6685,7 +7828,7 @@ public class YamlManager
 						"&f◦◦ Ironingots during the production of an ironboots &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,IRON_SWORD,mat=IRON_INGOT%",
 						"&f◦◦ Goldingots during the production of an goldenboots &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,GOLDEN_SWORD,mat=GOLD_INGOT%",
 						"&f◦◦ Diamonds during the production of an diamondboots &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,DIAMOND_SWORD,mat=DIAMOND%",
-						"&f◦◦ Netheriteingots during the production of an netheriteboots &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,boots,CRAFTING,HAND,NETHERITE_SWORD,mat=NETHERITE_INGOT%",
+						"&f◦◦ Netheriteingots during the production of an netheriteboots &#546f42%tt_reward_techtotal_dropchance_mat,SOLO,boots,SMITHING,HAND,NETHERITE_SWORD,mat=NETHERITE_INGOT%",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
@@ -6697,26 +7840,26 @@ public class YamlManager
 	{
 		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(7, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(7, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(7, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(7, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(7, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(7, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(2, new String[] {
 				"WOODEN_SHOVEL;8",
@@ -6738,7 +7881,7 @@ public class YamlManager
 				"STICK;8"});
 		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] {
-				"BREAKING:DIRT:null:tool=HAND:ttexp=0.01:vaexp=10:vault=0.1:default=1.0", //TODO Change back
+				"BREAKING:DIRT:null:tool=HAND:ttexp=0.01:vault=0.1:default=1.0",
 				"BREAKING:GRASS_BLOCK:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",
 				"BREAKING:SAND:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",
 				"BREAKING:GRAVEL:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1"});
@@ -7401,34 +8544,30 @@ public class YamlManager
 				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
 		toResCondition = new LinkedHashMap<>();
-		toResCondition.put(1, new String[] {
-						"if:(a):o_1", "else:o_2",
-						"output:o_1:true",
-						"a:true"});
 		toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(7, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(7, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
 		toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(7, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(7, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
 		toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(7, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(7, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
 		toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(2, new String[] {
 				"WOODEN_SHOVEL;8",
@@ -8032,7 +9171,8 @@ public class YamlManager
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
-				"soil_II", new String[] {"Böden_II", "Soil_II"}, TechnologyType.MULTIPLE, 7, PlayerAssociatedType.SOLO, 1, "", "soil", 
+				"soil_II", new String[] {"Böden_II", "Soil_II"},
+				TechnologyType.MULTIPLE, 7, PlayerAssociatedType.SOLO, 1, "", "soil", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
 				new String[] {"&8Böden II","&8Soil II"},
@@ -8091,29 +9231,29 @@ public class YamlManager
 				);
 		toResCondition = new LinkedHashMap<>();
 		toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(7, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(7, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
 		toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(7, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(7, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
 		toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(7, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(7, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
 		toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(2, new String[] {
 				"WOODEN_SHOVEL;8",
@@ -8885,26 +10025,26 @@ public class YamlManager
 	{
 		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(1, new String[] {
 				"WOODEN_PICKAXE;8",
@@ -9294,26 +10434,26 @@ public class YamlManager
 				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
 		toResCondition = new LinkedHashMap<>();
 		toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
 		toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
 		toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
 		toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(1, new String[] {
 				"WOODEN_PICKAXE;8",
@@ -9802,26 +10942,26 @@ public class YamlManager
 	{
 		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(1, new String[] {
 				"WOODEN_PICKAXE;8",
@@ -10247,23 +11387,23 @@ public class YamlManager
 				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
 		toResCondition = new LinkedHashMap<>();
 		toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
 		toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
 		toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
 		toResCostMaterial = new LinkedHashMap<>();
 		toResCostMaterial.put(1, new String[] {
 				"STONE_PICKAXE;8",
@@ -10632,21 +11772,21 @@ public class YamlManager
 	{
 		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		String cTTExp = "100 * techlev + 25 * solototaltech";
+		String cTTExp = "100 * techlev + 25 * solo_researched_totaltech";
 		toResCostTTExp.put(1, cTTExp);
 		toResCostTTExp.put(2, cTTExp);
 		toResCostTTExp.put(3, cTTExp);
 		toResCostTTExp.put(4, cTTExp);
 		toResCostTTExp.put(5, cTTExp);
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
-		String cVExp = "10 * techlev + 2.5 * solototaltech";
+		String cVExp = "10 * techlev + 2.5 * solo_researched_totaltech";
 		toResCostVanillaExp.put(1, cVExp);
 		toResCostVanillaExp.put(2, cVExp);
 		toResCostVanillaExp.put(3, cVExp);
 		toResCostVanillaExp.put(4, cVExp);
 		toResCostVanillaExp.put(5, cVExp);
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
-		String cM = "1 * techlev + 0.25 * solototaltech";
+		String cM = "1 * techlev + 0.25 * solo_researched_totaltech";
 		toResCostMoney.put(1, cM);
 		toResCostMoney.put(2, cM);
 		toResCostMoney.put(3, cM);
@@ -10725,7 +11865,7 @@ public class YamlManager
 				"&fAbbauen von &#c6a664Eichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING% TTExp | "
 						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,2,BREAKING,HAND,OAK_SAPLING% Dollar",
-				"&fSetzten von Eichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,2,PLACING,HAND,OAK_SAPLING% TTExp | "
+				"&fSetzten von  &#c6a664Eichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,2,PLACING,HAND,OAK_SAPLING% TTExp | "
 						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,2,PLACING,HAND,OAK_SAPLING% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,2,PLACING,HAND,OAK_SAPLING% Dollar",
 				"",
@@ -10760,7 +11900,7 @@ public class YamlManager
 				"&fAbbauen von &#c6a664Eichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING% TTExp | "
 						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,3,BREAKING,HAND,OAK_SAPLING% Dollar",
-				"&fSetzten von Eichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,3,PLACING,HAND,OAK_SAPLING% TTExp | "
+				"&fSetzten von &#c6a664Eichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,3,PLACING,HAND,OAK_SAPLING% TTExp | "
 						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,3,PLACING,HAND,OAK_SAPLING% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,3,PLACING,HAND,OAK_SAPLING% Dollar",
 				"",
@@ -10795,7 +11935,7 @@ public class YamlManager
 				"&fAbbauen von &#c6a664Eichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING% TTExp | "
 						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,4,BREAKING,HAND,OAK_SAPLING% Dollar",
-				"&fSetzten von Eichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,4,PLACING,HAND,OAK_SAPLING% TTExp | "
+				"&fSetzten von &#c6a664Eichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,4,PLACING,HAND,OAK_SAPLING% TTExp | "
 						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,4,PLACING,HAND,OAK_SAPLING% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,4,PLACING,HAND,OAK_SAPLING% Dollar",
 				"",
@@ -10830,7 +11970,7 @@ public class YamlManager
 				"&fAbbauen von &#c6a664Eichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING% TTExp | "
 						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,5,BREAKING,HAND,OAK_SAPLING% Dollar",
-				"&fSetzten von Eichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,5,PLACING,HAND,OAK_SAPLING% TTExp | "
+				"&fSetzten von &#c6a664Eichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaksapling,5,PLACING,HAND,OAK_SAPLING% TTExp | "
 						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaksapling,5,PLACING,HAND,OAK_SAPLING% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaksapling,5,PLACING,HAND,OAK_SAPLING% Dollar",
 				"",
@@ -10953,7 +12093,7 @@ public class YamlManager
 				"&eSchaltet folgendes frei:",
 				"&f% von &#c6a664Fichtensetzling/Fichtensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
 				"&fAbbauen von &#c6a664Fichtensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,1,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
 				"&fSetzten von Fichtensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,1,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
 						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,1,PLACING,HAND,SPRUCE_SAPLING% VExp | "
@@ -10988,7 +12128,7 @@ public class YamlManager
 				"&eSchaltet folgendes frei:",
 				"&f% von &#c6a664Fichtensetzling/Fichtensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
 				"&fAbbauen von &#c6a664Fichtensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,2,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
 				"&fSetzten von Fichtensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,2,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
 						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,2,PLACING,HAND,SPRUCE_SAPLING% VExp | "
@@ -11023,7 +12163,7 @@ public class YamlManager
 				"&eSchaltet folgendes frei:",
 				"&f% von &#c6a664Fichtensetzling/Fichtensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
 				"&fAbbauen von &#c6a664Fichtensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,3,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
 				"&fSetzten von Fichtensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,3,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
 						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,3,PLACING,HAND,SPRUCE_SAPLING% VExp | "
@@ -11058,7 +12198,7 @@ public class YamlManager
 				"&eSchaltet folgendes frei:",
 				"&f% von &#c6a664Fichtensetzling/Fichtensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
 				"&fAbbauen von &#c6a664Fichtensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,4,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
 				"&fSetzten von Fichtensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,4,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
 						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,4,PLACING,HAND,SPRUCE_SAPLING% VExp | "
@@ -11093,7 +12233,7 @@ public class YamlManager
 				"&eSchaltet folgendes frei:",
 				"&f% von &#c6a664Fichtensetzling/Fichtensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING,mat=SPRUCE_SAPLING%",
 				"&fAbbauen von &#c6a664Fichtensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,sprucesapling,5,BREAKING,HAND,SPRUCE_SAPLING% Dollar",
 				"&fSetzten von Fichtensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,sprucesapling,5,PLACING,HAND,SPRUCE_SAPLING% TTExp | "
 						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,sprucesapling,5,PLACING,HAND,SPRUCE_SAPLING% VExp | "
@@ -11119,7 +12259,7 @@ public class YamlManager
 				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
 				"sprucesapling", new String[] {"Fichtensetzling", "Sprucesapling"},
-				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 1, "", "sapling", 
+				TechnologyType.MULTIPLE, 5, PlayerAssociatedType.SOLO, 1, "", "sapling", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
 				new String[] {"&8Fichtensetzling","&8Sprucesapling"},
@@ -11172,7 +12312,7 @@ public class YamlManager
 	{
 		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		String cTTExp = "100 * techlev + 50 * techacq + 25 * solototaltech";
+		String cTTExp = "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech";
 		toResCostTTExp.put(1, cTTExp);
 		toResCostTTExp.put(2, cTTExp);
 		toResCostTTExp.put(3, cTTExp);
@@ -11181,7 +12321,7 @@ public class YamlManager
 		toResCostTTExp.put(6, cTTExp);
 		toResCostTTExp.put(7, cTTExp);
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
-		String cVExp = "10 * techlev + 5 * techacq + 2.5 * solototaltech";
+		String cVExp = "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech";
 		toResCostVanillaExp.put(1, cVExp);
 		toResCostVanillaExp.put(2, cVExp);
 		toResCostVanillaExp.put(3, cVExp);
@@ -11190,7 +12330,7 @@ public class YamlManager
 		toResCostVanillaExp.put(6, cVExp);
 		toResCostVanillaExp.put(7, cVExp);
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
-		String cM = "1 * techlev + 0.5 * techacq + 0.25 * solototaltech";
+		String cM = "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech";
 		toResCostMoney.put(1, cM);
 		toResCostMoney.put(2, cM);
 		toResCostMoney.put(3, cM);
@@ -11278,10 +12418,10 @@ public class YamlManager
 				"&f% von &#c6a664Eichenstamm/Eichenstamm(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG,mat=OAK_LOG%",
 				"&fBehuts. % von &#c6a664Eichenstamm/Eichenstamm(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG,mat=OAK_LOG%",
 				"&fAbbauen von &#c6a664Eichenstamm(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_LOG% Dollar",
 				"&fSetzen von &#c6a664Eichenstamm(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,1,PLACING,HAND,OAK_LOG% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,1,PLACING,HAND,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,1,PLACING,HAND,OAK_LOG% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,1,PLACING,HAND,OAK_LOG% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -11315,10 +12455,10 @@ public class YamlManager
 				"&f% von &#c6a664Eichenstamm/Eichenstamm(Holzaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG,mat=OAK_LOG%",
 				"&fBehuts. % von &#c6a664Eichenstamm/Eichenstamm(Holzaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG,mat=OAK_LOG%",
 				"&fAbbauen von &#c6a664Eichenstamm(Holzaxt) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_LOG% Dollar",
 				"&fSetzen von &#c6a664Eichenstamm(Holzaxt) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,2,PLACING,WOODEN_AXE,OAK_LOG% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,2,PLACING,WOODEN_AXE,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,2,PLACING,WOODEN_AXE,OAK_LOG% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,2,PLACING,WOODEN_AXE,OAK_LOG% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -11352,10 +12492,10 @@ public class YamlManager
 				"&f% von &#c6a664Eichenstamm/Eichenstamm(Steinaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG,mat=OAK_LOG%",
 				"&fBehuts. % von &#c6a664Eichenstamm/Eichenstamm(Steinaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG,mat=OAK_LOG%",
 				"&fAbbauen von &#c6a664Eichenstamm(Steinaxt) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,3,BREAKING,STONE_AXE,OAK_LOG% Dollar",
 				"&fSetzen von &#c6a664Eichenstamm(Steinaxt) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,3,PLACING,STONE_AXE,OAK_LOG% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,3,PLACING,STONE_AXE,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,3,PLACING,STONE_AXE,OAK_LOG% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,3,PLACING,STONE_AXE,OAK_LOG% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -11389,10 +12529,10 @@ public class YamlManager
 				"&f% von &#c6a664Eichenstamm/Eichenstamm(Eisenaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG,mat=OAK_LOG%",
 				"&fBehuts. % von &#c6a664Eichenstamm/Eichenstamm(Eisenaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG,mat=OAK_LOG%",
 				"&fAbbauen von &#c6a664Eichenstamm(Eisenaxt) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,4,BREAKING,IRON_AXE,OAK_LOG% Dollar",
 				"&fSetzen von &#c6a664Eichenstamm(Eisenaxt) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,4,PLACING,IRON_AXE,OAK_LOG% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,4,PLACING,IRON_AXE,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,4,PLACING,IRON_AXE,OAK_LOG% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,4,PLACING,IRON_AXE,OAK_LOG% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -11426,10 +12566,10 @@ public class YamlManager
 				"&f% von &#c6a664Eichenstamm/Eichenstamm(Goldaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG,mat=OAK_LOG%",
 				"&fBehuts. % von &#c6a664Eichenstamm/Eichenstamm(Goldaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG,mat=OAK_LOG%",
 				"&fAbbauen von &#c6a664Eichenstamm(Goldaxt) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,5,BREAKING,GOLDEN_AXE,OAK_LOG% Dollar",
 				"&fSetzen von &#c6a664Eichenstamm(Goldaxt) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,5,PLACING,GOLDEN_AXE,OAK_LOG% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,5,PLACING,GOLDEN_AXE,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,5,PLACING,GOLDEN_AXE,OAK_LOG% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,5,PLACING,GOLDEN_AXE,OAK_LOG% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -11463,10 +12603,10 @@ public class YamlManager
 				"&f% von &#c6a664Eichenstamm/Eichenstamm(Diamantaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG,mat=OAK_LOG%",
 				"&fBehuts. % von &#c6a664Eichenstamm/Eichenstamm(Diamantaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG,mat=OAK_LOG%",
 				"&fAbbauen von &#c6a664Eichenstamm(Diamantaxt) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,6,BREAKING,DIAMOND_AXE,OAK_LOG% Dollar",
 				"&fSetzen von &#c6a664Eichenstamm(Diamantaxt) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,6,PLACING,DIAMOND_AXE,OAK_LOG% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,6,PLACING,DIAMOND_AXE,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,6,PLACING,DIAMOND_AXE,OAK_LOG% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,6,PLACING,DIAMOND_AXE,OAK_LOG% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -11500,10 +12640,10 @@ public class YamlManager
 				"&f% von &#c6a664Eichenstamm/Eichenstamm(Netheriteaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG,mat=OAK_LOG%",
 				"&fBehuts. % von &#c6a664Eichenstamm/Eichenstamm(Netheriteaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG,mat=OAK_LOG%",
 				"&fAbbauen von &#c6a664Eichenstamm(Netheriteaxt) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,7,BREAKING,NETHERITE_AXE,OAK_LOG% Dollar",
 				"&fSetzen von &#c6a664Eichenstamm(Netheriteaxt) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,oaklog,7,PLACING,NETHERITE_AXE,OAK_LOG% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,7,PLACING,NETHERITE_AXE,OAK_LOG% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,oaklog,7,PLACING,NETHERITE_AXE,OAK_LOG% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,oaklog,7,PLACING,NETHERITE_AXE,OAK_LOG% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -11574,29 +12714,29 @@ public class YamlManager
 				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
 		toResCondition = new LinkedHashMap<>();
 		toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solototaltech");
-		toResCostTTExp.put(7, "100 * techlev + 50 * techacq + 25 * solototaltech");
+		toResCostTTExp.put(1, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(2, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(3, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(4, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(5, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(6, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(7, "100 * techlev + 50 * techacq + 25 * solo_researched_totaltech");
 		toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
-		toResCostVanillaExp.put(7, "10 * techlev + 5 * techacq + 2.5 * solototaltech");
+		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(7, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
 		toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
-		toResCostMoney.put(7, "1 * techlev + 0.5 * techacq + 0.25 * solototaltech");
+		toResCostMoney.put(1, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(3, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(4, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(5, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(6, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(7, "1 * techlev + 0.5 * techacq + 0.25 * solo_researched_totaltech");
 		toResCostMaterial = new LinkedHashMap<>();
 		rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] {
@@ -11763,7 +12903,7 @@ public class YamlManager
 				"&f% von &#c6a664Bretter/Bretter(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_PLANKS,mat=OAK_PLANKS%",
 				"&fBehuts. % von &#c6a664Bretter/Bretter(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,1,BREAKING,HAND,OAK_PLANKS,mat=OAK_PLANKS%",
 				"&fHerstellen von &#c6a664Brettern &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,woodenplanks_I,1,CRAFTING,HAND,OAK_PLANKS% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,woodenplanks_I,1,CRAFTING,HAND,OAK_PLANKS% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,woodenplanks_I,1,CRAFTING,HAND,OAK_PLANKS% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,woodenplanks_I,1,CRAFTING,HAND,OAK_PLANKS% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -11791,8 +12931,8 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&f% von &#c6a664Bretter/Bretter(Holzaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
-				"&fBehuts. % von &#c6a664Bretter/Bretter(Holzaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,oaklog,2,BREAKING,WOODEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&f% von &#c6a664Bretter/Bretter(Holzaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,woodenplanks_I,2,BREAKING,WOODEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
+				"&fBehuts. % von &#c6a664Bretter/Bretter(Holzaxt) &#546f42%tt_reward_tech_dropchance_mat,SOLO,woodenplanks_I,2,BREAKING,WOODEN_AXE,OAK_PLANKS,mat=OAK_PLANKS%",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -11934,7 +13074,7 @@ public class YamlManager
 				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
 				"woodenplanks_I", new String[] {"Holzbretter_I", "Woodenplanks_I"},
-				TechnologyType.SIMPLE, 7, PlayerAssociatedType.SOLO, 1, "", "wood", 
+				TechnologyType.MULTIPLE, 7, PlayerAssociatedType.SOLO, 1, "", "wood", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				new String[] { //ConditionToSee
 						"if:(a||b||c||d||e||f||g||h):o_1", "else:o_2",
@@ -12003,14 +13143,14 @@ public class YamlManager
 	{
 		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 25 * solototaltech");
-		toResCostTTExp.put(2, "100 * techlev + 25 * solototaltech");
+		toResCostTTExp.put(1, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(2, "100 * techlev + 25 * solo_researched_totaltech");
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * solototaltech");
-		toResCostVanillaExp.put(2, "10 * techlev + 2.5 * solototaltech");
+		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 2.5 * solo_researched_totaltech");
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.25 * solototaltech");
-		toResCostMoney.put(2, "1 * techlev + 0.25 * solototaltech");
+		toResCostMoney.put(1, "1 * techlev + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.25 * solo_researched_totaltech");
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] {"CRAFTING:COBBLESTONE_SLAB:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",""});
@@ -12075,7 +13215,7 @@ public class YamlManager
 				"&f% von &#c6a664Bruchsteinstufe/Bruchsteinstufe &#546f42%tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,COBBLESTONE_SLAB,mat=COBBLESTONE_SLAB%",
 				"&fBehuts. % von &#c6a664Bruchsteinstufe/Bruchsteinstufe &#546f42%tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,COBBLESTONE_SLAB,mat=COBBLESTONE_SLAB%",
 				"&fHerstellen von &#c6a664Bruchsteinstufe &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,COBBLESTONE_SLAB% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,COBBLESTONE_SLAB% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,COBBLESTONE_SLAB% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,COBBLESTONE_SLAB% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -12103,11 +13243,11 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&f% von &#c6a664Steinstufe/Steinstufe &#546f42%tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,STONE_SLAB,mat=STONE_SLAB%",
-				"&fBehuts. % von &#c6a664Steinstufe/Steinstufe &#546f42%tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,STONE_SLAB,mat=STONE_SLAB%",
+				"&f% von &#c6a664Steinstufe/Steinstufe &#546f42%tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,2,BREAKING,HAND,STONE_SLAB,mat=STONE_SLAB%",
+				"&fBehuts. % von &#c6a664Steinstufe/Steinstufe &#546f42%tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,2,BREAKING,HAND,STONE_SLAB,mat=STONE_SLAB%",
 				"&fHerstellen von &#c6a664Steinstufe &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,STONE_SLAB% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,STONE_SLAB% VExp |"
-						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,STONE_SLAB% Dollar",
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stoneslab_I,2,CRAFTING,HAND,STONE_SLAB% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stoneslab_I,2,CRAFTING,HAND,STONE_SLAB% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -12118,11 +13258,11 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&f% of &#c6a664Stoneslaps/Stoneslaps &#546f42%tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,STONE_SLAB,mat=STONE_SLAB%",
-				"&fSilkT% of &#c6a664Stoneslabs/Stoneslabs &#546f42%tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,1,BREAKING,HAND,STONE_SLAB,mat=STONE_SLAB%",
-				"&fCrafting of &#c6a664Stoneslaps &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,STONE_SLAB% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,STONE_SLAB% VExp | "
-						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stoneslab_I,1,CRAFTING,HAND,STONE_SLAB% Dollar",
+				"&f% of &#c6a664Stoneslaps/Stoneslaps &#546f42%tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,2,BREAKING,HAND,STONE_SLAB,mat=STONE_SLAB%",
+				"&fSilkT% of &#c6a664Stoneslabs/Stoneslabs &#546f42%tt_reward_tech_dropchance_mat,SOLO,stoneslab_I,2,BREAKING,HAND,STONE_SLAB,mat=STONE_SLAB%",
+				"&fCrafting of &#c6a664Stoneslaps &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stoneslab_I,2,CRAFTING,HAND,STONE_SLAB% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stoneslab_I,2,CRAFTING,HAND,STONE_SLAB% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stoneslab_I,2,CRAFTING,HAND,STONE_SLAB% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
@@ -12188,14 +13328,14 @@ public class YamlManager
 	{
 		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 25 * solototaltech");
-		toResCostTTExp.put(2, "100 * techlev + 25 * solototaltech");
+		toResCostTTExp.put(1, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(2, "100 * techlev + 25 * solo_researched_totaltech");
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * solototaltech");
-		toResCostVanillaExp.put(2, "10 * techlev + 2.5 * solototaltech");
+		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 2.5 * solo_researched_totaltech");
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.25 * solototaltech");
-		toResCostMoney.put(2, "1 * techlev + 0.25 * solototaltech");
+		toResCostMoney.put(1, "1 * techlev + 0.25 * solo_researched_totaltech");
+		toResCostMoney.put(2, "1 * techlev + 0.25 * solo_researched_totaltech");
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] {"CRAFTING:COBBLESTONE_STAIRS:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",""});
@@ -12260,7 +13400,7 @@ public class YamlManager
 				"&f% von &#c6a664Bruchsteintreppe/Bruchsteintreppe &#546f42%tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,COBBLESTONE_STAIRS,mat=COBBLESTONE_STAIRS%",
 				"&fBehuts. % von &#c6a664Bruchsteintreppe/Bruchsteintreppe &#546f42%tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,COBBLESTONE_STAIRS,mat=COBBLESTONE_STAIRS%",
 				"&fHerstellen von &#c6a664Bruchsteintreppe &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,COBBLESTONE_STAIRS% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,COBBLESTONE_STAIRS% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,COBBLESTONE_STAIRS% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,COBBLESTONE_STAIRS% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -12288,11 +13428,11 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&f% von &#c6a664Steintreppe/Steintreppe &#546f42%tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,STONE_STAIRS,mat=STONE_STAIRS%",
-				"&fBehuts. % von &#c6a664Steintreppe/Steintreppe &#546f42%tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,STONE_STAIRS,mat=STONE_STAIRS%",
-				"&fHerstellen von &#c6a664Steintreppe &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,STONE_STAIRS% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,STONE_STAIRS% VExp |"
-						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,STONE_STAIRS% Dollar",
+				"&f% von &#c6a664Steintreppe/Steintreppe &#546f42%tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,2,BREAKING,HAND,STONE_STAIRS,mat=STONE_STAIRS%",
+				"&fBehuts. % von &#c6a664Steintreppe/Steintreppe &#546f42%tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,2,BREAKING,HAND,STONE_STAIRS,mat=STONE_STAIRS%",
+				"&fHerstellen von &#c6a664Steintreppe &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stonestairs_I,2,CRAFTING,HAND,STONE_STAIRS% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stonestairs_I,2,CRAFTING,HAND,STONE_STAIRS% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stonestairs_I,2,CRAFTING,HAND,STONE_STAIRS% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -12303,11 +13443,11 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&f% of &#c6a664Stonestairs/Stonestairs &#546f42%tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,STONE_STAIRS,mat=STONE_STAIRS%",
-				"&fSilkT% of &#c6a664Stonestairs/Stonestairs &#546f42%tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,1,BREAKING,HAND,STONE_STAIRS,mat=STONE_STAIRS%",
-				"&fCrafting of &#c6a664Stoneslaps &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,STONE_STAIRS% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,STONE_STAIRS% VExp | "
-						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stonestairs_I,1,CRAFTING,HAND,STONE_STAIRS% Dollar",
+				"&f% of &#c6a664Stonestairs/Stonestairs &#546f42%tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,2,BREAKING,HAND,STONE_STAIRS,mat=STONE_STAIRS%",
+				"&fSilkT% of &#c6a664Stonestairs/Stonestairs &#546f42%tt_reward_tech_dropchance_mat,SOLO,stonestairs_I,2,BREAKING,HAND,STONE_STAIRS,mat=STONE_STAIRS%",
+				"&fCrafting of &#c6a664Stoneslaps &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,stonestairs_I,2,CRAFTING,HAND,STONE_STAIRS% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,stonestairs_I,2,CRAFTING,HAND,STONE_STAIRS% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,stonestairs_I,2,CRAFTING,HAND,STONE_STAIRS% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
@@ -12378,11 +13518,11 @@ public class YamlManager
 				"output:o_2:false",
 				"a:hasresearchedtech,furnace,1:==:true"});
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 25 * solototaltech");
+		toResCostTTExp.put(1, "100 * techlev + 25 * solo_researched_totaltech");
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * solototaltech");
+		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * solo_researched_totaltech");
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.25 * solototaltech");
+		toResCostMoney.put(1, "1 * techlev + 0.25 * solo_researched_totaltech");
 		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[]{"MELTING:STONE:null:tool=HAND:ttexp=0.1:vault=0.5:default=0.5",""});
@@ -12407,7 +13547,7 @@ public class YamlManager
 				"",
 				"&eSchaltet folgendes frei:",
 				"&fBrennen von &#c6a664Bruchstein &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,melting_cobblestone,1,CRAFTING,HAND,STONE% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,melting_cobblestone,1,CRAFTING,HAND,STONE% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,melting_cobblestone,1,CRAFTING,HAND,STONE% VExp | "
 						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,melting_cobblestone,1,CRAFTING,HAND,STONE% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
@@ -12478,11 +13618,11 @@ public class YamlManager
 				"output:o_2:false",
 				"a:hasresearchedtech,furnace,1:==:true"});
 		toResCostTTExp = new LinkedHashMap<>();
-		toResCostTTExp.put(1, "100 * techlev + 25 * solototaltech");
+		toResCostTTExp.put(1, "100 * techlev + 25 * solo_researched_totaltech");
 		toResCostVanillaExp = new LinkedHashMap<>();
-		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * solototaltech");
+		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * solo_researched_totaltech");
 		toResCostMoney = new LinkedHashMap<>();
-		toResCostMoney.put(1, "1 * techlev + 0.25 * solototaltech");
+		toResCostMoney.put(1, "1 * techlev + 0.25 * solo_researched_totaltech");
 		toResCostMaterial = new LinkedHashMap<>();
 		rewardUnlockableInteractions = new LinkedHashMap<>();
 		rewardUnlockableInteractions.put(1, new String[] 
@@ -12505,9 +13645,9 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fBrennen von &#c6a664Roheisen &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,melting_rawiron,1,CRAFTING,HAND,IRON_INGOT% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,melting_rawiron,1,CRAFTING,HAND,IRON_INGOT% VExp |"
-						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,melting_rawiron,1,CRAFTING,HAND,IRON_INGOT% Dollar",
+				"&fBrennen von &#c6a664Roheisen &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,melting_iron,1,CRAFTING,HAND,IRON_INGOT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,melting_iron,1,CRAFTING,HAND,IRON_INGOT% VExp |"
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,melting_iron,1,CRAFTING,HAND,IRON_INGOT% Dollar",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -12518,9 +13658,9 @@ public class YamlManager
 				"&f%costmaterial%",
 				"",
 				"&eUnlocks the following:",
-				"&fMelting of &#c6a664Rawiron &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,melting_rawiron,1,CRAFTING,HAND,IRON_INGOT% TTExp | "
-						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,melting_rawiron,1,CRAFTING,HAND,IRON_INGOT% VExp | "
-						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,melting_rawiron,1,CRAFTING,HAND,IRON_INGOT% Dollar",
+				"&fMelting of &#c6a664Rawiron &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,melting_iron,1,CRAFTING,HAND,IRON_INGOT% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,melting_iron,1,CRAFTING,HAND,IRON_INGOT% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,melting_iron,1,CRAFTING,HAND,IRON_INGOT% Dollar",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
@@ -12555,16 +13695,16 @@ public class YamlManager
 				Material.IRON_INGOT, 1, itemflag, enchantment, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fBrennen von &#c6a664Roheisen &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,melting_rawiron,CRAFTING,HAND,IRON_INGOT% TTExp | "
-								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,melting_rawiron,CRAFTING,HAND,IRON_INGOT% VExp | "
-								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,melting_rawiron,CRAFTING,HAND,IRON_INGOT% Dollar",
+						"&fBrennen von &#c6a664Roheisen &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,melting_iron,CRAFTING,HAND,IRON_INGOT% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,melting_iron,CRAFTING,HAND,IRON_INGOT% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,melting_iron,CRAFTING,HAND,IRON_INGOT% Dollar",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fMelting of &#c6a664Rawiron &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,melting_rawiron,CRAFTING,HAND,IRON_INGOT% TTExp | "
-								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,melting_rawiron,CRAFTING,HAND,IRON_INGOT% VExp | "
-								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,melting_rawiron,CRAFTING,HAND,IRON_INGOT% Dollar",			
+						"&fMelting of &#c6a664Rawiron &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,melting_iron,CRAFTING,HAND,IRON_INGOT% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,melting_iron,CRAFTING,HAND,IRON_INGOT% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,melting_iron,CRAFTING,HAND,IRON_INGOT% Dollar",			
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
@@ -12574,29 +13714,1440 @@ public class YamlManager
 
 	private void tech_Tablerecipe_Enchantmentrecipe(String[] itemflag, String[] enchantment) //INFO:Tablerecipe_Enchantmentrecipe
 	{
-		//TODO EnchantmentOffers & Enchantments nicht vergessen
+		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
+		toResCondition.put(1, new String[] {
+				"if:(a):o_1", "else:o_2",
+				"output:o_1:true",
+				"output:o_2:false",
+				"a:hasresearchedtech,enchanting_table,1:==:true"});
+		toResCondition.put(2, new String[] {
+				"if:(a):o_1", "else:o_2",
+				"output:o_1:true",
+				"output:o_2:false",
+				"a:hasresearchedtech,enchanting_table,1:==:true"});
+		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(2, "100 * techlev + 25 * solo_researched_totaltech");
+		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 2.5 * solo_researched_totaltech");
+		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardUnlockableRecipe = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardDropChance = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantmentOffers = new LinkedHashMap<>();
+		rewardEnchantmentOffers.put(1, new String[] {
+				"2",
+				""});
+		rewardEnchantmentOffers.put(2, new String[] {
+				"3",
+				""});
+		LinkedHashMap<Integer, String[]> rewardEnchantments = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardValueEntry = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fVerzauberungstisch Verzauberungsangebot Stufe 2",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fEnchanting Table enchantingoffer level 2",
+				"",
+				"&cRightclick &bfor a more detailed view."});	
+		canResLore.put(2, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fVerzauberungstisch Verzauberungsangebot Stufe 3",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fEnchanting Table enchantingoffer level 3",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		addTechnology(
+				"enchantingoffer", new String[] {"Verzaubungsangebot", "Enchantingoffer"},
+				TechnologyType.MULTIPLE, 2, PlayerAssociatedType.SOLO, 0, "", "enchantmentrecipe", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				null, true,
+				new String[] {"&8Verzaubungsangebot","&8Enchantingoffer"},
+				Material.BARRIER, 1, itemflag, null, new String[] {
+						"",
+						"&cAnforderungen zum einsehen:",
+						"&cMuss die Technology >&#ff8c00Verzauberungstisch&c< erforscht haben.",
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fHöhere Stufen des Verzauberungstisch Verzauberungsangebotes.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&cRequirements to view:",
+						"&cMust have researched the Technology >&#ff8c00EnchantingTable<.",
+						"",
+						"&eUnlocks the following:",
+						"&fHigher levels of the enchantment table enchantment offer.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				new String[] {"&7Verzaubungsangebot","&7Enchantingoffer"},
+				Material.STONE, 1, itemflag, null, canResLore.get(1),
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&bVerzaubungsangebot","&bEnchantingoffer"},
+				Material.STONE, 1, itemflag, null, canResLore,
+				new String[] {"&5Verzaubungsangebot","&5Enchantingoffer"},
+				Material.STONE, 1, itemflag, enchantment, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fHöhere Stufen des Verzauberungstisch Verzauberungsangebotes.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fHigher levels of the enchantment table enchantment offer.",	
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				);
+		//Enchantings durability
+		toResCondition = new LinkedHashMap<>();
+		toResCondition.put(1, new String[] {
+				"if:(a):o_1", "else:o_2",
+				"output:o_1:true",
+				"output:o_2:false",
+				"a:hasresearchedtech,enchanting_table,1:==:true"});
+		toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(2, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(3, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(4, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(5, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(6, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(7, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(8, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(7, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(8, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostMoney = new LinkedHashMap<>();
+		toResCostMaterial = new LinkedHashMap<>();
+		rewardUnlockableInteractions = new LinkedHashMap<>();
+		rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardEnchantmentOffers = new LinkedHashMap<>();
+		rewardEnchantments = new LinkedHashMap<>();
+		rewardEnchantments.put(1, new String[] {
+				"SHEARS:unbreaking",
+				"FLINT_AND_STONE:unbreaking",
+				"FISHING_ROD:unbreaking",
+				"TRIDENT:unbreaking"});
+		rewardEnchantments.put(2, new String[] {
+				"WOODEN_AXE:unbreaking",
+				"WOODEN_HOE:unbreaking",
+				"WOODEN_SHOVEL:unbreaking",
+				"WOODEN_PICKAXE:unbreaking",
+				"WOODEN_SWORD:unbreaking",
+				"BOW:unbreaking",
+				"LEATHER_BOOTS:unbreaking",
+				"LEATHER_CHESTPLATE:unbreaking",
+				"LEATHER_HELMET:unbreaking",
+				"LEATHER_LEGGINGS:unbreaking",
+				"LEATHER_HORSE_ARMOR:unbreaking"});
+		rewardEnchantments.put(3, new String[] {
+				"STONE_AXE:unbreaking",
+				"STONE_HOE:unbreaking",
+				"STONE_SHOVEL:unbreaking",
+				"STONE_PICKAXE:unbreaking",
+				"STONE_SWORD:unbreaking",
+				"CROSSBOW:unbreaking",
+				"CHAINMAIL_BOOTS:unbreaking",
+				"CHAINMAIL_CHESTPLATE:unbreaking",
+				"CHAINMAIL_HELMET:unbreaking",
+				"CHAINMAIL_LEGGINGS:unbreaking"});
+		rewardEnchantments.put(4, new String[] {
+				"IRON_AXE:unbreaking",
+				"IRON_HOE:unbreaking",
+				"IRON_SHOVEL:unbreaking",
+				"IRON_PICKAXE:unbreaking",
+				"IRON_SWORD:unbreaking",
+				"IRON_BOOTS:unbreaking",
+				"IRON_CHESTPLATE:unbreaking",
+				"IRON_HELMET:unbreaking",
+				"IRON_LEGGINGS:unbreaking",
+				"IRON_HORSE_ARMOR:unbreaking",
+				"SHILD:unbreaking"});
+		rewardEnchantments.put(5, new String[] {
+				"GOLDEN_AXE:unbreaking",
+				"GOLDEN_HOE:unbreaking",
+				"GOLDEN_SHOVEL:unbreaking",
+				"GOLDEN_PICKAXE:unbreaking",
+				"GOLDEN_SWORD:unbreaking",
+				"GOLDEN_BOOTS:unbreaking",
+				"GOLDEN_CHESTPLATE:unbreaking",
+				"GOLDEN_HELMET:unbreaking",
+				"GOLDEN_LEGGINGS:unbreaking",
+				"GOLDEN_HORSE_ARMOR:unbreaking"});
+		rewardEnchantments.put(6, new String[] {
+				"DIAMOND_AXE:unbreaking",
+				"DIAMOND_HOE:unbreaking",
+				"DIAMOND_SHOVEL:unbreaking",
+				"DIAMOND_PICKAXE:unbreaking",
+				"DIAMOND_SWORD:unbreaking",
+				"DIAMOND_BOOTS:unbreaking",
+				"DIAMOND_CHESTPLATE:unbreaking",
+				"DIAMOND_HELMET:unbreaking",
+				"DIAMOND_LEGGINGS:unbreaking",
+				"DIAMOND_HORSE_ARMOR:unbreaking"});
+		rewardEnchantments.put(7, new String[] {
+				"NETHERITE_AXE:unbreaking",
+				"NETHERITE_HOE:unbreaking",
+				"NETHERITE_SHOVEL:unbreaking",
+				"NETHERITE_SWORD:unbreaking",
+				"NETHERITE_PICKAXE:unbreaking",
+				"NETHERITE_BOOTS:unbreaking",
+				"NETHERITE_CHESTPLATE:unbreaking",
+				"NETHERITE_HELMET:unbreaking",
+				"NETHERITE_LEGGINGS:unbreaking"});
+		rewardEnchantments.put(8, new String[] {
+				"BOOK:unbreaking"});
+		rewardCommand = new LinkedHashMap<>();
+		rewardItem = new LinkedHashMap<>();
+		rewardModifier = new LinkedHashMap<>();
+		rewardValueEntry = new LinkedHashMap<>();
+		canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fVerzauberung Haltbarkeit für alle normalen Werkzeuge und Dreizack.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fEnchantment Durability for all normal tools and trident.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(2, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fVerzauberung Haltbarkeit für alle Holzwerkzeuge und Lederrüstungen sowie Bogen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fEnchantment Durability for all wooden tools and leather armor as well as bows.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(3, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fVerzauberung Haltbarkeit für alle Steinwerkzeuge und Kettenrüstungen sowie die Armbrust.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fEnchantment Durability for all stone tools and chainmail armor as well as crossbow.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(4, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fVerzauberung Haltbarkeit für alle Eisenwerkzeuge und -rüstungen sowie den Schild.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fEnchantment Durability for all Eisen tools and armor as well as shild.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(5, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fVerzauberung Haltbarkeit für alle Goldwerkzeuge und -rüstungen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fEnchantment Durability for all golden tools and armor.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(6, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fVerzauberung Haltbarkeit für alle Diamantwerkzeuge und -rüstungen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fEnchantment Durability for all diamond tools and armor.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(7, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fVerzauberung Haltbarkeit für alle Netheritwerkzeuge und -rüstungen.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fEnchantment Durability for all netherite tools and armor.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(8, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fVerzauberung Haltbarkeit für Bücher.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fEnchantment Durability for books.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		addTechnology(
+				"enchanting_durability", new String[] {"Verzauberungsrezept Haltbarkeit", "Enchantingrecipe Durability"},
+				TechnologyType.MULTIPLE, 8, PlayerAssociatedType.SOLO, 0, "", "enchantmentrecipe", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				null, true,
+				new String[] {"&8Verzauberungsrezept Haltbarkeit","&8Furnacerecipe Stone"},
+				Material.BARRIER, 1, itemflag, null, new String[] {
+						"",
+						"&cAnforderungen zum einsehen:",
+						"&cMuss die Technology >&#ff8c00Verzauberunstisch&c< erforscht haben.",
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fVerzauberung Haltbarkeit für alle Werkzeuge/Waffen/Rüstungen.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&cRequirements to view:",
+						"&cMust have researched the Technology >&#ff8c00EnchantingTable<.",
+						"",
+						"&eUnlocks the following:",
+						"&fEnchantment Durability for all tools/weapons/armor.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				new String[] {"&7Verzauberungsrezept Haltbarkeit","&7Enchantingrecipe Durability"},
+				Material.BOOK, 1, itemflag, null, canResLore.get(1),
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&bVerzauberungsrezept Haltbarkeit","&bEnchantingrecipe Durability"},
+				Material.ENCHANTED_BOOK, 1, itemflag, null, canResLore,
+				new String[] {"&5Verzauberungsrezept Haltbarkeit","&5Enchantingrecipe Durability"},
+				Material.ENCHANTED_BOOK, 1, itemflag, enchantment, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fVerzauberung Haltbarkeit für alle Werkzeuge/Waffen/Rüstungen.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fEnchantment Durability for all tools/weapons/armor.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				);
+		//Enchantings durability
+		toResCondition = new LinkedHashMap<>();
+		String[] cond = new String[] {
+				"if:(a):o_1", "else:o_2",
+				"output:o_1:true",
+				"output:o_2:false",
+				"a:hasresearchedtech,enchanting_table,1:==:true"};
+		toResCondition.put(1, cond);
+		toResCondition.put(2, cond);
+		toResCondition.put(3, cond);
+		toResCondition.put(4, cond);
+		toResCondition.put(5, cond);
+		toResCondition.put(6, cond);
+		toResCondition.put(7, cond);
+		toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(2, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(3, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(4, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(5, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(6, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(7, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(7, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostMoney = new LinkedHashMap<>();
+		toResCostMaterial = new LinkedHashMap<>();
+		rewardUnlockableInteractions = new LinkedHashMap<>();
+		rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardEnchantmentOffers = new LinkedHashMap<>();
+		rewardEnchantments = new LinkedHashMap<>();
+		rewardEnchantments.put(1, new String[] {
+				"WOODEN_AXE:efficiency",
+				"WOODEN_HOE:efficiency",
+				"WOODEN_SHOVEL:efficiency",
+				"WOODEN_PICKAXE:efficiency"});
+		rewardEnchantments.put(2, new String[] {
+				"STONE_AXE:efficiency",
+				"STONE_HOE:efficiency",
+				"STONE_SHOVEL:efficiency",
+				"STONE_PICKAXE:efficiency"});
+		rewardEnchantments.put(3, new String[] {
+				"IRON_AXE:efficiency",
+				"IRON_HOE:efficiency",
+				"IRON_SHOVEL:efficiency",
+				"IRON_PICKAXE:efficiency"});
+		rewardEnchantments.put(4, new String[] {
+				"GOLDEN_AXE:efficiency",
+				"GOLDEN_HOE:efficiency",
+				"GOLDEN_SHOVEL:efficiency",
+				"GOLDEN_PICKAXE:efficiency"});
+		rewardEnchantments.put(5, new String[] {
+				"DIAMOND_AXE:efficiency",
+				"DIAMOND_HOE:efficiency",
+				"DIAMOND_SHOVEL:efficiency",
+				"DIAMOND_PICKAXE:efficiency"});
+		rewardEnchantments.put(6, new String[] {
+				"NETHERITE_AXE:efficiency",
+				"NETHERITE_HOE:efficiency",
+				"NETHERITE_SHOVEL:efficiency",
+				"NETHERITE_PICKAXE:efficiency"});
+		rewardEnchantments.put(7, new String[] {
+				"BOOK:efficiency"});
+		rewardCommand = new LinkedHashMap<>();
+		rewardItem = new LinkedHashMap<>();
+		rewardModifier = new LinkedHashMap<>();
+		rewardValueEntry = new LinkedHashMap<>();
+		canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fVerzauberung Effizienz für alle Holzwerkzeuge.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fEnchantment Efficiency for all wooden tools.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(2, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fVerzauberung Effizienz für alle Steinwerkzeuge.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fEnchantment Efficiency for all stone tools.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(3, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fVerzauberung Effizienz für alle Eisenwerkzeuge.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fEnchantment Efficiency for all Eisen tools.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(4, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fVerzauberung Effizienz für alle Goldwerkzeuge.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fEnchantment Efficiency for all golden tools.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(5, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fVerzauberung Effizienz für alle Diamantwerkzeuge.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fEnchantment Efficiency for all diamond tools.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(6, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fVerzauberung Effizienz für alle Netheritwerkzeuge.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fEnchantment Efficiency for all netherite tools.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(7, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fVerzauberung Effizienz für Bücher.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fEnchantment Efficiency for books.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		addTechnology(
+				"enchanting_durability", new String[] {"Verzauberungsrezept Effizienz", "Enchantingrecipe Efficiency"},
+				TechnologyType.MULTIPLE, 7, PlayerAssociatedType.SOLO, 1, "", "enchantmentrecipe", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				null, true,
+				new String[] {"&8Verzauberungsrezept Effizienz","&8Furnacerecipe Stone"},
+				Material.BARRIER, 1, itemflag, null, new String[] {
+						"",
+						"&cAnforderungen zum einsehen:",
+						"&cMuss die Technology >&#ff8c00Verzauberunstisch&c< erforscht haben.",
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fVerzauberung Effizienz für alle Werkzeuge.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&cRequirements to view:",
+						"&cMust have researched the Technology >&#ff8c00EnchantingTable<.",
+						"",
+						"&eUnlocks the following:",
+						"&fEnchantment Efficiency for all tools.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				new String[] {"&7Verzauberungsrezept Effizienz","&7Enchantingrecipe Efficiency"},
+				Material.BOOK, 1, itemflag, null, canResLore.get(1),
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&bVerzauberungsrezept Effizienz","&bEnchantingrecipe Efficiency"},
+				Material.ENCHANTED_BOOK, 1, itemflag, null, canResLore,
+				new String[] {"&5Verzauberungsrezept Effizienz","&5Enchantingrecipe Efficiency"},
+				Material.ENCHANTED_BOOK, 1, itemflag, enchantment, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fVerzauberung Effizienz für alle Werkzeuge.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fEnchantment Efficiency for all tools.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				);
 	}
 
 	private void tech_Tablerecipe_Brewingrecipe(String[] itemflag, String[] enchantment) //INFO:Tablerecipe_Brewingrecipe
 	{
-		
+		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
+		toResCondition.put(1, new String[] {
+				"if:(a):o_1", "else:o_2",
+				"output:o_1:true",
+				"output:o_2:false",
+				"a:hasresearchedtech,brewing_stand,1:==:true"});
+		toResCondition.put(2, new String[] {
+				"if:(a):o_1", "else:o_2",
+				"output:o_1:true",
+				"output:o_2:false",
+				"a:hasresearchedtech,brewing_stand,1:==:true"});
+		toResCondition.put(3, new String[] {
+				"if:(a):o_1", "else:o_2",
+				"output:o_1:true",
+				"output:o_2:false",
+				"a:hasresearchedtech,brewing_stand,1:==:true"});
+		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(2, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(3, "100 * techlev + 25 * solo_researched_totaltech");
+		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 2.5 * solo_researched_totaltech");
+		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardUnlockableRecipe.put(1, new String[] {
+				"BREWING:NETHER_WART",""});
+		rewardUnlockableRecipe.put(2, new String[] {
+				"BREWING:REDSTONE",""});
+		rewardUnlockableRecipe.put(3, new String[] {
+				"BREWING:GLOWSTONE_DUST",""});
+		LinkedHashMap<Integer, String[]> rewardDropChance = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantmentOffers = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantments = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardValueEntry = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fSeltsamer Trank",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fAwkward Potion",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(2, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fVerlängerte Trankvarianten",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fExtended potion variants",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(3, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fVerstärkte Trankvarianten",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fEnhanced potion variants",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		addTechnology(
+				"basic_brewing", new String[] {"Basis_Brauen", "Basic_Brewing"},
+				TechnologyType.MULTIPLE, 3, PlayerAssociatedType.SOLO, 0, "", "brewingrecipe", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				null, true,
+				new String[] {"&8Basis Brauen","&8Basic Brewing"},
+				Material.BARRIER, 1, itemflag, null, new String[] {
+						"",
+						"&cAnforderungen zum einsehen:",
+						"&cMuss die Technology >&#ff8c00Braustand&c< erforscht haben.",
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fNormale, verlängerte und Verstärkte Tränke.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&cRequirements to view:",
+						"&cMust have researched the Technology >&#ff8c00BrewingStand<.",
+						"",
+						"&eUnlocks the following:",
+						"&fNormal, extended and enhanced potions.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				new String[] {"&7Basis Brauen","&7Basic Brewing"},
+				Material.BREWING_STAND, 1, itemflag, null, canResLore.get(1),
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&bBasis Brauen","&bBasic Brewing"},
+				Material.BREWING_STAND, 1, itemflag, null, canResLore,
+				new String[] {"&5Basis Brauen","&5Basic Brewing"},
+				Material.BREWING_STAND, 1, itemflag, enchantment, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fNormale, verlängerte und verstärkte Tränke.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fNormal, extended and enhanced potions.",	
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				);
+		//Schnelligkeit
+		toResCondition = new LinkedHashMap<>();
+		toResCondition.put(1, new String[] {
+				"if:(a):o_1", "else:o_2",
+				"output:o_1:true",
+				"output:o_2:false",
+				"a:hasresearchedtech,basic_brewing,1:==:true"});
+		toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostMoney = new LinkedHashMap<>();
+		toResCostMaterial = new LinkedHashMap<>();
+		rewardUnlockableInteractions = new LinkedHashMap<>();
+		rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardUnlockableRecipe.put(1, new String[] {
+				"BREWING:SUGAR",""});
+		rewardDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardEnchantmentOffers = new LinkedHashMap<>();
+		rewardEnchantments = new LinkedHashMap<>();
+		rewardCommand = new LinkedHashMap<>();
+		rewardItem = new LinkedHashMap<>();
+		rewardModifier = new LinkedHashMap<>();
+		rewardValueEntry = new LinkedHashMap<>();
+		canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fTrank der Schnelligkeit.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fSpeedpotion.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		addTechnology(
+				"speedpotion", new String[] {"Trank_der_Schnelligkeit", "Speedpotion"},
+				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 1, "", "brewingrecipe", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				null, true,
+				new String[] {"&8Trank der Schnelligkeit","&8Speedpotion"},
+				Material.BARRIER, 1, itemflag, null, new String[] {
+						"",
+						"&cAnforderungen zum einsehen:",
+						"&cMuss die Technology >&#ff8c00Basis Brauen&c< erforscht haben.",
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fTrank der Schnelligkeit.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&cRequirements to view:",
+						"&cMust have researched the Technology >&#ff8c00Basic Brewing<.",
+						"",
+						"&eUnlocks the following:",
+						"&fSpeedpotion.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				new String[] {"&7Trank der Schnelligkeit","&7Speedpotion"},
+				Material.POTION, 1, itemflag, null, canResLore.get(1),
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&bTrank der Schnelligkeit","&bSpeedpotion"},
+				Material.POTION, 1, itemflag, null, canResLore,
+				new String[] {"&5Trank der Schnelligkeit","&5Speedpotion"},
+				Material.POTION, 1, itemflag, enchantment, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fTrank der Schnelligkeit.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fSpeedpotion.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				);
 	}
 
-	private void tech_Tablerecipe_Anvilrecipe(String[] itemflag, String[] enchantment) //INFO:ablerecipe_Anvilrecipe
+	private void tech_Tablerecipe_Anvilrecipe(String[] itemflag, String[] enchantment) //INFO:Tablerecipe_Anvilrecipe
 	{
-		
+		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
+		String[] rescon = new String[] {
+				"if:(a):o_1", "else:o_2",
+				"output:o_1:true",
+				"output:o_2:false",
+				"a:hasresearchedtech,anvil,1:==:true"};
+		toResCondition.put(1, rescon);
+		toResCondition.put(2, rescon);
+		toResCondition.put(3, rescon);
+		toResCondition.put(4, rescon);
+		toResCondition.put(5, rescon);
+		toResCondition.put(6, rescon);
+		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(2, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(3, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(4, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(5, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(6, "100 * techlev + 25 * solo_researched_totaltech");
+		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 2.5 * solo_researched_totaltech");
+		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardUnlockableRecipe.put(1, new String[] {
+				"ANVIL:WOODEN_SHOVEL",""});
+		rewardUnlockableRecipe.put(2, new String[] {
+				"ANVIL:STONE_SHOVEL",""});
+		rewardUnlockableRecipe.put(3, new String[] {
+				"ANVIL:IRON_SHOVEL",""});
+		rewardUnlockableRecipe.put(4, new String[] {
+				"ANVIL:GOLDEN_SHOVEL",""});
+		rewardUnlockableRecipe.put(5, new String[] {
+				"ANVIL:DIAMOND_SHOVEL",""});
+		rewardUnlockableRecipe.put(6, new String[] {
+				"ANVIL:NETHERITE_SHOVEL",""});
+		LinkedHashMap<Integer, String[]> rewardDropChance = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantmentOffers = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantments = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardValueEntry = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fSchmieden und umbenennen von Holzschaufeln.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fCold forging and renaming wooden shovels.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(2, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fSchmieden und umbenennen von Steinschaufeln.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fCold forging and renaming stone shovels.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(3, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fSchmieden und umbenennen von Eisenschaufeln.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fCold forging and renaming stone shovels.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(4, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fSchmieden und umbenennen von Goldschaufeln.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fCold forging and renaming golden shovels.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(5, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fSchmieden und umbenennen von Diamantschaufeln.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fCold forging and renaming diamond shovels.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(6, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fSchmieden und umbenennen von Netheriteschaufeln.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fCold forging and renaming netherite shovels.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		addTechnology(
+				"cold_forging_shovel", new String[] {"Schaufelschmieden", "Shovelcoldforging"},
+				TechnologyType.MULTIPLE, 6, PlayerAssociatedType.SOLO, 0, "", "anvilrecipe", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				null, true,
+				new String[] {"&8Schaufelschmieden","&8Shovelcoldforging"},
+				Material.BARRIER, 1, itemflag, null, new String[] {
+						"",
+						"&cAnforderungen zum einsehen:",
+						"&cMuss die Technology >&#ff8c00Amboss&c< erforscht haben.",
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fSchmieden und umbenennen von Schaufeln.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&cRequirements to view:",
+						"&cMust have researched the Technology >&#ff8c00Anvil<.",
+						"",
+						"&eUnlocks the following:",
+						"&fCold forging and renaming shovels.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				new String[] {"&7Schaufelschmieden","&7Shovelcoldforging"},
+				Material.WOODEN_SHOVEL, 1, itemflag, null, canResLore.get(1),
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&bSchaufelschmieden","&bShovelcoldforging"},
+				Material.GOLDEN_SHOVEL, 1, itemflag, null, canResLore,
+				new String[] {"&5Schaufelschmieden","&5Shovelcoldforging"},
+				Material.NETHERITE_SHOVEL, 1, itemflag, enchantment, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fSchmieden und umbenennen von Schaufeln.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fCold forging and renaming shovels.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				);
 	}
 	
-	private void tech_Tablerecipe_Forgingcerecipe(String[] itemflag, String[] enchantment) //INFO:Tablerecipe_Forgingcerecipe
+	private void tech_Tablerecipe_Smithingrecipe(String[] itemflag, String[] enchantment) //INFO:Tablerecipe_Smithingcerecipe
 	{
-		
+		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
+		String[] rescon = new String[] {
+				"if:(a):o_1", "else:o_2",
+				"output:o_1:true",
+				"output:o_2:false",
+				"a:hasresearchedtech,anvil,1:==:true"};
+		toResCondition.put(1, rescon);
+		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, "100 * techlev + 25 * solo_researched_totaltech");
+		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * solo_researched_totaltech");
+		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardUnlockableRecipe.put(6, new String[] {
+				"SMITHING:NETHERITE_SHOVEL",""});
+		LinkedHashMap<Integer, String[]> rewardDropChance = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantmentOffers = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantments = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardValueEntry = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fSchmieden auf Netheriteschaufeln.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fSmithing on Netherite shovels.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		addTechnology(
+				"smithing_shovel", new String[] {"Schaufelschmieden", "Shovelsmithing"},
+				TechnologyType.SIMPLE, 1, PlayerAssociatedType.SOLO, 0, "", "smithingrecipe", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				null, true,
+				new String[] {"&8Schaufelschmieden","&8Shovelsmithing"},
+				Material.BARRIER, 1, itemflag, null, new String[] {
+						"",
+						"&cAnforderungen zum einsehen:",
+						"&cMuss die Technology >&#ff8c00Schmiedetisch&c< erforscht haben.",
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fSchmieden auf Netheriteschaufeln.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&cRequirements to view:",
+						"&cMust have researched the Technology >&#ff8c00SmithingTable<.",
+						"",
+						"&eUnlocks the following:",
+						"&fSmithing on Netherite shovels.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				new String[] {"&7Schaufelschmieden","&7Shovelsmithing"},
+				Material.NETHERITE_SHOVEL, 1, itemflag, null, canResLore.get(1),
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&bSchaufelschmieden","&bShovelsmithing"},
+				Material.NETHERITE_SHOVEL, 1, itemflag, null, canResLore,
+				new String[] {"&5Schaufelschmieden","&5Shovelsmithing"},
+				Material.NETHERITE_SHOVEL, 1, itemflag, enchantment, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fSchmieden auf Netheriteschaufeln.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fSmithing on Netherite shovels.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				);
+	}
+	
+	private void tech_Tablerecipe_Grindingrecipe(String[] itemflag, String[] enchantment) //INFO:Tablerecipe_Grindingcerecipe
+	{
+		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
+		String[] rescon = new String[] {
+				"if:(a):o_1", "else:o_2",
+				"output:o_1:true",
+				"output:o_2:false",
+				"a:hasresearchedtech,grindstone,1:==:true"};
+		toResCondition.put(1, rescon);
+		toResCondition.put(2, rescon);
+		toResCondition.put(3, rescon);
+		toResCondition.put(4, rescon);
+		toResCondition.put(5, rescon);
+		toResCondition.put(6, rescon);
+		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(2, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(3, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(4, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(5, "100 * techlev + 25 * solo_researched_totaltech");
+		toResCostTTExp.put(6, "100 * techlev + 25 * solo_researched_totaltech");
+		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(2, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(3, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(4, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(5, "10 * techlev + 2.5 * solo_researched_totaltech");
+		toResCostVanillaExp.put(6, "10 * techlev + 2.5 * solo_researched_totaltech");
+		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardUnlockableRecipe.put(1, new String[] {
+				"GRINDING:WOODEN_SHOVEL",""});
+		rewardUnlockableRecipe.put(2, new String[] {
+				"GRINDING:STONE_SHOVEL",""});
+		rewardUnlockableRecipe.put(3, new String[] {
+				"GRINDING:IRON_SHOVEL",""});
+		rewardUnlockableRecipe.put(4, new String[] {
+				"GRINDING:GOLDEN_SHOVEL",""});
+		rewardUnlockableRecipe.put(5, new String[] {
+				"GRINDING:DIAMOND_SHOVEL",""});
+		rewardUnlockableRecipe.put(6, new String[] {
+				"GRINDING:NETHERITE_SHOVEL",""});
+		LinkedHashMap<Integer, String[]> rewardDropChance = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantmentOffers = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantments = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardValueEntry = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fSchleifen von Holzschaufeln.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fGrinding wooden shovels.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(2, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fSchleifen von Steinschaufeln.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fGrinding stone shovels.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(3, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fSchleifen von Eisenschaufeln.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fGrinding stone shovels.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(4, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fSchleifen von Goldschaufeln.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fGrinding golden shovels.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(5, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fSchleifen von Diamantschaufeln.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fGrinding diamond shovels.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+
+		canResLore.put(6, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fSchleifen von Netheriteschaufeln.",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fGrinding netherite shovels.",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		addTechnology(
+				"grinding_shovel", new String[] {"Schaufelschleifen", "Shovelgrinding"},
+				TechnologyType.MULTIPLE, 6, PlayerAssociatedType.SOLO, 0, "", "grindstonerecipe", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				null, true,
+				new String[] {"&8Schaufelschleifen","&8Shovelgrinding"},
+				Material.BARRIER, 1, itemflag, null, new String[] {
+						"",
+						"&cAnforderungen zum einsehen:",
+						"&cMuss die Technology >&#ff8c00Schleifstein&c< erforscht haben.",
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fSchleifen von Schaufeln.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&cRequirements to view:",
+						"&cMust have researched the Technology >&#ff8c00Grindstone<.",
+						"",
+						"&eUnlocks the following:",
+						"&fGrinding shovels.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				new String[] {"&7Schaufelschleifen","&7Shovelgrinding"},
+				Material.WOODEN_SHOVEL, 1, itemflag, null, canResLore.get(1),
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&bSchaufelschleifen","&bShovelgrinding"},
+				Material.GOLDEN_SHOVEL, 1, itemflag, null, canResLore,
+				new String[] {"&5Schaufelschleifen","&5Shovelgrinding"},
+				Material.NETHERITE_SHOVEL, 1, itemflag, enchantment, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fSchleifen von Schaufeln.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fGrinding shovels.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry
+				);
 	}
 	
 	private void tech_Booster_Miningbooster(String[] itemflag, String[] enchantment) //INFO:Booster_Miningbooster
 	{
 		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		String cTTExp = "10 * techlev + 5 * techacq + 2.5 * globaltotaltech";
+		String cTTExp = "10 * techlev + 5 * techacq + 2.5 * global_researched_totaltech";
 		toResCostTTExp.put(1, cTTExp);
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
@@ -12622,7 +15173,7 @@ public class YamlManager
 				"&f%costttexp%",
 				"",
 				"&eSchaltet folgendes frei:",
-				"&fAbbauen von &#c6a664Erde(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,dirtminingbooster,1,BREAKING,HAND,DIRT% TTExp",
+				"&fAbbauen von &#c6a664Erde(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,GLOBAL,dirtminingbooster,1,BREAKING,HAND,DIRT% TTExp",
 				"",
 				"&cRechtskick &bfür eine detailiertere Ansicht.",
 				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
@@ -12632,7 +15183,7 @@ public class YamlManager
 				"&f%costttexp%",
 				"",
 				"&eUnlocks the following:",
-				"&fMining of &#c6a664Dirt(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,dirtminingbooster,1,BREAKING,HAND,DIRT% TTExp",
+				"&fMining of &#c6a664Dirt(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,GLOBAL,dirtminingbooster,1,BREAKING,HAND,DIRT% TTExp",
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
@@ -12663,14 +15214,14 @@ public class YamlManager
 						"&eLäuft nach der Erforschung ab innerhalb von: 10m",
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fAbbauen von &#c6a664Erde(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,dirtminingbooster,1,BREAKING,HAND,DIRT% TTExp",
+						"&fAbbauen von &#c6a664Erde(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,GLOBAL,dirtminingbooster,1,BREAKING,HAND,DIRT% TTExp",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
 						"&eExpires after research within: 10m",
 						"",
 						"&eUnlocks the following:",
-						"&fMining of &#c6a664Dirt(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,dirtminingbooster,1,BREAKING,HAND,DIRT% TTExp",
+						"&fMining of &#c6a664Dirt(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,GLOBAL,dirtminingbooster,1,BREAKING,HAND,DIRT% TTExp",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
@@ -12681,7 +15232,7 @@ public class YamlManager
 	{
 		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
-		String cTTExp = "10 * techlev + 5 * techacq + 2.5 * globaltotaltech";
+		String cTTExp = "10 * techlev + 5 * techacq + 2.5 * global_researched_totaltech";
 		toResCostTTExp.put(1, cTTExp);
 		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
 		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
@@ -13064,6 +15615,9 @@ public class YamlManager
 		    	one.put("IsModified",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 								false}));
+		    	one.put("doRemoveFromLoading",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								false}));
 		    	one.put("Category",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 								a.getCategory().toString()}));
@@ -13130,6 +15684,9 @@ public class YamlManager
 		    	one.put("IsModified",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 								false}));
+		    	one.put("doRemoveFromLoading",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								false}));
 		    	one.put("Category",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 								a.getCategory().toString()}));
@@ -13194,6 +15751,9 @@ public class YamlManager
 		    	onekey = a.getKey().getNamespace()+"-"+a.getKey().getKey();
 		    	LinkedHashMap<String, Language> one = new LinkedHashMap<>();
 		    	one.put("IsModified",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								false}));
+		    	one.put("doRemoveFromLoading",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 								false}));
 		    	one.put("Category",
@@ -13339,6 +15899,9 @@ public class YamlManager
 		    	one.put("IsModified",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 								false}));
+		    	one.put("doRemoveFromLoading",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								false}));
 		    	one.put("Category",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 								a.getCategory().toString()}));
@@ -13461,6 +16024,9 @@ public class YamlManager
 		    	onekey = a.getKey().getNamespace()+"-"+a.getKey().getKey();
 		    	LinkedHashMap<String, Language> one = new LinkedHashMap<>();
 		    	one.put("IsModified",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								false}));
+		    	one.put("doRemoveFromLoading",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 								false}));
 		    	one.put("Category",
@@ -13668,6 +16234,9 @@ public class YamlManager
 		    	one.put("IsModified",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 								false}));
+		    	one.put("doRemoveFromLoading",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								false}));
 		    	one.put("Category",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 								a.getCategory().toString()}));
@@ -13732,6 +16301,9 @@ public class YamlManager
 		    	onekey = a.getKey().getNamespace()+"-"+a.getKey().getKey();
 		    	LinkedHashMap<String, Language> one = new LinkedHashMap<>();
 		    	one.put("IsModified",
+						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
+								false}));
+		    	one.put("doRemoveFromLoading",
 						new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
 								false}));
 		    	one.put("Group",

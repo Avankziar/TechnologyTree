@@ -25,6 +25,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
+import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
@@ -89,6 +90,10 @@ public class DyingHarmingKillingListener implements Listener
 	
 	private static void onHarm(final Entity entity, final Player player, double damage)
 	{
+		if(returnIfEntityFromSpawner(entity))
+		{
+			return;
+		}
 		LinkedHashMap<UUID, Double> mapI = new LinkedHashMap<>();
 		if(damageMap.containsKey(entity.getUniqueId()))
 		{
@@ -217,8 +222,19 @@ public class DyingHarmingKillingListener implements Listener
 		if(event.getEntity().getKiller() == null
 				|| event.getEntity().getKiller().getGameMode() == GameMode.CREATIVE
 				|| event.getEntity().getKiller().getGameMode() == GameMode.SPECTATOR
-				|| event.getEntity().hasMetadata(SPAWNER)
 				|| !EnumHandler.isEventActive(KI))
+		{
+			return;
+		}
+		if(!ConfigHandler.GAMERULE_UseVanillaExpDrops)
+		{
+			event.setDroppedExp(0);
+		}
+		if(!ConfigHandler.GAMERULE_UseVanillaItemDrops)
+		{
+			event.getDrops().clear();
+		}
+		if(returnIfEntityFromSpawner(event.getEntity()))
 		{
 			return;
 		}
@@ -277,5 +293,10 @@ public class DyingHarmingKillingListener implements Listener
 				}
 			}.runTaskAsynchronously(TT.getPlugin());
 		}
+	}
+	
+	private static boolean returnIfEntityFromSpawner(Entity entity)
+	{
+		return entity.hasMetadata(SPAWNER) && new ConfigHandler().dropsIfEntitySpawnedFromSpawner();
 	}
 }

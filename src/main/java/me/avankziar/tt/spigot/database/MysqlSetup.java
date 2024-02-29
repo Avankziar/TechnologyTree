@@ -244,7 +244,6 @@ public class MysqlSetup
 		+ " max_amount_vice int,"
 		+ " max_amount_councilmember int,"
 		+ " max_amount_member int,"
-		+ " max_amount_adept int,"
 		+ " group_counter_failed_upkeep int,"		//Die Anzahl Tage, wielange die Gruppe Ihren Unterhalt (berechnet durch Formel in der Config)
 													//nicht gezahlt hat. Aka nach x Tage, wird das Gruppenlvl verringert.
 		+ " default_group_tech_exp_daily_upkeep_master double," 			//Der Tägliche Standart Unterhalt, wieviel die Spieler
@@ -275,8 +274,8 @@ public class MysqlSetup
 	{
 		String data = "CREATE TABLE IF NOT EXISTS `" + MysqlHandler.Type.GROUP_PLAYERAFFILIATION.getValue()
 		+ "` (id int AUTO_INCREMENT PRIMARY KEY,"
-		+ " group_name text NOT NULL UNIQUE,"
-		+ " player_uuid char(36) NOT NULL UNIQUE,"
+		+ " group_name text NOT NULL,"
+		+ " player_uuid char(36) NOT NULL,"
 		+ " rank text NOT NULL,"
 		+ " rank_ordinal int,"
 		+ " individual_tech_exp_daily_upkeep double,"

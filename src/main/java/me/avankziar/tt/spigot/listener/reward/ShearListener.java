@@ -49,10 +49,6 @@ public class ShearListener implements Listener
 			event.setCancelled(true);
 			return;
 		}
-		if(RewardHandler.useTTDropMechanicCalculation(event.getPlayer()))
-		{
-			event.getItem().setType(Material.AIR);
-		}
 		final Player player = event.getPlayer();
 		final EntityType ent = event.getEntity().getType();
 		sheared.put(event.getEntity().getUniqueId(), player.getUniqueId());

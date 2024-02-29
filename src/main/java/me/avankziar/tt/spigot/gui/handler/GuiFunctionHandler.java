@@ -193,7 +193,7 @@ public class GuiFunctionHandler
 		{
 			return;
 		}
-		AcquireRespond ar = PlayerHandler.haveAlreadyResearched(player, t);
+		AcquireRespond ar = PlayerHandler.haveAlreadyResearched(player.getUniqueId(), t);
 		switch(ar)
 		{
 		case CANNOT_BE_RESEARCH:
@@ -272,7 +272,7 @@ public class GuiFunctionHandler
 			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.Privilege.CanNotResearch")));
 			return;
 		}
-		AcquireRespond ar = PlayerHandler.haveAlreadyResearched(player, t);
+		AcquireRespond ar = PlayerHandler.haveAlreadyResearched(player.getUniqueId(), t);
 		switch(ar)
 		{
 		case CANNOT_BE_RESEARCH:
@@ -344,7 +344,7 @@ public class GuiFunctionHandler
 		{
 			return;
 		}
-		AcquireRespond ar = PlayerHandler.haveAlreadyResearched(player, t);
+		AcquireRespond ar = PlayerHandler.haveAlreadyResearched(player.getUniqueId(), t);
 		switch(ar)
 		{
 		case CANNOT_BE_RESEARCH:

@@ -12,7 +12,6 @@ import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.inventory.ItemStack;
 
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
-import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
@@ -37,8 +36,7 @@ public class PrepareItemCraftListener implements Listener
 			}
 			Player player = (Player) h;
 			if(player.getGameMode() == GameMode.CREATIVE
-					|| player.getGameMode() == GameMode.SPECTATOR
-					|| ConfigHandler.GAMERULE_UseVanillaAccessToCrafingTable)
+					|| player.getGameMode() == GameMode.SPECTATOR)
 			{
 				ARGCheckEventAction.checkEventAction(player, "CRAFTING:RETURN",
 						EventType.CRAFTING, ToolType.HAND, null, null, event.getRecipe().getResult().getType());

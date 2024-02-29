@@ -38,8 +38,7 @@ public class BrewListener implements Listener
 	public void onBrewingStart(BrewingStartEvent event)
 	{
 		if(event.getBlock() == null
-				|| !EnumHandler.isEventActive(BR)
-				|| ConfigHandler.GAMERULE_UseVanillaAccessToBrewingStand)
+				|| !EnumHandler.isEventActive(BR))
 		{
 			return;
 		}
@@ -66,19 +65,16 @@ public class BrewListener implements Listener
 		{
 			return;
 		}
-		if(!ConfigHandler.GAMERULE_UseVanillaAccessToBrewingStand)
+		if(!RecipeHandler.hasAccessToRecipe(uuid, rt, recipeKey))
 		{
-			if(!RecipeHandler.hasAccessToRecipe(uuid, rt, recipeKey))
+			if(!FINISHBREW_IFPLAYERHASNOTTHERECIPEUNLOCKED)
 			{
-				if(!FINISHBREW_IFPLAYERHASNOTTHERECIPEUNLOCKED)
-				{
-					ARGCheckEventAction.checkEventAction(Bukkit.getPlayer(uuid), "BREWING:RETURN",
-							BR, ToolType.HAND, null, null, Material.AIR);
-					return;
-				}
-				event.setCancelled(true);
+				ARGCheckEventAction.checkEventAction(Bukkit.getPlayer(uuid), "BREWING:RETURN",
+						BR, ToolType.HAND, null, null, Material.AIR);
 				return;
 			}
+			event.setCancelled(true);
+			return;
 		}
 		int i = 0;
 		final Player player = Bukkit.getPlayer(uuid);

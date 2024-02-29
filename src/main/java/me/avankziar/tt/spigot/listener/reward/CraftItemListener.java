@@ -28,7 +28,7 @@ public class CraftItemListener implements Listener
 	final private static EventType CR = EventType.CRAFTING;
 	
 	@EventHandler //InventoryClickEvent
-	public void onCrafItem(CraftItemEvent event) //TODO Checken ob es nicht besser CraftItemEvent sein soll (Unwahrscheinlich)
+	public void onCrafItem(CraftItemEvent event)
 	{
 		if(event.isCancelled()
 				|| !(event.getWhoClicked() instanceof Player)
@@ -61,7 +61,7 @@ public class CraftItemListener implements Listener
 				|| event.getClick() == ClickType.SHIFT_RIGHT 
 				|| event.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY)
 		{
-			oostDetectionAll(player, result, mat, result.getItemMeta());
+			postDetectionAll(player, result, mat, result.getItemMeta());
 		} else
 		{
 			new BukkitRunnable()
@@ -81,7 +81,7 @@ public class CraftItemListener implements Listener
 		}
 	}
 	
-	public static void oostDetectionAll(final Player player,
+	public static void postDetectionAll(final Player player,
 			final ItemStack pr, final Material premat, final ItemMeta premeta)
 	{ //Da final ItemStack pr null zurücklierfert, holen wir die nicht null Material und ItemMeta.
 		

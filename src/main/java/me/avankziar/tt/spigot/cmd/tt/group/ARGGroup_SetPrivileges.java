@@ -68,6 +68,12 @@ public class ARGGroup_SetPrivileges extends ArgumentModule
 			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.YouAreInNoGroup")));
 			return;
 		}
+		if(player.getUniqueId().toString().equals(gd.getGrandmasterUUID().toString())
+				&& uuid.toString().equals(gd.getGrandmasterUUID().toString()))
+		{
+			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.SetPrivileges.YouAreGrandmaster")));
+			return;
+		}
 		if(!player.getUniqueId().toString().equals(gd.getGrandmasterUUID().toString()))
 		{
 			if(gpa.getRank().getRank() >= gpa2.getRank().getRank())
@@ -96,15 +102,17 @@ public class ARGGroup_SetPrivileges extends ArgumentModule
 		if(gpvl.getCausalBoolean(gpa2))
 		{
 			String txt = plugin.getYamlHandler().getLang()
-					.getString("Commands.Group.SetPrivileges.Apply."+gpvl.toString())
-					.replace("%player%", p2);
-			player.sendMessage(ChatApi.tl(txt));
-		} else
-		{
-			String txt = plugin.getYamlHandler().getLang()
 					.getString("Commands.Group.SetPrivileges.Remove."+gpvl.toString())
 					.replace("%player%", p2);
 			player.sendMessage(ChatApi.tl(txt));
+			GroupHandler.sendMemberText(uuid, txt);
+		} else
+		{
+			String txt = plugin.getYamlHandler().getLang()
+					.getString("Commands.Group.SetPrivileges.Apply."+gpvl.toString())
+					.replace("%player%", p2);
+			player.sendMessage(ChatApi.tl(txt));
+			GroupHandler.sendMemberText(uuid, txt);
 		}
 		switch(gpvl)
 		{

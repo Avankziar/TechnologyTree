@@ -83,7 +83,7 @@ public class BreakPlaceInteractListener implements Listener
 		{
 			event.setExpToDrop(0);
 		}
-		if(RewardHandler.useTTDropMechanicCalculation(event.getPlayer()))
+		if(!ConfigHandler.GAMERULE_UseVanillaItemDrops)
 		{
 			event.setDropItems(false);
 		}

@@ -75,6 +75,7 @@ public class GroupHandler
 		HashMap<String, Double> map = new HashMap<>();
 		map.put(PlayerHandler.GROUPLEVEL, Double.valueOf(grouplevel));
 		map.put(PlayerHandler.GROUPMEMBERAMOUNT, Double.valueOf(groupmemberamount));
+		map.put(PlayerHandler.GROUPMEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getMemberTotalAmount(groupname, grouplevel, groupmemberamount)));
 		map.put(PlayerHandler.GROUPRESEARCHEDTOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchGroupTech(groupname)));
 		return new MathFormulaParser().parse(formula, map);
 	}
@@ -100,6 +101,7 @@ public class GroupHandler
 		HashMap<String, Double> map = new HashMap<>();
 		map.put(PlayerHandler.GROUPLEVEL, Double.valueOf(grouplevel));
 		map.put(PlayerHandler.GROUPMEMBERAMOUNT, Double.valueOf(groupmemberamount));
+		map.put(PlayerHandler.GROUPMEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getMemberTotalAmount(groupname, grouplevel, groupmemberamount)));
 		map.put(PlayerHandler.GROUPRESEARCHEDTOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchGroupTech(groupname)));
 		return new MathFormulaParser().parse(formula, map);
 	}
@@ -173,7 +175,12 @@ public class GroupHandler
 	
 	public static GroupPlayerAffiliation getAffiliateGroup(Player player)
 	{
-		return (GroupPlayerAffiliation) plugin.getMysqlHandler().getData(Type.GROUP_PLAYERAFFILIATION, "`player_uuid` = ?", player.getUniqueId().toString());
+		return getAffiliateGroup(player.getUniqueId());
+	}
+	
+	public static GroupPlayerAffiliation getAffiliateGroup(UUID uuid)
+	{
+		return (GroupPlayerAffiliation) plugin.getMysqlHandler().getData(Type.GROUP_PLAYERAFFILIATION, "`player_uuid` = ?", uuid.toString());
 	}
 	
 	public static GroupPlayerAffiliation getAffiliateGroup(UUID uuid, String groupname)
@@ -185,6 +192,12 @@ public class GroupHandler
 		}
 		return (GroupPlayerAffiliation) plugin.getMysqlHandler().getData(Type.GROUP_PLAYERAFFILIATION,
 				"`player_uuid` = ?", uuid.toString());
+	}
+	
+	public static GroupPlayerAffiliation getAffiliateGroup(UUID uuid, String groupname, Position pos)
+	{
+		return (GroupPlayerAffiliation) plugin.getMysqlHandler().getData(Type.GROUP_PLAYERAFFILIATION,
+				"`player_uuid` = ? AND `group_name` = ? AND `rank_ordinal` = ?", uuid.toString(), groupname, pos.getRank());
 	}
 	
 	public static ArrayList<GroupPlayerAffiliation> getAllAffiliateGroup(String groupname)
@@ -210,13 +223,12 @@ public class GroupHandler
 			return false;
 		}
 		GroupData gd = new GroupData(0, groupname, player.getUniqueId(),
-				System.currentTimeMillis(), "N.A.", 0, 0,
+				System.currentTimeMillis(), "N.A.", 0, 1,
 				getMemberTotalAmount(groupname, 0, 1),
 				getMemberTotalAmount(Position.MASTER, groupname, 0, 1),
 				getMemberTotalAmount(Position.VICE, groupname, 0, 1),
 				getMemberTotalAmount(Position.COUNCILMEMBER, groupname, 0, 1),
 				getMemberTotalAmount(Position.MEMBER, groupname, 0, 1),
-				getMemberTotalAmount(Position.ADEPT, groupname, 0, 1),
 				0,
 				getDefaultUpKeep(Position.MASTER),
 				getDefaultUpKeep(Position.VICE),
@@ -234,7 +246,12 @@ public class GroupHandler
 	
 	public static GroupData getGroup(Player player)
 	{
-		GroupPlayerAffiliation gpa = getAffiliateGroup(player);
+		return getGroup(player.getUniqueId());
+	}
+	
+	public static GroupData getGroup(UUID uuid)
+	{
+		GroupPlayerAffiliation gpa = getAffiliateGroup(uuid);
 		if(gpa == null || gpa.getRank().getRank() > 4)
 		{
 			return null;
@@ -287,14 +304,14 @@ public class GroupHandler
 	public static void sendMembersText(String groupname, String txt, UUID...uuid)
 	{
 		ArrayList<UUID> l = new ArrayList<>();
-		ArrayList<UUID> already = new ArrayList<>();
+		ArrayList<String> already = new ArrayList<>();
 		for(UUID ui : uuid)
 		{
 			Player p = Bukkit.getPlayer(ui);
 			if(p != null)
 			{
-				p.sendMessage(txt);
-				already.add(ui);
+				p.sendMessage(ChatApi.tl(txt));
+				already.add(ui.toString());
 			} else
 			{
 				l.add(ui);
@@ -303,11 +320,11 @@ public class GroupHandler
 		for(GroupPlayerAffiliation ga : GroupHandler.getAllAffiliateGroup(groupname))
 		{
 			Player m = Bukkit.getPlayer(ga.getPlayerUUID());
-			if(!already.contains(ga.getPlayerUUID()))
+			if(!already.contains(ga.getPlayerUUID().toString()) && ga.getRank().getRank() < 5)
 			{
 				if(m != null)
 				{
-					m.sendMessage(txt);
+					m.sendMessage(ChatApi.tl(txt));
 				} else
 				{
 					l.add(ga.getPlayerUUID());
@@ -325,8 +342,7 @@ public class GroupHandler
 		if(Bukkit.getPlayer(uuid) != null)
 		{
 			Bukkit.getPlayer(uuid).sendMessage(ChatApi.tl(txt));
-		}
-		if(plugin.getMessageToBungee() != null)
+		} else if(plugin.getMessageToBungee() != null)
 		{
 			plugin.getMessageToBungee().sendMessage(uuid, txt);
 		}

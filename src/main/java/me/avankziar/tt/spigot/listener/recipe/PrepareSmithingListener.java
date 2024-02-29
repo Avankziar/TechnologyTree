@@ -11,7 +11,6 @@ import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.inventory.ItemStack;
 
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
-import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
@@ -39,8 +38,7 @@ public class PrepareSmithingListener implements Listener
 			}
 			Player player = (Player) h;
 			if(player.getGameMode() == GameMode.CREATIVE
-					|| player.getGameMode() == GameMode.SPECTATOR
-					|| ConfigHandler.GAMERULE_UseVanillaAccessToSmithingTable)
+					|| player.getGameMode() == GameMode.SPECTATOR)
 			{
 				ARGCheckEventAction.checkEventAction(player, "SMITHING:RETURN",
 						SM, ToolType.HAND, null, null, event.getResult().getType());

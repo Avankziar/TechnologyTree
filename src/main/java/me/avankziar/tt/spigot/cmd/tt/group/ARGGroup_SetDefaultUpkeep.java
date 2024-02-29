@@ -64,11 +64,11 @@ public class ARGGroup_SetDefaultUpkeep extends ArgumentModule
 		GroupHandler.Position pos = null;
 		try
 		{
-			pos = GroupHandler.Position.valueOf(args[3]);
+			pos = GroupHandler.Position.valueOf(args[2]);
 		} catch(Exception e)
 		{
-			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Group.Position.NoPosition")
-					.replace("%rank%", args[3])));
+			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.Position.NoPosition")
+					.replace("%rank%", args[2])));
 			return;
 		}
 		switch(pos)
@@ -82,14 +82,13 @@ public class ARGGroup_SetDefaultUpkeep extends ArgumentModule
 		case MEMBER: 
 			gd.setDefaultGroupTechExpDailyUpkeep_Member(upkeep); break;
 		case ADEPT:
-			gd.setDefaultGroupTechExpDailyUpkeep_CouncilMember(upkeep); break;
+			gd.setDefaultGroupTechExpDailyUpkeep_Adept(upkeep); break;
 		default:
-			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("CommandsGroup.SetDefaultUpkeep.WrongPosition")
+			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.SetDefaultUpkeep.WrongPosition")
 					.replace("%rank%", GroupHandler.getPositionLocale(pos))));
 			return;
 		}
-		String txt = plugin.getYamlHandler().getLang().getString("Commands.Group.SetIndividuellUpkeep.Set")
-				.replace("%player1%", player.getName())
+		String txt = plugin.getYamlHandler().getLang().getString("Commands.Group.SetDefaultUpkeep.Set")
 				.replace("%rank%", GroupHandler.getPositionLocale(pos))
 				.replace("%upkeep%", String.valueOf(upkeep));
 		GroupHandler.sendMembersText(gd.getGroupName(), txt, player.getUniqueId());

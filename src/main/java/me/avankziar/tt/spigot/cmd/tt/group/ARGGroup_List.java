@@ -16,6 +16,7 @@ import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.CommandExecuteType;
 import main.java.me.avankziar.tt.spigot.cmdtree.CommandSuggest;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
+import main.java.me.avankziar.tt.spigot.handler.GroupHandler;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -76,7 +77,6 @@ public class ARGGroup_List extends ArgumentModule
 			String desc = "/";
 			if(gd.getDisplayDescription() != null && !gd.getDisplayDescription().isEmpty())
 			{
-				desc = "";
 				String[] sp = gd.getDisplayDescription().split(" ");
 				StringBuilder sb = new StringBuilder();
 				for(String s : sp)
@@ -89,9 +89,14 @@ public class ARGGroup_List extends ArgumentModule
 					}
 					sb.append(s);
 				}
+				desc = sb.toString();
 			}
 			l.add(ChatApi.apiChat(plugin.getYamlHandler().getLang().getString("Commands.Group.List.Groups")
-					.replace("%group%", gd.getGroupName()),
+					.replace("%group%", gd.getGroupName())
+					.replace("%lvl%", String.valueOf(gd.getGroupLevel()))
+					.replace("%members%", String.valueOf(GroupHandler.getGroupMemberAmount(gd.getGroupName())))
+					.replace("%totalmembers%", String.valueOf(
+							GroupHandler.getMemberTotalAmount(gd.getGroupName(), gd.getGroupLevel(), GroupHandler.getGroupMemberAmount(gd.getGroupName())))),
 					ClickEvent.Action.SUGGEST_COMMAND, 
 					CommandSuggest.get(CommandExecuteType.TT_GROUP_APPLICATION_SEND)+" "+gd.getGroupName(),
 					HoverEvent.Action.SHOW_TEXT,
@@ -101,7 +106,7 @@ public class ARGGroup_List extends ArgumentModule
 					));
 			a.add(l);
 		}
-		boolean lastpage = plugin.getMysqlHandler().exist(Type.GROUP_DATA, "`id` > ?", lgd.get(lgd.size()-1).getId());
+		boolean lastpage = !plugin.getMysqlHandler().exist(Type.GROUP_DATA, "`id` > ?", lgd.get(lgd.size()-1).getId());
 		for(ArrayList<BaseComponent> bc : a)
 		{
 			TextComponent tx = ChatApi.tc("");

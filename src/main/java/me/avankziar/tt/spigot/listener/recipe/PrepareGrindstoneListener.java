@@ -10,7 +10,6 @@ import org.bukkit.event.inventory.PrepareGrindstoneEvent;
 import org.bukkit.inventory.ItemStack;
 
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
-import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
@@ -32,8 +31,7 @@ public class PrepareGrindstoneListener implements Listener
 		{
 			Player player = (Player) he;
 			if(player.getGameMode() == GameMode.CREATIVE
-					|| player.getGameMode() == GameMode.SPECTATOR
-					|| ConfigHandler.GAMERULE_UseVanillaAccessToGrindstone)
+					|| player.getGameMode() == GameMode.SPECTATOR)
 			{
 				ARGCheckEventAction.checkEventAction(player, "GRINDING:RETURN",
 						EventType.GRINDING, ToolType.HAND, null, null, event.getResult().getType());

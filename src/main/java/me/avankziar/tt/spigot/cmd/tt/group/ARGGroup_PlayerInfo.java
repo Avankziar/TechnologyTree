@@ -49,9 +49,9 @@ public class ARGGroup_PlayerInfo extends ArgumentModule
 		l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.PlayerInfo.Headline")
 				.replace("%player%", p2)));
 		a.add(l);
-		GroupData gd = GroupHandler.getGroup(player);
-		GroupPlayerAffiliation gpa = GroupHandler.getAffiliateGroup(player.getUniqueId(), gd == null ? "" : gd.getGroupName());
-		if(GroupHandler.isInGroup(player.getUniqueId()) && gpa != null)
+		GroupData gd = GroupHandler.getGroup(uuid);
+		GroupPlayerAffiliation gpa = GroupHandler.getAffiliateGroup(uuid, gd == null ? "" : gd.getGroupName());
+		if(GroupHandler.isInGroup(uuid) && gpa != null)
 		{
 			l = new ArrayList<>();
 			l.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.Group.PlayerInfo.Group")

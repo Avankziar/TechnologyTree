@@ -43,7 +43,7 @@ public class ARGGroup_Create extends ArgumentModule
 		{
 			String ttExpCost = plugin.getYamlHandler().getConfig().getString("Group.Creation.Cost.TTExp");
 			HashMap<String, Double> map = new HashMap<>();
-			map.put(PlayerHandler.SOLORESEARCHEDTOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchSoloTech(player)));
+			map.put(PlayerHandler.SOLORESEARCHEDTOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchSoloTech(player.getUniqueId())));
 			map.put(PlayerHandler.GLOBALRESEARCHEDTOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchGlobalTech()));
 			map.put(PlayerHandler.GROUPTOTALAMOUNT, Double.valueOf(GroupHandler.getTotalGroupAmount()));
 			double ttExp = new MathFormulaParser().parse(ttExpCost, map);
@@ -60,7 +60,7 @@ public class ARGGroup_Create extends ArgumentModule
 		}
 		String ttExpCost = plugin.getYamlHandler().getConfig().getString("Group.Creation.Cost.TTExp");
 		HashMap<String, Double> map = new HashMap<>();
-		map.put(PlayerHandler.SOLORESEARCHEDTOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchSoloTech(player)));
+		map.put(PlayerHandler.SOLORESEARCHEDTOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchSoloTech(player.getUniqueId())));
 		map.put(PlayerHandler.GLOBALRESEARCHEDTOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchGlobalTech()));
 		map.put(PlayerHandler.GROUPTOTALAMOUNT, Double.valueOf(GroupHandler.getTotalGroupAmount()));
 		double ttExp = 0;
@@ -70,7 +70,8 @@ public class ARGGroup_Create extends ArgumentModule
 		}
 		if(ttExp <= 0)
 		{
-			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.Create.GroupCreatedBypass")));
+			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.Create.GroupCreatedBypass")
+					.replace("%name%", gn)));
 		} else
 		{
 			PlayerData pd = PlayerHandler.getPlayer(player.getUniqueId());	
@@ -82,9 +83,10 @@ public class ARGGroup_Create extends ArgumentModule
 			}
 			pd.setActualTTExp(pd.getActualTTExp()-ttExp);
 			PlayerHandler.updatePlayer(pd);
-			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.Create.GroupCreated")));
+			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.Create.GroupCreated")
+					.replace("%name%", gn)));
 		}
 		GroupHandler.createGroup(player, gn);
-		GroupHandler.createAffiliateGroup(player.getUniqueId(), ttExpCost, Position.MASTER, true);
+		GroupHandler.createAffiliateGroup(player.getUniqueId(), gn, Position.MASTER, true);
 	}
 }

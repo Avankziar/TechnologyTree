@@ -55,7 +55,7 @@ public class BreedListener implements Listener
 		final Location loc = event.getEntity().getLocation();
 		final EntityType ent = event.getEntityType();
 		final Material mat = event.getBredWith().getType();
-		if(ConfigHandler.GAMERULE_UseVanillaExpDrops)
+		if(!ConfigHandler.GAMERULE_UseVanillaExpDrops)
 		{
 			event.setExperience(0);
 		}

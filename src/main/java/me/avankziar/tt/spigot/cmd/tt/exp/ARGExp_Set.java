@@ -51,12 +51,13 @@ public class ARGExp_Set extends ArgumentModule
 		PlayerData pd = PlayerHandler.getPlayer(uuid);
 		String txt = ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Exp.Set")
 				.replace("%player%", p2)
-				.replace("%value%", String.valueOf(exp*-1))
-				.replace("%value2%", String.valueOf(pd.getActualTTExp()))
+				.replace("%value%", String.valueOf(exp))
 				);
 		if(pd.getActualTTExp() < exp)
 		{
+			double r = exp - pd.getActualTTExp();
 			pd.setActualTTExp(exp);
+			pd.setTotalReceivedTTExp(pd.getTotalReceivedTTExp()-r);
 		} else
 		{
 			double r = exp - pd.getActualTTExp();
@@ -64,16 +65,19 @@ public class ARGExp_Set extends ArgumentModule
 			pd.setTotalReceivedTTExp(pd.getTotalReceivedTTExp()+r);
 		}
 		player.sendMessage(txt);
-		if(Bukkit.getPlayer(uuid) != null)
+		if(!player.getUniqueId().toString().equals(uuid.toString()))
 		{
-			Bukkit.getPlayer(uuid).sendMessage(txt);
-		} else
-		{
-			if(plugin.getMessageToBungee() != null)
+			if(Bukkit.getPlayer(uuid) != null)
 			{
-				plugin.getMessageToBungee().sendMessage(uuid, txt);
+				Bukkit.getPlayer(uuid).sendMessage(txt);
+			} else
+			{
+				if(plugin.getMessageToBungee() != null)
+				{
+					plugin.getMessageToBungee().sendMessage(uuid, txt);
+				}
 			}
-		}
+		}		
 		PlayerHandler.updatePlayer(pd);
 	}
 }

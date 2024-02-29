@@ -33,7 +33,7 @@ public class ARGGroup extends ArgumentModule
 		{
 			numa.add(GroupHandler.getGroupMemberAmount(gd.getGroupName()));
 		}
-		double average = memberamount/groupamount;
+		double average = groupamount == 0 ? 0 : memberamount/groupamount;
 		double median = getMedian(numa.toArray(new Integer[numa.size()]));
 		player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.Groups.Headline")));
 		player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.Groups.GroupAmount")
@@ -51,10 +51,17 @@ public class ARGGroup extends ArgumentModule
 	{
 		Arrays.sort(numArray);
 		double median;
-		if (numArray.length % 2 == 0)
+		if(numArray.length == 0)
+		{
+			median = 0;
+		} else if (numArray.length % 2 == 0)
+		{
 		    median = ((double)numArray[numArray.length/2] + (double)numArray[numArray.length/2 - 1])/2;
-		else
-		    median = (double) numArray[numArray.length/2];
+		} else
+		{
+			median = (double) numArray[numArray.length/2];
+		}
+	
 		return median;
 	}
 }

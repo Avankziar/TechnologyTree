@@ -27,11 +27,6 @@ public class ARGGroup_IncreaseLevel extends ArgumentModule
 	public void run(CommandSender sender, String[] args) throws IOException
 	{
 		Player player = (Player) sender;
-		if(!GroupHandler.isInGroup(player.getUniqueId()))
-		{
-			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.YouAreInNoGroup")));
-			return;
-		}
 		String gn = null;
 		boolean bypass = ModifierValueEntry.hasPermission(player, Permission.GROUP_INCREASELEVEL);
 		if(args.length == 3)
@@ -88,7 +83,6 @@ public class ARGGroup_IncreaseLevel extends ArgumentModule
 		gd.setMaxAmountVice(GroupHandler.getMemberTotalAmount(Position.VICE, gd.getGroupName(), gd.getGroupLevel(), members));
 		gd.setMaxAmountCouncilMember(GroupHandler.getMemberTotalAmount(Position.COUNCILMEMBER, gd.getGroupName(), gd.getGroupLevel(), members));
 		gd.setMaxAmountMember(GroupHandler.getMemberTotalAmount(Position.MEMBER, gd.getGroupName(), gd.getGroupLevel(), members));
-		gd.setMaxAmountAdept(GroupHandler.getMemberTotalAmount(Position.ADEPT, gd.getGroupName(), gd.getGroupLevel(), members));
 		GroupHandler.sendMembersText(gd.getGroupName(), plugin.getYamlHandler().getLang().getString("Commands.Group.IncreaseLevel.Increased")
 				.replace("%pre%", String.valueOf(gd.getGroupLevel()-1))
 				.replace("%post%", String.valueOf(gd.getGroupLevel()))

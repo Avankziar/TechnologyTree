@@ -13,6 +13,7 @@ import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
 import main.java.me.avankziar.tt.spigot.handler.GroupHandler;
+import main.java.me.avankziar.tt.spigot.handler.GroupHandler.Position;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupPlayerAffiliation;
 
@@ -41,8 +42,8 @@ public class ARGGroup_Invite_Deny extends ArgumentModule
 					.replace("%group%", gn)));
 			return;
 		}
-		GroupPlayerAffiliation gpa = GroupHandler.getAffiliateGroup(player.getUniqueId(), gd.getGroupName());
-		if(gpa == null || gpa.getRank().getRank() < 5)
+		GroupPlayerAffiliation gpa = GroupHandler.getAffiliateGroup(player.getUniqueId(), gd.getGroupName(), Position.INVITEE);
+		if(gpa == null || gpa.getRank().getRank() != 5)
 		{
 			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.Invite.Accept.NoInvitee")));
 			return;

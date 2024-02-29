@@ -24,6 +24,7 @@ import main.java.me.avankziar.tt.spigot.handler.GroupHandler;
 import main.java.me.avankziar.tt.spigot.handler.PlayerHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
 import main.java.me.avankziar.tt.spigot.objects.EntryQueryType;
+import main.java.me.avankziar.tt.spigot.objects.EntryStatusType;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
 import main.java.me.avankziar.tt.spigot.objects.TechnologyType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalEntryQueryStatus;
@@ -65,6 +66,10 @@ public class ARGTechInfo extends ArgumentModule
 				if(t == null)
 				{
 					t = CatTechHandler.technologyMapGlobal.get(tech);
+					if(t == null)
+					{
+						t = CatTechHandler.technologyMapGroup.get(tech);
+					}
 				}
 				if(t == null)
 				{
@@ -95,8 +100,12 @@ public class ARGTechInfo extends ArgumentModule
 						"`player_uuid` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 						player.getUniqueId().toString(), t.getInternName(), EntryQueryType.TECHNOLOGY.toString()));
 				SoloEntryQueryStatus seqs = seqsList.size() == 0 ? null : seqsList.get(0);
-				techLevel = seqs == null ? 1 : seqs.getResearchLevel() + 1; //Tech which may to acquire
-				acquiredTech = seqs == null ? 0 : techLevel; //Tech which was already acquire
+				techLevel = seqs == null ? 1 : 
+					(seqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT 
+					? seqs.getResearchLevel() + 1 : seqs.getResearchLevel()); //Tech which may to acquire
+				acquiredTech = seqs == null ? 0 : 
+					(seqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT 
+					? seqs.getResearchLevel() : seqs.getResearchLevel() - 1); //Tech which was already acquire
 				break;
 			case GROUP:
 				GroupData gd = GroupHandler.getGroup(player);
@@ -110,8 +119,12 @@ public class ARGTechInfo extends ArgumentModule
 						"`group_name` = ? AND `intern_name` = ? AND `entry_query_type` = ?",
 						gn, t.getInternName(), EntryQueryType.TECHNOLOGY.toString()));
 				GroupEntryQueryStatus greqs = greqsList.size() == 0 ? null : greqsList.get(0);
-				techLevel = greqs == null ? 1 : greqs.getResearchLevel() + 1; //Tech which may to acquire
-				acquiredTech = greqs == null ? 0 : techLevel; //Tech which was already acquire
+				techLevel = greqs == null ? 1 : 
+					(greqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT 
+					? greqs.getResearchLevel() + 1 : greqs.getResearchLevel()); //Tech which may to acquire
+				acquiredTech = greqs == null ? 0 :
+					(greqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT 
+					? greqs.getResearchLevel() : greqs.getResearchLevel() - 1); //Tech which was already acquire
 				break;
 			case GLOBAL:
 				ArrayList<GlobalEntryQueryStatus> geqsList = GlobalEntryQueryStatus.convert(plugin.getMysqlHandler().getList(Type.GLOBAL_ENTRYQUERYSTATUS,
@@ -119,8 +132,12 @@ public class ARGTechInfo extends ArgumentModule
 						"`intern_name` = ? AND `entry_query_type` = ?",
 						t.getInternName(), EntryQueryType.TECHNOLOGY.toString()));
 				GlobalEntryQueryStatus geqs = geqsList.size() == 0 ? null : geqsList.get(0);
-				techLevel = geqs == null ? 1 : geqs.getResearchLevel() + 1; //Tech which may to acquire
-				acquiredTech = geqs == null ? 0 : techLevel; //Tech which was already acquire
+				techLevel = geqs == null ? 1 :
+					(geqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT 
+					? geqs.getResearchLevel() + 1 : geqs.getResearchLevel()); //Tech which may to acquire
+				acquiredTech = geqs == null ? 0 : 
+					(geqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT 
+					? geqs.getResearchLevel() : geqs.getResearchLevel() - 1); //Tech which was already acquire
 				break;
 			}
 		}
@@ -131,7 +148,7 @@ public class ARGTechInfo extends ArgumentModule
 		HashMap<String, Double> map = new HashMap<>();
 		map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
 		map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
-		map.put(PlayerHandler.SOLORESEARCHEDTOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchSoloTech(player)));
+		map.put(PlayerHandler.SOLORESEARCHEDTOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchSoloTech(player.getUniqueId())));
 		map.put(PlayerHandler.GLOBALRESEARCHEDTOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchGlobalTech()));
 		YamlConfiguration y = plugin.getYamlHandler().getLang();
 		String path = "GuiHandler.Technology.Info.";

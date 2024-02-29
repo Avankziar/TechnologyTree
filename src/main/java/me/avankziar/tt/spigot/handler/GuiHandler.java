@@ -588,7 +588,7 @@ public class GuiHandler
 			break;
 		}
 		boolean fillNotDefineGuiSlots = new ConfigHandler().fillNotDefineGuiSlots();
-		Material filler = Material.valueOf(plugin.getConfig().getString("Do.Gui.FillerItemMaterial", "LIGHT_GRAY_STAINED_GLASS_PANE"));
+		Material filler = new ConfigHandler().fillerItemMaterial();
 		YamlConfiguration y = plugin.getYamlHandler().getGui(gt);
 		for(int i = 0; i < 54; i++)
 		{
@@ -814,7 +814,6 @@ public class GuiHandler
 		}
 		new BukkitRunnable()
 		{
-			
 			@Override
 			public void run()
 			{
@@ -856,7 +855,7 @@ public class GuiHandler
 	public static List<String> getLorePlaceHolder(Player player, MainCategory mcat, SubCategory scat, Technology t, List<String> lore, String playername)
 	{
 		List<String> list = new ArrayList<>();
-		double totalSoloTechs = PlayerHandler.getTotalResearchSoloTech(player);
+		double totalSoloTechs = PlayerHandler.getTotalResearchSoloTech(player.getUniqueId());
 		double totalGroupTechs = PlayerHandler.getTotalResearchGroupTech(GroupHandler.getGroup(player));
 		double totalGlobalTechs = PlayerHandler.getTotalResearchGlobalTech();
 		boolean papi = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null 
@@ -1093,19 +1092,19 @@ public class GuiHandler
 				int acquiredTech = 0;
 				if(t.getPlayerAssociatedType() == PlayerAssociatedType.SOLO)
 				{
-					SoloEntryQueryStatus eqs = EntryQueryStatusHandler.getSoloEntryHighestResearchLevel(player, t, EntryQueryType.TECHNOLOGY);
+					SoloEntryQueryStatus eqs = EntryQueryStatusHandler.getSoloEntryHighestResearchLevel(player.getUniqueId(), t, EntryQueryType.TECHNOLOGY, null);
 					techLevel = eqs == null ? 1 
 							: (eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT ? eqs.getResearchLevel() + 1 : eqs.getResearchLevel()); //Tech which may to acquire
 					acquiredTech = eqs == null ? 0 : techLevel - 1; //Tech which was already acquire
 				} else if(t.getPlayerAssociatedType() == PlayerAssociatedType.GROUP)
 				{
-					GroupEntryQueryStatus eqs = EntryQueryStatusHandler.getGroupEntryHighestResearchLevel(player, t, EntryQueryType.TECHNOLOGY);
+					GroupEntryQueryStatus eqs = EntryQueryStatusHandler.getGroupEntryHighestResearchLevel(player.getUniqueId(), t, EntryQueryType.TECHNOLOGY, null);
 					techLevel = eqs == null ? 1 
 							: (eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT ? eqs.getResearchLevel() + 1 : eqs.getResearchLevel()); //Tech which may to acquire
 					acquiredTech = eqs == null ? 0 : techLevel - 1; //Tech which was already acquire
 				}  else
 				{
-					GlobalEntryQueryStatus eqs = EntryQueryStatusHandler.getGlobalEntryHighestResearchLevel(t, EntryQueryType.TECHNOLOGY);
+					GlobalEntryQueryStatus eqs = EntryQueryStatusHandler.getGlobalEntryHighestResearchLevel(t, EntryQueryType.TECHNOLOGY, null);
 					techLevel = eqs == null ? 1 
 							: (eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT ? eqs.getResearchLevel() + 1 : eqs.getResearchLevel()); //Tech which may to acquire
 					acquiredTech = eqs == null ? 0 : techLevel - 1; //Tech which was already acquire
@@ -1124,76 +1123,108 @@ public class GuiHandler
 				map.put(PlayerHandler.GROUPMEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getGroupMemberTotalAmount(player)));
 				if(text.contains("%rawcostttexp%"))
 				{
-					if(t.getCostTTExp().get(techLevel) == null)
+					if(t.getCostTTExp() == null	|| t.getCostTTExp().get(techLevel) == null
+							|| t.getCostTTExp().get(techLevel).isEmpty() || t.getCostTTExp().get(techLevel).isBlank())
 					{
-						return s = s.replace("%rawcostttexp%", "0");
+						s = s.replace("%rawcostttexp%", "0");
+						return s;
 					}
 					double ttexp = 0;
-					if(pd != null && !t.getCostTTExp().isEmpty())
+					if(pd != null)
 					{
-						ttexp =  new MathFormulaParser().parse(t.getCostTTExp().get(techLevel), map);
-						TT.log.info("costTTExp: | "+ttexp+" | "+t.getCostTTExp().get(techLevel));
+						try
+						{
+							ttexp =  new MathFormulaParser().parse(t.getCostTTExp().get(techLevel), map);
+						} catch(Exception e)
+						{
+							ttexp = 0;
+						}
 					}
 					s = s.replace("%rawcostttexp%", String.valueOf(ttexp));
 				}
 				if(text.contains("%costttexp%"))
 				{
-					if(t.getCostTTExp().get(techLevel) == null)
+					if(t.getCostTTExp() == null || t.getCostTTExp().get(techLevel) == null 
+							|| t.getCostTTExp().get(techLevel).isEmpty() || t.getCostTTExp().get(techLevel).isBlank())
 					{
 						s = s.replace("%costttexp%", "0 TTExp");
+						return s;
 					}
 					double ttexp = 0;
-					if(pd != null && !t.getCostTTExp().isEmpty())
+					if(pd != null)
 					{
-						ttexp = new MathFormulaParser().parse(t.getCostTTExp().get(techLevel), map);
-						TT.log.info("costTTExp: | "+ttexp+" | "+t.getCostTTExp().get(techLevel));
+						try
+						{
+							ttexp = new MathFormulaParser().parse(t.getCostTTExp().get(techLevel), map);
+						} catch(Exception e)
+						{
+							ttexp = 0;
+						}
+						
 					}
 					s = s.replace("%costttexp%", String.valueOf(ttexp)+" TTExp");
 				}
 				if(text.contains("%rawcostvanillaexp%"))
 				{
-					if(t.getCostVanillaExp().get(techLevel) == null)
+					if(t.getCostVanillaExp() == null || t.getCostVanillaExp().get(techLevel) == null
+							|| t.getCostVanillaExp().get(techLevel).isEmpty() || t.getCostVanillaExp().get(techLevel).isBlank())
 					{
 						s = s.replace("%rawcostvanillaexp%", "0");
+						return s;
 					}
 					int vexp = 0;
-					if(!t.getCostVanillaExp().isEmpty())
+					try
 					{
 						vexp = (int) Math.floor(new MathFormulaParser().parse(t.getCostVanillaExp().get(techLevel), map));
+					} catch(Exception e)
+					{
+						vexp = 0;
 					}
 					s = s.replace("%rawcostvanillaexp%", String.valueOf(vexp));
 				}
-				if(text.contains("%costvanillaexp%") && t.getCostVanillaExp().get(techLevel) != null)
+				if(text.contains("%costvanillaexp%"))
 				{
-					if(t.getCostVanillaExp().get(techLevel) == null)
+					if(t.getCostVanillaExp() == null || t.getCostVanillaExp().get(techLevel) == null
+							|| t.getCostVanillaExp().get(techLevel).isEmpty() || t.getCostVanillaExp().get(techLevel).isBlank())
 					{
 						s = s.replace("%costvanillaexp%", "0 VanillaExp");
+						return s;
 					}
 					int vexp = 0;
-					if(!t.getCostVanillaExp().isEmpty())
+					try
 					{
 						vexp = (int) Math.floor(new MathFormulaParser().parse(t.getCostVanillaExp().get(techLevel), map));
+					} catch(Exception e)
+					{
+						vexp = 0;
 					}
 					s = s.replace("%costvanillaexp%", String.valueOf(vexp)+" VanillaExp");
 				}
 				if(text.contains("%rawcostmoney%"))
 				{
-					if(t.getCostMoney().get(techLevel) == null)
+					if(t.getCostMoney() == null || t.getCostMoney().get(techLevel) == null
+						|| t.getCostMoney().get(techLevel).isEmpty() || t.getCostMoney().get(techLevel).isBlank())
 					{
-						return null;
+						s = s.replace("%rawcostmoney%", "0");
+						return s;
 					}
 					double money = 0;
-					if(!t.getCostMoney().isEmpty())
+					try
 					{
 						money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map);
+					} catch(Exception e)
+					{
+						money = 0;
 					}
 					s = s.replace("%rawcostmoney%", String.valueOf(money));
 				}
 				if(text.contains("%rawcostmaterial%"))
 				{
-					if(t.getCostMaterial().get(techLevel) == null)
+					if(t.getCostMaterial() == null || t.getCostMaterial().get(techLevel) == null
+							|| t.getCostMaterial().get(techLevel).isEmpty())
 					{
-						return null;
+						s = s.replace("%rawcostmaterial%", "");
+						return s;
 					}
 					StringBuilder sb = new StringBuilder();
 					for(Entry<Material, String> e : t.getCostMaterial().get(techLevel).entrySet())
@@ -1209,9 +1240,11 @@ public class GuiHandler
 				}
 				if(text.contains("%costmaterial%"))
 				{
-					if(t.getCostMaterial().get(techLevel) == null)
+					if(t.getCostMaterial() == null || t.getCostMaterial().get(techLevel) == null
+							|| t.getCostMaterial().get(techLevel).isEmpty())
 					{
-						return null;
+						s = s.replace("%costmaterial%", "");
+						return s;
 					}
 					StringBuilder sb = new StringBuilder();
 					for(Entry<Material, String> e : t.getCostMaterial().get(techLevel).entrySet())
@@ -1247,9 +1280,10 @@ public class GuiHandler
 		}
 		if(t.getPlayerAssociatedType() == PlayerAssociatedType.SOLO)
 		{
-			SoloEntryQueryStatus seqs = EntryQueryStatusHandler.getSoloEntryHighestResearchLevel(player, t, EntryQueryType.TECHNOLOGY);
-			int techLevel = seqs == null ? 1 : seqs.getResearchLevel() + 1; //Tech which may to acquire
-			int acquiredTech = seqs == null ? 0 : techLevel; //Tech which was already acquire
+			SoloEntryQueryStatus eqs = EntryQueryStatusHandler.getSoloEntryHighestResearchLevel(player.getUniqueId(), t, EntryQueryType.TECHNOLOGY, null);
+			int techLevel = eqs == null ? 1 : 
+				(eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT ? eqs.getResearchLevel() + 1 : eqs.getResearchLevel()); //Tech which may to acquire
+			int acquiredTech = eqs == null ? 0 : techLevel - 1; //Tech which was already acquire
 			HashMap<String, Double> map = new HashMap<>();
 			map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
 			map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
@@ -1261,25 +1295,24 @@ public class GuiHandler
 			map.put(PlayerHandler.GROUPMEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getGroupMemberTotalAmount(player)));
 			if(text.contains("%costmoney%"))
 			{
-				if(t.getCostMoney().get(techLevel) == null)
+				if(t.getCostMoney() == null || t.getCostMoney().get(techLevel) == null
+						|| t.getCostMoney().get(techLevel).isEmpty() || t.getCostMoney().get(techLevel).isBlank())
 				{
-					return null;
+					s = s.replace("%costmoney%", "");
+					return s;
 				}
 				int moneyFrac = 0;
-				double money = 0.0;
-				if(t != null)
-				{
-					money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map);
-					moneyFrac = String.valueOf(money).split("\\.")[1].length();
-				}
+				double money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map);
+				moneyFrac = String.valueOf(money).split("\\.")[1].length();
 				s = s.replace("%costmoney%", t == null ? "/" : 
 					ChatColor.stripColor(plugin.getIFHEco().format(money, ac.getCurrency(), dg, moneyFrac, useSI, useSy, ts, ds)));
 			}
 		} else if(t.getPlayerAssociatedType() == PlayerAssociatedType.GROUP)
 		{
-			GroupEntryQueryStatus seqs = EntryQueryStatusHandler.getGroupEntryHighestResearchLevel(player, t, EntryQueryType.TECHNOLOGY);
-			int techLevel = seqs == null ? 1 : seqs.getResearchLevel() + 1; //Tech which may to acquire
-			int acquiredTech = seqs == null ? 0 : techLevel; //Tech which was already acquire
+			GroupEntryQueryStatus eqs = EntryQueryStatusHandler.getGroupEntryHighestResearchLevel(player.getUniqueId(), t, EntryQueryType.TECHNOLOGY, null);
+			int techLevel = eqs == null ? 1 : 
+				(eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT ? eqs.getResearchLevel() + 1 : eqs.getResearchLevel()); //Tech which may to acquire
+			int acquiredTech = eqs == null ? 0 : techLevel - 1; //Tech which was already acquire
 			HashMap<String, Double> map = new HashMap<>();
 			map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
 			map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
@@ -1291,25 +1324,24 @@ public class GuiHandler
 			map.put(PlayerHandler.GROUPMEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getGroupMemberTotalAmount(player)));
 			if(text.contains("%costmoney%"))
 			{
-				if(t.getCostMoney().get(techLevel) == null)
+				if(t.getCostMoney() == null || t.getCostMoney().get(techLevel) == null
+						|| t.getCostMoney().get(techLevel).isEmpty() || t.getCostMoney().get(techLevel).isBlank())
 				{
-					return null;
+					s = s.replace("%costmoney%", "");
+					return s;
 				}
 				int moneyFrac = 0;
-				double money = 0.0;
-				if(t != null)
-				{
-					money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map);
-					moneyFrac = String.valueOf(money).split("\\.")[1].length();
-				}
+				double money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map);
+				moneyFrac = String.valueOf(money).split("\\.")[1].length();
 				s = s.replace("%costmoney%", t == null ? "/" : 
 					ChatColor.stripColor(plugin.getIFHEco().format(money, ac.getCurrency(), dg, moneyFrac, useSI, useSy, ts, ds)));
 			}
 		} else 
 		{
-			GlobalEntryQueryStatus seqs = EntryQueryStatusHandler.getGlobalEntryHighestResearchLevel(t, EntryQueryType.TECHNOLOGY);
-			int techLevel = seqs == null ? 1 : seqs.getResearchLevel() + 1; //Tech which may to acquire
-			int acquiredTech = seqs == null ? 0 : techLevel; //Tech which was already acquire
+			GlobalEntryQueryStatus eqs = EntryQueryStatusHandler.getGlobalEntryHighestResearchLevel(t, EntryQueryType.TECHNOLOGY, null);
+			int techLevel = eqs == null ? 1 : 
+				(eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT ? eqs.getResearchLevel() + 1 : eqs.getResearchLevel()); //Tech which may to acquire
+			int acquiredTech = eqs == null ? 0 : techLevel - 1; //Tech which was already acquire
 			HashMap<String, Double> map = new HashMap<>();
 			map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
 			map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
@@ -1321,17 +1353,15 @@ public class GuiHandler
 			map.put(PlayerHandler.GROUPMEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getGroupMemberTotalAmount(player)));
 			if(text.contains("%costmoney%"))
 			{
-				if(t.getCostMoney().get(techLevel) == null)
+				if(t.getCostMoney() == null || t.getCostMoney().get(techLevel) == null
+						|| t.getCostMoney().get(techLevel).isEmpty() || t.getCostMoney().get(techLevel).isBlank())
 				{
-					return null;
+					s = s.replace("%costmoney%", "");
+					return s;
 				}
 				int moneyFrac = 0;
-				double money = 0.0;
-				if(t != null)
-				{
-					money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map);
-					moneyFrac = String.valueOf(money).split("\\.")[1].length();
-				}
+				double money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map);
+				moneyFrac = String.valueOf(money).split("\\.")[1].length();
 				s = s.replace("%costmoney%", t == null ? "/" : 
 					ChatColor.stripColor(plugin.getIFHEco().format(money, ac.getCurrency(), dg, moneyFrac, useSI, useSy, ts, ds)));
 			}
@@ -1360,25 +1390,34 @@ public class GuiHandler
 			map.put(PlayerHandler.GROUPMEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getGroupMemberTotalAmount(player)));
 			if(t.getPlayerAssociatedType() == PlayerAssociatedType.SOLO)
 			{
-				SoloEntryQueryStatus seqs = EntryQueryStatusHandler.getSoloEntryHighestResearchLevel(player, t, EntryQueryType.TECHNOLOGY);
-				techLevel = seqs == null ? 1 : seqs.getResearchLevel() + 1; //Tech which may to acquire
-				acquiredTech = seqs == null ? 0 : techLevel; //Tech which was already acquire
+				SoloEntryQueryStatus eqs = EntryQueryStatusHandler.getSoloEntryHighestResearchLevel(player.getUniqueId(), t, EntryQueryType.TECHNOLOGY, null);
+				techLevel = eqs == null ? 1 : 
+					(eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT ? eqs.getResearchLevel() + 1 : eqs.getResearchLevel()); //Tech which may to acquire
+				acquiredTech = eqs == null ? 0 : techLevel - 1; //Tech which was already acquire
 				map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
 				map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
 			} else if(t.getPlayerAssociatedType() == PlayerAssociatedType.GROUP)
 			{
-				GroupEntryQueryStatus seqs = EntryQueryStatusHandler.getGroupEntryHighestResearchLevel(player, t, EntryQueryType.TECHNOLOGY);
-				techLevel = seqs == null ? 1 : seqs.getResearchLevel() + 1; //Tech which may to acquire
-				acquiredTech = seqs == null ? 0 : techLevel; //Tech which was already acquire
+				GroupEntryQueryStatus eqs = EntryQueryStatusHandler.getGroupEntryHighestResearchLevel(player.getUniqueId(), t, EntryQueryType.TECHNOLOGY, null);
+				techLevel = eqs == null ? 1 : 
+					(eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT ? eqs.getResearchLevel() + 1 : eqs.getResearchLevel()); //Tech which may to acquire
+				acquiredTech = eqs == null ? 0 : techLevel - 1; //Tech which was already acquire
 				map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
 				map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
 			} else 
 			{
-				GlobalEntryQueryStatus seqs = EntryQueryStatusHandler.getGlobalEntryHighestResearchLevel(t, EntryQueryType.TECHNOLOGY);
-				techLevel = seqs == null ? 1 : seqs.getResearchLevel() + 1; //Tech which may to acquire
-				acquiredTech = seqs == null ? 0 : techLevel; //Tech which was already acquire
+				GlobalEntryQueryStatus eqs = EntryQueryStatusHandler.getGlobalEntryHighestResearchLevel(t, EntryQueryType.TECHNOLOGY, null);
+				techLevel = eqs == null ? 1 : 
+					(eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT ? eqs.getResearchLevel() + 1 : eqs.getResearchLevel()); //Tech which may to acquire
+				acquiredTech = eqs == null ? 0 : techLevel - 1; //Tech which was already acquire
 				map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
 				map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
+			}
+			if(t.getCostMoney() == null || t.getCostMoney().get(techLevel) == null
+					|| t.getCostMoney().get(techLevel).isEmpty() || t.getCostMoney().get(techLevel).isBlank())
+			{
+				s = s.replace("%costmoney%", "0");
+				return s;
 			}
 			double money = 0.0;
 			if(t != null)

@@ -74,16 +74,19 @@ public class ARGExp_Add extends ArgumentModule
 					);
 		}
 		player.sendMessage(txt);
-		if(Bukkit.getPlayer(uuid) != null)
+		if(!player.getUniqueId().toString().equals(uuid.toString()))
 		{
-			Bukkit.getPlayer(uuid).sendMessage(txt);
-		} else
-		{
-			if(plugin.getMessageToBungee() != null)
+			if(Bukkit.getPlayer(uuid) != null)
 			{
-				plugin.getMessageToBungee().sendMessage(uuid, txt);
+				Bukkit.getPlayer(uuid).sendMessage(txt);
+			} else
+			{
+				if(plugin.getMessageToBungee() != null)
+				{
+					plugin.getMessageToBungee().sendMessage(uuid, txt);
+				}
 			}
-		}
+		}		
 		PlayerHandler.updatePlayer(pd);
 	}
 }
