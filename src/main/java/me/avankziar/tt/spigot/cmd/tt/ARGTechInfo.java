@@ -148,8 +148,8 @@ public class ARGTechInfo extends ArgumentModule
 		HashMap<String, Double> map = new HashMap<>();
 		map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
 		map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
-		map.put(PlayerHandler.SOLORESEARCHEDTOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchSoloTech(player.getUniqueId())));
-		map.put(PlayerHandler.GLOBALRESEARCHEDTOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchGlobalTech()));
+		map.put(PlayerHandler.SOLO_RESEARCHED_TOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchSoloTech(player.getUniqueId())));
+		map.put(PlayerHandler.GLOBAL_RESEARCHED_TOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchGlobalTech()));
 		YamlConfiguration y = plugin.getYamlHandler().getLang();
 		String path = "GuiHandler.Technology.Info.";
 		ArrayList<BaseComponent> albc = new ArrayList<>();

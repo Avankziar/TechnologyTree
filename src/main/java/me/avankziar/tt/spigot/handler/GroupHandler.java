@@ -73,10 +73,10 @@ public class GroupHandler
 		//Calculate the daily
 		String formula = plugin.getYamlHandler().getConfig().getString("Group.DailyUpkeep.Fromula");
 		HashMap<String, Double> map = new HashMap<>();
-		map.put(PlayerHandler.GROUPLEVEL, Double.valueOf(grouplevel));
-		map.put(PlayerHandler.GROUPMEMBERAMOUNT, Double.valueOf(groupmemberamount));
-		map.put(PlayerHandler.GROUPMEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getMemberTotalAmount(groupname, grouplevel, groupmemberamount)));
-		map.put(PlayerHandler.GROUPRESEARCHEDTOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchGroupTech(groupname)));
+		map.put(PlayerHandler.GROUP_LEVEL, Double.valueOf(grouplevel));
+		map.put(PlayerHandler.GROUP_MEMBERAMOUNT, Double.valueOf(groupmemberamount));
+		map.put(PlayerHandler.GROUP_MEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getMemberTotalAmount(groupname, grouplevel, groupmemberamount)));
+		map.put(PlayerHandler.GROUP_RESEARCHED_TOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchGroupTech(groupname)));
 		return new MathFormulaParser().parse(formula, map);
 	}
 	
@@ -99,10 +99,10 @@ public class GroupHandler
 	{
 		String formula = plugin.getYamlHandler().getConfig().getString("Group.Level.CostsForIncreasingLevel");
 		HashMap<String, Double> map = new HashMap<>();
-		map.put(PlayerHandler.GROUPLEVEL, Double.valueOf(grouplevel));
-		map.put(PlayerHandler.GROUPMEMBERAMOUNT, Double.valueOf(groupmemberamount));
-		map.put(PlayerHandler.GROUPMEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getMemberTotalAmount(groupname, grouplevel, groupmemberamount)));
-		map.put(PlayerHandler.GROUPRESEARCHEDTOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchGroupTech(groupname)));
+		map.put(PlayerHandler.GROUP_LEVEL, Double.valueOf(grouplevel));
+		map.put(PlayerHandler.GROUP_MEMBERAMOUNT, Double.valueOf(groupmemberamount));
+		map.put(PlayerHandler.GROUP_MEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getMemberTotalAmount(groupname, grouplevel, groupmemberamount)));
+		map.put(PlayerHandler.GROUP_RESEARCHED_TOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchGroupTech(groupname)));
 		return new MathFormulaParser().parse(formula, map);
 	}
 	
@@ -122,9 +122,9 @@ public class GroupHandler
 	{
 		String formula = plugin.getYamlHandler().getConfig().getString("Group.Member.TotalAmountPerLevel.Player");
 		HashMap<String, Double> map = new HashMap<>();
-		map.put(PlayerHandler.GROUPLEVEL, Double.valueOf(grouplevel));
-		map.put(PlayerHandler.GROUPMEMBERAMOUNT, Double.valueOf(groupmemberamount));
-		map.put(PlayerHandler.GROUPRESEARCHEDTOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchGroupTech(groupname)));
+		map.put(PlayerHandler.GROUP_LEVEL, Double.valueOf(grouplevel));
+		map.put(PlayerHandler.GROUP_MEMBERAMOUNT, Double.valueOf(groupmemberamount));
+		map.put(PlayerHandler.GROUP_RESEARCHED_TOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchGroupTech(groupname)));
 		return (int) Math.floor(new MathFormulaParser().parse(formula, map));
 	}
 	
@@ -148,9 +148,9 @@ public class GroupHandler
 			return 0;
 		}
 		HashMap<String, Double> map = new HashMap<>();
-		map.put(PlayerHandler.GROUPLEVEL, Double.valueOf(grouplevel));
-		map.put(PlayerHandler.GROUPMEMBERAMOUNT, Double.valueOf(groupmemberamount));
-		map.put(PlayerHandler.GROUPRESEARCHEDTOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchGroupTech(groupname)));
+		map.put(PlayerHandler.GROUP_LEVEL, Double.valueOf(grouplevel));
+		map.put(PlayerHandler.GROUP_MEMBERAMOUNT, Double.valueOf(groupmemberamount));
+		map.put(PlayerHandler.GROUP_RESEARCHED_TOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchGroupTech(groupname)));
 		return (int) Math.floor(new MathFormulaParser().parse(formula, map));
 	}
 	

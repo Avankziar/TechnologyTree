@@ -43,9 +43,9 @@ public class ARGGroup_Create extends ArgumentModule
 		{
 			String ttExpCost = plugin.getYamlHandler().getConfig().getString("Group.Creation.Cost.TTExp");
 			HashMap<String, Double> map = new HashMap<>();
-			map.put(PlayerHandler.SOLORESEARCHEDTOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchSoloTech(player.getUniqueId())));
-			map.put(PlayerHandler.GLOBALRESEARCHEDTOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchGlobalTech()));
-			map.put(PlayerHandler.GROUPTOTALAMOUNT, Double.valueOf(GroupHandler.getTotalGroupAmount()));
+			map.put(PlayerHandler.SOLO_RESEARCHED_TOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchSoloTech(player.getUniqueId())));
+			map.put(PlayerHandler.GLOBAL_RESEARCHED_TOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchGlobalTech()));
+			map.put(PlayerHandler.GROUP_TOTALAMOUNT, Double.valueOf(GroupHandler.getTotalGroupAmount()));
 			double ttExp = new MathFormulaParser().parse(ttExpCost, map);
 			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.Create.CostInfo")
 					.replace("%v%", ttExpCost)
@@ -60,9 +60,9 @@ public class ARGGroup_Create extends ArgumentModule
 		}
 		String ttExpCost = plugin.getYamlHandler().getConfig().getString("Group.Creation.Cost.TTExp");
 		HashMap<String, Double> map = new HashMap<>();
-		map.put(PlayerHandler.SOLORESEARCHEDTOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchSoloTech(player.getUniqueId())));
-		map.put(PlayerHandler.GLOBALRESEARCHEDTOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchGlobalTech()));
-		map.put(PlayerHandler.GROUPTOTALAMOUNT, Double.valueOf(GroupHandler.getTotalGroupAmount()));
+		map.put(PlayerHandler.SOLO_RESEARCHED_TOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchSoloTech(player.getUniqueId())));
+		map.put(PlayerHandler.GLOBAL_RESEARCHED_TOTALTECH, Double.valueOf(PlayerHandler.getTotalResearchGlobalTech()));
+		map.put(PlayerHandler.GROUP_TOTALAMOUNT, Double.valueOf(GroupHandler.getTotalGroupAmount()));
 		double ttExp = 0;
 		if(!ModifierValueEntry.hasPermission(player, Permission.GROUP_CREATE))
 		{

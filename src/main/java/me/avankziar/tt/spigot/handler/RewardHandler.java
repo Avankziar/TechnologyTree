@@ -495,9 +495,11 @@ public class RewardHandler
 			{
 				boolean b = PlayerHandler.materialInteractionMap.get(uuid).get(toolType).get(material).get(eventType).isCanAccess();
 				TT.log.info("canAccessInteraction b: "+b); //REMOVEME
-				Boolean B = plugin.getValueEntry().getBooleanValueEntry(uuid, 
+				Boolean B =  plugin.getValueEntry() != null 
+						? plugin.getValueEntry().getBooleanValueEntry(uuid, 
 						CatTechHandler.getValueEntry(RewardType.ACCESS, eventType, material, entityType),
-						plugin.getServername(), player.getWorld().getName()); //TODO Checken, warum das null gibt
+						plugin.getServername(), player.getWorld().getName())
+						: b; //TODO Checken, warum das null gibt
 				TT.log.info("canAccessInteraction B: "+(B == null ? "null" : B)); //REMOVEME
 				return b ? b : B;
 			}

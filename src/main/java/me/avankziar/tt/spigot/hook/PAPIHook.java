@@ -116,7 +116,7 @@ public class PAPIHook extends PlaceholderExpansion
 	 */
 	
 	@Override
-	public String onPlaceholderRequest(Player player, String idf) //ADDME
+	public String onPlaceholderRequest(Player player, String idf)
 	{
 		if(player == null)
 		{

@@ -74,6 +74,7 @@ import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
 import main.java.me.avankziar.tt.spigot.objects.mysql.SoloEntryQueryStatus;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.MainCategory;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.SubCategory;
+import main.java.me.avankziar.tt.spigot.objects.ram.misc.TechCategory;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.Technology;
 import net.md_5.bungee.api.ChatColor;
 
@@ -84,6 +85,57 @@ public class GuiHandler
 	public static String SUBCATEGORY = "subcategory";
 	public static String TECHNOLOGY = "technology";
 	public static String PAT = "playerassociatedtype";
+	
+	//Replacer for Displayname & Lore
+	public static String 
+			TECH_EXIST = "%techexist%",
+			TECH_SOLO_EXIST = "%solotechexist%",
+			TECH_GROUP_EXIST = "%grouptechexist%",
+			TECH_GLOBAL_EXIST = "%globaltechexist%",
+			TECH_HAVE = "%techhave%",
+			TECH_SOLO_HAVE = "%solotechhave%",
+			TECH_GROUP_HAVE = "%grouptechhave%",
+			TECH_GLOBAL_HAVE = "%globaltechhave%",
+			PLAYER = "%player%",
+			SYNCMSG = "%syncmsg%",
+			REWARDMSG = "%rewardmsg%",
+			FREE_TTEXP = "%freettexp%",
+			ALLOCATED_TTEXP = "%allocatedttexp%",
+			BREWING_STAND_HAS = "%brewing_standhas%",
+			BREWING_STAND_MAX = "%brewing_standmax%",
+			CAMPFIRE_HAS = "%campfirehas%",
+			CAMPFIRE_MAX = "%campfiremax%",
+			FURNACE_HAS = "%furnacehas%",
+			FURNACE_MAX = "%furnacemax%",
+			BLAST_FURNACE_HAS = "%blast_furnacehas%",
+			BLAST_FURNACE_MAX = "%blast_furnacemax%",
+			SMOKER_HAS = "%smokerhas%",
+			SMOKER_MAX = "%smokermax%",
+			CAT_INTERNNAME= "%intern_name%",
+			CAT_DISPLAYNAME = "%display_name%",
+			CAT_PLAYER_ASSOCIATED_TYPE = "%player_associated_type%",
+			SCAT_OVERLYING_CATEGORY = "%overlying_category%",
+			SCAT_OVERLYING_CATEGORY_DISPLAYNAME = "%overlying_category_displayname%",
+			T_INTERNNAME = "%intern_name%",
+			T_DISPLAYNAME = "%display_name%",
+			T_TECHNOLOGYTYPE = "%technologytype%",
+			T_MAXTECHLEV = "%maxtechlev%",
+			T_PLAYER_ASSOCIATED_TYPE = "%player_associated_type%",
+			T_ACQUIREDTECHLEV = "%acquiredtechlev%",
+			T_RAWCOST_TTEXP = "%rawcostttexp%",
+			T_COST_TTEXP = "%costttexp%",
+			T_RAWCOST_VEXP = "%rawcostvanillaexp%",
+			T_COST_VEXP = "%costvanillaexp%",
+			T_RAWCOST_MONEY = "%rawcostmoney%",
+			T_COST_MONEY = "%costmoney%",
+			T_RAWCOST_MAT = "%rawcostmaterial%",
+			T_COST_MAT = "%costmaterial%",
+			ACCOUNT_NAME = "%account_name%",
+			ACCOUNT_ID = "%account_id%",
+			ACCOUNT_OWNER = "%account_owner%",
+			ACCOUNT_CATEGORY = "%account_category%",
+			ACCOUNT_BALANCE = "%account_balance%",
+			ACCOUNT_BALANCE_FORMATED = "%account_balance_formated%";
 	
 	public static void openCatOrTech(Player player, GuiType gt, MainCategory mcat, SubCategory scat,
 			PlayerAssociatedType pat, SettingsLevel st, boolean closeInv)
@@ -219,6 +271,7 @@ public class GuiHandler
 					String[] split = s.split(";");
 					if(split.length != 2)
 					{
+						TT.log.info("Enchantment Failed! "+s+" Lenght != 2 ");
 						continue;
 					}					
 					try
@@ -228,6 +281,7 @@ public class GuiHandler
 						esm.addStoredEnchant(e, Integer.parseInt(split[1]), true);
 					} catch(Exception e)
 					{
+						TT.log.info("Enchantment Failed! "+s+" | "+e.getCause().getClass().getName());
 						continue;
 					}
 				}
@@ -243,6 +297,7 @@ public class GuiHandler
 					String[] split = s.split(";");
 					if(split.length != 2)
 					{
+						TT.log.info("Enchantment Failed! "+s+" Lenght != 2 ");
 						continue;
 					}					
 					try
@@ -252,6 +307,7 @@ public class GuiHandler
 						im.addEnchant(e, Integer.parseInt(split[1]), true);
 					} catch(Exception e)
 					{
+						TT.log.info("Enchantment Failed! "+s+" | "+e.getCause().getClass().getName());
 						continue;
 					}
 				}
@@ -905,188 +961,215 @@ public class GuiHandler
 			double totalSoloTechs, double totalGroupTechs, double totalGlobalTechs)
 	{
 		String s = text;
-		if(text.contains("%player%"))
+		if(text.contains(TECH_EXIST))
 		{
-			s = s.replace("%player%", player.getName());
+			s = s.replace(TECH_EXIST, String.valueOf(CatTechHandler.totalTech));
 		}
-		PlayerData pd = PlayerHandler.getPlayer(player.getUniqueId());
-		if(text.contains("%syncmsg%"))
+		if(text.contains(TECH_SOLO_EXIST))
 		{
-			s = s.replace("%syncmsg%", pd.isShowSyncMessage() 
-					? plugin.getYamlHandler().getLang().getString("IsTrue") : plugin.getYamlHandler().getLang().getString("IsFalse"));
+			s = s.replace(TECH_SOLO_EXIST, String.valueOf(CatTechHandler.totalSoloTech));
 		}
-		if(text.contains("%rewardmsg%"))
+		if(text.contains(TECH_GROUP_EXIST))
 		{
-			s = s.replace("%rewardmsg%", pd.isShowRewardMessage() 
-					? plugin.getYamlHandler().getLang().getString("IsTrue") : plugin.getYamlHandler().getLang().getString("IsFalse"));
+			s = s.replace(TECH_GROUP_EXIST, String.valueOf(CatTechHandler.totalGroupTech));
 		}
-		if(text.contains("%freettexp%"))
+		if(text.contains(TECH_GLOBAL_EXIST))
 		{
-			s = s.replace("%freettexp%", String.valueOf(pd.getActualTTExp()));
+			s = s.replace(TECH_GLOBAL_EXIST, String.valueOf(CatTechHandler.totalGlobalTech));
 		}
-		if(text.contains("%allocatedttexp%"))
-		{
-			s = s.replace("%allocatedttexp%", String.valueOf((pd.getTotalReceivedTTExp()-pd.getActualTTExp())));
-		}
-		if(text.contains("%techhave%"))
-		{
-			int c = plugin.getMysqlHandler().getCount(Type.SOLO_ENTRYQUERYSTATUS,
-						"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
-						player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString())
-					+
-					plugin.getMysqlHandler().getCount(Type.GLOBAL_ENTRYQUERYSTATUS,
-						"`entry_query_type` = ? AND `status_type` = ?",
-						EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
-			GroupData gd = GroupHandler.getGroup(player);
-			if(gd != null)
-			{
-				c += plugin.getMysqlHandler().getCount(Type.GROUP_ENTRYQUERYSTATUS,
-						"`group_name` = ? AND `entry_query_type` = ? AND `status_type` = ?",
-						gd.getGroupName(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
-			}
-			s = s.replace("%techhave%",  String.valueOf(c));
-		}
-		if(text.contains("%techexist%"))
-		{
-			s = s.replace("%techexist%", String.valueOf(CatTechHandler.totalTech));
-		}
-		if(text.contains("%solotechhave%"))
-		{
-			int c = plugin.getMysqlHandler().getCount(Type.SOLO_ENTRYQUERYSTATUS,
-					"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
-					player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
-			s = s.replace("%solotechhave%", String.valueOf(c));
-		}
-		if(text.contains("%solotechexist%"))
-		{
-			s = s.replace("%solotechexist%", String.valueOf(CatTechHandler.totalSoloTech));
-		}
-		if(text.contains("%grouptechhave%"))
-		{
-			GroupData gd = GroupHandler.getGroup(player);
-			int c = 0;
-			if(gd != null)
-			{
-				c = plugin.getMysqlHandler().getCount(Type.GROUP_ENTRYQUERYSTATUS,
-						"`group_name` = ? AND `entry_query_type` = ? AND `status_type` = ?",
-						gd.getGroupName(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
-			}
-			s = s.replace("%grouptechhave%", String.valueOf(c));
-		}
-		if(text.contains("%grouptechexist%"))
-		{
-			s = s.replace("%grouptechexist%", String.valueOf(CatTechHandler.totalGroupTech));
-		}
-		if(text.contains("%globaltechhave%"))
+		if(text.contains(TECH_GLOBAL_HAVE))
 		{
 			int c = plugin.getMysqlHandler().getCount(Type.GLOBAL_ENTRYQUERYSTATUS,
 					"`entry_query_type` = ? AND `status_type` = ?",
 					EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
-			s = s.replace("%globaltechhave%", String.valueOf(c));
+			s = s.replace(TECH_GLOBAL_HAVE, String.valueOf(c));
 		}
-		if(text.contains("%globaltechexist%"))
+		PlayerData pd = null;
+		if(player != null)
 		{
-			s = s.replace("%globaltechexist%", String.valueOf(CatTechHandler.totalGlobalTech));
-		}
-		if(text.contains("%brewing_standhas%"))
+			//Player Only Replacer
+			if(text.contains(PLAYER))
+			{
+				s = s.replace(PLAYER, player.getName());
+			}
+			pd = PlayerHandler.getPlayer(player.getUniqueId());
+			if(text.contains(SYNCMSG))
+			{
+				s = s.replace(SYNCMSG, getBoolean(pd.isShowSyncMessage()));
+			}
+			if(text.contains(REWARDMSG))
+			{
+				s = s.replace(REWARDMSG, getBoolean(pd.isShowRewardMessage()));
+			}
+			if(text.contains(FREE_TTEXP))
+			{
+				s = s.replace(FREE_TTEXP, String.valueOf(pd.getActualTTExp()));
+			}
+			if(text.contains(ALLOCATED_TTEXP))
+			{
+				s = s.replace(ALLOCATED_TTEXP, String.valueOf((pd.getTotalReceivedTTExp()-pd.getActualTTExp())));
+			}
+			if(text.contains(TECH_HAVE))
+			{
+				int c = plugin.getMysqlHandler().getCount(Type.SOLO_ENTRYQUERYSTATUS,
+							"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
+							player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString())
+						+
+						plugin.getMysqlHandler().getCount(Type.GLOBAL_ENTRYQUERYSTATUS,
+							"`entry_query_type` = ? AND `status_type` = ?",
+							EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
+				GroupData gd = GroupHandler.getGroup(player);
+				if(gd != null)
+				{
+					c += plugin.getMysqlHandler().getCount(Type.GROUP_ENTRYQUERYSTATUS,
+							"`group_name` = ? AND `entry_query_type` = ? AND `status_type` = ?",
+							gd.getGroupName(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
+				}
+				s = s.replace(TECH_HAVE,  String.valueOf(c));
+			}
+			if(text.contains(TECH_SOLO_HAVE))
+			{
+				int c = plugin.getMysqlHandler().getCount(Type.SOLO_ENTRYQUERYSTATUS,
+						"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ?",
+						player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
+				s = s.replace(TECH_SOLO_HAVE, String.valueOf(c));
+			}
+			if(text.contains(TECH_GROUP_HAVE))
+			{
+				GroupData gd = GroupHandler.getGroup(player);
+				int c = 0;
+				if(gd != null)
+				{
+					c = plugin.getMysqlHandler().getCount(Type.GROUP_ENTRYQUERYSTATUS,
+							"`group_name` = ? AND `entry_query_type` = ? AND `status_type` = ?",
+							gd.getGroupName(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString());
+				}
+				s = s.replace(TECH_GROUP_HAVE, String.valueOf(c));
+			}
+			if(text.contains(BREWING_STAND_HAS))
+			{
+				int c = plugin.getMysqlHandler().getCount(Type.REGISTEREDBLOCK,
+						"`player_uuid` = ? AND `block_type` = ?",
+						player.getUniqueId().toString(), BlockType.BREWING_STAND.toString());
+				s = s.replace(BREWING_STAND_HAS, String.valueOf(c));
+			}
+			if(text.contains(BREWING_STAND_MAX))
+			{
+				int c = BlockHandler.getMaxRegisteredBlocks(player, BlockType.BREWING_STAND);
+				s = s.replace(BREWING_STAND_MAX, String.valueOf(c));
+			}
+			if(text.contains(CAMPFIRE_HAS))
+			{
+				int c = plugin.getMysqlHandler().getCount(Type.REGISTEREDBLOCK,
+						"`player_uuid` = ? AND `block_type` = ?",
+						player.getUniqueId().toString(), BlockType.CAMPFIRE.toString());
+				s = s.replace(CAMPFIRE_HAS, String.valueOf(c));
+			}
+			if(text.contains(CAMPFIRE_MAX))
+			{
+				int c = BlockHandler.getMaxRegisteredBlocks(player, BlockType.CAMPFIRE);
+				s = s.replace(CAMPFIRE_MAX, String.valueOf(c));
+			}
+			if(text.contains(FURNACE_HAS))
+			{
+				int c = plugin.getMysqlHandler().getCount(Type.REGISTEREDBLOCK,
+						"`player_uuid` = ? AND `block_type` = ?",
+						player.getUniqueId().toString(), BlockType.FURNACE.toString());
+				s = s.replace(FURNACE_HAS, String.valueOf(c));
+			}
+			if(text.contains(FURNACE_MAX))
+			{
+				int c = BlockHandler.getMaxRegisteredBlocks(player, BlockType.FURNACE);
+				s = s.replace(FURNACE_MAX, String.valueOf(c));
+			}
+			if(text.contains(BLAST_FURNACE_HAS))
+			{
+				int c = plugin.getMysqlHandler().getCount(Type.REGISTEREDBLOCK,
+						"`player_uuid` = ? AND `block_type` = ?",
+						player.getUniqueId().toString(), BlockType.BLASTFURNACE.toString());
+				s = s.replace(BLAST_FURNACE_HAS, String.valueOf(c));
+			}
+			if(text.contains(BLAST_FURNACE_MAX))
+			{
+				int c = BlockHandler.getMaxRegisteredBlocks(player, BlockType.BLASTFURNACE);
+				s = s.replace(BLAST_FURNACE_MAX, String.valueOf(c));
+			}
+			if(text.contains(SMOKER_HAS))
+			{
+				int c = plugin.getMysqlHandler().getCount(Type.REGISTEREDBLOCK,
+						"`player_uuid` = ? AND `block_type` = ?",
+						player.getUniqueId().toString(), BlockType.SMOKER.toString());
+				s = s.replace(SMOKER_HAS, String.valueOf(c));
+			}
+			if(text.contains(SMOKER_MAX))
+			{
+				int c = BlockHandler.getMaxRegisteredBlocks(player, BlockType.SMOKER);
+				s = s.replace(SMOKER_MAX, String.valueOf(c));
+			}
+		}	
+		if(mcat != null || scat != null)
 		{
-			BlockType bt = BlockType.BREWING_STAND;
-			int c = plugin.getMysqlHandler().getCount(Type.REGISTEREDBLOCK,
-					"`player_uuid` = ? AND `block_type` = ?",
-					player.getUniqueId().toString(), bt.toString());
-			s = s.replace("%brewing_standhas%", String.valueOf(c));
+			//Only for Object where TechCategory inherits!
+			TechCategory tcat = mcat != null ? (TechCategory) mcat : (TechCategory) scat;
+			if(text.contains(CAT_INTERNNAME))
+			{
+				s = s.replace(CAT_INTERNNAME, tcat.getInternName());
+			}
+			if(text.contains(CAT_DISPLAYNAME))
+			{
+				s = s.replace(CAT_DISPLAYNAME, tcat.getDisplayName());
+			}
+			if(text.contains(CAT_PLAYER_ASSOCIATED_TYPE))
+			{
+				s = s.replace(CAT_PLAYER_ASSOCIATED_TYPE, tcat.getPlayerAssociatedType().toString());
+			}
 		}
-		if(text.contains("%brewing_standmax%"))
+		/*MainCategory has no meaningfull values
+		 * if(mcat != null)
 		{
-			BlockType bt = BlockType.BREWING_STAND;
-			int c = BlockHandler.getMaxRegisteredBlocks(player, bt);
-			s = s.replace("%brewing_standmax%", String.valueOf(c));
-		}
-		if(text.contains("%campfirehas%"))
-		{
-			BlockType bt = BlockType.CAMPFIRE;
-			int c = plugin.getMysqlHandler().getCount(Type.REGISTEREDBLOCK,
-					"`player_uuid` = ? AND `block_type` = ?",
-					player.getUniqueId().toString(), bt.toString());
-			s = s.replace("%campfirehas%", String.valueOf(c));
-		}
-		if(text.contains("%campfiremax%"))
-		{
-			BlockType bt = BlockType.CAMPFIRE;
-			int c = BlockHandler.getMaxRegisteredBlocks(player, bt);
-			s = s.replace("%campfiremax%", String.valueOf(c));
-		}
-		if(text.contains("%furnacehas%"))
-		{
-			BlockType bt = BlockType.FURNACE;
-			int c = plugin.getMysqlHandler().getCount(Type.REGISTEREDBLOCK,
-					"`player_uuid` = ? AND `block_type` = ?",
-					player.getUniqueId().toString(), bt.toString());
-			s = s.replace("%furnacehas%", String.valueOf(c));
-		}
-		if(text.contains("%furnacemax%"))
-		{
-			BlockType bt = BlockType.FURNACE;
-			int c = BlockHandler.getMaxRegisteredBlocks(player, bt);
-			s = s.replace("%furnacemax%", String.valueOf(c));
-		}
-		if(text.contains("%blast_furnacehas%"))
-		{
-			BlockType bt = BlockType.BLASTFURNACE;
-			int c = plugin.getMysqlHandler().getCount(Type.REGISTEREDBLOCK,
-					"`player_uuid` = ? AND `block_type` = ?",
-					player.getUniqueId().toString(), bt.toString());
-			s = s.replace("%blast_furnacehas%", String.valueOf(c));
-		}
-		if(text.contains("%blast_furnacemax%"))
-		{
-			BlockType bt = BlockType.BLASTFURNACE;
-			int c = BlockHandler.getMaxRegisteredBlocks(player, bt);
-			s = s.replace("%blast_furnacemax%", String.valueOf(c));
-		}
-		if(text.contains("%smokerhas%"))
-		{
-			BlockType bt = BlockType.SMOKER;
-			int c = plugin.getMysqlHandler().getCount(Type.REGISTEREDBLOCK,
-					"`player_uuid` = ? AND `block_type` = ?",
-					player.getUniqueId().toString(), bt.toString());
-			s = s.replace("%smokerhas%", String.valueOf(c));
-		}
-		if(text.contains("%smokermax%"))
-		{
-			BlockType bt = BlockType.SMOKER;
-			int c = BlockHandler.getMaxRegisteredBlocks(player, bt);
-			s = s.replace("%smokermax%", String.valueOf(c));
-		}
-		if(mcat != null)
-		{
-			//TODO
-			/*
-			 * 
-			 */
-		}
+			if(text.contains(""))
+			{
+				
+			}
+		}*/
 		if(scat != null)
 		{
-			//TODO
-			/*
-			 * 
-			 */
+			if(text.contains(SCAT_OVERLYING_CATEGORY))
+			{
+				s = s.replace(SCAT_OVERLYING_CATEGORY, scat.getOverlyingCategory());
+			}
+			if(text.contains(SCAT_OVERLYING_CATEGORY_DISPLAYNAME))
+			{
+				s = s.replace(SCAT_OVERLYING_CATEGORY_DISPLAYNAME, scat.getOverlyingCategoryDisplayname());
+			}
 		}
 		if(t != null)
 		{
-			//TODO
-			/**
-			 * 
-			 */
-			if(text.contains("%maxtechlev%"))
+			if(text.contains(T_INTERNNAME))
 			{
-				s = s.replace("%maxtechlev%", String.valueOf(t.getMaximalTechnologyLevelToResearch()));
+				s = s.replace(T_INTERNNAME, t.getInternName());
 			}
-			if(text.contains("%acquiredtechlev%") || text.contains("%rawcostttexp%")
-					|| text.contains("%rawcostttexp%") || text.contains("%costttexp%")
-					|| text.contains("%rawcostvanillaexp%") || text.contains("%costvanillaexp%") 
-					|| text.contains("%rawcostmoney%")
-					|| text.contains("%rawcostmaterial%") || text.contains("%costmaterial%"))
+			if(text.contains(T_DISPLAYNAME))
+			{
+				s = s.replace(T_DISPLAYNAME, t.getDisplayName());
+			}
+			if(text.contains(T_TECHNOLOGYTYPE))
+			{
+				s = s.replace(T_TECHNOLOGYTYPE, t.getTechnologyType().toString());
+			}
+			if(text.contains(T_MAXTECHLEV))
+			{
+				s = s.replace(T_MAXTECHLEV, String.valueOf(t.getMaximalTechnologyLevelToResearch()));
+			}
+			if(text.contains(T_PLAYER_ASSOCIATED_TYPE))
+			{
+				s = s.replace(T_PLAYER_ASSOCIATED_TYPE, t.getPlayerAssociatedType().toString());
+			}
+			if(text.contains(T_ACQUIREDTECHLEV)
+					|| text.contains(T_RAWCOST_TTEXP) || text.contains(T_COST_TTEXP)
+					|| text.contains(T_RAWCOST_VEXP) || text.contains(T_COST_VEXP) 
+					|| text.contains(T_RAWCOST_MONEY)
+					|| text.contains(T_RAWCOST_MAT) || text.contains(T_COST_MAT))
 			{
 				int techLevel = 0;
 				int acquiredTech = 0;
@@ -1109,24 +1192,24 @@ public class GuiHandler
 							: (eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT ? eqs.getResearchLevel() + 1 : eqs.getResearchLevel()); //Tech which may to acquire
 					acquiredTech = eqs == null ? 0 : techLevel - 1; //Tech which was already acquire
 				}
-				if(text.contains("%acquiredtechlev%"))
+				if(text.contains(T_ACQUIREDTECHLEV))
 				{
-					s = s.replace("%acquiredtechlev%", String.valueOf(acquiredTech));
+					s = s.replace(T_ACQUIREDTECHLEV, String.valueOf(acquiredTech));
 				}
 				HashMap<String, Double> map = new HashMap<>();
 				map.put(PlayerHandler.TECHLEVEL, (double) techLevel);
 				map.put(PlayerHandler.TECHACQUIRED, (double) acquiredTech);
-				map.put(PlayerHandler.SOLORESEARCHEDTOTALTECH, (double) totalSoloTechs);
-				map.put(PlayerHandler.GLOBALRESEARCHEDTOTALTECH, (double) totalGlobalTechs);
-				map.put(PlayerHandler.GROUPLEVEL, Double.valueOf(GroupHandler.getGroupLevel(player)));
-				map.put(PlayerHandler.GROUPMEMBERAMOUNT, Double.valueOf(GroupHandler.getGroupMemberAmount(player)));
-				map.put(PlayerHandler.GROUPMEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getGroupMemberTotalAmount(player)));
-				if(text.contains("%rawcostttexp%"))
+				map.put(PlayerHandler.SOLO_RESEARCHED_TOTALTECH, (double) totalSoloTechs);
+				map.put(PlayerHandler.GLOBAL_RESEARCHED_TOTALTECH, (double) totalGlobalTechs);
+				map.put(PlayerHandler.GROUP_LEVEL, Double.valueOf(GroupHandler.getGroupLevel(player)));
+				map.put(PlayerHandler.GROUP_MEMBERAMOUNT, Double.valueOf(GroupHandler.getGroupMemberAmount(player)));
+				map.put(PlayerHandler.GROUP_MEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getGroupMemberTotalAmount(player)));
+				if(text.contains(T_RAWCOST_TTEXP))
 				{
 					if(t.getCostTTExp() == null	|| t.getCostTTExp().get(techLevel) == null
 							|| t.getCostTTExp().get(techLevel).isEmpty() || t.getCostTTExp().get(techLevel).isBlank())
 					{
-						s = s.replace("%rawcostttexp%", "0");
+						s = s.replace(T_RAWCOST_TTEXP, "0");
 						return s;
 					}
 					double ttexp = 0;
@@ -1140,14 +1223,14 @@ public class GuiHandler
 							ttexp = 0;
 						}
 					}
-					s = s.replace("%rawcostttexp%", String.valueOf(ttexp));
+					s = s.replace(T_RAWCOST_TTEXP, String.valueOf(ttexp));
 				}
-				if(text.contains("%costttexp%"))
+				if(text.contains(T_COST_TTEXP))
 				{
 					if(t.getCostTTExp() == null || t.getCostTTExp().get(techLevel) == null 
 							|| t.getCostTTExp().get(techLevel).isEmpty() || t.getCostTTExp().get(techLevel).isBlank())
 					{
-						s = s.replace("%costttexp%", "0 TTExp");
+						s = s.replace(T_COST_TTEXP, "0 TTExp");
 						return s;
 					}
 					double ttexp = 0;
@@ -1162,14 +1245,14 @@ public class GuiHandler
 						}
 						
 					}
-					s = s.replace("%costttexp%", String.valueOf(ttexp)+" TTExp");
+					s = s.replace(T_COST_TTEXP, String.valueOf(ttexp)+" TTExp");
 				}
-				if(text.contains("%rawcostvanillaexp%"))
+				if(text.contains(T_RAWCOST_VEXP))
 				{
 					if(t.getCostVanillaExp() == null || t.getCostVanillaExp().get(techLevel) == null
 							|| t.getCostVanillaExp().get(techLevel).isEmpty() || t.getCostVanillaExp().get(techLevel).isBlank())
 					{
-						s = s.replace("%rawcostvanillaexp%", "0");
+						s = s.replace(T_RAWCOST_VEXP, "0");
 						return s;
 					}
 					int vexp = 0;
@@ -1180,14 +1263,14 @@ public class GuiHandler
 					{
 						vexp = 0;
 					}
-					s = s.replace("%rawcostvanillaexp%", String.valueOf(vexp));
+					s = s.replace(T_RAWCOST_VEXP, String.valueOf(vexp));
 				}
-				if(text.contains("%costvanillaexp%"))
+				if(text.contains(T_COST_VEXP))
 				{
 					if(t.getCostVanillaExp() == null || t.getCostVanillaExp().get(techLevel) == null
 							|| t.getCostVanillaExp().get(techLevel).isEmpty() || t.getCostVanillaExp().get(techLevel).isBlank())
 					{
-						s = s.replace("%costvanillaexp%", "0 VanillaExp");
+						s = s.replace(T_COST_VEXP, "0 VanillaExp");
 						return s;
 					}
 					int vexp = 0;
@@ -1198,14 +1281,14 @@ public class GuiHandler
 					{
 						vexp = 0;
 					}
-					s = s.replace("%costvanillaexp%", String.valueOf(vexp)+" VanillaExp");
+					s = s.replace(T_COST_VEXP, String.valueOf(vexp)+" VanillaExp");
 				}
-				if(text.contains("%rawcostmoney%"))
+				if(text.contains(T_RAWCOST_MONEY))
 				{
 					if(t.getCostMoney() == null || t.getCostMoney().get(techLevel) == null
 						|| t.getCostMoney().get(techLevel).isEmpty() || t.getCostMoney().get(techLevel).isBlank())
 					{
-						s = s.replace("%rawcostmoney%", "0");
+						s = s.replace(T_RAWCOST_MONEY, "0");
 						return s;
 					}
 					double money = 0;
@@ -1216,14 +1299,14 @@ public class GuiHandler
 					{
 						money = 0;
 					}
-					s = s.replace("%rawcostmoney%", String.valueOf(money));
+					s = s.replace(T_RAWCOST_MONEY, String.valueOf(money));
 				}
-				if(text.contains("%rawcostmaterial%"))
+				if(text.contains(T_RAWCOST_MAT))
 				{
 					if(t.getCostMaterial() == null || t.getCostMaterial().get(techLevel) == null
 							|| t.getCostMaterial().get(techLevel).isEmpty())
 					{
-						s = s.replace("%rawcostmaterial%", "");
+						s = s.replace(T_RAWCOST_MAT, "");
 						return s;
 					}
 					StringBuilder sb = new StringBuilder();
@@ -1236,14 +1319,14 @@ public class GuiHandler
 						int material = Integer.parseInt(e.getValue());
 						sb.append(material+"x "+ e.getKey().toString());
 					}
-					s = s.replace("%rawcostmaterial%", sb.toString());
+					s = s.replace(T_RAWCOST_MAT, sb.toString());
 				}
-				if(text.contains("%costmaterial%"))
+				if(text.contains(T_COST_MAT))
 				{
 					if(t.getCostMaterial() == null || t.getCostMaterial().get(techLevel) == null
 							|| t.getCostMaterial().get(techLevel).isEmpty())
 					{
-						s = s.replace("%costmaterial%", "");
+						s = s.replace(T_COST_MAT, "");
 						return s;
 					}
 					StringBuilder sb = new StringBuilder();
@@ -1258,7 +1341,7 @@ public class GuiHandler
 								  				? TT.getPlugin().getEnumTl().getLocalization(e.getKey())
 								  				: e.getKey().toString()));
 					}
-					s = s.replace("%costmaterial%", sb.toString());
+					s = s.replace(T_COST_MAT, sb.toString());
 				}
 			}
 		}
@@ -1270,124 +1353,48 @@ public class GuiHandler
 			double totalSoloTechs, double totalGroupTechs, double totalGlobalTechs)
 	{
 		String s = text;
-		/*if(text.contains("%accountname%"))
+		if(ac != null)
 		{
-			s = s.replace("%accountname%", (ac == null || ac.getID() == 0) ? "/" : ac.getAccountName());
-		}*/
-		if(t == null)
-		{
-			return s;
-		}
-		if(t.getPlayerAssociatedType() == PlayerAssociatedType.SOLO)
-		{
-			SoloEntryQueryStatus eqs = EntryQueryStatusHandler.getSoloEntryHighestResearchLevel(player.getUniqueId(), t, EntryQueryType.TECHNOLOGY, null);
-			int techLevel = eqs == null ? 1 : 
-				(eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT ? eqs.getResearchLevel() + 1 : eqs.getResearchLevel()); //Tech which may to acquire
-			int acquiredTech = eqs == null ? 0 : techLevel - 1; //Tech which was already acquire
-			HashMap<String, Double> map = new HashMap<>();
-			map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
-			map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
-			map.put(PlayerHandler.SOLORESEARCHEDTOTALTECH, Double.valueOf(totalSoloTechs));
-			map.put(PlayerHandler.GROUPRESEARCHEDTOTALTECH, Double.valueOf(totalGroupTechs));
-			map.put(PlayerHandler.GLOBALRESEARCHEDTOTALTECH, Double.valueOf(totalGlobalTechs));
-			map.put(PlayerHandler.GROUPLEVEL, Double.valueOf(GroupHandler.getGroupLevel(player)));
-			map.put(PlayerHandler.GROUPMEMBERAMOUNT, Double.valueOf(GroupHandler.getGroupMemberAmount(player)));
-			map.put(PlayerHandler.GROUPMEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getGroupMemberTotalAmount(player)));
-			if(text.contains("%costmoney%"))
+			if(text.contains(ACCOUNT_NAME))
 			{
-				if(t.getCostMoney() == null || t.getCostMoney().get(techLevel) == null
-						|| t.getCostMoney().get(techLevel).isEmpty() || t.getCostMoney().get(techLevel).isBlank())
-				{
-					s = s.replace("%costmoney%", "");
-					return s;
-				}
-				int moneyFrac = 0;
-				double money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map);
-				moneyFrac = String.valueOf(money).split("\\.")[1].length();
-				s = s.replace("%costmoney%", t == null ? "/" : 
-					ChatColor.stripColor(plugin.getIFHEco().format(money, ac.getCurrency(), dg, moneyFrac, useSI, useSy, ts, ds)));
+				s = s.replace(ACCOUNT_NAME, ac.getID() == 0 ? "/" : ac.getAccountName());
 			}
-		} else if(t.getPlayerAssociatedType() == PlayerAssociatedType.GROUP)
-		{
-			GroupEntryQueryStatus eqs = EntryQueryStatusHandler.getGroupEntryHighestResearchLevel(player.getUniqueId(), t, EntryQueryType.TECHNOLOGY, null);
-			int techLevel = eqs == null ? 1 : 
-				(eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT ? eqs.getResearchLevel() + 1 : eqs.getResearchLevel()); //Tech which may to acquire
-			int acquiredTech = eqs == null ? 0 : techLevel - 1; //Tech which was already acquire
-			HashMap<String, Double> map = new HashMap<>();
-			map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
-			map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
-			map.put(PlayerHandler.SOLORESEARCHEDTOTALTECH, Double.valueOf(totalSoloTechs));
-			map.put(PlayerHandler.GROUPRESEARCHEDTOTALTECH, Double.valueOf(totalGroupTechs));
-			map.put(PlayerHandler.GLOBALRESEARCHEDTOTALTECH, Double.valueOf(totalGlobalTechs));
-			map.put(PlayerHandler.GROUPLEVEL, Double.valueOf(GroupHandler.getGroupLevel(player)));
-			map.put(PlayerHandler.GROUPMEMBERAMOUNT, Double.valueOf(GroupHandler.getGroupMemberAmount(player)));
-			map.put(PlayerHandler.GROUPMEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getGroupMemberTotalAmount(player)));
-			if(text.contains("%costmoney%"))
+			if(text.contains(ACCOUNT_ID))
 			{
-				if(t.getCostMoney() == null || t.getCostMoney().get(techLevel) == null
-						|| t.getCostMoney().get(techLevel).isEmpty() || t.getCostMoney().get(techLevel).isBlank())
-				{
-					s = s.replace("%costmoney%", "");
-					return s;
-				}
-				int moneyFrac = 0;
-				double money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map);
-				moneyFrac = String.valueOf(money).split("\\.")[1].length();
-				s = s.replace("%costmoney%", t == null ? "/" : 
-					ChatColor.stripColor(plugin.getIFHEco().format(money, ac.getCurrency(), dg, moneyFrac, useSI, useSy, ts, ds)));
+				s = s.replace(ACCOUNT_ID, ac.getID() == 0 ? "/" : String.valueOf(ac.getID()));
 			}
-		} else 
-		{
-			GlobalEntryQueryStatus eqs = EntryQueryStatusHandler.getGlobalEntryHighestResearchLevel(t, EntryQueryType.TECHNOLOGY, null);
-			int techLevel = eqs == null ? 1 : 
-				(eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT ? eqs.getResearchLevel() + 1 : eqs.getResearchLevel()); //Tech which may to acquire
-			int acquiredTech = eqs == null ? 0 : techLevel - 1; //Tech which was already acquire
-			HashMap<String, Double> map = new HashMap<>();
-			map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
-			map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
-			map.put(PlayerHandler.SOLORESEARCHEDTOTALTECH, Double.valueOf(totalSoloTechs));
-			map.put(PlayerHandler.GROUPRESEARCHEDTOTALTECH, Double.valueOf(totalGroupTechs));
-			map.put(PlayerHandler.GLOBALRESEARCHEDTOTALTECH, Double.valueOf(totalGlobalTechs));
-			map.put(PlayerHandler.GROUPLEVEL, Double.valueOf(GroupHandler.getGroupLevel(player)));
-			map.put(PlayerHandler.GROUPMEMBERAMOUNT, Double.valueOf(GroupHandler.getGroupMemberAmount(player)));
-			map.put(PlayerHandler.GROUPMEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getGroupMemberTotalAmount(player)));
-			if(text.contains("%costmoney%"))
+			if(text.contains(ACCOUNT_OWNER))
 			{
-				if(t.getCostMoney() == null || t.getCostMoney().get(techLevel) == null
-						|| t.getCostMoney().get(techLevel).isEmpty() || t.getCostMoney().get(techLevel).isBlank())
-				{
-					s = s.replace("%costmoney%", "");
-					return s;
-				}
-				int moneyFrac = 0;
-				double money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map);
-				moneyFrac = String.valueOf(money).split("\\.")[1].length();
-				s = s.replace("%costmoney%", t == null ? "/" : 
-					ChatColor.stripColor(plugin.getIFHEco().format(money, ac.getCurrency(), dg, moneyFrac, useSI, useSy, ts, ds)));
+				s = s.replace(ACCOUNT_OWNER, ac.getID() == 0 ? "/" : ac.getOwner().getName());
+			}
+			if(text.contains(ACCOUNT_CATEGORY))
+			{
+				s = s.replace(ACCOUNT_CATEGORY, ac.getID() == 0 ? "/" : ac.getCategory().toString());
+			}
+			if(text.contains(ACCOUNT_BALANCE))
+			{
+				s = s.replace(ACCOUNT_BALANCE, ac.getID() == 0 ? "/" : String.valueOf(ac.getBalance()));
+			}
+			if(text.contains(ACCOUNT_BALANCE_FORMATED))
+			{
+				String[] mf = String.valueOf(ac.getBalance()).split("\\.");
+				int moneyFrac = mf[1].length()-mf[1].length();
+				moneyFrac = moneyFrac > 0 ? moneyFrac : (mf[1].length() > 0 ? 1 : 0);
+				s = s.replace(ACCOUNT_BALANCE_FORMATED, ac.getID() == 0 ? "/" 
+						: ChatColor.stripColor(plugin.getIFHEco().format(ac.getBalance(), ac.getCurrency(), dg, moneyFrac, useSI, useSy, ts, ds)));
 			}
 		}
-		return s;
-	}
-	
-	private static String getStringPlaceHolderVault(Player player, Technology t, String text, String playername,
-			double totalSoloTechs, double totalGroupTechs, double totalGlobalTechs)
-	{
-		String s = text;
-		if(t == null)
-		{
-			return s;
-		}
-		if(text.contains("%costmoney%"))
+		if(t != null)
 		{
 			int techLevel = 0;
 			int acquiredTech = 0;
 			HashMap<String, Double> map = new HashMap<>();
-			map.put(PlayerHandler.SOLORESEARCHEDTOTALTECH, Double.valueOf(totalSoloTechs));
-			map.put(PlayerHandler.GROUPRESEARCHEDTOTALTECH, Double.valueOf(totalGroupTechs));
-			map.put(PlayerHandler.GLOBALRESEARCHEDTOTALTECH, Double.valueOf(totalGlobalTechs));
-			map.put(PlayerHandler.GROUPLEVEL, Double.valueOf(GroupHandler.getGroupLevel(player)));
-			map.put(PlayerHandler.GROUPMEMBERAMOUNT, Double.valueOf(GroupHandler.getGroupMemberAmount(player)));
-			map.put(PlayerHandler.GROUPMEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getGroupMemberTotalAmount(player)));
+			map.put(PlayerHandler.SOLO_RESEARCHED_TOTALTECH, Double.valueOf(totalSoloTechs));
+			map.put(PlayerHandler.GROUP_RESEARCHED_TOTALTECH, Double.valueOf(totalGroupTechs));
+			map.put(PlayerHandler.GLOBAL_RESEARCHED_TOTALTECH, Double.valueOf(totalGlobalTechs));
+			map.put(PlayerHandler.GROUP_LEVEL, Double.valueOf(GroupHandler.getGroupLevel(player)));
+			map.put(PlayerHandler.GROUP_MEMBERAMOUNT, Double.valueOf(GroupHandler.getGroupMemberAmount(player)));
+			map.put(PlayerHandler.GROUP_MEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getGroupMemberTotalAmount(player)));
 			if(t.getPlayerAssociatedType() == PlayerAssociatedType.SOLO)
 			{
 				SoloEntryQueryStatus eqs = EntryQueryStatusHandler.getSoloEntryHighestResearchLevel(player.getUniqueId(), t, EntryQueryType.TECHNOLOGY, null);
@@ -1413,20 +1420,93 @@ public class GuiHandler
 				map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
 				map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
 			}
-			if(t.getCostMoney() == null || t.getCostMoney().get(techLevel) == null
-					|| t.getCostMoney().get(techLevel).isEmpty() || t.getCostMoney().get(techLevel).isBlank())
+			if(text.contains(T_COST_MONEY))
 			{
-				s = s.replace("%costmoney%", "0");
-				return s;
+				if(t.getCostMoney() == null || t.getCostMoney().get(techLevel) == null
+						|| t.getCostMoney().get(techLevel).isEmpty() || t.getCostMoney().get(techLevel).isBlank())
+				{
+					s = s.replace(T_COST_MONEY, "");
+					return s;
+				}
+				double money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map);
+				String[] mf = String.valueOf(money).split("\\.");
+				int moneyFrac = mf[1].length()-mf[1].length();
+				moneyFrac = moneyFrac > 0 ? moneyFrac : (mf[1].length() > 0 ? 2 : 0);
+				s = s.replace(T_COST_MONEY, t == null ? "/" : 
+					ChatColor.stripColor(plugin.getIFHEco().format(money, ac.getCurrency(), dg, moneyFrac, useSI, useSy, ts, ds)));
 			}
-			double money = 0.0;
-			if(t != null)
-			{
-				money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map);
-			}
-			s = s.replace("%costmoney%%", t == null ? "/" : 
-				String.valueOf(money)+" "+ plugin.getVaultEco().currencyNamePlural());
 		}
+		return s;
+	}
+	
+	private static String getStringPlaceHolderVault(Player player, Technology t, String text, String playername,
+			double totalSoloTechs, double totalGroupTechs, double totalGlobalTechs)
+	{
+		String s = text;
+		if(player != null)
+		{
+			if(text.contains(ACCOUNT_BALANCE))
+			{
+				s = s.replace(ACCOUNT_BALANCE, String.valueOf(plugin.getVaultEco().getBalance(player)));
+			}
+			if(text.contains(ACCOUNT_BALANCE_FORMATED))
+			{
+				s = s.replace(ACCOUNT_BALANCE_FORMATED, String.valueOf(plugin.getVaultEco().getBalance(player))+" "+plugin.getVaultEco().currencyNamePlural());
+			}
+		}
+		if(t != null)
+		{
+			if(text.contains(T_COST_MONEY))
+			{
+				int techLevel = 0;
+				int acquiredTech = 0;
+				HashMap<String, Double> map = new HashMap<>();
+				map.put(PlayerHandler.SOLO_RESEARCHED_TOTALTECH, Double.valueOf(totalSoloTechs));
+				map.put(PlayerHandler.GROUP_RESEARCHED_TOTALTECH, Double.valueOf(totalGroupTechs));
+				map.put(PlayerHandler.GLOBAL_RESEARCHED_TOTALTECH, Double.valueOf(totalGlobalTechs));
+				map.put(PlayerHandler.GROUP_LEVEL, Double.valueOf(GroupHandler.getGroupLevel(player)));
+				map.put(PlayerHandler.GROUP_MEMBERAMOUNT, Double.valueOf(GroupHandler.getGroupMemberAmount(player)));
+				map.put(PlayerHandler.GROUP_MEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getGroupMemberTotalAmount(player)));
+				if(t.getPlayerAssociatedType() == PlayerAssociatedType.SOLO)
+				{
+					SoloEntryQueryStatus eqs = EntryQueryStatusHandler.getSoloEntryHighestResearchLevel(player.getUniqueId(), t, EntryQueryType.TECHNOLOGY, null);
+					techLevel = eqs == null ? 1 : 
+						(eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT ? eqs.getResearchLevel() + 1 : eqs.getResearchLevel()); //Tech which may to acquire
+					acquiredTech = eqs == null ? 0 : techLevel - 1; //Tech which was already acquire
+					map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
+					map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
+				} else if(t.getPlayerAssociatedType() == PlayerAssociatedType.GROUP)
+				{
+					GroupEntryQueryStatus eqs = EntryQueryStatusHandler.getGroupEntryHighestResearchLevel(player.getUniqueId(), t, EntryQueryType.TECHNOLOGY, null);
+					techLevel = eqs == null ? 1 : 
+						(eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT ? eqs.getResearchLevel() + 1 : eqs.getResearchLevel()); //Tech which may to acquire
+					acquiredTech = eqs == null ? 0 : techLevel - 1; //Tech which was already acquire
+					map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
+					map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
+				} else 
+				{
+					GlobalEntryQueryStatus eqs = EntryQueryStatusHandler.getGlobalEntryHighestResearchLevel(t, EntryQueryType.TECHNOLOGY, null);
+					techLevel = eqs == null ? 1 : 
+						(eqs.getStatusType() == EntryStatusType.HAVE_RESEARCHED_IT ? eqs.getResearchLevel() + 1 : eqs.getResearchLevel()); //Tech which may to acquire
+					acquiredTech = eqs == null ? 0 : techLevel - 1; //Tech which was already acquire
+					map.put(PlayerHandler.TECHLEVEL, Double.valueOf(techLevel));
+					map.put(PlayerHandler.TECHACQUIRED, Double.valueOf(acquiredTech));
+				}
+				if(t.getCostMoney() == null || t.getCostMoney().get(techLevel) == null
+						|| t.getCostMoney().get(techLevel).isEmpty() || t.getCostMoney().get(techLevel).isBlank())
+				{
+					s = s.replace(T_COST_MONEY, "0");
+					return s;
+				}
+				double money = 0.0;
+				if(t != null)
+				{
+					money = new MathFormulaParser().parse(t.getCostMoney().get(techLevel), map);
+				}
+				s = s.replace(T_COST_MONEY, t == null ? "/" : 
+					String.valueOf(money)+" "+ plugin.getVaultEco().currencyNamePlural());
+			}
+		}		
 		return s;
 	}
 	
@@ -1717,10 +1797,10 @@ public class GuiHandler
 	    return s;
 	}*/
 	
-	/*private static String getBoolean(boolean boo)
+	private static String getBoolean(boolean boo)
 	{
 		return boo ? plugin.getYamlHandler().getLang().getString("IsTrue") : plugin.getYamlHandler().getLang().getString("IsFalse");
-	}*/
+	}
 	
 	private static ClickFunction[] getClickFunction(YamlConfiguration y, String pathBase)
 	{

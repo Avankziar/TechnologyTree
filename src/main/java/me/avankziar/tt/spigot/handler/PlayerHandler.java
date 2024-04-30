@@ -86,15 +86,15 @@ public class PlayerHandler
 	public final static String 
 		TECHLEVEL = "techlev",
 		TECHACQUIRED = "techacq",
-		SOLORESEARCHEDTOTALTECH = "solo_researched_totaltech",
-		GROUPRESEARCHEDTOTALTECH = "group_researched_totaltech",
-		GLOBALRESEARCHEDTOTALTECH = "global_researched_totaltech",
+		SOLO_RESEARCHED_TOTALTECH = "solo_researched_totaltech",
+		GROUP_RESEARCHED_TOTALTECH = "group_researched_totaltech",
+		GLOBAL_RESEARCHED_TOTALTECH = "global_researched_totaltech",
 		
-		GROUPLEVEL = "group_level",
-		GROUPMEMBERAMOUNT = "group_memberamount",
-		GROUPMEMBERTOTALAMOUNT = "group_membertotalamount",
+		GROUP_LEVEL = "group_level",
+		GROUP_MEMBERAMOUNT = "group_memberamount",
+		GROUP_MEMBERTOTALAMOUNT = "group_membertotalamount",
 		
-		GROUPTOTALAMOUNT = "group_totalamount";	
+		GROUP_TOTALAMOUNT = "group_totalamount";	
 	
 	public static void reload()
 	{
@@ -1916,12 +1916,12 @@ public class PlayerHandler
 		HashMap<String, Double> map = new HashMap<>();
 		map.put(TECHLEVEL, Double.valueOf(techLevel));
 		map.put(TECHACQUIRED, Double.valueOf(acquiredTech));
-		map.put(SOLORESEARCHEDTOTALTECH, Double.valueOf(getTotalResearchSoloTech(player.getUniqueId())));
-		map.put(GROUPRESEARCHEDTOTALTECH, Double.valueOf(getTotalResearchGroupTech(GroupHandler.getGroup(player))));
-		map.put(GLOBALRESEARCHEDTOTALTECH, Double.valueOf(getTotalResearchGlobalTech()));
-		map.put(GROUPLEVEL, Double.valueOf(GroupHandler.getGroupLevel(player)));
-		map.put(GROUPMEMBERAMOUNT, Double.valueOf(GroupHandler.getGroupMemberAmount(player)));
-		map.put(GROUPMEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getGroupMemberTotalAmount(player)));
+		map.put(SOLO_RESEARCHED_TOTALTECH, Double.valueOf(getTotalResearchSoloTech(player.getUniqueId())));
+		map.put(GROUP_RESEARCHED_TOTALTECH, Double.valueOf(getTotalResearchGroupTech(GroupHandler.getGroup(player))));
+		map.put(GLOBAL_RESEARCHED_TOTALTECH, Double.valueOf(getTotalResearchGlobalTech()));
+		map.put(GROUP_LEVEL, Double.valueOf(GroupHandler.getGroupLevel(player)));
+		map.put(GROUP_MEMBERAMOUNT, Double.valueOf(GroupHandler.getGroupMemberAmount(player)));
+		map.put(GROUP_MEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getGroupMemberTotalAmount(player)));
 		double ttexp = 0;
 		boolean bttexp = true;
 		PlayerData pd = getPlayer(player.getUniqueId());
@@ -2514,12 +2514,12 @@ public class PlayerHandler
 		HashMap<String, Double> map = new HashMap<>();
 		map.put(TECHLEVEL, Double.valueOf(techLevel));
 		map.put(TECHACQUIRED, Double.valueOf(acquiredTech));
-		map.put(SOLORESEARCHEDTOTALTECH, Double.valueOf(getTotalResearchSoloTech(player.getUniqueId())));
-		map.put(GROUPRESEARCHEDTOTALTECH, Double.valueOf(getTotalResearchGroupTech(GroupHandler.getGroup(player))));
-		map.put(GLOBALRESEARCHEDTOTALTECH, Double.valueOf(getTotalResearchGlobalTech()));
-		map.put(GROUPLEVEL, Double.valueOf(GroupHandler.getGroupLevel(player)));
-		map.put(GROUPMEMBERAMOUNT, Double.valueOf(GroupHandler.getGroupMemberAmount(player)));
-		map.put(GROUPMEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getGroupMemberTotalAmount(player)));
+		map.put(SOLO_RESEARCHED_TOTALTECH, Double.valueOf(getTotalResearchSoloTech(player.getUniqueId())));
+		map.put(GROUP_RESEARCHED_TOTALTECH, Double.valueOf(getTotalResearchGroupTech(GroupHandler.getGroup(player))));
+		map.put(GLOBAL_RESEARCHED_TOTALTECH, Double.valueOf(getTotalResearchGlobalTech()));
+		map.put(GROUP_LEVEL, Double.valueOf(GroupHandler.getGroupLevel(player)));
+		map.put(GROUP_MEMBERAMOUNT, Double.valueOf(GroupHandler.getGroupMemberAmount(player)));
+		map.put(GROUP_MEMBERTOTALAMOUNT, Double.valueOf(GroupHandler.getGroupMemberTotalAmount(player)));
 		double ttexp = 0;
 		PlayerData pd = getPlayer(player.getUniqueId());
 		if(pd != null && !t.getCostTTExp().isEmpty())

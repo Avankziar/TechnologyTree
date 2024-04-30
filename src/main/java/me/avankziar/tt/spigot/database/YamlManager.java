@@ -12604,6 +12604,271 @@ public class YamlManager
 		toResCostMoney.put(5, cM);
 		toResCostMaterial = new LinkedHashMap<>();
 		rewardUnlockableInteractions = new LinkedHashMap<>();
+		rui = new String[] {"PLACING:BIRCH_SAPLING:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",""};
+		rewardUnlockableInteractions.put(1, rui);
+		rewardUnlockableInteractions.put(2, rui);
+		rewardUnlockableInteractions.put(3, rui);
+		rewardUnlockableInteractions.put(4, rui);
+		rewardUnlockableInteractions.put(5, rui);
+		rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardDropChance = new LinkedHashMap<>();
+		rdc = new String[] {"BREAKING:BIRCH_SAPLING:null:mat=BIRCH_SAPLING:1:1.0",""};
+		rewardDropChance.put(1, rdc);
+		rewardDropChance.put(2, rdc);
+		rewardDropChance.put(3, rdc);
+		rewardDropChance.put(4, rdc);
+		rewardDropChance.put(5, rdc);
+		rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance.put(1, rdc);
+		rewardCommand = new LinkedHashMap<>();
+		rewardItem = new LinkedHashMap<>();
+		rewardModifier = new LinkedHashMap<>();
+		rewardValueEntry = new LinkedHashMap<>();
+		canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Birkensetzling/Birkensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,birchsapling,1,BREAKING,HAND,BIRCH_SAPLING,mat=BIRCH_SAPLING%",
+				"&fAbbauen von &#c6a664Birkensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,birchsapling,1,BREAKING,HAND,BIRCH_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,birchsapling,1,BREAKING,HAND,BIRCH_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,birchsapling,1,BREAKING,HAND,BIRCH_SAPLING% Dollar",
+				"&fSetzten von Birkensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,birchsapling,1,PLACING,HAND,BIRCH_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,birchsapling,1,PLACING,HAND,BIRCH_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,birchsapling,1,PLACING,HAND,BIRCH_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Birchsapling/Birchsapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,birchsapling,1,BREAKING,HAND,BIRCH_SAPLING,mat=BIRCH_SAPLING%",
+				"&fMining of &#c6a664Birchsapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,birchsapling,1,BREAKING,HAND,BIRCH_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,birchsapling,1,BREAKING,HAND,BIRCH_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,birchsapling,1,BREAKING,HAND,BIRCH_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Birchsapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,birchsapling,1,PLACING,HAND,BIRCH_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,birchsapling,1,PLACING,HAND,BIRCH_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,birchsapling,1,PLACING,HAND,BIRCH_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(2, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Birkensetzling/Birkensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,birchsapling,2,BREAKING,HAND,BIRCH_SAPLING,mat=BIRCH_SAPLING%",
+				"&fAbbauen von &#c6a664Birkensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,birchsapling,2,BREAKING,HAND,BIRCH_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,birchsapling,2,BREAKING,HAND,BIRCH_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,birchsapling,2,BREAKING,HAND,BIRCH_SAPLING% Dollar",
+				"&fSetzten von Birkensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,birchsapling,2,PLACING,HAND,BIRCH_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,birchsapling,2,PLACING,HAND,BIRCH_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,birchsapling,2,PLACING,HAND,BIRCH_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Birchsapling/Birchsapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,birchsapling,2,BREAKING,HAND,BIRCH_SAPLING,mat=BIRCH_SAPLING%",
+				"&fMining of &#c6a664Birchsapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,birchsapling,2,BREAKING,HAND,BIRCH_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,birchsapling,2,BREAKING,HAND,BIRCH_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,birchsapling,2,BREAKING,HAND,BIRCH_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Birchsapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,birchsapling,2,PLACING,HAND,BIRCH_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,birchsapling,2,PLACING,HAND,BIRCH_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,birchsapling,2,PLACING,HAND,BIRCH_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(3, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Birkensetzling/Birkensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,birchsapling,3,BREAKING,HAND,BIRCH_SAPLING,mat=BIRCH_SAPLING%",
+				"&fAbbauen von &#c6a664Birkensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,birchsapling,3,BREAKING,HAND,BIRCH_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,birchsapling,3,BREAKING,HAND,BIRCH_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,birchsapling,3,BREAKING,HAND,BIRCH_SAPLING% Dollar",
+				"&fSetzten von Birkensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,birchsapling,3,PLACING,HAND,BIRCH_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,birchsapling,3,PLACING,HAND,BIRCH_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,birchsapling,3,PLACING,HAND,BIRCH_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Birchsapling/Birchsapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,birchsapling,3,BREAKING,HAND,BIRCH_SAPLING,mat=BIRCH_SAPLING%",
+				"&fMining of &#c6a664Birchsapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,birchsapling,3,BREAKING,HAND,BIRCH_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,birchsapling,3,BREAKING,HAND,BIRCH_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,birchsapling,3,BREAKING,HAND,BIRCH_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Birchsapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,birchsapling,3,PLACING,HAND,BIRCH_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,birchsapling,3,PLACING,HAND,BIRCH_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,birchsapling,3,PLACING,HAND,BIRCH_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(4, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Birkensetzling/Birkensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,birchsapling,4,BREAKING,HAND,BIRCH_SAPLING,mat=BIRCH_SAPLING%",
+				"&fAbbauen von &#c6a664Birkensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,birchsapling,4,BREAKING,HAND,BIRCH_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,birchsapling,4,BREAKING,HAND,BIRCH_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,birchsapling,4,BREAKING,HAND,BIRCH_SAPLING% Dollar",
+				"&fSetzten von Birkensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,birchsapling,4,PLACING,HAND,BIRCH_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,birchsapling,4,PLACING,HAND,BIRCH_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,birchsapling,4,PLACING,HAND,BIRCH_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Birchsapling/Birchsapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,birchsapling,4,BREAKING,HAND,BIRCH_SAPLING,mat=BIRCH_SAPLING%",
+				"&fMining of &#c6a664Birchsapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,birchsapling,4,BREAKING,HAND,BIRCH_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,birchsapling,4,BREAKING,HAND,BIRCH_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,birchsapling,4,BREAKING,HAND,BIRCH_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Birchsapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,birchsapling,4,PLACING,HAND,BIRCH_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,birchsapling,4,PLACING,HAND,BIRCH_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,birchsapling,4,PLACING,HAND,BIRCH_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(5, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Birkensetzling/Birkensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,birchsapling,5,BREAKING,HAND,BIRCH_SAPLING,mat=BIRCH_SAPLING%",
+				"&fAbbauen von &#c6a664Birkensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,birchsapling,5,BREAKING,HAND,BIRCH_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,birchsapling,5,BREAKING,HAND,BIRCH_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,birchsapling,5,BREAKING,HAND,BIRCH_SAPLING% Dollar",
+				"&fSetzten von Birkensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,birchsapling,5,PLACING,HAND,BIRCH_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,birchsapling,5,PLACING,HAND,BIRCH_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,birchsapling,5,PLACING,HAND,BIRCH_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Birchsapling/Birchsapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,birchsapling,5,BREAKING,HAND,BIRCH_SAPLING,mat=BIRCH_SAPLING%",
+				"&fMining of &#c6a664Birchsapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,birchsapling,5,BREAKING,HAND,BIRCH_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,birchsapling,5,BREAKING,HAND,BIRCH_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,birchsapling,5,BREAKING,HAND,BIRCH_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Birchsapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,birchsapling,5,PLACING,HAND,BIRCH_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,birchsapling,5,PLACING,HAND,BIRCH_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,birchsapling,5,PLACING,HAND,BIRCH_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		addTechnology(
+				"birchsapling", new String[] {"Birkensetzling", "Birchsapling"},
+				TechnologyType.MULTIPLE, 5, PlayerAssociatedType.SOLO, 1, "", "sapling", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				null, true,
+				new String[] {"&8Birkensetzling","&8Birchsapling"},
+				Material.BARRIER, 1, itemflag, null, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Birkensetzling.",
+						"&fSetzen von &#c6a664Birkensetzling.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fMining of &#c6a664Birchsapling.",
+						"&fPlacing of &#c6a664Birchsapling.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				new String[] {"&7Birkensetzling","&7Birchsapling"},
+				Material.BIRCH_SAPLING, 1, itemflag, null, canResLore.get(1),
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&dBirkensetzling","&dBirchsapling"},
+				Material.BIRCH_SAPLING, 1, itemflag, null, canResLore,
+				new String[] {"&5Birkensetzling","&5Birchsapling"},
+				Material.BIRCH_SAPLING, 1, itemflag, enchantment, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fAbbauen von &#c6a664Birkensetzling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,birchsapling,BREAKING,HAND,BIRCH_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,birchsapling,BREAKING,HAND,BIRCH_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,birchsapling,BREAKING,HAND,BIRCH_SAPLING% Dollar",
+						"&fSetzen von &#c6a664Birkensetzling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,birchsapling,PLACING,HAND,BIRCH_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,birchsapling,PLACING,HAND,BIRCH_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,birchsapling,PLACING,HAND,BIRCH_SAPLING% Dollar",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fMining of &#c6a664Birchsapling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,birchsapling,BREAKING,HAND,BIRCH_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,birchsapling,BREAKING,HAND,BIRCH_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,birchsapling,BREAKING,HAND,BIRCH_SAPLING% Dollar",
+						"&fPlacing of &#c6a664Birchsapling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,birchsapling,PLACING,HAND,BIRCH_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,birchsapling,PLACING,HAND,BIRCH_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,birchsapling,PLACING,HAND,BIRCH_SAPLING% Dollar",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+		toResCondition = new LinkedHashMap<>();
+		toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, cTTExp);
+		toResCostTTExp.put(2, cTTExp);
+		toResCostTTExp.put(3, cTTExp);
+		toResCostTTExp.put(4, cTTExp);
+		toResCostTTExp.put(5, cTTExp);
+		toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, cVExp);
+		toResCostVanillaExp.put(2, cVExp);
+		toResCostVanillaExp.put(3, cVExp);
+		toResCostVanillaExp.put(4, cVExp);
+		toResCostVanillaExp.put(5, cVExp);
+		toResCostMoney = new LinkedHashMap<>();
+		toResCostMoney.put(1, cM);
+		toResCostMoney.put(2, cM);
+		toResCostMoney.put(3, cM);
+		toResCostMoney.put(4, cM);
+		toResCostMoney.put(5, cM);
+		toResCostMaterial = new LinkedHashMap<>();
+		rewardUnlockableInteractions = new LinkedHashMap<>();
 		rui = new String[] {"PLACING:SPRUCE_SAPLING:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",""};
 		rewardUnlockableInteractions.put(1, rui);
 		rewardUnlockableInteractions.put(2, rui);
@@ -12802,7 +13067,7 @@ public class YamlManager
 				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
 				"sprucesapling", new String[] {"Fichtensetzling", "Sprucesapling"},
-				TechnologyType.MULTIPLE, 5, PlayerAssociatedType.SOLO, 1, "", "sapling", 
+				TechnologyType.MULTIPLE, 5, PlayerAssociatedType.SOLO, 2, "", "sapling", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
 				new String[] {"&8Fichtensetzling","&8Sprucesapling"},
@@ -12848,7 +13113,1331 @@ public class YamlManager
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
 				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
-		//ADDME Alle Setzlinge
+		toResCondition = new LinkedHashMap<>();
+		toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, cTTExp);
+		toResCostTTExp.put(2, cTTExp);
+		toResCostTTExp.put(3, cTTExp);
+		toResCostTTExp.put(4, cTTExp);
+		toResCostTTExp.put(5, cTTExp);
+		toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, cVExp);
+		toResCostVanillaExp.put(2, cVExp);
+		toResCostVanillaExp.put(3, cVExp);
+		toResCostVanillaExp.put(4, cVExp);
+		toResCostVanillaExp.put(5, cVExp);
+		toResCostMoney = new LinkedHashMap<>();
+		toResCostMoney.put(1, cM);
+		toResCostMoney.put(2, cM);
+		toResCostMoney.put(3, cM);
+		toResCostMoney.put(4, cM);
+		toResCostMoney.put(5, cM);
+		toResCostMaterial = new LinkedHashMap<>();
+		rewardUnlockableInteractions = new LinkedHashMap<>();
+		rui = new String[] {"PLACING:JUNGLE_SAPLING:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",""};
+		rewardUnlockableInteractions.put(1, rui);
+		rewardUnlockableInteractions.put(2, rui);
+		rewardUnlockableInteractions.put(3, rui);
+		rewardUnlockableInteractions.put(4, rui);
+		rewardUnlockableInteractions.put(5, rui);
+		rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardDropChance = new LinkedHashMap<>();
+		rdc = new String[] {"BREAKING:JUNGLE_SAPLING:null:mat=JUNGLE_SAPLING:1:1.0",""};
+		rewardDropChance.put(1, rdc);
+		rewardDropChance.put(2, rdc);
+		rewardDropChance.put(3, rdc);
+		rewardDropChance.put(4, rdc);
+		rewardDropChance.put(5, rdc);
+		rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance.put(1, rdc);
+		rewardCommand = new LinkedHashMap<>();
+		rewardItem = new LinkedHashMap<>();
+		rewardModifier = new LinkedHashMap<>();
+		rewardValueEntry = new LinkedHashMap<>();
+		canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Tropensetzling/Tropensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,junglesapling,1,BREAKING,HAND,JUNGLE_SAPLING,mat=JUNGLE_SAPLING%",
+				"&fAbbauen von &#c6a664Tropensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,junglesapling,1,BREAKING,HAND,JUNGLE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,junglesapling,1,BREAKING,HAND,JUNGLE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,junglesapling,1,BREAKING,HAND,JUNGLE_SAPLING% Dollar",
+				"&fSetzten von Tropensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,junglesapling,1,PLACING,HAND,JUNGLE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,junglesapling,1,PLACING,HAND,JUNGLE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,junglesapling,1,PLACING,HAND,JUNGLE_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Junglesapling/Junglesapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,junglesapling,1,BREAKING,HAND,JUNGLE_SAPLING,mat=JUNGLE_SAPLING%",
+				"&fMining of &#c6a664Junglesapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,junglesapling,1,BREAKING,HAND,JUNGLE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,junglesapling,1,BREAKING,HAND,JUNGLE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,junglesapling,1,BREAKING,HAND,JUNGLE_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Junglesapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,junglesapling,1,PLACING,HAND,JUNGLE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,junglesapling,1,PLACING,HAND,JUNGLE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,junglesapling,1,PLACING,HAND,JUNGLE_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(2, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Tropensetzling/Tropensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,junglesapling,2,BREAKING,HAND,JUNGLE_SAPLING,mat=JUNGLE_SAPLING%",
+				"&fAbbauen von &#c6a664Tropensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,junglesapling,2,BREAKING,HAND,JUNGLE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,junglesapling,2,BREAKING,HAND,JUNGLE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,junglesapling,2,BREAKING,HAND,JUNGLE_SAPLING% Dollar",
+				"&fSetzten von Tropensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,junglesapling,2,PLACING,HAND,JUNGLE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,junglesapling,2,PLACING,HAND,JUNGLE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,junglesapling,2,PLACING,HAND,JUNGLE_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Junglesapling/Junglesapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,junglesapling,2,BREAKING,HAND,JUNGLE_SAPLING,mat=JUNGLE_SAPLING%",
+				"&fMining of &#c6a664Junglesapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,junglesapling,2,BREAKING,HAND,JUNGLE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,junglesapling,2,BREAKING,HAND,JUNGLE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,junglesapling,2,BREAKING,HAND,JUNGLE_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Junglesapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,junglesapling,2,PLACING,HAND,JUNGLE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,junglesapling,2,PLACING,HAND,JUNGLE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,junglesapling,2,PLACING,HAND,JUNGLE_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(3, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Tropensetzling/Tropensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,junglesapling,3,BREAKING,HAND,JUNGLE_SAPLING,mat=JUNGLE_SAPLING%",
+				"&fAbbauen von &#c6a664Tropensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,junglesapling,3,BREAKING,HAND,JUNGLE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,junglesapling,3,BREAKING,HAND,JUNGLE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,junglesapling,3,BREAKING,HAND,JUNGLE_SAPLING% Dollar",
+				"&fSetzten von Tropensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,junglesapling,3,PLACING,HAND,JUNGLE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,junglesapling,3,PLACING,HAND,JUNGLE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,junglesapling,3,PLACING,HAND,JUNGLE_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Junglesapling/Junglesapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,junglesapling,3,BREAKING,HAND,JUNGLE_SAPLING,mat=JUNGLE_SAPLING%",
+				"&fMining of &#c6a664Junglesapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,junglesapling,3,BREAKING,HAND,JUNGLE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,junglesapling,3,BREAKING,HAND,JUNGLE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,junglesapling,3,BREAKING,HAND,JUNGLE_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Junglesapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,junglesapling,3,PLACING,HAND,JUNGLE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,junglesapling,3,PLACING,HAND,JUNGLE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,junglesapling,3,PLACING,HAND,JUNGLE_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(4, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Tropensetzling/Tropensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,junglesapling,4,BREAKING,HAND,JUNGLE_SAPLING,mat=JUNGLE_SAPLING%",
+				"&fAbbauen von &#c6a664Tropensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,junglesapling,4,BREAKING,HAND,JUNGLE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,junglesapling,4,BREAKING,HAND,JUNGLE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,junglesapling,4,BREAKING,HAND,JUNGLE_SAPLING% Dollar",
+				"&fSetzten von Tropensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,junglesapling,4,PLACING,HAND,JUNGLE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,junglesapling,4,PLACING,HAND,JUNGLE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,junglesapling,4,PLACING,HAND,JUNGLE_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Junglesapling/Junglesapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,junglesapling,4,BREAKING,HAND,JUNGLE_SAPLING,mat=JUNGLE_SAPLING%",
+				"&fMining of &#c6a664Junglesapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,junglesapling,4,BREAKING,HAND,JUNGLE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,junglesapling,4,BREAKING,HAND,JUNGLE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,junglesapling,4,BREAKING,HAND,JUNGLE_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Junglesapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,junglesapling,4,PLACING,HAND,JUNGLE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,junglesapling,4,PLACING,HAND,JUNGLE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,junglesapling,4,PLACING,HAND,JUNGLE_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(5, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Tropensetzling/Tropensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,junglesapling,5,BREAKING,HAND,JUNGLE_SAPLING,mat=JUNGLE_SAPLING%",
+				"&fAbbauen von &#c6a664Tropensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,junglesapling,5,BREAKING,HAND,JUNGLE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,junglesapling,5,BREAKING,HAND,JUNGLE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,junglesapling,5,BREAKING,HAND,JUNGLE_SAPLING% Dollar",
+				"&fSetzten von Tropensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,junglesapling,5,PLACING,HAND,JUNGLE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,junglesapling,5,PLACING,HAND,JUNGLE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,junglesapling,5,PLACING,HAND,JUNGLE_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Junglesapling/Junglesapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,junglesapling,5,BREAKING,HAND,JUNGLE_SAPLING,mat=JUNGLE_SAPLING%",
+				"&fMining of &#c6a664Junglesapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,junglesapling,5,BREAKING,HAND,JUNGLE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,junglesapling,5,BREAKING,HAND,JUNGLE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,junglesapling,5,BREAKING,HAND,JUNGLE_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Junglesapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,junglesapling,5,PLACING,HAND,JUNGLE_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,junglesapling,5,PLACING,HAND,JUNGLE_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,junglesapling,5,PLACING,HAND,JUNGLE_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		addTechnology(
+				"junglesapling", new String[] {"Tropensetzling", "Junglesapling"},
+				TechnologyType.MULTIPLE, 5, PlayerAssociatedType.SOLO, 3, "", "sapling", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				null, true,
+				new String[] {"&8Tropensetzling","&8Junglesapling"},
+				Material.BARRIER, 1, itemflag, null, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Tropensetzling.",
+						"&fSetzen von &#c6a664Tropensetzling.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fMining of &#c6a664Junglesapling.",
+						"&fPlacing of &#c6a664Junglesapling.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				new String[] {"&7Tropensetzling","&7Junglesapling"},
+				Material.JUNGLE_SAPLING, 1, itemflag, null, canResLore.get(1),
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&dTropensetzling","&dJunglesapling"},
+				Material.JUNGLE_SAPLING, 1, itemflag, null, canResLore,
+				new String[] {"&5Tropensetzling","&5Junglesapling"},
+				Material.JUNGLE_SAPLING, 1, itemflag, enchantment, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fAbbauen von &#c6a664Tropensetzling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,junglesapling,BREAKING,HAND,JUNGLE_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,junglesapling,BREAKING,HAND,JUNGLE_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,junglesapling,BREAKING,HAND,JUNGLE_SAPLING% Dollar",
+						"&fSetzen von &#c6a664Tropensetzling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,junglesapling,PLACING,HAND,JUNGLE_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,junglesapling,PLACING,HAND,JUNGLE_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,junglesapling,PLACING,HAND,JUNGLE_SAPLING% Dollar",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fMining of &#c6a664Junglesapling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,junglesapling,BREAKING,HAND,JUNGLE_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,junglesapling,BREAKING,HAND,JUNGLE_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,junglesapling,BREAKING,HAND,JUNGLE_SAPLING% Dollar",
+						"&fPlacing of &#c6a664Junglesapling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,junglesapling,PLACING,HAND,JUNGLE_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,junglesapling,PLACING,HAND,JUNGLE_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,junglesapling,PLACING,HAND,JUNGLE_SAPLING% Dollar",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+		toResCondition = new LinkedHashMap<>();
+		toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, cTTExp);
+		toResCostTTExp.put(2, cTTExp);
+		toResCostTTExp.put(3, cTTExp);
+		toResCostTTExp.put(4, cTTExp);
+		toResCostTTExp.put(5, cTTExp);
+		toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, cVExp);
+		toResCostVanillaExp.put(2, cVExp);
+		toResCostVanillaExp.put(3, cVExp);
+		toResCostVanillaExp.put(4, cVExp);
+		toResCostVanillaExp.put(5, cVExp);
+		toResCostMoney = new LinkedHashMap<>();
+		toResCostMoney.put(1, cM);
+		toResCostMoney.put(2, cM);
+		toResCostMoney.put(3, cM);
+		toResCostMoney.put(4, cM);
+		toResCostMoney.put(5, cM);
+		toResCostMaterial = new LinkedHashMap<>();
+		rewardUnlockableInteractions = new LinkedHashMap<>();
+		rui = new String[] {"PLACING:ACACIA_SAPLING:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",""};
+		rewardUnlockableInteractions.put(1, rui);
+		rewardUnlockableInteractions.put(2, rui);
+		rewardUnlockableInteractions.put(3, rui);
+		rewardUnlockableInteractions.put(4, rui);
+		rewardUnlockableInteractions.put(5, rui);
+		rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardDropChance = new LinkedHashMap<>();
+		rdc = new String[] {"BREAKING:ACACIA_SAPLING:null:mat=ACACIA_SAPLING:1:1.0",""};
+		rewardDropChance.put(1, rdc);
+		rewardDropChance.put(2, rdc);
+		rewardDropChance.put(3, rdc);
+		rewardDropChance.put(4, rdc);
+		rewardDropChance.put(5, rdc);
+		rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance.put(1, rdc);
+		rewardCommand = new LinkedHashMap<>();
+		rewardItem = new LinkedHashMap<>();
+		rewardModifier = new LinkedHashMap<>();
+		rewardValueEntry = new LinkedHashMap<>();
+		canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Akaziensetzling/Akaziensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,acaciasapling,1,BREAKING,HAND,ACACIA_SAPLING,mat=ACACIA_SAPLING%",
+				"&fAbbauen von &#c6a664Akaziensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,acaciasapling,1,BREAKING,HAND,ACACIA_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,acaciasapling,1,BREAKING,HAND,ACACIA_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,acaciasapling,1,BREAKING,HAND,ACACIA_SAPLING% Dollar",
+				"&fSetzten von Akaziensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,acaciasapling,1,PLACING,HAND,ACACIA_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,acaciasapling,1,PLACING,HAND,ACACIA_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,acaciasapling,1,PLACING,HAND,ACACIA_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Acaciasapling/Acaciasapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,acaciasapling,1,BREAKING,HAND,ACACIA_SAPLING,mat=ACACIA_SAPLING%",
+				"&fMining of &#c6a664Acaciasapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,acaciasapling,1,BREAKING,HAND,ACACIA_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,acaciasapling,1,BREAKING,HAND,ACACIA_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,acaciasapling,1,BREAKING,HAND,ACACIA_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Acaciasapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,acaciasapling,1,PLACING,HAND,ACACIA_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,acaciasapling,1,PLACING,HAND,ACACIA_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,acaciasapling,1,PLACING,HAND,ACACIA_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(2, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Akaziensetzling/Akaziensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,acaciasapling,2,BREAKING,HAND,ACACIA_SAPLING,mat=ACACIA_SAPLING%",
+				"&fAbbauen von &#c6a664Akaziensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,acaciasapling,2,BREAKING,HAND,ACACIA_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,acaciasapling,2,BREAKING,HAND,ACACIA_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,acaciasapling,2,BREAKING,HAND,ACACIA_SAPLING% Dollar",
+				"&fSetzten von Akaziensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,acaciasapling,2,PLACING,HAND,ACACIA_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,acaciasapling,2,PLACING,HAND,ACACIA_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,acaciasapling,2,PLACING,HAND,ACACIA_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Acaciasapling/Acaciasapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,acaciasapling,2,BREAKING,HAND,ACACIA_SAPLING,mat=ACACIA_SAPLING%",
+				"&fMining of &#c6a664Acaciasapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,acaciasapling,2,BREAKING,HAND,ACACIA_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,acaciasapling,2,BREAKING,HAND,ACACIA_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,acaciasapling,2,BREAKING,HAND,ACACIA_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Acaciasapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,acaciasapling,2,PLACING,HAND,ACACIA_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,acaciasapling,2,PLACING,HAND,ACACIA_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,acaciasapling,2,PLACING,HAND,ACACIA_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(3, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Akaziensetzling/Akaziensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,acaciasapling,3,BREAKING,HAND,ACACIA_SAPLING,mat=ACACIA_SAPLING%",
+				"&fAbbauen von &#c6a664Akaziensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,acaciasapling,3,BREAKING,HAND,ACACIA_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,acaciasapling,3,BREAKING,HAND,ACACIA_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,acaciasapling,3,BREAKING,HAND,ACACIA_SAPLING% Dollar",
+				"&fSetzten von Akaziensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,acaciasapling,3,PLACING,HAND,ACACIA_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,acaciasapling,3,PLACING,HAND,ACACIA_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,acaciasapling,3,PLACING,HAND,ACACIA_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Acaciasapling/Acaciasapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,acaciasapling,3,BREAKING,HAND,ACACIA_SAPLING,mat=ACACIA_SAPLING%",
+				"&fMining of &#c6a664Acaciasapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,acaciasapling,3,BREAKING,HAND,ACACIA_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,acaciasapling,3,BREAKING,HAND,ACACIA_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,acaciasapling,3,BREAKING,HAND,ACACIA_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Acaciasapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,acaciasapling,3,PLACING,HAND,ACACIA_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,acaciasapling,3,PLACING,HAND,ACACIA_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,acaciasapling,3,PLACING,HAND,ACACIA_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(4, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Akaziensetzling/Akaziensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,acaciasapling,4,BREAKING,HAND,ACACIA_SAPLING,mat=ACACIA_SAPLING%",
+				"&fAbbauen von &#c6a664Akaziensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,acaciasapling,4,BREAKING,HAND,ACACIA_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,acaciasapling,4,BREAKING,HAND,ACACIA_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,acaciasapling,4,BREAKING,HAND,ACACIA_SAPLING% Dollar",
+				"&fSetzten von Akaziensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,acaciasapling,4,PLACING,HAND,ACACIA_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,acaciasapling,4,PLACING,HAND,ACACIA_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,acaciasapling,4,PLACING,HAND,ACACIA_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Acaciasapling/Acaciasapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,acaciasapling,4,BREAKING,HAND,ACACIA_SAPLING,mat=ACACIA_SAPLING%",
+				"&fMining of &#c6a664Acaciasapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,acaciasapling,4,BREAKING,HAND,ACACIA_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,acaciasapling,4,BREAKING,HAND,ACACIA_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,acaciasapling,4,BREAKING,HAND,ACACIA_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Acaciasapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,acaciasapling,4,PLACING,HAND,ACACIA_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,acaciasapling,4,PLACING,HAND,ACACIA_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,acaciasapling,4,PLACING,HAND,ACACIA_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(5, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Akaziensetzling/Akaziensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,acaciasapling,5,BREAKING,HAND,ACACIA_SAPLING,mat=ACACIA_SAPLING%",
+				"&fAbbauen von &#c6a664Akaziensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,acaciasapling,5,BREAKING,HAND,ACACIA_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,acaciasapling,5,BREAKING,HAND,ACACIA_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,acaciasapling,5,BREAKING,HAND,ACACIA_SAPLING% Dollar",
+				"&fSetzten von Akaziensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,acaciasapling,5,PLACING,HAND,ACACIA_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,acaciasapling,5,PLACING,HAND,ACACIA_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,acaciasapling,5,PLACING,HAND,ACACIA_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Acaciasapling/Acaciasapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,acaciasapling,5,BREAKING,HAND,ACACIA_SAPLING,mat=ACACIA_SAPLING%",
+				"&fMining of &#c6a664Acaciasapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,acaciasapling,5,BREAKING,HAND,ACACIA_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,acaciasapling,5,BREAKING,HAND,ACACIA_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,acaciasapling,5,BREAKING,HAND,ACACIA_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Acaciasapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,acaciasapling,5,PLACING,HAND,ACACIA_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,acaciasapling,5,PLACING,HAND,ACACIA_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,acaciasapling,5,PLACING,HAND,ACACIA_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		addTechnology(
+				"acaciasapling", new String[] {"Akaziensetzling", "Acaciasapling"},
+				TechnologyType.MULTIPLE, 5, PlayerAssociatedType.SOLO, 4, "", "sapling", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				null, true,
+				new String[] {"&8Akaziensetzling","&8Acaciasapling"},
+				Material.BARRIER, 1, itemflag, null, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Akaziensetzling.",
+						"&fSetzen von &#c6a664Akaziensetzling.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fMining of &#c6a664Acaciasapling.",
+						"&fPlacing of &#c6a664Acaciasapling.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				new String[] {"&7Akaziensetzling","&7Acaciasapling"},
+				Material.ACACIA_SAPLING, 1, itemflag, null, canResLore.get(1),
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&dAkaziensetzling","&dAcaciasapling"},
+				Material.ACACIA_SAPLING, 1, itemflag, null, canResLore,
+				new String[] {"&5Akaziensetzling","&5Acaciasapling"},
+				Material.ACACIA_SAPLING, 1, itemflag, enchantment, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fAbbauen von &#c6a664Akaziensetzling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,acaciasapling,BREAKING,HAND,ACACIA_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,acaciasapling,BREAKING,HAND,ACACIA_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,acaciasapling,BREAKING,HAND,ACACIA_SAPLING% Dollar",
+						"&fSetzen von &#c6a664Akaziensetzling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,acaciasapling,PLACING,HAND,ACACIA_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,acaciasapling,PLACING,HAND,ACACIA_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,acaciasapling,PLACING,HAND,ACACIA_SAPLING% Dollar",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fMining of &#c6a664Acaciasapling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,acaciasapling,BREAKING,HAND,ACACIA_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,acaciasapling,BREAKING,HAND,ACACIA_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,acaciasapling,BREAKING,HAND,ACACIA_SAPLING% Dollar",
+						"&fPlacing of &#c6a664Acaciasapling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,acaciasapling,PLACING,HAND,ACACIA_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,acaciasapling,PLACING,HAND,ACACIA_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,acaciasapling,PLACING,HAND,ACACIA_SAPLING% Dollar",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+		toResCondition = new LinkedHashMap<>();
+		toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, cTTExp);
+		toResCostTTExp.put(2, cTTExp);
+		toResCostTTExp.put(3, cTTExp);
+		toResCostTTExp.put(4, cTTExp);
+		toResCostTTExp.put(5, cTTExp);
+		toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, cVExp);
+		toResCostVanillaExp.put(2, cVExp);
+		toResCostVanillaExp.put(3, cVExp);
+		toResCostVanillaExp.put(4, cVExp);
+		toResCostVanillaExp.put(5, cVExp);
+		toResCostMoney = new LinkedHashMap<>();
+		toResCostMoney.put(1, cM);
+		toResCostMoney.put(2, cM);
+		toResCostMoney.put(3, cM);
+		toResCostMoney.put(4, cM);
+		toResCostMoney.put(5, cM);
+		toResCostMaterial = new LinkedHashMap<>();
+		rewardUnlockableInteractions = new LinkedHashMap<>();
+		rui = new String[] {"PLACING:DARK_OAK_SAPLING:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",""};
+		rewardUnlockableInteractions.put(1, rui);
+		rewardUnlockableInteractions.put(2, rui);
+		rewardUnlockableInteractions.put(3, rui);
+		rewardUnlockableInteractions.put(4, rui);
+		rewardUnlockableInteractions.put(5, rui);
+		rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardDropChance = new LinkedHashMap<>();
+		rdc = new String[] {"BREAKING:DARK_OAK_SAPLING:null:mat=DARK_OAK_SAPLING:1:1.0",""};
+		rewardDropChance.put(1, rdc);
+		rewardDropChance.put(2, rdc);
+		rewardDropChance.put(3, rdc);
+		rewardDropChance.put(4, rdc);
+		rewardDropChance.put(5, rdc);
+		rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance.put(1, rdc);
+		rewardCommand = new LinkedHashMap<>();
+		rewardItem = new LinkedHashMap<>();
+		rewardModifier = new LinkedHashMap<>();
+		rewardValueEntry = new LinkedHashMap<>();
+		canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Schwarzeichensetzling/Schwarzeichensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,darkoaksapling,1,BREAKING,HAND,DARK_OAK_SAPLING,mat=DARK_OAK_SAPLING%",
+				"&fAbbauen von &#c6a664Schwarzeichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,darkoaksapling,1,BREAKING,HAND,DARK_OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,darkoaksapling,1,BREAKING,HAND,DARK_OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,darkoaksapling,1,BREAKING,HAND,DARK_OAK_SAPLING% Dollar",
+				"&fSetzten von Schwarzeichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,darkoaksapling,1,PLACING,HAND,DARK_OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,darkoaksapling,1,PLACING,HAND,DARK_OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,darkoaksapling,1,PLACING,HAND,DARK_OAK_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Darkoaksapling/Darkoaksapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,darkoaksapling,1,BREAKING,HAND,DARK_OAK_SAPLING,mat=DARK_OAK_SAPLING%",
+				"&fMining of &#c6a664Darkoaksapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,darkoaksapling,1,BREAKING,HAND,DARK_OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,darkoaksapling,1,BREAKING,HAND,DARK_OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,darkoaksapling,1,BREAKING,HAND,DARK_OAK_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Darkoaksapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,darkoaksapling,1,PLACING,HAND,DARK_OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,darkoaksapling,1,PLACING,HAND,DARK_OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,darkoaksapling,1,PLACING,HAND,DARK_OAK_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(2, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Schwarzeichensetzling/Schwarzeichensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,darkoaksapling,2,BREAKING,HAND,DARK_OAK_SAPLING,mat=DARK_OAK_SAPLING%",
+				"&fAbbauen von &#c6a664Schwarzeichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,darkoaksapling,2,BREAKING,HAND,DARK_OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,darkoaksapling,2,BREAKING,HAND,DARK_OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,darkoaksapling,2,BREAKING,HAND,DARK_OAK_SAPLING% Dollar",
+				"&fSetzten von Schwarzeichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,darkoaksapling,2,PLACING,HAND,DARK_OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,darkoaksapling,2,PLACING,HAND,DARK_OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,darkoaksapling,2,PLACING,HAND,DARK_OAK_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Darkoaksapling/Darkoaksapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,darkoaksapling,2,BREAKING,HAND,DARK_OAK_SAPLING,mat=DARK_OAK_SAPLING%",
+				"&fMining of &#c6a664Darkoaksapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,darkoaksapling,2,BREAKING,HAND,DARK_OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,darkoaksapling,2,BREAKING,HAND,DARK_OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,darkoaksapling,2,BREAKING,HAND,DARK_OAK_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Darkoaksapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,darkoaksapling,2,PLACING,HAND,DARK_OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,darkoaksapling,2,PLACING,HAND,DARK_OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,darkoaksapling,2,PLACING,HAND,DARK_OAK_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(3, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Schwarzeichensetzling/Schwarzeichensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,darkoaksapling,3,BREAKING,HAND,DARK_OAK_SAPLING,mat=DARK_OAK_SAPLING%",
+				"&fAbbauen von &#c6a664Schwarzeichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,darkoaksapling,3,BREAKING,HAND,DARK_OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,darkoaksapling,3,BREAKING,HAND,DARK_OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,darkoaksapling,3,BREAKING,HAND,DARK_OAK_SAPLING% Dollar",
+				"&fSetzten von Schwarzeichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,darkoaksapling,3,PLACING,HAND,DARK_OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,darkoaksapling,3,PLACING,HAND,DARK_OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,darkoaksapling,3,PLACING,HAND,DARK_OAK_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Darkoaksapling/Darkoaksapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,darkoaksapling,3,BREAKING,HAND,DARK_OAK_SAPLING,mat=DARK_OAK_SAPLING%",
+				"&fMining of &#c6a664Darkoaksapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,darkoaksapling,3,BREAKING,HAND,DARK_OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,darkoaksapling,3,BREAKING,HAND,DARK_OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,darkoaksapling,3,BREAKING,HAND,DARK_OAK_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Darkoaksapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,darkoaksapling,3,PLACING,HAND,DARK_OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,darkoaksapling,3,PLACING,HAND,DARK_OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,darkoaksapling,3,PLACING,HAND,DARK_OAK_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(4, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Schwarzeichensetzling/Schwarzeichensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,darkoaksapling,4,BREAKING,HAND,DARK_OAK_SAPLING,mat=DARK_OAK_SAPLING%",
+				"&fAbbauen von &#c6a664Schwarzeichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,darkoaksapling,4,BREAKING,HAND,DARK_OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,darkoaksapling,4,BREAKING,HAND,DARK_OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,darkoaksapling,4,BREAKING,HAND,DARK_OAK_SAPLING% Dollar",
+				"&fSetzten von Schwarzeichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,darkoaksapling,4,PLACING,HAND,DARK_OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,darkoaksapling,4,PLACING,HAND,DARK_OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,darkoaksapling,4,PLACING,HAND,DARK_OAK_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Darkoaksapling/Darkoaksapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,darkoaksapling,4,BREAKING,HAND,DARK_OAK_SAPLING,mat=DARK_OAK_SAPLING%",
+				"&fMining of &#c6a664Darkoaksapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,darkoaksapling,4,BREAKING,HAND,DARK_OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,darkoaksapling,4,BREAKING,HAND,DARK_OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,darkoaksapling,4,BREAKING,HAND,DARK_OAK_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Darkoaksapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,darkoaksapling,4,PLACING,HAND,DARK_OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,darkoaksapling,4,PLACING,HAND,DARK_OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,darkoaksapling,4,PLACING,HAND,DARK_OAK_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(5, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Schwarzeichensetzling/Schwarzeichensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,darkoaksapling,5,BREAKING,HAND,DARK_OAK_SAPLING,mat=DARK_OAK_SAPLING%",
+				"&fAbbauen von &#c6a664Schwarzeichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,darkoaksapling,5,BREAKING,HAND,DARK_OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,darkoaksapling,5,BREAKING,HAND,DARK_OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,darkoaksapling,5,BREAKING,HAND,DARK_OAK_SAPLING% Dollar",
+				"&fSetzten von Schwarzeichensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,darkoaksapling,5,PLACING,HAND,DARK_OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,darkoaksapling,5,PLACING,HAND,DARK_OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,darkoaksapling,5,PLACING,HAND,DARK_OAK_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Darkoaksapling/Darkoaksapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,darkoaksapling,5,BREAKING,HAND,DARK_OAK_SAPLING,mat=DARK_OAK_SAPLING%",
+				"&fMining of &#c6a664Darkoaksapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,darkoaksapling,5,BREAKING,HAND,DARK_OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,darkoaksapling,5,BREAKING,HAND,DARK_OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,darkoaksapling,5,BREAKING,HAND,DARK_OAK_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Darkoaksapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,darkoaksapling,5,PLACING,HAND,DARK_OAK_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,darkoaksapling,5,PLACING,HAND,DARK_OAK_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,darkoaksapling,5,PLACING,HAND,DARK_OAK_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		addTechnology(
+				"darkoaksapling", new String[] {"Schwarzeichensetzling", "Darkoaksapling"},
+				TechnologyType.MULTIPLE, 5, PlayerAssociatedType.SOLO, 5, "", "sapling", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				null, true,
+				new String[] {"&8Schwarzeichensetzling","&8Darkoaksapling"},
+				Material.BARRIER, 1, itemflag, null, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Schwarzeichensetzling.",
+						"&fSetzen von &#c6a664Schwarzeichensetzling.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fMining of &#c6a664Darkoaksapling.",
+						"&fPlacing of &#c6a664Darkoaksapling.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				new String[] {"&7Schwarzeichensetzling","&7Darkoaksapling"},
+				Material.DARK_OAK_SAPLING, 1, itemflag, null, canResLore.get(1),
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&dSchwarzeichensetzling","&dDarkoaksapling"},
+				Material.DARK_OAK_SAPLING, 1, itemflag, null, canResLore,
+				new String[] {"&5Schwarzeichensetzling","&5Darkoaksapling"},
+				Material.DARK_OAK_SAPLING, 1, itemflag, enchantment, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fAbbauen von &#c6a664Schwarzeichensetzling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,darkoaksapling,BREAKING,HAND,DARK_OAK_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,darkoaksapling,BREAKING,HAND,DARK_OAK_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,darkoaksapling,BREAKING,HAND,DARK_OAK_SAPLING% Dollar",
+						"&fSetzen von &#c6a664Schwarzeichensetzling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,darkoaksapling,PLACING,HAND,DARK_OAK_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,darkoaksapling,PLACING,HAND,DARK_OAK_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,darkoaksapling,PLACING,HAND,DARK_OAK_SAPLING% Dollar",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fMining of &#c6a664Darkoaksapling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,darkoaksapling,BREAKING,HAND,DARK_OAK_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,darkoaksapling,BREAKING,HAND,DARK_OAK_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,darkoaksapling,BREAKING,HAND,DARK_OAK_SAPLING% Dollar",
+						"&fPlacing of &#c6a664Darkoaksapling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,darkoaksapling,PLACING,HAND,DARK_OAK_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,darkoaksapling,PLACING,HAND,DARK_OAK_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,darkoaksapling,PLACING,HAND,DARK_OAK_SAPLING% Dollar",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+		toResCondition = new LinkedHashMap<>();
+		toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, cTTExp);
+		toResCostTTExp.put(2, cTTExp);
+		toResCostTTExp.put(3, cTTExp);
+		toResCostTTExp.put(4, cTTExp);
+		toResCostTTExp.put(5, cTTExp);
+		toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, cVExp);
+		toResCostVanillaExp.put(2, cVExp);
+		toResCostVanillaExp.put(3, cVExp);
+		toResCostVanillaExp.put(4, cVExp);
+		toResCostVanillaExp.put(5, cVExp);
+		toResCostMoney = new LinkedHashMap<>();
+		toResCostMoney.put(1, cM);
+		toResCostMoney.put(2, cM);
+		toResCostMoney.put(3, cM);
+		toResCostMoney.put(4, cM);
+		toResCostMoney.put(5, cM);
+		toResCostMaterial = new LinkedHashMap<>();
+		rewardUnlockableInteractions = new LinkedHashMap<>();
+		rui = new String[] {"PLACING:CHERRY_SAPLING:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",""};
+		rewardUnlockableInteractions.put(1, rui);
+		rewardUnlockableInteractions.put(2, rui);
+		rewardUnlockableInteractions.put(3, rui);
+		rewardUnlockableInteractions.put(4, rui);
+		rewardUnlockableInteractions.put(5, rui);
+		rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardDropChance = new LinkedHashMap<>();
+		rdc = new String[] {"BREAKING:CHERRY_SAPLING:null:mat=CHERRY_SAPLING:1:1.0",""};
+		rewardDropChance.put(1, rdc);
+		rewardDropChance.put(2, rdc);
+		rewardDropChance.put(3, rdc);
+		rewardDropChance.put(4, rdc);
+		rewardDropChance.put(5, rdc);
+		rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance.put(1, rdc);
+		rewardCommand = new LinkedHashMap<>();
+		rewardItem = new LinkedHashMap<>();
+		rewardModifier = new LinkedHashMap<>();
+		rewardValueEntry = new LinkedHashMap<>();
+		canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Kirschensetzling/Kirschensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,cherrysapling,1,BREAKING,HAND,CHERRY_SAPLING,mat=CHERRY_SAPLING%",
+				"&fAbbauen von &#c6a664Kirschensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,cherrysapling,1,BREAKING,HAND,CHERRY_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,cherrysapling,1,BREAKING,HAND,CHERRY_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,cherrysapling,1,BREAKING,HAND,CHERRY_SAPLING% Dollar",
+				"&fSetzten von Kirschensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,cherrysapling,1,PLACING,HAND,CHERRY_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,cherrysapling,1,PLACING,HAND,CHERRY_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,cherrysapling,1,PLACING,HAND,CHERRY_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Cherrysapling/Cherrysapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,cherrysapling,1,BREAKING,HAND,CHERRY_SAPLING,mat=CHERRY_SAPLING%",
+				"&fMining of &#c6a664Cherrysapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,cherrysapling,1,BREAKING,HAND,CHERRY_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,cherrysapling,1,BREAKING,HAND,CHERRY_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,cherrysapling,1,BREAKING,HAND,CHERRY_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Cherrysapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,cherrysapling,1,PLACING,HAND,CHERRY_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,cherrysapling,1,PLACING,HAND,CHERRY_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,cherrysapling,1,PLACING,HAND,CHERRY_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(2, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Kirschensetzling/Kirschensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,cherrysapling,2,BREAKING,HAND,CHERRY_SAPLING,mat=CHERRY_SAPLING%",
+				"&fAbbauen von &#c6a664Kirschensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,cherrysapling,2,BREAKING,HAND,CHERRY_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,cherrysapling,2,BREAKING,HAND,CHERRY_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,cherrysapling,2,BREAKING,HAND,CHERRY_SAPLING% Dollar",
+				"&fSetzten von Kirschensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,cherrysapling,2,PLACING,HAND,CHERRY_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,cherrysapling,2,PLACING,HAND,CHERRY_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,cherrysapling,2,PLACING,HAND,CHERRY_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Cherrysapling/Cherrysapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,cherrysapling,2,BREAKING,HAND,CHERRY_SAPLING,mat=CHERRY_SAPLING%",
+				"&fMining of &#c6a664Cherrysapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,cherrysapling,2,BREAKING,HAND,CHERRY_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,cherrysapling,2,BREAKING,HAND,CHERRY_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,cherrysapling,2,BREAKING,HAND,CHERRY_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Cherrysapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,cherrysapling,2,PLACING,HAND,CHERRY_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,cherrysapling,2,PLACING,HAND,CHERRY_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,cherrysapling,2,PLACING,HAND,CHERRY_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(3, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Kirschensetzling/Kirschensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,cherrysapling,3,BREAKING,HAND,CHERRY_SAPLING,mat=CHERRY_SAPLING%",
+				"&fAbbauen von &#c6a664Kirschensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,cherrysapling,3,BREAKING,HAND,CHERRY_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,cherrysapling,3,BREAKING,HAND,CHERRY_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,cherrysapling,3,BREAKING,HAND,CHERRY_SAPLING% Dollar",
+				"&fSetzten von Kirschensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,cherrysapling,3,PLACING,HAND,CHERRY_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,cherrysapling,3,PLACING,HAND,CHERRY_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,cherrysapling,3,PLACING,HAND,CHERRY_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Cherrysapling/Cherrysapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,cherrysapling,3,BREAKING,HAND,CHERRY_SAPLING,mat=CHERRY_SAPLING%",
+				"&fMining of &#c6a664Cherrysapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,cherrysapling,3,BREAKING,HAND,CHERRY_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,cherrysapling,3,BREAKING,HAND,CHERRY_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,cherrysapling,3,BREAKING,HAND,CHERRY_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Cherrysapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,cherrysapling,3,PLACING,HAND,CHERRY_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,cherrysapling,3,PLACING,HAND,CHERRY_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,cherrysapling,3,PLACING,HAND,CHERRY_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(4, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Kirschensetzling/Kirschensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,cherrysapling,4,BREAKING,HAND,CHERRY_SAPLING,mat=CHERRY_SAPLING%",
+				"&fAbbauen von &#c6a664Kirschensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,cherrysapling,4,BREAKING,HAND,CHERRY_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,cherrysapling,4,BREAKING,HAND,CHERRY_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,cherrysapling,4,BREAKING,HAND,CHERRY_SAPLING% Dollar",
+				"&fSetzten von Kirschensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,cherrysapling,4,PLACING,HAND,CHERRY_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,cherrysapling,4,PLACING,HAND,CHERRY_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,cherrysapling,4,PLACING,HAND,CHERRY_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Cherrysapling/Cherrysapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,cherrysapling,4,BREAKING,HAND,CHERRY_SAPLING,mat=CHERRY_SAPLING%",
+				"&fMining of &#c6a664Cherrysapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,cherrysapling,4,BREAKING,HAND,CHERRY_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,cherrysapling,4,BREAKING,HAND,CHERRY_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,cherrysapling,4,BREAKING,HAND,CHERRY_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Cherrysapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,cherrysapling,4,PLACING,HAND,CHERRY_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,cherrysapling,4,PLACING,HAND,CHERRY_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,cherrysapling,4,PLACING,HAND,CHERRY_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(5, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Kirschensetzling/Kirschensetzling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,cherrysapling,5,BREAKING,HAND,CHERRY_SAPLING,mat=CHERRY_SAPLING%",
+				"&fAbbauen von &#c6a664Kirschensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,cherrysapling,5,BREAKING,HAND,CHERRY_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,cherrysapling,5,BREAKING,HAND,CHERRY_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,cherrysapling,5,BREAKING,HAND,CHERRY_SAPLING% Dollar",
+				"&fSetzten von Kirschensetzling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,cherrysapling,5,PLACING,HAND,CHERRY_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,cherrysapling,5,PLACING,HAND,CHERRY_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,cherrysapling,5,PLACING,HAND,CHERRY_SAPLING% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Cherrysapling/Cherrysapling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,cherrysapling,5,BREAKING,HAND,CHERRY_SAPLING,mat=CHERRY_SAPLING%",
+				"&fMining of &#c6a664Cherrysapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,cherrysapling,5,BREAKING,HAND,CHERRY_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,cherrysapling,5,BREAKING,HAND,CHERRY_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,cherrysapling,5,BREAKING,HAND,CHERRY_SAPLING% Dollar",
+				"&fPlacing of &#c6a664Cherrysapling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,cherrysapling,5,PLACING,HAND,CHERRY_SAPLING% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,cherrysapling,5,PLACING,HAND,CHERRY_SAPLING% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,cherrysapling,5,PLACING,HAND,CHERRY_SAPLING% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		addTechnology(
+				"cherrysapling", new String[] {"Kirschensetzling", "Cherrysapling"},
+				TechnologyType.MULTIPLE, 5, PlayerAssociatedType.SOLO, 6, "", "sapling", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				null, true,
+				new String[] {"&8Kirschensetzling","&8Cherrysapling"},
+				Material.BARRIER, 1, itemflag, null, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Kirschensetzling.",
+						"&fSetzen von &#c6a664Kirschensetzling.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fMining of &#c6a664Cherrysapling.",
+						"&fPlacing of &#c6a664Cherrysapling.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				new String[] {"&7Kirschensetzling","&7Cherrysapling"},
+				Material.CHERRY_SAPLING, 1, itemflag, null, canResLore.get(1),
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&dKirschensetzling","&dCherrysapling"},
+				Material.CHERRY_SAPLING, 1, itemflag, null, canResLore,
+				new String[] {"&5Kirschensetzling","&5Cherrysapling"},
+				Material.CHERRY_SAPLING, 1, itemflag, enchantment, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fAbbauen von &#c6a664Kirschensetzling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,cherrysapling,BREAKING,HAND,CHERRY_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,cherrysapling,BREAKING,HAND,CHERRY_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,cherrysapling,BREAKING,HAND,CHERRY_SAPLING% Dollar",
+						"&fSetzen von &#c6a664Kirschensetzling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,cherrysapling,PLACING,HAND,CHERRY_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,cherrysapling,PLACING,HAND,CHERRY_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,cherrysapling,PLACING,HAND,CHERRY_SAPLING% Dollar",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fMining of &#c6a664Cherrysapling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,cherrysapling,BREAKING,HAND,CHERRY_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,cherrysapling,BREAKING,HAND,CHERRY_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,cherrysapling,BREAKING,HAND,CHERRY_SAPLING% Dollar",
+						"&fPlacing of &#c6a664Cherrysapling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,cherrysapling,PLACING,HAND,CHERRY_SAPLING% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,cherrysapling,PLACING,HAND,CHERRY_SAPLING% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,cherrysapling,PLACING,HAND,CHERRY_SAPLING% Dollar",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+		toResCondition = new LinkedHashMap<>();
+		toResCostTTExp = new LinkedHashMap<>();
+		toResCostTTExp.put(1, cTTExp);
+		toResCostTTExp.put(2, cTTExp);
+		toResCostTTExp.put(3, cTTExp);
+		toResCostTTExp.put(4, cTTExp);
+		toResCostTTExp.put(5, cTTExp);
+		toResCostVanillaExp = new LinkedHashMap<>();
+		toResCostVanillaExp.put(1, cVExp);
+		toResCostVanillaExp.put(2, cVExp);
+		toResCostVanillaExp.put(3, cVExp);
+		toResCostVanillaExp.put(4, cVExp);
+		toResCostVanillaExp.put(5, cVExp);
+		toResCostMoney = new LinkedHashMap<>();
+		toResCostMoney.put(1, cM);
+		toResCostMoney.put(2, cM);
+		toResCostMoney.put(3, cM);
+		toResCostMoney.put(4, cM);
+		toResCostMoney.put(5, cM);
+		toResCostMaterial = new LinkedHashMap<>();
+		rewardUnlockableInteractions = new LinkedHashMap<>();
+		rui = new String[] {"PLACING:MANGROVE_PROPAGULE:null:tool=HAND:ttexp=0.01:vault=0.1:default=0.1",""};
+		rewardUnlockableInteractions.put(1, rui);
+		rewardUnlockableInteractions.put(2, rui);
+		rewardUnlockableInteractions.put(3, rui);
+		rewardUnlockableInteractions.put(4, rui);
+		rewardUnlockableInteractions.put(5, rui);
+		rewardUnlockableRecipe = new LinkedHashMap<>();
+		rewardDropChance = new LinkedHashMap<>();
+		rdc = new String[] {"BREAKING:MANGROVE_PROPAGULE:null:mat=MANGROVE_PROPAGULE:1:1.0",""};
+		rewardDropChance.put(1, rdc);
+		rewardDropChance.put(2, rdc);
+		rewardDropChance.put(3, rdc);
+		rewardDropChance.put(4, rdc);
+		rewardDropChance.put(5, rdc);
+		rewardSilkTouchDropChance = new LinkedHashMap<>();
+		rewardSilkTouchDropChance.put(1, rdc);
+		rewardCommand = new LinkedHashMap<>();
+		rewardItem = new LinkedHashMap<>();
+		rewardModifier = new LinkedHashMap<>();
+		rewardValueEntry = new LinkedHashMap<>();
+		canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Mangrovenkeimling/Mangrovenkeimling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,mangrovepropagule,1,BREAKING,HAND,MANGROVE_PROPAGULE,mat=MANGROVE_PROPAGULE%",
+				"&fAbbauen von &#c6a664Mangrovenkeimling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,mangrovepropagule,1,BREAKING,HAND,MANGROVE_PROPAGULE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,mangrovepropagule,1,BREAKING,HAND,MANGROVE_PROPAGULE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,mangrovepropagule,1,BREAKING,HAND,MANGROVE_PROPAGULE% Dollar",
+				"&fSetzten von Mangrovenkeimling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,mangrovepropagule,1,PLACING,HAND,MANGROVE_PROPAGULE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,mangrovepropagule,1,PLACING,HAND,MANGROVE_PROPAGULE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,mangrovepropagule,1,PLACING,HAND,MANGROVE_PROPAGULE% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Mangrovepropagule/Mangrovepropagule(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,mangrovepropagule,1,BREAKING,HAND,MANGROVE_PROPAGULE,mat=MANGROVE_PROPAGULE%",
+				"&fMining of &#c6a664Mangrovepropagule(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,mangrovepropagule,1,BREAKING,HAND,MANGROVE_PROPAGULE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,mangrovepropagule,1,BREAKING,HAND,MANGROVE_PROPAGULE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,mangrovepropagule,1,BREAKING,HAND,MANGROVE_PROPAGULE% Dollar",
+				"&fPlacing of &#c6a664Mangrovepropagule(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,mangrovepropagule,1,PLACING,HAND,MANGROVE_PROPAGULE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,mangrovepropagule,1,PLACING,HAND,MANGROVE_PROPAGULE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,mangrovepropagule,1,PLACING,HAND,MANGROVE_PROPAGULE% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(2, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Mangrovenkeimling/Mangrovenkeimling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,mangrovepropagule,2,BREAKING,HAND,MANGROVE_PROPAGULE,mat=MANGROVE_PROPAGULE%",
+				"&fAbbauen von &#c6a664Mangrovenkeimling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,mangrovepropagule,2,BREAKING,HAND,MANGROVE_PROPAGULE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,mangrovepropagule,2,BREAKING,HAND,MANGROVE_PROPAGULE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,mangrovepropagule,2,BREAKING,HAND,MANGROVE_PROPAGULE% Dollar",
+				"&fSetzten von Mangrovenkeimling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,mangrovepropagule,2,PLACING,HAND,MANGROVE_PROPAGULE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,mangrovepropagule,2,PLACING,HAND,MANGROVE_PROPAGULE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,mangrovepropagule,2,PLACING,HAND,MANGROVE_PROPAGULE% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Mangrovepropagule/Mangrovepropagule(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,mangrovepropagule,2,BREAKING,HAND,MANGROVE_PROPAGULE,mat=MANGROVE_PROPAGULE%",
+				"&fMining of &#c6a664Mangrovepropagule(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,mangrovepropagule,2,BREAKING,HAND,MANGROVE_PROPAGULE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,mangrovepropagule,2,BREAKING,HAND,MANGROVE_PROPAGULE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,mangrovepropagule,2,BREAKING,HAND,MANGROVE_PROPAGULE% Dollar",
+				"&fPlacing of &#c6a664Mangrovepropagule(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,mangrovepropagule,2,PLACING,HAND,MANGROVE_PROPAGULE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,mangrovepropagule,2,PLACING,HAND,MANGROVE_PROPAGULE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,mangrovepropagule,2,PLACING,HAND,MANGROVE_PROPAGULE% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(3, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Mangrovenkeimling/Mangrovenkeimling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,mangrovepropagule,3,BREAKING,HAND,MANGROVE_PROPAGULE,mat=MANGROVE_PROPAGULE%",
+				"&fAbbauen von &#c6a664Mangrovenkeimling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,mangrovepropagule,3,BREAKING,HAND,MANGROVE_PROPAGULE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,mangrovepropagule,3,BREAKING,HAND,MANGROVE_PROPAGULE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,mangrovepropagule,3,BREAKING,HAND,MANGROVE_PROPAGULE% Dollar",
+				"&fSetzten von Mangrovenkeimling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,mangrovepropagule,3,PLACING,HAND,MANGROVE_PROPAGULE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,mangrovepropagule,3,PLACING,HAND,MANGROVE_PROPAGULE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,mangrovepropagule,3,PLACING,HAND,MANGROVE_PROPAGULE% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Mangrovepropagule/Mangrovepropagule(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,mangrovepropagule,3,BREAKING,HAND,MANGROVE_PROPAGULE,mat=MANGROVE_PROPAGULE%",
+				"&fMining of &#c6a664Mangrovepropagule(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,mangrovepropagule,3,BREAKING,HAND,MANGROVE_PROPAGULE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,mangrovepropagule,3,BREAKING,HAND,MANGROVE_PROPAGULE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,mangrovepropagule,3,BREAKING,HAND,MANGROVE_PROPAGULE% Dollar",
+				"&fPlacing of &#c6a664Mangrovepropagule(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,mangrovepropagule,3,PLACING,HAND,MANGROVE_PROPAGULE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,mangrovepropagule,3,PLACING,HAND,MANGROVE_PROPAGULE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,mangrovepropagule,3,PLACING,HAND,MANGROVE_PROPAGULE% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(4, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Mangrovenkeimling/Mangrovenkeimling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,mangrovepropagule,4,BREAKING,HAND,MANGROVE_PROPAGULE,mat=MANGROVE_PROPAGULE%",
+				"&fAbbauen von &#c6a664Mangrovenkeimling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,mangrovepropagule,4,BREAKING,HAND,MANGROVE_PROPAGULE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,mangrovepropagule,4,BREAKING,HAND,MANGROVE_PROPAGULE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,mangrovepropagule,4,BREAKING,HAND,MANGROVE_PROPAGULE% Dollar",
+				"&fSetzten von Mangrovenkeimling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,mangrovepropagule,4,PLACING,HAND,MANGROVE_PROPAGULE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,mangrovepropagule,4,PLACING,HAND,MANGROVE_PROPAGULE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,mangrovepropagule,4,PLACING,HAND,MANGROVE_PROPAGULE% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Mangrovepropagule/Mangrovepropagule(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,mangrovepropagule,4,BREAKING,HAND,MANGROVE_PROPAGULE,mat=MANGROVE_PROPAGULE%",
+				"&fMining of &#c6a664Mangrovepropagule(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,mangrovepropagule,4,BREAKING,HAND,MANGROVE_PROPAGULE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,mangrovepropagule,4,BREAKING,HAND,MANGROVE_PROPAGULE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,mangrovepropagule,4,BREAKING,HAND,MANGROVE_PROPAGULE% Dollar",
+				"&fPlacing of &#c6a664Mangrovepropagule(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,mangrovepropagule,4,PLACING,HAND,MANGROVE_PROPAGULE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,mangrovepropagule,4,PLACING,HAND,MANGROVE_PROPAGULE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,mangrovepropagule,4,PLACING,HAND,MANGROVE_PROPAGULE% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		canResLore.put(5, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"",
+				"&eKosten:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&f% von &#c6a664Mangrovenkeimling/Mangrovenkeimling(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,mangrovepropagule,5,BREAKING,HAND,MANGROVE_PROPAGULE,mat=MANGROVE_PROPAGULE%",
+				"&fAbbauen von &#c6a664Mangrovenkeimling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,mangrovepropagule,5,BREAKING,HAND,MANGROVE_PROPAGULE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,mangrovepropagule,5,BREAKING,HAND,MANGROVE_PROPAGULE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,mangrovepropagule,5,BREAKING,HAND,MANGROVE_PROPAGULE% Dollar",
+				"&fSetzten von Mangrovenkeimling(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,mangrovepropagule,5,PLACING,HAND,MANGROVE_PROPAGULE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,mangrovepropagule,5,PLACING,HAND,MANGROVE_PROPAGULE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,mangrovepropagule,5,PLACING,HAND,MANGROVE_PROPAGULE% Dollar",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"",
+				"&eCosts:",
+				"&f%costttexp% | %costvanillaexp%",
+				"&f%costmoney%",
+				"&f%costmaterial%",
+				"",
+				"&eUnlocks the following:",
+				"&f% of &#c6a664Mangrovepropagule/Mangrovepropagule(Hand) &#546f42%tt_reward_tech_dropchance_mat,SOLO,mangrovepropagule,5,BREAKING,HAND,MANGROVE_PROPAGULE,mat=MANGROVE_PROPAGULE%",
+				"&fMining of &#c6a664Mangrovepropagule(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,mangrovepropagule,5,BREAKING,HAND,MANGROVE_PROPAGULE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,mangrovepropagule,5,BREAKING,HAND,MANGROVE_PROPAGULE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,mangrovepropagule,5,BREAKING,HAND,MANGROVE_PROPAGULE% Dollar",
+				"&fPlacing of &#c6a664Mangrovepropagule(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,SOLO,mangrovepropagule,5,PLACING,HAND,MANGROVE_PROPAGULE% TTExp | "
+						  + "&#546f42%tt_raw_reward_tech_vexp_mat,SOLO,mangrovepropagule,5,PLACING,HAND,MANGROVE_PROPAGULE% VExp | "
+						  + "&#546f42%tt_raw_reward_tech_money_mat,SOLO,mangrovepropagule,5,PLACING,HAND,MANGROVE_PROPAGULE% Dollar",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		addTechnology(
+				"mangrovepropagule", new String[] {"Mangrovenkeimling", "Mangrovepropagule"},
+				TechnologyType.MULTIPLE, 5, PlayerAssociatedType.SOLO, 2, "", "sapling", 
+				0, 0, 0, 0, 0, 0, 0, 0,
+				null, true,
+				new String[] {"&8Mangrovenkeimling","&8Mangrovepropagule"},
+				Material.BARRIER, 1, itemflag, null, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fAbbau von Mangrovenkeimling.",
+						"&fSetzen von &#c6a664Mangrovenkeimling.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fMining of &#c6a664Mangrovepropagule.",
+						"&fPlacing of &#c6a664Mangrovepropagule.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				new String[] {"&7Mangrovenkeimling","&7Mangrovepropagule"},
+				Material.MANGROVE_PROPAGULE, 1, itemflag, null, canResLore.get(1),
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&dMangrovenkeimling","&dMangrovepropagule"},
+				Material.MANGROVE_PROPAGULE, 1, itemflag, null, canResLore,
+				new String[] {"&5Mangrovenkeimling","&5Mangrovepropagule"},
+				Material.MANGROVE_PROPAGULE, 1, itemflag, enchantment, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fAbbauen von &#c6a664Mangrovenkeimling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,mangrovepropagule,BREAKING,HAND,MANGROVE_PROPAGULE% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,mangrovepropagule,BREAKING,HAND,MANGROVE_PROPAGULE% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,mangrovepropagule,BREAKING,HAND,MANGROVE_PROPAGULE% Dollar",
+						"&fSetzen von &#c6a664Mangrovenkeimling &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,mangrovepropagule,PLACING,HAND,MANGROVE_PROPAGULE% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,mangrovepropagule,PLACING,HAND,MANGROVE_PROPAGULE% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,mangrovepropagule,PLACING,HAND,MANGROVE_PROPAGULE% Dollar",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fMining of &#c6a664Mangrovepropagule &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,mangrovepropagule,BREAKING,HAND,MANGROVE_PROPAGULE% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,mangrovepropagule,BREAKING,HAND,MANGROVE_PROPAGULE% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,mangrovepropagule,BREAKING,HAND,MANGROVE_PROPAGULE% Dollar",
+						"&fPlacing of &#c6a664Mangrovepropagule &#546f42%tt_raw_reward_techtotal_ttexp_mat,SOLO,mangrovepropagule,PLACING,HAND,MANGROVE_PROPAGULE% TTExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_vexp_mat,SOLO,mangrovepropagule,PLACING,HAND,MANGROVE_PROPAGULE% VExp | "
+								  + "&#546f42%tt_raw_reward_techtotal_money_mat,SOLO,mangrovepropagule,PLACING,HAND,MANGROVE_PROPAGULE% Dollar",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
 	}
 	
 	private void tech_Woodworking_Wood(String[] itemflag, String[] enchantment) //INFO:Woodworking_Wood

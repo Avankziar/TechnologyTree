@@ -49,5 +49,5 @@ public enum CommandExecuteType
 	TT_INFO,
 	TT_INFO_PAYMENT,
 	
-	TECHGUI,
+	TECHGUI;
 }
