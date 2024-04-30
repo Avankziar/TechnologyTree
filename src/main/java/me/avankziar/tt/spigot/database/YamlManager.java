@@ -72,7 +72,7 @@ public class YamlManager
 	private static LinkedHashMap<String, LinkedHashMap<String, Language>> smokingRecipeKeys = new LinkedHashMap<>();
 	private static LinkedHashMap<String, LinkedHashMap<String, Language>> stonecuttingRecipeKeys = new LinkedHashMap<>();
 	
-	public YamlManager()
+	public YamlManager() //INFO:Start
 	{
 		initConfig();
 		initCommands();
@@ -599,6 +599,14 @@ public class YamlManager
 				"Wenn 'true', dann werden schon von anderen Spieler regestrierte Blöcke wie Öfen nun auf den neuen Spieler überschrieben.",
 				"",
 				"If 'true', then blocks already registered by other players, such as ovens, are now overwritten by the new player."});
+		addConfig("Do.DeleteExpireTechnologies.isMainServer",
+				new Object[] {
+				true},
+				new Object[] {
+				"",
+				"Wenn 'true', dann werden die ausgelaufenden temporären Technologien wieder gelöscht.",
+				"",
+				"If 'true', the expired temporary technologies are deleted again."});
 		addConfig("Do.DeleteExpireTechnologies.TaskRunInMinutes",
 				new Object[] {
 				10},
@@ -614,7 +622,23 @@ public class YamlManager
 				"",
 				"Die Anzahl an Minuten wann der Hintergrundtask die gesetzten Blöcke wieder entfernt. (So dass sie wieder abgebaut werden können um Belohnungen zu erhalten)",
 				"",
-				"The number of minutes when the background task removes the set blocks. (So that they can be dismantled again to receive rewards)"});	
+				"The number of minutes when the background task removes the set blocks. (So that they can be dismantled again to receive rewards)"});
+		addConfig("Do.DeleteExpireExternBooster.isMainServer",
+				new Object[] {
+				true},
+				new Object[] {
+				"",
+				"Wenn 'true', dann werden die ausgelaufenden temporären externen Booster wieder gelöscht.",
+				"",
+				"If 'true', the expired temporary extern booster are deleted again."});
+		addConfig("Do.DeleteExpireExternBooster.TaskRunInMinutes",
+				new Object[] {
+				10},
+				new Object[] {
+				"",
+				"Die Anzahl an Minuten wann der Hintergrundtask die ausgelaufenen temporären externen Booster wieder löscht.",
+				"",
+				"The number of minutes when the background task deletes the expired temporary extern booster."});
 		addConfig("Gui.FillNotDefineGuiSlots",
 				new Object[] {
 				true},
@@ -875,6 +899,16 @@ public class YamlManager
 				"SUNDAY' can be replaced with any day of the week and 'FIRST' can be replaced with 'SECOND', 'THIRD', 'FOURTH' and 'FIFTH',",
 				"as the average month does not have 28 days (or 4 weeks) but 30.4 days (or 4.34 weeks).",
 				"2. '20-00:1' describes that it should be executed at 20:00 on the first day of the month."});
+		addConfig("Do.SwitchMode.PermissionCheckUp",
+				new Object[] {
+				2},
+				new Object[] {
+				"",
+				"Anzahl an Minuten, wann alle Spieler nach den Permission für Ihre gewählten SwitchModes gecheckt werden, ob Sie diese Permission noch haben.",
+				"Falls sie diese nicht besitzen, wird ein andere SwitchModes aktiviert und der Spieler wird benachrichtigt.",
+				"",
+				"Number of minutes when all players are checked for the permission for their selected SwitchModes to see if they still have this permission.",
+				"If they do not have them, another SwitchMode is activated and the player is notified."});
 		addConfig("Group.Creation.Cost.TTExp",
 				new Object[] {
 				"group_totalamount*1000000+1000000"},
@@ -1070,6 +1104,64 @@ public class YamlManager
 		configSpigotKeys.put("Group.Member.TotalAmountPerLevel.MEMBER", new Language(new ISO639_2B[] {ISO639_2B.GER},
 				new Object[] {
 				"(2+group_level)*2"}));
+		addConfig("SwitchMode.isActive",
+				new Object[] {
+				false},
+				new Object[] {
+				"",
+				"Wenn 'true', dann ist die SwitchMode Mechanik aktiv.",
+				"",
+				"If 'true', then the SwitchMode mechanism is active."});
+		addConfig("SwitchMode.ModeList",
+				new Object[] {
+				"Money:ttexp,vanillaexp,money",
+				"Drops:ttexp,vanillaexp,drops",
+				"Vip:ttexp,vanillaexp,money,drops,cmd:here.your.permission"},
+				new Object[] {
+				"",
+				"Der SwitchMode erlaubt, dass sich der Spieler zwischen bestimmten Formen der Belohnungen entscheiden muss.",
+				"Es ist aus den folgenden Belohnungen zu wählen:",
+				"'ttexp' für die plugineigenen Exp | 'vanillaexp' für die Minecraft eigenen Exp | 'money' Geld aller Art",
+				"'drops' Drops durch MinecraftEvents | 'cmd' für Befehle",
+				"Bsp.: 'Money:ttexp,vanillaexp,money' beschreibt den SwitchMode 'Money'.",
+				"Dieser SwitchMode, falls gewählt, gibt den Spieler TTExp, VanillaExp und Geld. Egal ob auch noch Drops/Befehle geben sollte. Diese gibt es dann nicht.",
+				"SwitchMode können auch Permission haben um manche Spieler abzuhalten bestimmet SwitchModi zu wählen. Bspw.:",
+				"'vip:ttexp,vanillaexp,money,drops,cmd:here.your.permission'",
+				"Wenn ein Spieler zum ersten Mal dem Server joint, und SwitchMode ist aktiv, wird der erste SwitchMode genommen, wozu der Spieler die Rechte hat.",
+				"",
+				"The SwitchMode allows the player to choose between certain forms of rewards.",
+				"You can choose from the following rewards:",
+				"'ttexp' for the plugin's own exp | 'vanillaexp' for Minecraft's own exp | 'money' money of all kinds",
+				"'drops' drops through Minecraft events | 'cmd' for commands",
+				"Ex: 'Money:ttexp,vanillaexp,money' describes the SwitchMode 'Money'.",
+				"This SwitchMode, if selected, gives the player TTExp, VanillaExp and money. Regardless of whether there should also be drops/commands. These are then not available.",
+				"SwitchMode can also have permission to prevent some players from choosing certain SwitchModes. For example:",
+				"'vip:ttexp,vanillaexp,money,drops,cmd:here.your.permission'",
+				"When a player joins the server for the first time, and SwitchMode is active, the first SwitchMode is taken for which the player has the rights."});
+		addConfig("SwitchMode.Cooldown.NormalPlayer",
+				new Object[] {
+				"14d-0H-0m-0s"},
+				new Object[] {
+				"",
+				"Der Cooldown für Normale Spieler. Dieser Cooldown wird auf Spieler gesetzt, wenn Sie sich einen anderen SwitchMode augesucht haben.",
+				"",
+				"The cooldown for normal players. This cooldown is set for players who have selected a different SwitchMode."});
+		addConfig("SwitchMode.Cooldown.VIP",
+				new Object[] {
+				"1d-0H-0m-0s"},
+				new Object[] {
+				"",
+				"Der Cooldown für Spieler mit einer Permission. Dieser Cooldown wird auf diese Spieler gesetzt, wenn Sie sich einen anderen SwitchMode augesucht haben.",
+				"",
+				"The cooldown for players with a permission. This cooldown is set for these players if they have selected a different SwitchMode."});
+		addConfig("SwitchMode.Cooldown.VIPPermission",
+				new Object[] {
+				"tt.switchmode.cooldown"},
+				new Object[] {
+				"",
+				"Die Permission, welche man braucht um den VIP Cooldown zu bekommen.",
+				"",
+				"The permission you need to get the VIP Cooldown."});
 	}
 	
 	@SuppressWarnings("unused") //INFO:Commands
@@ -1134,6 +1226,38 @@ public class YamlManager
 				"&bCommandright for &f/tt exp set",
 				"&eSetzt die TTExp des Spielers auf die angegebene Zahl.",
 				"&eSets the players TTExp to the specified number.");
+		argumentInput("tt_externbooster", "externbooster", basePermission,
+				"/tt externbooster", "/tt externbooster ", false,
+				"&c/tt externbooster &f| Zwischenbefehl",
+				"&c/tt externbooster &f| Intermediate command",
+				"&bBefehlsrecht für &f/tt externbooster",
+				"&bCommandright for &f/ttexternbooster",
+				"&eZwischenbefehl",
+				"&eIntermediate command");
+		argumentInput("tt_externbooster_add", "add", basePermission,
+				"/tt externbooster add", "/tt externbooster add ", false,
+				"&c/tt externbooster add <ExternBoosterName> <EventType> <PlayerAssociatedType> <Faktor(Gleitkommazahl)> <Zeit|-1|00d-00H-00m> [Spielername/Gruppe/Permission] [Ausführende Spieler] &f| Fügt einen Externen Booster hinzu. Anmerkung: Gleitkommazahl sind als Multiplikator zu verstehen. -1 steht für einen permanenten Booster.",
+				"&c/tt externbooster add <ExternBoosterName> <EventType> <PlayerAssociatedType> <factor(double)> <time|-1|00d-00H-00m> [playername/group/permission] [associateplayer] &f| Adds an external booster. Note: Floating point numbers are to be understood as multipliers. -1 stands for a permanent booster.",
+				"&bBefehlsrecht für &f/tt externbooster add",
+				"&bCommandright for &f/ttexternbooster add",
+				"&eFügt einen Externen Booster hinzu.",
+				"&eAdds an external booster.");
+		argumentInput("tt_externbooster_list", "list", basePermission,
+				"/tt externbooster list", "/tt externbooster list ", false,
+				"&c/tt externbooster list [Seitenzahl] [Spielername] &f| Zeigt alle Externen Booster an. Mit einem angegeben Spielernamen, sieht man die aktiven externen Booster des Spielers.",
+				"&c/tt externbooster list [page] [playername] &f| Displays all external boosters. With a specified player name, you can see the active external boosters of the player.",
+				"&bBefehlsrecht für &f/tt externbooster list",
+				"&bCommandright for &f/ttexternbooster list",
+				"&eZeigt alle Externen Booster an. Mit einem angegeben Spielernamen, sieht man die aktiven externen Booster des Spielers.",
+				"&eDisplays all external boosters. With a specified player name, you can see the active external boosters of the player.");
+		argumentInput("tt_externbooster_remove", "remove", basePermission,
+				"/tt externbooster remove", "/tt externbooster remove ", false,
+				"&c/tt externbooster remove <Id> &f| Entfernt einen Externen Booster. Wird durch einen Klick im Listen Befehl vorgeschlagen.",
+				"&c/tt externbooster remove <id> &f| Removes an external booster. Is suggested by clicking in the list command.",
+				"&bBefehlsrecht für &f/tt externbooster remove",
+				"&bCommandright for &f/ttexternbooster remove",
+				"&eEntfernt einen Externen Booster. Wird durch einen Klick im Listen Befehl vorgeschlagen.",
+				"&eRemoves an external booster. Is suggested by clicking in the list command.");
 		argumentInput("tt_giveitem", "giveitem", basePermission,
 				"/tt giveitem <itemfilename> <amount>", "/tt giveitem ", false,
 				"&c/tt giveitem <Itemdateiname> <Anzahl> &f| Gibt dem Spieler das Item, welches aus der angegbenen Datei generiert wird.",
@@ -1342,6 +1466,22 @@ public class YamlManager
 				"&bCommandright for &f/tt group setprivileges",
 				"&eSetzt die Gruppenprivilegien.",
 				"&eSets the group privileges.");
+		argumentInput("tt_info", "info", basePermission,
+				"/tt info", "/tt info ", false,
+				"&c/tt info &f| Zwischenbefehl",
+				"&c/tt info &f| Intermediate command",
+				"&bBefehlsrecht für &f/tt info",
+				"&bCommandright for &f/tt info",
+				"&eZwischenbefehl",
+				"&eIntermediate command");
+		argumentInput("tt_info_payment", "payment", basePermission,
+				"/tt info payment [Material/EntityType] [ToolType]", "/tt info payment ", false,
+				"&c/tt info payment [Material/EntityType] [ToolType] &f| Zeigt an, für welches Material/Entity man für welches Event Erfahrung, Geld etc. bekommt.",
+				"&c/tt info payment [material/entitytype] [tooltype] &f| Shows for which material/entity you get experience, money etc. for which event.",
+				"&bBefehlsrecht für &f/tt info payment",
+				"&bCommandright for &f/tt info payment",
+				"&eZeigt an, für welches Material/Entity man für welches Event Erfahrung, Geld etc. bekommt.",
+				"&eShows for which material/entity you get experience, money etc. for which event.");
 		argumentInput("tt_reload", "reload", basePermission,
 				"/tt reload", "/tt reload ", false,
 				"&c/tt reload &f| Lädt alle Yaml Datein neu. Betroffen sind nicht die Befehle und Drittpluginshooks!",
@@ -1350,6 +1490,22 @@ public class YamlManager
 				"&bCommandright for &f/tt reload",
 				"&eLädt alle Yaml Datein neu. Betroffen sind nicht die Befehle und Drittpluginshooks!",
 				"&eReloads all yaml files. The commands and third-party pluginshooks are not affected!");
+		argumentInput("tt_research", "research", basePermission,
+				"/tt research <technology> [playername/groupname]", "/tt research ", false,
+				"&c/tt research <Technologie> [Spielername/Gruppennamen] &f| Erforscht Technologien für den Spieler(Solo), die Gruppe oder die Gesamtheit der Spieler(Global).",
+				"&c/tt research <technology> [playername/groupname] &f| Researches technologies for the player (solo), the group or all players (global).",
+				"&bBefehlsrecht für &f/tt research",
+				"&bCommandright for &f/tt research",
+				"&eErforscht Technologien für den Spieler(Solo), die Gruppe oder die Gesamtheit der Spieler(Global).",
+				"&eResearches technologies for the player (solo), the group or all players (global).");
+		argumentInput("tt_switchmode", "switchmode", basePermission,
+				"/tt switchmode [switchmode|null] [playername|-a]", "/tt switchmode ", false,
+				"&c/tt switchmode [SwitchMode|null] [Spielername|-a] &f| Wählt eine SwichtMode aus. Bei 'null' wird der SwitchMode ausgewählt, welcher zuerst passt.'-a' Setzt den SwitchMode für alle Spieler.",
+				"&c/tt switchmode [switchmode|null] [playername|-a] &f| Selects a SwitchMode. If 'null', the SwitchMode that fits first is selected.'-a' Sets the SwitchMode for all players.",
+				"&bBefehlsrecht für &f/tt switchmode",
+				"&bCommandright for &f/tt switchmode",
+				"&eWählt eine SwichtMode aus. Bei 'null' wird der SwitchMode ausgewählt, welcher zuerst passt.'-a' Setzt den SwitchMode für alle Spieler.",
+				"&eSelects a SwitchMode. If 'null', the SwitchMode that fits first is selected.'-a' Sets the SwitchMode for all players.");
 		commandsInput("techgui", "techgui", "techgui.command.techgui", 
 				"/techgui", "/techgui ", false,
 				"&c/techgui &f| Infoseite für alle Befehle.",
@@ -1360,14 +1516,81 @@ public class YamlManager
 				"&eGuiAccesscommand for the TechnologyTree Plugin.");
 	}
 	
+	private void addComBypass(String path, Object[] c, Object[] o)
+	{
+		commandsKeys.put(path, new Language(new ISO639_2B[] {ISO639_2B.GER}, c));
+		addComBypassComments("#"+path, o);
+	}
+	
+	private void addComBypassComments(String path, Object[] o)
+	{
+		configSpigotKeys.put(path, new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, o));
+	}
+	
 	private void comBypass() //INFO:ComBypass
 	{
 		List<Bypass.Permission> list = new ArrayList<Bypass.Permission>(EnumSet.allOf(Bypass.Permission.class));
 		for(Bypass.Permission ept : list)
 		{
-			commandsKeys.put("Bypass."+ept.toString()
-					, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-					"tt."+ept.toString().toLowerCase().replace("_", ".")}));
+			switch(ept)
+			{
+			case EXTERNBOOSTER_LIST_SEE_ALL:
+				addComBypass("Bypass."+ept.toString(),
+						new Object[] {
+						"tt."+ept.toString().toLowerCase().replace("_", ".")},
+						new Object[] {
+						"Erlaubt alle Externe Booster ohne Spielerprefärenz in einer Liste zu sehen.",
+						"Allows you to see all external boosters without player preference in a list."});
+				break;
+			case EXTERNBOOSTER_LIST_SEE_OTHERPLAYER:
+				addComBypass("Bypass."+ept.toString(),
+						new Object[] {
+						"tt."+ept.toString().toLowerCase().replace("_", ".")},
+						new Object[] {
+						"Erlaubt alle Extener Booster einen bestimmten Spielers zu sehen.",
+						"Allows you to see all Extener boosters of a specific player."});
+				break;
+			case GROUP_CREATE:
+				addComBypass("Bypass."+ept.toString(),
+						new Object[] {
+						"tt."+ept.toString().toLowerCase().replace("_", ".")},
+						new Object[] {
+						"Erlaubt Gruppen zu erstellen ohnen TTExp zu zahlen.",
+						"Allows you to create groups without paying TTExp."});
+				break;
+			case GROUP_INCREASELEVEL:
+				addComBypass("Bypass."+ept.toString(),
+						new Object[] {
+						"tt."+ept.toString().toLowerCase().replace("_", ".")},
+						new Object[] {
+						"Erlaubt das Gruppenlevel von anderen Gruppen zu erhöhen, wo man kein Mitglied ist.",
+						"Allows you to increase the group level of other groups where you are not a member."});
+				break;
+			case GROUP_INFO:
+				addComBypass("Bypass."+ept.toString(),
+						new Object[] {
+						"tt."+ept.toString().toLowerCase().replace("_", ".")},
+						new Object[] {
+						"Erlaubt mehr Infos einer Gruppe einzusehen, ohne Mitglied zu sein.",
+						"Allows you to view more information about a group without being a member."});
+				break;
+			case GROUP_SETGRANDMASTER:
+				addComBypass("Bypass."+ept.toString(),
+						new Object[] {
+						"tt."+ept.toString().toLowerCase().replace("_", ".")},
+						new Object[] {
+						"Erlaubt einem, einen anderen oder fremden Spieler als Großmeister der Gruppe zu setzten.",
+						"Allows you to set another or foreign player as grandmaster of the group."});
+				break;
+			case SWITCHMODE_OTHERPLAYER:
+				addComBypass("Bypass."+ept.toString(),
+						new Object[] {
+						"tt."+ept.toString().toLowerCase().replace("_", ".")},
+						new Object[] {
+						"Erlaubt einen SwitchMode für andere Spieler zu setzten.",
+						"Allows you to set a SwitchMode for other players."});
+				break;
+			}
 		}
 		
 		List<Bypass.Counter> list2 = new ArrayList<Bypass.Counter>(EnumSet.allOf(Bypass.Counter.class));
@@ -1377,9 +1600,17 @@ public class YamlManager
 			{
 				continue;
 			}
-			commandsKeys.put("Count."+ept.toString()
-					, new Language(new ISO639_2B[] {ISO639_2B.GER}, new Object[] {
-					"tt."+ept.toString().toLowerCase().replace("_", ".")}));
+			switch(ept)
+			{
+			case REGISTER_BLOCK_:
+				addComBypass("Count."+ept.toString(),
+						new Object[] {
+						"tt."+ept.toString().toLowerCase().replace("_", ".")},
+						new Object[] {
+						"Die Ganzzahl hinter den letzten Punkt, setzt die Anzahl, wieviel Spezialblöcke (Öfen, Braustände etc.) der Spieler registrieren kann.",
+						"The integer after the last point sets the number of special blocks (furnace, brewing states etc.) the player can register."});
+				break;
+			}
 		}
 	}
 	
@@ -1504,6 +1735,7 @@ public class YamlManager
 						"&c✖",
 						"&c✖"}));
 		initCommandsLang();
+		initEventTranslation();
 		initBackgroundTaskLang();
 		initPlayerHandlerLang();
 		initBlockHandlerLang();
@@ -1526,6 +1758,14 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cDie Technologie %tech% existiert nicht!",
 						"&cThe %tech% technology does not exist!"}));
+		languageKeys.put(path+"Research.PlayernameNotFound", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu musst noch am Ende des Befehls den Spielernamen hinzufügen!",
+						"&cYou still have to add the player name at the end of the command!"}));
+		languageKeys.put(path+"Research.GroupnameNotFound", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu musst noch am Ende des Befehls den Gruppennamen hinzufügen!",
+						"&cYou still have to add the group name at the end of the command!"}));
 		languageKeys.put(path+"CheckPlacedBlocks.NoBlockInSight", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cDu schaust nur in die Luft! Und Luft kann man nicht setzten.",
@@ -2314,6 +2554,329 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cEs stehen keiner Bewerber aus!",
 						"&cThere are no applicants pending!"}));
+		languageKeys.put(path+"SwitchMode.NoSwitchMode",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cEs gibt keine SwitchModes!",
+						"&cThere are no SwitchModes!"}));
+		languageKeys.put(path+"SwitchMode.NotActive",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cSwitchModes sind nicht aktive!",
+						"&cSwitchModes are not active!"}));
+		languageKeys.put(path+"SwitchMode.NoSwitchMode",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cEs gibt keine SwitchModes!",
+						"&cThere are no SwitchModes!"}));
+		languageKeys.put(path+"SwitchMode.ListHeadline",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7=====&cMögliche SwitchModes&7=====",
+						"&7=====&cPossible switch modes&7====="}));
+		languageKeys.put(path+"SwitchMode.Type.Headline",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eFür deine Aktivitäten erhälst du:",
+						"&eFor your activities you will receive:"}));
+		languageKeys.put(path+"SwitchMode.Type.ttexp",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&bDu erhälst TTExp.",
+						"&bYou will receive TTExp."}));
+		languageKeys.put(path+"SwitchMode.Type.vanillaexp",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&bDu erhälst VanillaExp.",
+						"&bYou will receive VanillaExp."}));
+		languageKeys.put(path+"SwitchMode.Type.money",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&bDu erhälst Geld.",
+						"&bYou will receive money."}));
+		languageKeys.put(path+"SwitchMode.Type.drops",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&bDu erhälst Itemdrops.",
+						"&bYou will receive itemdrops."}));
+		languageKeys.put(path+"SwitchMode.Type.cmd",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&bDu erhälst Befehlsbelohnungen.",
+						"&bYou will receive commandreward."}));
+		languageKeys.put(path+"SwitchMode.Name",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&e%name%",
+						"&e%name%"}));
+		languageKeys.put(path+"SwitchMode.Comma",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&f, ",
+						"&f, "}));
+		languageKeys.put(path+"SwitchMode.NoFound",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cEs ist kein SwitchMode mit %value% gefunden worden!",
+						"&cNo SwitchMode with %value% was found!"}));
+		languageKeys.put(path+"SwitchMode.HaveAlready",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDen ausgewählten SwitchMode ist bereits aktiv!",
+						"&cThe selected SwitchMode is already active!"}));
+		languageKeys.put(path+"SwitchMode.NoRights",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu hast nicht die Rechte diesen SwitchMode auszuwählen!",
+						"&cYou do not have the rights to select this SwitchMode!"}));
+		languageKeys.put(path+"SwitchMode.Set",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer SwitchMode &f%name% &ewurde ausgewählt!",
+						"&eThe SwitchMode &f%name% &ehas been selected!"}));
+		languageKeys.put(path+"SwitchMode.NotSwitchModeNullForAll",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu kannst nicht für alle Spieler den SwitchMode (null) zurücksetzten!",
+						"&cYou cannot reset the SwitchMode (null) for all players!"}));
+		languageKeys.put(path+"SwitchMode.OnCooldown",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu kannst momentan deinen SwitchMode nicht ändern. Cooldown bis &f%time%&c.",
+						"&cYou cannot currently change your SwitchMode. Cooldown until &f%time%&c."}));
+		languageKeys.put(path+"SwitchMode.SetAll",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer SwitchMode %name% wurde für alle Spieler gesetzt!",
+						"&eThe SwitchMode %name% has been set for all players!"}));
+		languageKeys.put(path+"SwitchMode.SetPlayer",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer SwitchMode &f%name% &ewurde für den Spieler %player% ausgewählt!",
+						"&eThe SwitchMode &f%name% &was selected for the player %player%!"}));
+		languageKeys.put(path+"ExternBooster.Add.NoEventType",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDer EventType %value% existiert nicht!",
+						"&cThe EventType %value% does not exist!"}));
+		languageKeys.put(path+"ExternBooster.Add.NoPlayerAssociatedType",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDer PlayerAssociatedType %value% existiert nicht!",
+						"&cThe PlayerAssociatedType %value% does not exist!"}));
+		languageKeys.put(path+"ExternBooster.Add.NoTiming",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDie Zeitwerte sind nicht im Format &f..d-..H-..m&c!",
+						"&cThe time values are not in the format &f..d-..H-..m&c!"}));
+		languageKeys.put(path+"ExternBooster.Add.NeedAnArgument", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cBooster für Spieler oder Gruppen brauchen ein zusätzliches Argument!",
+						"&cBoosters for players or groups need an additional argument!"}));
+		languageKeys.put(path+"ExternBooster.Add.GroupDontExist", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDie Gruppe mit dem Namen %value% existiert nicht!",
+						"&cThe group with the name %value% does not exist!"}));
+		languageKeys.put(path+"ExternBooster.Add.AssociatedConsole", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Konsole",
+						"Console"}));
+		languageKeys.put(path+"ExternBooster.Add.PermanentTime", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Für immer",
+						"Forever"}));
+		languageKeys.put(path+"ExternBooster.Add.Adding.Global", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7====================",
+						"&6Ein Booster wurde für alle freigeschaltet!",
+						"&eVerantwortlicher Spieler: &f%associatedplayer%",
+						"&bDauer: &f%time%",
+						"&cFaktor: &f%factor%",
+						"&cEvent: &f%event%",
+						"&7===================="}));
+		languageKeys.put(path+"ExternBooster.Add.Adding.Group", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7====================",
+						"&6Ein Booster wurde für die Gruppe %group% freigeschaltet!",
+						"&eVerantwortlicher Spieler: &f%associatedplayer%",
+						"&bDauer: &f%time%",
+						"&cFaktor: &f%factor%",
+						"&cEvent: &f%event%",
+						"&7===================="}));
+		languageKeys.put(path+"ExternBooster.Add.Adding.Solo", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7====================",
+						"&6Ein Booster wurde für den Spieler %player% freigeschaltet!",
+						"&eVerantwortlicher Spieler: &f%associatedplayer%",
+						"&bDauer: &f%time%",
+						"&cFaktor: &f%factor%",
+						"&cEvent: &f%event%",
+						"&7===================="}));
+		languageKeys.put(path+"ExternBooster.Remove.NoExist",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDer Externe Booster mit der ID %id% existiert nicht!",
+						"&cThe ExternBooster with the ID %id% does not exist!"}));
+		languageKeys.put(path+"ExternBooster.Remove.Removed",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&eDer Externe Booster %id%/%name% wurde gelöscht!",
+						"&eThe external booster %id%/%name% has been deleted!"}));
+		languageKeys.put(path+"ExternBooster.List.Headline1",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7===&eExtern Booster Seite %page%&7===",
+						"&7===&eExtern Booster Page %page%&7==="}));
+		languageKeys.put(path+"ExternBooster.List.Headline2",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7===&eExtern Booster von %player% &f| &eSeite %page%&7===",
+						"&7===&eExtern Booster of %player% &f| &ePage %page%&7==="}));
+		languageKeys.put(path+"ExternBooster.List.PlayerNotOnline",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cAchtung! Der Spieler %player% ist nicht online, somit können Globale Externe Booster mit Permission mit angezeigt werden!",
+						"&cAttention! The player %player% is not online, so global external boosters with permission can also be displayed!"}));
+		languageKeys.put(path+"ExternBooster.List.Hover.EventType",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cEventType: &f%eventtype%",
+						"&cEventType: &f%eventtype%"}));
+		languageKeys.put(path+"ExternBooster.List.Hover.PlayerAssociatedType",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cPlayerAssociatedType: &f%pat%",
+						"&cPlayerAssociatedType: &f%pat%"}));
+		languageKeys.put(path+"ExternBooster.List.Hover.Factor",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cFaktor: &f%factor%",
+						"&cFactor: &f%factor%"}));
+		languageKeys.put(path+"ExternBooster.List.Hover.ExpiryDate",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cAuslaufdatum: &f%expirydate%",
+						"&cExpiryDate: &f%expirydate%"}));
+		languageKeys.put(path+"ExternBooster.List.Hover.Permission",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cPermission: &f%perm%",
+						"&cPermission: &f%perm%"}));
+		languageKeys.put(path+"ExternBooster.List.Hover.Group",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cGruppe: &f%group%",
+						"&cGroup: &f%group%"}));
+		languageKeys.put(path+"ExternBooster.List.Hover.Player",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cSpieler: &f%player%",
+						"&cPlayer: &f%player%"}));
+		languageKeys.put(path+"Info.Payment.Headline",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&7===&eInfo Payment &f%value% &eAnzahl 1&7===",
+						"&7===&eInfo Payment &f%value% &eAmount 1&7==="}));
+		languageKeys.put(path+"Info.Payment.Info",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"    &7Wert * Booster = Total",
+						"    &7Value * Booster = Total"}));
+		languageKeys.put(path+"Info.Payment.TTExp",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"    &bTTExp &e%value% * %externbooster% = %total%",
+						"    &bTTExp &e%value% * %externbooster% = %total%"}));
+		languageKeys.put(path+"Info.Payment.VanillaExp",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"    &bVanillaExp &e%value% * %externbooster% = %total%",
+						"    &bVanillaExp &e%value% * %externbooster% = %total%"}));
+		languageKeys.put(path+"Info.Payment.Money",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"    &e%value% * %externbooster% = %total%",
+						"    &e%value% * %externbooster% = %total%"}));
+		languageKeys.put(path+"Info.Payment.Command",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"    &bCmd &f'%cmd%' &e%value% * %externbooster% = %total%",
+						"    &bCmd &f'%cmd%' * %externbooster% = %total%"}));
+	}
+	
+	private void initEventTranslation() //INFO:EventTranslation
+	{
+		String path = "Events.";
+		languageKeys.put(path+"All", new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Alle",
+						"All"}));
+		languageKeys.put(path+EventType.BREAKING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Abbauen",
+						"Breaking"}));
+		languageKeys.put(path+EventType.BREEDING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Züchten",
+						"Breeding"}));
+		languageKeys.put(path+EventType.BREWING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Brauen",
+						"Brewing"}));
+		languageKeys.put(path+EventType.BUCKET_EMPTYING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Eimer leeren",
+						"Bucket emptying"}));
+		languageKeys.put(path+EventType.BUCKET_FILLING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Eimer füllen",
+						"Bucket filling"}));
+		languageKeys.put(path+EventType.COLD_FORGING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Kaltschmieden",
+						"Cold forging"}));
+		languageKeys.put(path+EventType.COMPOSTING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Kompostieren",
+						"Composting"}));
+		languageKeys.put(path+EventType.COOKING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Kochen",
+						"Cooking"}));
+		languageKeys.put(path+EventType.CRAFTING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Herstellen",
+						"Crafting"}));
+		languageKeys.put(path+EventType.CREATE_PATH.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Pfade bauen",
+						"Create path"}));
+		languageKeys.put(path+EventType.DEBARKING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Entrinden",
+						"Debarking"}));
+		languageKeys.put(path+EventType.DRYING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Trocknen",
+						"Drying"}));
+		languageKeys.put(path+EventType.DYING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Sterben",
+						"Dying"}));
+		languageKeys.put(path+EventType.ENCHANTING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Verzaubern",
+						"Enchanting"}));
+		languageKeys.put(path+EventType.EXPLODING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Explodieren",
+						"Exploding"}));
+		languageKeys.put(path+EventType.FERTILIZING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Düngen",
+						"Fertilizing"}));
+		languageKeys.put(path+EventType.FISHING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Fischen",
+						"Fishing"}));
+		languageKeys.put(path+EventType.GRINDING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Schleifen",
+						"Grinding"}));
+		languageKeys.put(path+EventType.HARMING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Verletzen",
+						"Harming"}));
+		languageKeys.put(path+EventType.HARVESTING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Ernten",
+						"Harvesting"}));
+		languageKeys.put(path+EventType.IGNITING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Zünden",
+						"Igniting"}));
+		languageKeys.put(path+EventType.INTERACT.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Interagieren",
+						"Interact"}));
+		languageKeys.put(path+EventType.ITEM_BREAKING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Item zerbrechen",
+						"Item breaking"}));
+		languageKeys.put(path+EventType.ITEM_CONSUME.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Konsumieren",
+						"Item cosume"}));
+		languageKeys.put(path+EventType.KILLING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Töten",
+						"Killing"}));
+		languageKeys.put(path+EventType.MELTING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Durchglühen",
+						"Melting"}));
+		languageKeys.put(path+EventType.MILKING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Melken",
+						"Milking"}));
+		languageKeys.put(path+EventType.PLACING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Bauen",
+						"Placing"}));
+		languageKeys.put(path+EventType.RENAMING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Umbenennen",
+						"Renaming"}));
+		languageKeys.put(path+EventType.SHEARING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Scheren",
+						"Shearing"}));
+		languageKeys.put(path+EventType.SHEEP_DYE.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Schafe färben",
+						"Sheep dye"}));
+		languageKeys.put(path+EventType.SMELTING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Schmelzen",
+						"Smelting"}));
+		languageKeys.put(path+EventType.SMITHING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Schmieden",
+						"Smithing"}));
+		languageKeys.put(path+EventType.SMOKING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Räuchern",
+						"Smoking"}));
+		languageKeys.put(path+EventType.STONECUTTING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Steinschneiden",
+						"Stonecutting"}));
+		languageKeys.put(path+EventType.TAMING.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Zähmen",
+						"Taming"}));
 	}
 	
 	private void initBackgroundTaskLang() //INFO:BackgroundTaskLang
@@ -2420,6 +2983,10 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&eDu hast für die Technologie %tech% gevoted. &7Anmerkung: Die Kosten werden dir zum Teil wiedererstattet, wenn die Technologiewahl stattfindet. Die Erstattungsmenge hängt von der Anzahl der Wahlteilnehmer ab. Bei 10 Teilnehmer, zahl man nur 1/10 der Kosten.",
 						"&eYou have voted for the technology %tech%. &7Note: The costs will be partially refunded to you when the technology poll takes place. The refund amount depends on the number of voters. With 10 participants, you only pay 1/10 of the costs."}));
+		languageKeys.put(path+"SwitchMode.Switched", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu hattest nicht mehr die Rechte für deinen alten SwitchMode %old%. &eSwitchmodewechsel zu %new%!",
+						"&cYou no longer had the rights for your old SwitchMode %old%. &eSwitchmode change to %new%!"}));
 	}
 	
 	public void initBlockHandlerLang() //INFO:BlockHandlerLang
@@ -2651,38 +3218,14 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&f%money%",
 						"&f%money%"}));
+		languageKeys.put(path+"SwitchMode.isActive.NoChoosen", 
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cAchtung! Der SwitchMode ist für die Belohnungen der Technologien aktiviert! Bitte wähle einen Modus aus, denn sonst erhälst du keine Belohnungen! Klicke hier für eine Übersicht!",
+						"&cAttention! The SwitchMode is activated for the rewards of the technologies! Please select a mode, otherwise you will not receive any rewards! Click here for an overview!"}));
 	}
 	
 	public void initModifierValueEntryLanguage() //INFO:ModifierValueEntryLanguages
 	{
-		mvelanguageKeys.put(Bypass.Permission.SEE_MAIN_CATEGORYS.toString()+".Displayname",
-				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&eByasspermission um alle Hauptkategorien zu sehen.",
-						"&eBypasspermission to see all maincategories."}));
-		mvelanguageKeys.put(Bypass.Permission.SEE_MAIN_CATEGORYS.toString()+".Explanation",
-				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&eByasspermission für",
-						"&edas Plugin TechnologyTree.",
-						"&eErmöglich das Sehen aller",
-						"&eHauptkategorien.",
-						"&eBypasspermission for",
-						"&ethe plugin TechnologyTree.",
-						"&eAllows you to see all",
-						"&ethe main categories."}));
-		mvelanguageKeys.put(Bypass.Permission.SEE_SUB_CATEGORYS.toString()+".Displayname",
-				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&eByasspermission um alle Unterkategorien zu sehen.",
-						"&eBypasspermission to see all subcategories."}));
-		mvelanguageKeys.put(Bypass.Permission.SEE_SUB_CATEGORYS.toString()+".Explanation",
-				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&eByasspermission für",
-						"&edas Plugin TechnologyTree.",
-						"&eErmöglich das Sehen aller",
-						"&eUnterkategorien.",
-						"&eBypasspermission for",
-						"&ethe plugin TechnologyTree.",
-						"&eAllows you to see all",
-						"&ethe sub categories."}));
 		mvelanguageKeys.put(Bypass.Counter.REGISTER_BLOCK_.toString()+".Displayname",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&eZählpermission für die Registrierung von Blöcken.",

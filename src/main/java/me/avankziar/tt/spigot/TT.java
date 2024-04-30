@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -44,12 +45,19 @@ import main.java.me.avankziar.tt.spigot.cmd.TechGuiCommandExecutor;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckPlacedBlocks;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGExp;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGExternBooster;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGGiveItem;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGGroup;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGInfo;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGReload;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGResearch;
+import main.java.me.avankziar.tt.spigot.cmd.tt.ARGSwitchMode;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGTechInfo;
 import main.java.me.avankziar.tt.spigot.cmd.tt.exp.ARGExp_Add;
 import main.java.me.avankziar.tt.spigot.cmd.tt.exp.ARGExp_Set;
+import main.java.me.avankziar.tt.spigot.cmd.tt.externbooster.ARGExternBooster_Add;
+import main.java.me.avankziar.tt.spigot.cmd.tt.externbooster.ARGExternBooster_List;
+import main.java.me.avankziar.tt.spigot.cmd.tt.externbooster.ARGExternBooster_Remove;
 import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_Application;
 import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_Application_Accept;
 import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_Application_Deny;
@@ -74,6 +82,7 @@ import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_SetDescription;
 import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_SetGrandMaster;
 import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_SetIndividualUpkeep;
 import main.java.me.avankziar.tt.spigot.cmd.tt.group.ARGGroup_SetPrivileges;
+import main.java.me.avankziar.tt.spigot.cmd.tt.info.ARGInfo_Payment;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
@@ -94,6 +103,7 @@ import main.java.me.avankziar.tt.spigot.handler.GroupHandler;
 import main.java.me.avankziar.tt.spigot.handler.PlayerHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
+import main.java.me.avankziar.tt.spigot.handler.SwitchModeHandler;
 import main.java.me.avankziar.tt.spigot.hook.PAPIHook;
 import main.java.me.avankziar.tt.spigot.listener.BlockFormListener;
 import main.java.me.avankziar.tt.spigot.listener.JoinQuitListener;
@@ -128,9 +138,12 @@ import main.java.me.avankziar.tt.spigot.listener.reward.TameListener;
 import main.java.me.avankziar.tt.spigot.modifiervalueentry.Bypass;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.objects.GroupPrivilege;
+import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
 import main.java.me.avankziar.tt.spigot.objects.RewardType;
+import main.java.me.avankziar.tt.spigot.objects.ToolType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
 import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
+import main.java.me.avankziar.tt.spigot.objects.ram.misc.SwitchMode;
 
 public class TT extends JavaPlugin
 {
@@ -210,6 +223,8 @@ public class TT extends JavaPlugin
 		RecipeHandler.init();
 		CatTechHandler.reload();
 		ConfigHandler.init();
+		SwitchModeHandler.init();
+		BreakPlaceInteractListener.init();
 		
 		setupBypassPerm();
 		setupCommandTree();
@@ -303,6 +318,19 @@ public class TT extends JavaPlugin
 		LinkedHashMap<Integer, ArrayList<String>> playerMapIII = new LinkedHashMap<>();
 		playerMapIII.put(3, players);
 		
+		LinkedHashMap<Integer, ArrayList<String>> addExternBooster = new LinkedHashMap<>();
+		ArrayList<String> eventType = new ArrayList<>();
+		for(EventType et : EventType.values())
+		{
+			eventType.add(et.toString());
+		}
+		addExternBooster.put(3, eventType);
+		addExternBooster.put(4, new ArrayList<String>(Arrays.asList(PlayerAssociatedType.GLOBAL.toString(), PlayerAssociatedType.GROUP.toString(), PlayerAssociatedType.SOLO.toString())));
+		addExternBooster.put(5, new ArrayList<String>(Arrays.asList("<Factor(double)>")));
+		addExternBooster.put(6, new ArrayList<String>(Arrays.asList("-1", "00d-00H-00m")));
+		addExternBooster.put(7, new ArrayList<String>(Arrays.asList("[permission]", "[group]", "[playername]")));
+		addExternBooster.put(8, new ArrayList<String>(Arrays.asList("[associateplayer]")));
+		
 		ArrayList<String> groups = new ArrayList<>();
 		for(GroupData gd : GroupData.convert(plugin.getMysqlHandler().getFullList(
 				MysqlHandler.Type.GROUP_DATA, "`group_name` ASC", "`id` > ?", 0)))
@@ -345,6 +373,16 @@ public class TT extends JavaPlugin
 		privilegesMap.put(2, players);
 		privilegesMap.put(3, groupprivileges);
 		
+		LinkedHashMap<Integer, ArrayList<String>> infoPaymentMap = new LinkedHashMap<>();
+		ArrayList<String> matEnt = new ArrayList<>();
+		Arrays.asList(Material.values()).stream().forEach(x -> matEnt.add(x.toString()));
+		Arrays.asList(EntityType.values()).stream().forEach(x -> matEnt.add(x.toString()));
+		Collections.sort(matEnt);
+		infoPaymentMap.put(2, matEnt);
+		ArrayList<String> tools = new ArrayList<>();
+		Arrays.asList(ToolType.values()).stream().forEach(x -> tools.add(x.toString()));
+		infoPaymentMap.put(3, tools);
+		
 		LinkedHashMap<Integer, ArrayList<String>> techMapI = new LinkedHashMap<>();
 		ArrayList<String> techList = new ArrayList<>();
 		for(String ts : CatTechHandler.technologyMapSolo.keySet())
@@ -361,6 +399,26 @@ public class TT extends JavaPlugin
 		}
 		techMapI.put(1, techList);
 		
+		LinkedHashMap<Integer, ArrayList<String>> researchMap = new LinkedHashMap<>();
+		researchMap.put(1, techList);
+		ArrayList<String> playerGroup = new ArrayList<>();
+		playerGroup.addAll(players);
+		playerGroup.addAll(groups);
+		researchMap.put(2, playerGroup);
+		
+		LinkedHashMap<Integer, ArrayList<String>> switchMode = new LinkedHashMap<>();
+		ArrayList<String> sMode = new ArrayList<>();
+		sMode.add("null");
+		ArrayList<String> playersA = new ArrayList<>();
+		playersA.add("-a");
+		playersA.addAll(players);
+		for(SwitchMode sm : SwitchModeHandler.switchMode.values())
+		{
+			sMode.add(sm.name);
+		}
+		switchMode.put(1, sMode);
+		switchMode.put(2, playersA);
+		
 		ArgumentConstructor checkeventaction = new ArgumentConstructor(CommandExecuteType.TT_CHECKEVENTACTION,
 													"tt_checkeventaction", 0, 0, 0, false, null);
 		new ARGCheckEventAction(checkeventaction);
@@ -369,10 +427,6 @@ public class TT extends JavaPlugin
 		new ARGCheckPlacedBlocks(checkplacedblocks);
 		ArgumentConstructor giveitem = new ArgumentConstructor(CommandExecuteType.TT_GIVEITEM, "tt_giveitem", 0, 2, 2, false, null);
 		new ARGGiveItem(giveitem);
-		ArgumentConstructor reload = new ArgumentConstructor(CommandExecuteType.TT_RELOAD, "tt_reload", 0, 0, 0, false, null);
-		new ARGReload(reload);
-		ArgumentConstructor techinfo = new ArgumentConstructor(CommandExecuteType.TT_TECHINFO, "tt_techinfo", 0, 1, 2, false, techMapI);
-		new ARGTechInfo(techinfo);
 		
 		ArgumentConstructor exp_add = new ArgumentConstructor(CommandExecuteType.TT_EXP_ADD, "tt_exp_add", 1, 3, 3, false, playerMapII);
 		new ARGExp_Add(exp_add);
@@ -381,6 +435,19 @@ public class TT extends JavaPlugin
 		ArgumentConstructor exp = new ArgumentConstructor(CommandExecuteType.TT_EXP, "tt_exp", 0, 0, 0, false, null,
 				exp_add, exp_set);
 		new ARGExp(exp);
+		
+		ArgumentConstructor exb_add = new ArgumentConstructor(CommandExecuteType.TT_EXTERNBOOSTER_ADD,
+																"tt_externbooster_add", 1, 6, 8, true, addExternBooster);
+		new ARGExternBooster_Add(exb_add);
+		ArgumentConstructor exb_list = new ArgumentConstructor(CommandExecuteType.TT_EXTERNBOOSTER_LIST,
+																"tt_externbooster_list", 1, 1, 3, true, null);
+		new ARGExternBooster_List(exb_list);
+		ArgumentConstructor exb_remove = new ArgumentConstructor(CommandExecuteType.TT_EXTERNBOOSTER_REMOVE,
+																"tt_externbooster_remove", 1, 2, 2, true, null);
+		new ARGExternBooster_Remove(exb_remove);
+		ArgumentConstructor externbooster = new ArgumentConstructor(CommandExecuteType.TT_EXTERNBOOSTER, "tt_externbooster", 0, 0, 0, true, null,
+				exb_add, exb_list, exb_remove);
+		new ARGExternBooster(externbooster);
 		
 		ArgumentConstructor gr_app_accept = new ArgumentConstructor(CommandExecuteType.TT_GROUP_APPLICATION_ACCEPT,
 				"tt_group_application_accept", 2, 3, 3, false, playerMapIII);
@@ -463,8 +530,23 @@ public class TT extends JavaPlugin
 				gr_setindividualupkeep, gr_setprivileges);
 		new ARGGroup(group);
 		
+		ArgumentConstructor info_payment = new ArgumentConstructor(CommandExecuteType.TT_INFO_PAYMENT, "tt_info_payment", 1, 1, 3, false, infoPaymentMap);
+		new ARGInfo_Payment(info_payment);
+		ArgumentConstructor info = new ArgumentConstructor(CommandExecuteType.TT_INFO, "tt_info", 0, 0, 0, false, null,
+				info_payment);
+		new ARGInfo(info);
+		
+		ArgumentConstructor reload = new ArgumentConstructor(CommandExecuteType.TT_RELOAD, "tt_reload", 0, 0, 0, false, null);
+		new ARGReload(reload);
+		ArgumentConstructor research = new ArgumentConstructor(CommandExecuteType.TT_RESEARCH, "tt_research", 0, 1, 2, false, researchMap);
+		new ARGResearch(research);
+		ArgumentConstructor switchmode = new ArgumentConstructor(CommandExecuteType.TT_SWITCHMODE, "tt_switchmode", 0, 0, 2, true, switchMode);
+		new ARGSwitchMode(research);	
+		ArgumentConstructor techinfo = new ArgumentConstructor(CommandExecuteType.TT_TECHINFO, "tt_techinfo", 0, 1, 2, false, techMapI);
+		new ARGTechInfo(techinfo);
+		
 		CommandConstructor tt = new CommandConstructor(CommandExecuteType.TT, "tt", false,
-				checkeventaction, checkplacedblocks, exp, giveitem, group, reload, techinfo);
+				checkeventaction, checkplacedblocks, exp, externbooster, giveitem, group, info, reload, research, switchmode, techinfo);
 		registerCommand(tt.getPath(), tt.getName());
 		getCommand(tt.getName()).setExecutor(new TTCommandExecutor(plugin, tt));
 		getCommand(tt.getName()).setTabCompleter(tab);
@@ -707,6 +789,8 @@ public class TT extends JavaPlugin
 			PlayerHandler.joinPlayer(player);
 		}
 		log.info("Reload complete!");
+		SwitchModeHandler.init();
+		BreakPlaceInteractListener.init();
 		return true;
 	}
 	

@@ -4,11 +4,19 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.UUID;
+
+import org.bukkit.Bukkit;
 
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
+import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
+import main.java.me.avankziar.tt.spigot.handler.PlayerHandler;
+import main.java.me.avankziar.tt.spigot.objects.EventType;
+import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
+import main.java.me.avankziar.tt.spigot.objects.mysql.UpdateTech;
 
 public class Utility
 {
@@ -115,5 +123,26 @@ public class Utility
 	    {
 	    	return 0;
 	    }
+	}
+	
+	public static void toUpdate(ArrayList<UUID> uuids)
+	{
+		for(UUID uuid : uuids)
+		{
+			if(Bukkit.getPlayer(uuid) != null)
+			{
+				PlayerHandler.quitPlayer(uuid);
+				PlayerHandler.joinPlayer(Bukkit.getPlayer(uuid));
+			} else
+			{
+				UpdateTech ut = new UpdateTech(0, uuid, PlayerAssociatedType.SOLO, null, 0, 0);
+				plugin.getMysqlHandler().create(Type.UPDATE_TECH, ut);
+			}
+		}
+	}
+	
+	public static String tlEventType(EventType eventType)
+	{
+		return plugin.getYamlHandler().getLang().getString("Events."+eventType.toString());
 	}
 }

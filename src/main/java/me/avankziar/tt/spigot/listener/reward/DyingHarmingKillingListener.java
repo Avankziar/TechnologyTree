@@ -226,6 +226,10 @@ public class DyingHarmingKillingListener implements Listener
 		{
 			return;
 		}
+		if(returnIfEntityFromSpawner(event.getEntity()))
+		{
+			return;
+		}
 		if(!ConfigHandler.GAMERULE_UseVanillaExpDrops)
 		{
 			event.setDroppedExp(0);
@@ -233,10 +237,6 @@ public class DyingHarmingKillingListener implements Listener
 		if(!ConfigHandler.GAMERULE_UseVanillaItemDrops)
 		{
 			event.getDrops().clear();
-		}
-		if(returnIfEntityFromSpawner(event.getEntity()))
-		{
-			return;
 		}
 		if(damageMap.containsKey(event.getEntity().getUniqueId()))
 		{
@@ -261,7 +261,7 @@ public class DyingHarmingKillingListener implements Listener
 						if(Bukkit.getPlayer(entry.getKey()) != null)
 						{
 							ARGCheckEventAction.checkEventAction(Bukkit.getPlayer(entry.getKey()), "KILLING:REWARD",
-									KI, ToolType.HAND, null, null, Material.AIR);
+									KI, tool, null, null, Material.AIR);
 							for(ItemStack is : RewardHandler.getDrops(Bukkit.getPlayer(entry.getKey()), KI, tool, null, ent))
 							{
 								Player player = Bukkit.getPlayer(entry.getKey());
@@ -284,7 +284,7 @@ public class DyingHarmingKillingListener implements Listener
 				public void run()
 				{
 					ARGCheckEventAction.checkEventAction(player, "KILLING:REWARD",
-							KI, ToolType.HAND, null, null, Material.AIR);
+							KI, tool, null, null, Material.AIR);
 					for(ItemStack is : RewardHandler.getDrops(player, KI, tool, null, ent))
 					{
 						ItemHandler.dropItem(is, player, loc);

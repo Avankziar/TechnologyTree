@@ -337,6 +337,48 @@ public class GroupHandler
 		}
 	}
 	
+	public static void sendMembersText(String groupname, ArrayList<String> txt, UUID...uuid)
+	{
+		ArrayList<UUID> l = new ArrayList<>();
+		ArrayList<String> already = new ArrayList<>();
+		for(UUID ui : uuid)
+		{
+			Player p = Bukkit.getPlayer(ui);
+			if(p != null)
+			{
+				for(String s : txt)
+				{
+					p.sendMessage(ChatApi.tl(s));
+				}
+				already.add(ui.toString());
+			} else
+			{
+				l.add(ui);
+			}
+		}
+		for(GroupPlayerAffiliation ga : GroupHandler.getAllAffiliateGroup(groupname))
+		{
+			Player m = Bukkit.getPlayer(ga.getPlayerUUID());
+			if(!already.contains(ga.getPlayerUUID().toString()) && ga.getRank().getRank() < 5)
+			{
+				if(m != null)
+				{
+					for(String s : txt)
+					{
+						m.sendMessage(ChatApi.tl(s));
+					}
+				} else
+				{
+					l.add(ga.getPlayerUUID());
+				}
+			}
+		}
+		if(plugin.getMessageToBungee() != null && !l.isEmpty())
+		{
+			plugin.getMessageToBungee().sendMessage(l, txt.toArray(new String[txt.size()]));
+		}
+	}
+	
 	public static void sendMemberText(UUID uuid, String txt)
 	{
 		if(Bukkit.getPlayer(uuid) != null)

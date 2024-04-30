@@ -206,4 +206,19 @@ public class ConfigHandler
 	{
 		return plugin.getYamlHandler().getConfig().getBoolean("Gamerule.Drops.BreakingThroughVanillaDropBarrier", true);
 	}
+	
+	public String getSwitchModeCooldownNormalPlayer()
+	{
+		return plugin.getYamlHandler().getConfig().getString("SwitchMode.Cooldown.NormalPlayer", "14d-0H-0m-0s");
+	}
+	
+	public String getSwitchModeCooldownVIP()
+	{
+		return plugin.getYamlHandler().getConfig().getString("SwitchMode.Cooldown.VIP", "1d-0H-0m-0s");
+	}
+	
+	public String getSwitchModeCooldownVIPPermission()
+	{
+		return plugin.getYamlHandler().getConfig().getString("SwitchMode.Cooldown.VIPPermission", "tt.switchmode.cooldown");
+	}
 }

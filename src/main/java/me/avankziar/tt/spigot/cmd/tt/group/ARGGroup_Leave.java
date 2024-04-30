@@ -67,6 +67,7 @@ public class ARGGroup_Leave extends ArgumentModule
 				return;
 			}
 			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.Leave.GroupClose")));
+			plugin.getMysqlHandler().deleteData(Type.EXTERN_BOOSTER, "`group_name` = ?", gd.getGroupName());
 			plugin.getMysqlHandler().deleteData(Type.GROUP_PLAYERAFFILIATION, "`id` = ?", gpa.getId());
 			plugin.getMysqlHandler().deleteData(Type.GROUP_DATA, "`id` = ?", gd.getId());
 		} else

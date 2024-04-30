@@ -43,6 +43,7 @@ import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
 import main.java.me.avankziar.tt.spigot.objects.TechnologyType;
 import main.java.me.avankziar.tt.spigot.objects.ToolType;
+import main.java.me.avankziar.tt.spigot.objects.mysql.ExternBooster;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalEntryQueryStatus;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalTechnologyPoll;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
@@ -55,6 +56,7 @@ import main.java.me.avankziar.tt.spigot.objects.ram.misc.MainCategory;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.SimpleDropChance;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.SimpleUnlockedInteraction;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.SubCategory;
+import main.java.me.avankziar.tt.spigot.objects.ram.misc.SwitchMode;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.Technology;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.UnlockableInteraction;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -78,6 +80,8 @@ public class PlayerHandler
 	public static LinkedHashMap<UUID, LinkedHashMap<Material, ArrayList<String>>> enchantmentMap = new LinkedHashMap<>();
 	
 	public static LinkedHashMap<UUID, LinkedHashMap<BlockType, ArrayList<String>>> registeredBlocks = new LinkedHashMap<>();//UUID, BlockType, Location as Text
+	
+	public static LinkedHashMap<UUID, LinkedHashMap<EventType, Double>> externBoosterMap = new LinkedHashMap<>();
 	
 	public final static String 
 		TECHLEVEL = "techlev",
@@ -103,6 +107,7 @@ public class PlayerHandler
 		recipeMap = new LinkedHashMap<>();
 		enchantmentOffer = new LinkedHashMap<>();
 		enchantmentMap = new LinkedHashMap<>();
+		externBoosterMap = new LinkedHashMap<>();
 		registeredBlocks = new LinkedHashMap<>();
 	}
 	
@@ -129,6 +134,8 @@ public class PlayerHandler
 				enchantmentOffer.remove(uuid);
 				enchantmentMap.remove(uuid);
 				
+				externBoosterMap.remove(uuid);
+				
 				registeredBlocks.remove(uuid);
 				
 				if(!hasAccount(player))
@@ -149,6 +156,7 @@ public class PlayerHandler
 				{
 					ImportJobsReborn.importJobsReborn(player, pd);
 				}
+				plugin.getMysqlHandler().deleteData(Type.UPDATE_TECH, "`player_uuid` = ?", uuid.toString());
 				if(plugin.getMysqlHandler().exist(MysqlHandler.Type.GLOBAL_TECHNOLOGYPOLL, 
 						"`player_uuid` = ? AND `processed_in_repayment` = ?", player.getUniqueId().toString(), true))
 				{
@@ -344,7 +352,32 @@ public class PlayerHandler
 						addEnchantments(uuid, t.getRewardEnchantments().get(eqs.getResearchLevel()),
 								ifGlobal_HasParticipated ? 100.0 : t.getForUninvolvedPollParticipants_RewardEnchantmentsInPercent());
 					}
-				}		
+				}
+				ArrayList<ExternBooster> externBooster = new ArrayList<>();
+				externBooster.addAll(ExternBooster.convert(plugin.getMysqlHandler().getFullList(Type.EXTERN_BOOSTER, "`id` ASC",
+						"`player_associated_type` = ?", PlayerAssociatedType.GLOBAL.toString())));
+				if(GroupHandler.isInGroup(uuid))
+				{
+					GroupData gd = GroupHandler.getGroup(player);
+					if(gd != null)
+					{
+						externBooster.addAll(ExternBooster.convert(plugin.getMysqlHandler().getFullList(Type.EXTERN_BOOSTER, "`id` ASC",
+								"`player_associated_type` = ? AND `group_name` = ?", PlayerAssociatedType.GROUP.toString(), gd.getGroupName())));
+					}					
+				}
+				externBooster.addAll(ExternBooster.convert(plugin.getMysqlHandler().getFullList(Type.EXTERN_BOOSTER, "`id` ASC",
+						"`player_associated_type` = ? AND `player_uuid` = ?", PlayerAssociatedType.SOLO.toString(), uuid.toString())));
+				for(ExternBooster ex : externBooster)
+				{
+					if(ex.getPlayerAssociatedType() == PlayerAssociatedType.GLOBAL)
+					{
+						if(ex.getPermission() != null && !player.hasPermission(ex.getPermission()))
+						{
+							continue;
+						}
+					}
+					addExternBooster(uuid, ex);
+				}
 				registeredBlocks.remove(uuid);
 				for(RegisteredBlock rg : RegisteredBlock.convert(plugin.getMysqlHandler().getFullList(Type.REGISTEREDBLOCK, "`id` ASC",
 						"`player_uuid` = ? AND `server` = ?", uuid.toString(), plugin.getServername())))
@@ -378,6 +411,19 @@ public class PlayerHandler
 						}
 					}.runTask(plugin);
 				}
+				if(SwitchModeHandler.isActive)
+				{
+					SwitchMode sw = SwitchModeHandler.getSwitchMode(pd.getSwitchMode());
+					String oldsw = sw.name;
+					if(sw.permission != null && !player.hasPermission(sw.permission))
+					{
+						sw = getSwitchMode(player);
+						String newsw = sw.name;
+						player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("PlayerHandler.SwitchMode.Switched")
+								.replace("%old%", oldsw)
+								.replace("%new%", newsw)));
+					}
+				}
 			}
 		}.runTaskAsynchronously(plugin);
 	}
@@ -408,13 +454,43 @@ public class PlayerHandler
 		return plugin.getMysqlHandler().exist(Type.PLAYERDATA, "`player_uuid` = ?", player.getUniqueId().toString());
 	}
 	
+	public static SwitchMode getSwitchMode(Player player)
+	{
+		SwitchMode swm = new SwitchMode("null");
+		if(SwitchModeHandler.isActive)
+		{
+			for(SwitchMode sm : SwitchModeHandler.switchMode.values())
+			{
+				if(sm.permission != null)
+				{
+					if(player.hasPermission(sm.permission))
+					{
+						swm = sm;
+						break;
+					}
+				} else
+				{
+					swm = sm;
+					break;
+				}
+			}
+		}
+		return swm;
+	}
+	
 	public static void createAccount(Player player)
 	{
+		SwitchMode swm = getSwitchMode(player);
 		PlayerData pd = new PlayerData(0, player.getUniqueId(), player.getName(), 
 				plugin.getYamlHandler().getConfig().getBoolean("Do.NewPlayer.ShowSyncMessage", true),
 				plugin.getYamlHandler().getConfig().getBoolean("Do.NewPlayer.ShowRewardMessage", true),
-				0, 0, 0, SettingsLevel.BASE);
+				0, 0, 0, SettingsLevel.BASE, swm.name, System.currentTimeMillis());
 		plugin.getMysqlHandler().create(Type.PLAYERDATA, pd);
+	}
+	
+	public static PlayerData getPlayer(String playername)
+	{		
+		return (PlayerData) plugin.getMysqlHandler().getData(Type.PLAYERDATA, "`player_name` = ?", playername);
 	}
 	
 	public static PlayerData getPlayer(UUID uuid)
@@ -2871,5 +2947,28 @@ public class PlayerHandler
 			map.put(entry.getKey(), l);
 			enchantmentMap.put(uuid, map);
 		}
+	}
+	
+	public static void addExternBooster(UUID uuid, ExternBooster ex)
+	{
+		LinkedHashMap<EventType, Double> map = new LinkedHashMap<>();
+		if(externBoosterMap.containsKey(uuid))
+		{
+			map = externBoosterMap.get(uuid);
+		}
+		double f = 0.0;
+		if(map.containsKey(ex.getEventType()))
+		{
+			f = map.get(ex.getEventType());
+		}
+		if(ex.getFactor() >= 1)
+		{
+			f += ex.getFactor();
+		} else 
+		{
+			f -= ex.getFactor();
+		}
+		map.put(ex.getEventType(), f);
+		externBoosterMap.put(uuid, map);
 	}
 }

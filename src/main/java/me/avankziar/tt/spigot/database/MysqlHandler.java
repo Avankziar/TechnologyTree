@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 
 import main.java.me.avankziar.tt.spigot.TT;
+import main.java.me.avankziar.tt.spigot.objects.mysql.ExternBooster;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalEntryQueryStatus;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalTechnologyPoll;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
@@ -34,7 +35,9 @@ public class MysqlHandler
 		GLOBAL_TECHNOLOGYPOLL("ttGlobal_TechnologyPoll", new GlobalTechnologyPoll()),
 		GLOBAL_ENTRYQUERYSTATUS("ttGlobal_EntryQueryStatus", new GlobalEntryQueryStatus()),
 		
-		UPDATE_TECH("ttUpdate_Tech", new UpdateTech());
+		UPDATE_TECH("ttUpdate_Tech", new UpdateTech()),
+		
+		EXTERN_BOOSTER("ttExtern_Booster", new ExternBooster());
 		
 		private Type(String value, Object object)
 		{

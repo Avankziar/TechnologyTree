@@ -23,6 +23,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.ifh.general.assistance.ChatApi;
 import main.java.me.avankziar.tt.spigot.TT;
+import main.java.me.avankziar.tt.spigot.assistance.TimeHandler;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
 import main.java.me.avankziar.tt.spigot.database.SQLiteHandler;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler;
@@ -42,7 +43,7 @@ public class BreakPlaceInteractListener implements Listener
 	final private static EventType BR = EventType.BREAKING;
 	final private static EventType PL = EventType.PLACING;
 	
-	static
+	/*static
 	{
 		String parse = new ConfigHandler().placedBlocksExpirationDate();
 		String[] split = parse.split("-");
@@ -65,6 +66,11 @@ public class BreakPlaceInteractListener implements Listener
 				EXPIRATION_DATE += Long.valueOf(split[3].substring(0, split[3].length()-1)) * 1000;
 			}
 		}
+	}*/
+	
+	public static void init()
+	{
+		EXPIRATION_DATE = TimeHandler.getTiming(new ConfigHandler().placedBlocksExpirationDate());
 	}
 	
 	@EventHandler

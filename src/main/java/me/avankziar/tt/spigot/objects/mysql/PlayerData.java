@@ -23,12 +23,14 @@ public class PlayerData implements MysqlHandable
 	private double totalReceivedTTExp; //TTExp die man insgesamt gehabt hat.
 	private int vanillaExpStillToBeObtained; //Wenn man nicht online ist und doch Vanilla Exp bekommt.
 	private SettingsLevel lastSettingLevel;
+	private String switchMode; //SwitchMode from SwitchModeHandler;
+	private long switchModeCooldown; //Cooldown when a new SwitchMode can be picked.
 	
 	public PlayerData(){}
 	
 	public PlayerData(int id, UUID uuid, String name, boolean showSyncMessage, boolean showRewardMessage,
 			double actualTTExp, double totalReceivedTTExp,
-			int vanillaExpStillToBeObtained, SettingsLevel lastSettingLevel)
+			int vanillaExpStillToBeObtained, SettingsLevel lastSettingLevel, String switchMode, long switchModeCooldown)
 			
 	{
 		setId(id);
@@ -40,6 +42,8 @@ public class PlayerData implements MysqlHandable
 		setTotalReceivedTTExp(totalReceivedTTExp);
 		setVanillaExpStillToBeObtained(vanillaExpStillToBeObtained);
 		setLastSettingLevel(lastSettingLevel);
+		setSwitchMode(switchMode);
+		setSwitchModeCooldown(switchModeCooldown);
 	}
 
 	public int getId()
@@ -132,6 +136,26 @@ public class PlayerData implements MysqlHandable
 		this.lastSettingLevel = lastSettingLevel;
 	}
 
+	public String getSwitchMode()
+	{
+		return switchMode;
+	}
+
+	public void setSwitchMode(String switchMode)
+	{
+		this.switchMode = switchMode;
+	}
+
+	public long getSwitchModeCooldown()
+	{
+		return switchModeCooldown;
+	}
+
+	public void setSwitchModeCooldown(long switchModeCooldown)
+	{
+		this.switchModeCooldown = switchModeCooldown;
+	}
+
 	@Override
 	public boolean create(Connection conn, String tablename)
 	{
@@ -139,8 +163,9 @@ public class PlayerData implements MysqlHandable
 		{
 			String sql = "INSERT INTO `" + tablename
 					+ "`(`player_uuid`, `player_name`, `show_sync_msg`, `show_reward_msg`,"
-					+ " `ttexp_actual`, `ttexp_total_received`, `vanilla_exp_still_to_be_obtained`, `lastSettingLevel`) " 
-					+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+					+ " `ttexp_actual`, `ttexp_total_received`, `vanilla_exp_still_to_be_obtained`, `lastSettingLevel`,"
+					+ " `switchmode`, `switchmode_cooldown`) " 
+					+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 	        ps.setString(1, getUUID().toString());
 	        ps.setString(2, getName());
@@ -150,6 +175,8 @@ public class PlayerData implements MysqlHandable
 	        ps.setDouble(6, getTotalReceivedTTExp());
 	        ps.setInt(7, getVanillaExpStillToBeObtained());
 	        ps.setString(8, getLastSettingLevel().toString());
+	        ps.setString(9, getSwitchMode());
+	        ps.setLong(10, getSwitchModeCooldown());
 	        int i = ps.executeUpdate();
 	        MysqlHandler.addRows(MysqlHandler.QueryType.INSERT, i);
 	        return true;
@@ -167,7 +194,8 @@ public class PlayerData implements MysqlHandable
 		{
 			String sql = "UPDATE `" + tablename
 				+ "` SET `player_uuid` = ?, `player_name` = ?, `show_sync_msg` = ?, `show_reward_msg` = ?,"
-				+ " `ttexp_actual` = ?, `ttexp_total_received` = ?, `vanilla_exp_still_to_be_obtained` = ?, `lastSettingLevel` = ?"
+				+ " `ttexp_actual` = ?, `ttexp_total_received` = ?, `vanilla_exp_still_to_be_obtained` = ?, `lastSettingLevel` = ?,"
+				+ " `switchmode` = ?, `switchmode_cooldown` = ?"
 				+ " WHERE "+whereColumn;
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, getUUID().toString());
@@ -178,7 +206,9 @@ public class PlayerData implements MysqlHandable
 	        ps.setDouble(6, getTotalReceivedTTExp());
 	        ps.setInt(7, getVanillaExpStillToBeObtained());
 	        ps.setString(8, getLastSettingLevel().toString());
-			int i = 9;
+	        ps.setString(9, getSwitchMode());
+	        ps.setLong(10, getSwitchModeCooldown());
+			int i = 11;
 			for(Object o : whereObject)
 			{
 				ps.setObject(i, o);
@@ -222,7 +252,9 @@ public class PlayerData implements MysqlHandable
 						rs.getDouble("ttexp_actual"),
 						rs.getDouble("ttexp_total_received"),
 						rs.getInt("vanilla_exp_still_to_be_obtained"),
-						SettingsLevel.valueOf(rs.getString("lastSettingLevel"))));
+						SettingsLevel.valueOf(rs.getString("lastSettingLevel")),
+						rs.getString("switchmode"),
+						rs.getLong("switchmode_cooldown")));
 			}
 			return al;
 		} catch (SQLException e)

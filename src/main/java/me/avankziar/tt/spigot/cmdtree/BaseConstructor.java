@@ -142,4 +142,16 @@ public class BaseConstructor
 	{
 		return getPlugin().pluginName.toLowerCase()+"-"+getPath();
 	}
+	
+	public static BaseConstructor getCommand(String path)
+	{
+		for(BaseConstructor b : getPlugin().getCommandHelpList())
+		{
+			if(path.equals(b.getPath()))
+			{
+				return b;
+			}
+		}
+		return null;
+	}
 }

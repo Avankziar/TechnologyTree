@@ -197,4 +197,44 @@ public class TimeHandler
 		long time = d*dd + H*HH + m*mm;
 		return time;
 	}
+	
+	public static long getTiming(String l) //dd-HH-mm(-ss)
+	{
+		long expirationDate = 0L;
+		String[] split = l.split("-");
+		if(split.length == 3)
+		{
+			if(split[0].endsWith("d"))
+			{
+				expirationDate += Long.valueOf(split[0].substring(0, split[0].length()-1)) * 24 * 60 * 60 * 1000;
+			}
+			if(split[1].endsWith("H"))
+			{
+				expirationDate += Long.valueOf(split[1].substring(0, split[1].length()-1)) * 60 * 60 * 1000;
+			}
+			if(split[2].endsWith("m"))
+			{
+				expirationDate += Long.valueOf(split[2].substring(0, split[2].length()-1)) * 60 * 1000;
+			}
+		} else if(split.length == 4)
+		{
+			if(split[0].endsWith("d"))
+			{
+				expirationDate += Long.valueOf(split[0].substring(0, split[0].length()-1)) * 24 * 60 * 60 * 1000;
+			}
+			if(split[1].endsWith("H"))
+			{
+				expirationDate += Long.valueOf(split[1].substring(0, split[1].length()-1)) * 60 * 60 * 1000;
+			}
+			if(split[2].endsWith("m"))
+			{
+				expirationDate += Long.valueOf(split[2].substring(0, split[2].length()-1)) * 60 * 1000;
+			}
+			if(split[3].endsWith("s"))
+			{
+				expirationDate += Long.valueOf(split[3].substring(0, split[3].length()-1)) * 1000;
+			}
+		}
+		return expirationDate;
+	}
 }

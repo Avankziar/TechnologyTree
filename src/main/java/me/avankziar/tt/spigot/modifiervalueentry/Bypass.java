@@ -9,12 +9,13 @@ public class Bypass
 	public enum Permission
 	{
 		//Here Condition and BypassPermission.
-		SEE_MAIN_CATEGORYS,
-		SEE_SUB_CATEGORYS,
 		GROUP_CREATE,
 		GROUP_INCREASELEVEL,
 		GROUP_SETGRANDMASTER,
-		GROUP_INFO;
+		GROUP_INFO,
+		SWITCHMODE_OTHERPLAYER,
+		EXTERNBOOSTER_LIST_SEE_ALL,
+		EXTERNBOOSTER_LIST_SEE_OTHERPLAYER;
 		
 		public String getValueLable()
 		{

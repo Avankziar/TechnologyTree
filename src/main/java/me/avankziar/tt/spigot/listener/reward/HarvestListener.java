@@ -20,7 +20,7 @@ import main.java.me.avankziar.tt.spigot.objects.ToolType;
 
 public class HarvestListener implements Listener
 {
-	final private static EventType HA = EventType.HARVEST;
+	final private static EventType HA = EventType.HARVESTING;
 	@EventHandler
 	public void onHarvest(PlayerHarvestBlockEvent event)
 	{

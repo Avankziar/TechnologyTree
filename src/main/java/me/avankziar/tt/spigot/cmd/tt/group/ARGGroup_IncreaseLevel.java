@@ -29,7 +29,7 @@ public class ARGGroup_IncreaseLevel extends ArgumentModule
 		Player player = (Player) sender;
 		String gn = null;
 		boolean bypass = ModifierValueEntry.hasPermission(player, Permission.GROUP_INCREASELEVEL);
-		if(args.length == 3)
+		if(args.length >= 3)
 		{
 			if(!bypass)
 			{

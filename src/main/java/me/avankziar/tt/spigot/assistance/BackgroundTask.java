@@ -24,15 +24,20 @@ import main.java.me.avankziar.tt.spigot.handler.CatTechHandler;
 import main.java.me.avankziar.tt.spigot.handler.EntryQueryStatusHandler;
 import main.java.me.avankziar.tt.spigot.handler.GroupHandler;
 import main.java.me.avankziar.tt.spigot.handler.PlayerHandler;
+import main.java.me.avankziar.tt.spigot.handler.SwitchModeHandler;
 import main.java.me.avankziar.tt.spigot.objects.EntryQueryType;
 import main.java.me.avankziar.tt.spigot.objects.EntryStatusType;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
+import main.java.me.avankziar.tt.spigot.objects.mysql.ExternBooster;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalEntryQueryStatus;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GlobalTechnologyPoll;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
+import main.java.me.avankziar.tt.spigot.objects.mysql.GroupEntryQueryStatus;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupPlayerAffiliation;
 import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
+import main.java.me.avankziar.tt.spigot.objects.mysql.SoloEntryQueryStatus;
 import main.java.me.avankziar.tt.spigot.objects.mysql.UpdateTech;
+import main.java.me.avankziar.tt.spigot.objects.ram.misc.SwitchMode;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.Technology;
 
 public class BackgroundTask
@@ -53,25 +58,23 @@ public class BackgroundTask
 		doDeleteExpirePlacedBlocks();
 		doUpdatePlayer();
 		doGroupDailyUpkeep();
+		doCheckSwitchMode();
+		doDeleteExpiringExternBooster();
 		return true;
 	}
 	
 	private void doDeleteExpiringTechnologies()
 	{
+		if(!plugin.getYamlHandler().getConfig().getBoolean("Do.DeleteExpireTechnologies.isMainServer", false))
+		{
+			return;
+		}
 		new BukkitRunnable()
 		{
-			
 			@Override
 			public void run()
 			{
 				long now = System.currentTimeMillis();
-				
-				plugin.getMysqlHandler().deleteData(Type.SOLO_ENTRYQUERYSTATUS,
-						"`duration_until_expiration` < ?", now);
-				
-				plugin.getMysqlHandler().deleteData(Type.GROUP_ENTRYQUERYSTATUS,
-						"`duration_until_expiration` < ?", now);
-				
 				ArrayList<GlobalEntryQueryStatus> geqsa = GlobalEntryQueryStatus.convert(
 						plugin.getMysqlHandler().getFullList(Type.GLOBAL_ENTRYQUERYSTATUS,
 								"`id` ASC",	"`duration_until_expiration` < ?", now));
@@ -81,9 +84,56 @@ public class BackgroundTask
 				}
 				plugin.getMysqlHandler().deleteData(Type.GLOBAL_ENTRYQUERYSTATUS,
 						"`duration_until_expiration` < ?", now);
+				
+				ArrayList<UUID> toUpdate = new ArrayList<>();
+				for(SoloEntryQueryStatus e : SoloEntryQueryStatus.convert(plugin.getMysqlHandler().getFullList(Type.SOLO_ENTRYQUERYSTATUS,
+						"`id` ASC", "`duration_until_expiration` < ?", now)))
+				{
+					if(!toUpdate.contains(e.getPlayerUUID()))
+					{
+						toUpdate.add(e.getPlayerUUID());
+					}
+				}
+				plugin.getMysqlHandler().deleteData(Type.SOLO_ENTRYQUERYSTATUS,
+						"`duration_until_expiration` < ?", now);
+				for(GroupEntryQueryStatus e : GroupEntryQueryStatus.convert(plugin.getMysqlHandler().getFullList(Type.GROUP_ENTRYQUERYSTATUS,
+						"`id` ASC", "`duration_until_expiration` < ?", now)))
+				{
+					for(GroupPlayerAffiliation g : GroupHandler.getAllAffiliateGroup(e.getGroupName()))
+					{
+						if(!toUpdate.contains(g.getPlayerUUID()))
+						{
+							toUpdate.add(g.getPlayerUUID());
+						}
+					}
+				}
+				plugin.getMysqlHandler().deleteData(Type.GROUP_ENTRYQUERYSTATUS,
+						"`duration_until_expiration` < ?", now);
+				if(geqsa.size() > 0)
+				{
+					if(plugin.getBungeeOnlinePlayers() != null)
+					{
+						toUpdate(new ArrayList<UUID>(plugin.getBungeeOnlinePlayers().getBungeeOnlinePlayers().keySet()));
+					} else
+					{
+						for(Player player : Bukkit.getOnlinePlayers())
+						{
+							PlayerHandler.quitPlayer(player.getUniqueId());
+							PlayerHandler.joinPlayer(player);
+						}
+					}
+				} else if(toUpdate.size() > 0)
+				{
+					toUpdate(toUpdate);
+				}
 			}
 		}.runTaskTimerAsynchronously(plugin, 60*20L,
 				plugin.getYamlHandler().getConfig().getLong("Do.DeleteExpireTechnologies.TaskRunInMinutes", 5)*60*20L);
+	}
+	
+	private void toUpdate(ArrayList<UUID> uuids)
+	{
+		Utility.toUpdate(uuids);
 	}
 	
 	private void doTechnologyPoll()
@@ -303,6 +353,12 @@ public class BackgroundTask
 					{
 						continue;
 					}
+					if(u.getTechnology() == null)
+					{
+						PlayerHandler.quitPlayer(u.getUUID());
+						PlayerHandler.joinPlayer(player);
+						continue;
+					}
 					Technology t = CatTechHandler.getTechnology(u.getTechnology(), u.getPlayerAssociatedType());
 					PlayerHandler.doUpdate(player, t, u.getGlobalTechnologyPollID(), u.getResearchLevel());
 					plugin.getMysqlHandler().deleteData(Type.UPDATE_TECH, "`id` = ?", u.getId());
@@ -516,6 +572,7 @@ public class BackgroundTask
 					for(int i = 0; i < toDeleteGroup.size(); i++)
 					{
 						GroupData gd = toDeleteGroup.get(i);
+						plugin.getMysqlHandler().deleteData(Type.EXTERN_BOOSTER, "`group_name` = ?", gd.getGroupName());
 						deletedMembers += plugin.getMysqlHandler().deleteData(Type.GROUP_PLAYERAFFILIATION, "`group_name` = ?", gd.getGroupName());
 						deletedEntrys += plugin.getMysqlHandler().deleteData(Type.GROUP_ENTRYQUERYSTATUS, "`group_name` = ?", gd.getGroupName());
 						plugin.getMysqlHandler().deleteData(Type.GROUP_DATA, "`group_name` = ?", gd.getGroupName());
@@ -529,5 +586,127 @@ public class BackgroundTask
 				}
 			}
 		}.runTaskTimerAsynchronously(plugin, 0L, 20L*15);
+	}
+	
+	private void doCheckSwitchMode()
+	{
+		new BukkitRunnable()
+		{
+			@Override
+			public void run()
+			{
+				if(SwitchModeHandler.isActive)
+				{
+					for(Player player : Bukkit.getOnlinePlayers())
+					{
+						if(player == null)
+						{
+							continue;
+						}
+						PlayerData pd = PlayerHandler.getPlayer(player.getUniqueId());
+						SwitchMode sw = SwitchModeHandler.getSwitchMode(pd.getSwitchMode());
+						String oldsw = sw.name;
+						if(sw.permission != null && !player.hasPermission(sw.permission))
+						{
+							sw = PlayerHandler.getSwitchMode(player);
+							String newsw = sw.name;
+							player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("PlayerHandler.SwitchMode.Switched")
+									.replace("%old%", oldsw)
+									.replace("%new%", newsw)));
+						}
+					}
+				}				
+			}
+		}.runTaskTimerAsynchronously(plugin, 60*20L, plugin.getYamlHandler().getConfig().getInt("Do.SwitchMode.PermissionCheckUp", 5)*60*20L);
+	}
+	
+	private void doDeleteExpiringExternBooster()
+	{
+		if(!plugin.getYamlHandler().getConfig().getBoolean("Do.DeleteExpireExternBooster.isMainServer", false))
+		{
+			return;
+		}
+		new BukkitRunnable()
+		{
+			@Override
+			public void run()
+			{
+				long now = System.currentTimeMillis();
+				ArrayList<ExternBooster> exb = ExternBooster.convert(plugin.getMysqlHandler().getFullList(Type.EXTERN_BOOSTER,
+						"`id` ASC", "`expiry_date` = ?", now));
+				if(exb.size() <= 0)
+				{
+					return;
+				}
+				boolean allUpdate = false;
+				ArrayList<UUID> playerUUIDToUpdate = new ArrayList<>();
+				for(ExternBooster ex : exb)
+				{
+					switch(ex.getPlayerAssociatedType())
+					{
+					case GLOBAL:
+						allUpdate = true;
+						break;
+					case GROUP:
+						if(ex.getGroupname() == null)
+						{
+							break;
+						}
+						ArrayList<GroupPlayerAffiliation> gpas = GroupHandler.getAllAffiliateGroup(ex.getGroupname());
+						if(gpas == null || gpas.size() <= 0)
+						{
+							break;
+						}
+						for(GroupPlayerAffiliation gpa : gpas)
+						{
+							if(playerUUIDToUpdate.contains(gpa.getPlayerUUID()))
+							{
+								continue;
+							}
+							playerUUIDToUpdate.add(gpa.getPlayerUUID());
+						}
+						break;
+					case SOLO:
+						if(ex.getPlayerUUIDText() == null || playerUUIDToUpdate.contains(ex.getPlayerUUID()))
+						{
+							break;
+						}
+						playerUUIDToUpdate.add(ex.getPlayerUUID());
+						break;
+					}
+					if(allUpdate)
+					{
+						plugin.getMysqlHandler().deleteData(Type.EXTERN_BOOSTER, "`expiry_date` = ?", now);
+						break;
+					} else
+					{
+						plugin.getMysqlHandler().deleteData(Type.EXTERN_BOOSTER, "`id` = ?", ex.getId());
+					}
+				}
+				if(allUpdate)
+				{
+					ArrayList<UUID> uuids = new ArrayList<>();
+					if(plugin.getBungeeOnlinePlayers() != null)
+					{
+						for(UUID uuid : plugin.getBungeeOnlinePlayers().getBungeeOnlinePlayers().keySet())
+						{
+							uuids.add(uuid);
+						}
+						toUpdate(playerUUIDToUpdate);
+					} else
+					{
+						for(Player p : Bukkit.getOnlinePlayers())
+						{
+							uuids.add(p.getUniqueId());
+						}
+						toUpdate(playerUUIDToUpdate);
+					}
+				} else
+				{
+					toUpdate(playerUUIDToUpdate);
+				}
+			}
+		}.runTaskTimerAsynchronously(plugin, 60*20L,
+				plugin.getYamlHandler().getConfig().getLong("Do.DeleteExpireExternBooster.TaskRunInMinutes", 5)*60*20L);
 	}
 }

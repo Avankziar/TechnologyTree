@@ -31,6 +31,8 @@ import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.assistance.Experience;
 import main.java.me.avankziar.tt.spigot.assistance.Numbers;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
+import main.java.me.avankziar.tt.spigot.cmdtree.CommandExecuteType;
+import main.java.me.avankziar.tt.spigot.cmdtree.CommandSuggest;
 import main.java.me.avankziar.tt.spigot.event.PostRewardEvent;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
@@ -40,6 +42,8 @@ import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.RewardSummary;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.SimpleDropChance;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.SimpleUnlockedInteraction;
+import main.java.me.avankziar.tt.spigot.objects.ram.misc.SwitchMode;
+import net.md_5.bungee.api.chat.ClickEvent.Action;
 
 public class RewardHandler
 {
@@ -124,6 +128,7 @@ public class RewardHandler
 		final LinkedHashMap<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>>> entityMap = rewardEntityTypeMap.get(uuid);
 		rewardEntityTypeMap.remove(uuid);
 		ArrayList<RewardSummary> rewardSummaryList = new ArrayList<>();
+		final LinkedHashMap<EventType, Double> externBooster = PlayerHandler.externBoosterMap.get(uuid);
 		if(matMap == null && entityMap == null)
 		{
 			return;
@@ -140,6 +145,8 @@ public class RewardHandler
 					{
 						EventType et = entryII.getKey();
 						double amount = entryII.getValue();
+						Double exB = externBooster.get(et);
+						double exBooster = exB == null ? 1.0 : exB.doubleValue();
 						TT.log.info("RewardHandler et:"+et.toString()+" | mat:"+mat.toString()+" | tool: "+tool.toString()); //REMOVEME
 						if(PlayerHandler.materialInteractionMap.containsKey(uuid)
 								&& PlayerHandler.materialInteractionMap.get(uuid).containsKey(tool)
@@ -153,8 +160,8 @@ public class RewardHandler
 								continue;
 							}
 							TT.log.info("toGiveTTExp: "+toGiveTTExp+" | sui.getTechnologyExperience(): "+sui.getTechnologyExperience()+" | amount: "+amount); //REMOVEME
-							toGiveTTExp = toGiveTTExp + sui.getTechnologyExperience() * amount;
-							toGiveVanillaExp = toGiveVanillaExp + sui.getVanillaExperience() * amount;
+							toGiveTTExp = toGiveTTExp + sui.getTechnologyExperience() * amount * exBooster;
+							toGiveVanillaExp = toGiveVanillaExp + sui.getVanillaExperience() * amount * exBooster;
 							for(Entry<String, Double> s : sui.getMoneyMap().entrySet())
 							{
 								double moneyAmount = 0;
@@ -162,7 +169,7 @@ public class RewardHandler
 								{
 									moneyAmount = toGiveMoneyMap.get(s.getKey());
 								}
-								moneyAmount = moneyAmount + s.getValue() * amount;
+								moneyAmount = moneyAmount + s.getValue() * amount * exBooster;
 								toGiveMoneyMap.put(s.getKey(), moneyAmount);
 							}
 							for(Entry<String, Double> s : sui.getCommandMap().entrySet())
@@ -172,7 +179,7 @@ public class RewardHandler
 								{
 									cmdAmount = toGiveCommandMap.get(s.getKey());
 								}
-								cmdAmount = cmdAmount + s.getValue() * amount;
+								cmdAmount = cmdAmount + s.getValue() * amount * exBooster;
 								toGiveCommandMap.put(s.getKey(), cmdAmount);
 							}
 							RewardSummary rs = new RewardSummary(et, mat, null, amount, toGiveVanillaExp, toGiveTTExp, toGiveMoneyMap, toGiveCommandMap);
@@ -194,6 +201,8 @@ public class RewardHandler
 					{
 						EventType et = entryII.getKey();
 						double amount = entryII.getValue();
+						Double exB = externBooster.get(et);
+						double exBooster = exB == null ? 1.0 : exB.doubleValue();
 						TT.log.info("RewardHandler et:"+et.toString()+" | ent:"+ent.toString()+" | tool: "+tool.toString()); //REMOVEME
 						if(PlayerHandler.entityTypeInteractionMap.containsKey(uuid)
 								&& PlayerHandler.entityTypeInteractionMap.get(uuid).containsKey(tool)
@@ -206,8 +215,8 @@ public class RewardHandler
 							{
 								continue;
 							}
-							toGiveTTExp = toGiveTTExp + sui.getTechnologyExperience() * amount;
-							toGiveVanillaExp = toGiveVanillaExp + sui.getVanillaExperience() * amount;
+							toGiveTTExp = toGiveTTExp + sui.getTechnologyExperience() * amount * exBooster;
+							toGiveVanillaExp = toGiveVanillaExp + sui.getVanillaExperience() * amount * exBooster;
 							for(Entry<String, Double> s : sui.getMoneyMap().entrySet())
 							{
 								double moneyAmount = 0;
@@ -215,7 +224,7 @@ public class RewardHandler
 								{
 									moneyAmount = toGiveMoneyMap.get(s.getKey());
 								}
-								moneyAmount = moneyAmount + s.getValue() * amount;
+								moneyAmount = moneyAmount + s.getValue() * amount * exBooster;
 								toGiveMoneyMap.put(s.getKey(), moneyAmount);
 							}
 							for(Entry<String, Double> s : sui.getCommandMap().entrySet())
@@ -225,7 +234,7 @@ public class RewardHandler
 								{
 									cmdAmount = toGiveCommandMap.get(s.getKey());
 								}
-								cmdAmount = cmdAmount + s.getValue() * amount;
+								cmdAmount = cmdAmount + s.getValue() * amount * exBooster;
 								toGiveCommandMap.put(s.getKey(), cmdAmount);
 							}
 							RewardSummary rs = new RewardSummary(et, null, ent, amount, toGiveVanillaExp, toGiveTTExp, toGiveMoneyMap, toGiveCommandMap);
@@ -242,111 +251,140 @@ public class RewardHandler
 			return;
 		}
 		PlayerData pd = PlayerHandler.getPlayer(uuid);
-		String playername = pd.getName();
-		pd.setActualTTExp(pd.getActualTTExp() + toGiveTTExp);
-		pd.setTotalReceivedTTExp(pd.getTotalReceivedTTExp() + toGiveTTExp);
-		if(Bukkit.getPlayer(uuid) != null)
+		if(SwitchModeHandler.isActive && pd.getSwitchMode().equals("null"))
 		{
-			Experience.changeExp(Bukkit.getPlayer(uuid), (int) toGiveVanillaExp, true);
+			Player player = Bukkit.getPlayer(uuid);
+			if(player != null)
+			{
+				player.spigot().sendMessage(ChatApi.clickEvent(plugin.getYamlHandler().getLang().getString("Reward.SwitchMode.isActive.NoChoosen"),
+						Action.RUN_COMMAND, CommandSuggest.get(CommandExecuteType.TT_SWITCHMODE)));
+				return;				
+			}
+		}
+		SwitchMode swm = SwitchModeHandler.getSwitchMode(pd.getSwitchMode());
+		String playername = pd.getName();
+		if(swm.ttexp || !SwitchModeHandler.isActive)
+		{
+			pd.setActualTTExp(pd.getActualTTExp() + toGiveTTExp);
+			pd.setTotalReceivedTTExp(pd.getTotalReceivedTTExp() + toGiveTTExp);
 		} else
 		{
-			pd.setVanillaExpStillToBeObtained(pd.getVanillaExpStillToBeObtained() + (int) toGiveVanillaExp);
+			toGiveTTExp = 0;
+		}
+		if(swm.vanillaexp || !SwitchModeHandler.isActive)
+		{
+			if(Bukkit.getPlayer(uuid) != null)
+			{
+				Experience.changeExp(Bukkit.getPlayer(uuid), (int) toGiveVanillaExp, true);
+			} else
+			{
+				pd.setVanillaExpStillToBeObtained(pd.getVanillaExpStillToBeObtained() + (int) toGiveVanillaExp);
+			}
+		} else
+		{
+			toGiveVanillaExp = 0;
 		}
 		PlayerHandler.updatePlayer(pd);
 		double toGiveMoneyD = 0;
 		String toGiveMoney = ""+(plugin.getIFHEco() != null 
 				? plugin.getIFHEco().format(0, plugin.getIFHEco().getDefaultCurrency(CurrencyType.DIGITAL))
 				: "0.0 "+plugin.getVaultEco().currencyNamePlural());
-		for(Entry<String, Double> e : toGiveMoneyMap.entrySet())
-		{
-			TT.log.info("RewardHandler toGiveMoneyMap: "+e.getKey()); //REMOVEME
-			double taxation = new ConfigHandler().rewardPayoutTaxInPercent();
-			if(e.getKey().equalsIgnoreCase("vault") && plugin.getVaultEco() != null)
+		if(swm.money || !SwitchModeHandler.isActive)
+		{			
+			for(Entry<String, Double> e : toGiveMoneyMap.entrySet())
 			{
-				double amount = e.getValue();
-				if(taxation > 0)
+				TT.log.info("RewardHandler toGiveMoneyMap: "+e.getKey()); //REMOVEME
+				double taxation = new ConfigHandler().rewardPayoutTaxInPercent();
+				if(e.getKey().equalsIgnoreCase("vault") && plugin.getVaultEco() != null)
 				{
-					amount = amount - e.getValue()*taxation/100;
-				}
-				plugin.getVaultEco().depositPlayer(Bukkit.getOfflinePlayer(uuid), amount);
-				toGiveMoneyD = amount;
-				toGiveMoney = amount+" "+plugin.getVaultEco().currencyNamePlural();
-				continue;
-			} else if(e.getKey().equalsIgnoreCase("vault") && plugin.getVaultEco() == null)
-			{
-				continue;
-			}
-			EconomyCurrency ec = null;
-			if(e.getKey().equalsIgnoreCase("default"))
-			{
-				ec = plugin.getIFHEco().getDefaultCurrency(CurrencyType.DIGITAL);
-			} else
-			{
-				ec = plugin.getIFHEco().getCurrency(e.getKey());
-			}
-			if(ec == null)
-			{
-				continue;
-			}
-			Account ac = plugin.getIFHEco().getDefaultAccount(uuid, AccountCategory.JOB, ec);
-			if(ac == null)
-			{
-				ac = plugin.getIFHEco().getDefaultAccount(uuid, AccountCategory.MAIN, ec);
-				if(ac == null)
+					double amount = e.getValue();
+					if(taxation > 0)
+					{
+						amount = amount - e.getValue()*taxation/100;
+					}
+					plugin.getVaultEco().depositPlayer(Bukkit.getOfflinePlayer(uuid), amount);
+					toGiveMoneyD = amount;
+					toGiveMoney = amount+" "+plugin.getVaultEco().currencyNamePlural();
+					continue;
+				} else if(e.getKey().equalsIgnoreCase("vault") && plugin.getVaultEco() == null)
 				{
 					continue;
 				}
-			}
-			Account tax = plugin.getIFHEco().getDefaultAccount(uuid, AccountCategory.TAX, ec);
-			EconomyAction ea = plugin.getIFHEco().deposit(ac, e.getValue(), taxation, false, tax);
-			toGiveMoneyD = ea.getDepositAmount();
-			toGiveMoney = plugin.getIFHEco().format(ea.getDepositAmount(), ec,
-					plugin.getIFHEco().getDefaultGradationQuantity(ac.getCurrency()), plugin.getIFHEco().getDefaultDecimalPlaces(ac.getCurrency()),
-					plugin.getIFHEco().getDefaultUseSIPrefix(ac.getCurrency()), plugin.getIFHEco().getDefaultUseSymbol(ac.getCurrency()),
-					plugin.getIFHEco().getDefaultThousandSeperator(ac.getCurrency()), plugin.getIFHEco().getDefaultDecimalSeperator(ac.getCurrency()));
-		}
-		for(Entry<String, Double> e : toGiveCommandMap.entrySet())
-		{
-			TT.log.info("RewardHandler toGiveCmdMap: "+e.getKey()+" | "+e.getValue()); //REMOVEME
-			String[] split = e.getKey().split(",");
-			if(split.length != 2)
-			{
-				continue;
-			}
-			if("spigot".equalsIgnoreCase(split[0]))
-			{
-				new BukkitRunnable()
+				EconomyCurrency ec = null;
+				if(e.getKey().equalsIgnoreCase("default"))
 				{
-					@Override
-					public void run()
+					ec = plugin.getIFHEco().getDefaultCurrency(CurrencyType.DIGITAL);
+				} else
+				{
+					ec = plugin.getIFHEco().getCurrency(e.getKey());
+				}
+				if(ec == null)
+				{
+					continue;
+				}
+				Account ac = plugin.getIFHEco().getDefaultAccount(uuid, AccountCategory.JOB, ec);
+				if(ac == null)
+				{
+					ac = plugin.getIFHEco().getDefaultAccount(uuid, AccountCategory.MAIN, ec);
+					if(ac == null)
 					{
-						if(split[1].contains("%value%"))
+						continue;
+					}
+				}
+				Account tax = plugin.getIFHEco().getDefaultAccount(uuid, AccountCategory.TAX, ec);
+				EconomyAction ea = plugin.getIFHEco().deposit(ac, e.getValue(), taxation, false, tax);
+				toGiveMoneyD = ea.getDepositAmount();
+				toGiveMoney = plugin.getIFHEco().format(ea.getDepositAmount(), ec,
+						plugin.getIFHEco().getDefaultGradationQuantity(ac.getCurrency()), plugin.getIFHEco().getDefaultDecimalPlaces(ac.getCurrency()),
+						plugin.getIFHEco().getDefaultUseSIPrefix(ac.getCurrency()), plugin.getIFHEco().getDefaultUseSymbol(ac.getCurrency()),
+						plugin.getIFHEco().getDefaultThousandSeperator(ac.getCurrency()), plugin.getIFHEco().getDefaultDecimalSeperator(ac.getCurrency()));
+			}
+		}
+		if(swm.cmd || !SwitchModeHandler.isActive)
+		{
+			for(Entry<String, Double> e : toGiveCommandMap.entrySet())
+			{
+				TT.log.info("RewardHandler toGiveCmdMap: "+e.getKey()+" | "+e.getValue()); //REMOVEME
+				String[] split = e.getKey().split(",");
+				if(split.length != 2)
+				{
+					continue;
+				}
+				if("spigot".equalsIgnoreCase(split[0]))
+				{
+					new BukkitRunnable()
+					{
+						@Override
+						public void run()
 						{
-							if(e.getValue() % 1 == 0)
+							if(split[1].contains("%value%"))
 							{
-								int i = e.getValue().intValue();
-								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), split[1]
-										.replace("%player%", playername)
-										.replace("%value%", String.valueOf(i)));
+								if(e.getValue() % 1 == 0)
+								{
+									int i = e.getValue().intValue();
+									Bukkit.dispatchCommand(Bukkit.getConsoleSender(), split[1]
+											.replace("%player%", playername)
+											.replace("%value%", String.valueOf(i)));
+								} else
+								{
+									Bukkit.dispatchCommand(Bukkit.getConsoleSender(), split[1]
+											.replace("%player%", playername)
+											.replace("%value%", String.valueOf(e.getValue())));
+								}
 							} else
 							{
 								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), split[1]
 										.replace("%player%", playername)
 										.replace("%value%", String.valueOf(e.getValue())));
-							}
-						} else
-						{
-							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), split[1]
-									.replace("%player%", playername)
-									.replace("%value%", String.valueOf(e.getValue())));
-						}						
-					}
-				}.runTask(plugin);
-			} else if("bungee".equalsIgnoreCase(split[0]) && plugin.getCommandToBungee() != null)
-			{
-				plugin.getCommandToBungee().executeAsConsole(split[1]
-						.replace("%player%", playername)
-						.replace("%value%", String.valueOf(e.getValue())));
+							}						
+						}
+					}.runTask(plugin);
+				} else if("bungee".equalsIgnoreCase(split[0]) && plugin.getCommandToBungee() != null)
+				{
+					plugin.getCommandToBungee().executeAsConsole(split[1]
+							.replace("%player%", playername)
+							.replace("%value%", String.valueOf(e.getValue())));
+				}
 			}
 		}
 		if(Bukkit.getPlayer(uuid) != null && pd.isShowRewardMessage())
@@ -530,6 +568,21 @@ public class RewardHandler
 						: player.getPotionEffect(PotionEffectType.LUCK).getAmplifier()) + 1;
 		UUID uuid = player.getUniqueId();
 		ArrayList<ItemStack> list = new ArrayList<>();
+		PlayerData pd = PlayerHandler.getPlayer(uuid);
+		if(SwitchModeHandler.isActive && pd.getSwitchMode().equals("null"))
+		{
+			if(player != null)
+			{
+				player.spigot().sendMessage(ChatApi.clickEvent(plugin.getYamlHandler().getLang().getString("Reward.SwitchMode.isActive.NoChoosen"),
+						Action.RUN_COMMAND, CommandSuggest.get(CommandExecuteType.TT_SWITCHMODE)));
+				return list;				
+			}
+		}
+		SwitchMode swm = SwitchModeHandler.getSwitchMode(pd.getSwitchMode());
+		if(SwitchModeHandler.isActive && !swm.drops)
+		{
+			return list;
+		}
 		if(material != null)
 		{
 			//https://minecraft.fandom.com/wiki/Fortune

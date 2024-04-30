@@ -152,6 +152,10 @@ public class MysqlSetup
 		{
 			return false;
 		}
+		if(!setupDatabaseX())
+		{
+			return false;
+		}
 		return true;
 	}
 	
@@ -166,7 +170,9 @@ public class MysqlSetup
 		+ " ttexp_actual double,"
 		+ " ttexp_total_received double,"
 		+ " vanilla_exp_still_to_be_obtained int,"
-		+ " lastSettingLevel text);";
+		+ " lastSettingLevel text,"
+		+ " switchmode text,"
+		+ " switchmode_cooldown BIGINT);";
 		baseSetup(data);
 		return true;
 	}
@@ -302,6 +308,23 @@ public class MysqlSetup
 		+ " technology text,"
 		+ " global_technology_poll_id int,"
 		+ " research_level int"
+		+ ");";
+		baseSetup(data);
+		return true;
+	}
+	
+	private boolean setupDatabaseX()
+	{
+		String data = "CREATE TABLE IF NOT EXISTS `" + MysqlHandler.Type.EXTERN_BOOSTER.getValue()
+		+ "` (id int AUTO_INCREMENT PRIMARY KEY,"
+		+ " booster_name text,"
+		+ " event_type text NOT NULL,"
+		+ " player_associated_type text NOT NULL,"
+		+ " factor double,"
+		+ " expiry_date BIGINT,"
+		+ " permission text,"
+		+ " player_uuid text,"
+		+ " group_name text"
 		+ ");";
 		baseSetup(data);
 		return true;

@@ -16,6 +16,7 @@ import main.java.me.avankziar.tt.spigot.handler.GuiHandler;
 import main.java.me.avankziar.tt.spigot.handler.PlayerHandler;
 import main.java.me.avankziar.tt.spigot.handler.PlayerHandler.AcquireRespond;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
+import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
 import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.MainCategory;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.SubCategory;
@@ -327,9 +328,10 @@ public class GuiFunctionHandler
 				break;
 			case CAN_BE_RESEARCHED:
 				int rlvl = PlayerHandler.researchGroupTechnology(player, t, true);
-				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.TechnologyResearched")
+				GroupData gd = GroupHandler.getGroup(player.getUniqueId());
+				GroupHandler.sendMembersText(gd.getGroupName(), plugin.getYamlHandler().getLang().getString("GuiHandler.Technology.TechnologyResearched")
 						.replace("%level%", String.valueOf(rlvl))
-						.replace("%tech%", t.getDisplayName())));
+						.replace("%tech%", t.getDisplayName()));
 				fromSubCatToTechs(player, inv, settingsLevel, t.getOverlyingSubCategory(), pat);
 				break;
 			}
