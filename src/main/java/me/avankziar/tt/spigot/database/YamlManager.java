@@ -890,7 +890,7 @@ public class YamlManager
 				"",
 				"Beschreibt wann die Globaltechnologieumfrage ausgewertet werden soll. Im Grunde gibt es 2 mögliche Formate:",
 				"1. '20-00:SUNDAY:FIRST' beschreibt, dass es um 20:00 am ersten Sonntag des Monats ausgeführt werden soll.",
-				"Dabei ist 'SUNDAY' mit jedem Wochentag ersetztbar sowie 'FIRST' kann 'SECOND', 'THIRD', 'FOURTH' und 'FIFTH',",
+				"Dabei ist 'SUNDAY' mit jedem Wochentag ersetzbar sowie 'FIRST' kann 'SECOND', 'THIRD', 'FOURTH' und 'FIFTH' werde,",
 				"da man im Monat ja nicht 28 Tage (oder 4 Wochen) sondern 30,4 Tage (oder 4,34 Wochen) im Durchschnitt hat.",
 				"2. '20-00:1' beschreibt, dass es um 20:00 am ersten Tag im Monat ausgeführt werden soll.",
 				"",

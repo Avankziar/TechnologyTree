@@ -111,7 +111,7 @@ public class GuiHandler
 			BLAST_FURNACE_MAX = "%blast_furnacemax%",
 			SMOKER_HAS = "%smokerhas%",
 			SMOKER_MAX = "%smokermax%",
-			CAT_INTERNNAME= "%intern_name%",
+			CAT_INTERNNAME = "%intern_name%",
 			CAT_DISPLAYNAME = "%display_name%",
 			CAT_PLAYER_ASSOCIATED_TYPE = "%player_associated_type%",
 			SCAT_OVERLYING_CATEGORY = "%overlying_category%",

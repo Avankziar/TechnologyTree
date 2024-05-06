@@ -17,7 +17,7 @@ public class SubCategory extends TechCategory
 	private String overlyingCategory;
 	private String overlyingCategoryDisplayname;
 	
-	public SubCategory(String internName, String displayName, PlayerAssociatedType playerAssociatedType, String groupAssociatedPermission,
+	public SubCategory(String internName, String displayName, PlayerAssociatedType playerAssociatedType,
 			int guiSlot,
 			List<String> seeRequirementConditionQuery, boolean seeRequirementShowDifferentItemIfYouNormallyDontSeeIt,
 			String overlyingCategory)
@@ -34,11 +34,11 @@ public class SubCategory extends TechCategory
 			case GROUP: map = CatTechHandler.mainCategoryMapGroup; break;
 			case GLOBAL: map = CatTechHandler.mainCategoryMapGlobal; break;
 			}
-			List<String> list = CatTechHandler.mainCategoryMapGlobal.keySet()
+			List<String> list = map.keySet()
 					.stream().filter(x -> x.equals(overlyingCategory)).collect(Collectors.toList());
 			if(list.size() > 0)
 			{
-				MainCategory mcat = CatTechHandler.mainCategoryMapGlobal.get(list.get(0));
+				MainCategory mcat = map.get(list.get(0));
 				if(mcat != null)
 				{
 					setOverlyingCategoryDisplayname(mcat.getDisplayName());

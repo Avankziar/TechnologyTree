@@ -681,7 +681,6 @@ public class CatTechHandler
 				String displayName = y.getString("Displayname");
 				
 				PlayerAssociatedType playerAssociatedType = PlayerAssociatedType.valueOf(y.getString("PlayerAssociatedType"));
-				String groupAssociatedPermission = y.getString("GroupAssociatedPermission", null);
 				int guiSlot = y.getInt("GuiSlot");
 				List<String> seeRequirementConditionQuery = new ArrayList<>();
 				if(y.get("RequirementToSee.ConditionQuery") != null)
@@ -696,7 +695,7 @@ public class CatTechHandler
 				boolean seeRequirementShowDifferentItemIfYouNormallyDontSeeIt = y.getBoolean("RequirementToSee.ShowDifferentItemIfYouNormallyDontSeeIt");
 				String overlyingCategory = y.getString("IfSubCategory.OverlyingMainCategory");
 				SubCategory sc = new SubCategory(internName, displayName,
-						playerAssociatedType, groupAssociatedPermission,
+						playerAssociatedType,
 						guiSlot,
 						seeRequirementConditionQuery, seeRequirementShowDifferentItemIfYouNormallyDontSeeIt, 
 						overlyingCategory);

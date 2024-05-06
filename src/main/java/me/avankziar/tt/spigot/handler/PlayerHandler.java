@@ -2757,13 +2757,13 @@ public class PlayerHandler
 			{
 				sdc = mapIII.get(dc.getToDropItem());
 				sdc.add(
-						((int) (dc.getToDropItemAmount() * rrip)), 
+						dc.getToDropItemAmount(), 
 						dc.getDropChance() * rrip);
 			} else
 			{
 				sdc = new SimpleDropChance(
 						dc.getToDropItem(),
-						((int) (dc.getToDropItemAmount() * rrip)), 
+						dc.getToDropItemAmount(), 
 						dc.getDropChance() * rrip);
 			}
 			mapIII.put(sdc.getToDropItem(), sdc);
@@ -2798,13 +2798,13 @@ public class PlayerHandler
 			{
 				sdc = mapIII.get(dc.getToDropItem());
 				sdc.add(
-						((int) (dc.getToDropItemAmount() * rrip)), 
+						dc.getToDropItemAmount(), 
 						dc.getDropChance() * rrip);
 			} else
 			{
 				sdc = new SimpleDropChance(
 						dc.getToDropItem(),
-						((int) (dc.getToDropItemAmount() * rrip)), 
+						dc.getToDropItemAmount(), 
 						dc.getDropChance() * rrip);
 			}
 			mapIII.put(sdc.getToDropItem(), sdc);
@@ -2845,13 +2845,13 @@ public class PlayerHandler
 			{
 				sdc = mapIII.get(dc.getToDropItem());
 				sdc.add(
-						((int) (dc.getToDropItemAmount() * rrip)), 
+						dc.getToDropItemAmount(), 
 						dc.getDropChance() * rrip);
 			} else
 			{
 				sdc = new SimpleDropChance(
 						dc.getToDropItem(),
-						((int) (dc.getToDropItemAmount() * rrip)), 
+						dc.getToDropItemAmount(), 
 						dc.getDropChance() * rrip);
 			}
 			mapIII.put(sdc.getToDropItem(), sdc);
@@ -2886,13 +2886,13 @@ public class PlayerHandler
 			{
 				sdc = mapIII.get(dc.getToDropItem());
 				sdc.add(
-						((int) (dc.getToDropItemAmount() * rrip)), 
+						dc.getToDropItemAmount(), 
 						dc.getDropChance() * rrip);
 			} else
 			{
 				sdc = new SimpleDropChance(
 						dc.getToDropItem(),
-						((int) (dc.getToDropItemAmount() * rrip)), 
+						dc.getToDropItemAmount(), 
 						dc.getDropChance() * rrip);
 			}
 			mapIII.put(sdc.getToDropItem(), sdc);
@@ -2956,18 +2956,12 @@ public class PlayerHandler
 		{
 			map = externBoosterMap.get(uuid);
 		}
-		double f = 0.0;
+		double f = 1.0;
 		if(map.containsKey(ex.getEventType()))
 		{
-			f = map.get(ex.getEventType());
+			f = f * map.get(ex.getEventType());
 		}
-		if(ex.getFactor() >= 1)
-		{
-			f += ex.getFactor();
-		} else 
-		{
-			f -= ex.getFactor();
-		}
+		f = ex.getFactor();
 		map.put(ex.getEventType(), f);
 		externBoosterMap.put(uuid, map);
 	}
