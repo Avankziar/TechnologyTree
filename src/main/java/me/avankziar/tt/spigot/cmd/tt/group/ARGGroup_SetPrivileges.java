@@ -69,9 +69,9 @@ public class ARGGroup_SetPrivileges extends ArgumentModule
 			return;
 		}
 		if(player.getUniqueId().toString().equals(gd.getGrandmasterUUID().toString())
-				&& uuid.toString().equals(gd.getGrandmasterUUID().toString()))
+				|| uuid.toString().equals(gd.getGrandmasterUUID().toString()))
 		{
-			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.SetPrivileges.YouAreGrandmaster")));
+			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Group.SetPrivileges.PlayerAreGrandmaster")));
 			return;
 		}
 		if(!player.getUniqueId().toString().equals(gd.getGrandmasterUUID().toString()))

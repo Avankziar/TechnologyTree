@@ -2134,10 +2134,10 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cDas Privileg extistiert nicht!",
 						"&cThe privilege does not exist!"}));
-		languageKeys.put(path+"Group.SetPrivileges.YouAreGrandmaster", 
+		languageKeys.put(path+"Group.SetPrivileges.PlayerAreGrandmaster", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"&cDu als Großmeister kannst deine eigenen Privilegien nicht negieren!",
-						"&cAs a grandmaster, you cannot negate your own privileges!"}));
+						"&cDer ausgewählte Spieler ist Großmeister, seine Privilegien können nicht geändert werden!",
+						"&cThe selected player is a grandmaster, his privileges cannot be changed!"}));
 		languageKeys.put(path+"Group.SetPrivileges.Apply.CAN_SETINDIVIDUAL_DAILY_UPKEEP", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&eDer Spieler %player% hat das Privileg bekommen, den Individuellen Unterhalt anderes Spieler einzustellen.",

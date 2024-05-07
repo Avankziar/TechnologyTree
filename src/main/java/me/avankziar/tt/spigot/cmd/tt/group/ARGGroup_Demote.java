@@ -72,6 +72,11 @@ public class ARGGroup_Demote extends ArgumentModule
 					.replace("%rank%", args[3])));
 			return;
 		}
+		if(uuid.toString().equals(gd.getGrandmasterUUID().toString()))
+		{
+			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Group.SetPrivileges.PlayerAreGrandmaster")));
+			return;
+		}
 		if(gpa2.getPlayerUUID().toString().equals(gpa.getPlayerUUID().toString()))
 		{
 			player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang()
