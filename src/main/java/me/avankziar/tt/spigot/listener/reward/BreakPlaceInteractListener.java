@@ -76,8 +76,7 @@ public class BreakPlaceInteractListener implements Listener
 	@EventHandler
 	public void onBreak(BlockBreakEvent event)
 	{
-		if(event.isCancelled()
-				|| event.getPlayer().getGameMode() == GameMode.CREATIVE
+		if(event.getPlayer().getGameMode() == GameMode.CREATIVE
 				|| event.getPlayer().getGameMode() == GameMode.SPECTATOR
 				|| !EnumHandler.isEventActive(BR))
 		{

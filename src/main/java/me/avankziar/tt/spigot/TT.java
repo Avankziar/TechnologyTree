@@ -237,7 +237,7 @@ public class TT extends JavaPlugin
 	public void onDisable()
 	{
 		Bukkit.resetRecipes();
-		Bukkit.getScheduler().cancelTasks(this);
+		Bukkit.getScheduler().cancelTasks(plugin);
 		HandlerList.unregisterAll(this);
 		log.info(pluginName + " is disabled!");
 	}
@@ -318,19 +318,6 @@ public class TT extends JavaPlugin
 		LinkedHashMap<Integer, ArrayList<String>> playerMapIII = new LinkedHashMap<>();
 		playerMapIII.put(3, players);
 		
-		LinkedHashMap<Integer, ArrayList<String>> addExternBooster = new LinkedHashMap<>();
-		ArrayList<String> eventType = new ArrayList<>();
-		for(EventType et : EventType.values())
-		{
-			eventType.add(et.toString());
-		}
-		addExternBooster.put(3, eventType);
-		addExternBooster.put(4, new ArrayList<String>(Arrays.asList(PlayerAssociatedType.GLOBAL.toString(), PlayerAssociatedType.GROUP.toString(), PlayerAssociatedType.SOLO.toString())));
-		addExternBooster.put(5, new ArrayList<String>(Arrays.asList("<Factor(double)>")));
-		addExternBooster.put(6, new ArrayList<String>(Arrays.asList("-1", "00d-00H-00m")));
-		addExternBooster.put(7, new ArrayList<String>(Arrays.asList("[permission]", "[group]", "[playername]")));
-		addExternBooster.put(8, new ArrayList<String>(Arrays.asList("[associateplayer]")));
-		
 		ArrayList<String> groups = new ArrayList<>();
 		for(GroupData gd : GroupData.convert(plugin.getMysqlHandler().getFullList(
 				MysqlHandler.Type.GROUP_DATA, "`group_name` ASC", "`id` > ?", 0)))
@@ -372,6 +359,24 @@ public class TT extends JavaPlugin
 		LinkedHashMap<Integer, ArrayList<String>> privilegesMap = new LinkedHashMap<>();
 		privilegesMap.put(2, players);
 		privilegesMap.put(3, groupprivileges);
+		
+		LinkedHashMap<Integer, ArrayList<String>> addExternBooster = new LinkedHashMap<>();
+		ArrayList<String> eventType = new ArrayList<>();
+		for(EventType et : EventType.values())
+		{
+			eventType.add(et.toString());
+		}
+		addExternBooster.put(3, eventType);
+		addExternBooster.put(4, new ArrayList<String>(Arrays.asList(PlayerAssociatedType.GLOBAL.toString(), PlayerAssociatedType.GROUP.toString(), PlayerAssociatedType.SOLO.toString())));
+		addExternBooster.put(4, new ArrayList<String>(Arrays.asList(RewardType.TECHNOLOGYTREE_EXP.toString(), RewardType.VANILLA_EXP.toString(), RewardType.DROPS.toString(),
+				RewardType.MONEY.toString(), RewardType.COMMAND.toString())));
+		addExternBooster.put(6, new ArrayList<String>(Arrays.asList("<Factor(double)>")));
+		addExternBooster.put(7, new ArrayList<String>(Arrays.asList("-1", "00d-00H-00m")));
+		ArrayList<String> exSeven = new ArrayList<String>(Arrays.asList("[permission]", "[group]", "[playername]"));
+		exSeven.addAll(players);
+		exSeven.addAll(groups);
+		addExternBooster.put(8, exSeven);
+		addExternBooster.put(9, new ArrayList<String>(Arrays.asList("[associateplayer]")));
 		
 		LinkedHashMap<Integer, ArrayList<String>> infoPaymentMap = new LinkedHashMap<>();
 		ArrayList<String> matEnt = new ArrayList<>();
@@ -437,7 +442,7 @@ public class TT extends JavaPlugin
 		new ARGExp(exp);
 		
 		ArgumentConstructor exb_add = new ArgumentConstructor(CommandExecuteType.TT_EXTERNBOOSTER_ADD,
-																"tt_externbooster_add", 1, 6, 8, true, addExternBooster);
+																"tt_externbooster_add", 1, 7, 9, true, addExternBooster);
 		new ARGExternBooster_Add(exb_add);
 		ArgumentConstructor exb_list = new ArgumentConstructor(CommandExecuteType.TT_EXTERNBOOSTER_LIST,
 																"tt_externbooster_list", 1, 1, 3, true, null);
@@ -541,7 +546,7 @@ public class TT extends JavaPlugin
 		ArgumentConstructor research = new ArgumentConstructor(CommandExecuteType.TT_RESEARCH, "tt_research", 0, 1, 2, false, researchMap);
 		new ARGResearch(research);
 		ArgumentConstructor switchmode = new ArgumentConstructor(CommandExecuteType.TT_SWITCHMODE, "tt_switchmode", 0, 0, 2, true, switchMode);
-		new ARGSwitchMode(research);	
+		new ARGSwitchMode(switchmode);	
 		ArgumentConstructor techinfo = new ArgumentConstructor(CommandExecuteType.TT_TECHINFO, "tt_techinfo", 0, 1, 2, false, techMapI);
 		new ARGTechInfo(techinfo);
 		
@@ -907,6 +912,7 @@ public class TT extends JavaPlugin
 								bc.getValueEntryDisplayName(),
 								bc.getValueEntryExplanation());
 					}
+					/* INFO Because of to much data which would sit in the mysql, this is at the moment not implemented
 					String dn = plugin.getYamlHandler().getMVELang().getString("ValueEntry.Material.Displayname");
 					List<String> expl = plugin.getYamlHandler().getMVELang().getStringList("ValueEntry.Material.Explanation");
 					for(Material m : Material.values())
@@ -952,7 +958,7 @@ public class TT extends JavaPlugin
 										expl.toArray(new String[expl.size()]));
 							}
 						}
-					}
+					}*/
 				}
 			}
         }.runTaskTimerAsynchronously(plugin, 20L, 20*2);
@@ -1024,6 +1030,7 @@ public class TT extends JavaPlugin
 								modt,
 								lar.toArray(new String[lar.size()]));
 					}
+					/* INFO Because of to much data which would sit in the mysql, this is at the moment not implemented
 					String dn = plugin.getYamlHandler().getMVELang().getString("Modifier.Material.Displayname");
 					List<String> expl = plugin.getYamlHandler().getMVELang().getStringList("Modifier.Entity.Explanation");
 					for(Material m : Material.values())
@@ -1069,7 +1076,7 @@ public class TT extends JavaPlugin
 										expl.toArray(new String[expl.size()]));
 							}
 						}
-					}
+					}*/
 				}
 			}
         }.runTaskTimerAsynchronously(plugin, 20L, 20*2);

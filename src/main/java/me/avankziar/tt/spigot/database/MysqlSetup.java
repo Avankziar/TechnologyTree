@@ -320,6 +320,7 @@ public class MysqlSetup
 		+ " booster_name text,"
 		+ " event_type text NOT NULL,"
 		+ " player_associated_type text NOT NULL,"
+		+ " reward_type text NOT NULL,"
 		+ " factor double,"
 		+ " expiry_date BIGINT,"
 		+ " permission text,"

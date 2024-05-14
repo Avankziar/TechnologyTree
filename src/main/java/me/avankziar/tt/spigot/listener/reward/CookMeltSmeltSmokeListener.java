@@ -5,6 +5,8 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.Campfire;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -19,12 +21,12 @@ import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler;
 import main.java.me.avankziar.tt.spigot.handler.BlockHandler.BlockType;
-import main.java.me.avankziar.tt.spigot.handler.ifh.PlayerTimesHandler;
 import main.java.me.avankziar.tt.spigot.handler.ConfigHandler;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
 import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
+import main.java.me.avankziar.tt.spigot.handler.ifh.PlayerTimesHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.objects.ToolType;
 
@@ -40,7 +42,7 @@ public class CookMeltSmeltSmokeListener implements Listener
 		}
 		final BlockType bt = BlockHandler.getBlockType(event.getBlock().getType());
 		final Location loc = event.getBlock().getLocation();
-		final String key = event.getRecipe().getKey().getKey();
+		final String key = event.getRecipe().getKey().getNamespace()+"-"+event.getRecipe().getKey().getKey();
 		BlockHandler.startSmelt(loc, bt, key);
 	}
 	
@@ -54,7 +56,7 @@ public class CookMeltSmeltSmokeListener implements Listener
 		}
 		final BlockType bt = BlockHandler.getBlockType(event.getBlock().getType());
 		final Location loc = event.getBlock().getLocation();
-		final String key = event.getRecipe().getKey().getKey();
+		final String key = event.getRecipe().getKey().getNamespace()+"-"+event.getRecipe().getKey().getKey();
 		BlockHandler.startSmelt(loc, bt, key);
 	}
 	
@@ -90,10 +92,12 @@ public class CookMeltSmeltSmokeListener implements Listener
 		{
 			if(!new ConfigHandler().finishSmeltIfPlayerHasNotTheRecipeUnlocked())
 			{
+				campfireExit(event.getBlock(), null);
 				return;
 			}
 			event.setCancelled(true);
 			event.setResult(new ItemStack(Material.AIR));
+			campfireExit(event.getBlock(), null);
 			return;
 		}
 		String recipeKey = key[1];
@@ -112,6 +116,7 @@ public class CookMeltSmeltSmokeListener implements Listener
 						et, ToolType.HAND, null, null, Material.AIR);
 				event.setCancelled(true);
 				event.setResult(new ItemStack(Material.AIR));
+				campfireExit(event.getBlock(), player);
 				return;
 			}
 		}
@@ -141,5 +146,26 @@ public class CookMeltSmeltSmokeListener implements Listener
 				RewardHandler.rewardPlayer(uuid, et, ToolType.HAND, event.getResult().getType(), null, event.getResult().getAmount());
 			}
 		}.runTaskAsynchronously(TT.getPlugin());
+	}
+	
+	private void campfireExit(Block b, Player player)
+	{
+		if(b.getState() instanceof Campfire)
+		{
+			Campfire cf = (Campfire) b.getState();
+			for(int i = 0; i < 4; i++)
+			{
+				ItemStack is = cf.getItem(i);
+				if(is != null && cf.getCookTime(i) >= cf.getCookTimeTotal(i))
+				{
+					cf.setItem(i, null);
+					cf.update();
+					if(player != null)
+					{
+						player.getWorld().dropItem(b.getLocation(), is);
+					}
+				}
+			}
+		}
 	}
 }

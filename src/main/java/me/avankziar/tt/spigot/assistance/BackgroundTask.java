@@ -633,7 +633,7 @@ public class BackgroundTask
 			{
 				long now = System.currentTimeMillis();
 				ArrayList<ExternBooster> exb = ExternBooster.convert(plugin.getMysqlHandler().getFullList(Type.EXTERN_BOOSTER,
-						"`id` ASC", "`expiry_date` = ?", now));
+						"`id` ASC", "`expiry_date` < ?", now));
 				if(exb.size() <= 0)
 				{
 					return;

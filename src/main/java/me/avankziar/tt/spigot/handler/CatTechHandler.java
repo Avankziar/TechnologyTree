@@ -264,6 +264,7 @@ public class CatTechHandler
 								m.put(mat, amount);
 							} catch(Exception e)
 							{
+								TT.log.info("Technology "+internName+" has a Typing Error!");
 								continue;
 							}
 						}
@@ -353,7 +354,7 @@ public class CatTechHandler
 								rui.add(ui);
 							} catch(Exception e)
 							{
-								e.printStackTrace();
+								TT.log.log(Level.WARNING ,"Tech "+internName+" Error by UnlockableInteractions, Lvl: "+i);
 								continue;
 							}
 						}
@@ -381,17 +382,26 @@ public class CatTechHandler
 							{
 								RecipeType rt = RecipeType.valueOf(split[0]);
 								String key = split[1];
+								String keys = key;
 								if(rt == RecipeType.BLASTING || rt == RecipeType.CAMPFIRE || rt == RecipeType.FURNACE
 										|| rt == RecipeType.SHAPED || rt == RecipeType.SHAPELESS || rt == RecipeType.SMOKING
 										) //Annotation, STONECUTTING is not there, because is has no Event to grab. It only added more Recipes.
 								{
 									if(!RecipeHandler.recipeMap.containsKey(rt))
 									{	
+										TT.log.log(Level.WARNING ,"Tech "+internName+" Error by UnlockableRecipe, Lvl: "+i);
+										TT.log.log(Level.WARNING ,"Recipe "+key+" in RecipeType "+rt.toString()+" are not found!");
 										continue;
 									}
 									ArrayList<String> rtal = RecipeHandler.recipeMap.get(rt);
-									if(!rtal.contains(key))
+									if(!key.contains("-") && Character.isLowerCase(key.charAt(0)))
 									{
+										keys = "minecraft-"+key;
+									}
+									if(!rtal.contains(keys))
+									{
+										TT.log.log(Level.WARNING ,"Tech "+internName+" Error by UnlockableRecipe, Lvl: "+i);
+										TT.log.log(Level.WARNING ,"Recipe "+keys+" in RecipeType "+rt.toString()+" are not found!");
 										continue;
 									}
 								}
@@ -400,9 +410,9 @@ public class CatTechHandler
 								{
 									list = rr.get(rt);
 								}
-								if(!list.contains(key))
+								if(!list.contains(keys))
 								{
-									list.add(key);
+									list.add(keys);
 								}
 								rr.put(rt, list);
 							} catch(Exception e)
@@ -555,6 +565,7 @@ public class CatTechHandler
 								matmap.put(mat, l);
 							} catch(Exception e)
 							{
+								TT.log.log(Level.WARNING ,"Tech "+internName+" Error by UnlockableEnchantments, Lvl: "+i);
 								continue;
 							}
 						}

@@ -567,7 +567,7 @@ public class YamlManager
 				new Object[] {
 				"",
 				"Wenn 'true' können Spieler im Gamemode Creative alle Hauptkategorien sehen und darauf zugreifen,",
-				"ungeachtet ob sie es tatsächlich könnten.",
+				"ungeachtet ob sie es tatsächlich könnten. Wird aber nicht gespeichert.",
 				"",
 				"If 'true', players can see and access all main categories in Game Mode Creative,",
 				"regardless of whether they actually could."});
@@ -577,7 +577,7 @@ public class YamlManager
 				new Object[] {
 				"",
 				"Wenn 'true' können Spieler im Gamemode Creative alle Untergeordnetenkategorien sehen und darauf zugreifen,",
-				"ungeachtet ob sie es tatsächlich könnten.",
+				"ungeachtet ob sie es tatsächlich könnten. Wird aber nicht gespeichert.",
 				"",
 				"If 'true', players can see and access all sub categories in Game Mode Creative,",
 				"regardless of whether they actually could."});
@@ -587,7 +587,7 @@ public class YamlManager
 				new Object[] {
 				"",
 				"Wenn 'true' können Spieler im Gamemode Creative alle Technologien sehen und freischalten,",
-				"ungeachtet ob sie es tatsächlich könnten.",
+				"ungeachtet ob sie es tatsächlich könnten. Wird nur gespeichert, wenn aktiv die Technologie 'freigeschaltet' wird.",
 				"",
 				"If 'true', players can see and unlock all technologies in Creative game mode,",
 				"regardless of whether they actually could."});
@@ -620,7 +620,7 @@ public class YamlManager
 				15},
 				new Object[] {
 				"",
-				"Die Anzahl an Minuten wann der Hintergrundtask die gesetzten Blöcke wieder entfernt. (So dass sie wieder abgebaut werden können um Belohnungen zu erhalten)",
+				"Die Anzahl an Minuten wann der Hintergrundtask checkt ob gesetzte Blöcke wieder entfernt werden können. (So dass sie wieder abgebaut werden können um Belohnungen zu erhalten)",
 				"",
 				"The number of minutes when the background task removes the set blocks. (So that they can be dismantled again to receive rewards)"});
 		addConfig("Do.DeleteExpireExternBooster.isMainServer",
@@ -692,17 +692,17 @@ public class YamlManager
 				3},
 				new Object[] {
 				"",
-				"Um die Mathematischen Formel von JobsReborn korrekt zu berechnen ist hier die maximale Anzahl von Jobs angegeben,",
+				"Um die Mathematischen Formel von JobsReborn korrekt zu berechnen ist hier die maximale Anzahl von aktiven Jobs angegeben,",
 				"welche die Spieler früher in JobsReborn zu Verfügung hatten.",
 				"",
-				"In order to correctly calculate the JobsReborn mathematical formula, the maximum number of jobs is given here",
+				"In order to correctly calculate the JobsReborn mathematical formula, the maximum number of active jobs is given here",
 				"which the players used to have available in JobsReborn."});
 		addConfig("Do.NewPlayer.ShowSyncMessage",
 				new Object[] {
 				true},
 				new Object[] {
 				"",
-				"Wenn'true', dann werden neuen Spieler immer automatisch Synchronisationsnachrichten angezeigt beim Joinen.",
+				"Wenn 'true', dann werden neuen Spieler immer automatisch Synchronisationsnachrichten angezeigt beim Joinen.",
 				"Spieler können dass, nach Standarteinstellungen aber selbstständig ein- und ausschalten.",
 				"",
 				"If 'true', then new players are always automatically shown synchronization messages when joining.",
@@ -712,7 +712,7 @@ public class YamlManager
 				true},
 				new Object[] {
 				"",
-				"Wenn'true', dann werden neuen Spieler immer automatisch Belohnungsnachrichten angezeigt.",
+				"Wenn 'true', dann werden neuen Spieler immer automatisch Belohnungsnachrichten angezeigt.",
 				"Spieler können dass, nach Standarteinstellungen aber selbstständig ein- und ausschalten.",
 				"",
 				"If 'true', then new players are always automatically shown reward messages.",
@@ -935,6 +935,26 @@ public class YamlManager
 				"Das maximale Level, welche Gruppen für ihr Gruppenlevel erreichen können.",
 				"",
 				"The maximum level that groups can reach for their group level."});
+		addConfig("Group.Level.CostsForIncreasingLevel",
+				new Object[] {
+				"group_level*group_memberamount*group_membertotalamount + group_researched_totaltech*pi^2"},
+				new Object[] {
+				"",
+				"Mathematische Formel, welche den die Kosten für die Gruppenlevelerhöhung regelt.",
+				"Für die nativen Operation/Funktione/Konstanten siehe https://github.com/Avankziar/InterfaceHub/wiki/GER-MathFormulaParser",
+				"Erlaubt sind nicht native Replacer:",
+				"'group_level' Das Gruppenlevel der Gruppe.",
+				"'group_memberamount' Die momentane Anzahl an Gruppenmitglieder.",
+				"'group_membertotalamount' Die maximal mögliche Anzahl an Gruppenmitglieder.",
+				"'group_researched_totaltech' Die Anzahl an erforschten GruppenTechnologien der Gruppe.",
+				"",
+				"Mathematical formula governing the cost of the group level increase.",
+				"For the native operation/function/constants, see https://github.com/Avankziar/InterfaceHub/wiki/GER-MathFormulaParser",
+				"Allowed are non-native replacers:",
+				"'group_level' The group level of the group.",
+				"'group_memberamount' The current number of group members.",
+				"'group_membertotalamount' The maximum possible number of group members.",
+				"'group_researched_totaltech' The number of researched group technologies in the group."});
 		addConfig("Group.DailyUpkeep.Active",
 				new Object[] {
 				true},
@@ -973,6 +993,7 @@ public class YamlManager
 				new Object[] {
 				"group_level*group_researched_totaltech + group_memberamount*pi^2"},
 				new Object[] {
+				"",
 				"Mathematische Formel, welche den Wissensunterhalt regelt.",
 				"Für die nativen Operation/Funktione/Konstanten siehe https://github.com/Avankziar/InterfaceHub/wiki/GER-MathFormulaParser",
 				"Erlaubt sind nicht native Replacer:",
@@ -1038,26 +1059,6 @@ public class YamlManager
 				"",
 				"The standard knowledge maintenance for an adept position.",
 				"Values are adopted when a group is created. Permanent changes in the group possible."});
-		addConfig("Group.Level.CostsForIncreasingLevel",
-				new Object[] {
-				"group_level*group_memberamount*group_membertotalamount + group_researched_totaltech*pi^2"},
-				new Object[] {
-				"",
-				"Mathematische Formel, welche den die Kosten für die Gruppenlevelerhöhung regelt.",
-				"Für die nativen Operation/Funktione/Konstanten siehe https://github.com/Avankziar/InterfaceHub/wiki/GER-MathFormulaParser",
-				"Erlaubt sind nicht native Replacer:",
-				"'group_level' Das Gruppenlevel der Gruppe.",
-				"'group_memberamount' Die momentane Anzahl an Gruppenmitglieder.",
-				"'group_membertotalamount' Die maximal mögliche Anzahl an Gruppenmitglieder.",
-				"'group_researched_totaltech' Die Anzahl an erforschten GruppenTechnologien der Gruppe.",
-				"",
-				"Mathematical formula governing the cost of the group level increase.",
-				"For the native operation/function/constants, see https://github.com/Avankziar/InterfaceHub/wiki/GER-MathFormulaParser",
-				"Allowed are non-native replacers:",
-				"'group_level' The group level of the group.",
-				"'group_memberamount' The current number of group members.",
-				"'group_membertotalamount' The maximum possible number of group members.",
-				"'group_researched_totaltech' The number of researched group technologies in the group."});
 		addConfig("Group.Member.TotalAmountPerLevel.Player",
 				new Object[] {
 				"1+(group_level)^3"},
@@ -1079,22 +1080,6 @@ public class YamlManager
 		configSpigotKeys.put("Group.Member.TotalAmountPerLevel.MASTER", new Language(new ISO639_2B[] {ISO639_2B.GER},
 				new Object[] {
 				"group_level"}));
-		addConfigComments("#Group.Member.TotalAmountPerLevel",
-				new Object[] {
-				"",
-				"Mathematische Formeln, welche die maximale Anzahl für die jeweiligen Positionen regelt.",
-				"Für die nativen Operation/Funktione/Konstanten siehe https://github.com/Avankziar/InterfaceHub/wiki/GER-MathFormulaParser",
-				"Erlaubt sind nicht native Replacer:",
-				"'group_level' Das Gruppenlevel der Gruppe.",
-				"'group_memberamount' Die momentane Anzahl an Gruppenmitglieder.",
-				"'group_researched_totaltech' Die Anzahl an erforschten GruppenTechnologien der Gruppe.",
-				"",
-				"Mathematical formulas that regulate the maximum number for the respective positions.",
-				"For the native operation/function/constants, see https://github.com/Avankziar/InterfaceHub/wiki/GER-MathFormulaParser",
-				"Non-native replacers are permitted:",
-				"'group_level' The group level of the group.",
-				"'group_memberamount' The current number of group members.",
-				"'group_researched_totaltech' The number of researched group technologies of the group."});
 		configSpigotKeys.put("Group.Member.TotalAmountPerLevel.VICE", new Language(new ISO639_2B[] {ISO639_2B.GER},
 				new Object[] {
 				"(1+group_level)*1.25"}));
@@ -1236,8 +1221,8 @@ public class YamlManager
 				"&eIntermediate command");
 		argumentInput("tt_externbooster_add", "add", basePermission,
 				"/tt externbooster add", "/tt externbooster add ", false,
-				"&c/tt externbooster add <ExternBoosterName> <EventType> <PlayerAssociatedType> <Faktor(Gleitkommazahl)> <Zeit|-1|00d-00H-00m> [Spielername/Gruppe/Permission] [Ausführende Spieler] &f| Fügt einen Externen Booster hinzu. Anmerkung: Gleitkommazahl sind als Multiplikator zu verstehen. -1 steht für einen permanenten Booster.",
-				"&c/tt externbooster add <ExternBoosterName> <EventType> <PlayerAssociatedType> <factor(double)> <time|-1|00d-00H-00m> [playername/group/permission] [associateplayer] &f| Adds an external booster. Note: Floating point numbers are to be understood as multipliers. -1 stands for a permanent booster.",
+				"&c/tt externbooster add <ExternBoosterName> <EventType> <PlayerAssociatedType> <RewardType> <Faktor(Gleitkommazahl)> <Zeit|-1|00d-00H-00m> [Spielername/Gruppe/Permission] [Ausführende Spieler] &f| Fügt einen Externen Booster hinzu. Anmerkung: Gleitkommazahl sind als Multiplikator zu verstehen. -1 steht für einen permanenten Booster.",
+				"&c/tt externbooster add <ExternBoosterName> <EventType> <PlayerAssociatedType> <RewardType> <factor(double)> <time|-1|00d-00H-00m> [playername/group/permission] [associateplayer] &f| Adds an external booster. Note: Floating point numbers are to be understood as multipliers. -1 stands for a permanent booster.",
 				"&bBefehlsrecht für &f/tt externbooster add",
 				"&bCommandright for &f/ttexternbooster add",
 				"&eFügt einen Externen Booster hinzu.",
@@ -1524,7 +1509,7 @@ public class YamlManager
 	
 	private void addComBypassComments(String path, Object[] o)
 	{
-		configSpigotKeys.put(path, new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, o));
+		commandsKeys.put(path, new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, o));
 	}
 	
 	private void comBypass() //INFO:ComBypass
@@ -1539,7 +1524,9 @@ public class YamlManager
 						new Object[] {
 						"tt."+ept.toString().toLowerCase().replace("_", ".")},
 						new Object[] {
+						"",
 						"Erlaubt alle Externe Booster ohne Spielerprefärenz in einer Liste zu sehen.",
+						"",
 						"Allows you to see all external boosters without player preference in a list."});
 				break;
 			case EXTERNBOOSTER_LIST_SEE_OTHERPLAYER:
@@ -1547,7 +1534,9 @@ public class YamlManager
 						new Object[] {
 						"tt."+ept.toString().toLowerCase().replace("_", ".")},
 						new Object[] {
+						"",
 						"Erlaubt alle Extener Booster einen bestimmten Spielers zu sehen.",
+						"",
 						"Allows you to see all Extener boosters of a specific player."});
 				break;
 			case GROUP_CREATE:
@@ -1555,7 +1544,9 @@ public class YamlManager
 						new Object[] {
 						"tt."+ept.toString().toLowerCase().replace("_", ".")},
 						new Object[] {
+						"",
 						"Erlaubt Gruppen zu erstellen ohnen TTExp zu zahlen.",
+						"",
 						"Allows you to create groups without paying TTExp."});
 				break;
 			case GROUP_INCREASELEVEL:
@@ -1563,7 +1554,9 @@ public class YamlManager
 						new Object[] {
 						"tt."+ept.toString().toLowerCase().replace("_", ".")},
 						new Object[] {
+						"",
 						"Erlaubt das Gruppenlevel von anderen Gruppen zu erhöhen, wo man kein Mitglied ist.",
+						"",
 						"Allows you to increase the group level of other groups where you are not a member."});
 				break;
 			case GROUP_INFO:
@@ -1571,7 +1564,9 @@ public class YamlManager
 						new Object[] {
 						"tt."+ept.toString().toLowerCase().replace("_", ".")},
 						new Object[] {
+						"",
 						"Erlaubt mehr Infos einer Gruppe einzusehen, ohne Mitglied zu sein.",
+						"",
 						"Allows you to view more information about a group without being a member."});
 				break;
 			case GROUP_SETGRANDMASTER:
@@ -1579,7 +1574,9 @@ public class YamlManager
 						new Object[] {
 						"tt."+ept.toString().toLowerCase().replace("_", ".")},
 						new Object[] {
+						"",
 						"Erlaubt einem, einen anderen oder fremden Spieler als Großmeister der Gruppe zu setzten.",
+						"",
 						"Allows you to set another or foreign player as grandmaster of the group."});
 				break;
 			case SWITCHMODE_OTHERPLAYER:
@@ -1587,7 +1584,9 @@ public class YamlManager
 						new Object[] {
 						"tt."+ept.toString().toLowerCase().replace("_", ".")},
 						new Object[] {
+						"",
 						"Erlaubt einen SwitchMode für andere Spieler zu setzten.",
+						"",
 						"Allows you to set a SwitchMode for other players."});
 				break;
 			}
@@ -2642,6 +2641,10 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cDer PlayerAssociatedType %value% existiert nicht!",
 						"&cThe PlayerAssociatedType %value% does not exist!"}));
+		languageKeys.put(path+"ExternBooster.Add.NoRewardType",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDer RewardType %value% existiert nicht!",
+						"&cThe RewardType %value% does not exist!"}));
 		languageKeys.put(path+"ExternBooster.Add.NoTiming",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cDie Zeitwerte sind nicht im Format &f..d-..H-..m&c!",
@@ -2670,6 +2673,15 @@ public class YamlManager
 						"&bDauer: &f%time%",
 						"&cFaktor: &f%factor%",
 						"&cEvent: &f%event%",
+						"&cBetroffene Belohnung: &f%reward%",
+						"&7====================",
+						"&7====================",
+						"&6A booster has been unlocked for everyone!",
+						"&eResponsible player: &f%associatedplayer%",
+						"&bDuration: &f%time%",
+						"&cFactor: &f%factor%",
+						"&cEvent: &f%event%",
+						"&cAffected reward: &f%reward%",
 						"&7===================="}));
 		languageKeys.put(path+"ExternBooster.Add.Adding.Group", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
@@ -2679,6 +2691,15 @@ public class YamlManager
 						"&bDauer: &f%time%",
 						"&cFaktor: &f%factor%",
 						"&cEvent: &f%event%",
+						"&cBetroffene Belohnung: &f%reward%",
+						"&7====================",
+						"&7====================",
+						"&6A booster has been unlocked for the group %group%!",
+						"&eResponsible player: &f%associatedplayer%",
+						"&bDuration: &f%time%",
+						"&cFactor: &f%factor%",
+						"&cEvent: &f%event%",
+						"&cAffected reward: &f%reward%",
 						"&7===================="}));
 		languageKeys.put(path+"ExternBooster.Add.Adding.Solo", 
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
@@ -2688,6 +2709,15 @@ public class YamlManager
 						"&bDauer: &f%time%",
 						"&cFaktor: &f%factor%",
 						"&cEvent: &f%event%",
+						"&cBetroffene Belohnung: &f%reward%",
+						"&7====================",
+						"&7====================",
+						"&6A booster has been unlocked for the player %player%!",
+						"&eResponsible player: &f%associatedplayer%",
+						"&bDuration: &f%time%",
+						"&cFactor: &f%factor%",
+						"&cEvent: &f%event%",
+						"&cAffected reward: &f%reward%",
 						"&7===================="}));
 		languageKeys.put(path+"ExternBooster.Remove.NoExist",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
@@ -2717,6 +2747,10 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cPlayerAssociatedType: &f%pat%",
 						"&cPlayerAssociatedType: &f%pat%"}));
+		languageKeys.put(path+"ExternBooster.List.Hover.RewardType",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cBetroffene Belohnung: &f%rt%",
+						"&cAffected reward: &f%rt%"}));
 		languageKeys.put(path+"ExternBooster.List.Hover.Factor",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cFaktor: &f%factor%",
@@ -18228,6 +18262,7 @@ public class YamlManager
 		    } else if(r instanceof SmithingTransformRecipe)
 		    {
 		    	RecipeHandler.toSaveRecipe.add(r);
+		    	recipeType = "smithing";
 		    	/*
 		    	SmithingTransformRecipe a = (SmithingTransformRecipe) r;
 		    	String onekey = a.getKey().getKey();
@@ -18305,6 +18340,9 @@ public class YamlManager
 		    } else if(r instanceof SmithingTrimRecipe)
 		    {
 		    	RecipeHandler.toSaveRecipe.add(r);
+		    	recipeType = "smithing";
+		    	SmithingTrimRecipe a = (SmithingTrimRecipe) r;
+		    	onekey = a.getKey().getNamespace()+"-"+a.getKey().getKey();
 		    	//Diese Rezepte sind für die Config nicht wirklich machbar.
 		    	/*SmithingTrimRecipe a = (SmithingTrimRecipe) r;
 		    	String onekey = a.getKey().getKey();
@@ -18493,6 +18531,10 @@ public class YamlManager
 		    }
 		    if(recipeType != null)
 		    {
+		    	if(onekey == null)
+		    	{
+		    		continue;
+		    	}
 		    	String[] sp = onekey.split("-");
 		    	if(sp.length != 2)
 		    	{

@@ -172,7 +172,7 @@ public class UpdateTech implements MysqlHandable
 				al.add(new UpdateTech(rs.getInt("id"),
 						UUID.fromString(rs.getString("player_uuid")),
 						PlayerAssociatedType.valueOf(rs.getString("player_associated_type")),
-						rs.getString("technologyn"),
+						rs.getString("technology"),
 						rs.getInt("global_technology_poll_id"),
 						rs.getInt("research_level")));
 			}

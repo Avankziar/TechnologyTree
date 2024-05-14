@@ -46,7 +46,7 @@ import main.java.me.avankziar.tt.spigot.objects.ram.misc.SwitchMode;
 import net.md_5.bungee.api.chat.ClickEvent.Action;
 
 public class RewardHandler
-{
+{	
 	private static TT plugin = BaseConstructor.getPlugin();
 	
 	public static LinkedHashMap<UUID, LinkedHashMap<ToolType, LinkedHashMap<Material, LinkedHashMap<EventType, Double>>>> rewardMaterialMap = new LinkedHashMap<>();
@@ -128,7 +128,11 @@ public class RewardHandler
 		final LinkedHashMap<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>>> entityMap = rewardEntityTypeMap.get(uuid);
 		rewardEntityTypeMap.remove(uuid);
 		ArrayList<RewardSummary> rewardSummaryList = new ArrayList<>();
-		final LinkedHashMap<EventType, Double> externBooster = PlayerHandler.externBoosterMap.get(uuid);
+		final LinkedHashMap<RewardType, LinkedHashMap<EventType, Double>> externBooster = PlayerHandler.externBoosterMap.get(uuid);
+		final LinkedHashMap<EventType, Double> exBoTTExp = externBooster.get(RewardType.TECHNOLOGYTREE_EXP);
+		final LinkedHashMap<EventType, Double> exBoVExp = externBooster.get(RewardType.VANILLA_EXP);
+		final LinkedHashMap<EventType, Double> exBoMoney = externBooster.get(RewardType.MONEY);
+		final LinkedHashMap<EventType, Double> exBoCmd = externBooster.get(RewardType.COMMAND);
 		if(matMap == null && entityMap == null)
 		{
 			return;
@@ -145,8 +149,10 @@ public class RewardHandler
 					{
 						EventType et = entryII.getKey();
 						double amount = entryII.getValue();
-						Double exB = externBooster.get(et);
-						double exBooster = exB == null ? 1.0 : exB.doubleValue();
+						double exBTTExp = exBoTTExp != null ? (exBoTTExp.get(et) != null ? exBoTTExp.get(et).doubleValue() : 1.0) : 1.0;
+						double exBVExp = exBoVExp != null ? (exBoVExp.get(et) != null ? exBoVExp.get(et).doubleValue() : 1.0) : 1.0;
+						double exBMoney = exBoMoney != null ? (exBoMoney.get(et) != null ? exBoMoney.get(et).doubleValue() : 1.0) : 1.0;
+						double exBCmd = exBoCmd != null ? (exBoCmd.get(et) != null ? exBoCmd.get(et).doubleValue() : 1.0) : 1.0;
 						TT.log.info("RewardHandler et:"+et.toString()+" | mat:"+mat.toString()+" | tool: "+tool.toString()); //REMOVEME
 						if(PlayerHandler.materialInteractionMap.containsKey(uuid)
 								&& PlayerHandler.materialInteractionMap.get(uuid).containsKey(tool)
@@ -160,8 +166,8 @@ public class RewardHandler
 								continue;
 							}
 							TT.log.info("toGiveTTExp: "+toGiveTTExp+" | sui.getTechnologyExperience(): "+sui.getTechnologyExperience()+" | amount: "+amount); //REMOVEME
-							toGiveTTExp = toGiveTTExp + sui.getTechnologyExperience() * amount * exBooster;
-							toGiveVanillaExp = toGiveVanillaExp + sui.getVanillaExperience() * amount * exBooster;
+							toGiveTTExp = toGiveTTExp + sui.getTechnologyExperience() * amount * exBTTExp;
+							toGiveVanillaExp = toGiveVanillaExp + sui.getVanillaExperience() * amount * exBVExp;
 							for(Entry<String, Double> s : sui.getMoneyMap().entrySet())
 							{
 								double moneyAmount = 0;
@@ -169,7 +175,7 @@ public class RewardHandler
 								{
 									moneyAmount = toGiveMoneyMap.get(s.getKey());
 								}
-								moneyAmount = moneyAmount + s.getValue() * amount * exBooster;
+								moneyAmount = moneyAmount + s.getValue() * amount * exBMoney;
 								toGiveMoneyMap.put(s.getKey(), moneyAmount);
 							}
 							for(Entry<String, Double> s : sui.getCommandMap().entrySet())
@@ -179,7 +185,7 @@ public class RewardHandler
 								{
 									cmdAmount = toGiveCommandMap.get(s.getKey());
 								}
-								cmdAmount = cmdAmount + s.getValue() * amount * exBooster;
+								cmdAmount = cmdAmount + s.getValue() * amount * exBCmd;
 								toGiveCommandMap.put(s.getKey(), cmdAmount);
 							}
 							RewardSummary rs = new RewardSummary(et, mat, null, amount, toGiveVanillaExp, toGiveTTExp, toGiveMoneyMap, toGiveCommandMap);
@@ -201,9 +207,10 @@ public class RewardHandler
 					{
 						EventType et = entryII.getKey();
 						double amount = entryII.getValue();
-						Double exB = externBooster.get(et);
-						double exBooster = exB == null ? 1.0 : exB.doubleValue();
-						TT.log.info("RewardHandler et:"+et.toString()+" | ent:"+ent.toString()+" | tool: "+tool.toString()); //REMOVEME
+						double exBTTExp = exBoTTExp != null ? (exBoTTExp.get(et) != null ? exBoTTExp.get(et).doubleValue() : 1.0) : 1.0;
+						double exBVExp = exBoVExp != null ? (exBoVExp.get(et) != null ? exBoVExp.get(et).doubleValue() : 1.0) : 1.0;
+						double exBMoney = exBoMoney != null ? (exBoMoney.get(et) != null ? exBoMoney.get(et).doubleValue() : 1.0) : 1.0;
+						double exBCmd = exBoCmd != null ? (exBoCmd.get(et) != null ? exBoCmd.get(et).doubleValue() : 1.0) : 1.0;
 						if(PlayerHandler.entityTypeInteractionMap.containsKey(uuid)
 								&& PlayerHandler.entityTypeInteractionMap.get(uuid).containsKey(tool)
 								&& PlayerHandler.entityTypeInteractionMap.get(uuid).get(tool).containsKey(ent)
@@ -215,8 +222,8 @@ public class RewardHandler
 							{
 								continue;
 							}
-							toGiveTTExp = toGiveTTExp + sui.getTechnologyExperience() * amount * exBooster;
-							toGiveVanillaExp = toGiveVanillaExp + sui.getVanillaExperience() * amount * exBooster;
+							toGiveTTExp = toGiveTTExp + sui.getTechnologyExperience() * amount * exBTTExp;
+							toGiveVanillaExp = toGiveVanillaExp + sui.getVanillaExperience() * amount * exBVExp;
 							for(Entry<String, Double> s : sui.getMoneyMap().entrySet())
 							{
 								double moneyAmount = 0;
@@ -224,7 +231,7 @@ public class RewardHandler
 								{
 									moneyAmount = toGiveMoneyMap.get(s.getKey());
 								}
-								moneyAmount = moneyAmount + s.getValue() * amount * exBooster;
+								moneyAmount = moneyAmount + s.getValue() * amount * exBMoney;
 								toGiveMoneyMap.put(s.getKey(), moneyAmount);
 							}
 							for(Entry<String, Double> s : sui.getCommandMap().entrySet())
@@ -234,7 +241,7 @@ public class RewardHandler
 								{
 									cmdAmount = toGiveCommandMap.get(s.getKey());
 								}
-								cmdAmount = cmdAmount + s.getValue() * amount * exBooster;
+								cmdAmount = cmdAmount + s.getValue() * amount * exBCmd;
 								toGiveCommandMap.put(s.getKey(), cmdAmount);
 							}
 							RewardSummary rs = new RewardSummary(et, null, ent, amount, toGiveVanillaExp, toGiveTTExp, toGiveMoneyMap, toGiveCommandMap);
@@ -247,7 +254,6 @@ public class RewardHandler
 		if(toGiveTTExp == 0 && toGiveVanillaExp == 0
 				&& toGiveMoneyMap.isEmpty() && toGiveCommandMap.isEmpty())
 		{
-			TT.log.info("RewardHandler all toGive are 0 or empty"); //REMOVEME
 			return;
 		}
 		PlayerData pd = PlayerHandler.getPlayer(uuid);
@@ -293,7 +299,6 @@ public class RewardHandler
 		{			
 			for(Entry<String, Double> e : toGiveMoneyMap.entrySet())
 			{
-				TT.log.info("RewardHandler toGiveMoneyMap: "+e.getKey()); //REMOVEME
 				double taxation = new ConfigHandler().rewardPayoutTaxInPercent();
 				if(e.getKey().equalsIgnoreCase("vault") && plugin.getVaultEco() != null)
 				{
@@ -344,7 +349,6 @@ public class RewardHandler
 		{
 			for(Entry<String, Double> e : toGiveCommandMap.entrySet())
 			{
-				TT.log.info("RewardHandler toGiveCmdMap: "+e.getKey()+" | "+e.getValue()); //REMOVEME
 				String[] split = e.getKey().split(",");
 				if(split.length != 2)
 				{
@@ -357,33 +361,34 @@ public class RewardHandler
 						@Override
 						public void run()
 						{
-							if(split[1].contains("%value%"))
+							if("int".equalsIgnoreCase(split[1]))
 							{
-								if(e.getValue() % 1 == 0)
-								{
-									int i = e.getValue().intValue();
-									Bukkit.dispatchCommand(Bukkit.getConsoleSender(), split[1]
-											.replace("%player%", playername)
-											.replace("%value%", String.valueOf(i)));
-								} else
-								{
-									Bukkit.dispatchCommand(Bukkit.getConsoleSender(), split[1]
-											.replace("%player%", playername)
-											.replace("%value%", String.valueOf(e.getValue())));
-								}
+								int i = e.getValue().intValue();
+								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), split[2]
+										.replace("%player%", playername)
+										.replace("%value%", String.valueOf(i)));
 							} else
 							{
-								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), split[1]
+								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), split[2]
 										.replace("%player%", playername)
 										.replace("%value%", String.valueOf(e.getValue())));
-							}						
+							}					
 						}
 					}.runTask(plugin);
 				} else if("bungee".equalsIgnoreCase(split[0]) && plugin.getCommandToBungee() != null)
 				{
-					plugin.getCommandToBungee().executeAsConsole(split[1]
-							.replace("%player%", playername)
-							.replace("%value%", String.valueOf(e.getValue())));
+					if("int".equalsIgnoreCase(split[1]))
+					{
+						int i = e.getValue().intValue();
+						plugin.getCommandToBungee().executeAsConsole(split[2]
+								.replace("%player%", playername)
+								.replace("%value%", String.valueOf(i)));
+					} else
+					{
+						plugin.getCommandToBungee().executeAsConsole(split[2]
+								.replace("%player%", playername)
+								.replace("%value%", String.valueOf(e.getValue())));
+					}
 				}
 			}
 		}
@@ -494,14 +499,17 @@ public class RewardHandler
 					&& PlayerHandler.materialInteractionMap.get(uuid).get(toolType).get(material).containsKey(eventType))
 			{
 				boolean b = PlayerHandler.materialInteractionMap.get(uuid).get(toolType).get(material).get(eventType).isCanAccess();
-				TT.log.info("canAccessInteraction b: "+b); //REMOVEME
+				/* INFO Return null at plugin.getValueEntry().getBooleanValueEntry... because of Cannot invoke "java.lang.Boolean.booleanValue()
+				Which is something strange
+				TT.log.info("canAccessInteraction b: "+b); //REMOVEME Logger
 				Boolean B =  plugin.getValueEntry() != null 
 						? plugin.getValueEntry().getBooleanValueEntry(uuid, 
 						CatTechHandler.getValueEntry(RewardType.ACCESS, eventType, material, entityType),
 						plugin.getServername(), player.getWorld().getName())
-						: b; //TODO Checken, warum das null gibt
-				TT.log.info("canAccessInteraction B: "+(B == null ? "null" : B)); //REMOVEME
-				return b ? b : B;
+						: b;
+				TT.log.info("canAccessInteraction B: "+(B == null ? "null" : B)); //REMOVEME Logger
+				return B != null ? B : b;*/
+				return b;
 			}
 		} else if(entityType != null)
 		{
@@ -521,9 +529,14 @@ public class RewardHandler
 	
 	public static boolean canAccessRecipe(UUID uuid, RecipeType rt, String key)
 	{
+		String keys = key;
+		if(!key.contains("-") && Character.isLowerCase(key.charAt(0)))
+		{
+			keys = "minecraft-"+key;
+		}
 		if(PlayerHandler.recipeMap.containsKey(uuid)
 				&& PlayerHandler.recipeMap.get(uuid).containsKey(rt)
-				&& PlayerHandler.recipeMap.get(uuid).get(rt).contains(key))
+				&& PlayerHandler.recipeMap.get(uuid).get(rt).contains(keys))
 		{
 			return true;
 		}
@@ -571,6 +584,9 @@ public class RewardHandler
 		UUID uuid = player.getUniqueId();
 		ArrayList<ItemStack> list = new ArrayList<>();
 		PlayerData pd = PlayerHandler.getPlayer(uuid);
+		final LinkedHashMap<RewardType, LinkedHashMap<EventType, Double>> externBooster = PlayerHandler.externBoosterMap.get(uuid);
+		final LinkedHashMap<EventType, Double> exBoDrops = externBooster.get(RewardType.DROPS);
+		double exBDrops = exBoDrops != null ? (exBoDrops.get(eventType) != null ? exBoDrops.get(eventType).doubleValue() : 1.0) : 1.0;
 		if(SwitchModeHandler.isActive && pd.getSwitchMode().equals("null"))
 		{
 			if(player != null)
@@ -603,7 +619,7 @@ public class RewardHandler
 				{
 					for(SimpleDropChance sdc : PlayerHandler.materialSilkTouchDropMap.get(uuid).get(tool).get(material).get(eventType).values())
 					{
-						ItemStack is = getSingleDrops(player, sdc, fortunelevel, lucklevel, 
+						ItemStack is = getSingleDrops(player, sdc, fortunelevel, lucklevel, exBDrops,
 								breakingThroughVanillaDropBarrier, eventType, material, entityType);
 						list.add(is);
 					}
@@ -617,7 +633,7 @@ public class RewardHandler
 				{
 					for(SimpleDropChance sdc : PlayerHandler.materialDropMap.get(uuid).get(tool).get(material).get(eventType).values())
 					{
-						ItemStack is = getSingleDrops(player, sdc, fortunelevel, lucklevel,
+						ItemStack is = getSingleDrops(player, sdc, fortunelevel, lucklevel, exBDrops,
 								breakingThroughVanillaDropBarrier, eventType, material, entityType);
 						list.add(is);
 					}
@@ -650,7 +666,7 @@ public class RewardHandler
 				{
 					for(SimpleDropChance sdc : PlayerHandler.entityTypeSilkTouchDropMap.get(uuid).get(tool).get(entityType).get(eventType).values())
 					{
-						ItemStack is = getSingleDrops(player, sdc, lootlevel, lucklevel,
+						ItemStack is = getSingleDrops(player, sdc, lootlevel, lucklevel, exBDrops,
 								breakingThroughVanillaDropBarrier, eventType, material, entityType);
 						list.add(is);
 					}
@@ -664,7 +680,7 @@ public class RewardHandler
 				{
 					for(SimpleDropChance sdc : PlayerHandler.entityTypeDropMap.get(uuid).get(tool).get(entityType).get(eventType).values())
 					{
-						ItemStack is = getSingleDrops(player, sdc, lootlevel, lucklevel,
+						ItemStack is = getSingleDrops(player, sdc, lootlevel, lucklevel, exBDrops,
 								breakingThroughVanillaDropBarrier, eventType, material, entityType);
 						list.add(is);
 					}
@@ -675,7 +691,7 @@ public class RewardHandler
 	}
 	
 	private static ItemStack getSingleDrops(Player player, SimpleDropChance sdc,
-			int fortunelootlevel, int potionlucklevel,
+			int fortunelootlevel, int potionlucklevel, double externBoosterFactor,
 			boolean breakingThroughVanillaDropBarrier,
 			EventType eventType, Material material, EntityType entityType)
 	{
@@ -688,7 +704,7 @@ public class RewardHandler
 	    	                              (e1, e2) -> e1, LinkedHashMap::new));
 		for(Entry<Integer, Double> e : sortedMap.entrySet())
 		{
-			double chance = getChance(e.getValue(), fortunelootlevel, potionlucklevel);//-j*0.125;
+			double chance = getChance(e.getValue(), fortunelootlevel, potionlucklevel) * externBoosterFactor;//-j*0.125;
 			double r = new Random().nextDouble();
 			//j++;
 			if(r < chance)
@@ -699,12 +715,13 @@ public class RewardHandler
 				break;
 			}
 		}
-		/*if(plugin.getModifier() != null)
+		/* INFO Because Modifier are to much of Mysql data, it will not be active
+		if(plugin.getModifier() != null)
 		{
 			i = (int) plugin.getModifier().getResult(player.getUniqueId(), (double) i,
 					CatTechHandler.getModifier(RewardType.DROPS, eventType, material, entityType),
 					plugin.getServername(), player.getWorld().getName());
-		}*/ //TODO schauen ob es funktioniert.
+		}*/
 		ItemStack is = sdc.getItem(player, i);
 		if(!breakingThroughVanillaDropBarrier)
 		{
@@ -723,19 +740,18 @@ public class RewardHandler
 			fll = (1 / (1.0/((double)fortunelootlevel+2.0)+((double)fortunelootlevel+1.0)/2.0));
 			pll = (1 / (1.0/((double)potionlucklevel+2.0) +((double)potionlucklevel+1.0)/2.0));
 			chance = chance * (1 + (fll + pll));
-			System.out.println("fll = " + fll + " | pll = " + pll + " >>> 1 + (fll + pll) = " + (1 + (fll + pll)));
+			//System.out.println("fll = " + fll + " | pll = " + pll + " >>> 1 + (fll + pll) = " + (1 + (fll + pll)));
 		} else if(fortunelootlevel > 0)
 		{
 			fll = (1.0/((double)fortunelootlevel+2.0)+((double)fortunelootlevel+1.0)/2.0);
 			chance = chance * (1 + (1 / fll));
-			System.out.println("fll = " + fll + " >>> (1 + (1 / fll) = " + ((1 + (1 / fll))));
+			//System.out.println("fll = " + fll + " >>> (1 + (1 / fll) = " + ((1 + (1 / fll))));
 		} else if(potionlucklevel > 0)
 		{
 			pll = (1.0/((double)potionlucklevel+2.0) +((double)potionlucklevel+1.0)/2.0);
 			chance = chance * (1 + (1 / pll));
-			System.out.println("pll = " + pll + " >>> (0.42 + (1 / fll) = " + ((1 + (1 / pll))));
-		}
-		
+			//System.out.println("pll = " + pll + " >>> (0.42 + (1 / fll) = " + ((1 + (1 / pll))));
+		}		
 		return chance;
 	}
 	

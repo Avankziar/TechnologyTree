@@ -41,6 +41,7 @@ import main.java.me.avankziar.tt.spigot.objects.EntryQueryType;
 import main.java.me.avankziar.tt.spigot.objects.EntryStatusType;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
+import main.java.me.avankziar.tt.spigot.objects.RewardType;
 import main.java.me.avankziar.tt.spigot.objects.TechnologyType;
 import main.java.me.avankziar.tt.spigot.objects.ToolType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.ExternBooster;
@@ -81,7 +82,7 @@ public class PlayerHandler
 	
 	public static LinkedHashMap<UUID, LinkedHashMap<BlockType, ArrayList<String>>> registeredBlocks = new LinkedHashMap<>();//UUID, BlockType, Location as Text
 	
-	public static LinkedHashMap<UUID, LinkedHashMap<EventType, Double>> externBoosterMap = new LinkedHashMap<>();
+	public static LinkedHashMap<UUID, LinkedHashMap<RewardType, LinkedHashMap<EventType, Double>>> externBoosterMap = new LinkedHashMap<>();
 	
 	public final static String 
 		TECHLEVEL = "techlev",
@@ -413,6 +414,14 @@ public class PlayerHandler
 				}
 				if(SwitchModeHandler.isActive)
 				{
+					if(pd.getSwitchMode() == null || pd.getSwitchMode().isEmpty())
+					{
+						SwitchMode sw = getSwitchMode(player);
+						String newsw = sw.name;
+						player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("PlayerHandler.SwitchMode.Switched")
+								.replace("%old%", "/")
+								.replace("%new%", newsw)));
+					}
 					SwitchMode sw = SwitchModeHandler.getSwitchMode(pd.getSwitchMode());
 					String oldsw = sw.name;
 					if(sw.permission != null && !player.hasPermission(sw.permission))
@@ -2403,29 +2412,20 @@ public class PlayerHandler
 				{
 					continue;
 				}
+				final double d = Double.parseDouble(split[1]) * rripC;
 				if("spigot".equalsIgnoreCase(split[0]))
 				{
 					new BukkitRunnable()
 					{
-						
 						@Override
 						public void run()
 						{
-							double d = Double.parseDouble(split[1]) * rripC;
-							if(split[2].contains("%value%"))
+							if(split[1].equals("int"))
 							{
-								if(d % 1 == 0)
-								{
-									int i = Double.valueOf(d).intValue();
-									Bukkit.dispatchCommand(Bukkit.getConsoleSender(), split[2]
-											.replace("%player%", player.getName())
-											.replace("%value%", String.valueOf(i)));
-								} else
-								{
-									Bukkit.dispatchCommand(Bukkit.getConsoleSender(), split[2]
-											.replace("%player%", player.getName())
-											.replace("%value%", String.valueOf(d)));
-								}
+								int i = Double.valueOf(d).intValue();
+								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), split[2]
+										.replace("%player%", player.getName())
+										.replace("%value%", String.valueOf(i)));
 							} else
 							{
 								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), split[2]
@@ -2436,9 +2436,19 @@ public class PlayerHandler
 					}.runTask(plugin);
 				} else if("bungee".equalsIgnoreCase(split[0]) && plugin.getCommandToBungee() != null)
 				{
-					plugin.getCommandToBungee().executeAsConsole(
-							split[2].replace("%value%", String.valueOf(Double.parseDouble(split[1]) * rripC))
-									.replace("%player%", player.getName()));
+					if(split[1].equals("int"))
+					{
+						int i = Double.valueOf(d).intValue();
+						plugin.getCommandToBungee().executeAsConsole(
+								split[2].replace("%value%", String.valueOf(i))
+										.replace("%player%", player.getName()));
+					} else
+					{
+						plugin.getCommandToBungee().executeAsConsole(
+								split[2].replace("%value%", String.valueOf(Double.parseDouble(split[1]) * rripC))
+										.replace("%player%", player.getName()));
+					}
+					
 				}
 			}
 		}
@@ -2718,9 +2728,14 @@ public class PlayerHandler
 			{
 				continue;
 			}
+			String K = k;
+			if(!k.contains("-") && Character.isLowerCase(k.charAt(0)))
+			{
+				K = "minecraft-"+k;//If you dont specify where the recipe comes.
+			}
 			if(!listI.contains(k))
 			{
-				listI.add(k);
+				listI.add(K);
 			}
 		}
 		mapI.put(rt, listI);
@@ -2951,18 +2966,24 @@ public class PlayerHandler
 	
 	public static void addExternBooster(UUID uuid, ExternBooster ex)
 	{
-		LinkedHashMap<EventType, Double> map = new LinkedHashMap<>();
+		LinkedHashMap<RewardType, LinkedHashMap<EventType, Double>> map = new LinkedHashMap<>();
 		if(externBoosterMap.containsKey(uuid))
 		{
 			map = externBoosterMap.get(uuid);
 		}
-		double f = 1.0;
-		if(map.containsKey(ex.getEventType()))
+		LinkedHashMap<EventType, Double> mapI = new LinkedHashMap<>();
+		if(map.containsKey(ex.getRewardType()))
 		{
-			f = f * map.get(ex.getEventType());
+			mapI = map.get(ex.getRewardType());
+		}
+		double f = 1.0;
+		if(mapI.containsKey(ex.getEventType()))
+		{
+			f = f * mapI.get(ex.getEventType());
 		}
 		f = ex.getFactor();
-		map.put(ex.getEventType(), f);
+		mapI.put(ex.getEventType(), f);
+		map.put(ex.getRewardType(), mapI);
 		externBoosterMap.put(uuid, map);
 	}
 }

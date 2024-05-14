@@ -94,7 +94,7 @@ public class ARGExternBooster_List extends ArgumentModule
 	private void normal(CommandSender sender, int page)
 	{
 		ArrayList<ExternBooster> exb = ExternBooster.convert(plugin.getMysqlHandler().getList(Type.EXTERN_BOOSTER, "`id` ASC", page*10, 10,
-				"`id` >", 0));
+				"`id` > ?", 0));
 		int size = plugin.getMysqlHandler().getCount(Type.EXTERN_BOOSTER, "`id` > ?", 0);
 		ArrayList<TextComponent> tx = new ArrayList<>();
 		tx.add(ChatApi.tctl(plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Headline1")
@@ -119,6 +119,9 @@ public class ARGExternBooster_List extends ArgumentModule
 					.replace("%player%", ex.getPlayerUUIDText() != null ? Utility.convertUUIDToName(ex.getPlayerUUIDText()) : "/");
 				break;
 			}
+			String time = ex.getExpiryDate() == Long.MAX_VALUE 
+						? plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.Add.PermanentTime")
+						: TimeHandler.getDateTime(ex.getExpiryDate());
 			if(sender.hasPermission(perm))
 			{
 				tx.add(ChatApi.apiChat(ex.getId()+"/"+ex.getName(),
@@ -128,10 +131,12 @@ public class ARGExternBooster_List extends ArgumentModule
 																	.replace("%eventtype%", Utility.tlEventType(ex.getEventType()))+"~!~"+
 						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.PlayerAssociatedType")
 																	.replace("%pat%", ex.getPlayerAssociatedType().toString())+"~!~"+
+						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.RewardType")
+																	.replace("%rt%", ex.getRewardType().toString())+"~!~"+
 						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.Factor")
 																	.replace("%factor%", String.valueOf(ex.getFactor()))+"~!~"+
 						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.ExpiryDate")
-																	.replace("%expirydate%", TimeHandler.getDateTime(ex.getExpiryDate()))+"~!~"+
+																	.replace("%expirydate%", time)+"~!~"+
 																	addUp
 						));
 			} else
@@ -142,10 +147,12 @@ public class ARGExternBooster_List extends ArgumentModule
 																	.replace("%eventtype%", Utility.tlEventType(ex.getEventType()))+"~!~"+
 						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.PlayerAssociatedType")
 																	.replace("%pat%", ex.getPlayerAssociatedType().toString())+"~!~"+
+						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.RewardType")
+																	.replace("%rt%", ex.getRewardType().toString())+"~!~"+
 						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.Factor")
 																	.replace("%factor%", String.valueOf(ex.getFactor()))+"~!~"+
 						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.ExpiryDate")
-																	.replace("%expirydate%", TimeHandler.getDateTime(ex.getExpiryDate()))+"~!~"+
+																	.replace("%expirydate%", time)+"~!~"+
 																	addUp
 						));
 			}
@@ -220,6 +227,8 @@ public class ARGExternBooster_List extends ArgumentModule
 																	.replace("%eventtype%", Utility.tlEventType(ex.getEventType()))+"~!~"+
 						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.PlayerAssociatedType")
 																	.replace("%pat%", ex.getPlayerAssociatedType().toString())+"~!~"+
+						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.RewardType")
+																	.replace("%rt%", ex.getRewardType().toString())+"~!~"+
 						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.Factor")
 																	.replace("%factor%", String.valueOf(ex.getFactor()))+"~!~"+
 						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.ExpiryDate")
@@ -233,6 +242,8 @@ public class ARGExternBooster_List extends ArgumentModule
 																	.replace("%eventtype%", Utility.tlEventType(ex.getEventType()))+"~!~"+
 						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.PlayerAssociatedType")
 																	.replace("%pat%", ex.getPlayerAssociatedType().toString())+"~!~"+
+						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.RewardType")
+																	.replace("%rt%", ex.getRewardType().toString())+"~!~"+
 						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.Factor")
 																	.replace("%factor%", String.valueOf(ex.getFactor()))+"~!~"+
 						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.ExpiryDate")

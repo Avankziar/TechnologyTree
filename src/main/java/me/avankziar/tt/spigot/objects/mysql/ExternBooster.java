@@ -12,6 +12,7 @@ import main.java.me.avankziar.tt.spigot.database.MysqlHandable;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
+import main.java.me.avankziar.tt.spigot.objects.RewardType;
 
 public class ExternBooster implements MysqlHandable
 {
@@ -19,6 +20,7 @@ public class ExternBooster implements MysqlHandable
 	private String name;
 	private EventType eventType;
 	private PlayerAssociatedType playerAssociatedType;
+	private RewardType rewardType;
 	private double factor;
 	private long expiryDate;
 	private String permission;
@@ -30,13 +32,14 @@ public class ExternBooster implements MysqlHandable
 		
 	}
 	
-	public ExternBooster(int id, String name, EventType eventType, PlayerAssociatedType playerAssociatedType,
+	public ExternBooster(int id, String name, EventType eventType, PlayerAssociatedType playerAssociatedType, RewardType rewardType,
 			double factor, long expiryDate, String permission, String playerUUID, String groupname)
 	{
 		setId(id);
 		setName(name);
 		setEventType(eventType);
 		setPlayerAssociatedType(playerAssociatedType);
+		setRewardType(rewardType);
 		setFactor(factor);
 		setExpiryDate(expiryDate);
 		setPermission(permission);
@@ -82,6 +85,16 @@ public class ExternBooster implements MysqlHandable
 	public void setPlayerAssociatedType(PlayerAssociatedType playerAssociatedType)
 	{
 		this.playerAssociatedType = playerAssociatedType;
+	}
+
+	public RewardType getRewardType()
+	{
+		return rewardType;
+	}
+
+	public void setRewardType(RewardType rewardType)
+	{
+		this.rewardType = rewardType;
 	}
 
 	public double getFactor()
@@ -145,18 +158,19 @@ public class ExternBooster implements MysqlHandable
 		try
 		{
 			String sql = "INSERT INTO `" + tablename
-					+ "`(`booster_name`, `event_type`, `player_associated_type`, `factor`,"
+					+ "`(`booster_name`, `event_type`, `player_associated_type`, `reward_type`, `factor`,"
 					+ " `expiry_date`, `permission`, `player_uuid`, `group_name`) " 
 					+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 	        ps.setString(1, getName());
 	        ps.setString(2, getEventType().toString());
 	        ps.setString(3, getPlayerAssociatedType().toString());
-	        ps.setDouble(4, getFactor());
-	        ps.setLong(5, getExpiryDate());
-	        ps.setString(6, getPermission());
-	        ps.setString(7, getPlayerUUIDText());
-	        ps.setString(8, getGroupname());
+	        ps.setString(4, getRewardType().toString());
+	        ps.setDouble(5, getFactor());
+	        ps.setLong(6, getExpiryDate());
+	        ps.setString(7, getPermission());
+	        ps.setString(8, getPlayerUUIDText());
+	        ps.setString(9, getGroupname());
 	        int i = ps.executeUpdate();
 	        MysqlHandler.addRows(MysqlHandler.QueryType.INSERT, i);
 	        return true;
@@ -173,19 +187,20 @@ public class ExternBooster implements MysqlHandable
 		try
 		{
 			String sql = "UPDATE `" + tablename
-				+ "` SET `booster_name` = ?, `event_type` = ?, `player_associated_type` = ?, `factor` = ?,"
+				+ "` SET `booster_name` = ?, `event_type` = ?, `player_associated_type` = ?, `reward_type` = ?, `factor` = ?,"
 				+ " `expiry_date` = ?, `permission` = ?, `player_uuid` = ?, `group_name` = ?"
 				+ " WHERE "+whereColumn;
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, getName());
 	        ps.setString(2, getEventType().toString());
 	        ps.setString(3, getPlayerAssociatedType().toString());
-	        ps.setDouble(4, getFactor());
-	        ps.setLong(5, getExpiryDate());
-	        ps.setString(6, getPermission());
-	        ps.setString(7, getPlayerUUIDText());
-	        ps.setString(8, getGroupname());
-			int i = 9;
+	        ps.setString(4, getRewardType().toString());
+	        ps.setDouble(5, getFactor());
+	        ps.setLong(6, getExpiryDate());
+	        ps.setString(7, getPermission());
+	        ps.setString(8, getPlayerUUIDText());
+	        ps.setString(9, getGroupname());
+			int i = 10;
 			for(Object o : whereObject)
 			{
 				ps.setObject(i, o);
@@ -225,6 +240,7 @@ public class ExternBooster implements MysqlHandable
 						rs.getString("booster_name"),
 						EventType.valueOf(rs.getString("event_type")),
 						PlayerAssociatedType.valueOf(rs.getString("player_associated_type")),
+						RewardType.valueOf(rs.getString("reward_type")),
 						rs.getDouble("factor"),
 						rs.getLong("expiry_date"),
 						rs.getString("permission"),

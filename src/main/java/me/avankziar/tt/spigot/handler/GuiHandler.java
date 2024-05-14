@@ -268,10 +268,13 @@ public class GuiHandler
 				EnchantmentStorageMeta esm = (EnchantmentStorageMeta) im;
 				for(String s : y.getStringList(parentPath+".Enchantment"))
 				{
-					String[] split = s.split(";");
+					String[] split = s.split(":");
 					if(split.length != 2)
 					{
-						TT.log.info("Enchantment Failed! "+s+" Lenght != 2 ");
+						if(!s.isEmpty() || !s.isBlank())
+						{
+							TT.log.info("Enchantment Failed! '"+s+"' Lenght != 2 ");
+						}
 						continue;
 					}					
 					try
@@ -281,7 +284,7 @@ public class GuiHandler
 						esm.addStoredEnchant(e, Integer.parseInt(split[1]), true);
 					} catch(Exception e)
 					{
-						TT.log.info("Enchantment Failed! "+s+" | "+e.getCause().getClass().getName());
+						TT.log.info("Enchantment Failed! '"+s+"' | "+e.getCause().getClass().getName());
 						continue;
 					}
 				}
@@ -294,10 +297,13 @@ public class GuiHandler
 			{
 				for(String s : y.getStringList(parentPath+".Enchantment"))
 				{
-					String[] split = s.split(";");
+					String[] split = s.split(":");
 					if(split.length != 2)
 					{
-						TT.log.info("Enchantment Failed! "+s+" Lenght != 2 ");
+						if(!s.isEmpty() || !s.isBlank())
+						{
+							TT.log.info("Enchantment Failed! '"+s+"' Lenght != 2 ");
+						}
 						continue;
 					}					
 					try

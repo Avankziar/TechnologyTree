@@ -968,15 +968,20 @@ public class RecipeHandler
 	}
 	
 	/*
-	 * Methode use only for ANVIL, BREWSTAND, STONECUTTER, ENTCHANTINGTABLE, GRINDSTONE
+	 * Methode use only direct for ANVIL, BREWSTAND, STONECUTTER, ENTCHANTINGTABLE, GRINDSTONE
 	 * All other recipes goes to hasAccessToRecipe(UUID uuid, Recipe r)
 	 * Because there can be determined if the recipe is a special one, and than always be true.
 	*/
 	public static boolean hasAccessToRecipe(UUID uuid, RecipeType rt, String key)
 	{
+		String keys = key;
+		if(!key.contains("-") && Character.isLowerCase(key.charAt(0)))
+		{
+			keys = "minecraft-"+key;
+		}
 		if(PlayerHandler.recipeMap.containsKey(uuid)
 				&& PlayerHandler.recipeMap.get(uuid).containsKey(rt)
-				&& PlayerHandler.recipeMap.get(uuid).get(rt).contains(key))
+				&& PlayerHandler.recipeMap.get(uuid).get(rt).contains(keys))
 		{
 			return true;
 		}

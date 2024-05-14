@@ -19,6 +19,6 @@ public class ARGExternBooster extends ArgumentModule
 	@Override
 	public void run(CommandSender sender, String[] args) throws IOException
 	{
-		sender.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Cmd.OtherCmd")));
+		sender.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.OtherCmd")));
 	}
 }

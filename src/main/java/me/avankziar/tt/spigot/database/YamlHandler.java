@@ -31,7 +31,7 @@ public class YamlHandler
 	private String languages;
 	private File language = null;
 	private YamlConfiguration lang = new YamlConfiguration();
-	//private File mvelanguage = null; //TODO Was mache ich nun damit?
+	private File mvelanguage = null;
 	private YamlConfiguration mvelang = new YamlConfiguration();
 	
 	private File recipeList = null;
@@ -349,7 +349,7 @@ public class YamlHandler
 			return false;
 		}
 		writeFile(language, lang, plugin.getYamlManager().getLanguageKey());
-		/*mvelanguage = new File(directory.getPath(), "mve_"+languageString+".yml"); TODO
+		mvelanguage = new File(directory.getPath(), "mve_"+languageString+".yml");
 		if(!mvelanguage.exists()) 
 		{
 			TT.log.info("Create mve_%lang%.yml...".replace("%lang%", languageString));
@@ -366,7 +366,7 @@ public class YamlHandler
 		{
 			return false;
 		}
-		writeFile(mvelanguage, mvelang, plugin.getYamlManager().getModifierValueEntryLanguageKey());*/
+		writeFile(mvelanguage, mvelang, plugin.getYamlManager().getModifierValueEntryLanguageKey());
 		return true;
 	}
 	
@@ -441,7 +441,7 @@ public class YamlHandler
 	private boolean mkdirMainCategories()
 	{
 		File solo = new File(plugin.getDataFolder()+"/Tech/Solo/MainCategory/");
-		//File group = new File(plugin.getDataFolder()+"/Tech/Group/MainCategory/");
+		File group = new File(plugin.getDataFolder()+"/Tech/Group/MainCategory/");
 		File global = new File(plugin.getDataFolder()+"/Tech/Global/MainCategory/");
 		if(!solo.exists())
 		{
@@ -455,18 +455,18 @@ public class YamlHandler
 		{
 			onlyDeepLoadMap(solo, getMainCategories());
 		}
-		/*if(!group.exists())
+		if(!group.exists())
 		{
 			group.mkdirs();
 			if(!createAndLoadMap(group,
-					plugin.getYamlManager().getMainCategoryKey().get(PlayerAssociatedType.), getMainCategories()))
+					plugin.getYamlManager().getMainCategoryKey().get(PlayerAssociatedType.GROUP), getMainCategories()))
 			{
 				return false;
 			}
 		} else
 		{
 			onlyDeepLoadMap(group, getMainCategories());
-		}*/
+		}
 		if(!global.exists())
 		{
 			global.mkdirs();
@@ -486,7 +486,7 @@ public class YamlHandler
 	private boolean mkdirSubCategories()
 	{
 		File solo = new File(plugin.getDataFolder()+"/Tech/Solo/SubCategory/");
-		//File group = new File(plugin.getDataFolder()+"/Tech/Group/SubCategory/");
+		File group = new File(plugin.getDataFolder()+"/Tech/Group/SubCategory/");
 		File global = new File(plugin.getDataFolder()+"/Tech/Global/SubCategory/");
 		if(!solo.exists())
 		{
@@ -500,18 +500,18 @@ public class YamlHandler
 		{
 			onlyDeepLoadMap(solo, getSubCategories());
 		}
-		/*if(!group.exists())
+		if(!group.exists())
 		{
 			group.mkdirs();
 			if(!createAndLoadMap(group,
-					plugin.getYamlManager().getSubCategoryKey().get(PlayerAssociatedType.), getSubCategories()))
+					plugin.getYamlManager().getSubCategoryKey().get(PlayerAssociatedType.GROUP), getSubCategories()))
 			{
 				return false;
 			}
 		} else
 		{
 			onlyLoadMap(group, getSubCategories());
-		}*/
+		}
 		if(!global.exists())
 		{
 			global.mkdirs();
@@ -531,7 +531,7 @@ public class YamlHandler
 	private boolean mkdirTechnologies()
 	{
 		File solo = new File(plugin.getDataFolder()+"/Tech/Solo/Technology/");
-		//File group = new File(plugin.getDataFolder()+"/Tech/Group/Technology/");
+		File group = new File(plugin.getDataFolder()+"/Tech/Group/Technology/");
 		File global = new File(plugin.getDataFolder()+"/Tech/Global/Technology/");
 		if(!solo.exists())
 		{
@@ -545,18 +545,18 @@ public class YamlHandler
 		{
 			onlyDeepLoadMap(solo, getTechnologies());
 		}
-		/*if(!group.exists())
+		if(!group.exists())
 		{
 			group.mkdirs();
 			if(!createAndLoadMap(group,
-					plugin.getYamlManager().getTechnologyKey().get(PlayerAssociatedType.SOLO), getTechnologies()))
+					plugin.getYamlManager().getTechnologyKey().get(PlayerAssociatedType.GROUP), getTechnologies()))
 			{
 				return false;
 			}
 		} else
 		{
 			onlyDeepLoadMap(group, getTechnologies());
-		}*/
+		}
 		if(!global.exists())
 		{
 			global.mkdirs();

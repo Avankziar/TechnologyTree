@@ -18,6 +18,7 @@ import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
 import main.java.me.avankziar.tt.spigot.handler.GroupHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
+import main.java.me.avankziar.tt.spigot.objects.RewardType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.ExternBooster;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
 
@@ -28,7 +29,7 @@ public class ARGExternBooster_Add extends ArgumentModule
 		super(argumentConstructor);
 	}
 
-	//tt externbooster add <ExternBoosterName> <EventType> <PlayerAssociatedType> <factor(double)> <time|-1|00d-00H-00m> [playername/group/permission] [associateplayer]
+	//tt externbooster add <ExternBoosterName> <EventType> <PlayerAssociatedType> <rewardType> <factor(double)> <time|-1|00d-00H-00m> [playername/group/permission] [associateplayer]
 	//<EventType> can be 
 	@Override
 	public void run(CommandSender sender, String[] args) throws IOException
@@ -64,18 +65,38 @@ public class ARGExternBooster_Add extends ArgumentModule
 					.replace("%value%", args[4])));
 			return;
 		}
-		if(!MatchApi.isDouble(args[5]))
+		ArrayList<RewardType> rta = new ArrayList<>();
+		try
 		{
-			sender.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("NoDouble").replace("%value%", args[5])));
+			if(args[5].split(";").length > 1)
+			{
+				for(String s : args[5].split(";"))
+				{
+					rta.add(RewardType.valueOf(s));
+				}
+			} else
+			{
+				rta.add(RewardType.valueOf(args[5]));
+			}
+			
+		} catch(Exception e)
+		{
+			sender.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.Add.NoRewardType")
+					.replace("%value%", args[4])));
 			return;
 		}
-		double f = Double.parseDouble(args[5]);
+		if(!MatchApi.isDouble(args[6]))
+		{
+			sender.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("NoDouble").replace("%value%", args[6])));
+			return;
+		}
+		double f = Double.parseDouble(args[6]);
 		if(!MatchApi.isPositivNumber(f))
 		{
-			sender.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("IsNegativ").replace("%value%", args[5])));
+			sender.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("IsNegativ").replace("%value%", args[6])));
 			return;
 		}
-		long t = args[6].equals("-1") ? Long.MAX_VALUE : TimeHandler.getTiming(args[6]);
+		long t = args[7].equals("-1") ? Long.MAX_VALUE : System.currentTimeMillis() + TimeHandler.getTiming(args[7]);
 		if(t <= 0L)
 		{
 			sender.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.Add.NoTiming")));
@@ -89,15 +110,15 @@ public class ARGExternBooster_Add extends ArgumentModule
 			sender.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.Add.NeedAnArgument")));
 			return;
 		}
-		if(args.length >= 8)
+		if(args.length >= 9)
 		{
 			switch(pat)
 			{
 			case GLOBAL:
-				permission = args[7];
+				permission = args[8];
 				break;
 			case SOLO:
-				UUID uuid = Utility.convertNameToUUID(args[7]);
+				UUID uuid = Utility.convertNameToUUID(args[8]);
 				if(uuid == null)
 				{
 					sender.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.PlayerNotExist")
@@ -107,7 +128,7 @@ public class ARGExternBooster_Add extends ArgumentModule
 				playeruuid = uuid.toString();
 				break;
 			case GROUP:
-				group = args[7];
+				group = args[8];
 				if(!plugin.getMysqlHandler().exist(Type.GROUP_DATA, "`group_name` = ?", group))
 				{
 					sender.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.Add.GroupDontExist")
@@ -118,19 +139,28 @@ public class ARGExternBooster_Add extends ArgumentModule
 			}
 		}
 		String associatedplayer = plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.Add.AssociatedConsole");
-		if(args.length >= 9)
+		if(args.length >= 10)
 		{
-			associatedplayer = args[8];
+			associatedplayer = args[9];
 		}
-		String times = args[6].equals("-1") ? plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.Add.PermanentTime") : args[6];
-		StringBuilder sb = new StringBuilder();
+		String times = args[7].equals("-1") ? plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.Add.PermanentTime") : args[7];
+		StringBuilder sb1 = new StringBuilder();
 		for(EventType et : eta)
 		{
-			if(!sb.isEmpty())
+			if(!sb1.isEmpty())
 			{
-				sb.append(", ");
+				sb1.append(", ");
 			}
-			sb.append(plugin.getYamlHandler().getLang().getString("Events."+et.toString()));
+			sb1.append(plugin.getYamlHandler().getLang().getString("Events."+et.toString()));
+		}
+		StringBuilder sb2 = new StringBuilder();
+		for(RewardType rt : rta)
+		{
+			if(!sb2.isEmpty())
+			{
+				sb2.append(", ");
+			}
+			sb2.append(rt.toString());
 		}
 		ArrayList<String> al = new ArrayList<>();
 		switch(pat)
@@ -142,7 +172,8 @@ public class ARGExternBooster_Add extends ArgumentModule
 						.replace("%associatedplayer%", associatedplayer)
 						.replace("%time%", times)
 						.replace("%factor%", String.valueOf(f))
-						.replace("%event%", sb.toString()));
+						.replace("%event%", sb1.toString())
+						.replace("%reward%", sb2.toString()));
 			}
 			if(plugin.getMessageToBungee() != null)
 			{
@@ -188,7 +219,8 @@ public class ARGExternBooster_Add extends ArgumentModule
 						.replace("%associatedplayer%", associatedplayer)
 						.replace("%time%", times)
 						.replace("%factor%", String.valueOf(f))
-						.replace("%event%", sb.toString()));
+						.replace("%event%", sb1.toString())
+						.replace("%reward%", sb2.toString()));
 			}
 			UUID suuid = null;
 			if(sender instanceof Player)
@@ -209,15 +241,30 @@ public class ARGExternBooster_Add extends ArgumentModule
 						.replace("%associatedplayer%", associatedplayer)
 						.replace("%time%", times)
 						.replace("%factor%", String.valueOf(f))
-						.replace("%event%", sb.toString()));
+						.replace("%event%", sb1.toString())
+						.replace("%reward%", sb2.toString()));
 			}
 			if(Bukkit.getPlayer(UUID.fromString(playeruuid)) != null)
 			{
 				Player player = Bukkit.getPlayer(UUID.fromString(playeruuid));
 				for(String s : al)
 				{
-					player.sendMessage(ChatApi.tl(s));
-					sender.sendMessage(ChatApi.tl(s));
+					if(sender instanceof Player)
+					{
+						Player ps = (Player) sender;
+						if(ps.getUniqueId().toString().equals(player.getUniqueId().toString()))
+						{
+							player.sendMessage(ChatApi.tl(s));
+						} else
+						{
+							player.sendMessage(ChatApi.tl(s));
+							sender.sendMessage(ChatApi.tl(s));
+						}
+					} else
+					{
+						player.sendMessage(ChatApi.tl(s));
+						sender.sendMessage(ChatApi.tl(s));
+					}
 				}
 			} else
 			{
@@ -234,8 +281,11 @@ public class ARGExternBooster_Add extends ArgumentModule
 		}
 		for(EventType et : eta)
 		{
-			ExternBooster exb = new ExternBooster(0, name, et, pat, f, t, permission, playeruuid, group);
-			plugin.getMysqlHandler().create(Type.EXTERN_BOOSTER, exb);
+			for(RewardType rt : rta)
+			{
+				ExternBooster exb = new ExternBooster(0, name, et, pat, rt, f, t, permission, playeruuid, group);
+				plugin.getMysqlHandler().create(Type.EXTERN_BOOSTER, exb);
+			}
 		}
 	}
 }
