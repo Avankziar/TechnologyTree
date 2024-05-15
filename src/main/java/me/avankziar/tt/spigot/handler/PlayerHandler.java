@@ -402,13 +402,16 @@ public class PlayerHandler
 				}
 				if(pd.getVanillaExpStillToBeObtained() > 0)
 				{
+					final int exp = pd.getVanillaExpStillToBeObtained();
+					pd.setVanillaExpStillToBeObtained(0);
 					new BukkitRunnable()
 					{
 						
 						@Override
 						public void run()
 						{
-							Experience.changeExp(player, pd.getVanillaExpStillToBeObtained(), true);
+							Experience.changeExp(player, exp, true);
+							
 						}
 					}.runTask(plugin);
 				}
@@ -433,6 +436,7 @@ public class PlayerHandler
 								.replace("%new%", newsw)));
 					}
 				}
+				plugin.getMysqlHandler().updateData(Type.PLAYERDATA, pd, "`id` = ?", pd.getId());
 			}
 		}.runTaskAsynchronously(plugin);
 	}

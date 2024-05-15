@@ -584,7 +584,7 @@ public class RewardHandler
 		UUID uuid = player.getUniqueId();
 		ArrayList<ItemStack> list = new ArrayList<>();
 		PlayerData pd = PlayerHandler.getPlayer(uuid);
-		final LinkedHashMap<RewardType, LinkedHashMap<EventType, Double>> externBooster = PlayerHandler.externBoosterMap.get(uuid);
+		final LinkedHashMap<RewardType, LinkedHashMap<EventType, Double>> externBooster = PlayerHandler.externBoosterMap.containsKey(uuid) ? PlayerHandler.externBoosterMap.get(uuid) : new LinkedHashMap<>();
 		final LinkedHashMap<EventType, Double> exBoDrops = externBooster.get(RewardType.DROPS) != null ? externBooster.get(RewardType.DROPS) : new LinkedHashMap<>();
 		double exBDrops = exBoDrops != null ? (exBoDrops.get(eventType) != null ? exBoDrops.get(eventType).doubleValue() : 1.0) : 1.0;
 		if(SwitchModeHandler.isActive && pd.getSwitchMode().equals("null"))

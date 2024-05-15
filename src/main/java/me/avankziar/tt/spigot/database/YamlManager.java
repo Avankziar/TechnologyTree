@@ -2789,24 +2789,28 @@ public class YamlManager
 						"&7===&eInfo Payment &f%value% &eAmount 1&7==="}));
 		languageKeys.put(path+"Info.Payment.Info",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"    &7Wert * Booster = Total",
-						"    &7Value * Booster = Total"}));
+						"    &7Type | Wert * Booster = Total",
+						"    &7Type | Value * Booster = Total"}));
+		languageKeys.put(path+"Info.Payment.ToolTypeEventType",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"  %tool% => &#ff8c00%event%",
+						"  %tool% => &#ff8c00%event%"}));
 		languageKeys.put(path+"Info.Payment.TTExp",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"    &bTTExp &e%value% * %externbooster% = %total%",
-						"    &bTTExp &e%value% * %externbooster% = %total%"}));
+						"    &bTTExp | &e%value% * %externbooster% = %total%",
+						"    &bTTExp | &e%value% * %externbooster% = %total%"}));
 		languageKeys.put(path+"Info.Payment.VanillaExp",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"    &bVanillaExp &e%value% * %externbooster% = %total%",
-						"    &bVanillaExp &e%value% * %externbooster% = %total%"}));
+						"    &bVanillaExp | &e%value% * %externbooster% = %total%",
+						"    &bVanillaExp | &e%value% * %externbooster% = %total%"}));
 		languageKeys.put(path+"Info.Payment.Money",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"    &e%value% * %externbooster% = %total%",
-						"    &e%value% * %externbooster% = %total%"}));
+						"    &bGeld | &e%value% &r&e* %externbooster% = %total%",
+						"    &bMoney | &e%value% &r&e* %externbooster% = %total%"}));
 		languageKeys.put(path+"Info.Payment.Command",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"    &bCmd &f'%cmd%' &e%value% * %externbooster% = %total%",
-						"    &bCmd &f'%cmd%' * %externbooster% = %total%"}));
+						"    &bCmd | &f'%cmd%' &e%value% * %externbooster% = %total%",
+						"    &bCmd | &f'%cmd%' &e%value% * %externbooster% = %total%"}));
 	}
 	
 	private void initEventTranslation() //INFO:EventTranslation

@@ -78,7 +78,7 @@ public class ARGInfo_Payment extends ArgumentModule
 		{
 			//In Sight
 			RayTraceResult rtr = player.getWorld().rayTrace(player.getEyeLocation(), player.getEyeLocation().getDirection(), 10.0,
-									FluidCollisionMode.NEVER, false, 0.0, null);
+									FluidCollisionMode.NEVER, false, 0.0, t -> (!t.getUniqueId().toString().equals(player.getUniqueId().toString())));
 			if(rtr == null)
 			{
 				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.NoMaterialOrEntityInSight")));
@@ -100,22 +100,14 @@ public class ARGInfo_Payment extends ArgumentModule
 		}
 	}
 	
-	public static LinkedHashMap<ToolType, LinkedHashMap<Material, LinkedHashMap<EventType, Double>>> fakeRewardPlayer(EventType[] et, ToolType tool, Material material)
+	public static LinkedHashMap<ToolType, LinkedHashMap<Material, LinkedHashMap<EventType, Double>>> fakeRewardPlayer(EventType[] et, ToolType[] tool, Material material)
 	{
 		LinkedHashMap<ToolType, LinkedHashMap<Material, LinkedHashMap<EventType, Double>>> mapI = new LinkedHashMap<>();
 		LinkedHashMap<Material, LinkedHashMap<EventType, Double>> mapII = new LinkedHashMap<>();
 		LinkedHashMap<EventType, Double> mapIII = new LinkedHashMap<>();
-		if(mapII.containsKey(material))
-		{
-			mapIII = mapII.get(material);
-		}
 		double d = 1.0;
 		for(EventType eventType : et)
 		{
-			if(mapIII.containsKey(eventType))
-			{
-				d = d + mapIII.get(eventType);
-			}
 			mapIII.put(eventType, d);
 		}
 		mapII.put(material, mapIII);
@@ -127,27 +119,22 @@ public class ARGInfo_Payment extends ArgumentModule
 			}
 		} else
 		{
-			mapI.put(tool, mapII);
+			for(ToolType t : tool)
+			{
+				mapI.put(t, mapII);
+			}
 		}
 		return mapI;
 	}
 	
-	public static LinkedHashMap<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>>> fakeRewardPlayer(EventType[] et, ToolType tool, EntityType entityType)
+	public static LinkedHashMap<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>>> fakeRewardPlayer(EventType[] et, ToolType[] tool, EntityType entityType)
 	{
 		LinkedHashMap<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>>> mapI = new LinkedHashMap<>();
 		LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>> mapII = new LinkedHashMap<>();
 		LinkedHashMap<EventType, Double> mapIII = new LinkedHashMap<>();
-		if(mapII.containsKey(entityType))
-		{
-			mapIII = mapII.get(entityType);
-		}
 		double d = 1.0;
 		for(EventType eventType : et)
 		{
-			if(mapIII.containsKey(eventType))
-			{
-				d = d + mapIII.get(eventType);
-			}
 			mapIII.put(eventType, d);
 		}
 		mapII.put(entityType, mapIII);
@@ -159,7 +146,10 @@ public class ARGInfo_Payment extends ArgumentModule
 			}
 		} else
 		{
-			mapI.put(tool, mapII);
+			for(ToolType t : tool)
+			{
+				mapI.put(t, mapII);
+			}
 		}
 		return mapI;
 	}
@@ -176,19 +166,21 @@ public class ARGInfo_Payment extends ArgumentModule
 		tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.Headline")
 				.replace("%value%", plugin.getEnumTl() != null ? plugin.getEnumTl().getLocalization(ent) : ent.toString()));
 		tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.Info"));
-		final LinkedHashMap<RewardType, LinkedHashMap<EventType, Double>> externBooster = PlayerHandler.externBoosterMap.containsKey(uuid) ? PlayerHandler.externBoosterMap.get(uuid) : new LinkedHashMap<>();
-		final LinkedHashMap<EventType, Double> exBoTTExp = externBooster.containsKey(RewardType.TECHNOLOGYTREE_EXP) ? externBooster.get(RewardType.TECHNOLOGYTREE_EXP) : new LinkedHashMap<>();
-		final LinkedHashMap<EventType, Double> exBoVExp = externBooster.containsKey(RewardType.VANILLA_EXP) ? externBooster.get(RewardType.VANILLA_EXP) : new LinkedHashMap<>();
-		final LinkedHashMap<EventType, Double> exBoMoney = externBooster.containsKey(RewardType.MONEY) ? externBooster.get(RewardType.MONEY) : new LinkedHashMap<>();
-		final LinkedHashMap<EventType, Double> exBoCmd = externBooster.containsKey(RewardType.COMMAND) ? externBooster.get(RewardType.COMMAND) : new LinkedHashMap<>();
-		LinkedHashMap<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>>> matMap = fakeRewardPlayer(EventType.values(), tool, ent);
+		final LinkedHashMap<RewardType, LinkedHashMap<EventType, Double>> eB = PlayerHandler.externBoosterMap.containsKey(uuid) ? PlayerHandler.externBoosterMap.get(uuid) : new LinkedHashMap<>();
+		final LinkedHashMap<EventType, Double> exBoTTExp = eB.containsKey(RewardType.TECHNOLOGYTREE_EXP) ? eB.get(RewardType.TECHNOLOGYTREE_EXP) : new LinkedHashMap<>();
+		final LinkedHashMap<EventType, Double> exBoVExp = eB.containsKey(RewardType.VANILLA_EXP) ? eB.get(RewardType.VANILLA_EXP) : new LinkedHashMap<>();
+		final LinkedHashMap<EventType, Double> exBoMoney = eB.containsKey(RewardType.MONEY) ? eB.get(RewardType.MONEY) : new LinkedHashMap<>();
+		final LinkedHashMap<EventType, Double> exBoCmd = eB.containsKey(RewardType.COMMAND) ? eB.get(RewardType.COMMAND) : new LinkedHashMap<>();
+		LinkedHashMap<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>>> matMap = fakeRewardPlayer(EventType.values(), tools.toArray(new ToolType[tools.size()]), ent);
 		for(Entry<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>>> entry0 : matMap.entrySet())
 		{
 			if(!tools.contains(entry0.getKey()))
 			{
 				continue;
 			}
-			for(Entry<EntityType, LinkedHashMap<EventType, Double>> entry : matMap.get(tool).entrySet())
+			ToolType t = entry0.getKey();
+			LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>> mapI = matMap.containsKey(t) ? matMap.get(t) : new LinkedHashMap<>();
+			for(Entry<EntityType, LinkedHashMap<EventType, Double>> entry : mapI.entrySet())
 			{
 				if(ent != entry.getKey())
 				{
@@ -197,33 +189,26 @@ public class ARGInfo_Payment extends ArgumentModule
 				for(Entry<EventType, Double> entryII : entry.getValue().entrySet())
 				{
 					EventType et = entryII.getKey();
-					tx.add(entry0.getKey().toString()+" => "+plugin.getYamlHandler().getLang().getString("Events."+et.toString()));
 					double amount = entryII.getValue();
 					double exBTTExp = exBoTTExp != null ? (exBoTTExp.get(et) != null ? exBoTTExp.get(et).doubleValue() : 1.0) : 1.0;
 					double exBVExp = exBoVExp != null ? (exBoVExp.get(et) != null ? exBoVExp.get(et).doubleValue() : 1.0) : 1.0;
 					double exBMoney = exBoMoney != null ? (exBoMoney.get(et) != null ? exBoMoney.get(et).doubleValue() : 1.0) : 1.0;
 					double exBCmd = exBoCmd != null ? (exBoCmd.get(et) != null ? exBoCmd.get(et).doubleValue() : 1.0) : 1.0;
 					if(PlayerHandler.entityTypeInteractionMap.containsKey(uuid)
-							&& PlayerHandler.entityTypeInteractionMap.get(uuid).containsKey(tool)
-							&& PlayerHandler.entityTypeInteractionMap.get(uuid).get(tool).containsKey(ent)
-							&& PlayerHandler.entityTypeInteractionMap.get(uuid).get(tool).get(ent).containsKey(et))
+							&& PlayerHandler.entityTypeInteractionMap.get(uuid).containsKey(t)
+							&& PlayerHandler.entityTypeInteractionMap.get(uuid).get(t).containsKey(ent)
+							&& PlayerHandler.entityTypeInteractionMap.get(uuid).get(t).get(ent).containsKey(et))
 						
 					{
-						SimpleUnlockedInteraction sui = PlayerHandler.entityTypeInteractionMap.get(uuid).get(tool).get(ent).get(et);
+						SimpleUnlockedInteraction sui = PlayerHandler.entityTypeInteractionMap.get(uuid).get(t).get(ent).get(et);
 						if(sui == null)
 						{
 							continue;
 						}
 						double toGiveTTExp = sui.getTechnologyExperience() * amount * exBTTExp;
-						tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.TTExp")
-								.replace("%value%", String.valueOf(sui.getTechnologyExperience()))
-								.replace("%externbooster%", String.valueOf(exBTTExp))
-								.replace("%total%", String.valueOf(toGiveTTExp)));
 						double toGiveVanillaExp = sui.getVanillaExperience() * amount * exBVExp;
-						tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.VanillaExp")
-								.replace("%value%", String.valueOf(sui.getVanillaExperience()))
-								.replace("%externbooster%", String.valueOf(exBVExp))
-								.replace("%total%", String.valueOf(toGiveVanillaExp)));
+						ArrayList<String> toGiveMoney = new ArrayList<>();
+						ArrayList<String> toGiveCmd = new ArrayList<>();
 						for(Entry<String, Double> s : sui.getMoneyMap().entrySet())
 						{
 							double moneyAmount = s.getValue() * amount * exBMoney;
@@ -253,7 +238,7 @@ public class ARGInfo_Payment extends ArgumentModule
 										plugin.getIFHEco().getDefaultUseSIPrefix(ac.getCurrency()), plugin.getIFHEco().getDefaultUseSymbol(ac.getCurrency()),
 										plugin.getIFHEco().getDefaultThousandSeperator(ac.getCurrency()), plugin.getIFHEco().getDefaultDecimalSeperator(ac.getCurrency()));
 							}
-							tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.VanillaExp")
+							toGiveMoney.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.Money")
 									.replace("%value%", value)
 									.replace("%externbooster%", String.valueOf(exBMoney))
 									.replace("%total%", total));
@@ -261,12 +246,46 @@ public class ARGInfo_Payment extends ArgumentModule
 						for(Entry<String, Double> s : sui.getCommandMap().entrySet())
 						{
 							double cmdAmount = s.getValue() * amount * exBCmd;
-							tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.VanillaExp")
+							toGiveCmd.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.Command")
 									.replace("%cmd%", s.getKey())
 									.replace("%value%", String.valueOf(s.getValue()))
 									.replace("%externbooster%", String.valueOf(exBCmd))
 									.replace("%total%", String.valueOf(cmdAmount)));
-						}						
+						}
+						if(toGiveTTExp > 0 || toGiveVanillaExp > 0 || toGiveMoney.size() > 0 || toGiveCmd.size() > 0)
+						{
+							tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.ToolTypeEventType")
+									.replace("%tool%", entry0.getKey().toString())
+									.replace("%event%", plugin.getYamlHandler().getLang().getString("Events."+et.toString())));
+						}
+						if(toGiveTTExp != 0)
+						{
+							tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.TTExp")
+									.replace("%value%", String.valueOf(sui.getTechnologyExperience()))
+									.replace("%externbooster%", String.valueOf(exBTTExp))
+									.replace("%total%", String.valueOf(toGiveTTExp)));
+						}
+						if(toGiveVanillaExp != 0)
+						{
+							tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.VanillaExp")
+									.replace("%value%", String.valueOf(sui.getVanillaExperience()))
+									.replace("%externbooster%", String.valueOf(exBVExp))
+									.replace("%total%", String.valueOf(toGiveVanillaExp)));
+						}
+						if(toGiveMoney.size() > 0)
+						{
+							for(String s : toGiveMoney)
+							{
+								tx.add(s);
+							}
+						}
+						if(toGiveCmd.size() > 0)
+						{
+							for(String s : toGiveCmd)
+							{
+								tx.add(s);
+							}
+						}
 					}
 				}
 			}
@@ -289,54 +308,48 @@ public class ARGInfo_Payment extends ArgumentModule
 		tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.Headline")
 				.replace("%value%", plugin.getEnumTl() != null ? plugin.getEnumTl().getLocalization(mat) : mat.toString()));
 		tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.Info"));
-		final LinkedHashMap<RewardType, LinkedHashMap<EventType, Double>> externBooster = PlayerHandler.externBoosterMap.containsKey(uuid) ? PlayerHandler.externBoosterMap.get(uuid) : new LinkedHashMap<>();
-		final LinkedHashMap<EventType, Double> exBoTTExp = externBooster.containsKey(RewardType.TECHNOLOGYTREE_EXP) ? externBooster.get(RewardType.TECHNOLOGYTREE_EXP) : new LinkedHashMap<>();
-		final LinkedHashMap<EventType, Double> exBoVExp = externBooster.containsKey(RewardType.VANILLA_EXP) ? externBooster.get(RewardType.VANILLA_EXP) : new LinkedHashMap<>();
-		final LinkedHashMap<EventType, Double> exBoMoney = externBooster.containsKey(RewardType.MONEY) ? externBooster.get(RewardType.MONEY) : new LinkedHashMap<>();
-		final LinkedHashMap<EventType, Double> exBoCmd = externBooster.containsKey(RewardType.COMMAND) ? externBooster.get(RewardType.COMMAND) : new LinkedHashMap<>();
-		LinkedHashMap<ToolType, LinkedHashMap<Material, LinkedHashMap<EventType, Double>>> matMap = fakeRewardPlayer(EventType.values(), tool, mat);
+		final LinkedHashMap<RewardType, LinkedHashMap<EventType, Double>> eB = PlayerHandler.externBoosterMap.containsKey(uuid) ? PlayerHandler.externBoosterMap.get(uuid) : new LinkedHashMap<>();
+		final LinkedHashMap<EventType, Double> exBoTTExp = eB.containsKey(RewardType.TECHNOLOGYTREE_EXP) ? eB.get(RewardType.TECHNOLOGYTREE_EXP) : new LinkedHashMap<>();
+		final LinkedHashMap<EventType, Double> exBoVExp = eB.containsKey(RewardType.VANILLA_EXP) ? eB.get(RewardType.VANILLA_EXP) : new LinkedHashMap<>();
+		final LinkedHashMap<EventType, Double> exBoMoney = eB.containsKey(RewardType.MONEY) ? eB.get(RewardType.MONEY) : new LinkedHashMap<>();
+		final LinkedHashMap<EventType, Double> exBoCmd = eB.containsKey(RewardType.COMMAND) ? eB.get(RewardType.COMMAND) : new LinkedHashMap<>();
+		LinkedHashMap<ToolType, LinkedHashMap<Material, LinkedHashMap<EventType, Double>>> matMap = fakeRewardPlayer(EventType.values(), tools.toArray(new ToolType[tools.size()]), mat);
+		
 		for(Entry<ToolType, LinkedHashMap<Material, LinkedHashMap<EventType, Double>>> entry0 : matMap.entrySet())
 		{
 			if(!tools.contains(entry0.getKey()))
 			{
 				continue;
 			}
-			for(Entry<Material, LinkedHashMap<EventType, Double>> entry : matMap.get(tool).entrySet())
+			ToolType t = entry0.getKey();
+			LinkedHashMap<Material, LinkedHashMap<EventType, Double>> mapI = matMap.containsKey(t) ? matMap.get(t) : new LinkedHashMap<>();
+			for(Entry<Material, LinkedHashMap<EventType, Double>> entry : mapI.entrySet())
 			{
-				if(mat != entry.getKey())
-				{
-					continue;
-				}
-				for(Entry<EventType, Double> entryII : entry.getValue().entrySet())
+				Material m = entry.getKey();
+				LinkedHashMap<EventType, Double> mapII = mapI.containsKey(m) ? mapI.get(m) : new LinkedHashMap<>();
+				for(Entry<EventType, Double> entryII : mapII.entrySet())
 				{
 					EventType et = entryII.getKey();
-					tx.add(entry0.getKey().toString()+" => "+plugin.getYamlHandler().getLang().getString("Events."+et.toString()));
 					double amount = entryII.getValue();
 					double exBTTExp = exBoTTExp != null ? (exBoTTExp.get(et) != null ? exBoTTExp.get(et).doubleValue() : 1.0) : 1.0;
 					double exBVExp = exBoVExp != null ? (exBoVExp.get(et) != null ? exBoVExp.get(et).doubleValue() : 1.0) : 1.0;
 					double exBMoney = exBoMoney != null ? (exBoMoney.get(et) != null ? exBoMoney.get(et).doubleValue() : 1.0) : 1.0;
 					double exBCmd = exBoCmd != null ? (exBoCmd.get(et) != null ? exBoCmd.get(et).doubleValue() : 1.0) : 1.0;
 					if(PlayerHandler.materialInteractionMap.containsKey(uuid)
-							&& PlayerHandler.materialInteractionMap.get(uuid).containsKey(tool)
-							&& PlayerHandler.materialInteractionMap.get(uuid).get(tool).containsKey(mat)
-							&& PlayerHandler.materialInteractionMap.get(uuid).get(tool).get(mat).containsKey(et))
+							&& PlayerHandler.materialInteractionMap.get(uuid).containsKey(t)
+							&& PlayerHandler.materialInteractionMap.get(uuid).get(t).containsKey(m)
+							&& PlayerHandler.materialInteractionMap.get(uuid).get(t).get(m).containsKey(et))
 						
 					{
-						SimpleUnlockedInteraction sui = PlayerHandler.materialInteractionMap.get(uuid).get(tool).get(mat).get(et);
+						SimpleUnlockedInteraction sui = PlayerHandler.materialInteractionMap.get(uuid).get(t).get(m).get(et);
 						if(sui == null)
 						{
 							continue;
 						}
 						double toGiveTTExp = sui.getTechnologyExperience() * amount * exBTTExp;
-						tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.TTExp")
-								.replace("%value%", String.valueOf(sui.getTechnologyExperience()))
-								.replace("%externbooster%", String.valueOf(exBTTExp))
-								.replace("%total%", String.valueOf(toGiveTTExp)));
 						double toGiveVanillaExp = sui.getVanillaExperience() * amount * exBVExp;
-						tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.VanillaExp")
-								.replace("%value%", String.valueOf(sui.getVanillaExperience()))
-								.replace("%externbooster%", String.valueOf(exBVExp))
-								.replace("%total%", String.valueOf(toGiveVanillaExp)));
+						ArrayList<String> toGiveMoney = new ArrayList<>();
+						ArrayList<String> toGiveCmd = new ArrayList<>();
 						for(Entry<String, Double> s : sui.getMoneyMap().entrySet())
 						{
 							double moneyAmount = s.getValue() * amount * exBMoney;
@@ -366,7 +379,7 @@ public class ARGInfo_Payment extends ArgumentModule
 										plugin.getIFHEco().getDefaultUseSIPrefix(ac.getCurrency()), plugin.getIFHEco().getDefaultUseSymbol(ac.getCurrency()),
 										plugin.getIFHEco().getDefaultThousandSeperator(ac.getCurrency()), plugin.getIFHEco().getDefaultDecimalSeperator(ac.getCurrency()));
 							}
-							tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.VanillaExp")
+							toGiveMoney.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.Money")
 									.replace("%value%", value)
 									.replace("%externbooster%", String.valueOf(exBMoney))
 									.replace("%total%", total));
@@ -374,12 +387,46 @@ public class ARGInfo_Payment extends ArgumentModule
 						for(Entry<String, Double> s : sui.getCommandMap().entrySet())
 						{
 							double cmdAmount = s.getValue() * amount * exBCmd;
-							tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.VanillaExp")
+							toGiveCmd.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.Command")
 									.replace("%cmd%", s.getKey())
 									.replace("%value%", String.valueOf(s.getValue()))
 									.replace("%externbooster%", String.valueOf(exBCmd))
 									.replace("%total%", String.valueOf(cmdAmount)));
-						}						
+						}
+						if(toGiveTTExp > 0 || toGiveVanillaExp > 0 || toGiveMoney.size() > 0 || toGiveCmd.size() > 0)
+						{
+							tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.ToolTypeEventType")
+									.replace("%tool%", entry0.getKey().toString())
+									.replace("%event%", plugin.getYamlHandler().getLang().getString("Events."+et.toString())));
+						}
+						if(toGiveTTExp != 0)
+						{
+							tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.TTExp")
+									.replace("%value%", String.valueOf(sui.getTechnologyExperience()))
+									.replace("%externbooster%", String.valueOf(exBTTExp))
+									.replace("%total%", String.valueOf(toGiveTTExp)));
+						}
+						if(toGiveVanillaExp != 0)
+						{
+							tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.VanillaExp")
+									.replace("%value%", String.valueOf(sui.getVanillaExperience()))
+									.replace("%externbooster%", String.valueOf(exBVExp))
+									.replace("%total%", String.valueOf(toGiveVanillaExp)));
+						}
+						if(toGiveMoney.size() > 0)
+						{
+							for(String s : toGiveMoney)
+							{
+								tx.add(s);
+							}
+						}
+						if(toGiveCmd.size() > 0)
+						{
+							for(String s : toGiveCmd)
+							{
+								tx.add(s);
+							}
+						}
 					}
 				}
 			}
