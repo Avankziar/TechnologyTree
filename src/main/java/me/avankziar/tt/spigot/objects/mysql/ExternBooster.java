@@ -160,7 +160,7 @@ public class ExternBooster implements MysqlHandable
 			String sql = "INSERT INTO `" + tablename
 					+ "`(`booster_name`, `event_type`, `player_associated_type`, `reward_type`, `factor`,"
 					+ " `expiry_date`, `permission`, `player_uuid`, `group_name`) " 
-					+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+					+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 	        ps.setString(1, getName());
 	        ps.setString(2, getEventType().toString());

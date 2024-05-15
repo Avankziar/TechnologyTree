@@ -149,11 +149,11 @@ public class RewardHandler
 					{
 						EventType et = entryII.getKey();
 						double amount = entryII.getValue();
-						double exBTTExp = exBoTTExp != null ? (exBoTTExp.get(et) != null ? exBoTTExp.get(et).doubleValue() : 1.0) : 1.0;
-						double exBVExp = exBoVExp != null ? (exBoVExp.get(et) != null ? exBoVExp.get(et).doubleValue() : 1.0) : 1.0;
-						double exBMoney = exBoMoney != null ? (exBoMoney.get(et) != null ? exBoMoney.get(et).doubleValue() : 1.0) : 1.0;
-						double exBCmd = exBoCmd != null ? (exBoCmd.get(et) != null ? exBoCmd.get(et).doubleValue() : 1.0) : 1.0;
-						TT.log.info("RewardHandler et:"+et.toString()+" | mat:"+mat.toString()+" | tool: "+tool.toString()); //REMOVEME
+						double exBTTExp = exBoTTExp != null ? (exBoTTExp.get(et) != null ? exBoTTExp.get(et).doubleValue() : 0.0) : 0.0;
+						double exBVExp = exBoVExp != null ? (exBoVExp.get(et) != null ? exBoVExp.get(et).doubleValue() : 0.0) : 0.0;
+						double exBMoney = exBoMoney != null ? (exBoMoney.get(et) != null ? exBoMoney.get(et).doubleValue() : 0.0) : 0.0;
+						double exBCmd = exBoCmd != null ? (exBoCmd.get(et) != null ? exBoCmd.get(et).doubleValue() : 0.0) : 0.0;
+						//TT.log.info("RewardHandler et:"+et.toString()+" | mat:"+mat.toString()+" | tool: "+tool.toString()); //INFO
 						if(PlayerHandler.materialInteractionMap.containsKey(uuid)
 								&& PlayerHandler.materialInteractionMap.get(uuid).containsKey(tool)
 								&& PlayerHandler.materialInteractionMap.get(uuid).get(tool).containsKey(mat)
@@ -165,9 +165,9 @@ public class RewardHandler
 							{
 								continue;
 							}
-							TT.log.info("toGiveTTExp: "+toGiveTTExp+" | sui.getTechnologyExperience(): "+sui.getTechnologyExperience()+" | amount: "+amount); //REMOVEME
-							toGiveTTExp = toGiveTTExp + sui.getTechnologyExperience() * amount * exBTTExp;
-							toGiveVanillaExp = toGiveVanillaExp + sui.getVanillaExperience() * amount * exBVExp;
+							//TT.log.info("toGiveTTExp: "+toGiveTTExp+" | sui.getTechnologyExperience(): "+sui.getTechnologyExperience()+" | amount: "+amount);//INFO
+							toGiveTTExp = toGiveTTExp + sui.getTechnologyExperience() * amount * (1 + exBTTExp);
+							toGiveVanillaExp = toGiveVanillaExp + sui.getVanillaExperience() * amount * (1 + exBVExp);
 							for(Entry<String, Double> s : sui.getMoneyMap().entrySet())
 							{
 								double moneyAmount = 0;
@@ -175,7 +175,7 @@ public class RewardHandler
 								{
 									moneyAmount = toGiveMoneyMap.get(s.getKey());
 								}
-								moneyAmount = moneyAmount + s.getValue() * amount * exBMoney;
+								moneyAmount = moneyAmount + s.getValue() * amount * (1 + exBMoney);
 								toGiveMoneyMap.put(s.getKey(), moneyAmount);
 							}
 							for(Entry<String, Double> s : sui.getCommandMap().entrySet())
@@ -185,7 +185,7 @@ public class RewardHandler
 								{
 									cmdAmount = toGiveCommandMap.get(s.getKey());
 								}
-								cmdAmount = cmdAmount + s.getValue() * amount * exBCmd;
+								cmdAmount = cmdAmount + s.getValue() * amount * (1 + exBCmd);
 								toGiveCommandMap.put(s.getKey(), cmdAmount);
 							}
 							RewardSummary rs = new RewardSummary(et, mat, null, amount, toGiveVanillaExp, toGiveTTExp, toGiveMoneyMap, toGiveCommandMap);
@@ -207,10 +207,10 @@ public class RewardHandler
 					{
 						EventType et = entryII.getKey();
 						double amount = entryII.getValue();
-						double exBTTExp = exBoTTExp != null ? (exBoTTExp.get(et) != null ? exBoTTExp.get(et).doubleValue() : 1.0) : 1.0;
-						double exBVExp = exBoVExp != null ? (exBoVExp.get(et) != null ? exBoVExp.get(et).doubleValue() : 1.0) : 1.0;
-						double exBMoney = exBoMoney != null ? (exBoMoney.get(et) != null ? exBoMoney.get(et).doubleValue() : 1.0) : 1.0;
-						double exBCmd = exBoCmd != null ? (exBoCmd.get(et) != null ? exBoCmd.get(et).doubleValue() : 1.0) : 1.0;
+						double exBTTExp = exBoTTExp != null ? (exBoTTExp.get(et) != null ? exBoTTExp.get(et).doubleValue() : 0.0) : 0.0;
+						double exBVExp = exBoVExp != null ? (exBoVExp.get(et) != null ? exBoVExp.get(et).doubleValue() : 0.0) : 0.0;
+						double exBMoney = exBoMoney != null ? (exBoMoney.get(et) != null ? exBoMoney.get(et).doubleValue() : 0.0) : 0.0;
+						double exBCmd = exBoCmd != null ? (exBoCmd.get(et) != null ? exBoCmd.get(et).doubleValue() : 0.0) : 0.0;
 						if(PlayerHandler.entityTypeInteractionMap.containsKey(uuid)
 								&& PlayerHandler.entityTypeInteractionMap.get(uuid).containsKey(tool)
 								&& PlayerHandler.entityTypeInteractionMap.get(uuid).get(tool).containsKey(ent)
@@ -222,8 +222,8 @@ public class RewardHandler
 							{
 								continue;
 							}
-							toGiveTTExp = toGiveTTExp + sui.getTechnologyExperience() * amount * exBTTExp;
-							toGiveVanillaExp = toGiveVanillaExp + sui.getVanillaExperience() * amount * exBVExp;
+							toGiveTTExp = toGiveTTExp + sui.getTechnologyExperience() * amount * (1 + exBTTExp);
+							toGiveVanillaExp = toGiveVanillaExp + sui.getVanillaExperience() * amount * (1 + exBVExp);
 							for(Entry<String, Double> s : sui.getMoneyMap().entrySet())
 							{
 								double moneyAmount = 0;
@@ -231,7 +231,7 @@ public class RewardHandler
 								{
 									moneyAmount = toGiveMoneyMap.get(s.getKey());
 								}
-								moneyAmount = moneyAmount + s.getValue() * amount * exBMoney;
+								moneyAmount = moneyAmount + s.getValue() * amount * (1 + exBMoney);
 								toGiveMoneyMap.put(s.getKey(), moneyAmount);
 							}
 							for(Entry<String, Double> s : sui.getCommandMap().entrySet())
@@ -241,7 +241,7 @@ public class RewardHandler
 								{
 									cmdAmount = toGiveCommandMap.get(s.getKey());
 								}
-								cmdAmount = cmdAmount + s.getValue() * amount * exBCmd;
+								cmdAmount = cmdAmount + s.getValue() * amount * (1 + exBCmd);
 								toGiveCommandMap.put(s.getKey(), cmdAmount);
 							}
 							RewardSummary rs = new RewardSummary(et, null, ent, amount, toGiveVanillaExp, toGiveTTExp, toGiveMoneyMap, toGiveCommandMap);
@@ -501,13 +501,13 @@ public class RewardHandler
 				boolean b = PlayerHandler.materialInteractionMap.get(uuid).get(toolType).get(material).get(eventType).isCanAccess();
 				/* INFO Return null at plugin.getValueEntry().getBooleanValueEntry... because of Cannot invoke "java.lang.Boolean.booleanValue()
 				Which is something strange
-				TT.log.info("canAccessInteraction b: "+b); //REMOVEME Logger
+				TT.log.info("canAccessInteraction b: "+b); //INFO Logger
 				Boolean B =  plugin.getValueEntry() != null 
 						? plugin.getValueEntry().getBooleanValueEntry(uuid, 
 						CatTechHandler.getValueEntry(RewardType.ACCESS, eventType, material, entityType),
 						plugin.getServername(), player.getWorld().getName())
 						: b;
-				TT.log.info("canAccessInteraction B: "+(B == null ? "null" : B)); //REMOVEME Logger
+				TT.log.info("canAccessInteraction B: "+(B == null ? "null" : B)); //INFO Logger
 				return B != null ? B : b;*/
 				return b;
 			}

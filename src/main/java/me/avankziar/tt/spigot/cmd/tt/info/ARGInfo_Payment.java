@@ -190,10 +190,10 @@ public class ARGInfo_Payment extends ArgumentModule
 				{
 					EventType et = entryII.getKey();
 					double amount = entryII.getValue();
-					double exBTTExp = exBoTTExp != null ? (exBoTTExp.get(et) != null ? exBoTTExp.get(et).doubleValue() : 1.0) : 1.0;
-					double exBVExp = exBoVExp != null ? (exBoVExp.get(et) != null ? exBoVExp.get(et).doubleValue() : 1.0) : 1.0;
-					double exBMoney = exBoMoney != null ? (exBoMoney.get(et) != null ? exBoMoney.get(et).doubleValue() : 1.0) : 1.0;
-					double exBCmd = exBoCmd != null ? (exBoCmd.get(et) != null ? exBoCmd.get(et).doubleValue() : 1.0) : 1.0;
+					double exBTTExp = exBoTTExp != null ? (exBoTTExp.get(et) != null ? exBoTTExp.get(et).doubleValue() : 0.0) : 0.0;
+					double exBVExp = exBoVExp != null ? (exBoVExp.get(et) != null ? exBoVExp.get(et).doubleValue() : 0.0) : 0.0;
+					double exBMoney = exBoMoney != null ? (exBoMoney.get(et) != null ? exBoMoney.get(et).doubleValue() : 0.0) : 0.0;
+					double exBCmd = exBoCmd != null ? (exBoCmd.get(et) != null ? exBoCmd.get(et).doubleValue() : 0.0) : 0.0;
 					if(PlayerHandler.entityTypeInteractionMap.containsKey(uuid)
 							&& PlayerHandler.entityTypeInteractionMap.get(uuid).containsKey(t)
 							&& PlayerHandler.entityTypeInteractionMap.get(uuid).get(t).containsKey(ent)
@@ -205,13 +205,13 @@ public class ARGInfo_Payment extends ArgumentModule
 						{
 							continue;
 						}
-						double toGiveTTExp = sui.getTechnologyExperience() * amount * exBTTExp;
-						double toGiveVanillaExp = sui.getVanillaExperience() * amount * exBVExp;
+						double toGiveTTExp = sui.getTechnologyExperience() * amount * (1 + exBTTExp);
+						double toGiveVanillaExp = sui.getVanillaExperience() * amount * (1 + exBVExp);
 						ArrayList<String> toGiveMoney = new ArrayList<>();
 						ArrayList<String> toGiveCmd = new ArrayList<>();
 						for(Entry<String, Double> s : sui.getMoneyMap().entrySet())
 						{
-							double moneyAmount = s.getValue() * amount * exBMoney;
+							double moneyAmount = s.getValue() * amount * (1 + exBMoney);
 							String value = "";
 							String total = "";
 							if("vault".equals(s.getKey()))
@@ -240,36 +240,36 @@ public class ARGInfo_Payment extends ArgumentModule
 							}
 							toGiveMoney.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.Money")
 									.replace("%value%", value)
-									.replace("%externbooster%", String.valueOf(exBMoney))
+									.replace("%externbooster%", getPercent(exBMoney))
 									.replace("%total%", total));
 						}
 						for(Entry<String, Double> s : sui.getCommandMap().entrySet())
 						{
-							double cmdAmount = s.getValue() * amount * exBCmd;
+							double cmdAmount = s.getValue() * amount * (1 + exBCmd);
 							toGiveCmd.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.Command")
 									.replace("%cmd%", s.getKey())
 									.replace("%value%", String.valueOf(s.getValue()))
-									.replace("%externbooster%", String.valueOf(exBCmd))
+									.replace("%externbooster%", getPercent(exBCmd))
 									.replace("%total%", String.valueOf(cmdAmount)));
 						}
 						if(toGiveTTExp > 0 || toGiveVanillaExp > 0 || toGiveMoney.size() > 0 || toGiveCmd.size() > 0)
 						{
 							tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.ToolTypeEventType")
-									.replace("%tool%", entry0.getKey().toString())
+									.replace("%tool%", plugin.getYamlHandler().getLang().getString("Tools."+entry0.getKey().toString()))
 									.replace("%event%", plugin.getYamlHandler().getLang().getString("Events."+et.toString())));
 						}
 						if(toGiveTTExp != 0)
 						{
 							tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.TTExp")
 									.replace("%value%", String.valueOf(sui.getTechnologyExperience()))
-									.replace("%externbooster%", String.valueOf(exBTTExp))
+									.replace("%externbooster%", getPercent(exBTTExp))
 									.replace("%total%", String.valueOf(toGiveTTExp)));
 						}
 						if(toGiveVanillaExp != 0)
 						{
 							tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.VanillaExp")
 									.replace("%value%", String.valueOf(sui.getVanillaExperience()))
-									.replace("%externbooster%", String.valueOf(exBVExp))
+									.replace("%externbooster%", getPercent(exBVExp))
 									.replace("%total%", String.valueOf(toGiveVanillaExp)));
 						}
 						if(toGiveMoney.size() > 0)
@@ -331,10 +331,10 @@ public class ARGInfo_Payment extends ArgumentModule
 				{
 					EventType et = entryII.getKey();
 					double amount = entryII.getValue();
-					double exBTTExp = exBoTTExp != null ? (exBoTTExp.get(et) != null ? exBoTTExp.get(et).doubleValue() : 1.0) : 1.0;
-					double exBVExp = exBoVExp != null ? (exBoVExp.get(et) != null ? exBoVExp.get(et).doubleValue() : 1.0) : 1.0;
-					double exBMoney = exBoMoney != null ? (exBoMoney.get(et) != null ? exBoMoney.get(et).doubleValue() : 1.0) : 1.0;
-					double exBCmd = exBoCmd != null ? (exBoCmd.get(et) != null ? exBoCmd.get(et).doubleValue() : 1.0) : 1.0;
+					double exBTTExp = exBoTTExp != null ? (exBoTTExp.get(et) != null ? exBoTTExp.get(et).doubleValue() : 0.0) : 0.0;
+					double exBVExp = exBoVExp != null ? (exBoVExp.get(et) != null ? exBoVExp.get(et).doubleValue() : 0.0) : 0.0;
+					double exBMoney = exBoMoney != null ? (exBoMoney.get(et) != null ? exBoMoney.get(et).doubleValue() : 0.0) : 0.0;
+					double exBCmd = exBoCmd != null ? (exBoCmd.get(et) != null ? exBoCmd.get(et).doubleValue() : 0.0) : 0.0;
 					if(PlayerHandler.materialInteractionMap.containsKey(uuid)
 							&& PlayerHandler.materialInteractionMap.get(uuid).containsKey(t)
 							&& PlayerHandler.materialInteractionMap.get(uuid).get(t).containsKey(m)
@@ -346,13 +346,13 @@ public class ARGInfo_Payment extends ArgumentModule
 						{
 							continue;
 						}
-						double toGiveTTExp = sui.getTechnologyExperience() * amount * exBTTExp;
-						double toGiveVanillaExp = sui.getVanillaExperience() * amount * exBVExp;
+						double toGiveTTExp = sui.getTechnologyExperience() * amount * (1 + exBTTExp);
+						double toGiveVanillaExp = sui.getVanillaExperience() * amount * (1 + exBVExp);
 						ArrayList<String> toGiveMoney = new ArrayList<>();
 						ArrayList<String> toGiveCmd = new ArrayList<>();
 						for(Entry<String, Double> s : sui.getMoneyMap().entrySet())
 						{
-							double moneyAmount = s.getValue() * amount * exBMoney;
+							double moneyAmount = s.getValue() * amount * (1 + exBMoney);
 							String value = "";
 							String total = "";
 							if("vault".equals(s.getKey()))
@@ -381,36 +381,36 @@ public class ARGInfo_Payment extends ArgumentModule
 							}
 							toGiveMoney.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.Money")
 									.replace("%value%", value)
-									.replace("%externbooster%", String.valueOf(exBMoney))
+									.replace("%externbooster%", getPercent(exBMoney))
 									.replace("%total%", total));
 						}
 						for(Entry<String, Double> s : sui.getCommandMap().entrySet())
 						{
-							double cmdAmount = s.getValue() * amount * exBCmd;
+							double cmdAmount = s.getValue() * amount * (1 + exBCmd);
 							toGiveCmd.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.Command")
 									.replace("%cmd%", s.getKey())
 									.replace("%value%", String.valueOf(s.getValue()))
-									.replace("%externbooster%", String.valueOf(exBCmd))
+									.replace("%externbooster%", getPercent(exBCmd))
 									.replace("%total%", String.valueOf(cmdAmount)));
 						}
 						if(toGiveTTExp > 0 || toGiveVanillaExp > 0 || toGiveMoney.size() > 0 || toGiveCmd.size() > 0)
 						{
 							tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.ToolTypeEventType")
-									.replace("%tool%", entry0.getKey().toString())
+									.replace("%tool%", plugin.getYamlHandler().getLang().getString("Tools."+entry0.getKey().toString()))
 									.replace("%event%", plugin.getYamlHandler().getLang().getString("Events."+et.toString())));
 						}
 						if(toGiveTTExp != 0)
 						{
 							tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.TTExp")
 									.replace("%value%", String.valueOf(sui.getTechnologyExperience()))
-									.replace("%externbooster%", String.valueOf(exBTTExp))
+									.replace("%externbooster%", getPercent(exBTTExp))
 									.replace("%total%", String.valueOf(toGiveTTExp)));
 						}
 						if(toGiveVanillaExp != 0)
 						{
 							tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.VanillaExp")
 									.replace("%value%", String.valueOf(sui.getVanillaExperience()))
-									.replace("%externbooster%", String.valueOf(exBVExp))
+									.replace("%externbooster%", getPercent(exBVExp))
 									.replace("%total%", String.valueOf(toGiveVanillaExp)));
 						}
 						if(toGiveMoney.size() > 0)
@@ -434,6 +434,21 @@ public class ARGInfo_Payment extends ArgumentModule
 		for(String s : tx)
 		{
 			player.sendMessage(ChatApi.tl(s));
+		}
+	}
+	
+	private String getPercent(double factor)
+	{
+		if(factor >= 0)
+		{
+			double v = factor*100;
+			return plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.PositivePercent")
+					.replace("%value%", String.valueOf(v));
+		} else
+		{
+			double v = factor*-100;
+			return plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.NegativePercent")
+					.replace("%value%", String.valueOf(v));
 		}
 	}
 }

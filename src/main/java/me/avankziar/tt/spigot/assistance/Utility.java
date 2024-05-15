@@ -125,7 +125,7 @@ public class Utility
 	    }
 	}
 	
-	public static void toUpdate(ArrayList<UUID> uuids)
+	public static void toUpdate(ArrayList<UUID> uuids, String techbooster)
 	{
 		for(UUID uuid : uuids)
 		{
@@ -135,7 +135,7 @@ public class Utility
 				PlayerHandler.joinPlayer(Bukkit.getPlayer(uuid));
 			} else
 			{
-				UpdateTech ut = new UpdateTech(0, uuid, PlayerAssociatedType.SOLO, null, 0, 0);
+				UpdateTech ut = new UpdateTech(0, uuid, PlayerAssociatedType.SOLO, techbooster, 0, 0);
 				plugin.getMysqlHandler().create(Type.UPDATE_TECH, ut);
 			}
 		}

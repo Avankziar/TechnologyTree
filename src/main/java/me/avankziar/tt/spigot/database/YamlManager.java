@@ -41,6 +41,7 @@ import main.java.me.avankziar.tt.spigot.modifiervalueentry.Bypass;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
 import main.java.me.avankziar.tt.spigot.objects.TechnologyType;
+import main.java.me.avankziar.tt.spigot.objects.ToolType;
 
 public class YamlManager
 {
@@ -1734,6 +1735,7 @@ public class YamlManager
 						"&c✖",
 						"&c✖"}));
 		initCommandsLang();
+		initToolTranslation();
 		initEventTranslation();
 		initBackgroundTaskLang();
 		initPlayerHandlerLang();
@@ -2797,20 +2799,133 @@ public class YamlManager
 						"  %tool% => &#ff8c00%event%"}));
 		languageKeys.put(path+"Info.Payment.TTExp",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"    &bTTExp | &e%value% * %externbooster% = %total%",
-						"    &bTTExp | &e%value% * %externbooster% = %total%"}));
+						"    &bTTExp | &e%value% + %externbooster% = %total%",
+						"    &bTTExp | &e%value% + %externbooster% = %total%"}));
 		languageKeys.put(path+"Info.Payment.VanillaExp",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"    &bVanillaExp | &e%value% * %externbooster% = %total%",
-						"    &bVanillaExp | &e%value% * %externbooster% = %total%"}));
+						"    &bVanillaExp | &e%value% + %externbooster% = %total%",
+						"    &bVanillaExp | &e%value% + %externbooster% = %total%"}));
 		languageKeys.put(path+"Info.Payment.Money",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"    &bGeld | &e%value% &r&e* %externbooster% = %total%",
-						"    &bMoney | &e%value% &r&e* %externbooster% = %total%"}));
+						"    &bGeld | &e%value% &r&e+ %externbooster% = %total%",
+						"    &bMoney | &e%value% &r&e+ %externbooster% = %total%"}));
 		languageKeys.put(path+"Info.Payment.Command",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
-						"    &bCmd | &f'%cmd%' &e%value% * %externbooster% = %total%",
-						"    &bCmd | &f'%cmd%' &e%value% * %externbooster% = %total%"}));
+						"    &bCmd | &f'%cmd%' &e%value% + %externbooster% = %total%",
+						"    &bCmd | &f'%cmd%' &e%value% + %externbooster% = %total%"}));
+		languageKeys.put(path+"Info.Payment.PositivePercent",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&a%value% %",
+						"&a%value% %"}));
+		languageKeys.put(path+"Info.Payment.NegativePercent",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&c%value% %",
+						"&c%value% %"}));
+	}
+	
+	private void initToolTranslation() //INFO:EventTranslation
+	{
+		String path = "Tools.";
+		languageKeys.put(path+ToolType.BOW.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Bogen",
+						"Bow"}));
+		languageKeys.put(path+ToolType.DIAMOND_AXE.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Diamantaxt",
+						"Diamondaxe"}));
+		languageKeys.put(path+ToolType.DIAMOND_HOE.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Diamanthacke",
+						"Diamondhoe"}));
+		languageKeys.put(path+ToolType.DIAMOND_PICKAXE.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Diamantspitzhacke",
+						"Diamondpickaxe"}));
+		languageKeys.put(path+ToolType.DIAMOND_SHOVEL.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Diamantschaufel",
+						"Diamondshovel"}));
+		languageKeys.put(path+ToolType.DIAMOND_SWORD.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Diamantschwert",
+						"Diamondsword"}));
+		languageKeys.put(path+ToolType.FISHING_ROD.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Angel",
+						"Fishingrod"}));
+		languageKeys.put(path+ToolType.GOLDEN_AXE.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Goldaxt",
+						"Goldenaxe"}));
+		languageKeys.put(path+ToolType.GOLDEN_HOE.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Goldhacke",
+						"Goldenhoe"}));
+		languageKeys.put(path+ToolType.GOLDEN_PICKAXE.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Goldspitzhacke",
+						"Goldenpickaxe"}));
+		languageKeys.put(path+ToolType.GOLDEN_SHOVEL.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Goldschaufel",
+						"Goldenshovel"}));
+		languageKeys.put(path+ToolType.GOLDEN_SWORD.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Goldschwert",
+						"Goldensword"}));
+		languageKeys.put(path+ToolType.HAND.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Hand",
+						"Hand"}));
+		languageKeys.put(path+ToolType.IRON_AXE.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Eisenaxt",
+						"Ironaxe"}));
+		languageKeys.put(path+ToolType.IRON_HOE.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Eisenhacke",
+						"Ironhoe"}));
+		languageKeys.put(path+ToolType.IRON_PICKAXE.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Eisenspitzhacke",
+						"Ironpickaxe"}));
+		languageKeys.put(path+ToolType.IRON_SHOVEL.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Eisenschaufel",
+						"Ironshovel"}));
+		languageKeys.put(path+ToolType.IRON_SWORD.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Eisenschwert",
+						"Ironsword"}));
+		languageKeys.put(path+ToolType.NETHERITE_AXE.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Netheritaxt",
+						"Netheriteaxe"}));
+		languageKeys.put(path+ToolType.NETHERITE_HOE.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Netherithacke",
+						"Netheritehoe"}));
+		languageKeys.put(path+ToolType.NETHERITE_PICKAXE.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Netheritspitzhacke",
+						"Netheritepickaxe"}));
+		languageKeys.put(path+ToolType.NETHERITE_SHOVEL.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Netheritschaufel",
+						"Netheriteshovel"}));
+		languageKeys.put(path+ToolType.NETHERITE_SWORD.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Netheritschwert",
+						"Netheritesword"}));
+		languageKeys.put(path+ToolType.STONE_AXE.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Steinaxt",
+						"Stoneaxe"}));
+		languageKeys.put(path+ToolType.STONE_HOE.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Steinhacke",
+						"Stonehoe"}));
+		languageKeys.put(path+ToolType.STONE_PICKAXE.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Steinspitzhacke",
+						"Stonepickaxe"}));
+		languageKeys.put(path+ToolType.STONE_SHOVEL.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Steinschaufel",
+						"Stoneshovel"}));
+		languageKeys.put(path+ToolType.STONE_SWORD.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Steinschwert",
+						"Stonesword"}));
+		languageKeys.put(path+ToolType.WOODEN_AXE.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Holzaxt",
+						"Woodenaxe"}));
+		languageKeys.put(path+ToolType.WOODEN_HOE.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Holzhacke",
+						"Woodenhoe"}));
+		languageKeys.put(path+ToolType.WOODEN_PICKAXE.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Holzspitzhacke",
+						"Woodenpickaxe"}));
+		languageKeys.put(path+ToolType.WOODEN_SHOVEL.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Holzschaufel",
+						"Woodenshovel"}));
+		languageKeys.put(path+ToolType.WOODEN_SWORD.toString(), new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"Holzschwert",
+						"Woodensword"}));
+		
 	}
 	
 	private void initEventTranslation() //INFO:EventTranslation
@@ -5392,8 +5507,8 @@ public class YamlManager
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
 				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
-		//REMOVEME TestTech
-		toResCondition = new LinkedHashMap<>();
+		//INFO TestTech
+		/*toResCondition = new LinkedHashMap<>();
 		toResCostTTExp.put(1, "1 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
 		toResCostVanillaExp = new LinkedHashMap<>();
 		toResCostVanillaExp.put(1, "10 * techlev + 5 * techacq + 2.5 * solo_researched_totaltech");
@@ -5550,7 +5665,7 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
-				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);*/
 	}
 	
 	private void tech_Miscellaneous_Tools(String[] itemflag, String[] enchantment) //INFO:Miscellaneous_Tools

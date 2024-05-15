@@ -30,13 +30,6 @@ public class GuiFunctionHandler
 			Inventory openInv, SettingsLevel settingsLevel,
 			String mcat, String scat, String tech, PlayerAssociatedType pat)
 	{
-		/*TT.log.info("=========================="); //REMOVEME
-		TT.log.info("guitype : "+guiType.toString());
-		TT.log.info("cft : "+cft.toString());
-		TT.log.info("pat != null : "+(pat != null ? pat.toString(): "/"));
-		TT.log.info("mcat != null : "+(mcat != null ? mcat : "/"));
-		TT.log.info("scat != null : "+(scat != null ? scat : "/"));
-		TT.log.info("tech != null : "+(tech != null ? tech : "/"));*/
 		switch(cft)
 		{
 		default: 
@@ -140,6 +133,13 @@ public class GuiFunctionHandler
 	
 	private static void fromStartToMainCat(Player player, Inventory inv, SettingsLevel settingsLevel, PlayerAssociatedType pat)
 	{
+		if(pat == PlayerAssociatedType.GROUP)
+		{
+			if(!GroupHandler.isInGroup(player.getUniqueId()))
+			{
+				return;
+			}
+		}
 		GuiHandler.openStartMCat(player, settingsLevel, inv, false, pat);
 	}
 	

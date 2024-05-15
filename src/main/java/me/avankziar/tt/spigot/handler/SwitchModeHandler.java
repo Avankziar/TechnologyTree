@@ -14,7 +14,7 @@ public class SwitchModeHandler
 	public static void init()
 	{
 		plugin = TT.getPlugin();
-		if(!plugin.getYamlHandler().getConfig().getBoolean("SwitchMode.isActive"))
+		if(!plugin.getYamlHandler().getConfig().getBoolean("SwitchMode.isActive", false))
 		{
 			return;
 		}
@@ -54,6 +54,7 @@ public class SwitchModeHandler
 			{
 				swm.permission = ss[2];
 			}
+			SwitchModeHandler.switchMode.put(swm.name, swm);
 		}
 	}
 	

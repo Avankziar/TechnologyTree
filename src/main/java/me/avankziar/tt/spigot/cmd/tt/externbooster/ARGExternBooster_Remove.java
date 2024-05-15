@@ -89,6 +89,7 @@ public class ARGExternBooster_Remove extends ArgumentModule
 			playerUUIDToUpdate.add(ex.getPlayerUUID());
 			break;
 		}
+		String booster = "!~booster~!"+ex.getId()+"!-!"+ex.getName();
 		plugin.getMysqlHandler().deleteData(Type.EXTERN_BOOSTER, "`id` = ?", ex.getId());
 		if(allUpdate)
 		{
@@ -99,18 +100,18 @@ public class ARGExternBooster_Remove extends ArgumentModule
 				{
 					uuids.add(uuid);
 				}
-				Utility.toUpdate(playerUUIDToUpdate);
+				Utility.toUpdate(playerUUIDToUpdate, booster);
 			} else
 			{
 				for(Player p : Bukkit.getOnlinePlayers())
 				{
 					uuids.add(p.getUniqueId());
 				}
-				Utility.toUpdate(playerUUIDToUpdate);
+				Utility.toUpdate(playerUUIDToUpdate, booster);
 			}
 		} else
 		{
-			Utility.toUpdate(playerUUIDToUpdate);
+			Utility.toUpdate(playerUUIDToUpdate, booster);
 		}
 	}
 }

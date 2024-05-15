@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -133,7 +134,7 @@ public class BackgroundTask
 	
 	private void toUpdate(ArrayList<UUID> uuids)
 	{
-		Utility.toUpdate(uuids);
+		Utility.toUpdate(uuids, null);
 	}
 	
 	private void doTechnologyPoll()
@@ -357,11 +358,38 @@ public class BackgroundTask
 					{
 						PlayerHandler.quitPlayer(u.getUUID());
 						PlayerHandler.joinPlayer(player);
+						plugin.getMysqlHandler().deleteData(Type.UPDATE_TECH, "`id` = ?", u.getId());
 						continue;
+					} else if(u.getTechnology().startsWith("!~booster~!"))
+					{
+						String bo = u.getTechnology().replace("!~booster~!", "");
+						String[] split = bo.split("!-!");
+						if(split.length != 2)
+						{
+							plugin.getMysqlHandler().deleteData(Type.UPDATE_TECH, "`id` = ?", u.getId());
+							continue;
+						}
+						String id = split[0];
+						String name = split[1];
+						ExternBooster exB = (ExternBooster) plugin.getMysqlHandler().getData(Type.EXTERN_BOOSTER, "`id` ASC",
+								"`id` = ? AND `booster_name` = ?", id, name);
+						if(exB == null)
+						{
+							Utility.toUpdate(new ArrayList<UUID>((ArrayList<UUID>) Arrays.asList(player.getUniqueId())), null);
+							plugin.getMysqlHandler().deleteData(Type.UPDATE_TECH, "`id` = ?", u.getId());
+							continue;
+						} else
+						{
+							PlayerHandler.addExternBooster(player.getUniqueId(), exB);
+							plugin.getMysqlHandler().deleteData(Type.UPDATE_TECH, "`id` = ?", u.getId());
+							continue;
+						}
+					} else
+					{
+						Technology t = CatTechHandler.getTechnology(u.getTechnology(), u.getPlayerAssociatedType());
+						PlayerHandler.doUpdate(player, t, u.getGlobalTechnologyPollID(), u.getResearchLevel());
+						plugin.getMysqlHandler().deleteData(Type.UPDATE_TECH, "`id` = ?", u.getId());
 					}
-					Technology t = CatTechHandler.getTechnology(u.getTechnology(), u.getPlayerAssociatedType());
-					PlayerHandler.doUpdate(player, t, u.getGlobalTechnologyPollID(), u.getResearchLevel());
-					plugin.getMysqlHandler().deleteData(Type.UPDATE_TECH, "`id` = ?", u.getId());
 				}
 			}
 		}.runTaskTimerAsynchronously(plugin, 0, 20L*15);
@@ -692,14 +720,14 @@ public class BackgroundTask
 						{
 							uuids.add(uuid);
 						}
-						toUpdate(playerUUIDToUpdate);
+						toUpdate(uuids);
 					} else
 					{
 						for(Player p : Bukkit.getOnlinePlayers())
 						{
 							uuids.add(p.getUniqueId());
 						}
-						toUpdate(playerUUIDToUpdate);
+						toUpdate(uuids);
 					}
 				} else
 				{

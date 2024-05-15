@@ -474,7 +474,7 @@ public class PlayerHandler
 		{
 			for(SwitchMode sm : SwitchModeHandler.switchMode.values())
 			{
-				if(sm.permission != null)
+				if(sm.permission != null && !sm.permission.isBlank() && !sm.permission.isEmpty())
 				{
 					if(player.hasPermission(sm.permission))
 					{
@@ -2980,12 +2980,11 @@ public class PlayerHandler
 		{
 			mapI = map.get(ex.getRewardType());
 		}
-		double f = 1.0;
+		double f = ex.getFactor();
 		if(mapI.containsKey(ex.getEventType()))
 		{
-			f = f * mapI.get(ex.getEventType());
+			f = mapI.get(ex.getEventType()) + ex.getFactor();
 		}
-		f = ex.getFactor();
 		mapI.put(ex.getEventType(), f);
 		map.put(ex.getRewardType(), mapI);
 		externBoosterMap.put(uuid, map);

@@ -16,11 +16,14 @@ import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
 import main.java.me.avankziar.tt.spigot.handler.GroupHandler;
+import main.java.me.avankziar.tt.spigot.handler.PlayerHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.objects.PlayerAssociatedType;
 import main.java.me.avankziar.tt.spigot.objects.RewardType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.ExternBooster;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
+import main.java.me.avankziar.tt.spigot.objects.mysql.GroupPlayerAffiliation;
+import main.java.me.avankziar.tt.spigot.objects.mysql.UpdateTech;
 
 public class ARGExternBooster_Add extends ArgumentModule
 {	
@@ -91,11 +94,6 @@ public class ARGExternBooster_Add extends ArgumentModule
 			return;
 		}
 		double f = Double.parseDouble(args[6]);
-		if(!MatchApi.isPositivNumber(f))
-		{
-			sender.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("IsNegativ").replace("%value%", args[6])));
-			return;
-		}
 		long t = args[7].equals("-1") ? Long.MAX_VALUE : System.currentTimeMillis() + TimeHandler.getTiming(args[7]);
 		if(t <= 0L)
 		{
@@ -279,13 +277,128 @@ public class ARGExternBooster_Add extends ArgumentModule
 			}
 			break;
 		}
+		ArrayList<ExternBooster> list = new ArrayList<>();
 		for(EventType et : eta)
 		{
 			for(RewardType rt : rta)
 			{
 				ExternBooster exb = new ExternBooster(0, name, et, pat, rt, f, t, permission, playeruuid, group);
 				plugin.getMysqlHandler().create(Type.EXTERN_BOOSTER, exb);
+				int id = plugin.getMysqlHandler().lastID(Type.EXTERN_BOOSTER);
+				exb = (ExternBooster) plugin.getMysqlHandler().getData(Type.EXTERN_BOOSTER, "`id` = ?", id);
+				list.add(exb);
 			}
+		}
+		if(list.size() > 1)
+		{
+			boolean global = false;
+			for(ExternBooster ex : list)
+			{
+				if(ex.getPlayerAssociatedType() == PlayerAssociatedType.GLOBAL)
+				{
+					global = true;
+					break;
+				}
+			}
+			if(global)
+			{
+				ArrayList<UUID> uuids = new ArrayList<>();
+				if(plugin.getBungeeOnlinePlayers() != null)
+				{
+					for(UUID uuid : plugin.getBungeeOnlinePlayers().getBungeeOnlinePlayers().keySet())
+					{
+						uuids.add(uuid);
+					}
+				} else
+				{
+					for(Player p : Bukkit.getOnlinePlayers())
+					{
+						uuids.add(p.getUniqueId());
+					}
+				}
+				Utility.toUpdate(uuids, null);
+			} else
+			{
+				for(ExternBooster ex : list)
+				{
+					update(ex);
+				}
+			}
+		} else
+		{
+			update(list.get(0));
+		}
+	}
+	
+	private void update(ExternBooster ex)
+	{
+		ArrayList<UUID> uuids = new ArrayList<>();
+		switch(ex.getPlayerAssociatedType())
+		{
+		case GLOBAL:
+			if(plugin.getBungeeOnlinePlayers() != null)
+			{
+				for(UUID uuid : plugin.getBungeeOnlinePlayers().getBungeeOnlinePlayers().keySet())
+				{
+					Player player = Bukkit.getPlayer(uuid);
+					if(player != null)
+					{
+						PlayerHandler.addExternBooster(uuid, ex);
+					} else
+					{
+						uuids.add(uuid);
+					}
+				}
+				break;
+			} else
+			{
+				for(Player p : Bukkit.getOnlinePlayers())
+				{
+					PlayerHandler.addExternBooster(p.getUniqueId(), ex);
+				}
+			}
+			break;
+		case GROUP:
+			if(ex.getGroupname() == null)
+			{
+				break;
+			}
+			ArrayList<GroupPlayerAffiliation> gpas = GroupHandler.getAllAffiliateGroup(ex.getGroupname());
+			if(gpas == null || gpas.size() <= 0)
+			{
+				break;
+			}
+			for(GroupPlayerAffiliation gpa : gpas)
+			{
+				Player player = Bukkit.getPlayer(gpa.getPlayerUUID());
+				if(player != null)
+				{
+					PlayerHandler.addExternBooster(gpa.getPlayerUUID(), ex);
+				} else
+				{
+					uuids.add(gpa.getPlayerUUID());
+				}
+			}
+			break;
+		case SOLO:
+			if(ex.getPlayerUUID() == null)
+			{
+				break;
+			}
+			Player player = Bukkit.getPlayer(ex.getPlayerUUID());
+			if(player != null)
+			{
+				PlayerHandler.addExternBooster(ex.getPlayerUUID(), ex);
+			} else
+			{
+				uuids.add(ex.getPlayerUUID());
+			}
+			break;
+		}
+		for(UUID uuid : uuids)
+		{
+			UpdateTech ut = new UpdateTech(0, uuid, ex.getPlayerAssociatedType(), "!~booster~!"+ex.getId()+"!-!"+ex.getName(), 0, 0);
+			plugin.getMysqlHandler().create(Type.UPDATE_TECH, ut);
 		}
 	}
 }

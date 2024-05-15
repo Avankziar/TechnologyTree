@@ -134,7 +134,7 @@ public class ARGExternBooster_List extends ArgumentModule
 						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.RewardType")
 																	.replace("%rt%", ex.getRewardType().toString())+"~!~"+
 						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.Factor")
-																	.replace("%factor%", String.valueOf(ex.getFactor()))+"~!~"+
+																	.replace("%factor%", getPercent(ex.getFactor()))+"~!~"+
 						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.ExpiryDate")
 																	.replace("%expirydate%", time)+"~!~"+
 																	addUp
@@ -150,7 +150,7 @@ public class ARGExternBooster_List extends ArgumentModule
 						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.RewardType")
 																	.replace("%rt%", ex.getRewardType().toString())+"~!~"+
 						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.Factor")
-																	.replace("%factor%", String.valueOf(ex.getFactor()))+"~!~"+
+																	.replace("%factor%", getPercent(ex.getFactor()))+"~!~"+
 						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.ExpiryDate")
 																	.replace("%expirydate%", time)+"~!~"+
 																	addUp
@@ -230,7 +230,7 @@ public class ARGExternBooster_List extends ArgumentModule
 						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.RewardType")
 																	.replace("%rt%", ex.getRewardType().toString())+"~!~"+
 						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.Factor")
-																	.replace("%factor%", String.valueOf(ex.getFactor()))+"~!~"+
+																	.replace("%factor%", getPercent(ex.getFactor()))+"~!~"+
 						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.ExpiryDate")
 																	.replace("%expirydate%", TimeHandler.getDateTime(ex.getExpiryDate()))
 						));
@@ -245,7 +245,7 @@ public class ARGExternBooster_List extends ArgumentModule
 						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.RewardType")
 																	.replace("%rt%", ex.getRewardType().toString())+"~!~"+
 						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.Factor")
-																	.replace("%factor%", String.valueOf(ex.getFactor()))+"~!~"+
+																	.replace("%factor%", getPercent(ex.getFactor()))+"~!~"+
 						plugin.getYamlHandler().getLang().getString("Commands.ExternBooster.List.Hover.ExpiryDate")
 																	.replace("%expirydate%", TimeHandler.getDateTime(ex.getExpiryDate()))
 						));
@@ -299,5 +299,20 @@ public class ARGExternBooster_List extends ArgumentModule
 		}
 		MSG.setExtra(pages);	
 		sender.spigot().sendMessage(MSG);
+	}
+	
+	private String getPercent(double factor)
+	{
+		if(factor >= 0)
+		{
+			double v = factor*100;
+			return plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.PositivePercent")
+					.replace("%value%", String.valueOf(v));
+		} else
+		{
+			double v = factor*-100;
+			return plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.NegativePercent")
+					.replace("%value%", String.valueOf(v));
+		}
 	}
 }
