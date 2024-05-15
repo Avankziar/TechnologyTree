@@ -128,11 +128,11 @@ public class RewardHandler
 		final LinkedHashMap<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>>> entityMap = rewardEntityTypeMap.get(uuid);
 		rewardEntityTypeMap.remove(uuid);
 		ArrayList<RewardSummary> rewardSummaryList = new ArrayList<>();
-		final LinkedHashMap<RewardType, LinkedHashMap<EventType, Double>> externBooster = PlayerHandler.externBoosterMap.get(uuid);
-		final LinkedHashMap<EventType, Double> exBoTTExp = externBooster.get(RewardType.TECHNOLOGYTREE_EXP);
-		final LinkedHashMap<EventType, Double> exBoVExp = externBooster.get(RewardType.VANILLA_EXP);
-		final LinkedHashMap<EventType, Double> exBoMoney = externBooster.get(RewardType.MONEY);
-		final LinkedHashMap<EventType, Double> exBoCmd = externBooster.get(RewardType.COMMAND);
+		final LinkedHashMap<RewardType, LinkedHashMap<EventType, Double>> externBooster = PlayerHandler.externBoosterMap.containsKey(uuid) ? PlayerHandler.externBoosterMap.get(uuid) : new LinkedHashMap<>();
+		final LinkedHashMap<EventType, Double> exBoTTExp = externBooster.containsKey(RewardType.TECHNOLOGYTREE_EXP) ? externBooster.get(RewardType.TECHNOLOGYTREE_EXP) : new LinkedHashMap<>();
+		final LinkedHashMap<EventType, Double> exBoVExp = externBooster.containsKey(RewardType.VANILLA_EXP) ? externBooster.get(RewardType.VANILLA_EXP) : new LinkedHashMap<>();
+		final LinkedHashMap<EventType, Double> exBoMoney = externBooster.containsKey(RewardType.MONEY) ? externBooster.get(RewardType.MONEY) : new LinkedHashMap<>();
+		final LinkedHashMap<EventType, Double> exBoCmd = externBooster.containsKey(RewardType.COMMAND) ? externBooster.get(RewardType.COMMAND) : new LinkedHashMap<>();
 		if(matMap == null && entityMap == null)
 		{
 			return;
@@ -585,7 +585,7 @@ public class RewardHandler
 		ArrayList<ItemStack> list = new ArrayList<>();
 		PlayerData pd = PlayerHandler.getPlayer(uuid);
 		final LinkedHashMap<RewardType, LinkedHashMap<EventType, Double>> externBooster = PlayerHandler.externBoosterMap.get(uuid);
-		final LinkedHashMap<EventType, Double> exBoDrops = externBooster.get(RewardType.DROPS);
+		final LinkedHashMap<EventType, Double> exBoDrops = externBooster.get(RewardType.DROPS) != null ? externBooster.get(RewardType.DROPS) : new LinkedHashMap<>();
 		double exBDrops = exBoDrops != null ? (exBoDrops.get(eventType) != null ? exBoDrops.get(eventType).doubleValue() : 1.0) : 1.0;
 		if(SwitchModeHandler.isActive && pd.getSwitchMode().equals("null"))
 		{

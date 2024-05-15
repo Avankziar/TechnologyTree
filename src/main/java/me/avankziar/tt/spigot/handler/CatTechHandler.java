@@ -305,7 +305,7 @@ public class CatTechHandler
 											ToolType.valueOf(sp[1]);
 										} catch(Exception e)
 										{
-											TT.log.warning("Tech "+internName+" hasnt found by tool a ToolType where it should be!");
+											TT.log.warning("Tech '"+internName+"' hasnt found by tool a ToolType where it should be!");
 											continue;
 										}
 										ui.setToolType(ToolType.valueOf(sp[1]));
@@ -313,7 +313,7 @@ public class CatTechHandler
 									{
 										if(!MatchApi.isBoolean(sp[1]))
 										{
-											TT.log.warning("Tech "+internName+" hasnt found by canAccess a boolean(true/false) where it should be!");
+											TT.log.warning("Tech '"+internName+"' hasnt found by canAccess a boolean(true/false) where it should be!");
 											continue;
 										}
 										ui.setCanAccess(Boolean.valueOf(sp[1]));
@@ -321,7 +321,7 @@ public class CatTechHandler
 									{
 										if(!MatchApi.isDouble(sp[1]))
 										{
-											TT.log.warning("Tech "+internName+" hasnt found by ttexp a double where it should be!");
+											TT.log.warning("Tech '"+internName+"' hasnt found by ttexp a double where it should be!");
 											continue;
 										}
 										ui.setTechnologyExperience(Double.parseDouble(sp[1]));
@@ -329,7 +329,7 @@ public class CatTechHandler
 									{
 										if(!MatchApi.isInteger(sp[1]))
 										{
-											TT.log.warning("Tech "+internName+" hasnt found by vanilla exp a integer where it should be!");
+											TT.log.warning("Tech '"+internName+"' hasnt found by vanilla exp a integer where it should be!");
 											continue;
 										}
 										ui.setVanillaExperience(Integer.valueOf(sp[1]));
@@ -337,7 +337,7 @@ public class CatTechHandler
 									{
 										if(!MatchApi.isDouble(sp[2]))
 										{
-											TT.log.warning("Tech "+internName+" hasnt found by command a double where it should be!");
+											TT.log.warning("Tech '"+internName+"' hasnt found by command a double where it should be!");
 											continue;
 										}
 										ui.addCommandValues(sp[1], Double.parseDouble(sp[2]));
@@ -345,7 +345,7 @@ public class CatTechHandler
 									{
 										if(!MatchApi.isDouble(sp[1]))
 										{
-											TT.log.warning("Tech "+internName+" hasnt found by money a double where it should be!");
+											TT.log.warning("Tech '"+internName+"' hasnt found by money a double where it should be!");
 											continue;
 										}
 										ui.addMoneyValues(sp[0], Double.parseDouble(sp[1]));
@@ -354,7 +354,7 @@ public class CatTechHandler
 								rui.add(ui);
 							} catch(Exception e)
 							{
-								TT.log.log(Level.WARNING ,"Tech "+internName+" Error by UnlockableInteractions, Lvl: "+i);
+								TT.log.log(Level.WARNING ,"Tech '"+internName+"' Error by UnlockableInteractions, Lvl: "+i);
 								continue;
 							}
 						}
@@ -389,8 +389,8 @@ public class CatTechHandler
 								{
 									if(!RecipeHandler.recipeMap.containsKey(rt))
 									{	
-										TT.log.log(Level.WARNING ,"Tech "+internName+" Error by UnlockableRecipe, Lvl: "+i);
-										TT.log.log(Level.WARNING ,"Recipe "+key+" in RecipeType "+rt.toString()+" are not found!");
+										TT.log.log(Level.WARNING ,"Tech '"+internName+"' Error by UnlockableRecipe, Lvl: "+i);
+										TT.log.log(Level.WARNING ,"Recipe '"+key+"' in RecipeType '"+rt.toString()+"' are not found!");
 										continue;
 									}
 									ArrayList<String> rtal = RecipeHandler.recipeMap.get(rt);
@@ -400,8 +400,8 @@ public class CatTechHandler
 									}
 									if(!rtal.contains(keys))
 									{
-										TT.log.log(Level.WARNING ,"Tech "+internName+" Error by UnlockableRecipe, Lvl: "+i);
-										TT.log.log(Level.WARNING ,"Recipe "+keys+" in RecipeType "+rt.toString()+" are not found!");
+										TT.log.log(Level.WARNING ,"Tech '"+internName+"' Error by UnlockableRecipe, Lvl: "+i);
+										TT.log.log(Level.WARNING ,"Recipe '"+keys+"' in RecipeType '"+rt.toString()+"' are not found!");
 										continue;
 									}
 								}
@@ -417,7 +417,7 @@ public class CatTechHandler
 								rr.put(rt, list);
 							} catch(Exception e)
 							{
-								TT.log.warning("Tech "+internName+" hasnt found by UnlockableRecipe a RecipeType where it should be!");
+								TT.log.warning("Tech '"+internName+"' hasnt found by UnlockableRecipe a RecipeType where it should be!");
 								continue;
 							}
 						}
@@ -461,7 +461,7 @@ public class CatTechHandler
 								adc.add(dc);
 							} catch(Exception e)
 							{
-								TT.log.log(Level.WARNING ,"Tech "+internName+" Error by DropChance, Lvl: "+i);
+								TT.log.log(Level.WARNING ,"Tech '"+internName+"' Error by DropChance, Lvl: "+i);
 								continue;
 							}
 						}
@@ -505,7 +505,7 @@ public class CatTechHandler
 								adc.add(dc);								
 							} catch(Exception e)
 							{
-								TT.log.log(Level.WARNING ,"Tech "+internName+" Error by SilkTouchDropChance, Lvl: "+i);
+								TT.log.log(Level.WARNING ,"Tech '"+internName+"' Error by SilkTouchDropChance, Lvl: "+i);
 								continue;
 							}
 						}
@@ -565,7 +565,7 @@ public class CatTechHandler
 								matmap.put(mat, l);
 							} catch(Exception e)
 							{
-								TT.log.log(Level.WARNING ,"Tech "+internName+" Error by UnlockableEnchantments, Lvl: "+i);
+								TT.log.log(Level.WARNING ,"Tech '"+internName+"' Error by UnlockableEnchantments, Lvl: "+i);
 								continue;
 							}
 						}

@@ -368,7 +368,7 @@ public class TT extends JavaPlugin
 		}
 		addExternBooster.put(3, eventType);
 		addExternBooster.put(4, new ArrayList<String>(Arrays.asList(PlayerAssociatedType.GLOBAL.toString(), PlayerAssociatedType.GROUP.toString(), PlayerAssociatedType.SOLO.toString())));
-		addExternBooster.put(4, new ArrayList<String>(Arrays.asList(RewardType.TECHNOLOGYTREE_EXP.toString(), RewardType.VANILLA_EXP.toString(), RewardType.DROPS.toString(),
+		addExternBooster.put(5, new ArrayList<String>(Arrays.asList(RewardType.TECHNOLOGYTREE_EXP.toString(), RewardType.VANILLA_EXP.toString(), RewardType.DROPS.toString(),
 				RewardType.MONEY.toString(), RewardType.COMMAND.toString())));
 		addExternBooster.put(6, new ArrayList<String>(Arrays.asList("<Factor(double)>")));
 		addExternBooster.put(7, new ArrayList<String>(Arrays.asList("-1", "00d-00H-00m")));

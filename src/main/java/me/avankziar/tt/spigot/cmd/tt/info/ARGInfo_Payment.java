@@ -49,7 +49,7 @@ public class ARGInfo_Payment extends ArgumentModule
 				tool = ToolType.valueOf(args[3]);
 			} catch(Exception e)
 			{
-				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("")));
+				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.NoToolType")));
 				return;
 			}
 		}
@@ -66,7 +66,7 @@ public class ARGInfo_Payment extends ArgumentModule
 					ent = EntityType.valueOf(args[2]);
 				} catch(Exception e1)
 				{
-					player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("")));
+					player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.NoMaterialOrEntity")));
 					return;
 				}
 			}
@@ -81,7 +81,7 @@ public class ARGInfo_Payment extends ArgumentModule
 									FluidCollisionMode.NEVER, false, 0.0, null);
 			if(rtr == null)
 			{
-				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("")));
+				player.sendMessage(ChatApi.tl(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.NoMaterialOrEntityInSight")));
 				return;
 			} else if(rtr.getHitEntity() != null)
 			{
@@ -176,11 +176,11 @@ public class ARGInfo_Payment extends ArgumentModule
 		tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.Headline")
 				.replace("%value%", plugin.getEnumTl() != null ? plugin.getEnumTl().getLocalization(ent) : ent.toString()));
 		tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.Info"));
-		final LinkedHashMap<RewardType, LinkedHashMap<EventType, Double>> externBooster = PlayerHandler.externBoosterMap.get(uuid);
-		final LinkedHashMap<EventType, Double> exBoTTExp = externBooster.get(RewardType.TECHNOLOGYTREE_EXP);
-		final LinkedHashMap<EventType, Double> exBoVExp = externBooster.get(RewardType.VANILLA_EXP);
-		final LinkedHashMap<EventType, Double> exBoMoney = externBooster.get(RewardType.MONEY);
-		final LinkedHashMap<EventType, Double> exBoCmd = externBooster.get(RewardType.COMMAND);
+		final LinkedHashMap<RewardType, LinkedHashMap<EventType, Double>> externBooster = PlayerHandler.externBoosterMap.containsKey(uuid) ? PlayerHandler.externBoosterMap.get(uuid) : new LinkedHashMap<>();
+		final LinkedHashMap<EventType, Double> exBoTTExp = externBooster.containsKey(RewardType.TECHNOLOGYTREE_EXP) ? externBooster.get(RewardType.TECHNOLOGYTREE_EXP) : new LinkedHashMap<>();
+		final LinkedHashMap<EventType, Double> exBoVExp = externBooster.containsKey(RewardType.VANILLA_EXP) ? externBooster.get(RewardType.VANILLA_EXP) : new LinkedHashMap<>();
+		final LinkedHashMap<EventType, Double> exBoMoney = externBooster.containsKey(RewardType.MONEY) ? externBooster.get(RewardType.MONEY) : new LinkedHashMap<>();
+		final LinkedHashMap<EventType, Double> exBoCmd = externBooster.containsKey(RewardType.COMMAND) ? externBooster.get(RewardType.COMMAND) : new LinkedHashMap<>();
 		LinkedHashMap<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>>> matMap = fakeRewardPlayer(EventType.values(), tool, ent);
 		for(Entry<ToolType, LinkedHashMap<EntityType, LinkedHashMap<EventType, Double>>> entry0 : matMap.entrySet())
 		{
@@ -289,11 +289,11 @@ public class ARGInfo_Payment extends ArgumentModule
 		tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.Headline")
 				.replace("%value%", plugin.getEnumTl() != null ? plugin.getEnumTl().getLocalization(mat) : mat.toString()));
 		tx.add(plugin.getYamlHandler().getLang().getString("Commands.Info.Payment.Info"));
-		final LinkedHashMap<RewardType, LinkedHashMap<EventType, Double>> externBooster = PlayerHandler.externBoosterMap.get(uuid);
-		final LinkedHashMap<EventType, Double> exBoTTExp = externBooster.get(RewardType.TECHNOLOGYTREE_EXP);
-		final LinkedHashMap<EventType, Double> exBoVExp = externBooster.get(RewardType.VANILLA_EXP);
-		final LinkedHashMap<EventType, Double> exBoMoney = externBooster.get(RewardType.MONEY);
-		final LinkedHashMap<EventType, Double> exBoCmd = externBooster.get(RewardType.COMMAND);
+		final LinkedHashMap<RewardType, LinkedHashMap<EventType, Double>> externBooster = PlayerHandler.externBoosterMap.containsKey(uuid) ? PlayerHandler.externBoosterMap.get(uuid) : new LinkedHashMap<>();
+		final LinkedHashMap<EventType, Double> exBoTTExp = externBooster.containsKey(RewardType.TECHNOLOGYTREE_EXP) ? externBooster.get(RewardType.TECHNOLOGYTREE_EXP) : new LinkedHashMap<>();
+		final LinkedHashMap<EventType, Double> exBoVExp = externBooster.containsKey(RewardType.VANILLA_EXP) ? externBooster.get(RewardType.VANILLA_EXP) : new LinkedHashMap<>();
+		final LinkedHashMap<EventType, Double> exBoMoney = externBooster.containsKey(RewardType.MONEY) ? externBooster.get(RewardType.MONEY) : new LinkedHashMap<>();
+		final LinkedHashMap<EventType, Double> exBoCmd = externBooster.containsKey(RewardType.COMMAND) ? externBooster.get(RewardType.COMMAND) : new LinkedHashMap<>();
 		LinkedHashMap<ToolType, LinkedHashMap<Material, LinkedHashMap<EventType, Double>>> matMap = fakeRewardPlayer(EventType.values(), tool, mat);
 		for(Entry<ToolType, LinkedHashMap<Material, LinkedHashMap<EventType, Double>>> entry0 : matMap.entrySet())
 		{

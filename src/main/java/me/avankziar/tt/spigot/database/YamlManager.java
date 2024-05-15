@@ -2771,6 +2771,18 @@ public class YamlManager
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&cSpieler: &f%player%",
 						"&cPlayer: &f%player%"}));
+		languageKeys.put(path+"Info.Payment.NoToolType",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDas angegebene Werkzeug ist keines!",
+						"&cThe specified tool is not a tool!"}));
+		languageKeys.put(path+"Info.Payment.NoMaterialOrEntity",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDas angegebene Material oder Entity ist keines!",
+						"&cThe specified material or entity is not one!"}));
+		languageKeys.put(path+"Info.Payment.NoMaterialOrEntityInSight",
+				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
+						"&cDu hast kein Material oder Entity in Sicht!",
+						"&cYou have no material or entity in sight!"}));
 		languageKeys.put(path+"Info.Payment.Headline",
 				new Language(new ISO639_2B[] {ISO639_2B.GER, ISO639_2B.ENG}, new Object[] {
 						"&7===&eInfo Payment &f%value% &eAnzahl 1&7===",
@@ -3881,6 +3893,26 @@ public class YamlManager
 						"",
 						"&fGives insight into various areas of table recipes",
 						"&fsuch as smelting in the furnace, enchanting, potion brewing etc..."});
+		addMainCategory("amplifier",
+				new String[] {"Verstärker", "Amplifier"},
+				PlayerAssociatedType.GROUP, 0, 
+				null, true,
+				new String[] {"&8Hauptkategorie Verstärker","&8Maincategory Amplifier"}, Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
+						"",
+						"&fGibt Einsicht auf verschiedenste Bereiche des",
+						"&ferforschbaren Verstärker für bspw. Abbauen oder der Herstellung.",
+						"",
+						"&fGives insight into various areas of table recipes",
+						"&fresearchable amplifier for e.g. mining or production."},
+				new String[] {"&5Hauptkategorie Booster","&5Maincategory Booster"}, Material.POTION, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
+						"",
+						"&fGibt Einsicht auf verschiedenste Bereiche des",
+						"&ferforschbaren Verstärker für bspw. Abbauen oder der Herstellung.",
+						"",
+						"&fGives insight into various areas of table recipes",
+						"&fresearchable amplifier for e.g. mining or production."});
 		addMainCategory("booster",
 				new String[] {"Booster", "Booster"},
 				PlayerAssociatedType.GLOBAL, 0, 
@@ -4325,6 +4357,30 @@ public class YamlManager
 						"&fAccess to all kinds of gridstone recipes."});
 	}
 	
+	public void subc_Amplifier(String[] itemflag)
+	{
+		addSubCategory("miningamplifier",
+				new String[] {"Abbauverstärker", "Miningamplifier"},
+				PlayerAssociatedType.GROUP, 0,
+				new String[] {
+						"if:(a):o_1", "else:o_2",
+						"output:o_1:true",
+						"output:o_2:false",
+						"a:true"}, true, "amplifier",
+				new String[] {"&8Subkategorie Abbauverstärker","&8Subcategory Miningamplifier"}, Material.BARRIER, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
+						"",
+						"&fZugang zu allerlei Abbaubooster.",
+						"",
+						"&fAccess to all kinds of miningbooster."},
+				new String[] {"&5Subkategorie Abbauverstärker","&5Subcategory Miningamplifier"}, Material.GOLDEN_SHOVEL, 1,
+				new String[] {ItemFlag.HIDE_ATTRIBUTES.toString(),ItemFlag.HIDE_ENCHANTS.toString()}, null, new String[] {
+						"",
+						"&fZugang zu allerlei Abbaubooster.",
+						"",
+						"&fAccess to all kinds of miningbooster."});
+	}
+	
 	public void subc_Booster(String[] itemflag)
 	{
 		addSubCategory("miningbooster",
@@ -4467,6 +4523,9 @@ public class YamlManager
 		tech_Tablerecipe_Anvilrecipe(itemflag, enchantment);
 		tech_Tablerecipe_Smithingrecipe(itemflag, enchantment);
 		tech_Tablerecipe_Grindingrecipe(itemflag, enchantment);
+		
+		subc_Amplifier(itemflag);
+		tech_Amplifier_Miningamplififer(itemflag, enchantment);
 		
 		subc_Booster(itemflag);
 		tech_Booster_Miningbooster(itemflag, enchantment);
@@ -5357,7 +5416,7 @@ public class YamlManager
 				"FISHING:COD:null:tool=FISHING_ROD:ttexp=1.15:vaexp=1:default=1.0",
 				"GRINDING:NETHERITE_HOE:null:ttexp=1.16:vaexp=1:default=1.0",
 				"HARMING:null:COW:ttexp=1.17:vaexp=1:default=1.0",
-				"HARVEST:SWEET_BERRY_BUSH:null:ttexp=1.18:vaexp=1:default=1.0",
+				"HARVESTING:SWEET_BERRY_BUSH:null:ttexp=1.18:vaexp=1:default=1.0",
 				"IGNITING:TNT:null:ttexp=1.19:vaexp=1:default=1.0",
 				"ITEM_BREAKING:WOODEN_SHOVEL:null:ttexp=1.20:vaexp=1:default=1.0",
 				"ITEM_CONSUME:BAKED_POTATO:null:ttexp=1.21:vaexp=1:default=1.0",
@@ -17309,6 +17368,91 @@ public class YamlManager
 				);
 	}
 	
+	private void tech_Amplifier_Miningamplififer(String[] itemflag, String[] enchantment) //INFO:Amplifier_MiningAmplifier
+	{
+		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String> toResCostTTExp = new LinkedHashMap<>();
+		String cTTExp = "10 * techlev + 5 * techacq + 2.5 * group_researched_totaltech";
+		toResCostTTExp.put(1, cTTExp);
+		LinkedHashMap<Integer, String> toResCostVanillaExp = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String> toResCostMoney = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> toResCostMaterial = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardUnlockableInteractions = new LinkedHashMap<>();
+		rewardUnlockableInteractions.put(1, new String[] {
+				"BREAKING:DIRT:null:ttexp=5.0",	""});
+		LinkedHashMap<Integer, String[]> rewardUnlockableRecipe = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardDropChance = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardSilkTouchDropChance = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantmentOffers = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardEnchantments = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardCommand = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardItem = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardModifier = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> rewardValueEntry = new LinkedHashMap<>();
+		LinkedHashMap<Integer, String[]> canResLore = new LinkedHashMap<>();
+		canResLore.put(1, new String[] {
+				"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+				"&eLäuft nach der Erforschung ab innerhalb von: 1d",
+				"",
+				"&eKosten:",
+				"&f%costttexp%",
+				"",
+				"&eSchaltet folgendes frei:",
+				"&fAbbauen von &#c6a664Erde(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,GROUP,dirtminingamplifier,1,BREAKING,HAND,DIRT% TTExp",
+				"",
+				"&cRechtskick &bfür eine detailiertere Ansicht.",
+				"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+				"&eExpires after research within: 1d",
+				"",
+				"&eCosts:",
+				"&f%costttexp%",
+				"",
+				"&eUnlocks the following:",
+				"&fMining of &#c6a664Dirt(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,GROUP,dirtminingamplifier,1,BREAKING,HAND,DIRT% TTExp",
+				"",
+				"&cRightclick &bfor a more detailed view."});
+		addTechnology(
+				"dirtminingamplifier", new String[] {"ErdeabbauVerstärker", "DirtMiningAmplifier"},
+				TechnologyType.BOOSTER, 1, PlayerAssociatedType.GROUP, 0, "0d-1H-0m-0s", "miningamplifier", 
+				50, 0, 0, 0, 0, 0, 0, 0,
+				null, true,
+				new String[] {"&8ErdeabbauVerstärker","&8DirtMiningAmplifier"},
+				Material.BARRIER, 1, itemflag, null, new String[] {
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fAbbauverstärker für 1d von Erde.",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"",
+						"&eUnlocks the following:",
+						"&fMining for 1d of dirt.",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				new String[] {"&7ErdeabbauVerstärker","&7DirtMiningAmplifier"},
+				Material.OAK_LOG, 1, itemflag, null, canResLore.get(1),
+				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
+				new String[] {"&dErdeabbauVerstärker","&dDirtMiningAmplifier"},
+				Material.OAK_LOG, 1, itemflag, null, canResLore,
+				new String[] {"&5ErdeabbauVerstärker","&5DirtMiningAmplifier"},
+				Material.OAK_LOG, 1, itemflag, enchantment, new String[] {
+						"&eErforschtes Level: &a%acquiredtechlev% &fvon &2%maxtechlev%",
+						"&eLäuft nach der Erforschung ab innerhalb von: 1d",
+						"",
+						"&eSchaltet folgendes frei:",
+						"&fAbbauen von &#c6a664Erde(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,GROUP,dirtminingamplifier,1,BREAKING,HAND,DIRT% TTExp",
+						"",
+						"&cRechtskick &bfür eine detailiertere Ansicht.",
+						"&eResearched Level: &a%acquiredtechlev% &fof &2%maxtechlev%",
+						"&eExpires after research within: 1d",
+						"",
+						"&eUnlocks the following:",
+						"&fMining of &#c6a664Dirt(Hand) &#546f42%tt_raw_reward_tech_ttexp_mat,GROUP,dirtminingamplifier,1,BREAKING,HAND,DIRT% TTExp",
+						"",
+						"&cRightclick &bfor a more detailed view."},
+				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
+				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry);
+	}
+	
 	private void tech_Booster_Miningbooster(String[] itemflag, String[] enchantment) //INFO:Booster_Miningbooster
 	{
 		LinkedHashMap<Integer, String[]> toResCondition = new LinkedHashMap<>();
@@ -17357,16 +17501,16 @@ public class YamlManager
 				TechnologyType.BOOSTER, 1, PlayerAssociatedType.GLOBAL, 0, "0d-0H-10m-0s", "miningbooster", 
 				50, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Erdeabbaubooster","&8Woodenlog"},
+				new String[] {"&8Erdeabbaubooster","&8DirtMiningBooster"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
-						"&fAbbaubooster von Eichenstamm.",
+						"&fAbbaubooster für 10m von Erde.",
 						"",
 						"&cRechtskick &bfür eine detailiertere Ansicht.",
 						"",
 						"&eUnlocks the following:",
-						"&fMining of &#c6a664Oaklog.",
+						"&fMining for 10m of dirt.",
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Erdeabbaubooster","&7DirtMiningBooster"},
