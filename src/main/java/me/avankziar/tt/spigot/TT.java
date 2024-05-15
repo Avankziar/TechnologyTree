@@ -135,6 +135,7 @@ import main.java.me.avankziar.tt.spigot.listener.reward.SheepDyeListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.SmithingListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.StoneCutterListener;
 import main.java.me.avankziar.tt.spigot.listener.reward.TameListener;
+import main.java.me.avankziar.tt.spigot.metrics.Metrics;
 import main.java.me.avankziar.tt.spigot.modifiervalueentry.Bypass;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.objects.GroupPrivilege;
@@ -1446,5 +1447,11 @@ public class TT extends JavaPlugin
 	public net.milkbowl.vault.economy.Economy getVaultEco()
 	{
 		return this.vEco;
+	}
+	
+	public void setupBstats()
+	{
+		int pluginId = 21935;
+        new Metrics(this, pluginId);
 	}
 }
