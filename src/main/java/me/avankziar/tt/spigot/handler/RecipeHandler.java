@@ -968,7 +968,7 @@ public class RecipeHandler
 	}
 	
 	/*
-	 * Methode use only direct for ANVIL, BREWSTAND, STONECUTTER, ENTCHANTINGTABLE, GRINDSTONE
+	 * Methode use only direct for ANVIL, BREWSTAND, STONECUTTER, GRINDSTONE
 	 * All other recipes goes to hasAccessToRecipe(UUID uuid, Recipe r)
 	 * Because there can be determined if the recipe is a special one, and than always be true.
 	*/

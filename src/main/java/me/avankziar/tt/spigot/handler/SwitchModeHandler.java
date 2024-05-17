@@ -14,6 +14,7 @@ public class SwitchModeHandler
 	public static void init()
 	{
 		plugin = TT.getPlugin();
+		isActive = false;
 		if(!plugin.getYamlHandler().getConfig().getBoolean("SwitchMode.isActive", false))
 		{
 			return;

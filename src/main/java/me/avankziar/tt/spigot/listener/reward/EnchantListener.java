@@ -21,8 +21,6 @@ import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;
 import main.java.me.avankziar.tt.spigot.handler.EnumHandler;
 import main.java.me.avankziar.tt.spigot.handler.ItemHandler;
-import main.java.me.avankziar.tt.spigot.handler.RecipeHandler;
-import main.java.me.avankziar.tt.spigot.handler.RecipeHandler.RecipeType;
 import main.java.me.avankziar.tt.spigot.handler.RewardHandler;
 import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.objects.ToolType;
@@ -45,14 +43,14 @@ public class EnchantListener implements Listener
 			return;
 		}
 		UUID uuid = event.getEnchanter().getUniqueId();
-		if(!RecipeHandler.hasAccessToRecipe(uuid, RecipeType.ENCHANTING, event.getItem().getType().toString()))
+		/*if(!RecipeHandler.hasAccessToRecipe(uuid, RecipeType.ENCHANTING, event.getItem().getType().toString()))
 		{
 			ARGCheckEventAction.checkEventAction(event.getEnchanter(), "ENCHANTING:CANNOTACCESS",
 					EN, ToolType.HAND, null, null, Material.AIR);
 			event.setCancelled(true);
 			event.getEnchanter().updateInventory();
 			return;
-		}
+		}*/
 		int heo = RewardHandler.getHighestEnchantmentOffer(uuid);
 		if(heo <= 0)
 		{

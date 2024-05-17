@@ -16156,12 +16156,12 @@ public class YamlManager
 						"",
 						"&cRightclick &bfor a more detailed view."},
 				new String[] {"&7Verzaubungsangebot","&7Enchantingoffer"},
-				Material.STONE, 1, itemflag, null, canResLore.get(1),
+				Material.ENCHANTING_TABLE, 1, itemflag, null, canResLore.get(1),
 				toResCondition,	toResCostTTExp,	toResCostVanillaExp, toResCostMoney, toResCostMaterial,
 				new String[] {"&bVerzaubungsangebot","&bEnchantingoffer"},
-				Material.STONE, 1, itemflag, null, canResLore,
+				Material.ENCHANTING_TABLE, 1, itemflag, null, canResLore,
 				new String[] {"&5Verzaubungsangebot","&5Enchantingoffer"},
-				Material.STONE, 1, itemflag, enchantment, new String[] {
+				Material.ENCHANTING_TABLE, 1, itemflag, enchantment, new String[] {
 						"",
 						"&eSchaltet folgendes frei:",
 						"&fHöhere Stufen des Verzauberungstisch Verzauberungsangebotes.",
@@ -16281,7 +16281,7 @@ public class YamlManager
 				"NETHERITE_HELMET:unbreaking",
 				"NETHERITE_LEGGINGS:unbreaking"});
 		rewardEnchantments.put(8, new String[] {
-				"BOOK:unbreaking"});
+				"BOOK:unbreaking",""});
 		rewardCommand = new LinkedHashMap<>();
 		rewardItem = new LinkedHashMap<>();
 		rewardModifier = new LinkedHashMap<>();
@@ -16441,10 +16441,10 @@ public class YamlManager
 				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
 				"enchanting_durability", new String[] {"Verzauberungsrezept Haltbarkeit", "Enchantingrecipe Durability"},
-				TechnologyType.MULTIPLE, 8, PlayerAssociatedType.SOLO, 0, "", "enchantmentrecipe", 
+				TechnologyType.MULTIPLE, 8, PlayerAssociatedType.SOLO, 1, "", "enchantmentrecipe", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Verzauberungsrezept Haltbarkeit","&8Furnacerecipe Stone"},
+				new String[] {"&8Verzauberungsrezept Haltbarkeit","&8Enchantmentrecipe Durability"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&cAnforderungen zum einsehen:",
@@ -16482,7 +16482,7 @@ public class YamlManager
 				rewardUnlockableInteractions, rewardUnlockableRecipe, rewardDropChance, rewardSilkTouchDropChance, 
 				rewardEnchantmentOffers, rewardEnchantments, rewardCommand, rewardItem, rewardModifier, rewardValueEntry
 				);
-		//Enchantings durability
+		//Enchantings efficency
 		toResCondition = new LinkedHashMap<>();
 		String[] cond = new String[] {
 				"if:(a):o_1", "else:o_2",
@@ -16551,7 +16551,7 @@ public class YamlManager
 				"NETHERITE_SHOVEL:efficiency",
 				"NETHERITE_PICKAXE:efficiency"});
 		rewardEnchantments.put(7, new String[] {
-				"BOOK:efficiency"});
+				"BOOK:efficiency",""});
 		rewardCommand = new LinkedHashMap<>();
 		rewardItem = new LinkedHashMap<>();
 		rewardModifier = new LinkedHashMap<>();
@@ -16691,11 +16691,11 @@ public class YamlManager
 				"",
 				"&cRightclick &bfor a more detailed view."});
 		addTechnology(
-				"enchanting_durability", new String[] {"Verzauberungsrezept Effizienz", "Enchantingrecipe Efficiency"},
-				TechnologyType.MULTIPLE, 7, PlayerAssociatedType.SOLO, 1, "", "enchantmentrecipe", 
+				"enchanting_efficiency", new String[] {"Verzauberungsrezept Effizienz", "Enchantingrecipe Efficiency"},
+				TechnologyType.MULTIPLE, 7, PlayerAssociatedType.SOLO, 2, "", "enchantmentrecipe", 
 				0, 0, 0, 0, 0, 0, 0, 0,
 				null, true,
-				new String[] {"&8Verzauberungsrezept Effizienz","&8Furnacerecipe Stone"},
+				new String[] {"&8Verzauberungsrezept Effizienz","&8Enchantingrecipe Efficiency"},
 				Material.BARRIER, 1, itemflag, null, new String[] {
 						"",
 						"&cAnforderungen zum einsehen:",
