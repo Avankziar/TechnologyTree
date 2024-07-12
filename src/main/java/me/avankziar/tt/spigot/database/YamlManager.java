@@ -316,6 +316,20 @@ public class YamlManager
 				"The IFH Interface Administration is a central point for the language, server name and mysql data.",
 				"This centralization allows for simple changes/adjustments to precisely this data.",
 				"If TT accesses it, the values in its own config are ignored."});
+		addConfig("Language",
+				new Object[] {
+				"ENG"},
+				new Object[] {
+				"",
+				"Die eingestellte Sprache. Von Haus aus sind 'ENG=Englisch' und 'GER=Deutsch' mit dabei.",
+				"Falls andere Sprachen gewünsch sind, kann man unter den folgenden Links nachschauen, welchs Kürzel für welche Sprache gedacht ist.",
+				"Siehe hier nach, sowie den Link, welche dort auch für Wikipedia steht.",
+				"https://github.com/Avankziar/RootAdministration/blob/main/src/main/java/me/avankziar/roota/general/Language.java",
+				"",
+				"The set language. By default, ENG=English and GER=German are included.",
+				"If other languages are required, you can check the following links to see which abbreviation is intended for which language.",
+				"See here, as well as the link, which is also there for Wikipedia.",
+				"https://github.com/Avankziar/RootAdministration/blob/main/src/main/java/me/avankziar/roota/general/Language.java"});
 		addConfig("ServerName",
 				new Object[] {
 				"hub"},
