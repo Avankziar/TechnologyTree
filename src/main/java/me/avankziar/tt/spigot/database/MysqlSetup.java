@@ -282,7 +282,7 @@ public class MysqlSetup
 		+ "` (id int AUTO_INCREMENT PRIMARY KEY,"
 		+ " group_name text NOT NULL,"
 		+ " player_uuid char(36) NOT NULL,"
-		+ " rank text NOT NULL,"
+		+ " ranks text NOT NULL,"
 		+ " rank_ordinal int,"
 		+ " individual_tech_exp_daily_upkeep double,"
 		+ " can_research boolean,"

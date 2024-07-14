@@ -216,7 +216,7 @@ public class GroupPlayerAffiliation implements MysqlHandable
 		try
 		{
 			String sql = "INSERT INTO `" + tablename
-					+ "`(`group_name`, `player_uuid`, `rank`, `rank_ordinal`, `individual_tech_exp_daily_upkeep`,"
+					+ "`(`group_name`, `player_uuid`, `ranks`, `rank_ordinal`, `individual_tech_exp_daily_upkeep`,"
 					+ " `can_research`, `can_kick`, `can_invite`, `can_acceptapplication`, `can_promote`, `can_demote`,"
 					+ " `can_increaselevel`, `can_setdefault_daily_upkeep`, `can_setindividual_daily_upkeep`) " 
 					+ "VALUES(?, ?, ?, ?, ?,"
@@ -253,7 +253,7 @@ public class GroupPlayerAffiliation implements MysqlHandable
 		try
 		{
 			String sql = "UPDATE `" + tablename
-				+ "` SET `group_name` = ?, `player_uuid` = ?, `rank` = ?, `rank_ordinal` = ?, `individual_tech_exp_daily_upkeep` = ?,"
+				+ "` SET `group_name` = ?, `player_uuid` = ?, `ranks` = ?, `rank_ordinal` = ?, `individual_tech_exp_daily_upkeep` = ?,"
 				+ " `can_research` = ?, `can_kick` = ?, `can_invite` = ?, `can_acceptapplication` = ?, `can_promote` = ?, `can_demote` = ?,"
 				+ " `can_increaselevel` = ?, `can_setdefault_daily_upkeep` = ?, `can_setindividual_daily_upkeep` = ?" 
 				+ " WHERE "+whereColumn;
@@ -311,7 +311,7 @@ public class GroupPlayerAffiliation implements MysqlHandable
 				al.add(new GroupPlayerAffiliation(rs.getInt("id"),
 						rs.getString("group_name"),
 						UUID.fromString(rs.getString("player_uuid")),
-						GroupHandler.Position.valueOf(rs.getString("rank")),
+						GroupHandler.Position.valueOf(rs.getString("ranks")),
 						rs.getDouble("individual_tech_exp_daily_upkeep"),
 						rs.getBoolean("can_research"),
 						rs.getBoolean("can_kick"),
