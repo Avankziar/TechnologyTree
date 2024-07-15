@@ -28,7 +28,7 @@ public class YamlHandler
 	private File commands = null;
 	private YamlConfiguration com = new YamlConfiguration();
 	
-	private String languages;
+	private String languages = "ENG";
 	private File language = null;
 	private YamlConfiguration lang = new YamlConfiguration();
 	private File mvelanguage = null;
