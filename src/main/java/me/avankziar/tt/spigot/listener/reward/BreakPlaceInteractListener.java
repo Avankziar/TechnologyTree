@@ -21,7 +21,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import main.java.me.avankziar.ifh.general.assistance.ChatApi;
+import main.java.me.avankziar.tt.general.ChatApi;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.assistance.TimeHandler;
 import main.java.me.avankziar.tt.spigot.cmd.tt.ARGCheckEventAction;

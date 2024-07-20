@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import main.java.me.avankziar.ifh.general.assistance.ChatApi;
+import main.java.me.avankziar.tt.general.ChatApi;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
 import main.java.me.avankziar.tt.spigot.cmdtree.CommandExecuteType;

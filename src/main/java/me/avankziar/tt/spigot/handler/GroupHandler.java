@@ -7,13 +7,13 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import main.java.me.avankziar.ifh.general.assistance.ChatApi;
-import main.java.me.avankziar.ifh.general.math.MathFormulaParser;
+import main.java.me.avankziar.tt.general.ChatApi;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.cmdtree.BaseConstructor;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupPlayerAffiliation;
+import me.avankziar.ifh.general.math.MathFormulaParser;
 
 public class GroupHandler
 {

@@ -218,7 +218,7 @@ public class EntityInteractListener implements Listener
 				return EventType.BREEDING;
 			}
 		case COW:
-		case MUSHROOM_COW:
+		case MOOSHROOM:
 		case GOAT:
 			switch(toolmat)
 			{

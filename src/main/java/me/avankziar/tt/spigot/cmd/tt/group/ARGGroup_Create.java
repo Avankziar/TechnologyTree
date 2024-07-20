@@ -6,8 +6,7 @@ import java.util.HashMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import main.java.me.avankziar.ifh.general.assistance.ChatApi;
-import main.java.me.avankziar.ifh.general.math.MathFormulaParser;
+import main.java.me.avankziar.tt.general.ChatApi;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
@@ -17,6 +16,7 @@ import main.java.me.avankziar.tt.spigot.handler.PlayerHandler;
 import main.java.me.avankziar.tt.spigot.modifiervalueentry.Bypass.Permission;
 import main.java.me.avankziar.tt.spigot.modifiervalueentry.ModifierValueEntry;
 import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
+import me.avankziar.ifh.general.math.MathFormulaParser;
 
 public class ARGGroup_Create extends ArgumentModule
 {	

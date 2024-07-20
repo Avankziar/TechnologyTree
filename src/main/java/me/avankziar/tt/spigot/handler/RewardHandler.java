@@ -21,11 +21,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import main.java.me.avankziar.ifh.general.economy.account.AccountCategory;
-import main.java.me.avankziar.ifh.general.economy.action.EconomyAction;
-import main.java.me.avankziar.ifh.general.economy.currency.CurrencyType;
-import main.java.me.avankziar.ifh.spigot.economy.account.Account;
-import main.java.me.avankziar.ifh.spigot.economy.currency.EconomyCurrency;
 import main.java.me.avankziar.tt.general.ChatApi;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.assistance.Experience;
@@ -43,6 +38,11 @@ import main.java.me.avankziar.tt.spigot.objects.ram.misc.RewardSummary;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.SimpleDropChance;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.SimpleUnlockedInteraction;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.SwitchMode;
+import me.avankziar.ifh.general.economy.account.AccountCategory;
+import me.avankziar.ifh.general.economy.action.EconomyAction;
+import me.avankziar.ifh.general.economy.currency.CurrencyType;
+import me.avankziar.ifh.spigot.economy.account.Account;
+import me.avankziar.ifh.spigot.economy.currency.EconomyCurrency;
 import net.md_5.bungee.api.chat.ClickEvent.Action;
 
 public class RewardHandler
@@ -606,9 +606,9 @@ public class RewardHandler
 			//https://minecraft.fandom.com/wiki/Fortune
 			int fortunelevel = -1;
 			if(playerUsedTools && player.getInventory().getItemInMainHand() != null &&
-					player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) > 0)
+					player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.EFFICIENCY) > 0)
 			{
-				fortunelevel = player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
+				fortunelevel = player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.EFFICIENCY);
 			}
 			if(silkTouch)
 			{
@@ -645,16 +645,16 @@ public class RewardHandler
 			if(eventType != EventType.FISHING)
 			{
 				if(playerUsedTools && player.getInventory().getItemInMainHand() != null &&
-						player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS) > 0)
+						player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOTING) > 0)
 				{
-					lootlevel = player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS);
+					lootlevel = player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOTING);
 				}
 			} else
 			{
 				if(player.getInventory().getItemInMainHand() != null &&
-						player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LUCK) > 0)
+						player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LUCK_OF_THE_SEA) > 0)
 				{
-					lootlevel = player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LUCK);
+					lootlevel = player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LUCK_OF_THE_SEA);
 				}
 			}
 			if(silkTouch)

@@ -11,7 +11,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import main.java.me.avankziar.ifh.general.math.MathFormulaParser;
 import main.java.me.avankziar.tt.general.ChatApi;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.assistance.MatchApi;
@@ -34,6 +33,7 @@ import main.java.me.avankziar.tt.spigot.objects.mysql.SoloEntryQueryStatus;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.DropChance;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.Technology;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.UnlockableInteraction;
+import me.avankziar.ifh.general.math.MathFormulaParser;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent.Action;
 import net.md_5.bungee.api.chat.TextComponent;

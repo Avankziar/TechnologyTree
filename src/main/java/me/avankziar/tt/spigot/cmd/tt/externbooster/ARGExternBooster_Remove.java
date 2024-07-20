@@ -8,7 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import main.java.me.avankziar.ifh.general.assistance.ChatApi;
+import main.java.me.avankziar.tt.general.ChatApi;
 import main.java.me.avankziar.tt.spigot.assistance.MatchApi;
 import main.java.me.avankziar.tt.spigot.assistance.Utility;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
@@ -94,9 +94,9 @@ public class ARGExternBooster_Remove extends ArgumentModule
 		if(allUpdate)
 		{
 			ArrayList<UUID> uuids = new ArrayList<>();
-			if(plugin.getBungeeOnlinePlayers() != null)
+			if(plugin.getProxyOnlinePlayers() != null)
 			{
-				for(UUID uuid : plugin.getBungeeOnlinePlayers().getBungeeOnlinePlayers().keySet())
+				for(UUID uuid : plugin.getProxyOnlinePlayers().getProxyOnlinePlayers().keySet())
 				{
 					uuids.add(uuid);
 				}

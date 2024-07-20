@@ -11,7 +11,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import main.java.me.avankziar.tt.spigot.TT;
-import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
+import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
 import main.java.me.avankziar.tt.spigot.handler.CatTechHandler;
 import main.java.me.avankziar.tt.spigot.handler.PlayerHandler;
 import main.java.me.avankziar.tt.spigot.objects.EntryQueryType;
@@ -150,12 +150,12 @@ public class PAPIHook extends PlaceholderExpansion
 			switch(pat)
 			{
 			case GLOBAL:
-				return String.valueOf(plugin.getMysqlHandler().exist(Type.GLOBAL_ENTRYQUERYSTATUS,
+				return String.valueOf(plugin.getMysqlHandler().exist(MysqlHandler.Type.GLOBAL_ENTRYQUERYSTATUS,
 						"`entry_query_type` = ? AND `status_type` = ? AND `intern_name` = ?",
 						EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString(), tech));
 			case GROUP:
 			case SOLO: 
-				return String.valueOf(plugin.getMysqlHandler().exist(Type.SOLO_ENTRYQUERYSTATUS,
+				return String.valueOf(plugin.getMysqlHandler().exist(MysqlHandler.Type.SOLO_ENTRYQUERYSTATUS,
 					"`player_uuid` = ? AND `entry_query_type` = ? AND `status_type` = ? AND `intern_name` = ?",
 					player.getUniqueId().toString(), EntryQueryType.TECHNOLOGY.toString(), EntryStatusType.HAVE_RESEARCHED_IT.toString(), tech));
 			}

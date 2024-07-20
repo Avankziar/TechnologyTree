@@ -15,14 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import main.java.me.avankziar.ifh.general.assistance.ChatApi;
-import main.java.me.avankziar.ifh.general.economy.account.AccountCategory;
-import main.java.me.avankziar.ifh.general.economy.action.OrdererType;
-import main.java.me.avankziar.ifh.general.economy.currency.CurrencyType;
-import main.java.me.avankziar.ifh.general.math.MathFormulaParser;
-import main.java.me.avankziar.ifh.general.modifier.ModifierType;
-import main.java.me.avankziar.ifh.general.valueentry.ValueType;
-import main.java.me.avankziar.ifh.spigot.economy.account.Account;
+import main.java.me.avankziar.tt.general.ChatApi;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.assistance.Experience;
 import main.java.me.avankziar.tt.spigot.assistance.MatchApi;
@@ -60,6 +53,13 @@ import main.java.me.avankziar.tt.spigot.objects.ram.misc.SubCategory;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.SwitchMode;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.Technology;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.UnlockableInteraction;
+import me.avankziar.ifh.general.economy.account.AccountCategory;
+import me.avankziar.ifh.general.economy.action.OrdererType;
+import me.avankziar.ifh.general.economy.currency.CurrencyType;
+import me.avankziar.ifh.general.math.MathFormulaParser;
+import me.avankziar.ifh.general.modifier.ModifierType;
+import me.avankziar.ifh.general.valueentry.ValueType;
+import me.avankziar.ifh.spigot.economy.account.Account;
 import net.md_5.bungee.api.chat.ClickEvent;
 
 public class PlayerHandler

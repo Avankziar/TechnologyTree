@@ -25,18 +25,6 @@ import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import main.java.me.avankziar.ifh.general.conditionqueryparser.ConditionQueryParser;
-import main.java.me.avankziar.ifh.general.interfaces.PlayerTimes;
-import main.java.me.avankziar.ifh.general.modifier.ModificationType;
-import main.java.me.avankziar.ifh.general.modifier.Modifier;
-import main.java.me.avankziar.ifh.general.valueentry.ValueEntry;
-import main.java.me.avankziar.ifh.spigot.administration.Administration;
-import main.java.me.avankziar.ifh.spigot.economy.Economy;
-import main.java.me.avankziar.ifh.spigot.interfaces.BungeeOnlinePlayers;
-import main.java.me.avankziar.ifh.spigot.interfaces.EnumTranslation;
-import main.java.me.avankziar.ifh.spigot.tobungee.chatlike.BaseComponentToBungee;
-import main.java.me.avankziar.ifh.spigot.tobungee.chatlike.MessageToBungee;
-import main.java.me.avankziar.ifh.spigot.tobungee.commands.CommandToBungee;
 import main.java.me.avankziar.tt.spigot.assistance.BackgroundTask;
 import main.java.me.avankziar.tt.spigot.assistance.Utility;
 import main.java.me.avankziar.tt.spigot.cmd.TTCommandExecutor;
@@ -145,6 +133,18 @@ import main.java.me.avankziar.tt.spigot.objects.ToolType;
 import main.java.me.avankziar.tt.spigot.objects.mysql.GroupData;
 import main.java.me.avankziar.tt.spigot.objects.mysql.PlayerData;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.SwitchMode;
+import me.avankziar.ifh.general.conditionqueryparser.ConditionQueryParser;
+import me.avankziar.ifh.general.interfaces.PlayerTimes;
+import me.avankziar.ifh.general.modifier.ModificationType;
+import me.avankziar.ifh.general.modifier.Modifier;
+import me.avankziar.ifh.general.valueentry.ValueEntry;
+import me.avankziar.ifh.spigot.administration.Administration;
+import me.avankziar.ifh.spigot.economy.Economy;
+import me.avankziar.ifh.spigot.interfaces.EnumTranslation;
+import me.avankziar.ifh.spigot.interfaces.ProxyOnlinePlayers;
+import me.avankziar.ifh.spigot.tobungee.chatlike.BaseComponentToBungee;
+import me.avankziar.ifh.spigot.tobungee.chatlike.MessageToBungee;
+import me.avankziar.ifh.spigot.tobungee.commands.CommandToBungee;
 
 public class TT extends JavaPlugin
 {
@@ -176,7 +176,7 @@ public class TT extends JavaPlugin
 	private MessageToBungee messageToBungeeConsumer;
 	private BaseComponentToBungee baseComponentToBungeeConsumer;
 	private CommandToBungee commandToBungeeConsumer;
-	private BungeeOnlinePlayers bungeeOnlinePlayersConsumer;
+	private ProxyOnlinePlayers proxyOnlinePlayersConsumer;
 	
 	private Economy ecoConsumer;
 	
@@ -830,7 +830,7 @@ public class TT extends JavaPlugin
 	    {
 	    	return;
 	    }
-		RegisteredServiceProvider<main.java.me.avankziar.ifh.spigot.administration.Administration> rsp = 
+		RegisteredServiceProvider<me.avankziar.ifh.spigot.administration.Administration> rsp = 
                 getServer().getServicesManager().getRegistration(Administration.class);
 		if (rsp == null) 
 		{
@@ -881,9 +881,9 @@ public class TT extends JavaPlugin
 						cancel();
 				    	return;
 				    }
-				    RegisteredServiceProvider<main.java.me.avankziar.ifh.general.valueentry.ValueEntry> rsp = 
+				    RegisteredServiceProvider<me.avankziar.ifh.general.valueentry.ValueEntry> rsp = 
 		                             getServer().getServicesManager().getRegistration(
-		                            		 main.java.me.avankziar.ifh.general.valueentry.ValueEntry.class);
+		                            		 me.avankziar.ifh.general.valueentry.ValueEntry.class);
 				    if(rsp == null) 
 				    {
 				    	i++;
@@ -993,9 +993,9 @@ public class TT extends JavaPlugin
 						cancel();
 						return;
 				    }
-				    RegisteredServiceProvider<main.java.me.avankziar.ifh.general.modifier.Modifier> rsp = 
+				    RegisteredServiceProvider<me.avankziar.ifh.general.modifier.Modifier> rsp = 
 		                             getServer().getServicesManager().getRegistration(
-		                            		 main.java.me.avankziar.ifh.general.modifier.Modifier.class);
+		                            		 me.avankziar.ifh.general.modifier.Modifier.class);
 				    if(rsp == null) 
 				    {
 				    	//Check up to 20 seconds after the start, to connect with the provider
@@ -1107,9 +1107,9 @@ public class TT extends JavaPlugin
 						cancel();
 				    	return;
 				    }
-				    RegisteredServiceProvider<main.java.me.avankziar.ifh.spigot.interfaces.EnumTranslation> rsp = 
+				    RegisteredServiceProvider<me.avankziar.ifh.spigot.interfaces.EnumTranslation> rsp = 
 		                             getServer().getServicesManager().getRegistration(
-		                            		 main.java.me.avankziar.ifh.spigot.interfaces.EnumTranslation.class);
+		                            		 me.avankziar.ifh.spigot.interfaces.EnumTranslation.class);
 				    if(rsp == null) 
 				    {
 				    	i++;
@@ -1150,9 +1150,9 @@ public class TT extends JavaPlugin
 						cancel();
 				    	return;
 				    }
-				    RegisteredServiceProvider<main.java.me.avankziar.ifh.spigot.tobungee.commands.CommandToBungee> rsp = 
+				    RegisteredServiceProvider<me.avankziar.ifh.spigot.tobungee.commands.CommandToBungee> rsp = 
 		                             getServer().getServicesManager().getRegistration(
-		                            		 main.java.me.avankziar.ifh.spigot.tobungee.commands.CommandToBungee.class);
+		                            		 me.avankziar.ifh.spigot.tobungee.commands.CommandToBungee.class);
 				    if(rsp == null) 
 				    {
 				    	i++;
@@ -1193,9 +1193,9 @@ public class TT extends JavaPlugin
 						cancel();
 				    	return;
 				    }
-				    RegisteredServiceProvider<main.java.me.avankziar.ifh.spigot.tobungee.chatlike.MessageToBungee> rsp = 
+				    RegisteredServiceProvider<me.avankziar.ifh.spigot.tobungee.chatlike.MessageToBungee> rsp = 
 		                             getServer().getServicesManager().getRegistration(
-		                            		 main.java.me.avankziar.ifh.spigot.tobungee.chatlike.MessageToBungee.class);
+		                            		 me.avankziar.ifh.spigot.tobungee.chatlike.MessageToBungee.class);
 				    if(rsp == null) 
 				    {
 				    	i++;
@@ -1236,9 +1236,9 @@ public class TT extends JavaPlugin
 						cancel();
 				    	return;
 				    }
-				    RegisteredServiceProvider<main.java.me.avankziar.ifh.spigot.tobungee.chatlike.BaseComponentToBungee> rsp = 
+				    RegisteredServiceProvider<me.avankziar.ifh.spigot.tobungee.chatlike.BaseComponentToBungee> rsp = 
 		                             getServer().getServicesManager().getRegistration(
-		                            		 main.java.me.avankziar.ifh.spigot.tobungee.chatlike.BaseComponentToBungee.class);
+		                            		 me.avankziar.ifh.spigot.tobungee.chatlike.BaseComponentToBungee.class);
 				    if(rsp == null) 
 				    {
 				    	i++;
@@ -1279,9 +1279,9 @@ public class TT extends JavaPlugin
 						cancel();
 				    	return;
 				    }
-				    RegisteredServiceProvider<main.java.me.avankziar.ifh.general.conditionqueryparser.ConditionQueryParser> rsp = 
+				    RegisteredServiceProvider<me.avankziar.ifh.general.conditionqueryparser.ConditionQueryParser> rsp = 
 		                             getServer().getServicesManager().getRegistration(
-		                            		 main.java.me.avankziar.ifh.general.conditionqueryparser.ConditionQueryParser.class);
+		                            		 me.avankziar.ifh.general.conditionqueryparser.ConditionQueryParser.class);
 				    if(rsp == null) 
 				    {
 				    	i++;
@@ -1315,7 +1315,7 @@ public class TT extends JavaPlugin
 	    }
 		if(plugin.getServer().getPluginManager().isPluginEnabled("InterfaceHub"))
 		{
-			RegisteredServiceProvider<main.java.me.avankziar.ifh.spigot.economy.Economy> rsp = 
+			RegisteredServiceProvider<me.avankziar.ifh.spigot.economy.Economy> rsp = 
 	                getServer().getServicesManager().getRegistration(Economy.class);
 			if (rsp == null) 
 			{
@@ -1372,9 +1372,9 @@ public class TT extends JavaPlugin
 						cancel();
 				    	return;
 				    }
-				    RegisteredServiceProvider<main.java.me.avankziar.ifh.general.interfaces.PlayerTimes> rsp = 
+				    RegisteredServiceProvider<me.avankziar.ifh.general.interfaces.PlayerTimes> rsp = 
 		                             getServer().getServicesManager().getRegistration(
-		                            		 main.java.me.avankziar.ifh.general.interfaces.PlayerTimes.class);
+		                            		 me.avankziar.ifh.general.interfaces.PlayerTimes.class);
 				    if(rsp == null) 
 				    {
 				    	i++;
@@ -1415,15 +1415,15 @@ public class TT extends JavaPlugin
 						cancel();
 				    	return;
 				    }
-				    RegisteredServiceProvider<main.java.me.avankziar.ifh.spigot.interfaces.BungeeOnlinePlayers> rsp = 
+				    RegisteredServiceProvider<me.avankziar.ifh.spigot.interfaces.ProxyOnlinePlayers> rsp = 
 		                             getServer().getServicesManager().getRegistration(
-		                            		 main.java.me.avankziar.ifh.spigot.interfaces.BungeeOnlinePlayers.class);
+		                            		 me.avankziar.ifh.spigot.interfaces.ProxyOnlinePlayers.class);
 				    if(rsp == null) 
 				    {
 				    	i++;
 				        return;
 				    }
-				    bungeeOnlinePlayersConsumer = rsp.getProvider();
+				    proxyOnlinePlayersConsumer = rsp.getProvider();
 				    log.info(pluginName + " detected InterfaceHub >>> BungeeOnlinePlayers.class is consumed!");
 				    cancel();
 				} catch(NoClassDefFoundError e)
@@ -1434,9 +1434,9 @@ public class TT extends JavaPlugin
         }.runTaskTimer(plugin, 0L, 20*2);
 	}
 	
-	public BungeeOnlinePlayers getBungeeOnlinePlayers()
+	public ProxyOnlinePlayers getProxyOnlinePlayers()
 	{
-		return bungeeOnlinePlayersConsumer;
+		return proxyOnlinePlayersConsumer;
 	}
 	
 	public Economy getIFHEco()

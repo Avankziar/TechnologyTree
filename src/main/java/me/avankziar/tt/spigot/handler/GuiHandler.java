@@ -49,10 +49,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
-import main.java.me.avankziar.ifh.general.economy.account.AccountCategory;
-import main.java.me.avankziar.ifh.general.economy.currency.CurrencyType;
-import main.java.me.avankziar.ifh.general.math.MathFormulaParser;
-import main.java.me.avankziar.ifh.spigot.economy.account.Account;
+import me.avankziar.ifh.general.economy.account.AccountCategory;
+import me.avankziar.ifh.general.economy.currency.CurrencyType;
+import me.avankziar.ifh.general.math.MathFormulaParser;
+import me.avankziar.ifh.spigot.economy.account.Account;
 import main.java.me.avankziar.tt.general.ChatApi;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;

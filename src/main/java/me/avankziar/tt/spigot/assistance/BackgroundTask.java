@@ -16,7 +16,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import main.java.me.avankziar.ifh.general.assistance.ChatApi;
+import main.java.me.avankziar.tt.general.ChatApi;
 import main.java.me.avankziar.tt.spigot.TT;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler;
 import main.java.me.avankziar.tt.spigot.database.MysqlHandler.Type;
@@ -112,9 +112,9 @@ public class BackgroundTask
 						"`duration_until_expiration` < ?", now);
 				if(geqsa.size() > 0)
 				{
-					if(plugin.getBungeeOnlinePlayers() != null)
+					if(plugin.getProxyOnlinePlayers() != null)
 					{
-						toUpdate(new ArrayList<UUID>(plugin.getBungeeOnlinePlayers().getBungeeOnlinePlayers().keySet()));
+						toUpdate(new ArrayList<UUID>(plugin.getProxyOnlinePlayers().getProxyOnlinePlayers().keySet()));
 					} else
 					{
 						for(Player player : Bukkit.getOnlinePlayers())
@@ -292,9 +292,9 @@ public class BackgroundTask
 			PlayerHandler.repaymentGlobalTechnology(pcp, playerChoosen, globalResearchlevel);
 			PlayerHandler.payTechnology(pcp, globalChoosen, share);
 		}
-		if(plugin.getBungeeOnlinePlayers() != null)
+		if(plugin.getProxyOnlinePlayers() != null)
 		{
-			for(UUID uuid : plugin.getBungeeOnlinePlayers().getBungeeOnlinePlayers().keySet())
+			for(UUID uuid : plugin.getProxyOnlinePlayers().getProxyOnlinePlayers().keySet())
 			{
 				Player player = Bukkit.getPlayer(uuid);
 				if(player == null)
@@ -714,9 +714,9 @@ public class BackgroundTask
 				if(allUpdate)
 				{
 					ArrayList<UUID> uuids = new ArrayList<>();
-					if(plugin.getBungeeOnlinePlayers() != null)
+					if(plugin.getProxyOnlinePlayers() != null)
 					{
-						for(UUID uuid : plugin.getBungeeOnlinePlayers().getBungeeOnlinePlayers().keySet())
+						for(UUID uuid : plugin.getProxyOnlinePlayers().getProxyOnlinePlayers().keySet())
 						{
 							uuids.add(uuid);
 						}

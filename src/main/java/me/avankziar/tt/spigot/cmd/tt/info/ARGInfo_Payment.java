@@ -14,10 +14,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.util.RayTraceResult;
 
-import main.java.me.avankziar.ifh.general.economy.account.AccountCategory;
-import main.java.me.avankziar.ifh.general.economy.currency.CurrencyType;
-import main.java.me.avankziar.ifh.spigot.economy.account.Account;
-import main.java.me.avankziar.ifh.spigot.economy.currency.EconomyCurrency;
 import main.java.me.avankziar.tt.general.ChatApi;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
@@ -26,6 +22,10 @@ import main.java.me.avankziar.tt.spigot.objects.EventType;
 import main.java.me.avankziar.tt.spigot.objects.RewardType;
 import main.java.me.avankziar.tt.spigot.objects.ToolType;
 import main.java.me.avankziar.tt.spigot.objects.ram.misc.SimpleUnlockedInteraction;
+import me.avankziar.ifh.general.economy.account.AccountCategory;
+import me.avankziar.ifh.general.economy.currency.CurrencyType;
+import me.avankziar.ifh.spigot.economy.account.Account;
+import me.avankziar.ifh.spigot.economy.currency.EconomyCurrency;
 
 public class ARGInfo_Payment extends ArgumentModule
 {	

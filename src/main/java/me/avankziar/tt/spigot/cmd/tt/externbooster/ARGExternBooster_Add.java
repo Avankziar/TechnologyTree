@@ -303,9 +303,9 @@ public class ARGExternBooster_Add extends ArgumentModule
 			if(global)
 			{
 				ArrayList<UUID> uuids = new ArrayList<>();
-				if(plugin.getBungeeOnlinePlayers() != null)
+				if(plugin.getProxyOnlinePlayers() != null)
 				{
-					for(UUID uuid : plugin.getBungeeOnlinePlayers().getBungeeOnlinePlayers().keySet())
+					for(UUID uuid : plugin.getProxyOnlinePlayers().getProxyOnlinePlayers().keySet())
 					{
 						uuids.add(uuid);
 					}
@@ -336,9 +336,9 @@ public class ARGExternBooster_Add extends ArgumentModule
 		switch(ex.getPlayerAssociatedType())
 		{
 		case GLOBAL:
-			if(plugin.getBungeeOnlinePlayers() != null)
+			if(plugin.getProxyOnlinePlayers() != null)
 			{
-				for(UUID uuid : plugin.getBungeeOnlinePlayers().getBungeeOnlinePlayers().keySet())
+				for(UUID uuid : plugin.getProxyOnlinePlayers().getProxyOnlinePlayers().keySet())
 				{
 					Player player = Bukkit.getPlayer(uuid);
 					if(player != null)

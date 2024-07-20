@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import main.java.me.avankziar.ifh.general.assistance.ChatApi;
+import main.java.me.avankziar.tt.general.ChatApi;
 import main.java.me.avankziar.tt.spigot.assistance.Utility;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentConstructor;
 import main.java.me.avankziar.tt.spigot.cmdtree.ArgumentModule;
@@ -146,8 +146,8 @@ public class ARGResearch extends ArgumentModule
 										.replace("%level%", String.valueOf(globalResearchlevel))
 										.replace("%tech%", t.getDisplayName())));
 							}							
-						} else if(plugin.getBungeeOnlinePlayers() != null 
-								&& plugin.getBungeeOnlinePlayers().getBungeeOnlinePlayers().keySet().contains(pd.getUUID()))
+						} else if(plugin.getProxyOnlinePlayers() != null 
+								&& plugin.getProxyOnlinePlayers().getProxyOnlinePlayers().keySet().contains(pd.getUUID()))
 						{
 							UpdateTech ut = new UpdateTech(0, pd.getUUID(), PlayerAssociatedType.GLOBAL, 
 									t.getInternName(), geqs.getId(), globalResearchlevel);

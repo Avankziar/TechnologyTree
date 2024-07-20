@@ -134,7 +134,7 @@ public class ExplodeIgnitingListener implements Listener
 	{
 		if(event.isCancelled()
 				|| !EnumHandler.isEventActive(EX)
-				|| event.getEntityType() != EntityType.PRIMED_TNT)
+				|| event.getEntityType() != EntityType.TNT)
 		{
 			return;
 		}
