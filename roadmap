@@ -1,7 +1,7 @@
 Build 1-1-0
 - Java 21 Dependency
 - Spigot 1.21 Support
-- Anmerkung: Scheinbar ist durch das Nutzten der 1.21 PaperSpigot Version, die Ausgabe von Farben nicht mehr korrekt, bzw.
+- Anmerkung: Scheinbar ist durch das Nutzten der 1.21 Spigot/Paper Version, die Ausgabe von Farben nicht mehr korrekt, bzw.
   werden Hex-Farben nicht mehr korrekt übernommen. Wird in einem Späteren Update behoben. 
 
 Build 1-0-2
