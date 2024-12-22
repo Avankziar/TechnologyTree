@@ -2,7 +2,7 @@ name: TechnologyTree
 main: main.java.me.avankziar.tt.spigot.TT
 version: 1
 author: Avankziar
-api-version: 1.20
+api-version: 1.21
 description: A Plugin which provides a Technology Tree
 depend: [InterfaceHub]
 softdepend: [Vault,RootAdministration,PlaceholderAPI]

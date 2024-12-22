@@ -10,6 +10,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.view.AnvilView;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import main.java.me.avankziar.tt.spigot.TT;
@@ -36,12 +37,14 @@ public class Cold_ForgingRenameListener implements Listener
 				|| !(event.getWhoClicked() instanceof Player)
 				|| event.getWhoClicked().getGameMode() == GameMode.CREATIVE
 				|| event.getWhoClicked().getGameMode() == GameMode.SPECTATOR
+				|| !(event.getView() instanceof AnvilView)
 				)
 		{
 			return;
 		}
 		Player player = (Player) event.getWhoClicked();
 		AnvilInventory ai = (AnvilInventory) event.getClickedInventory();
+		AnvilView av = (AnvilView) event.getView();
 		ItemStack base = ai.getContents()[0];
 		ItemStack add = ai.getContents()[1];
 		ItemStack result = event.getCurrentItem().clone();
@@ -49,7 +52,7 @@ public class Cold_ForgingRenameListener implements Listener
 		if(add == null
 				&& base.hasItemMeta()
 				&& (	(base.getItemMeta().hasDisplayName()
-						&& !base.getItemMeta().getDisplayName().equals(ai.getRenameText())
+						&& !base.getItemMeta().getDisplayName().equals(av.getRenameText())
 						)
 						|| !base.getItemMeta().hasDisplayName())
 				)
